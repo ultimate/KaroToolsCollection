@@ -1,10 +1,12 @@
 package ultimate.karoapi4j.model;
 
 import java.awt.Color;
+import java.util.List;
 
 public class User
 {
 	/*
+	 * user/1/info.json
 	 * "id" : 1,
 	 * "login" : "Didi",
 	 * "color" : "FFFFFF",
@@ -24,24 +26,27 @@ public class User
 	 * "http:\/\/www.gravatar.com\/avatar\/bb493dfa04160c4c284b8740a5b23557?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40"
 	 */
 	// Standard JSON Fields
-	private int		id;
-	private String	login;
-	private Color	color;
-	private int		lastVisit;
-	private int		signup;
-	private int		dran;
-	private int		activeGames;
-	private int		maxGames;
-	private int		sound;
-	private String	soundfile;
-	private int		size;
-	private int		border;
-	private boolean	desperate;
-	private boolean	birthdayToday;
-	private boolean	karodayToday;
-	private String	gravatar;
+	private int				id;
+	private String			login;
+	private Color			color;
+	private int				lastVisit;
+	private int				signup;
+	private int				dran;
+	private int				activeGames;
+	private int				maxGames;
+	private int				sound;
+	private String			soundfile;
+	private int				size;
+	private int				border;
+	private boolean			desperate;
+	private boolean			birthdayToday;
+	private boolean			karodayToday;
+	private String			gravatar;
 	// additional Fields
-	private int		plannedGames;
+	private int				plannedGames;
+	// references
+	private List<Blocker>	blocker;
+	private List<Game>		games;
 
 	// TODO private boolean invitableNormal;
 	// TODO private boolean invitableNight;
@@ -136,6 +141,16 @@ public class User
 		return plannedGames;
 	}
 
+	public List<Blocker> getBlocker()
+	{
+		return blocker;
+	}
+
+	public List<Game> getGames()
+	{
+		return games;
+	}
+
 	public void setId(int id)
 	{
 		this.id = id;
@@ -219,5 +234,15 @@ public class User
 	public void setPlannedGames(int plannedGames)
 	{
 		this.plannedGames = plannedGames;
+	}
+
+	public void setBlocker(List<Blocker> blocker)
+	{
+		this.blocker = blocker;
+	}
+
+	public void setGames(List<Game> games)
+	{
+		this.games = games;
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.Image;
 public class Map
 {
 	/*
+	 * map/list.json
 	 * "id" : 1,
 	 * "name" : "Die Erste",
 	 * "author" : "Didi",
