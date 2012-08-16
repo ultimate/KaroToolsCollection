@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ultimate</groupId>
+	<artifactId>KaroApi4J</artifactId>
+	<packaging>jar</packaging>
+	<version>${ultimate.KaroApi4J.version}</version>
+    <name>ultimate's Karopapier Project - KaroApi4J</name>
+    <url>http://www.karopapier.de</url>
+
+	<parent>
+		<groupId>ultimate</groupId>
+		<artifactId>workspace</artifactId>
+		<version>1.0.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<dependencies>
+		<!-- finally the dependencies -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>${servlet.version}</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<!-- configure properties here for better overview -->
+		
+		<!-- Dependencies -->
+		<log4j.version>1.2.16</log4j.version> <!-- 19.01.2012 -->
+		<slf4j.version>1.6.4</slf4j.version> <!-- 19.01.2012 -->
+		<servlet.version>3.1.1</servlet.version> <!-- 19.01.2012 -->
+	</properties>
+</project>

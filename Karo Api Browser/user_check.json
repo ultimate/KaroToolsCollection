@@ -1,0 +1,18 @@
+{
+	"id" : 1411,
+	"login" : "ultimate",
+	"color" : "10FF01",
+	"lastVisit" : 0,
+	"signup" : 1932,
+	"dran" : 6,
+	"activeGames" : 610,
+	"maxGames" : 0,
+	"sound" : 1,
+	"soundfile" : "\/mp3\/brumm.mp3",
+	"size" : 10,
+	"border" : 1,
+	"desperate" : false,
+	"birthdayToday" : false,
+	"karodayToday" : false,
+	"gravatar" : "http:\/\/www.gravatar.com\/avatar\/20d5212b8d0fcb0b04576f1db9b25839?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40"
+}

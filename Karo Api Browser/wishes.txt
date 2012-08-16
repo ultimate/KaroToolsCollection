@@ -1,0 +1,2 @@
+- einladbarkeit als Boolean für Tag & Nacht
+- eine Map-Liste mit allen Karten (auch den "Spezial-Karten")
