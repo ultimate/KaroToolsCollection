@@ -4,11 +4,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ultimate</groupId>
-	<artifactId>KaroApi4J</artifactId>
+	<artifactId>KaroAPI4J</artifactId>
 	<packaging>jar</packaging>
-	<version>${ultimate.KaroApi4J.version}</version>
-    <name>ultimate's Karopapier Project - KaroApi4J</name>
-    <url>http://www.karopapier.de</url>
+	<version>${ultimate.KaroAPI4J.version}</version>
+    <name>ultimate's Karopapier Project - KaroAPI4J</name>
+    <url>https://github.com/ultimate/KaroAPI4J</url>
 
 	<parent>
 		<groupId>ultimate</groupId>
