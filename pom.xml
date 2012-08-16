@@ -39,6 +39,11 @@
 			<artifactId>javax.servlet</artifactId>
 			<version>${servlet.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
@@ -48,5 +53,6 @@
 		<log4j.version>1.2.16</log4j.version> <!-- 19.01.2012 -->
 		<slf4j.version>1.6.4</slf4j.version> <!-- 19.01.2012 -->
 		<servlet.version>3.1.1</servlet.version> <!-- 19.01.2012 -->
+		<jackson.version>2.0.1</jackson.version> <!-- 02.05.2012 -->
 	</properties>
 </project>
