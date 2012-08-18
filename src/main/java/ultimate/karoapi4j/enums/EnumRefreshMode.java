@@ -12,6 +12,16 @@ public enum EnumRefreshMode
 	interval_60;
 	// formatter:on
 	
+	public static EnumRefreshMode forInterval(int interval)
+	{		
+		for(EnumRefreshMode e: values())
+		{
+			if(e.getInterval() == interval)
+				return e;
+		}
+		return null;
+	}
+	
 	public int getInterval()
 	{
 		if(this == manual)
