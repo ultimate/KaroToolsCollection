@@ -2,7 +2,6 @@ package ultimate.karoapi4j.utils.sync;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.model.ChatEntry;
@@ -27,7 +26,7 @@ public class SyncTest
 		    		"	\"text\" : \"oh ioch w\u00e4r sowas von daf\u00fcr\",\n" + 
 		    		"	\"time\" : \"22:36\"\n" + 
 		    		"} ]";
-		URLLoader urlLoader = new URLLoaderThread(new URL("http://reloaded.karopapier.de/api/chat/list.json"), "GET", "");
+		URLLoader urlLoader = new URLLoaderThread(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
 		urlLoader.loadURL(new JsonRefreshable());
 		
 		final SynchronizedList<ChatEntry> list = new SynchronizedList<ChatEntry>(urlLoader, EnumRefreshMode.interval_1, false);

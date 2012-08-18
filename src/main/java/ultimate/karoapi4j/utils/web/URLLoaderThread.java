@@ -20,15 +20,20 @@ public class URLLoaderThread extends QueuableThread implements URLLoader
 	protected int					timeout;
 
 	protected Refreshable<String>	refreshable;
+	
+	public URLLoaderThread(URL url)
+	{
+		this(url, 0);
+	}
+	
+	public URLLoaderThread(URL url, int timeout)
+	{
+		this(url, "GET", "", timeout);
+	}
 
 	public URLLoaderThread(URL url, String parameter)
 	{
-		this(url, "POST", parameter, 0);
-	}
-
-	public URLLoaderThread(URL url, String method, String parameter)
-	{
-		this(url, method, parameter, 0);
+		this(url, parameter, 0);
 	}
 
 	public URLLoaderThread(URL url, String parameter, int timeout)
