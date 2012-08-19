@@ -27,7 +27,7 @@ public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>, Sync
 	 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
 	 * @param clearOnRefresh - should the content of the collection be cleared on refresh
 	 */
-	public SynchronizedList(Loader<Collection<E>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
+	public SynchronizedList(Loader<? extends Collection<E>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
 	{
 		super(loader, refreshMode, new ArrayList<E>(), clearOnRefresh);
 	}

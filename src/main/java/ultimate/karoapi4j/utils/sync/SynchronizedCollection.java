@@ -46,9 +46,10 @@ public class SynchronizedCollection<E, C extends Collection<E>, S extends Synchr
 	 * @param collection - the underlying collection to refresh
 	 * @param clearOnRefresh - should the content of the collection be cleared on refresh
 	 */
-	public SynchronizedCollection(Loader<Collection<E>> loader, EnumRefreshMode refreshMode, C collection, boolean clearOnRefresh)
+	@SuppressWarnings("unchecked")
+	public SynchronizedCollection(Loader<? extends Collection<E>> loader, EnumRefreshMode refreshMode, C collection, boolean clearOnRefresh)
 	{
-		super(loader, refreshMode);
+		super((Loader<Collection<E>>) loader, refreshMode);
 		this.collection = collection;
 	}
 
