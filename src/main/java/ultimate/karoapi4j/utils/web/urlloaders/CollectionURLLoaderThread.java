@@ -12,9 +12,9 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
  * Implementation of URLLoaderThread for Collections
  * 
  * @author ultimate
- * @param <E> - the Collection-Entry-Type
+ * @param <C> - the Collection-Type
  */
-public class CollectionURLLoaderThread<E> extends URLLoaderThread<Collection<E>>
+public class CollectionURLLoaderThread<C extends Collection<?>> extends URLLoaderThread<C>
 {
 	/**
 	 * @see URLLoaderThread#URLLoaderThread(URL)
@@ -61,8 +61,8 @@ public class CollectionURLLoaderThread<E> extends URLLoaderThread<Collection<E>>
 	 * @see ultimate.karoapi4j.utils.web.URLLoader#parse(java.lang.String)
 	 */
 	@Override
-	public Collection<E> parse(String refreshed)
+	public C parse(String refreshed)
 	{
-		return JSONUtil.deserialize(refreshed, new TypeReference<Collection<E>>() {});
+		return JSONUtil.deserialize(refreshed, new TypeReference<C>() {});
 	}
 }
