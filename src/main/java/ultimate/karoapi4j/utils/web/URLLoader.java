@@ -1,12 +1,8 @@
 package ultimate.karoapi4j.utils.web;
 
-import  ultimate.karoapi4j.utils.sync.Refreshable;
+import ultimate.karoapi4j.utils.sync.Loader;
 
-public interface URLLoader
+public interface URLLoader<T> extends Loader<T>
 {
-	public void loadURL(Refreshable<String> refreshable);
-	
-	public void loadURL();
-	
-	public String getLoadedURLContent();
+	public T prepare(String refreshed);
 }

@@ -10,16 +10,17 @@ import java.net.URL;
 import ultimate.karoapi4j.utils.sync.Refreshable;
 import ultimate.karoapi4j.utils.threads.QueuableThread;
 
-public class URLLoaderThread extends QueuableThread implements URLLoader
+public abstract class URLLoaderThread<T> extends QueuableThread implements URLLoader<T>
 {
 
 	protected URL					url;
 	protected String				parameter;
 	protected String				result;
+	protected T 					result_T;
 	protected String				method;
 	protected int					timeout;
 
-	protected Refreshable<String>	refreshable;
+	protected Refreshable<T>	refreshable;
 	
 	public URLLoaderThread(URL url)
 	{
@@ -111,29 +112,30 @@ public class URLLoaderThread extends QueuableThread implements URLLoader
 		catch(InterruptedException e)
 		{
 			result = e.toString();
+			result_T = prepare(result);
 		}
 
 		if(refreshable != null)
 		{
-			refreshable.onRefresh(result);
+			refreshable.onRefresh(result_T);
 			refreshable = null;
 		}
 	}
 
 	@Override
-	public void loadURL()
+	public void load()
 	{
-		loadURL(null);
+		load(null);
 	}
 
 	@Override
-	public String getLoadedURLContent()
+	public T getLoadedContent()
 	{
-		return result;
+		return result_T;
 	}
 
 	@Override
-	public void loadURL(Refreshable<String> refreshable)
+	public void load(Refreshable<T> refreshable)
 	{
 		this.refreshable = refreshable;
 		this.start();
