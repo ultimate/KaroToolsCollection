@@ -54,10 +54,10 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	public BaseSynchronized(Loader<T> loader, EnumRefreshMode refreshMode)
 	{
 		this.setLoader(loader);
-		this.setRefreshMode(refreshMode);
 		this.refreshing = true;
 		this.refreshThread = new RefreshThread();
 		this.refreshThread.start();
+		this.setRefreshMode(refreshMode);
 	}
 
 	/*
