@@ -7,17 +7,17 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.web.URLLoader;
 
-public abstract class BaseSynchronized implements Synchronized
+public abstract class BaseSynchronized<S extends BaseSynchronized<S>> extends BaseRefreshing<S> implements Synchronized<S>
 {
-	private final Logger	logger	= LoggerFactory.getLogger(getClass());
+	private final Logger			logger	= LoggerFactory.getLogger(getClass());
 
-	private URLLoader		urlLoader;
+	private URLLoader				urlLoader;
 
-	private boolean			refreshing;
+	private boolean					refreshing;
 
-	private EnumRefreshMode	refreshMode;
+	private EnumRefreshMode			refreshMode;
 
-	private RefreshThread	refreshThread;
+	private RefreshThread			refreshThread;
 
 	public BaseSynchronized(URLLoader urlLoader, EnumRefreshMode refreshMode)
 	{
@@ -88,13 +88,20 @@ public abstract class BaseSynchronized implements Synchronized
 	public void onRefresh(String newContent)
 	{
 		update(JSONUtil.deserialize(newContent));
+		notifyRefreshables();
 		synchronized(this)
 		{
 			this.notifyAll();
 		}
 	}
 
+	/**
+	 * Internal update procedure processing the parsed JSON content.
+	 * 
+	 * @param content - the parsed JSON content
+	 */
 	protected abstract void update(Object content);
+
 
 	/*
 	 * (non-Javadoc)

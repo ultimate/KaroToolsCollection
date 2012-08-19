@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.utils.web.URLLoader;
 
-public class SynchronizedCollection<E, C extends Collection<E>> extends BaseSynchronized implements Collection<E>, Synchronized
+public class SynchronizedCollection<E, C extends Collection<E>, S extends SynchronizedCollection<E, C, S>> extends BaseSynchronized<S> implements Collection<E>, Synchronized<S>
 {
 	protected transient Logger	logger	= LoggerFactory.getLogger(getClass());
 	protected C					collection;

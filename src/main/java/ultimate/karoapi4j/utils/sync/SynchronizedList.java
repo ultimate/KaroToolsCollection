@@ -8,7 +8,7 @@ import java.util.ListIterator;
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.utils.web.URLLoader;
 
-public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>> implements List<E>
+public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>, SynchronizedList<E>> implements List<E>
 {
 	public SynchronizedList(URLLoader urlLoader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
 	{
@@ -120,5 +120,4 @@ public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>> impl
 	{
 		throw new UnsupportedOperationException("Synchronized Collections modified from external!");
 	}
-
 }

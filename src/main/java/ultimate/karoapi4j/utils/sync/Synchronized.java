@@ -4,7 +4,7 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.utils.web.URLLoader;
 import ultimate.karoapi4j.utils.sync.Refreshable;
 
-public interface Synchronized extends Refreshable<String>
+public interface Synchronized<S extends Synchronized<S>> extends Refreshable<String>, Refreshing<S>
 {
 	public void setURLLoader(URLLoader urlLoader);
 	
