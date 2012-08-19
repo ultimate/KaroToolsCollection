@@ -16,9 +16,9 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
 public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> extends BaseRefreshing<S> implements Synchronized<T, S>
 {
 	/**
-	 * Logger instance
+	 * Logger-Instance
 	 */
-	private final Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected final Logger	logger	= LoggerFactory.getLogger(getClass());
 
 	/**
 	 * The Loader used to load the Content to synchronize from
