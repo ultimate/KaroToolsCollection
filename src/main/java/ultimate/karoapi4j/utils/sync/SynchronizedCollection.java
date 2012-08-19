@@ -7,46 +7,81 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
-import ultimate.karoapi4j.utils.web.URLLoader;
 
-public class SynchronizedCollection<E, C extends Collection<E>, S extends SynchronizedCollection<E, C, S>> extends BaseSynchronized<S> implements Collection<E>, Synchronized<S>
+/**
+ * Base for synchronized collections managing the most relevant access operations.<br>
+ * Note:<br>
+ * Modifications of the underlying Collection are not allowed. Therefore several operations like
+ * add, remove, clear, etc. will throw an {@link UnsupportedOperationException}
+ * 
+ * @author ultimate
+ * @param <E> - the type of the entities inside the Collection 
+ * @param <C> - the collection type
+ * @param <S> - the Type of Entity to be synchronized (= extending Class)
+ */
+public class SynchronizedCollection<E, C extends Collection<E>, S extends SynchronizedCollection<E, C, S>> extends BaseSynchronized<Collection<E>, S>
+		implements Collection<E>, Synchronized<Collection<E>, S>
 {
+	/**
+	 * Logger-Instance
+	 */
 	protected transient Logger	logger	= LoggerFactory.getLogger(getClass());
+
+	/**
+	 * the underlying collection to refresh
+	 */
 	protected C					collection;
 
+	/**
+	 * Will the content of the collection be cleared on refresh?
+	 */
 	protected boolean			clearOnRefresh;
 
-	public SynchronizedCollection(URLLoader urlLoader, EnumRefreshMode refreshMode, C collection, boolean clearOnRefresh)
+	/**
+	 * Construct a new synchronized Collection.
+	 * 
+	 * @see BaseSynchronized#BaseSynchronized(Loader, EnumRefreshMode)
+	 * @param loader - the Loader used to load the Content to synchronize from
+	 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+	 * @param collection - the underlying collection to refresh
+	 * @param clearOnRefresh - should the content of the collection be cleared on refresh
+	 */
+	public SynchronizedCollection(Loader<Collection<E>> loader, EnumRefreshMode refreshMode, C collection, boolean clearOnRefresh)
 	{
-		super(urlLoader, refreshMode);
+		super(loader, refreshMode);
 		this.collection = collection;
+	}
+
+	/**
+	 * Will the content of the collection be cleared on refresh?<br>
+	 * If true, all content will be removed before adding new content<br>
+	 * If false, old content will be retained and only new content will be added (growing
+	 * collection)<br>
+	 * 
+	 * @return true or false
+	 */
+	public boolean isClearOnRefresh()
+	{
+		return clearOnRefresh;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see ultimate.karoapi4j.utils.sync.BaseSynchronized#update(java.lang.Object)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	protected void update(Object content)
+	protected void update(Collection<E> content)
 	{
-		if(content instanceof Collection)
+		if(clearOnRefresh)
 		{
-			if(clearOnRefresh)
-			{
-				this.collection.clear();
-			}
-			else
-			{
-				this.collection.removeAll((Collection<?>) content);
-			}
-			// TODO merge types
-			this.collection.addAll((Collection<? extends E>) content);
+			this.collection.clear();
 		}
 		else
 		{
-			logger.error("could not update from " + collection.getClass().getName() + ": " + content);
+			this.collection.removeAll((Collection<?>) content);
 		}
+		// TODO merge types
+		this.collection.addAll((Collection<? extends E>) content);
 	}
 
 	/*

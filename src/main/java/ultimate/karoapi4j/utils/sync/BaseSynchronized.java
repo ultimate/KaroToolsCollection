@@ -4,26 +4,58 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
-import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.web.URLLoader;
 
-public abstract class BaseSynchronized<S extends BaseSynchronized<S>> extends BaseRefreshing<S> implements Synchronized<S>
+/**
+ * Abstract base for sychronized entities offering basic functionality like interval or on-access
+ * based refreshing.
+ * 
+ * @author ultimate
+ * @param <T> - the Type of Content to synchronize from
+ * @param <S> - the Type of Entity to be synchronized (= extending Class)
+ */
+public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> extends BaseRefreshing<S> implements Synchronized<T, S>
 {
-	private final Logger			logger	= LoggerFactory.getLogger(getClass());
+	/**
+	 * Logger instance
+	 */
+	private final Logger	logger	= LoggerFactory.getLogger(getClass());
 
-	private URLLoader				urlLoader;
+	/**
+	 * The Loader used to load the Content to synchronize from
+	 * 
+	 * @see Synchronized#setLoader(Loader)
+	 * @see Synchronized#getLoader()
+	 */
+	private Loader<T>		loader;
 
-	private boolean					refreshing;
+	/**
+	 * Is this entity currently in interval based refresh mode?
+	 */
+	private boolean			refreshing;
 
-	private EnumRefreshMode			refreshMode;
+	/**
+	 * The RefreshMode used for auto refreshing the synchronized entity
+	 */
+	private EnumRefreshMode	refreshMode;
 
-	private RefreshThread			refreshThread;
+	/**
+	 * An internal thread used to refresh this entity if refresh mode is interval based
+	 * 
+	 * @see EnumRefreshMode
+	 */
+	private RefreshThread	refreshThread;
 
-	public BaseSynchronized(URLLoader urlLoader, EnumRefreshMode refreshMode)
+	/**
+	 * Construct a new BaseSynchronized with the standard required Arguments
+	 * 
+	 * @param loader - the Loader used to load the Content to synchronize from
+	 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+	 */
+	public BaseSynchronized(Loader<T> loader, EnumRefreshMode refreshMode)
 	{
-		this.urlLoader = urlLoader;
+		this.setLoader(loader);
+		this.setRefreshMode(refreshMode);
 		this.refreshing = true;
-		this.refreshMode = refreshMode;
 		this.refreshThread = new RefreshThread();
 		this.refreshThread.start();
 	}
@@ -31,24 +63,26 @@ public abstract class BaseSynchronized<S extends BaseSynchronized<S>> extends Ba
 	/*
 	 * (non-Javadoc)
 	 * @see
-	 * ultimate.karoapi4j.utils.sync.Synchronized#setURLLoader(ultimate.karoapi4j.utils.web.
-	 * URLLoader
+	 * ultimate.karoapi4j.utils.sync.Synchronized#setLoader(ultimate.karoapi4j.utils.web.
+	 * Loader
 	 * )
 	 */
 	@Override
-	public void setURLLoader(URLLoader urlLoader)
+	public void setLoader(Loader<T> loader)
 	{
-		this.urlLoader = urlLoader;
+		if(loader == null)
+			throw new IllegalArgumentException("loader must not be null!");
+		this.loader = loader;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see ultimate.karoapi4j.utils.sync.Synchronized#getURLLoader()
+	 * @see ultimate.karoapi4j.utils.sync.Synchronized#getLoader()
 	 */
 	@Override
-	public URLLoader getURLLoader()
+	public Loader<T> getLoader()
 	{
-		return urlLoader;
+		return loader;
 	}
 
 	/*
@@ -58,9 +92,16 @@ public abstract class BaseSynchronized<S extends BaseSynchronized<S>> extends Ba
 	@Override
 	public void refresh()
 	{
-		urlLoader.loadURL(this);
+		loader.load(this);
 	}
 
+	/**
+	 * Internal procedure refreshing this entity whenever it is necessary.<br>
+	 * Refreshing is necessary if RefreshMode is set to {@link EnumRefreshMode#onAccess} and this
+	 * entity is accessed.
+	 * 
+	 * @see EnumRefreshMode#onAccess
+	 */
 	protected void refreshIfNecessary()
 	{
 		if(this.refreshMode == EnumRefreshMode.onAccess)
@@ -85,9 +126,9 @@ public abstract class BaseSynchronized<S extends BaseSynchronized<S>> extends Ba
 	 * @see ultimate.karoapi4j.utils.sync.Refreshable#onRefresh(java.lang.Object)
 	 */
 	@Override
-	public void onRefresh(String newContent)
+	public void onRefresh(T newContent)
 	{
-		update(JSONUtil.deserialize(newContent));
+		update(newContent);
 		notifyRefreshables();
 		synchronized(this)
 		{
@@ -100,8 +141,7 @@ public abstract class BaseSynchronized<S extends BaseSynchronized<S>> extends Ba
 	 * 
 	 * @param content - the parsed JSON content
 	 */
-	protected abstract void update(Object content);
-
+	protected abstract void update(T content);
 
 	/*
 	 * (non-Javadoc)

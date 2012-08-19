@@ -6,13 +6,30 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
-import ultimate.karoapi4j.utils.web.URLLoader;
 
+/**
+ * Simple extension of {@link SynchronizedCollection} for Lists adding List-functionality.<br>
+ * Note:<br>
+ * Modifications of the underlying List are not allowed. Therefore several operations like
+ * add, remove, clear, etc. will throw an {@link UnsupportedOperationException}
+ * 
+ * @author ultimate
+ * @param <E> - the type of the entities inside the List
+ */
 public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>, SynchronizedList<E>> implements List<E>
 {
-	public SynchronizedList(URLLoader urlLoader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
+	/**
+	 * Construct a new SynchronizedList
+	 * 
+	 * @see SynchronizedCollection#SynchronizedCollection(Loader, EnumRefreshMode, Collection,
+	 *      boolean)
+	 * @param loader - the Loader used to load the Content to synchronize from
+	 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+	 * @param clearOnRefresh - should the content of the collection be cleared on refresh
+	 */
+	public SynchronizedList(Loader<Collection<E>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
 	{
-		super(urlLoader, refreshMode, new ArrayList<E>(), clearOnRefresh);
+		super(loader, refreshMode, new ArrayList<E>(), clearOnRefresh);
 	}
 
 	/*
