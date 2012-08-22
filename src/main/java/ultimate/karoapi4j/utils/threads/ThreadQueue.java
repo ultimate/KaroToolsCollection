@@ -50,12 +50,12 @@ public class ThreadQueue
 		this.debugEnabled = debugEnabled;
 	}
 
-	public boolean iscountEnabled()
+	public boolean isCountEnabled()
 	{
 		return countEnabled;
 	}
 
-	public void setcountEnabled(boolean countEnabled)
+	public void setCountEnabled(boolean countEnabled)
 	{
 		this.countEnabled = countEnabled;
 	}

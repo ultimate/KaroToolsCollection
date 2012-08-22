@@ -214,6 +214,7 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 						is.close();
 
 						result = site.toString();
+						result_T = parse(result);
 					}
 					catch(IOException e)
 					{
@@ -230,7 +231,6 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 		catch(InterruptedException e)
 		{
 			result = e.toString();
-			result_T = parse(result);
 		}
 
 		if(refreshable != null)
