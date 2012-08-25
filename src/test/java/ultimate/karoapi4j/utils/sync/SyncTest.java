@@ -2,12 +2,14 @@ package ultimate.karoapi4j.utils.sync;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.model.ChatEntry;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.web.URLLoader;
-import ultimate.karoapi4j.utils.web.URLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.CollectionURLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
 
 public class SyncTest
 {
@@ -26,10 +28,11 @@ public class SyncTest
 		    		"	\"text\" : \"oh ioch w\u00e4r sowas von daf\u00fcr\",\n" + 
 		    		"	\"time\" : \"22:36\"\n" + 
 		    		"} ]";
-		URLLoader urlLoader = new URLLoaderThread(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
-		urlLoader.loadURL(new JsonRefreshable());
+		URLLoader<String> stringLoader = new StringURLLoaderThread(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
+		stringLoader.load(new JsonRefreshable());
 		
-		final SynchronizedList<ChatEntry> list = new SynchronizedList<ChatEntry>(urlLoader, EnumRefreshMode.interval_1, false);
+		URLLoader<List<ChatEntry>> listLoader = new CollectionURLLoaderThread<List<ChatEntry>>(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
+		final SynchronizedList<ChatEntry> list = new SynchronizedList<ChatEntry>(listLoader, EnumRefreshMode.interval_1, false);
 		
 		Thread t = new Thread()
 		{
