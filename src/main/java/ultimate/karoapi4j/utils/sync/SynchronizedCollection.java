@@ -71,7 +71,7 @@ public class SynchronizedCollection<E, C extends Collection<E>, S extends Synchr
 	 * @see ultimate.karoapi4j.utils.sync.BaseSynchronized#update(java.lang.Object)
 	 */
 	@Override
-	protected void update(Collection<E> content)
+	protected synchronized void update(Collection<E> content)
 	{
 		if(clearOnRefresh)
 		{
@@ -226,7 +226,7 @@ public class SynchronizedCollection<E, C extends Collection<E>, S extends Synchr
 	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
+	public synchronized String toString()
 	{
 		return getClass().getName() + collection.toString();
 	}
