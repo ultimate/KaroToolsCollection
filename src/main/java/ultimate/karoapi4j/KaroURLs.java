@@ -52,6 +52,11 @@ public interface KaroURLs
 	 * http://reloaded.karopapier.de/api/map/list.json<br>
 	 */
 	public static final String	MAP_LIST			= API_BASE + "/map/list.json";
+	
+	/**
+	 * http://reloaded.karopapier.de/api/map/1/vote.json<br>
+	 */
+	public static final String	MAP_VOTE			= API_BASE + "/map/" + PLACEHOLDER + "/vote.json";
 
 	/**
 	 * http://reloaded.karopapier.de/api/user/1/blocker.json<br>
