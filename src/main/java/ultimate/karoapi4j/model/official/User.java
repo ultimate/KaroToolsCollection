@@ -44,12 +44,11 @@ public class User
 	private String			gravatar;
 	// additional Fields
 	private int				plannedGames;
+	private boolean			invitable;
+	private boolean			invitableNight;
 	// references
 	private List<Blocker>	blocker;
 	private List<Game>		games;
-
-	// TODO private boolean invitableNormal;
-	// TODO private boolean invitableNight;
 
 	public User()
 	{
@@ -139,6 +138,16 @@ public class User
 	public int getPlannedGames()
 	{
 		return plannedGames;
+	}
+
+	public boolean isInvitable()
+	{
+		return invitable;
+	}
+
+	public boolean isInvitableNight()
+	{
+		return invitableNight;
 	}
 
 	public List<Blocker> getBlocker()
@@ -234,6 +243,16 @@ public class User
 	public void setPlannedGames(int plannedGames)
 	{
 		this.plannedGames = plannedGames;
+	}
+
+	public void setInvitable(boolean invitable)
+	{
+		this.invitable = invitable;
+	}
+
+	public void setInvitableNight(boolean invitableNight)
+	{
+		this.invitableNight = invitableNight;
 	}
 
 	public void setBlocker(List<Blocker> blocker)
