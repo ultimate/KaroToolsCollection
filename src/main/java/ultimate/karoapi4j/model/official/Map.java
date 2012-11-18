@@ -27,6 +27,8 @@ public class Map
 	// additional Fields
 	private Image		image;
 	private Image		preview;
+	private int			maxPlayers;
+	private boolean		night;
 
 	public Map()
 	{
@@ -78,6 +80,16 @@ public class Map
 		return preview;
 	}
 
+	public int getMaxPlayers()
+	{
+		return maxPlayers;
+	}
+
+	public boolean isNight()
+	{
+		return night;
+	}
+
 	public void setId(int id)
 	{
 		this.id = id;
@@ -121,6 +133,28 @@ public class Map
 	public void setPreview(Image preview)
 	{
 		this.preview = preview;
+	}
+
+	public void setMaxPlayers(int maxPlayers)
+	{
+		this.maxPlayers = maxPlayers;
+	}
+
+	public void setNight(boolean night)
+	{
+		this.night = night;
+	}
+	
+	public String getLabel()
+	{
+		return this.name + " (#" + this.id + ")";
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Karte " + this.id + ": " + this.name + " (" + this.maxPlayers + " Spieler) von '" + author + "' "
+				+ (this.night ? "'Nacht'" : "'Tag'");
 	}
 	
 	// TODO hasCP
