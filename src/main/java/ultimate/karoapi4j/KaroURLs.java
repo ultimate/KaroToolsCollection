@@ -49,10 +49,15 @@ public interface KaroURLs
 	public static final String	GAME_LIST			= API_BASE + "/games";
 
 	/**
+	 * http://reloaded.karopapier.de/api/mapcode/1.json<br>
+	 */
+	public static final String	MAP_CODE			= API_BASE + "/mapcode/" + PLACEHOLDER + ".json";
+
+	/**
 	 * http://reloaded.karopapier.de/api/map/list.json<br>
 	 */
 	public static final String	MAP_LIST			= API_BASE + "/map/list.json";
-	
+
 	/**
 	 * http://reloaded.karopapier.de/api/map/1/vote.json<br>
 	 */
