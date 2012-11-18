@@ -55,6 +55,7 @@ public interface KaroURLs
 
 	/**
 	 * http://reloaded.karopapier.de/api/map/list.json<br>
+	 * http://reloaded.karopapier.de/api/map/list.json?players=30<br>
 	 */
 	public static final String	MAP_LIST			= API_BASE + "/map/list.json";
 
@@ -105,6 +106,11 @@ public interface KaroURLs
 	 * http://reloaded.karopapier.de/api/games?limit=2&offset=3000<br>
 	 */
 	public static final String	PARAMETER_OFFSET	= "offset";
+
+	/**
+	 * •http://reloaded.karopapier.de/api/map/list.json?players=30<br>
+	 */
+	public static final String	PARAMETER_PLAYERS	= "players";
 
 	/**
 	 * http://reloaded.karopapier.de/api/games?user=1<br>
