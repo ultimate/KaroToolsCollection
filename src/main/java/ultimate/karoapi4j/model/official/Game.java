@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.model;
+package ultimate.karoapi4j.model.official;
 
 import java.net.URL;
 import java.util.Date;

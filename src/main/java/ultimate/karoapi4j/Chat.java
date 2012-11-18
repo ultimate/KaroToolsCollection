@@ -5,8 +5,8 @@ import java.net.URL;
 import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
-import ultimate.karoapi4j.model.ChatEntry;
-import ultimate.karoapi4j.model.User;
+import ultimate.karoapi4j.model.official.ChatEntry;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.sync.BaseRefreshing;
 import ultimate.karoapi4j.utils.sync.SynchronizedList;
 import ultimate.karoapi4j.utils.web.URLLoader;

@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.model;
+package ultimate.karoapi4j.model.official;
 
 import java.awt.Color;
 import java.util.List;
