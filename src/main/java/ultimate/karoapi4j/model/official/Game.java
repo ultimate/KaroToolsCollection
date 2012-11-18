@@ -6,6 +6,7 @@ import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumDirection;
 import ultimate.karoapi4j.enums.EnumTC;
+import ultimate.karoapi4j.model.extended.Rules;
 
 public class Game
 {
@@ -44,6 +45,8 @@ public class Game
 	private int				blocked;
 	private URL				preview;
 	private URL				location;
+	// additional Fields
+	private boolean			creatorLeft;
 	// Further JSON Fields
 	private List<Player>	players;
 
@@ -132,6 +135,11 @@ public class Game
 		return location;
 	}
 
+	public boolean hasCreatorLeft()
+	{
+		return creatorLeft;
+	}
+
 	public List<Player> getPlayers()
 	{
 		return players;
@@ -217,9 +225,28 @@ public class Game
 		this.location = location;
 	}
 
+	public void setCreatorLeft(boolean creatorLeft)
+	{
+		this.creatorLeft = creatorLeft;
+	}
+
 	public void setPlayers(List<Player> players)
 	{
 		this.players = players;
 	}
+	
+	public Game applyRules(Rules rules)
+	{
+		this.cps = rules.getCPs();
+		this.dir = rules.getDirection();
+		this.tcrash = rules.getTC();
+		this.zzz = rules.getZzz();
+		return this;
+	}
 
+	@Override
+	public String toString()
+	{
+		return this.getName() + " @" + this.getMap();
+	}
 }
