@@ -19,8 +19,8 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
  * @param <M> - the map type
  * @param <S> - the Type of Entity to be synchronized (= extending Class)
  */
-public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends SynchronizedListMap<K, V, M, S>> extends BaseSynchronizedMap<K, V, Map<K, V>, List<V>, S>
-		implements Map<K, V>, Synchronized<List<V>, S>
+public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends SynchronizedListMap<K, V, M, S>> extends
+		BaseSynchronizedMap<K, V, Map<K, V>, List<V>, S> implements Map<K, V>, Synchronized<List<V>, S>
 {
 	/**
 	 * Construct a new synchronized Map.
@@ -52,12 +52,19 @@ public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends S
 		{
 			this.map.values().removeAll(content);
 		}
-		
-		for(V value: content)
+
+		for(V value : content)
 		{
 			this.map.put(getKey(value), value);
 		}
 	}
-	
+
+	/**
+	 * Get the key for the given value.<br>
+	 * This key is used to insert the value in the map.
+	 * 
+	 * @param value - the value to insert
+	 * @return the key to use for inserting
+	 */
 	protected abstract K getKey(V value);
 }
