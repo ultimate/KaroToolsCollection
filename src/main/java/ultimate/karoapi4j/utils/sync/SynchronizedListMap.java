@@ -1,11 +1,14 @@
 package ultimate.karoapi4j.utils.sync;
 
+import java.util.List;
 import java.util.Map;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 
 /**
- * Implementation of synchronized maps managing the standard access operations.<br>
+ * Implementation for synchronized Maps represented by a List.<br>
+ * On Update the list entries will be added to the map using a specified key of the entries for
+ * being able to search the List quicker.<br>
  * Note:<br>
  * Modifications of the underlying Map are not allowed. Therefore several operations like
  * put, remove, clear, etc. will throw an {@link UnsupportedOperationException}
@@ -16,8 +19,8 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
  * @param <M> - the map type
  * @param <S> - the Type of Entity to be synchronized (= extending Class)
  */
-public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMap<K, V, M, S>> extends BaseSynchronizedMap<K, V, Map<K, V>, Map<K, V>, S> implements
-		Map<K, V>, Synchronized<Map<K, V>, S>
+public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends SynchronizedListMap<K, V, M, S>> extends BaseSynchronizedMap<K, V, Map<K, V>, List<V>, S>
+		implements Map<K, V>, Synchronized<List<V>, S>
 {
 	/**
 	 * Construct a new synchronized Map.
@@ -29,9 +32,9 @@ public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMa
 	 * @param clearOnRefresh - should the content of the map be cleared on refresh
 	 */
 	@SuppressWarnings("unchecked")
-	public SynchronizedMap(Loader<? extends Map<K, V>> loader, EnumRefreshMode refreshMode, M map, boolean clearOnRefresh)
+	public SynchronizedListMap(Loader<? extends List<V>> loader, EnumRefreshMode refreshMode, M map, boolean clearOnRefresh)
 	{
-		super((Loader<Map<K, V>>) loader, refreshMode, map, clearOnRefresh);
+		super((Loader<List<V>>) loader, refreshMode, map, clearOnRefresh);
 	}
 
 	/*
@@ -39,7 +42,7 @@ public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMa
 	 * @see ultimate.karoapi4j.utils.sync.BaseSynchronized#update(java.lang.Object)
 	 */
 	@Override
-	protected synchronized void update(Map<K, V> content)
+	protected synchronized void update(List<V> content)
 	{
 		if(clearOnRefresh)
 		{
@@ -47,9 +50,14 @@ public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMa
 		}
 		else
 		{
-			this.map.values().removeAll(content.values());
+			this.map.values().removeAll(content);
 		}
-		// TODO merge types
-		this.map.putAll((Map<? extends K, ? extends V>) content);
+		
+		for(V value: content)
+		{
+			this.map.put(getKey(value), value);
+		}
 	}
+	
+	protected abstract K getKey(V value);
 }
