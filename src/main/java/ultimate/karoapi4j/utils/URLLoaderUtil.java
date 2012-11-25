@@ -1,6 +1,9 @@
 package ultimate.karoapi4j.utils;
 
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +42,7 @@ public abstract class URLLoaderUtil
 		}
 		catch(InterruptedException e)
 		{
-			logger.error(e.getMessage());
+			logger.error("URLLoaderThread has been interrupted!");
 			return null;
 		}
 		return t.getLoadedContent();
@@ -63,7 +66,7 @@ public abstract class URLLoaderUtil
 		}
 		catch(InterruptedException e)
 		{
-			logger.error(e.getMessage());
+			logger.error("URLLoaderThread has been interrupted!");
 			return null;
 		}
 		return t.getLoadedContent();
@@ -87,7 +90,7 @@ public abstract class URLLoaderUtil
 		}
 		catch(InterruptedException e)
 		{
-			logger.error(e.getMessage());
+			logger.error("URLLoaderThread has been interrupted!");
 			return null;
 		}
 		return t.getLoadedContent();
@@ -113,7 +116,7 @@ public abstract class URLLoaderUtil
 		}
 		catch(InterruptedException e)
 		{
-			logger.error(e.getMessage());
+			logger.error("URLLoaderThread has been interrupted!");
 			return null;
 		}
 		return t.getLoadedContent();
@@ -138,9 +141,37 @@ public abstract class URLLoaderUtil
 		}
 		catch(InterruptedException e)
 		{
-			logger.error(e.getMessage());
+			logger.error("URLLoaderThread has been interrupted!");
 			return null;
 		}
 		return t.getLoadedContent();
+	}
+
+	/**
+	 * Format a Map of parameters to a String in the format<br>
+	 * <code>
+	 * param1=value1&param2=value2&...
+	 * </code>
+	 * 
+	 * @param parameters - the Map of parameters
+	 * @return the formatted String
+	 */
+	public static String formatParameters(Map<String, String> parameters)
+	{
+		StringBuilder sb = new StringBuilder();
+
+		Entry<String, String> param;
+		Iterator<Entry<String, String>> paramIterator = parameters.entrySet().iterator();
+		while(paramIterator.hasNext())
+		{
+			param = paramIterator.next();
+			sb.append(param.getKey());
+			sb.append("=");
+			sb.append(param.getValue());
+			if(paramIterator.hasNext())
+				sb.append("&");
+		}
+
+		return sb.toString();
 	}
 }
