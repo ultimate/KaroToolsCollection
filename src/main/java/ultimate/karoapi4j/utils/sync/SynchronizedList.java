@@ -2,6 +2,7 @@ package ultimate.karoapi4j.utils.sync;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -95,7 +96,7 @@ public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>, Sync
 	public List<E> subList(int fromIndex, int toIndex)
 	{
 		refreshIfNecessary();
-		return collection.subList(fromIndex, toIndex);
+		return Collections.unmodifiableList(collection.subList(fromIndex, toIndex));
 	}
 
 	/*
