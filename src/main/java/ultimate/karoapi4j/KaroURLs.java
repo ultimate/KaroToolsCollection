@@ -11,6 +11,10 @@ public interface KaroURLs
 	 * http://reloaded.karopapier.de/api<br>
 	 */
 	public static final String	API_BASE			= "http://reloaded.karopapier.de/api";
+	/**
+	 * http://www.karopapier.de<br>
+	 */
+	public static final String	MAIN_BASE			= "http://www.karopapier.de";
 
 	/**
 	 * The placeholder used in some URLs (e.g. User, Game)
@@ -97,6 +101,11 @@ public interface KaroURLs
 	public static final String	USER_LIST			= API_BASE + "/user/list.json";
 
 	/**
+	 * http://www.karopapier.de/anmelden.php?ID=username&PWD=password<br>
+	 */
+	public static final String	USER_LOGIN			= MAIN_BASE + "/anmelden.php";
+
+	/**
 	 * http://reloaded.karopapier.de/api/chat/list.json?limit=1<br>
 	 */
 	public static final String	PARAMETER_LIMIT		= "limit";
@@ -106,6 +115,11 @@ public interface KaroURLs
 	 * http://reloaded.karopapier.de/api/games?limit=2&offset=3000<br>
 	 */
 	public static final String	PARAMETER_OFFSET	= "offset";
+
+	/**
+	 * http://www.karopapier.de/anmelden.php?ID=username&PWD=password<br>
+	 */
+	public static final String	PARAMETER_PASSWORD	= "PWD";
 
 	/**
 	 * •http://reloaded.karopapier.de/api/map/list.json?players=30<br>
@@ -118,6 +132,11 @@ public interface KaroURLs
 	 * http://reloaded.karopapier.de/api/games?user=1&finished=true&limit=1&offset=300<br>
 	 */
 	public static final String	PARAMETER_USER		= "user";
+
+	/**
+	 * http://www.karopapier.de/anmelden.php?ID=username&PWD=password<br>
+	 */
+	public static final String	PARAMETER_USERNAME	= "ID";
 
 	/**
 	 * http://reloaded.karopapier.de/api/games?user=1&finished=true<br>
