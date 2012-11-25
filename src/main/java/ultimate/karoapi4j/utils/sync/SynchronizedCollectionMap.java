@@ -1,14 +1,15 @@
 package ultimate.karoapi4j.utils.sync;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 
 /**
- * Implementation for synchronized Maps represented by a List.<br>
+ * Implementation for synchronized Maps represented by a Collection.<br>
  * On Update the list entries will be added to the map using a specified key of the entries for
- * being able to search the List quicker.<br>
+ * being able to search the Collection quicker.<br>
  * Note:<br>
  * Modifications of the underlying Map are not allowed. Therefore several operations like
  * put, remove, clear, etc. will throw an {@link UnsupportedOperationException}
@@ -16,12 +17,23 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
  * @author ultimate
  * @param <K> - the type of the keys inside the Map
  * @param <V> - the type of the values inside the Map
- * @param <M> - the map type
- * @param <S> - the Type of Entity to be synchronized (= extending Class)
  */
-public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends SynchronizedListMap<K, V, M, S>> extends
-		BaseSynchronizedMap<K, V, Map<K, V>, List<V>, S> implements Map<K, V>, Synchronized<List<V>, S>
+public abstract class SynchronizedCollectionMap<K, V> extends
+		BaseSynchronizedMap<K, V, Collection<V>, SynchronizedCollectionMap<K, V>> implements Map<K, V>, Synchronized<Collection<V>, SynchronizedCollectionMap<K, V>>
 {
+	/**
+	 * Construct a new synchronized Map with a {@link HashMap}.
+	 * 
+	 * @see BaseSynchronized#BaseSynchronized(Loader, EnumRefreshMode)
+	 * @param loader - the Loader used to load the Content to synchronize from
+	 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+	 * @param clearOnRefresh - should the content of the map be cleared on refresh
+	 */
+	public SynchronizedCollectionMap(Loader<? extends Collection<V>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
+	{
+		super(loader, refreshMode, new HashMap<K, V>(), clearOnRefresh);
+	}
+	
 	/**
 	 * Construct a new synchronized Map.
 	 * 
@@ -32,9 +44,9 @@ public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends S
 	 * @param clearOnRefresh - should the content of the map be cleared on refresh
 	 */
 	@SuppressWarnings("unchecked")
-	public SynchronizedListMap(Loader<? extends List<V>> loader, EnumRefreshMode refreshMode, M map, boolean clearOnRefresh)
+	public SynchronizedCollectionMap(Loader<? extends Collection<V>> loader, EnumRefreshMode refreshMode, Map<K, V> map, boolean clearOnRefresh)
 	{
-		super((Loader<List<V>>) loader, refreshMode, map, clearOnRefresh);
+		super((Loader<Collection<V>>) loader, refreshMode, map, clearOnRefresh);
 	}
 
 	/*
@@ -42,7 +54,7 @@ public abstract class SynchronizedListMap<K, V, M extends Map<K, V>, S extends S
 	 * @see ultimate.karoapi4j.utils.sync.BaseSynchronized#update(java.lang.Object)
 	 */
 	@Override
-	protected synchronized void update(List<V> content)
+	protected synchronized void update(Collection<V> content)
 	{
 		if(clearOnRefresh)
 		{

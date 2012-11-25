@@ -1,6 +1,8 @@
 package ultimate.karoapi4j.utils.sync;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 
@@ -13,11 +15,9 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
  * @author ultimate
  * @param <K> - the type of the keys inside the Map
  * @param <V> - the type of the values inside the Map
- * @param <M> - the map type
- * @param <S> - the Type of Entity to be synchronized (= extending Class)
  */
-public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMap<K, V, M, S>> extends BaseSynchronizedMap<K, V, Map<K, V>, Map<K, V>, S> implements
-		Map<K, V>, Synchronized<Map<K, V>, S>
+public class SynchronizedMap<K, V> extends BaseSynchronizedMap<K, V, Map<K, V>, SynchronizedMap<K, V>> implements Map<K, V>,
+		Synchronized<Map<K, V>, SynchronizedMap<K, V>>
 {
 	/**
 	 * Construct a new synchronized Map.
@@ -29,7 +29,7 @@ public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMa
 	 * @param clearOnRefresh - should the content of the map be cleared on refresh
 	 */
 	@SuppressWarnings("unchecked")
-	public SynchronizedMap(Loader<? extends Map<K, V>> loader, EnumRefreshMode refreshMode, M map, boolean clearOnRefresh)
+	public SynchronizedMap(Loader<? extends Map<K, V>> loader, EnumRefreshMode refreshMode, Map<K, V> map, boolean clearOnRefresh)
 	{
 		super((Loader<Map<K, V>>) loader, refreshMode, map, clearOnRefresh);
 	}
@@ -51,5 +51,51 @@ public class SynchronizedMap<K, V, M extends Map<K, V>, S extends SynchronizedMa
 		}
 		// TODO merge types
 		this.map.putAll((Map<? extends K, ? extends V>) content);
+	}
+
+	/**
+	 * HashMap extension of {@link SynchronizedMap}
+	 * 
+	 * @author ultimate
+	 * @param <K> - the type of the keys inside the Map
+	 * @param <V> - the type of the values inside the Map
+	 */
+	public static class Hash<K, V> extends SynchronizedMap<K, V>
+	{
+		/**
+		 * Construct a new synchronized Map with a HashMap.
+		 * 
+		 * @see BaseSynchronized#BaseSynchronized(Loader, EnumRefreshMode)
+		 * @param loader - the Loader used to load the Content to synchronize from
+		 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+		 * @param clearOnRefresh - should the content of the map be cleared on refresh
+		 */
+		public Hash(Loader<? extends Map<K, V>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
+		{
+			super(loader, refreshMode, new HashMap<K, V>(), clearOnRefresh);
+		}
+	}
+
+	/**
+	 * TreeMap extension of {@link SynchronizedMap}
+	 * 
+	 * @author ultimate
+	 * @param <K> - the type of the keys inside the Map
+	 * @param <V> - the type of the values inside the Map
+	 */
+	public static class Tree<K extends Comparable<K>, V> extends SynchronizedMap<K, V>
+	{
+		/**
+		 * Construct a new synchronized Map with a TreeMap.
+		 * 
+		 * @see BaseSynchronized#BaseSynchronized(Loader, EnumRefreshMode)
+		 * @param loader - the Loader used to load the Content to synchronize from
+		 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+		 * @param clearOnRefresh - should the content of the map be cleared on refresh
+		 */
+		public Tree(Loader<? extends Map<K, V>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
+		{
+			super(loader, refreshMode, new TreeMap<K, V>(), clearOnRefresh);
+		}
 	}
 }

@@ -23,8 +23,8 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
  * @param <M> - the map type
  * @param <S> - the Type of Entity to be synchronized (= extending Class)
  */
-public abstract class BaseSynchronizedMap<K, V, M extends Map<K, V>, U, S extends BaseSynchronizedMap<K, V, M, U, S>> extends BaseSynchronized<U, S>
-		implements Map<K, V>, Synchronized<U, S>
+public abstract class BaseSynchronizedMap<K, V, U, S extends BaseSynchronizedMap<K, V, U, S>> extends BaseSynchronized<U, S> implements Map<K, V>,
+		Synchronized<U, S>
 {
 	/**
 	 * Logger-Instance
@@ -34,7 +34,7 @@ public abstract class BaseSynchronizedMap<K, V, M extends Map<K, V>, U, S extend
 	/**
 	 * the underlying map to refresh
 	 */
-	protected M					map;
+	protected Map<K, V>			map;
 
 	/**
 	 * Will the content of the map be cleared on refresh?
@@ -51,7 +51,7 @@ public abstract class BaseSynchronizedMap<K, V, M extends Map<K, V>, U, S extend
 	 * @param clearOnRefresh - should the content of the map be cleared on refresh
 	 */
 	@SuppressWarnings("unchecked")
-	public BaseSynchronizedMap(Loader<? extends U> loader, EnumRefreshMode refreshMode, M map, boolean clearOnRefresh)
+	public BaseSynchronizedMap(Loader<? extends U> loader, EnumRefreshMode refreshMode, Map<K, V> map, boolean clearOnRefresh)
 	{
 		super((Loader<U>) loader, refreshMode);
 		this.map = map;
