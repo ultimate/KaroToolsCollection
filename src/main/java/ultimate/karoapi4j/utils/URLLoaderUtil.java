@@ -15,7 +15,7 @@ import ultimate.karoapi4j.utils.web.urlloaders.URLLoaderRefreshable;
 
 /**
  * Utility-Class allowing static URL-loading via {@link URLLoaderThread}.<br>
- * An {@link URLLoaderThread} will be constructed when calling readURL(..) and the call will wait
+ * An {@link URLLoaderThread} will be constructed when calling load(..) and the call will wait
  * until the URL is loaded for returning the result.
  * 
  * @author ultimate
@@ -34,9 +34,9 @@ public abstract class URLLoaderUtil
 	 * @param url - the URL to load
 	 * @return the URL content
 	 */
-	public static String readURL(URL url)
+	public static String load(URL url)
 	{
-		return readURL(new StringURLLoaderThread(url));
+		return load(new StringURLLoaderThread(url));
 	}
 
 	/**
@@ -47,9 +47,9 @@ public abstract class URLLoaderUtil
 	 * @param timeout - a timeout used for loading the URL
 	 * @return the URL content
 	 */
-	public static String readURL(URL url, int timeout)
+	public static String load(URL url, int timeout)
 	{
-		return readURL(new StringURLLoaderThread(url, timeout));
+		return load(new StringURLLoaderThread(url, timeout));
 	}
 
 	/**
@@ -60,9 +60,9 @@ public abstract class URLLoaderUtil
 	 * @param parameters - the parameters to pass to the URL on load
 	 * @return the URL content
 	 */
-	public static String readURL(URL url, String parameter)
+	public static String load(URL url, String parameter)
 	{
-		return readURL(new StringURLLoaderThread(url, parameter));
+		return load(new StringURLLoaderThread(url, parameter));
 	}
 
 	/**
@@ -75,9 +75,9 @@ public abstract class URLLoaderUtil
 	 * @param timeout - a timeout used for loading the URL
 	 * @return the URL content
 	 */
-	public static String readURL(URL url, String parameter, int timeout)
+	public static String load(URL url, String parameter, int timeout)
 	{
-		return readURL(new StringURLLoaderThread(url, parameter, timeout));
+		return load(new StringURLLoaderThread(url, parameter, timeout));
 	}
 
 	/**
@@ -89,9 +89,9 @@ public abstract class URLLoaderUtil
 	 * @param timeout - a timeout used for loading the URL
 	 * @return the URL content
 	 */
-	public static String readURL(URL url, String method, String parameter, int timeout)
+	public static String load(URL url, String method, String parameter, int timeout)
 	{
-		return readURL(new StringURLLoaderThread(url, method, parameter, timeout));
+		return load(new StringURLLoaderThread(url, method, parameter, timeout));
 	}
 
 	/**
@@ -102,9 +102,9 @@ public abstract class URLLoaderUtil
 	 * @param type - the required type of content
 	 * @return the URL content
 	 */
-	public static <T> T readURL(URL url, Class<T> type)
+	public static <T> T load(URL url, Class<T> type)
 	{
-		return readURL(new JSONURLLoaderThread<T>(url));
+		return load(new JSONURLLoaderThread<T>(url));
 	}
 
 	/**
@@ -116,9 +116,9 @@ public abstract class URLLoaderUtil
 	 * @param type - the required type of content
 	 * @return the URL content
 	 */
-	public static <T> T readURL(URL url, int timeout, Class<T> type)
+	public static <T> T load(URL url, int timeout, Class<T> type)
 	{
-		return readURL(new JSONURLLoaderThread<T>(url, timeout));
+		return load(new JSONURLLoaderThread<T>(url, timeout));
 	}
 
 	/**
@@ -130,9 +130,9 @@ public abstract class URLLoaderUtil
 	 * @param type - the required type of content
 	 * @return the URL content
 	 */
-	public static <T> T readURL(URL url, String parameter, Class<T> type)
+	public static <T> T load(URL url, String parameter, Class<T> type)
 	{
-		return readURL(new JSONURLLoaderThread<T>(url, parameter));
+		return load(new JSONURLLoaderThread<T>(url, parameter));
 	}
 
 	/**
@@ -146,9 +146,9 @@ public abstract class URLLoaderUtil
 	 * @param type - the required type of content
 	 * @return the URL content
 	 */
-	public static <T> T readURL(URL url, String parameter, int timeout, Class<T> type)
+	public static <T> T load(URL url, String parameter, int timeout, Class<T> type)
 	{
-		return readURL(new JSONURLLoaderThread<T>(url, parameter, timeout));
+		return load(new JSONURLLoaderThread<T>(url, parameter, timeout));
 	}
 
 	/**
@@ -161,9 +161,9 @@ public abstract class URLLoaderUtil
 	 * @param type - the required type of content
 	 * @return the URL content
 	 */
-	public static <T> T readURL(URL url, String method, String parameter, int timeout, Class<T> type)
+	public static <T> T load(URL url, String method, String parameter, int timeout, Class<T> type)
 	{
-		return readURL(new JSONURLLoaderThread<T>(url, method, parameter, timeout));
+		return load(new JSONURLLoaderThread<T>(url, method, parameter, timeout));
 	}
 
 	/**
@@ -172,7 +172,7 @@ public abstract class URLLoaderUtil
 	 * @param urlLoaderThread - the {@link URLLoaderThread} to use
 	 * @return the URL content
 	 */
-	public static <T> T readURL(URLLoaderThread<T> urlLoaderThread)
+	public static <T> T load(URLLoaderThread<T> urlLoaderThread)
 	{
 		URLLoaderRefreshable<T> r = new URLLoaderRefreshable<T>(urlLoaderThread);		
 		return r.load();
