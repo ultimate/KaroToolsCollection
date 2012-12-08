@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.EntityURLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.URLLoaderRefreshable;
 
 /**
  * Utility-Class allowing static URL-loading via {@link URLLoaderThread}.<br>
@@ -34,18 +36,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static String readURL(URL url)
 	{
-		StringURLLoaderThread t = new StringURLLoaderThread(url);
-		t.load();
-		try
-		{
-			t.join();
-		}
-		catch(InterruptedException e)
-		{
-			logger.error("URLLoaderThread has been interrupted!");
-			return null;
-		}
-		return t.getLoadedContent();
+		return readURL(new StringURLLoaderThread(url));
 	}
 
 	/**
@@ -58,18 +49,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static String readURL(URL url, int timeout)
 	{
-		StringURLLoaderThread t = new StringURLLoaderThread(url, timeout);
-		t.load();
-		try
-		{
-			t.join();
-		}
-		catch(InterruptedException e)
-		{
-			logger.error("URLLoaderThread has been interrupted!");
-			return null;
-		}
-		return t.getLoadedContent();
+		return readURL(new StringURLLoaderThread(url, timeout));
 	}
 
 	/**
@@ -82,18 +62,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static String readURL(URL url, String parameter)
 	{
-		StringURLLoaderThread t = new StringURLLoaderThread(url, parameter);
-		t.load();
-		try
-		{
-			t.join();
-		}
-		catch(InterruptedException e)
-		{
-			logger.error("URLLoaderThread has been interrupted!");
-			return null;
-		}
-		return t.getLoadedContent();
+		return readURL(new StringURLLoaderThread(url, parameter));
 	}
 
 	/**
@@ -108,18 +77,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static String readURL(URL url, String parameter, int timeout)
 	{
-		StringURLLoaderThread t = new StringURLLoaderThread(url, parameter, timeout);
-		t.load();
-		try
-		{
-			t.join();
-		}
-		catch(InterruptedException e)
-		{
-			logger.error("URLLoaderThread has been interrupted!");
-			return null;
-		}
-		return t.getLoadedContent();
+		return readURL(new StringURLLoaderThread(url, parameter, timeout));
 	}
 
 	/**
@@ -133,18 +91,91 @@ public abstract class URLLoaderUtil
 	 */
 	public static String readURL(URL url, String method, String parameter, int timeout)
 	{
-		StringURLLoaderThread t = new StringURLLoaderThread(url, method, parameter, timeout);
-		t.load();
-		try
-		{
-			t.join();
-		}
-		catch(InterruptedException e)
-		{
-			logger.error("URLLoaderThread has been interrupted!");
-			return null;
-		}
-		return t.getLoadedContent();
+		return readURL(new StringURLLoaderThread(url, method, parameter, timeout));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread} for the required return type<br>
+	 * The URL will be loaded by GET with no parameters
+	 * 
+	 * @param url - the URL to load
+	 * @param type - the required type of content
+	 * @return the URL content
+	 */
+	public static <T> T readURL(URL url, Class<T> type)
+	{
+		return readURL(new EntityURLLoaderThread<T>(url));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * The URL will be loaded by GET with no parameters (with given timeout).
+	 * 
+	 * @param url - the URL to load
+	 * @param timeout - a timeout used for loading the URL
+	 * @param type - the required type of content
+	 * @return the URL content
+	 */
+	public static <T> T readURL(URL url, int timeout, Class<T> type)
+	{
+		return readURL(new EntityURLLoaderThread<T>(url, timeout));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * The URL will be loaded by POST with the given parameters
+	 * 
+	 * @param url - the URL to load
+	 * @param parameters - the parameters to pass to the URL on load
+	 * @param type - the required type of content
+	 * @return the URL content
+	 */
+	public static <T> T readURL(URL url, String parameter, Class<T> type)
+	{
+		return readURL(new EntityURLLoaderThread<T>(url, parameter));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * The URL will be loaded by POST with the given parameters (with given timeout).<br>
+	 * Method generally should be GET or POST
+	 * 
+	 * @param url - the URL to load
+	 * @param parameter - the parameters to pass to the URL on load
+	 * @param timeout - a timeout used for loading the URL
+	 * @param type - the required type of content
+	 * @return the URL content
+	 */
+	public static <T> T readURL(URL url, String parameter, int timeout, Class<T> type)
+	{
+		return readURL(new EntityURLLoaderThread<T>(url, parameter, timeout));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * 
+	 * @param url - the URL to load
+	 * @param method - the HTTP-Method used to load the URL
+	 * @param parameter - the parameters to pass to the URL on load
+	 * @param timeout - a timeout used for loading the URL
+	 * @param type - the required type of content
+	 * @return the URL content
+	 */
+	public static <T> T readURL(URL url, String method, String parameter, int timeout, Class<T> type)
+	{
+		return readURL(new EntityURLLoaderThread<T>(url, method, parameter, timeout));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * 
+	 * @param urlLoaderThread - the {@link URLLoaderThread} to use
+	 * @return the URL content
+	 */
+	public static <T> T readURL(URLLoaderThread<T> urlLoaderThread)
+	{
+		URLLoaderRefreshable<T> r = new URLLoaderRefreshable<T>(urlLoaderThread);		
+		return r.load();
 	}
 
 	/**
