@@ -224,7 +224,7 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 			};
 			t.start();
 			if(this.timeout > 0)
-				t.join(10000);
+				t.join(this.timeout);
 			else
 				t.join();
 		}
