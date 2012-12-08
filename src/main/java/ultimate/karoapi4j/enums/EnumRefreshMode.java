@@ -5,6 +5,7 @@ public enum EnumRefreshMode
 	// formatter:off
 	manual,
 	onAccess,
+	onFirstAccess,
 	interval_1,
 	interval_5,
 	interval_10,

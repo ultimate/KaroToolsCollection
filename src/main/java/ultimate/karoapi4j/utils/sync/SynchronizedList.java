@@ -3,6 +3,7 @@ package ultimate.karoapi4j.utils.sync;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -20,6 +21,11 @@ import ultimate.karoapi4j.enums.EnumRefreshMode;
 public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>, SynchronizedList<E>> implements List<E>
 {
 	/**
+	 * An optional comparator for sorting the list after updating
+	 */
+	protected Comparator<E>	sortComparator;
+
+	/**
 	 * Construct a new SynchronizedList
 	 * 
 	 * @see SynchronizedCollection#SynchronizedCollection(Loader, EnumRefreshMode, Collection,
@@ -30,7 +36,45 @@ public class SynchronizedList<E> extends SynchronizedCollection<E, List<E>, Sync
 	 */
 	public SynchronizedList(Loader<? extends Collection<E>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh)
 	{
+		this(loader, refreshMode, clearOnRefresh, null);
+	}
+
+	/**
+	 * Construct a new SynchronizedList
+	 * 
+	 * @see SynchronizedCollection#SynchronizedCollection(Loader, EnumRefreshMode, Collection,
+	 *      boolean)
+	 * @param loader - the Loader used to load the Content to synchronize from
+	 * @param refreshMode - the RefreshMode used for auto refreshing the synchronized entity
+	 * @param clearOnRefresh - should the content of the collection be cleared on refresh
+	 * @param sortComparator - an optional comparator for sorting the list after updating
+	 */
+	public SynchronizedList(Loader<? extends Collection<E>> loader, EnumRefreshMode refreshMode, boolean clearOnRefresh, Comparator<E> sortComparator)
+	{
 		super(loader, refreshMode, new ArrayList<E>(), clearOnRefresh);
+		this.sortComparator = sortComparator;
+	}
+
+	/**
+	 * An optional comparator for sorting the list after updating
+	 * 
+	 * @return sortComparator
+	 */
+	public Comparator<E> getSortComparator()
+	{
+		return sortComparator;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see ultimate.karoapi4j.utils.sync.SynchronizedCollection#update(java.util.Collection)
+	 */
+	@Override
+	protected synchronized void update(Collection<E> content)
+	{
+		super.update(content);
+		if(this.sortComparator != null)
+			Collections.sort(this.collection, this.sortComparator);
 	}
 
 	/*

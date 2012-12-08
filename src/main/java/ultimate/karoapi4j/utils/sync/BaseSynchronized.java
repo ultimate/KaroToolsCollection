@@ -18,7 +18,7 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	/**
 	 * Logger-Instance
 	 */
-	protected final Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected final Logger	logger			= LoggerFactory.getLogger(getClass());
 
 	/**
 	 * The Loader used to load the Content to synchronize from
@@ -46,6 +46,11 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	private RefreshThread	refreshThread;
 
 	/**
+	 * The time of the last refresh
+	 */
+	protected long			lastRefreshTime	= -1;
+
+	/**
 	 * Construct a new BaseSynchronized with the standard required Arguments
 	 * 
 	 * @param loader - the Loader used to load the Content to synchronize from
@@ -54,10 +59,10 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	public BaseSynchronized(Loader<T> loader, EnumRefreshMode refreshMode)
 	{
 		this.setLoader(loader);
+		this.setRefreshMode(refreshMode);
 		this.refreshing = true;
 		this.refreshThread = new RefreshThread();
 		this.refreshThread.start();
-		this.setRefreshMode(refreshMode);
 	}
 
 	/*
@@ -85,6 +90,16 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 		return loader;
 	}
 
+	/**
+	 * The time of the last refresh
+	 * 
+	 * @return lastRefreshTime
+	 */
+	public long getLastRefreshTime()
+	{
+		return lastRefreshTime;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see ultimate.karoapi4j.utils.sync.Synchronized#refresh(javax.security.auth.Refreshable)
@@ -104,7 +119,7 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	 */
 	protected void refreshIfNecessary()
 	{
-		if(this.refreshMode == EnumRefreshMode.onAccess)
+		if(this.refreshMode == EnumRefreshMode.onAccess || (this.refreshMode == EnumRefreshMode.onFirstAccess && this.lastRefreshTime == -1))
 		{
 			refresh();
 			synchronized(this)
@@ -128,6 +143,7 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	@Override
 	public void onRefresh(T newContent)
 	{
+		this.lastRefreshTime = System.currentTimeMillis();
 		update(newContent);
 		notifyRefreshables();
 		synchronized(this)
