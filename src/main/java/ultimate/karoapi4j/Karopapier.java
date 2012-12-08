@@ -13,7 +13,7 @@ import ultimate.karoapi4j.utils.sync.BaseRefreshing;
 import ultimate.karoapi4j.utils.sync.GenericSynchronizedCollectionMap;
 import ultimate.karoapi4j.utils.sync.SynchronizedList;
 import ultimate.karoapi4j.utils.web.URLLoader;
-import ultimate.karoapi4j.utils.web.urlloaders.CollectionURLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 
 /**
  * Karopapier Main implementation allowing easy access to all registered users, available maps, all
@@ -79,14 +79,14 @@ public class Karopapier extends BaseRefreshing<Karopapier>
 
 		try
 		{
-			userLoader = new CollectionURLLoaderThread<List<User>>(new URL(KaroURLs.USER_LIST));
+			userLoader = new JSONURLLoaderThread<List<User>>(new URL(KaroURLs.USER_LIST));
 
 			users = new SynchronizedList<User>(userLoader, EnumRefreshMode.manual, false);
 
 			users_byName = new GenericSynchronizedCollectionMap.Tree<String, User>(userLoader, EnumRefreshMode.manual, false, "getLogin");
 			users_byID = new GenericSynchronizedCollectionMap.Tree<String, User>(userLoader, EnumRefreshMode.manual, false, "getId");
 
-			mapLoader = new CollectionURLLoaderThread<List<Map>>(new URL(KaroURLs.MAP_LIST));
+			mapLoader = new JSONURLLoaderThread<List<Map>>(new URL(KaroURLs.MAP_LIST));
 			maps = new SynchronizedList<Map>(mapLoader, EnumRefreshMode.manual, false);
 
 			maps_byName = new GenericSynchronizedCollectionMap.Tree<String, Map>(mapLoader, EnumRefreshMode.manual, false, "getName");

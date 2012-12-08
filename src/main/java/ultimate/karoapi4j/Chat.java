@@ -10,7 +10,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.sync.BaseRefreshing;
 import ultimate.karoapi4j.utils.sync.SynchronizedList;
 import ultimate.karoapi4j.utils.web.URLLoader;
-import ultimate.karoapi4j.utils.web.urlloaders.CollectionURLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 
 /**
  * Karopapier Chat implementation allowing easy access to the chat messages and the currently active Chat users
@@ -73,11 +73,11 @@ public class Chat extends BaseRefreshing<Chat>
 
 		try
 		{
-			entryLoader = new CollectionURLLoaderThread<List<ChatEntry>>(new URL(KaroURLs.CHAT_LIST), KaroURLs.PARAMETER_LIMIT + "="
+			entryLoader = new JSONURLLoaderThread<List<ChatEntry>>(new URL(KaroURLs.CHAT_LIST), KaroURLs.PARAMETER_LIMIT + "="
 					+ entryUpdateLimit);
 			entries = new SynchronizedList<ChatEntry>(entryLoader, entryRefreshMode, false);
 
-			userLoader = new CollectionURLLoaderThread<List<User>>(new URL(KaroURLs.CHAT_USERS));
+			userLoader = new JSONURLLoaderThread<List<User>>(new URL(KaroURLs.CHAT_USERS));
 			users = new SynchronizedList<User>(userLoader, userRefreshMode, true);
 		}
 		catch(MalformedURLException e)

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
-import ultimate.karoapi4j.utils.web.urlloaders.EntityURLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.URLLoaderRefreshable;
 
@@ -104,7 +104,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T readURL(URL url, Class<T> type)
 	{
-		return readURL(new EntityURLLoaderThread<T>(url));
+		return readURL(new JSONURLLoaderThread<T>(url));
 	}
 
 	/**
@@ -118,7 +118,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T readURL(URL url, int timeout, Class<T> type)
 	{
-		return readURL(new EntityURLLoaderThread<T>(url, timeout));
+		return readURL(new JSONURLLoaderThread<T>(url, timeout));
 	}
 
 	/**
@@ -132,7 +132,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T readURL(URL url, String parameter, Class<T> type)
 	{
-		return readURL(new EntityURLLoaderThread<T>(url, parameter));
+		return readURL(new JSONURLLoaderThread<T>(url, parameter));
 	}
 
 	/**
@@ -148,7 +148,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T readURL(URL url, String parameter, int timeout, Class<T> type)
 	{
-		return readURL(new EntityURLLoaderThread<T>(url, parameter, timeout));
+		return readURL(new JSONURLLoaderThread<T>(url, parameter, timeout));
 	}
 
 	/**
@@ -163,7 +163,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T readURL(URL url, String method, String parameter, int timeout, Class<T> type)
 	{
-		return readURL(new EntityURLLoaderThread<T>(url, method, parameter, timeout));
+		return readURL(new JSONURLLoaderThread<T>(url, method, parameter, timeout));
 	}
 
 	/**

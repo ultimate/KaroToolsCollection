@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroURLs;
+import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.URLLoaderUtil;
 import ultimate.karoapi4j.utils.web.SimpleCookieHandler;
 
@@ -46,4 +49,19 @@ public class KaropapierLoader
 		
 		return success;
 	}
+	/*
+	
+	public List<Game> getGamesByUser(User user)
+	{
+		
+	}
+	
+	public void findIds(List<Game> games)
+	{
+		for(Game g: games)
+		{
+			
+		}
+	}
+	*/
 }
