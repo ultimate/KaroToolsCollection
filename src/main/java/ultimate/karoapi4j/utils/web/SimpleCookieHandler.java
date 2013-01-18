@@ -46,6 +46,8 @@ public class SimpleCookieHandler extends CookieHandler
 		List<Cookie> temp = new LinkedList<Cookie>(cache);
 		for(Cookie cookie : temp)
 		{
+			if(cookie == null)
+				continue;
 			// Remove cookies that have expired
 			if(cookie.hasExpired())
 			{
