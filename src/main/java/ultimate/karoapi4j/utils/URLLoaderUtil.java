@@ -38,7 +38,7 @@ public abstract class URLLoaderUtil
 		t.load();
 		try
 		{
-			t.join();
+			t.join2();
 		}
 		catch(InterruptedException e)
 		{
@@ -62,7 +62,7 @@ public abstract class URLLoaderUtil
 		t.load();
 		try
 		{
-			t.join();
+			t.join2();
 		}
 		catch(InterruptedException e)
 		{
@@ -86,7 +86,7 @@ public abstract class URLLoaderUtil
 		t.load();
 		try
 		{
-			t.join();
+			t.join2();
 		}
 		catch(InterruptedException e)
 		{
@@ -112,7 +112,7 @@ public abstract class URLLoaderUtil
 		t.load();
 		try
 		{
-			t.join();
+			t.join2();
 		}
 		catch(InterruptedException e)
 		{
@@ -137,7 +137,7 @@ public abstract class URLLoaderUtil
 		t.load();
 		try
 		{
-			t.join();
+			t.join2();
 		}
 		catch(InterruptedException e)
 		{
