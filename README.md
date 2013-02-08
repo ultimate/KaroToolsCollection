@@ -1,7 +1,9 @@
 KaroMUSKEL
 ==========
 
-A game creation &amp; evaluation script for www.karopapier.de
+A game creation &amp; evaluation script for www.karopapier.de<br>
+<br>
+(This is the main repository containing the current development state. The repositories KaroMUSKEL1 and KaroMUSKEL2 are for maintenance of old versions only.)
 
 
 License
