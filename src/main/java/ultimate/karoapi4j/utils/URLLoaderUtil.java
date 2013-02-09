@@ -174,7 +174,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T load(URLLoaderThread<T> urlLoaderThread)
 	{
-		URLLoaderRefreshable<T> r = new URLLoaderRefreshable<T>(urlLoaderThread);		
+		URLLoaderRefreshable<T> r = new URLLoaderRefreshable<T>(urlLoaderThread);
 		return r.load();
 	}
 
@@ -198,11 +198,34 @@ public abstract class URLLoaderUtil
 			param = paramIterator.next();
 			sb.append(param.getKey());
 			sb.append("=");
-			sb.append(param.getValue());
+			sb.append(encodeParameter(param.getValue()));
 			if(paramIterator.hasNext())
 				sb.append("&");
 		}
 
+		return sb.toString();
+	}
+
+	/**
+	 * Encode a parameter String for HTTP POSTs.<br>
+	 * Thanks to ulli <a href="https://play.google.com/store/apps/developer?id=Ulrich+Obst">(ulli @ google play)</a>
+	 * 
+	 * @param s - the parameter String to encode
+	 * @return the encoded parameters
+	 */
+	public static String encodeParameter(String s)
+	{
+		StringBuffer sb = new StringBuffer();
+
+		char c;
+		for(int i = 0; i < s.length(); i++)
+		{
+			c = s.charAt(i);
+			if(c < 0x30 || c > 0x7F)
+				sb.append('%').append(Integer.toHexString(c).toUpperCase());
+			else
+				sb.append(c);
+		}
 		return sb.toString();
 	}
 }
