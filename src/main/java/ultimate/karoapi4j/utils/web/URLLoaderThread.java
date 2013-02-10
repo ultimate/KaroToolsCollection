@@ -196,6 +196,7 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 						if(method.equals("POST"))
 						{
 							connection.setDoOutput(true);
+							connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 							PrintWriter out = new PrintWriter(connection.getOutputStream());
 							out.print(parameters);
 							out.close();
