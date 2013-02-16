@@ -3,8 +3,8 @@ KaroMUSKEL
 
 A game creation &amp; evaluation script for www.karopapier.de
 
-_This is a backup and maintenance repository for the outdated Version 1 only!
-All new content is published under https://github.com/ultimate/KaroMUSKEL._
+<b>This is a backup and maintenance repository for the outdated Version 1 only!<br>
+All new content is published under https://github.com/ultimate/KaroMUSKEL.</b>
 
 License
 =========
