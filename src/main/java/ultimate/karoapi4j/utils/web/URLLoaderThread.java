@@ -192,7 +192,7 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 						connection.setUseCaches(false);
 						connection.setAllowUserInteraction(false);
 						connection.setRequestMethod(method);
-
+							
 						if(method.equals("POST"))
 						{
 							connection.setDoOutput(true);

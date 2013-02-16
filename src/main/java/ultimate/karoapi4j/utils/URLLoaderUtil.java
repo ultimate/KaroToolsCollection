@@ -176,6 +176,17 @@ public abstract class URLLoaderUtil
 	{
 		URLLoaderRefreshable<T> r = new URLLoaderRefreshable<T>(urlLoaderThread);
 		return r.load();
+//		urlLoaderThread.load();
+//		try
+//		{
+//			urlLoaderThread.join2();
+//		}
+//		catch(InterruptedException e)
+//		{
+//			logger.error("URLLoaderThread has been interrupted!");
+//			return null;
+//		}
+//		return urlLoaderThread.getLoadedContent();
 	}
 
 	/**

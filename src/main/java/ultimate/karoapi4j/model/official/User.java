@@ -163,6 +163,8 @@ public class User
 	public void setId(int id)
 	{
 		this.id = id;
+		
+		this.games // load the games?!
 	}
 
 	public void setLogin(String login)

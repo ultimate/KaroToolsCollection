@@ -1,6 +1,5 @@
 package ultimate.karoapi4j.utils.threads;
 
-
 public abstract class QueuableThread extends Thread
 {
 
@@ -9,7 +8,10 @@ public abstract class QueuableThread extends Thread
 	protected int			id;
 	protected boolean		debug;
 
-	protected boolean				running;
+	protected boolean		running;
+	protected boolean		waiting;
+
+	protected Object		sync	= new Object();
 
 	public QueuableThread()
 	{
@@ -22,6 +24,7 @@ public abstract class QueuableThread extends Thread
 		this.message = message;
 		this.debug = false;
 		this.running = true;
+		this.waiting = false;
 		super.start();
 	}
 
@@ -58,9 +61,12 @@ public abstract class QueuableThread extends Thread
 		if(id < 0)
 			throw new IllegalArgumentException("The id must be a positive Integer.");
 		this.id = id;
-		synchronized(this)
+		while(!this.waiting)
 		{
-			this.notify();
+			synchronized (this)
+			{
+				this.notify();
+			}
 		}
 	}
 
@@ -74,20 +80,25 @@ public abstract class QueuableThread extends Thread
 	{
 		while(true)
 		{
-			synchronized(this)
+			synchronized (this)
 			{
+				if(this.isDebugEnabled())
+					System.out.println(getWaitString());
+				this.waiting = true;
 				try
 				{
 					this.wait();
 				}
-				catch(InterruptedException e)
+				catch (InterruptedException e)
 				{
 					e.printStackTrace();
 				}
+				this.waiting = false;
 			}
+
 			if(!running)
 				break;
-			
+
 			if(this.isDebugEnabled())
 				System.out.println(getStartString());
 			innerRun();
@@ -95,6 +106,19 @@ public abstract class QueuableThread extends Thread
 				System.out.println(getEndString());
 			if(this.q != null)
 				this.q.notifyFinished(this);
+
+			synchronized (sync)
+			{
+				sync.notifyAll();
+			}
+		}
+	}
+
+	public void join2() throws InterruptedException
+	{
+		synchronized (sync)
+		{
+			sync.wait();
 		}
 	}
 
@@ -106,6 +130,11 @@ public abstract class QueuableThread extends Thread
 	private final String getEndString()
 	{
 		return "QueuableThread " + getIdString() + " finished";
+	}
+
+	private final String getWaitString()
+	{
+		return "QueuableThread " + getIdString() + " waiting";
 	}
 
 	private final String getIdString()
@@ -131,5 +160,4 @@ public abstract class QueuableThread extends Thread
 	{
 		return QueuableThread.minDigits;
 	}
-	
 }
