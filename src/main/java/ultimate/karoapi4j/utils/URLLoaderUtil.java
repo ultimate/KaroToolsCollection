@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
-import ultimate.karoapi4j.utils.web.urlloaders.URLLoaderRefreshable;
 
 /**
  * Utility-Class allowing static URL-loading via {@link URLLoaderThread}.<br>
@@ -174,19 +173,17 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T load(URLLoaderThread<T> urlLoaderThread)
 	{
-		URLLoaderRefreshable<T> r = new URLLoaderRefreshable<T>(urlLoaderThread);
-		return r.load();
-//		urlLoaderThread.load();
-//		try
-//		{
-//			urlLoaderThread.join2();
-//		}
-//		catch(InterruptedException e)
-//		{
-//			logger.error("URLLoaderThread has been interrupted!");
-//			return null;
-//		}
-//		return urlLoaderThread.getLoadedContent();
+		urlLoaderThread.load();
+		try
+		{
+			urlLoaderThread.join2();
+		}
+		catch(InterruptedException e)
+		{
+			logger.error("URLLoaderThread has been interrupted!");
+			return null;
+		}
+		return urlLoaderThread.getLoadedContent();
 	}
 
 	/**

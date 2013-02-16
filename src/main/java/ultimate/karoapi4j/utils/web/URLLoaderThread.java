@@ -115,8 +115,9 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 		if(url == null)
 			throw new IllegalArgumentException("The URL must not be null.");
 		if(method == null)
-			if(parameters == null)
-				parameters = "";
+			method = "GET";
+		if(parameters == null)
+			parameters = "";
 		this.url = url;
 		this.parameters = parameters;
 		this.result = null;
