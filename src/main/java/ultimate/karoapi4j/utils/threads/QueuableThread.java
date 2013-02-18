@@ -1,17 +1,20 @@
 package ultimate.karoapi4j.utils.threads;
 
+import java.util.concurrent.CountDownLatch;
+
 public abstract class QueuableThread extends Thread
 {
 
-	protected ThreadQueue	q;
-	protected String		message;
-	protected int			id;
-	protected boolean		debug;
+	protected ThreadQueue		q;
+	protected String			message;
+	protected int				id;
+	protected boolean			debug;
 
-	protected boolean		running;
-	protected boolean		waiting;
+	protected boolean			running;
+	protected boolean			waiting;
 
-	protected Object		sync	= new Object();
+	protected Object			sync	= new Object();
+	protected CountDownLatch	start	= new CountDownLatch(1);
 
 	public QueuableThread()
 	{
@@ -26,6 +29,15 @@ public abstract class QueuableThread extends Thread
 		this.running = true;
 		this.waiting = false;
 		super.start();
+		try
+		{
+			// wait (a short time) for the thread to reach it's first wait
+			start.await();
+		}
+		catch(InterruptedException e)
+		{
+			// should not happen
+		}
 	}
 
 	public boolean isDebugEnabled()
@@ -63,7 +75,7 @@ public abstract class QueuableThread extends Thread
 		this.id = id;
 		while(this.waiting)
 		{
-			synchronized (this)
+			synchronized(this)
 			{
 				this.notify();
 			}
@@ -73,6 +85,10 @@ public abstract class QueuableThread extends Thread
 	public void terminate()
 	{
 		this.running = false;
+		synchronized(this)
+		{
+			this.notify();
+		}
 	}
 
 	@Override
@@ -80,16 +96,17 @@ public abstract class QueuableThread extends Thread
 	{
 		while(true)
 		{
-			synchronized (this)
+			synchronized(this)
 			{
 				if(this.isDebugEnabled())
 					System.out.println(getWaitString());
 				this.waiting = true;
 				try
 				{
+					start.countDown();
 					this.wait();
 				}
-				catch (InterruptedException e)
+				catch(InterruptedException e)
 				{
 					e.printStackTrace();
 				}
@@ -107,7 +124,7 @@ public abstract class QueuableThread extends Thread
 			if(this.q != null)
 				this.q.notifyFinished(this);
 
-			synchronized (sync)
+			synchronized(sync)
 			{
 				sync.notifyAll();
 			}
@@ -116,7 +133,7 @@ public abstract class QueuableThread extends Thread
 
 	public void join2() throws InterruptedException
 	{
-		synchronized (sync)
+		synchronized(sync)
 		{
 			sync.wait();
 		}
