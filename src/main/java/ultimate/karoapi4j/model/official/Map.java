@@ -35,6 +35,12 @@ public class Map
 		super();
 	}
 
+	public Map(int id)
+	{
+		this();
+		this.id = id;
+	}
+
 	public int getId()
 	{
 		return id;

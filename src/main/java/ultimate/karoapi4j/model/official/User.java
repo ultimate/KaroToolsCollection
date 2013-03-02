@@ -55,6 +55,18 @@ public class User
 		super();
 	}
 
+	public User(int id)
+	{
+		this();
+		this.id = id;
+	}
+
+	public User(String login)
+	{
+		this();
+		this.login = login;
+	}
+
 	public int getId()
 	{
 		return id;

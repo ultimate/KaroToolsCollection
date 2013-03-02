@@ -15,9 +15,12 @@ public class Game
 	 * "name" : "Runde um Runde nehmen wir jede Ecke und bleiben auf der Strecke!",
 	 * "map" : 43,
 	 * "cps" : true,
-	 * "zzz" : 2,
-	 * "tcrash" : "forbidden",
-	 * "dir" : "classic",
+	 * "withCheckpoints": true,
+	 * "zzz": 2,
+	 * "tcrash": "forbidden",
+	 * "crashallowed": "forbidden",
+	 * "dir": "classic",
+	 * "startdirection": "classic",
 	 * "started" : true,
 	 * "creator" : "Madeleine",
 	 * "created" : "2009-02-24 11:05:04",
@@ -33,9 +36,12 @@ public class Game
 	private String			name;
 	private Map				map;
 	private boolean			cps;
+//	private boolean 		withCheckpoints;
 	private int				zzz;
 	private EnumTC			tcrash;
+//	private EnumTC			crashallowed;
 	private EnumDirection	dir;
+//	private EnumDirection	startdirection;
 	private boolean			started;
 	private User			creator;
 	private Date			created;
@@ -53,6 +59,12 @@ public class Game
 	public Game()
 	{
 		super();
+	}
+	
+	public Game(int id)
+	{
+		this();
+		this.id = id;
 	}
 
 	public int getId()
@@ -74,6 +86,12 @@ public class Game
 	{
 		return cps;
 	}
+	
+	public boolean isWithCheckpoints()
+	{
+		return cps;
+	}
+	
 
 	public int getZzz()
 	{
@@ -85,7 +103,17 @@ public class Game
 		return tcrash;
 	}
 
+	public EnumTC getCrashallowed()
+	{
+		return tcrash;
+	}
+	
 	public EnumDirection getDir()
+	{
+		return dir;
+	}
+	
+	public EnumDirection getStartdirection()
 	{
 		return dir;
 	}
@@ -164,6 +192,11 @@ public class Game
 	{
 		this.cps = cps;
 	}
+	
+	public void setWithCheckpoints(boolean withCheckpoints)
+	{
+		this.cps = withCheckpoints;
+	}
 
 	public void setZzz(int zzz)
 	{
@@ -174,10 +207,20 @@ public class Game
 	{
 		this.tcrash = tcrash;
 	}
+	
+	public void setCrashallowed(EnumTC crashallowed)
+	{
+		this.tcrash = crashallowed;
+	}
 
 	public void setDir(EnumDirection dir)
 	{
 		this.dir = dir;
+	}
+	
+	public void setStartdirection(EnumDirection startdirection)
+	{
+		this.dir = startdirection;
 	}
 
 	public void setStarted(boolean started)
@@ -234,7 +277,7 @@ public class Game
 	{
 		this.players = players;
 	}
-	
+
 	public Game applyRules(Rules rules)
 	{
 		this.cps = rules.getCPs();
