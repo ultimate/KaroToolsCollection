@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.utils;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ import com.sun.xml.internal.ws.encoding.soap.SerializationException;
 
 public abstract class JSONUtil
 {
+	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	
 	private static final Logger logger = LoggerFactory.getLogger(JSONUtil.class);
 	private static final ObjectWriter	writer;
 	private static final ObjectReader	reader;
@@ -26,6 +29,10 @@ public abstract class JSONUtil
 	static
 	{
 		ObjectMapper mapper = new ObjectMapper();
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+		mapper.setDateFormat(dateFormat);
+
 		writer = mapper.writer();
 		reader = mapper.reader();// .withType(new TypeReference<Map<String, Object>>() {});
 	}
