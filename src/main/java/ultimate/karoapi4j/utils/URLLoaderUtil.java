@@ -12,6 +12,8 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 /**
  * Utility-Class allowing static URL-loading via {@link URLLoaderThread}.<br>
  * An {@link URLLoaderThread} will be constructed when calling load(..) and the call will wait
@@ -163,6 +165,78 @@ public abstract class URLLoaderUtil
 	public static <T> T load(URL url, String method, String parameter, int timeout, Class<T> type)
 	{
 		return load(new JSONURLLoaderThread<T>(url, method, parameter, timeout));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread} for the required return type<br>
+	 * The URL will be loaded by GET with no parameters
+	 * 
+	 * @param url - the URL to load
+	 * @param typeRef - the TypeReference for JSON deserialization
+	 * @return the URL content
+	 */
+	public static <T> T load(URL url, TypeReference<T> typeRef)
+	{
+		return load(new JSONURLLoaderThread<T>(url, typeRef));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * The URL will be loaded by GET with no parameters (with given timeout).
+	 * 
+	 * @param url - the URL to load
+	 * @param timeout - a timeout used for loading the URL
+	 * @param typeRef - the TypeReference for JSON deserialization
+	 * @return the URL content
+	 */
+	public static <T> T load(URL url, int timeout, TypeReference<T> typeRef)
+	{
+		return load(new JSONURLLoaderThread<T>(url, timeout, typeRef));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * The URL will be loaded by POST with the given parameters
+	 * 
+	 * @param url - the URL to load
+	 * @param parameters - the parameters to pass to the URL on load
+	 * @param typeRef - the TypeReference for JSON deserialization
+	 * @return the URL content
+	 */
+	public static <T> T load(URL url, String parameter, TypeReference<T> typeRef)
+	{
+		return load(new JSONURLLoaderThread<T>(url, parameter, typeRef));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * The URL will be loaded by POST with the given parameters (with given timeout).<br>
+	 * Method generally should be GET or POST
+	 * 
+	 * @param url - the URL to load
+	 * @param parameter - the parameters to pass to the URL on load
+	 * @param timeout - a timeout used for loading the URL
+	 * @param typeRef - the TypeReference for JSON deserialization
+	 * @return the URL content
+	 */
+	public static <T> T load(URL url, String parameter, int timeout, TypeReference<T> typeRef)
+	{
+		return load(new JSONURLLoaderThread<T>(url, parameter, timeout, typeRef));
+	}
+
+	/**
+	 * Load an URL with an {@link URLLoaderThread}<br>
+	 * 
+	 * @param url - the URL to load
+	 * @param method - the HTTP-Method used to load the URL
+	 * @param parameter - the parameters to pass to the URL on load
+	 * @param timeout - a timeout used for loading the URL
+	 * @param typeRef - the TypeReference for JSON deserialization
+	 * @return the URL content
+	 */
+	public static <T> T load(URL url, String method, String parameter, int timeout, TypeReference<T> typeRef)
+	{
+		return load(new JSONURLLoaderThread<T>(url, method, parameter, timeout, typeRef));
 	}
 
 	/**
