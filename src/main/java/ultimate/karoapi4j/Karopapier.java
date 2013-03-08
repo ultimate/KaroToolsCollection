@@ -79,8 +79,7 @@ public class Karopapier extends BaseRefreshing<Karopapier>
 
 		try
 		{
-			userLoader = new JSONURLLoaderThread<List<User>>(new URL(KaroURLs.USER_LIST));
-
+			userLoader = new JSONURLLoaderThread<List<User>>(new URL(KaroURLs.USER_LIST));			
 			users = new SynchronizedList<User>(userLoader, EnumRefreshMode.manual, false);
 
 			users_byName = new GenericSynchronizedCollectionMap.Tree<String, User>(userLoader, EnumRefreshMode.manual, false, "getLogin");
