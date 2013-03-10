@@ -61,7 +61,7 @@ public abstract class QueuableThread extends Thread
 		if(id < 0)
 			throw new IllegalArgumentException("The id must be a positive Integer.");
 		this.id = id;
-		while(!this.waiting)
+		while(this.waiting)
 		{
 			synchronized (this)
 			{
