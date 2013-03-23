@@ -3,6 +3,8 @@ package ultimate.karoapi4j.core;
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +25,17 @@ public class KaropapierLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger						= LoggerFactory.getLogger(URLLoaderUtil.class);
+	protected transient final Logger				logger						= LoggerFactory.getLogger(URLLoaderUtil.class);
 
 	/**
 	 * The String the login page contains if login was successful
 	 */
-	public static final String			CONTENT_LOGIN_SUCCESSFUL	= "Login erfolgreich";
+	public static final String						CONTENT_LOGIN_SUCCESSFUL	= "Login erfolgreich";
+
+	/**
+	 * TypeReference for List&lt;Game&gt;
+	 */
+	public static final TypeReference<List<Game>>	TYPEREF_GAME_LIST			= new TypeReference<List<Game>>() {};
 
 	public KaropapierLoader()
 	{
@@ -52,48 +59,32 @@ public class KaropapierLoader
 		return success;
 	}
 
-//	public List<Game> getGamesByUser(User user)
-//	{
-//		Map<String, String> parameters = new HashMap<String, String>();
-//		parameters.put(KaroURLs.PARAMETER_USER, "" + user.getId());
-//		parameters.put(KaroURLs.PARAMETER_LIMIT, "" + KaroURLs.PARAMETER_LIMIT_UNLIMITED);
-//
-//		List<Game> gamesActive = URLLoaderUtil.load(new URL(KaroURLs.GAME_LIST), URLLoaderUtil.formatParameters(parameters),
-//				new ArrayList<Game>() {}.getClass());
-//
-//		parameters.put(KaroURLs.PARAMETER_FINISHED, "true");
-//
-//		List<Game> gamesFinished = URLLoaderUtil.load(new URL(KaroURLs.GAME_LIST), URLLoaderUtil.formatParameters(parameters),
-//				new ArrayList<Game>() {}.getClass());
-//
-//		// List<Game> games // TODO merge lists
-//	}
+	public List<Game> getGamesByUser(User user) throws IOException
+	{
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put(KaroURLs.PARAMETER_USER, "" + user.getId());
+		parameters.put(KaroURLs.PARAMETER_LIMIT, "" + KaroURLs.PARAMETER_LIMIT_UNLIMITED);
+
+		List<Game> gamesActive = URLLoaderUtil.load(new URL(KaroURLs.GAME_LIST), URLLoaderUtil.formatParameters(parameters), TYPEREF_GAME_LIST);
+
+		parameters.put(KaroURLs.PARAMETER_FINISHED, "true");
+
+		List<Game> gamesFinished = URLLoaderUtil.load(new URL(KaroURLs.GAME_LIST), URLLoaderUtil.formatParameters(parameters), TYPEREF_GAME_LIST);
+
+		List<Game> games = new ArrayList<Game>(gamesActive.size() + gamesFinished.size());
+		games.addAll(gamesActive);
+		games.addAll(gamesFinished);
+		
+//		Collections.sort(games, c); // TODO sort by id
+		
+		return games;
+	}
 
 	public void findIds(List<Game> games)
 	{
 		for(Game g : games)
 		{
 
-		}
-	}
-
-	public static void main(String[] args) throws IOException
-	{
-		KaropapierLoader l = new KaropapierLoader();
-		l.login("ultimate", "JvEz3155");
-		
-		User user = new User();
-		user.setId(1);
-
-		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(KaroURLs.PARAMETER_USER, "" + user.getId());
-		parameters.put(KaroURLs.PARAMETER_LIMIT, "" + KaroURLs.PARAMETER_LIMIT_UNLIMITED);
-
-		List<Game> gamesActive = URLLoaderUtil.load(new URL(KaroURLs.GAME_LIST), URLLoaderUtil.formatParameters(parameters), new TypeReference<List<Game>>() {});
-
-		for(Object o: gamesActive)
-		{
-			System.out.println(o.getClass() + ": " + o);
 		}
 	}
 }
