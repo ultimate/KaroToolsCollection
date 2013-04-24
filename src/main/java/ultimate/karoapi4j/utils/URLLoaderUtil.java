@@ -303,7 +303,9 @@ public abstract class URLLoaderUtil
 		for(int i = 0; i < s.length(); i++)
 		{
 			c = s.charAt(i);
-			if(c < 0x30 || c > 0x7F)
+			if(c < 0x10)
+				sb.append("%0").append(Integer.toHexString(c).toUpperCase());
+			else if(c < 0x30 || c > 0x7F)
 				sb.append('%').append(Integer.toHexString(c).toUpperCase());
 			else
 				sb.append(c);
