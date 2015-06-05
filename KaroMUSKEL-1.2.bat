@@ -1,1 +1,1 @@
-java -cp bin karopapier.application.StartScript
+java -cp KaroMUSKEL/bin karopapier.application.StartScript
