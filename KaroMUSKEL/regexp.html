@@ -1,0 +1,137 @@
+<html>
+	<head>
+		<title>Regular-Expressions in JavaScript</title>
+		<meta name="author" content="ultimate">
+	</head>
+	<body text="#000000" bgcolor="#FFFFFF" link="#FF0000" alink="#FF0000" vlink="#FF0000">
+    <table cellpadding="0" cellspacing="0" border="0" bgcolor="#C0C0C0"><tr><td>
+	  <table cellpadding="3" cellspacing="1" border="0">
+	  <tr>
+	  <th bgcolor="#EEEEEE" class="doc" align="left" nowrap><b>Bestandteil</b></th>
+	  <th bgcolor="#EEEEEE" class="doc" align="left" nowrap><b>Beispiel</b></th>
+	  <th bgcolor="#EEEEEE" class="doc" align="left" nowrap><b>Beschreibung</b></th>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>&#160;</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot;, und zwar in &quot;aus&quot;, &quot;Haus&quot;, &quot;auserlesen&quot; und &quot;Banause&quot;.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>^</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/^aus/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot; am Anfang des zu durchsuchenden Wertes, also in &quot;aus&quot; und &quot;auserlesen&quot;, sofern das die ersten W&ouml;rter im Wert sind.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>$</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus$/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot; am Ende des zu durchsuchenden Wertes, also in &quot;aus&quot; und &quot;Haus&quot;, sofern das die letzten W&ouml;rter im Wert sind.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>*</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus*/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot;, &quot;auss&quot; und &quot;aussssss&quot;, also das letzte Zeichen vor dem Stern 0 oder beliebig oft hintereinander wiederholt.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>+</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus+/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;auss&quot; und &quot;aussssss&quot;, also das letzte Zeichen vor dem Stern mindestens einmal oder beliebig oft hintereinander wiederholt.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>.</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/.aus/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;Haus&quot; und &quot;Maus&quot;, also ein beliebiges Zeichen an einer bestimmten Stelle.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>.+</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/.+aus/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;Haus&quot; und &quot;Kehraus&quot;, also eine beliebige Zeichenfolge an einer bestimmten Stelle. Zusammensetzung aus <i>beliebiges Zeichen</i> und <i>beliebig viele davon</i>.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\b</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\baus\b/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot; als einzelnes Wort. \b bedeutet eine Wortgrenze.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\B</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\Baus\B/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot; nur innerhalb von W&ouml;rtern, z.B. in &quot;hausen&quot; oder &quot;Totalausfall&quot;. \B bedeutet <i>keine Wortgrenze</i>.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\d</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\d.+\B/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet eine beliebige ganze Zahl. \d bedeutet eine Ziffer (0 bis 9)</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\D</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\D.+/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;-fach&quot; in &quot;3-fach&quot;, also keine Ziffer.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\f</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\f/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein Seitenvorschubzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\n</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\n/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein Zeilenvorschubzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\r</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\r/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein Wagenr&uuml;cklaufzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\t</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\t/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein Tabulatorzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\v</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\v/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein vertikales Tabulatorzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\s</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\s/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet jede Art von white space, also \f\n\t\v und Leerzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\S</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\S.+/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein beliebiges einzelnes Zeichen, das kein white space ist, also kein \f\n\t\v und kein Leerzeichen.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\w</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\w.+/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet alle alphanumerischen Zeichen und den Unterstrich (typische Bedingung etwa f&uuml;r programmiersprachengerechte selbstvergebene Namen).</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\W</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/\W/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet ein Zeichen, das nicht alphanumerisch und auch kein Unterstrich ist (typisch zum Suchen nach illegalen Zeichen bei programmiersprachengerechten selbstvergebenen Namen).</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>\()</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/(aus)/</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot; und merkt es sich intern. Bis zu 9 solcher Klammern (Merkpl&auml;tze) sind in einem regul&auml;ren Ausdruck erlaubt.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>/.../g</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus/g</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot; so oft wie es in dem gesamten zu durchsuchenden Bereich vorkommt. Die Fundstellen werden intern in einem Array gespeichert.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>/.../i</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus/i</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot;, &quot;Aus&quot; und &quot;AUS&quot;, also unabh&auml;ngig von Gro&szlig;-/Kleinschreibung.</td>
+	  </tr>
+	  <tr>
+	  <td class="code" bgcolor="#FFFFE0" valign="top" nowrap><code>/.../gi</code></td>
+	  <td class="code" bgcolor="#FFFFE0" nowrap><code>/aus/gi</code></td>
+	  <td class="tabxpl" bgcolor="#E4EEFF" valign="top">findet &quot;aus&quot;, so oft wie es in dem gesamten zu durchsuchenden Bereich vorkommt (<code>g</code>) und unabh&auml;ngig von Gro&szlig;-/Kleinschreibung (<code>i</code>).</td>
+	  </tr>
+	  </table>
+	  </td></tr></table>
+	</body>
+</html>

@@ -1,0 +1,3 @@
+http://www.karopapier.de/newgame.php?name=Me%20And%20the%20bots&mapid=91&teilnehmer[0]=1411&teilnehmer[1]=411&teilnehmer[2]=410&teilnehmer[3]=773&checkers=on&zzz=2&crashallowed=0
+
+http://www.karopapier.de/newgame.php?name=Me%20And%20the%20bots&mapid=91&teilnehmer[0]=1411&teilnehmer[1]=411&teilnehmer[2]=410&teilnehmer[3]=773&checkers=off&zzz=0&crashallowed=0

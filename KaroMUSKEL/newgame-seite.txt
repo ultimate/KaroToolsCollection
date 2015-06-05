@@ -1,0 +1,616 @@
+<HTML>
+<HEAD>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="pragma" content="cache">
+<meta name="robots" content="INDEX,FOLLOW">
+<meta http-equiv="content-language" content="de">
+<meta name="description" content="Autofahren wie in der Vorlesung">
+<meta name="keywords" content="karopapier, karo, pbem, email, autofahren">
+<meta name="author" content="KaroDidi">
+<meta name="publisher" content="Didi">
+<meta name="copyright" content="Didi">
+<meta name="verify-v1" content="4RCrAfyJY11cJGe0AMyFu/lBjhLPw4AkvAiw0hEzFbg=" />
+<link rel="shortcut icon" href="favicon.ico">
+<TITLE>Karopapier</TITLE>
+</HEAD>
+<LINK REL=STYLESHEET TYPE="TEXT/CSS" HREF="/karo.css">
+<BODY BACKGROUND=bilder/karolight.gif BGCOLOR=#FFFFFF TEXT=#333399 LINK=#3333FF VLINK=#3333EE ALINK=#0000FF>
+<script type="text/javascript">
+function setcount() {
+    var s = document.getElementsByName("teilnehmer[]")[0];
+    var n = 0;
+
+    for (var i = 0; i < s.options.length; i++) {
+        if (s.options[i].selected) {
+          n++;
+        }
+    }
+    document.getElementById('Spieleranzahl').firstChild.nodeValue = n + ' Spieler';
+}
+
+</script>
+
+<table width=100% border=0 cellspacing=0 cellpadding=0>
+	<tr>
+	<td width=20 height=20 VALIGN=TOP ALIGN=LEFT><img src=/bilder/box/tl.gif width=20 height=20></td><td background=/bilder/box/tm.gif height=20 WIDTH=100%><IMG SRC=/bilder/trans.png></td><td width=20 height=20 VALIGN=TOP ALIGN=LEFT><img src=/bilder/box/tr.gif width=20 height=20></td>
+	</tr>
+
+	<tr>
+	<td width=20 background=/bilder/box/ml.gif><IMG SRC=/bilder/trans.png></td>
+<td>
+<H1 ALIGN="CENTER">Neues Spiel erstellen</FONT></H1>
+	</td>
+	<td width=20 background=/bilder/box/mr.gif><IMG SRC=/bilder/trans.png></td>
+	</tr>
+	<tr>
+	<td width=20 height=20><img src=/bilder/box/bl.gif width=20 height=20></td>
+	<td background=/bilder/box/bm.gif height=20><IMG SRC=/bilder/trans.png></td>
+	<td height=20 width=20><img src=/bilder/box/br.gif width=20 height=20></td>
+	</tr>
+</table>
+<FORM METHOD=POST>
+<TABLE BORDER=0>
+<TR><TD>Name des Spiels</TD><TD><INPUT TYPE=TEXT NAME=name SIZE=40></TD></TR>
+<TR><TD>Karte</TD><TD><SELECT NAME=mapid>
+
+<OPTION VALUE=1>Karte 1: Die Erste
+ (5 Spieler)
+<OPTION VALUE=2>Karte 2: Die Zweite
+ (5 Spieler)
+<OPTION VALUE=3>Karte 3: Die Dritte
+ (5 Spieler)
+<OPTION VALUE=4>Karte 4 (5 Spieler)
+<OPTION VALUE=5>Karte 5 (5 Spieler)
+<OPTION VALUE=6>Karte 6 (5 Spieler)
+<OPTION VALUE=7>Karte 7: Sachsenring
+ (5 Spieler)
+<OPTION VALUE=8>Karte 8: Eurospeedway
+ (5 Spieler)
+<OPTION VALUE=9>Karte 9: Dragster-Race
+ (5 Spieler)
+<OPTION VALUE=10>Karte 10 (5 Spieler)
+<OPTION VALUE=11>Karte 11: Go for Gold
+ (4 Spieler)
+<OPTION VALUE=12>Karte 12: Yaba hatte viel Zeit
+ (8 Spieler)
+<OPTION VALUE=13>Karte 13 (7 Spieler)
+<OPTION VALUE=14>Karte 14 (5 Spieler)
+<OPTION VALUE=15>Karte 15: Hindernissrennen
+ (5 Spieler)
+<OPTION VALUE=16>Karte 16: Inkateppich
+ (8 Spieler)
+<OPTION VALUE=17>Karte 17: N&uuml;rburgring
+ (12 Spieler)
+<OPTION VALUE=18>Karte 18: Fruitmap
+ (4 Spieler)
+<OPTION VALUE=19>Karte 19: The Cube
+ (4 Spieler)
+<OPTION VALUE=20>Karte 20: Scorpion
+ (8 Spieler)
+<OPTION VALUE=21>Karte 21: Rennstrecke
+ (5 Spieler)
+<OPTION VALUE=22>Karte 22: Das Weeeeee
+ (6 Spieler)
+<OPTION VALUE=23>Karte 23: Bald ist Weihnachten
+ (48 Spieler)
+<OPTION VALUE=24>Karte 24: More Ways
+ (9 Spieler)
+<OPTION VALUE=26>Karte 26: Schnecke
+ (6 Spieler)
+<OPTION VALUE=27>Karte 27: Holperstrecke
+ (7 Spieler)
+<OPTION VALUE=28>Karte 28: Kreuzzug
+ (9 Spieler)
+<OPTION VALUE=29>Karte 29: FHTW Berlin I
+ (4 Spieler)
+<OPTION VALUE=33>Karte 33: Highway To Hell
+ (5 Spieler)
+<OPTION VALUE=34>Karte 34: Flugplatz
+ (20 Spieler)
+<OPTION VALUE=35>Karte 35: Speedway
+ (21 Spieler)
+<OPTION VALUE=36>Karte 36: Regenwaldpiste
+ (15 Spieler)
+<OPTION VALUE=37>Karte 37: Nadelöhr II
+ (10 Spieler)
+<OPTION VALUE=38>Karte 38: Gentlemen's Agreement
+ (8 Spieler)
+<OPTION VALUE=40>Karte 40: CS-Kurve
+ (15 Spieler)
+<OPTION VALUE=41>Karte 41: Karofisch
+ (6 Spieler)
+<OPTION VALUE=42>Karte 42: Karokatze
+ (7 Spieler)
+<OPTION VALUE=43>Karte 43: Karo-F
+ (10 Spieler)
+<OPTION VALUE=44>Karte 44: Tux
+ (10 Spieler)
+<OPTION VALUE=45>Karte 45: Gruß aus Braunschweig
+ (12 Spieler)
+<OPTION VALUE=46>Karte 46: Noch ne Rundstrecke
+ (10 Spieler)
+<OPTION VALUE=49>Karte 49: Vermondy
+ (4 Spieler)
+<OPTION VALUE=50>Karte 50: Planet Apes
+ (7 Spieler)
+<OPTION VALUE=51>Karte 51: You've Got Mail
+ (4 Spieler)
+<OPTION VALUE=53>Karte 53: Flussschleife
+ (12 Spieler)
+<OPTION VALUE=54>Karte 54: Klapperschlange II
+ (8 Spieler)
+<OPTION VALUE=55>Karte 55: Rush Hour
+ (27 Spieler)
+<OPTION VALUE=56>Karte 56: Interlagos
+ (6 Spieler)
+<OPTION VALUE=57>Karte 57: Dubya
+ (11 Spieler)
+<OPTION VALUE=58>Karte 58: Eisbären Berlin
+ (6 Spieler)
+<OPTION VALUE=61>Karte 61: Mushroom Cup - Mario Circuit 1
+ (8 Spieler)
+<OPTION VALUE=62>Karte 62: Mushroom Cup - Donut Plains 1
+ (8 Spieler)
+<OPTION VALUE=63>Karte 63: Mushroom Cup - Ghost Valley 1
+ (8 Spieler)
+<OPTION VALUE=64>Karte 64: Mushroom Cup - Bowser Castle 1
+ (8 Spieler)
+<OPTION VALUE=65>Karte 65: Mushroom Cup - Mario Circuit 2
+ (8 Spieler)
+<OPTION VALUE=66>Karte 66: Flower Cup - Choco Island 1
+ (8 Spieler)
+<OPTION VALUE=67>Karte 67: Flower Cup - Ghost Valley 2
+ (8 Spieler)
+<OPTION VALUE=68>Karte 68: Flower Cup - Donut Plains 2
+ (8 Spieler)
+<OPTION VALUE=69>Karte 69: Flower Cup - Bowser Castle 2
+ (8 Spieler)
+<OPTION VALUE=70>Karte 70: Flower Cup - Mario Circuit 3
+ (8 Spieler)
+<OPTION VALUE=71>Karte 71: Star Cup - Koopa Beach 1
+ (8 Spieler)
+<OPTION VALUE=72>Karte 72: Star Cup - Choco Island 2
+ (8 Spieler)
+<OPTION VALUE=73>Karte 73: Star Cup - Bowser Castle 3
+ (8 Spieler)
+<OPTION VALUE=74>Karte 74: Star Cup - Vanilla Lake 1
+ (8 Spieler)
+<OPTION VALUE=75>Karte 75: Star Cup - Mario Circuit 4
+ (8 Spieler)
+<OPTION VALUE=76>Karte 76: Special Cup - Donut Plains 3
+ (8 Spieler)
+<OPTION VALUE=77>Karte 77: Special Cup - Koopa Beach 2
+ (8 Spieler)
+<OPTION VALUE=78>Karte 78: Special Cup - Ghost Valley 3
+ (8 Spieler)
+<OPTION VALUE=79>Karte 79: Special Cup - Vanilla Lake 2
+ (8 Spieler)
+<OPTION VALUE=80>Karte 80: Special Cup - Rainbow Road
+ (8 Spieler)
+<OPTION VALUE=82>Karte 82: Istanbuler Ehrenrunde
+ (8 Spieler)
+<OPTION VALUE=83>Karte 83: Checkpoint-Strecke
+ (13 Spieler)
+<OPTION VALUE=84>Karte 84: Race the Leaf
+ (4 Spieler)
+<OPTION VALUE=85>Karte 85: Race the other Leaf
+ (4 Spieler)
+<OPTION VALUE=86>Karte 86: Karopapier
+ (4 Spieler)
+<OPTION VALUE=87>Karte 87: Stern
+ (5 Spieler)
+<OPTION VALUE=88>Karte 88: Nicki Lauda
+ (9 Spieler)
+<OPTION VALUE=89>Karte 89: Kaffeepause
+ (9 Spieler)
+<OPTION VALUE=90>Karte 90: Einfach den Pfeilen folgen
+ (8 Spieler)
+<OPTION VALUE=91>Karte 91: Deutschlandtour
+ (6 Spieler)
+<OPTION VALUE=92>Karte 92: Schnitzeljagd
+ (14 Spieler)
+<OPTION VALUE=93>Karte 93: Dove
+ (6 Spieler)
+<OPTION VALUE=94>Karte 94: Taschenrechner
+ (6 Spieler)
+<OPTION VALUE=95>Karte 95: Moebius
+ (16 Spieler)
+<OPTION VALUE=96>Karte 96: Wheel
+ (12 Spieler)
+<OPTION VALUE=97>Karte 97: KS Raceway
+ (10 Spieler)
+<OPTION VALUE=98>Karte 98: Hauskarte des ZoC-Clans
+ (6 Spieler)
+<OPTION VALUE=99>Karte 99: Honeynut Loops
+ (9 Spieler)
+<OPTION VALUE=101>Karte 101: Flora Ring
+ (8 Spieler)
+<OPTION VALUE=102>Karte 102: Flowerpower
+ (9 Spieler)
+<OPTION VALUE=103>Karte 103: KaroHawaii
+ (7 Spieler)
+<OPTION VALUE=104>Karte 104: Chaosmap
+ (8 Spieler)
+<OPTION VALUE=105>Karte 105: XOSOFOX
+ (1 Spieler)
+<OPTION VALUE=107>Karte 107: Binford
+ (10 Spieler)
+<OPTION VALUE=108>Karte 108: Für Annie :wavey:
+ (10 Spieler)
+<OPTION VALUE=109>Karte 109: Das Haus vom Nikolaus
+ (6 Spieler)
+<OPTION VALUE=110>Karte 110: Final Lap
+ (3 Spieler)
+<OPTION VALUE=111>Karte 111: Yin und Yang
+ (8 Spieler)
+<OPTION VALUE=112>Karte 112: Bass-Dezett
+ (10 Spieler)
+<OPTION VALUE=114>Karte 114: Fischi
+ (6 Spieler)
+<OPTION VALUE=116>Karte 116: Silbermond
+ (8 Spieler)
+<OPTION VALUE=117>Karte 117: Lets rock
+ (10 Spieler)
+<OPTION VALUE=118>Karte 118: lol
+ (8 Spieler)
+<OPTION VALUE=119>Karte 119: Monaco
+ (5 Spieler)
+<OPTION VALUE=120>Karte 120: 1vs1vs1vs1
+ (4 Spieler)
+<OPTION VALUE=121>Karte 121: Knubbelbubbeldings
+ (4 Spieler)
+<OPTION VALUE=122>Karte 122: Bahrain
+ (5 Spieler)
+<OPTION VALUE=123>Karte 123: Miez
+ (6 Spieler)
+<OPTION VALUE=124>Karte 124: Bunt
+ (12 Spieler)
+<OPTION VALUE=125>Karte 125: Luis Royo
+ (12 Spieler)
+<OPTION VALUE=126>Karte 126: Audi
+ (10 Spieler)
+<OPTION VALUE=127>Karte 127: Ball
+ (28 Spieler)
+<OPTION VALUE=128>Karte 128: Chaos
+ (8 Spieler)
+<OPTION VALUE=129>Karte 129: KingT
+ (6 Spieler)
+<OPTION VALUE=130>Karte 130: Europa
+ (9 Spieler)
+<OPTION VALUE=131>Karte 131: Vatikan für Thargor
+ (6 Spieler)
+<OPTION VALUE=132>Karte 132: Kuh
+ (16 Spieler)
+<OPTION VALUE=133>Karte 133: Coke
+ (13 Spieler)
+<OPTION VALUE=134>Karte 134: :ZZZsleep:
+ (6 Spieler)
+<OPTION VALUE=135>Karte 135: Schnuller
+ (8 Spieler)
+<OPTION VALUE=1000>Nachtkarte 0: Nachtrennen
+ (5 Spieler)
+<OPTION VALUE=1001>Nachtkarte 1: Nachtkurven
+ (4 Spieler)
+<OPTION VALUE=1002>Nachtkarte 2: Kurven in der Nacht
+ (4 Spieler)
+<OPTION VALUE=1003>Nachtkarte 3: Meteoritenfeld
+ (6 Spieler)
+<OPTION VALUE=1004>Nachtkarte 4: The Maze
+ (14 Spieler)
+</SELECT>
+
+<TABLE WIDTH=100% BORDER=0>
+<TR>
+<TD>1:&nbsp;<A HREF=mappreview.php?MID=1&pixel=8&karoborder=1><IMG SRC=previews/1.png BORDER=0></A></TD><TD>2:&nbsp;<A HREF=mappreview.php?MID=2&pixel=8&karoborder=1><IMG SRC=previews/2.png BORDER=0></A></TD><TD>3:&nbsp;<A HREF=mappreview.php?MID=3&pixel=8&karoborder=1><IMG SRC=previews/3.png BORDER=0></A></TD><TD>4:&nbsp;<A HREF=mappreview.php?MID=4&pixel=8&karoborder=1><IMG SRC=previews/4.png BORDER=0></A></TD></TR><TR><TD>5:&nbsp;<A HREF=mappreview.php?MID=5&pixel=8&karoborder=1><IMG SRC=previews/5.png BORDER=0></A></TD><TD>6:&nbsp;<A HREF=mappreview.php?MID=6&pixel=8&karoborder=1><IMG SRC=previews/6.png BORDER=0></A></TD><TD>7:&nbsp;<A HREF=mappreview.php?MID=7&pixel=8&karoborder=1><IMG SRC=previews/7.png BORDER=0></A></TD><TD>8:&nbsp;<A HREF=mappreview.php?MID=8&pixel=8&karoborder=1><IMG SRC=previews/8.png BORDER=0></A></TD></TR><TR><TD>9:&nbsp;<A HREF=mappreview.php?MID=9&pixel=8&karoborder=1><IMG SRC=previews/9.png BORDER=0></A></TD><TD>10:&nbsp;<A HREF=mappreview.php?MID=10&pixel=8&karoborder=1><IMG SRC=previews/10.png BORDER=0></A></TD><TD>11:&nbsp;<A HREF=mappreview.php?MID=11&pixel=8&karoborder=1><IMG SRC=previews/11.png BORDER=0></A></TD><TD>12:&nbsp;<A HREF=mappreview.php?MID=12&pixel=8&karoborder=1><IMG SRC=previews/12.png BORDER=0></A></TD></TR><TR><TD>13:&nbsp;<A HREF=mappreview.php?MID=13&pixel=8&karoborder=1><IMG SRC=previews/13.png BORDER=0></A></TD><TD>14:&nbsp;<A HREF=mappreview.php?MID=14&pixel=8&karoborder=1><IMG SRC=previews/14.png BORDER=0></A></TD><TD>15:&nbsp;<A HREF=mappreview.php?MID=15&pixel=8&karoborder=1><IMG SRC=previews/15.png BORDER=0></A></TD><TD>16:&nbsp;<A HREF=mappreview.php?MID=16&pixel=8&karoborder=1><IMG SRC=previews/16.png BORDER=0></A></TD></TR><TR><TD>17:&nbsp;<A HREF=mappreview.php?MID=17&pixel=8&karoborder=1><IMG SRC=previews/17.png BORDER=0></A></TD><TD>18:&nbsp;<A HREF=mappreview.php?MID=18&pixel=8&karoborder=1><IMG SRC=previews/18.png BORDER=0></A></TD><TD>19:&nbsp;<A HREF=mappreview.php?MID=19&pixel=8&karoborder=1><IMG SRC=previews/19.png BORDER=0></A></TD><TD>20:&nbsp;<A HREF=mappreview.php?MID=20&pixel=8&karoborder=1><IMG SRC=previews/20.png BORDER=0></A></TD></TR><TR><TD>21:&nbsp;<A HREF=mappreview.php?MID=21&pixel=8&karoborder=1><IMG SRC=previews/21.png BORDER=0></A></TD><TD>22:&nbsp;<A HREF=mappreview.php?MID=22&pixel=8&karoborder=1><IMG SRC=previews/22.png BORDER=0></A></TD><TD>23:&nbsp;<A HREF=mappreview.php?MID=23&pixel=8&karoborder=1><IMG SRC=previews/23.png BORDER=0></A></TD><TD>24:&nbsp;<A HREF=mappreview.php?MID=24&pixel=8&karoborder=1><IMG SRC=previews/24.png BORDER=0></A></TD></TR><TR><TD>26:&nbsp;<A HREF=mappreview.php?MID=26&pixel=8&karoborder=1><IMG SRC=previews/26.png BORDER=0></A></TD><TD>27:&nbsp;<A HREF=mappreview.php?MID=27&pixel=8&karoborder=1><IMG SRC=previews/27.png BORDER=0></A></TD><TD>28:&nbsp;<A HREF=mappreview.php?MID=28&pixel=8&karoborder=1><IMG SRC=previews/28.png BORDER=0></A></TD><TD>29:&nbsp;<A HREF=mappreview.php?MID=29&pixel=8&karoborder=1><IMG SRC=previews/29.png BORDER=0></A></TD></TR><TR><TD>33:&nbsp;<A HREF=mappreview.php?MID=33&pixel=8&karoborder=1><IMG SRC=previews/33.png BORDER=0></A></TD><TD>34:&nbsp;<A HREF=mappreview.php?MID=34&pixel=8&karoborder=1><IMG SRC=previews/34.png BORDER=0></A></TD><TD>35:&nbsp;<A HREF=mappreview.php?MID=35&pixel=8&karoborder=1><IMG SRC=previews/35.png BORDER=0></A></TD><TD>36:&nbsp;<A HREF=mappreview.php?MID=36&pixel=8&karoborder=1><IMG SRC=previews/36.png BORDER=0></A></TD></TR><TR><TD>37:&nbsp;<A HREF=mappreview.php?MID=37&pixel=8&karoborder=1><IMG SRC=previews/37.png BORDER=0></A></TD><TD>38:&nbsp;<A HREF=mappreview.php?MID=38&pixel=8&karoborder=1><IMG SRC=previews/38.png BORDER=0></A></TD><TD>40:&nbsp;<A HREF=mappreview.php?MID=40&pixel=8&karoborder=1><IMG SRC=previews/40.png BORDER=0></A></TD><TD>41:&nbsp;<A HREF=mappreview.php?MID=41&pixel=8&karoborder=1><IMG SRC=previews/41.png BORDER=0></A></TD></TR><TR><TD>42:&nbsp;<A HREF=mappreview.php?MID=42&pixel=8&karoborder=1><IMG SRC=previews/42.png BORDER=0></A></TD><TD>43:&nbsp;<A HREF=mappreview.php?MID=43&pixel=8&karoborder=1><IMG SRC=previews/43.png BORDER=0></A></TD><TD>44:&nbsp;<A HREF=mappreview.php?MID=44&pixel=8&karoborder=1><IMG SRC=previews/44.png BORDER=0></A></TD><TD>45:&nbsp;<A HREF=mappreview.php?MID=45&pixel=8&karoborder=1><IMG SRC=previews/45.png BORDER=0></A></TD></TR><TR><TD>46:&nbsp;<A HREF=mappreview.php?MID=46&pixel=8&karoborder=1><IMG SRC=previews/46.png BORDER=0></A></TD><TD>49:&nbsp;<A HREF=mappreview.php?MID=49&pixel=8&karoborder=1><IMG SRC=previews/49.png BORDER=0></A></TD><TD>50:&nbsp;<A HREF=mappreview.php?MID=50&pixel=8&karoborder=1><IMG SRC=previews/50.png BORDER=0></A></TD><TD>51:&nbsp;<A HREF=mappreview.php?MID=51&pixel=8&karoborder=1><IMG SRC=previews/51.png BORDER=0></A></TD></TR><TR><TD>53:&nbsp;<A HREF=mappreview.php?MID=53&pixel=8&karoborder=1><IMG SRC=previews/53.png BORDER=0></A></TD><TD>54:&nbsp;<A HREF=mappreview.php?MID=54&pixel=8&karoborder=1><IMG SRC=previews/54.png BORDER=0></A></TD><TD>55:&nbsp;<A HREF=mappreview.php?MID=55&pixel=8&karoborder=1><IMG SRC=previews/55.png BORDER=0></A></TD><TD>56:&nbsp;<A HREF=mappreview.php?MID=56&pixel=8&karoborder=1><IMG SRC=previews/56.png BORDER=0></A></TD></TR><TR><TD>57:&nbsp;<A HREF=mappreview.php?MID=57&pixel=8&karoborder=1><IMG SRC=previews/57.png BORDER=0></A></TD><TD>58:&nbsp;<A HREF=mappreview.php?MID=58&pixel=8&karoborder=1><IMG SRC=previews/58.png BORDER=0></A></TD><TD>61:&nbsp;<A HREF=mappreview.php?MID=61&pixel=8&karoborder=1><IMG SRC=previews/61.png BORDER=0></A></TD><TD>62:&nbsp;<A HREF=mappreview.php?MID=62&pixel=8&karoborder=1><IMG SRC=previews/62.png BORDER=0></A></TD></TR><TR><TD>63:&nbsp;<A HREF=mappreview.php?MID=63&pixel=8&karoborder=1><IMG SRC=previews/63.png BORDER=0></A></TD><TD>64:&nbsp;<A HREF=mappreview.php?MID=64&pixel=8&karoborder=1><IMG SRC=previews/64.png BORDER=0></A></TD><TD>65:&nbsp;<A HREF=mappreview.php?MID=65&pixel=8&karoborder=1><IMG SRC=previews/65.png BORDER=0></A></TD><TD>66:&nbsp;<A HREF=mappreview.php?MID=66&pixel=8&karoborder=1><IMG SRC=previews/66.png BORDER=0></A></TD></TR><TR><TD>67:&nbsp;<A HREF=mappreview.php?MID=67&pixel=8&karoborder=1><IMG SRC=previews/67.png BORDER=0></A></TD><TD>68:&nbsp;<A HREF=mappreview.php?MID=68&pixel=8&karoborder=1><IMG SRC=previews/68.png BORDER=0></A></TD><TD>69:&nbsp;<A HREF=mappreview.php?MID=69&pixel=8&karoborder=1><IMG SRC=previews/69.png BORDER=0></A></TD><TD>70:&nbsp;<A HREF=mappreview.php?MID=70&pixel=8&karoborder=1><IMG SRC=previews/70.png BORDER=0></A></TD></TR><TR><TD>71:&nbsp;<A HREF=mappreview.php?MID=71&pixel=8&karoborder=1><IMG SRC=previews/71.png BORDER=0></A></TD><TD>72:&nbsp;<A HREF=mappreview.php?MID=72&pixel=8&karoborder=1><IMG SRC=previews/72.png BORDER=0></A></TD><TD>73:&nbsp;<A HREF=mappreview.php?MID=73&pixel=8&karoborder=1><IMG SRC=previews/73.png BORDER=0></A></TD><TD>74:&nbsp;<A HREF=mappreview.php?MID=74&pixel=8&karoborder=1><IMG SRC=previews/74.png BORDER=0></A></TD></TR><TR><TD>75:&nbsp;<A HREF=mappreview.php?MID=75&pixel=8&karoborder=1><IMG SRC=previews/75.png BORDER=0></A></TD><TD>76:&nbsp;<A HREF=mappreview.php?MID=76&pixel=8&karoborder=1><IMG SRC=previews/76.png BORDER=0></A></TD><TD>77:&nbsp;<A HREF=mappreview.php?MID=77&pixel=8&karoborder=1><IMG SRC=previews/77.png BORDER=0></A></TD><TD>78:&nbsp;<A HREF=mappreview.php?MID=78&pixel=8&karoborder=1><IMG SRC=previews/78.png BORDER=0></A></TD></TR><TR><TD>79:&nbsp;<A HREF=mappreview.php?MID=79&pixel=8&karoborder=1><IMG SRC=previews/79.png BORDER=0></A></TD><TD>80:&nbsp;<A HREF=mappreview.php?MID=80&pixel=8&karoborder=1><IMG SRC=previews/80.png BORDER=0></A></TD><TD>82:&nbsp;<A HREF=mappreview.php?MID=82&pixel=8&karoborder=1><IMG SRC=previews/82.png BORDER=0></A></TD><TD>83:&nbsp;<A HREF=mappreview.php?MID=83&pixel=8&karoborder=1><IMG SRC=previews/83.png BORDER=0></A></TD></TR><TR><TD>84:&nbsp;<A HREF=mappreview.php?MID=84&pixel=8&karoborder=1><IMG SRC=previews/84.png BORDER=0></A></TD><TD>85:&nbsp;<A HREF=mappreview.php?MID=85&pixel=8&karoborder=1><IMG SRC=previews/85.png BORDER=0></A></TD><TD>86:&nbsp;<A HREF=mappreview.php?MID=86&pixel=8&karoborder=1><IMG SRC=previews/86.png BORDER=0></A></TD><TD>87:&nbsp;<A HREF=mappreview.php?MID=87&pixel=8&karoborder=1><IMG SRC=previews/87.png BORDER=0></A></TD></TR><TR><TD>88:&nbsp;<A HREF=mappreview.php?MID=88&pixel=8&karoborder=1><IMG SRC=previews/88.png BORDER=0></A></TD><TD>89:&nbsp;<A HREF=mappreview.php?MID=89&pixel=8&karoborder=1><IMG SRC=previews/89.png BORDER=0></A></TD><TD>90:&nbsp;<A HREF=mappreview.php?MID=90&pixel=8&karoborder=1><IMG SRC=previews/90.png BORDER=0></A></TD><TD>91:&nbsp;<A HREF=mappreview.php?MID=91&pixel=8&karoborder=1><IMG SRC=previews/91.png BORDER=0></A></TD></TR><TR><TD>92:&nbsp;<A HREF=mappreview.php?MID=92&pixel=8&karoborder=1><IMG SRC=previews/92.png BORDER=0></A></TD><TD>93:&nbsp;<A HREF=mappreview.php?MID=93&pixel=8&karoborder=1><IMG SRC=previews/93.png BORDER=0></A></TD><TD>94:&nbsp;<A HREF=mappreview.php?MID=94&pixel=8&karoborder=1><IMG SRC=previews/94.png BORDER=0></A></TD><TD>95:&nbsp;<A HREF=mappreview.php?MID=95&pixel=8&karoborder=1><IMG SRC=previews/95.png BORDER=0></A></TD></TR><TR><TD>96:&nbsp;<A HREF=mappreview.php?MID=96&pixel=8&karoborder=1><IMG SRC=previews/96.png BORDER=0></A></TD><TD>97:&nbsp;<A HREF=mappreview.php?MID=97&pixel=8&karoborder=1><IMG SRC=previews/97.png BORDER=0></A></TD><TD>98:&nbsp;<A HREF=mappreview.php?MID=98&pixel=8&karoborder=1><IMG SRC=previews/98.png BORDER=0></A></TD><TD>99:&nbsp;<A HREF=mappreview.php?MID=99&pixel=8&karoborder=1><IMG SRC=previews/99.png BORDER=0></A></TD></TR><TR><TD>101:&nbsp;<A HREF=mappreview.php?MID=101&pixel=8&karoborder=1><IMG SRC=previews/101.png BORDER=0></A></TD><TD>102:&nbsp;<A HREF=mappreview.php?MID=102&pixel=8&karoborder=1><IMG SRC=previews/102.png BORDER=0></A></TD><TD>103:&nbsp;<A HREF=mappreview.php?MID=103&pixel=8&karoborder=1><IMG SRC=previews/103.png BORDER=0></A></TD><TD>104:&nbsp;<A HREF=mappreview.php?MID=104&pixel=8&karoborder=1><IMG SRC=previews/104.png BORDER=0></A></TD></TR><TR><TD>105:&nbsp;<A HREF=mappreview.php?MID=105&pixel=8&karoborder=1><IMG SRC=previews/105.png BORDER=0></A></TD><TD>107:&nbsp;<A HREF=mappreview.php?MID=107&pixel=8&karoborder=1><IMG SRC=previews/107.png BORDER=0></A></TD><TD>108:&nbsp;<A HREF=mappreview.php?MID=108&pixel=8&karoborder=1><IMG SRC=previews/108.png BORDER=0></A></TD><TD>109:&nbsp;<A HREF=mappreview.php?MID=109&pixel=8&karoborder=1><IMG SRC=previews/109.png BORDER=0></A></TD></TR><TR><TD>110:&nbsp;<A HREF=mappreview.php?MID=110&pixel=8&karoborder=1><IMG SRC=previews/110.png BORDER=0></A></TD><TD>111:&nbsp;<A HREF=mappreview.php?MID=111&pixel=8&karoborder=1><IMG SRC=previews/111.png BORDER=0></A></TD><TD>112:&nbsp;<A HREF=mappreview.php?MID=112&pixel=8&karoborder=1><IMG SRC=previews/112.png BORDER=0></A></TD><TD>114:&nbsp;<A HREF=mappreview.php?MID=114&pixel=8&karoborder=1><IMG SRC=previews/114.png BORDER=0></A></TD></TR><TR><TD>116:&nbsp;<A HREF=mappreview.php?MID=116&pixel=8&karoborder=1><IMG SRC=previews/116.png BORDER=0></A></TD><TD>117:&nbsp;<A HREF=mappreview.php?MID=117&pixel=8&karoborder=1><IMG SRC=previews/117.png BORDER=0></A></TD><TD>118:&nbsp;<A HREF=mappreview.php?MID=118&pixel=8&karoborder=1><IMG SRC=previews/118.png BORDER=0></A></TD><TD>119:&nbsp;<A HREF=mappreview.php?MID=119&pixel=8&karoborder=1><IMG SRC=previews/119.png BORDER=0></A></TD></TR><TR><TD>120:&nbsp;<A HREF=mappreview.php?MID=120&pixel=8&karoborder=1><IMG SRC=previews/120.png BORDER=0></A></TD><TD>121:&nbsp;<A HREF=mappreview.php?MID=121&pixel=8&karoborder=1><IMG SRC=previews/121.png BORDER=0></A></TD><TD>122:&nbsp;<A HREF=mappreview.php?MID=122&pixel=8&karoborder=1><IMG SRC=previews/122.png BORDER=0></A></TD><TD>123:&nbsp;<A HREF=mappreview.php?MID=123&pixel=8&karoborder=1><IMG SRC=previews/123.png BORDER=0></A></TD></TR><TR><TD>124:&nbsp;<A HREF=mappreview.php?MID=124&pixel=8&karoborder=1><IMG SRC=previews/124.png BORDER=0></A></TD><TD>125:&nbsp;<A HREF=mappreview.php?MID=125&pixel=8&karoborder=1><IMG SRC=previews/125.png BORDER=0></A></TD><TD>126:&nbsp;<A HREF=mappreview.php?MID=126&pixel=8&karoborder=1><IMG SRC=previews/126.png BORDER=0></A></TD><TD>127:&nbsp;<A HREF=mappreview.php?MID=127&pixel=8&karoborder=1><IMG SRC=previews/127.png BORDER=0></A></TD></TR><TR><TD>128:&nbsp;<A HREF=mappreview.php?MID=128&pixel=8&karoborder=1><IMG SRC=previews/128.png BORDER=0></A></TD><TD>129:&nbsp;<A HREF=mappreview.php?MID=129&pixel=8&karoborder=1><IMG SRC=previews/129.png BORDER=0></A></TD><TD>130:&nbsp;<A HREF=mappreview.php?MID=130&pixel=8&karoborder=1><IMG SRC=previews/130.png BORDER=0></A></TD><TD>131:&nbsp;<A HREF=mappreview.php?MID=131&pixel=8&karoborder=1><IMG SRC=previews/131.png BORDER=0></A></TD></TR><TR><TD>132:&nbsp;<A HREF=mappreview.php?MID=132&pixel=8&karoborder=1><IMG SRC=previews/132.png BORDER=0></A></TD><TD>133:&nbsp;<A HREF=mappreview.php?MID=133&pixel=8&karoborder=1><IMG SRC=previews/133.png BORDER=0></A></TD><TD>134:&nbsp;<A HREF=mappreview.php?MID=134&pixel=8&karoborder=1><IMG SRC=previews/134.png BORDER=0></A></TD><TD>135:&nbsp;<A HREF=mappreview.php?MID=135&pixel=8&karoborder=1><IMG SRC=previews/135.png BORDER=0></A></TD></TR><TR>
+</TR>
+</TABLE>
+
+</TD></TR>
+
+<TR><TD VALIGN=TOP>Teilnehmer</TD><TD>
+<TABLE>
+<TR>
+<TD VALIGN=TOP>
+<SELECT NAME=teilnehmer[] MULTIPLE SIZE=10 onChange="setcount();">
+
+<OPTION VALUE=727>Abe [583|0 @ 241/2147483647]
+<OPTION VALUE=1190>acidave [231|0 @ 139/100000]
+<OPTION VALUE=1335>AcoSys [155|0 @ 174/250]
+<OPTION VALUE=1222>aemkei [226|2 @ 80/0]
+<OPTION VALUE=1168>Akari [238|0 @ 84/200]
+<OPTION VALUE=838>allebutz [541|3 @ 157/200]
+<OPTION VALUE=1322>angel [165|1 @ 94/100]
+<OPTION VALUE=938>Annette [457|1 @ 123/200]
+<OPTION VALUE=1352>Archie [141|0 @ 142/2000]
+<OPTION VALUE=723>Atomy(keine Nachtrennen) [586|0 @ 79/0]
+<OPTION VALUE=92>b@karo(keine Nachtrennen) [1878|0 @ 3/0]
+<OPTION VALUE=233>Baertman [1440|0 @ 220/500]
+<OPTION VALUE=1386>BCM1860(keine Nachtrennen) [100|0 @ 196/200]
+<OPTION VALUE=1272>becks [208|0 @ 83/0]
+<OPTION VALUE=589>billy [780|3 @ 63/0]
+<OPTION VALUE=1451>bimmelbommel [54|0 @ 29/0]
+<OPTION VALUE=638>Bio-Eimer [739|0 @ 82/0]
+<OPTION VALUE=1193>Bison [231|0 @ 60/0]
+<OPTION VALUE=865>Bodmin [512|0 @ 139/140]
+<OPTION VALUE=641>bonzai [730|0 @ 92/100]
+<OPTION VALUE=611>boodo(keine Nachtrennen) [764|0 @ 192/0]
+<OPTION VALUE=773>(BOT): Botrix(keine Nachtrennen) [562|0 @ 145/0]
+<OPTION VALUE=1113>brainy [275|0 @ 108/10000]
+<OPTION VALUE=1285>britty [199|0 @ 90/0]
+<OPTION VALUE=1226>budgy [224|0 @ 84/0]
+<OPTION VALUE=1175>cachito(keine Nachtrennen) [236|0 @ 97/200]
+<OPTION VALUE=1091>caperucita naranja [298|1 @ 51/0]
+<OPTION VALUE=1079>Capsoni [307|1 @ 48/100]
+<OPTION VALUE=526>CaptainJackSparrow [865|1 @ 284/500]
+<OPTION VALUE=973>caramba(keine Nachtrennen) [439|0 @ 112/200]
+<OPTION VALUE=127>chaos [1819|0 @ 168/0]
+<OPTION VALUE=1430>Charlie-the-Ant [74|0 @ 39/0]
+<OPTION VALUE=745>Che Guevara(keine Nachtrennen) [569|0 @ 468/1000]
+<OPTION VALUE=396>Chicken [1195|2 @ 17/0]
+<OPTION VALUE=741>christian [571|1 @ 112/0]
+<OPTION VALUE=1214>crazyMarco [227|0 @ 94/100]
+<OPTION VALUE=591>daniel.pascariu [780|0 @ 34/0]
+<OPTION VALUE=1397>Daniel____(keine Nachtrennen) [90|0 @ 124/1000]
+<OPTION VALUE=1325>dante(keine Nachtrennen) [162|0 @ 128/999]
+<OPTION VALUE=1482>darf ich mal bitte d(keine Nachtrennen) [18|3 @ 0/0]
+<OPTION VALUE=752>darkness [568|0 @ 127/130]
+<OPTION VALUE=1455>darwiche [51|0 @ 19/20]
+<OPTION VALUE=843>DavidM(keine Nachtrennen) [534|0 @ 70/0]
+<OPTION VALUE=883>Daywalker [494|0 @ 40/50]
+<OPTION VALUE=1432>dE KuYp3r [74|0 @ 43/0]
+<OPTION VALUE=410>(BOT): DeepGray(keine Nachtrennen) [1135|0 @ 119/0]
+<OPTION VALUE=411>(BOT): DeepPink(keine Nachtrennen) [1134|0 @ 150/0]
+<OPTION VALUE=794>Deomar [557|1 @ 80/0]
+<OPTION VALUE=555>DidiDaDude [838|0 @ 86/0]
+<OPTION VALUE=1178>doc-mancini [236|0 @ 64/0]
+<OPTION VALUE=542>dorome [852|0 @ 55/0]
+<OPTION VALUE=222>Dr. Watson [1452|0 @ 24/25]
+<OPTION VALUE=639>DreaM(keine Nachtrennen) [733|0 @ 142/0]
+<OPTION VALUE=88>DrHoliday [1878|0 @ 66/1000]
+<OPTION VALUE=1174>Dwachs(keine Nachtrennen) [236|0 @ 119/120]
+<OPTION VALUE=326>eisbaer04(keine Nachtrennen) [1307|2 @ 254/0]
+<OPTION VALUE=1489>ett [11|0 @ 40/150]
+<OPTION VALUE=863>fachschaf [513|0 @ 107/0]
+<OPTION VALUE=1409>Fast-Ibbi(keine Nachtrennen) [86|0 @ 56/150]
+<OPTION VALUE=557>fiete(keine Nachtrennen) [837|0 @ 258/275]
+<OPTION VALUE=1290>Fingorn [196|0 @ 60/75]
+<OPTION VALUE=1284>Fishly [199|0 @ 122/0]
+<OPTION VALUE=1294>flinkman(keine Nachtrennen) [195|0 @ 152/0]
+<OPTION VALUE=1433>Flix [74|1 @ 14/0]
+<OPTION VALUE=1341>Geena [152|0 @ 31/0]
+<OPTION VALUE=1046>griomacon [334|0 @ 99/0]
+<OPTION VALUE=956>HANSA(keine Nachtrennen) [448|0 @ 652/0]
+<OPTION VALUE=1269>Hase [210|0 @ 37/0]
+<OPTION VALUE=892>heizer [486|1 @ 57/0]
+<OPTION VALUE=681>Hfoertel(keine Nachtrennen) [664|3 @ 200/1024]
+<OPTION VALUE=1324>Hieronymus [162|0 @ 308/0]
+<OPTION VALUE=1238>hoteskull [218|0 @ 95/0]
+<OPTION VALUE=67>hulmgulm [1879|0 @ 29/30]
+<OPTION VALUE=606>Hutz(keine Nachtrennen) [768|0 @ 101/120]
+<OPTION VALUE=814>ilaric [554|0 @ 74/0]
+<OPTION VALUE=487>Incognitinchen(keine Nachtrennen) [954|0 @ 257/5555]
+<OPTION VALUE=1382>Inspirator [104|0 @ 40/0]
+<OPTION VALUE=746>itschy [569|0 @ 96/0]
+<OPTION VALUE=1400>jan [86|0 @ 67/0]
+<OPTION VALUE=1437>Jane [71|2 @ 29/0]
+<OPTION VALUE=763>Johanna [565|0 @ 39/0]
+<OPTION VALUE=570>Junimond(keine Nachtrennen) [816|2 @ 245/0]
+<OPTION VALUE=95>Kairon [1877|0 @ 45/0]
+<OPTION VALUE=1181>Karl_Liebknecht [235|0 @ 95/100]
+<OPTION VALUE=578>katoju(keine Nachtrennen) [793|1 @ 181/3737]
+<OPTION VALUE=899>Kev [482|0 @ 412/1000]
+<OPTION VALUE=210>kili(keine Nachtrennen) [1452|0 @ 258/0]
+<OPTION VALUE=1014>KingT [387|0 @ 714/2000]
+<OPTION VALUE=1075>klein_jana [312|0 @ 219/224]
+<OPTION VALUE=1371>korni [120|1 @ 29/0]
+<OPTION VALUE=1356>Krampf [135|2 @ 43/0]
+<OPTION VALUE=1266>kucky [211|3 @ 180/0]
+<OPTION VALUE=1415>kuppi(keine Nachtrennen) [82|0 @ 33/100]
+<OPTION VALUE=1329>Körsty [158|0 @ 135/0]
+<OPTION VALUE=1418>Leopard [81|0 @ 46/0]
+<OPTION VALUE=927>Lloyd [463|1 @ 330/350]
+<OPTION VALUE=563>Madeleine [824|0 @ 586/32768]
+<OPTION VALUE=1490>Magic00 [9|1 @ 2/0]
+<OPTION VALUE=364>Magnum [1267|3 @ 64/0]
+<OPTION VALUE=505>maguire [882|0 @ 193/0]
+<OPTION VALUE=1429>Maj Dracul [74|0 @ 68/500]
+<OPTION VALUE=1419>Make [81|0 @ 45/0]
+<OPTION VALUE=453>malo(keine Nachtrennen) [1019|0 @ 192/0]
+<OPTION VALUE=858>MasterPu [515|0 @ 54/100]
+<OPTION VALUE=1401>mAvErICk [86|0 @ 90/0]
+<OPTION VALUE=1297>memsga [189|0 @ 645/768]
+<OPTION VALUE=1292>morchen [195|0 @ 187/500]
+<OPTION VALUE=1365>mrhappy(keine Nachtrennen) [129|0 @ 79/150]
+<OPTION VALUE=957>Mustang [448|0 @ 580/0]
+<OPTION VALUE=854>Myst [519|0 @ 74/0]
+<OPTION VALUE=1243>m_k_w(keine Nachtrennen) [217|0 @ 200/0]
+<OPTION VALUE=678>Nebresh [666|1 @ 148/1000]
+<OPTION VALUE=1338>Neli [154|3 @ 2/3]
+<OPTION VALUE=1493>Nimiel [7|3 @ 7/100]
+<OPTION VALUE=1228>Nobby(keine Nachtrennen) [222|0 @ 23/25]
+<OPTION VALUE=132>pacman [1817|0 @ 136/200]
+<OPTION VALUE=1182>Pitty [235|0 @ 390/2000]
+<OPTION VALUE=138>Porter [1816|1 @ 47/0]
+<OPTION VALUE=1263>Pottsau [212|0 @ 39/0]
+<OPTION VALUE=1020>pupsi [382|0 @ 213/1000]
+<OPTION VALUE=1383>Puschkin [104|0 @ 63/100]
+<OPTION VALUE=516>quabla(keine Nachtrennen) [876|0 @ 200/0]
+<OPTION VALUE=1172>Ralpho(keine Nachtrennen) [236|0 @ 90/200]
+<OPTION VALUE=788>raszagal [557|3 @ 77/100]
+<OPTION VALUE=799>real_taurus2005(keine Nachtrennen) [557|0 @ 174/0]
+<OPTION VALUE=1220>rinderschenkelchen [227|0 @ 20/100]
+<OPTION VALUE=646>ronny(keine Nachtrennen) [728|0 @ 81/100]
+<OPTION VALUE=1353>rudiminator(keine Nachtrennen) [140|0 @ 61/100]
+<OPTION VALUE=181>rusty [1739|0 @ 119/314159265]
+<OPTION VALUE=1248>Sarababe(keine Nachtrennen) [215|0 @ 77/0]
+<OPTION VALUE=1230>Sayri [222|0 @ 63/0]
+<OPTION VALUE=1008>Sc0rp!0n [395|0 @ 49/0]
+<OPTION VALUE=1130>sch0rsch [248|1 @ 83/500]
+<OPTION VALUE=1206>schlupp [230|1 @ 34/0]
+<OPTION VALUE=1410>SchnickSchnack [85|0 @ 46/1000]
+<OPTION VALUE=253>schorsch [1408|1 @ 59/0]
+<OPTION VALUE=979>Schumi [435|0 @ 86/0]
+<OPTION VALUE=398>Seb [1192|1 @ 25/0]
+<OPTION VALUE=1153>Sharluk [240|0 @ 177/1000]
+<OPTION VALUE=1145>skeezix [240|0 @ 84/500]
+<OPTION VALUE=1323>sleepy_lion [165|0 @ 83/0]
+<OPTION VALUE=1390>slu125 [96|2 @ 63/0]
+<OPTION VALUE=377>snake-97 [1245|0 @ 45/0]
+<OPTION VALUE=1331>Sonatic [157|0 @ 34/0]
+<OPTION VALUE=875>sparrows bruder [498|0 @ 380/999999]
+<OPTION VALUE=498>stadel(keine Nachtrennen) [912|0 @ 72/0]
+<OPTION VALUE=568>stranger(keine Nachtrennen) [816|1 @ 52/0]
+<OPTION VALUE=776>Sub [560|1 @ 48/0]
+<OPTION VALUE=1421>sunstar [80|1 @ 36/0]
+<OPTION VALUE=790>SuperKahn(keine Nachtrennen) [557|3 @ 209/999]
+<OPTION VALUE=1426>sweet-pirat [76|1 @ 9/0]
+<OPTION VALUE=1235>taifun [219|0 @ 45/0]
+<OPTION VALUE=1413>tepetz [83|0 @ 152/0]
+<OPTION VALUE=785>Teutone [558|3 @ 63/0]
+<OPTION VALUE=359>tgw [1267|0 @ 94/1000]
+<OPTION VALUE=1092>the Commodore [297|1 @ 167/200]
+<OPTION VALUE=1163>theRainCaller(keine Nachtrennen) [239|0 @ 210/999]
+<OPTION VALUE=808>thets(keine Nachtrennen) [555|0 @ 56/0]
+<OPTION VALUE=1405>toll [86|3 @ 29/0]
+<OPTION VALUE=674>Tomato [668|0 @ 76/0]
+<OPTION VALUE=1491>tond [9|0 @ 13/0]
+<OPTION VALUE=1017>Topse(keine Nachtrennen) [385|1 @ 183/400]
+<OPTION VALUE=374>tylerdurden(keine Nachtrennen) [1248|0 @ 63/0]
+<OPTION VALUE=213>ulli [1452|1 @ 196/199]
+<OPTION VALUE=1411>ultimate [85|0 @ 200/0]
+<OPTION VALUE=1368>waterjones [123|0 @ 65/0]
+<OPTION VALUE=1045>Weltraumratte(keine Nachtrennen) [335|2 @ 354/0]
+<OPTION VALUE=851>Wicki(keine Nachtrennen) [523|0 @ 298/300]
+<OPTION VALUE=1363>wirglzwig(keine Nachtrennen) [129|0 @ 66/100]
+<OPTION VALUE=220>wolle [1452|1 @ 144/300]
+<OPTION VALUE=1485>Xellar [16|0 @ 37/0]
+<OPTION VALUE=518>Yashem [876|0 @ 368/0]
+<OPTION VALUE=1236>Z [219|0 @ 134/0]
+<OPTION VALUE=1417>_ESKAL [81|0 @ 21/0]
+<OPTION VALUE=1>----- Länger als 3 Tage weg und Rest ---<OPTION VALUE=1042>100wasser [339|9 @ 2/100]
+<OPTION VALUE=900>Agent-X [482|4 @ 174/200]
+<OPTION VALUE=1484>ais [17|10 @ 8/0]
+<OPTION VALUE=997>alekry(keine Nachtrennen) [408|4 @ 76/0]
+<OPTION VALUE=216>amigo317(keine Nachtrennen) [1452|33 @ 55/0]
+<OPTION VALUE=1276>Andreas [207|55 @ 4/10]
+<OPTION VALUE=1038>Aphex(keine Nachtrennen) [346|78 @ 0/2]
+<OPTION VALUE=1146>atax123(keine Nachtrennen) [240|100 @ 2/25]
+<OPTION VALUE=1495>Baraphaga [4|4 @ 2/0]
+<OPTION VALUE=1453>Benga [52|52 @ 1/15]
+<OPTION VALUE=1077>bieberl(keine Nachtrennen) [310|5 @ 6/0]
+<OPTION VALUE=1388>bignike [98|91 @ 0/0]
+<OPTION VALUE=522>Bully2001 [871|54 @ 3/0]
+<OPTION VALUE=1454>christian1986 [52|4 @ 2/0]
+<OPTION VALUE=941>christianato [456|76 @ 2/20]
+<OPTION VALUE=1177>crawfinger [236|24 @ 14/2000]
+<OPTION VALUE=781>D-Lehm [558|55 @ 13/0]
+<OPTION VALUE=1423>da_misterp [78|78 @ 0/0]
+<OPTION VALUE=925>Deaod(keine Nachtrennen) [471|148 @ 0/0]
+<OPTION VALUE=1381>der-ossi [104|80 @ 1/10]
+<OPTION VALUE=1213>Dr_Albern [228|8 @ 37/250]
+<OPTION VALUE=1319>ein ausgekochtes sch(keine Nachtrennen) [173|41 @ 9/10]
+<OPTION VALUE=1480>English is doof [23|23 @ 4/0]
+<OPTION VALUE=1404>fallA [86|81 @ 0/500]
+<OPTION VALUE=1479>Ferkelwemser [23|23 @ 4/0]
+<OPTION VALUE=624>Florian(keine Nachtrennen) [752|4 @ 4/0]
+<OPTION VALUE=1483>foo [17|10 @ 1/0]
+<OPTION VALUE=783>Frontschwein(keine Nachtrennen) [558|64 @ 0/0]
+<OPTION VALUE=1039>gatsby(keine Nachtrennen) [346|54 @ 2/5]
+<OPTION VALUE=1441>general_lee(keine Nachtrennen) [68|67 @ 0/0]
+<OPTION VALUE=350>goewal [1291|4 @ 0/15]
+<OPTION VALUE=740>Gooloo(keine Nachtrennen) [574|5 @ 144/0]
+<OPTION VALUE=60>Grmpf(keine Nachtrennen) [1886|4 @ 11/12]
+<OPTION VALUE=1161>Heavylaus(keine Nachtrennen) [239|107 @ 1/0]
+<OPTION VALUE=1344>HeFi [151|36 @ 12/0]
+<OPTION VALUE=1211>Hergo [229|58 @ 0/0]
+<OPTION VALUE=895>heyminchen(keine Nachtrennen) [485|88 @ 1/10]
+<OPTION VALUE=1412>imperatormundi [85|85 @ 0/0]
+<OPTION VALUE=1494>Jeduko [5|5 @ 1/0]
+<OPTION VALUE=1431>johnnytherock [74|16 @ 4/0]
+<OPTION VALUE=1070>kaiserchen [315|65 @ 10/30]
+<OPTION VALUE=1120>Karopapier13 [264|36 @ 4/0]
+<OPTION VALUE=383>karsten(keine Nachtrennen) [1237|5 @ 167/0]
+<OPTION VALUE=1457>klaupe [51|47 @ 2/0]
+<OPTION VALUE=1424>kuschel [78|10 @ 12/0]
+<OPTION VALUE=1438>Kölner [71|71 @ 1/0]
+<OPTION VALUE=1434>lecho82 [73|73 @ 1/0]
+<OPTION VALUE=1310>lexi_(keine Nachtrennen) [181|68 @ 0/3]
+<OPTION VALUE=1134>liebergehenalsfahren [246|6 @ 38/0]
+<OPTION VALUE=989>LittleVossi [421|57 @ 13/0]
+<OPTION VALUE=1350>Magus(keine Nachtrennen) [143|9 @ 42/1000]
+<OPTION VALUE=1328>Malekith [158|19 @ 43/1000]
+<OPTION VALUE=1385>Mathes [103|14 @ 6/10]
+<OPTION VALUE=937>matze(keine Nachtrennen) [457|47 @ 0/0]
+<OPTION VALUE=1307>mehrwertsteuer(keine Nachtrennen) [182|69 @ 1/814]
+<OPTION VALUE=1351>Melvyn [143|15 @ 21/25]
+<OPTION VALUE=1450>morodin [54|54 @ 0/0]
+<OPTION VALUE=1486>mrnice [16|12 @ 1/0]
+<OPTION VALUE=1387>mwehrmei [98|98 @ 0/0]
+<OPTION VALUE=1370>nils07 [121|121 @ 0/0]
+<OPTION VALUE=1452>Nimo [53|34 @ 4/0]
+<OPTION VALUE=886>norbert [493|4 @ 32/0]
+<OPTION VALUE=1471>peschke.holger [31|31 @ 2/0]
+<OPTION VALUE=1439>phantom [69|69 @ 0/0]
+<OPTION VALUE=1359>phiurr [131|5 @ 22/0]
+<OPTION VALUE=1087>pocahontas [301|5 @ 45/100]
+<OPTION VALUE=1241>primatenreflexe [217|43 @ 15/20]
+<OPTION VALUE=1384>Prom [104|104 @ 0/0]
+<OPTION VALUE=389>Rasersau [1207|67 @ 0/0]
+<OPTION VALUE=650>reginaakhtar@btopenw(keine Nachtrennen) [716|42 @ 2/5]
+<OPTION VALUE=1422>riot [79|79 @ 0/0]
+<OPTION VALUE=1340>Rob [153|69 @ 0/0]
+<OPTION VALUE=1435>Rumsdiwumsdi(keine Nachtrennen) [72|71 @ 1/0]
+<OPTION VALUE=1355>ScapinVS [135|5 @ 2/0]
+<OPTION VALUE=911>schnipsler [479|66 @ 3/0]
+<OPTION VALUE=1463>sebi(keine Nachtrennen) [33|28 @ 2/5]
+<OPTION VALUE=645>speedmaxx [729|5 @ 41/0]
+<OPTION VALUE=1443>spirix [60|59 @ 1/0]
+<OPTION VALUE=850>starter [524|102 @ 0/10]
+<OPTION VALUE=417>Stech [1118|68 @ 0/0]
+<OPTION VALUE=1461>Stoph [37|15 @ 12/30]
+<OPTION VALUE=1303>Subnet Zero [185|106 @ 0/5]
+<OPTION VALUE=1488>Sukudo [12|9 @ 5/0]
+<OPTION VALUE=1334>thailok [156|10 @ 3/0]
+<OPTION VALUE=972>thomas(keine Nachtrennen) [440|94 @ 1/0]
+<OPTION VALUE=1117>TimTaylor [267|72 @ 4/15]
+<OPTION VALUE=1492>Twiety [9|9 @ 4/0]
+<OPTION VALUE=1389>uferschnepfe [98|6 @ 38/50]
+<OPTION VALUE=1140>weib-annika [246|82 @ 2/10]
+<OPTION VALUE=594>WilliGo(keine Nachtrennen) [774|70 @ 0/3]
+<OPTION VALUE=1428>woman [75|51 @ 0/1]
+<OPTION VALUE=1311>zeh-Marc [180|108 @ 1/0]
+<OPTION VALUE=1473>Zeyall [30|28 @ 2/0]
+<OPTION VALUE=239>[lunatic]suicide [1424|7 @ 328/0]
+
+
+</SELECT><BR>
+Momentan ausgew&auml;hlt: <DIV ID=Spieleranzahl>0 Spieler</DIV>
+
+</TD>
+<TD VALIGN=TOP>
+<B>Erkl&auml;rung der Liste:</B><BR>
+User (evtl. Einschr&auml;nkung mit z. B. Nachtrennen)<BR>
+[Aktiv seit x Tagen|Letzter Besuch vor x Tagen<BR>
+@ Laufende Spiele/Maximale Spiele]<BR>
+<BR>
+<BR>
+Mit Strg bzw. Ctrl k&ouml;nnt Ihr mehrere ausw&auml;hlen
+</TD></TR></TABLE>
+
+</TD></TR>
+<TR><TD COLSPAN=2 ALIGN=CENTER><BR>Sollen Checkpoints aktiviert werden? <INPUT TYPE=CHECKBOX NAME=checkers CHECKED><BR></TD></TR>
+<TR><TD COLSPAN=2 ALIGN=CENTER>Wieviele Z&uuml;ge soll man bei einem Crash zur&uuml;ckgesetzt werden? (ZZZ, Default 2) <INPUT TYPE=TEXT SIZE=2 NAME=zzz VALUE=2></TD></TR>
+<TR><TD COLSPAN=2 ALIGN=CENTER><BR>Soll "Taktisches Crashen" geduldet werden? <SELECT NAME=crashallowed><OPTION VALUE=0>egal<OPTION VALUE=1>Taktischer Crash erlaubt<OPTION VALUE=2 SELECTED>Taktischer Crash NICHT GEDULDET!<BR></TD></TR>
+<TR><TD COLSPAN=2 ALIGN=CENTER><INPUT TYPE=SUBMIT VALUE=Anlegen></TD></TR>
+</TABLE>
+
+
+</FORM>
+
+
+
+<HR WIDTH=75%>
+<CENTER>Brought to you by
+<SCRIPT>document.write(String.fromCharCode(0x44,0x69,0x64,0x69).link(String.fromCharCode(0x6d,0x61,0x69,0x6c,0x74,0x6f,0x3a,0x64,0x69,0x64,0x69,0x40,0x6b,0x61,0x72,0x6f,0x70,0x61,0x70,0x69,0x65,0x72,0x2e,0x64,0x65)));</SCRIPT>
+</BODY>
+</HTML>

@@ -1,0 +1,2 @@
+javac FilterPlayerIDs.java
+java FilterPlayerIDs playerIDsFULL.txt
