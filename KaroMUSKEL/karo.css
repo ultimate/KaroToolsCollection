@@ -1,0 +1,376 @@
+body,td,ul,caption,center,form,div,span
+{
+	font-family: 'Lucida Grande', 'Lucida Sans Unicode',Arial,Helvetica,Verdana,sans-serif;
+	font-size:14px;
+	font-weight:normal;
+	text-decoration:none;
+	color: #000;
+}
+
+body
+{
+	background-image:url(http://www.karopapier.de/images/background.jpg);
+	margin: 0;
+}
+
+p
+{
+	padding: 5px;
+}
+
+select,textarea,input { font-size: 0.8em; background-color: #CCCCCC; color: #000000; border: 1px solid #999999}
+h1
+{
+	font-size: 1.5em;
+  text-align: center;
+  text-shadow: 2px 2px 0px rgba(100,100,100,0.5);
+}
+h2
+{
+	font-size: 1.3em;
+  font-weight:bold
+}
+
+/* general formats */
+span.small {
+	font-size: .7em;
+}
+
+div.clearer
+{
+	clear: both;
+}
+
+#header
+{
+  background-image: url(http://www.karopapier.de/images/head.jpg);
+  background-position: -4px 0px;
+  /* height: 81px; */
+  height: 51px;
+}
+
+#infoBar
+{
+	position: absolute;
+	right: 20px;
+	top: 27px;
+	width: 250px;
+}
+
+#container
+{
+	float: left;
+	width: 100%;
+}
+
+#sidebar
+{
+	float: left;
+	width: 170px;
+}
+
+#content
+{
+	margin-left: 170px;
+}
+
+#navi
+{
+  font-size: 1.2em;
+  /* background-image: url(http://www.karopapier.de/images/line.jpg);
+  background-position: -1px 19px;
+  background-repeat: repeat-x; */
+  padding: 25px 0px 0px 0px;
+  margin: 0px;
+}
+
+#navi li
+{
+	/* float: left; */
+  height: 25px;
+	list-style: none;
+	padding: 0px 10px 0px 10px;
+	/* margin: 0px 2px 0px 2px;
+	text-align: center; */
+	background-color: rgba(255,255,255,.4);
+}
+
+#navi li a {
+	color: #000;
+	text-decoration: none;
+}
+
+#navi li a:hover {
+	color: #000;
+	text-decoration: none;
+	text-shadow: #333333 1px -1px 1px;
+	background-image: url(http://www.karopapier.de/images/unterstrich.png);
+	background-repeat: no-repeat;
+	background-position: 0px 15px;
+}
+
+#navi li a:visited {
+	color: #000;
+}
+
+/* Navigation 2. Ebene */
+#navi li ul {
+  display: none;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid black;
+  left: 50px;
+  top: -25px;
+}
+
+#navi li:hover ul {
+  display: block;
+}
+
+#navi li ul li {
+  display: block;
+  float: none;
+	/* background-color: rgba(255,255,255,.9); */
+	background-color: #fff;
+}
+
+
+.clearer
+{
+	clear: both;
+}
+
+a {
+	text-decoration:none;
+	color: #333;
+}
+a:visited {
+	color: #444;
+}
+a:active {
+	color: #555;
+}
+a:hover {
+	color:#000;
+	text-decoration: underline;
+}
+
+table.thin
+{ 
+	border-spacing: 0px;
+	border: none;
+	border-collapse:collapse
+}
+
+table.thin > tbody > tr > th
+{
+	border-right: 1px solid #339;
+	border-bottom: 1px solid #339;
+	padding: 2px;
+}
+
+table.thin > tbody > tr > th.last
+{
+	border-right: none;
+}
+
+table.thin > tbody > tr > th:last-child
+{
+	border-right: none;
+}
+
+table.thin > tbody > tr > td
+{
+	border-right: 1px solid #339;
+	border-top: 1px dotted #339;
+	padding: 2px;
+}
+
+table.thin > tbody > tr > td.last
+{
+	border-right: none;
+}
+
+table.thin > tbody > tr > td:last-child
+{
+	border-right: none;
+}
+
+.boxtr { 
+background:url("http://www.karopapier.de/images/tr.png") top right no-repeat; 
+margin:0;
+padding:0;
+}
+
+.boxtl { 
+background:url("http://www.karopapier.de/images/tl.png") top left no-repeat; 
+margin:0;
+padding:0;
+} 
+
+.boxbr {
+background:url("http://www.karopapier.de/images/br.png") bottom right no-repeat;
+margin:0;
+padding:0;
+}
+
+.boxbl {
+background:url("http://www.karopapier.de/images/bl.png") bottom left no-repeat;
+margin:0;
+padding:0; 
+}
+
+.boxcontent {
+margin:0;
+padding:15px 20px 15px 25px;
+}
+
+.boxcontent p {
+margin:0;
+padding:0;
+}
+
+.info
+{
+	border: 1px solid blue;
+	background-color: lightblue;
+}
+
+.notify
+{
+	border: 1px solid green;
+	background-color: lightgreen;
+}
+
+.warning
+{
+	border: 1px solid orange;
+	background-color: yellow;
+}
+
+.error
+{
+	border: 1px solid orange;
+	background-color: red;
+}
+
+.userLabel:hover
+{
+	color: #66c;
+}
+
+.userTag
+{
+	font-size: 0.8em;
+	position: absolute;
+	width: 250px;
+	height: 150px;
+	background-color: white;
+	opacity: 1;
+	moz-opacity: 1;
+	border: 1px solid #339;
+	overflow: auto;
+	z-index: 999999999;
+}
+
+.mapTag
+{
+	font-size: 0.8em;
+	position: absolute;
+	width: 250px;
+	height: 150px;
+	background-color: white;
+	opacity: 1;
+	moz-opacity: 1;
+	border: 1px solid #339;
+	overflow: auto;
+	z-index: 999999999;
+}
+
+.highlight
+{
+  color: #44a;
+  font-weight: bold;
+  background-color: #ff9;
+}
+
+.userTagActions
+{
+	padding: 1px;
+}
+
+.userTagActionImg
+{
+  cursor: pointer;
+	border-right: 1px solid #ccf;
+	border-bottom: 1px solid #ccf;
+	padding-left: 1px;
+	padding-top: 1px;
+}
+
+.userTagActionImg:hover
+{
+	border: 1px solid blue;
+	padding: 0px;
+}
+
+.left
+{
+	text-align: left;
+}
+
+.clickable
+{
+	cursor: pointer;
+}
+
+body,td,ul,caption,center,form,div,span {
+	font-family: 'Comic Sans MS', 'Lucida Grande', 'Lucida Sans Unicode',Arial,Helvetica,Verdana,sans-serif;
+	font-size:11pt;
+	color: #339;
+}
+
+#navi li a {
+	color: #00d;
+}
+#navi li a:hover {
+	color: #00e;
+}
+#navi li a:visited {
+	color: #00f;
+}
+
+a {
+	color: #33f;
+}
+a:visited {
+	color: #33e;
+}
+a:active {
+	color: #00f;
+}
+a:hover {
+	color:#00f;
+}
+
+.boxtl { 
+	background:url("http://www.karopapier.de/themes/blue/images/tl.png") top left no-repeat; 
+} 
+
+.boxtr { 
+	background:url("http://www.karopapier.de/themes/blue/images/tr.png") top right no-repeat; 
+}
+
+.boxbr {
+	background:url("http://www.karopapier.de/themes/blue/images/br.png") bottom right no-repeat
+}
+
+.boxbl {
+	background:url("http://www.karopapier.de/themes/blue/images/bl.png") bottom left no-repeat;
+}
+
+div.chatMessage
+{
+	line-height: 18px;
+	margin-bottom: 4px;
+}
