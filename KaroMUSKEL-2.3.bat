@@ -1,1 +1,1 @@
-java -cp bin muskel2.Main
+java -cp KaroMUSKEL/bin muskel2.Main
