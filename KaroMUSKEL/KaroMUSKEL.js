@@ -1,6 +1,6 @@
 var KaroMUSKEL = (function(enableDebug) {
 	// private variables
-	var karoURL = "http://reloaded.karopapier.de/api/";
+	var karoURL = "http://www.karopapier.de/api/";
 	var userList;
 	var userListSet = false;
 	var mapList;
