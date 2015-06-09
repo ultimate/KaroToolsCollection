@@ -26,7 +26,7 @@ var KaroMUSKEL = (function(debug, local) {
 		s.type = "text/javascript";
 		if(callback)
 		{
-			if(!url.contains("?"))
+			if(url.indexOf("?") == -1)
 				url += "?callback=" + callback;
 			else
 				url += "&callback=" + callback;
