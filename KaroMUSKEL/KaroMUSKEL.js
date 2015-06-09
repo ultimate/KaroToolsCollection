@@ -34,6 +34,41 @@ var KaroMUSKEL = (function(debug, local) {
 		s.src = url;
 		document.head.appendChild(s);
 	};
+	var create = function(game) {
+		/*
+		game = {
+			"name":"Mit der API erstellt",
+			"players":[1411],
+			"map":105,
+			"options":{
+				"startdirection":"classic",
+				"withCheckpoints":true,
+				"zzz":4,
+				"crashallowed":"forbidden"
+				}
+			}
+		*/
+		var gameS = JSON.stringify(game);
+		var request = new XMLHttpRequest();
+		request.headers = { "Content-Type": "application/x-www-form-urlencoded" };
+		request.open("POST", karoURL + "game/add.json", true);
+		request.onreadystatechange = function() {
+			if(request.readyState == 4)
+			{
+				if((request.status >= 200) && (request.status < 300))
+				{
+					log("game created");
+					log(request);
+				}
+				else
+				{
+					log("game creation failed");
+					log(request);
+				}
+			}
+		};
+		request.send(gameS);
+	};
 	var init = function() {
 		log("KaroMUSKEL: all content loaded - initing...");
 	};
@@ -125,5 +160,6 @@ var KaroMUSKEL = (function(debug, local) {
 		getCurrentUser : function() {
 			return currentUser;
 		},
+		createGame : create,
 	};
 })(true, false);

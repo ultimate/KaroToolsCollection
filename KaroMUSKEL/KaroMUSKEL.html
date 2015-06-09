@@ -3,13 +3,10 @@
 	<head> 
 		<meta charset="utf-8" /> 
 		<title>KaroMUSKEL</title>
+		<!-- sycnapsis-scripts used -->
 		<script type="text/javascript" src="https://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js"></script> 
+		<!-- main KaroMUSKEL-script - will add all other required data/scripts dynamically and replace content when loading is done -->
 		<script type="text/javascript" src="KaroMUSKEL.js"></script> 
-		<!--
-		<script type="text/javascript" src="http://www.karopapier.de/api/user/list.json?callback=KaroMUSKEL.setUserList"></script>
-		<script type="text/javascript" src="http://www.karopapier.de/api/map/list.json?callback=KaroMUSKEL.setMapList"></script>
-		<script type="text/javascript" src="http://www.karopapier.de/api/user/check.json?callback=KaroMUSKEL.setCurrentUser"></script>
-		-->
 		
 		<!-- Karopapier-Layout brought to you by :)idi -->
 		<link rel="stylesheet" type="text/css" href="karo.css"/>
@@ -17,6 +14,7 @@
 		#KaroMUSKELWrapper
 		{
 			padding: 5px;
+			text-align: center;
 		}
 		</style>
 	</head>
@@ -33,14 +31,8 @@
 		</div>
 		</div>
 		<!-- CONTENT -->
-		<div id="KaroMUSKELWrapper">
-		
-		
-		
-			CONTENT
-			
-			
-			
+		<div id="KaroMUSKELWrapper">		
+			Lade Daten...			
 		</div>
 		<center><a href="http://www.karopapier.de">Karopapier.de</a> is brought to you by
             <script type="text/javascript">document.write(String.fromCharCode(0x44, 0x69, 0x64, 0x69).link(String.fromCharCode(0x6d, 0x61, 0x69, 0x6c, 0x74, 0x6f, 0x3a, 0x64, 0x69, 0x64, 0x69, 0x40, 0x6b, 0x61, 0x72, 0x6f, 0x70, 0x61, 0x70, 0x69, 0x65, 0x72, 0x2e, 0x64, 0x65)));</script>
