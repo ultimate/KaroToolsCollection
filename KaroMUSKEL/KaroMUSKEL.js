@@ -1,4 +1,4 @@
-var KaroMUSKEL = (function(enableDebug) {
+var KaroMUSKEL = (function(debug, local) {
 	// private variables
 	var karoURL = "http://www.karopapier.de/api/";
 	var userList;
@@ -9,34 +9,66 @@ var KaroMUSKEL = (function(enableDebug) {
 	var currentUserSet = false;
 	var documentLoaded = false;
 		
-	// private functions	
+	// private functions
+	var log = function(msg) {
+		if(typeof(msg) == "string")
+		{
+			console.log("KaroMUSKEL: " + msg);
+		}
+		else
+		{
+			console.log("KaroMUSKEL:");
+			console.log(msg);
+		}
+	};
+	var addScript = function(url, callback) {
+		var s = document.createElement("script");
+		s.type = "text/javascript";
+		if(callback)
+		{
+			if(!url.contains("?"))
+				url += "?callback=" + callback;
+			else
+				url += "&callback=" + callback;
+		}
+		s.src = url;
+		document.head.appendChild(s);
+	};
 	var init = function() {
-		console.log("KaroMUSKEL: all content loaded - initing...");
+		log("KaroMUSKEL: all content loaded - initing...");
 	};
 	var initWhenReady = function() {
 		if(userListSet && mapListSet && currentUserSet && documentLoaded)
 			init();
 	};
 	
-	
 	// general initialization
 	Events.addEventListener("DOMContentLoaded", function(){	
+		// add script nodes
+		addScript(karoURL + "user/list.json", "KaroMUSKEL.setUserList");
+		addScript(karoURL + "map/list.json?nocode=true", "KaroMUSKEL.setMapList");
+		addScript(karoURL + "user/check.json", "KaroMUSKEL.setCurrentUser");
+	
 		documentLoaded = true;
 		initWhenReady();		
 	}, false);
 	
 	// DEBUGGING
-	if(enableDebug)
-	{		
+	if(local)
+	{
 		var base = document.location.href;
-		base = base.substring(0, base.lastIndexOf("/") + 1);
+		base = base.substring(0, base.lastIndexOf("/") - "KaroMUSKEL".length);
 		base += "api/";
 		karoURL = base;
-		console.log("KaroMUSKEL: Karo-API-URL used is '" + karoURL + "'");
+	}
+	if(debug)
+	{	
+		log("KaroMUSKEL: Karo-API-URL used is '" + karoURL + "'");
 	}
 	
 	return {
 		setUserList : function(data) {
+			log("setting user list");
 			userList = data;
 			userListSet = true;
 			if(currentUser != null)
@@ -59,6 +91,7 @@ var KaroMUSKEL = (function(enableDebug) {
 			return userList;
 		},
 		setMapList : function(data) {
+			log("setting map list");
 			mapList = data;
 			mapListSet = true;
 			initWhenReady();
@@ -67,6 +100,7 @@ var KaroMUSKEL = (function(enableDebug) {
 			return mapList;
 		},
 		setCurrentUser : function(data) {
+			log("setting current user");
 			if(userList != null)
 			{
 				// set the current user with the matching user from the list
@@ -92,4 +126,4 @@ var KaroMUSKEL = (function(enableDebug) {
 			return currentUser;
 		},
 	};
-})(true);
+})(true, false);
