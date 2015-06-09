@@ -70,7 +70,7 @@ var KaroMUSKEL = (function(debug, local) {
 		request.send(gameS);
 	};
 	var init = function() {
-		log("KaroMUSKEL: all content loaded - initing...");
+		log("all content loaded - initing...");
 	};
 	var initWhenReady = function() {
 		if(userListSet && mapListSet && currentUserSet && documentLoaded)
@@ -98,7 +98,7 @@ var KaroMUSKEL = (function(debug, local) {
 	}
 	if(debug)
 	{	
-		log("KaroMUSKEL: Karo-API-URL used is '" + karoURL + "'");
+		log("Karo-API-URL used is '" + karoURL + "'");
 	}
 	
 	return {
