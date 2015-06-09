@@ -50,7 +50,7 @@ var KaroMUSKEL = (function(debug, local) {
 		*/
 		var gameS = JSON.stringify(game);
 		var request = new XMLHttpRequest();
-		request.headers = { "Content-Type": "application/x-www-form-urlencoded" };
+		request.headers = { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" };
 		request.open("POST", karoURL + "game/add.json", true);
 		request.onreadystatechange = function() {
 			if(request.readyState == 4)
