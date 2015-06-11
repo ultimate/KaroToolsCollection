@@ -1,3 +1,61 @@
+/**
+ * KaroMUSKEL - Copyright (c) 2015 ultimate
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either version
+ * 3 of the License, or any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MECHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Plublic License along with this program;
+ * if not, see <http://www.gnu.org/licenses/>.
+ */
+
+document.addEventListener("DOMContentLoaded", function(){	
+	// check availability of KaroMUSKELWrapper
+	var wrapper = document.getElementById("KaroMUSKELWrapper");
+	if(wrapper == null)
+	{
+		wrapper = document.body;
+		console.warn("KaroMUSKELWrapper not found - using body instead!");
+	}
+	if(DependencyManager)
+	{
+		console.log("DependencyManager found - initializing...");
+		// create load-bar
+		// init DependencyManager
+		DependencyManager.instantLoad = false;
+		// register syncnapsis-core-utils
+		DependencyManager.register("Arrays", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
+		DependencyManager.register("Elements", 		"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
+		DependencyManager.register("Events", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
+		DependencyManager.register("Strings", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
+		// register syncnapsis-universe components
+		DependencyManager.register("ComboSelect", 	"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
+		DependencyManager.register("Select", 		"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
+		DependencyManager.register("Tabs", 			"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
+		// complete registration
+		DependencyManager.onLoadingProgressed(function() {
+			// setProgress
+			var progress = DependencyManager.getProgress();
+			console.log("progress=" + progress);
+		});
+		DependencyManager.onLoadingFinished(function() {
+			// init
+			console.log("init");
+		});
+		DependencyManager.registrationDone();
+	}
+	else
+	{
+		console.error("DependencyManager and KaroMUSKELWrapper required execution!");
+		console.error("please include syncnapsis Request.js");
+	}
+}, false);
+
+
 var KaroMUSKEL = (function(debug, local) {
 	// private variables
 	var karoURL = "http://www.karopapier.de/api/";
@@ -77,15 +135,6 @@ var KaroMUSKEL = (function(debug, local) {
 		if(userListSet && mapListSet && currentUserSet && documentLoaded)
 			init();
 	};
-	
-	/*
-	<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js"></script>
-		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js"></script>
-		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js"></script>
-		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js"></script> 
-		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js"></script> 
-		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js"></script> 
-	*/	
 	
 	// general initialization
 	Events.addEventListener("DOMContentLoaded", function(){	
