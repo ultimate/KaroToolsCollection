@@ -21,7 +21,7 @@ var KaroMUSKEL = (function(debug, local) {
 			console.log(msg);
 		}
 	};
-	var addScript = function(url, callback) {
+	var addScript = function(url, callback, async) {
 		var s = document.createElement("script");
 		s.type = "text/javascript";
 		if(callback)
@@ -52,6 +52,7 @@ var KaroMUSKEL = (function(debug, local) {
 		var request = new XMLHttpRequest();
 		request.headers = { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" };
 		request.open("POST", karoURL + "game/add.json", true);
+		request.withCredentials = true;
 		request.onreadystatechange = function() {
 			if(request.readyState == 4)
 			{
@@ -77,9 +78,18 @@ var KaroMUSKEL = (function(debug, local) {
 			init();
 	};
 	
+	/*
+	<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js"></script>
+		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js"></script>
+		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js"></script>
+		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js"></script> 
+		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js"></script> 
+		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js"></script> 
+	*/	
+	
 	// general initialization
 	Events.addEventListener("DOMContentLoaded", function(){	
-		// add script nodes
+		// add data script nodes
 		addScript(karoURL + "user/list.json", "KaroMUSKEL.setUserList");
 		addScript(karoURL + "map/list.json?nocode=true", "KaroMUSKEL.setMapList");
 		addScript(karoURL + "user/check.json", "KaroMUSKEL.setCurrentUser");
