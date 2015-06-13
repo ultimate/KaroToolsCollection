@@ -1,0 +1,32 @@
+.progress {
+	margin: auto;
+	position: relative;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	width: 400px;
+	height: 20px;
+}
+
+.progress .title {
+	position: absolute;
+	left: 0px;
+	height: 100%;
+	width: 100px;
+}
+
+.progress .text {
+	position: absolute;
+	right: 0px;
+	height: 100%;
+	width: 100px;
+	text-align: right;
+}
+
+.progress .value,
+.progress .background {
+	position: absolute;
+	left: 100px;
+	height: 100%;
+}

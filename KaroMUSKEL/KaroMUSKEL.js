@@ -25,6 +25,28 @@ document.addEventListener("DOMContentLoaded", function(){
 	{
 		console.log("DependencyManager found - initializing...");
 		// create load-bar
+		var progress = document.createElement("div");
+		progress.id = "progress";		
+		progress.classList.add("progress");
+		var progressTitle = document.createElement("div");
+		progressTitle.classList.add("title");	
+		progressTitle.innerHTML = "Lade...";	
+		var progressBackground = document.createElement("div");
+		progressBackground.classList.add("background");	
+		progressBackground.innerHTML = "KaroMUSKEL";
+		var progressValue = document.createElement("div");
+		progressValue.id = "progress_value";
+		progressValue.classList.add("value");	
+		progressValue.innerHTML = "KaroMUSKEL";	
+		var progressText = document.createElement("div");
+		progressText.id = "progress_text";
+		progressText.classList.add("text");	
+		progressText.innerHTML = "0 %";			
+		progress.appendChild(progressTitle);
+		progress.appendChild(progressBackground);
+		progress.appendChild(progressValue);
+		progress.appendChild(progressText);
+		wrapper.appendChild(progress);
 		// init DependencyManager
 		DependencyManager.instantLoad = false;
 		// register syncnapsis-core-utils
@@ -37,11 +59,12 @@ document.addEventListener("DOMContentLoaded", function(){
 		DependencyManager.register("Select", 		"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
 		DependencyManager.register("Tabs", 			"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
 		// complete registration
+		DependencyManager.onLoadingProgressed(DependencyManager.defaultOnLoadingProgressed(progressValue.id, progressText.id));
+		/*
 		DependencyManager.onLoadingProgressed(function() {
-			// setProgress
 			var progress = DependencyManager.getProgress();
-			console.log("progress=" + progress);
 		});
+		*/
 		DependencyManager.onLoadingFinished(function() {
 			// init
 			console.log("init");
@@ -54,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		console.error("please include syncnapsis Request.js");
 	}
 }, false);
-
+/*
 
 var KaroMUSKEL = (function(debug, local) {
 	// private variables
@@ -105,7 +128,7 @@ var KaroMUSKEL = (function(debug, local) {
 				"crashallowed":"forbidden"
 				}
 			}
-		*/
+		
 		var gameS = JSON.stringify(game);
 		var request = new XMLHttpRequest();
 		request.headers = { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" };
@@ -222,3 +245,4 @@ var KaroMUSKEL = (function(debug, local) {
 		createGame : create,
 	};
 })(true, false);
+*/
