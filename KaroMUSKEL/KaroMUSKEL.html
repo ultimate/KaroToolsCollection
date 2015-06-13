@@ -1,45 +1,82 @@
-<!DOCTYPE html> 
-<html lang="de"> 
-	<head> 
-		<meta charset="utf-8" /> 
-		<title>KaroMUSKEL</title>
-		<!-- sycnapsis-scripts used (will be removed and added dynamically) -->
-		<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Requests.js"></script>
-		<!-- main KaroMUSKEL-script - will add all other required data/scripts dynamically and replace content when loading is done -->
-		<!-- use src="http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.js" in production --> 
-		<script type="text/javascript" src="KaroMUSKEL.js"></script> 
-		
-		<!-- Karopapier-Layout brought to you by :)idi -->
-		<link rel="stylesheet" type="text/css" href="karo.css"/>
-		<style media="screen" type="text/css" style="display:none">
-		#KaroMUSKELWrapper
-		{
-			padding: 5px;
-			text-align: center;
-		}
-		</style>
-	</head>
-	<body>
-		<div class="boxtr">
-		<div class="boxtl">
-		<div class="boxbr"> 
-		<div class="boxbl">
-		<div class="boxcontent">
-			<h1>KaroMUSKEL</h1>
-		</div>
-		</div>
-		</div> 
-		</div>
-		</div>
-		<!-- CONTENT -->
-		<div id="KaroMUSKELWrapper">		
-			Lade Daten...			
-		</div>
-		<center><a href="http://www.karopapier.de">Karopapier.de</a> is brought to you by
-            <script type="text/javascript">document.write(String.fromCharCode(0x44, 0x69, 0x64, 0x69).link(String.fromCharCode(0x6d, 0x61, 0x69, 0x6c, 0x74, 0x6f, 0x3a, 0x64, 0x69, 0x64, 0x69, 0x40, 0x6b, 0x61, 0x72, 0x6f, 0x70, 0x61, 0x70, 0x69, 0x65, 0x72, 0x2e, 0x64, 0x65)));</script>
-            <br>
-			KaroMUSKEL is brought to you by <a href="https://github.com/ultimate">ultimate</a><br>
-            <small>Bug gefunden? <a href="https://github.com/ultimate/KaroMUSKEL/issues">Melden!</a></small>
-        </center>
-	</body>
-</html>
+<!-- Karo Layout brought to you by Didi -->
+<HTML>
+<HEAD>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="pragma" content="cache">
+<meta name="robots" content="INDEX,FOLLOW">
+<meta http-equiv="content-language" content="de">
+<meta name="description" content="Autorennen wie in der Vorlesung">
+<meta name="keywords" content="karopapier, karo, pbem, email, autofahren, autorennen auf karopapier">
+<meta name="author" content="KaroDidi">
+<meta name="publisher" content="Didi">
+<meta name="copyright" content="Didi">
+<link rel="shortcut icon" href="favicon.ico">
+<TITLE>Karopapier</TITLE>
+</HEAD>
+<LINK REL="STYLESHEET" TYPE="TEXT/CSS" HREF="http://www.karopapier.de/karo.css">
+<script type="text/javascript" src="js/jquery.min.js?v=3"></script>
+<BODY BACKGROUND="http://www.karopapier.de/images/karolight.gif" BGCOLOR=#FFFFFF TEXT=#333399 LINK=#3333FF VLINK=#3333EE ALINK=#0000FF>
+
+
+
+<table width=100% border=0 cellspacing=0 cellpadding=0>
+	<tr> 
+	<td width=20 height=20 VALIGN=TOP ALIGN=LEFT><img src=http://www.karopapier.de/bilder/box/tl.gif width=20 height=20></td><td background=http://www.karopapier.de/bilder/box/tm.gif height=20 WIDTH=100%><IMG SRC=http://www.karopapier.de/bilder/trans.png></td><td width=20 height=20 VALIGN=TOP ALIGN=LEFT><img src=http://www.karopapier.de/bilder/box/tr.gif width=20 height=20></td> 
+	</tr> 
+
+	<tr> 
+	<td width=20 background=http://www.karopapier.de/bilder/box/ml.gif><IMG SRC=http://www.karopapier.de/bilder/trans.png></td>
+<td>
+<H1 style="text-shadow: 2px 2px 0px rgba(100,100,200,0.5)">KaroMUSKEL</H1>
+	</td> 
+	<td width=20 background=http://www.karopapier.de/bilder/box/mr.gif><IMG SRC=http://www.karopapier.de/bilder/trans.png></td> 
+	</tr> 
+	<tr> 
+	<td width=20 height=20><img src=http://www.karopapier.de/bilder/box/bl.gif width=20 height=20></td> 
+	<td background=http://www.karopapier.de/bilder/box/bm.gif height=20><IMG SRC=http://www.karopapier.de/bilder/trans.png></td> 
+	<td height=20 width=20><img src=http://www.karopapier.de/bilder/box/br.gif width=20 height=20></td> 
+	</tr> 
+</table><div id="KaroMUSKELWrapper"></div>
+
+<script type="text/javascript">
+var ME = {};
+ME.login = "ultimate";
+ME.id =1411;
+</script>
+
+<script type="text/javascript" src="http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Requests.js"></script>
+<script type="text/javascript" src="KaroMUSKEL.js"></script>
+
+KaroMUSKEL is brought to you by <a href="https://github.com/ultimate">ultimate</a><br>
+
+<HR WIDTH=75%>
+<CENTER>Brought to you by Didi
+<SCRIPT>document.write(String.fromCharCode(0x3c,0x69,0x6d,0x67,0x20,0x73,0x72,0x63,0x3d,0x22,0x62,0x69,0x6c,0x64,0x65,0x72,0x2f,0x6d,0x61,0x69,0x6c,0x2e,0x67,0x69,0x66,0x22,0x20,0x62,0x6f,0x72,0x64,0x65,0x72,0x3d,0x30,0x3e).link(String.fromCharCode(0x6d,0x61,0x69,0x6c,0x74,0x6f,0x3a,0x64,0x69,0x64,0x69,0x40,0x6b,0x61,0x72,0x6f,0x70,0x61,0x70,0x69,0x65,0x72,0x2e,0x64,0x65)));</SCRIPT></center>
+
+<br />
+Letzter Satz im <a href="http://www.karopapier.de/realchatframe.php">Chat</a>:<br /> 
+<B>ulli</B> (10:47): Ich fand den Witz da oben übrigens gar nicht schlecht. <BR><br />
+
+
+<script type="text/javascript">
+var docTitle="Karopapier - Autorennen wie in der Vorlesung";
+
+document.title=docTitle;
+if (parent.frames.length != 0) {
+	parent.document.title=docTitle;
+}
+
+function logError(details) {
+	//$.post('http://www.karopapier.de/api/error.json',{context: navigator.userAgent, "details": details});
+}
+
+window.onerror = function(message, file, line) {
+  logError(file + ':' + line + '\n\n' + message);
+};
+</script>
+
+
+
+<!-- Piwik  - REMOVED -->
+</BODY>
+</HTML>
