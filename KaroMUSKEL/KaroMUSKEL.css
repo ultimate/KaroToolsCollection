@@ -1,5 +1,8 @@
-.progress {
-	margin: auto;
+.loader {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	margin-bottom: 100px;
 	position: relative;
 	left: 0px;
 	right: 0px;
@@ -9,14 +12,14 @@
 	height: 20px;
 }
 
-.progress .title {
+.loader .title {
 	position: absolute;
 	left: 0px;
 	height: 100%;
 	width: 100px;
 }
 
-.progress .text {
+.loader .text {
 	position: absolute;
 	right: 0px;
 	height: 100%;
@@ -24,9 +27,29 @@
 	text-align: right;
 }
 
-.progress .value,
-.progress .background {
+.loader .bar {
 	position: absolute;
 	left: 100px;
 	height: 100%;
+	width: 200px;
+	text-align: center;
+}
+
+.loader .bar .value,
+.loader .bar .background  {
+	position: absolute;
+	left: 0px;
+	height: 100%;
+	text-align: center;
+}
+
+.loader .bar .background {
+	border: 1px solid #333399;
+	width: 100%;
+}
+
+.loader .bar .value {
+	border: 1px solid rgba(0,0,0,0);
+	background-color: #333399;
+	opacity: 0.5;
 }

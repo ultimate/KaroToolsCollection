@@ -12,127 +12,45 @@
  * You should have received a copy of the GNU General Plublic License along with this program;
  * if not, see <http://www.gnu.org/licenses/>.
  */
-
-document.addEventListener("DOMContentLoaded", function(){	
-	// check availability of KaroMUSKELWrapper
-	var wrapper = document.getElementById("KaroMUSKELWrapper");
-	if(wrapper == null)
-	{
-		wrapper = document.body;
-		console.warn("KaroMUSKELWrapper not found - using body instead!");
+ 
+ /*
+game = {
+	"name":"Mit der API erstellt",
+	"players":[1411],
+	"map":105,
+	"options":{
+		"startdirection":"classic",
+		"withCheckpoints":true,
+		"zzz":4,
+		"crashallowed":"forbidden"
+		}
 	}
-	if(DependencyManager)
-	{
-		console.log("DependencyManager found - initializing...");
-		// create load-bar
-		var progress = document.createElement("div");
-		progress.id = "progress";		
-		progress.classList.add("progress");
-		var progressTitle = document.createElement("div");
-		progressTitle.classList.add("title");	
-		progressTitle.innerHTML = "Lade...";	
-		var progressBackground = document.createElement("div");
-		progressBackground.classList.add("background");	
-		progressBackground.innerHTML = "KaroMUSKEL";
-		var progressValue = document.createElement("div");
-		progressValue.id = "progress_value";
-		progressValue.classList.add("value");	
-		progressValue.innerHTML = "KaroMUSKEL";	
-		var progressText = document.createElement("div");
-		progressText.id = "progress_text";
-		progressText.classList.add("text");	
-		progressText.innerHTML = "0 %";			
-		progress.appendChild(progressTitle);
-		progress.appendChild(progressBackground);
-		progress.appendChild(progressValue);
-		progress.appendChild(progressText);
-		wrapper.appendChild(progress);
-		// init DependencyManager
-		DependencyManager.instantLoad = false;
-		// register syncnapsis-core-utils
-		DependencyManager.register("Arrays", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
-		DependencyManager.register("Elements", 		"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
-		DependencyManager.register("Events", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
-		DependencyManager.register("Strings", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
-		// register syncnapsis-universe components
-		DependencyManager.register("ComboSelect", 	"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
-		DependencyManager.register("Select", 		"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
-		DependencyManager.register("Tabs", 			"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
-		// complete registration
-		DependencyManager.onLoadingProgressed(DependencyManager.defaultOnLoadingProgressed(progressValue.id, progressText.id));
-		/*
-		DependencyManager.onLoadingProgressed(function() {
-			var progress = DependencyManager.getProgress();
-		});
-		*/
-		DependencyManager.onLoadingFinished(function() {
-			// init
-			console.log("init");
-		});
-		DependencyManager.registrationDone();
-	}
-	else
-	{
-		console.error("DependencyManager and KaroMUSKELWrapper required execution!");
-		console.error("please include syncnapsis Request.js");
-	}
-}, false);
-/*
-
-var KaroMUSKEL = (function(debug, local) {
+*/
+ 
+var KaroMUSKEL = (function() {	
+	// constants
+	var KARO_URL = "http://www.karopapier.de/api/";
+	var LOADER_VALUE_ID = "loader_value";
+	var LOADER_TEXT_ID = "loader_text";
+	var DATA_USER_LIST = "userList";
+	var DATA_MAP_LIST = "mapList";
 	// private variables
-	var karoURL = "http://www.karopapier.de/api/";
+	var wrapper;
+	var loader;
+	var ui;
+	var local = (document.location.href.indexOf("file://") != -1);
+	var initialized = false;
+	// karopapier data
 	var userList;
-	var userListSet = false;
 	var mapList;
-	var mapListSet = false;
 	var currentUser;
-	var currentUserSet = false;
-	var documentLoaded = false;
-		
+	
 	// private functions
-	var log = function(msg) {
-		if(typeof(msg) == "string")
-		{
-			console.log("KaroMUSKEL: " + msg);
-		}
-		else
-		{
-			console.log("KaroMUSKEL:");
-			console.log(msg);
-		}
-	};
-	var addScript = function(url, callback, async) {
-		var s = document.createElement("script");
-		s.type = "text/javascript";
-		if(callback)
-		{
-			if(url.indexOf("?") == -1)
-				url += "?callback=" + callback;
-			else
-				url += "&callback=" + callback;
-		}
-		s.src = url;
-		document.head.appendChild(s);
-	};
 	var create = function(game) {
-		/*
-		game = {
-			"name":"Mit der API erstellt",
-			"players":[1411],
-			"map":105,
-			"options":{
-				"startdirection":"classic",
-				"withCheckpoints":true,
-				"zzz":4,
-				"crashallowed":"forbidden"
-				}
-			}
-		
 		var gameS = JSON.stringify(game);
 		var request = new XMLHttpRequest();
 		request.headers = { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" };
-		request.open("POST", karoURL + "game/add.json", true);
+		request.open(HTTP.POST, KARO_URL + "game/add.json", true);
 		request.withCredentials = true;
 		request.onreadystatechange = function() {
 			if(request.readyState == 4)
@@ -151,98 +69,123 @@ var KaroMUSKEL = (function(debug, local) {
 		};
 		request.send(gameS);
 	};
-	var init = function() {
-		log("all content loaded - initing...");
+	var initLoader = function() {	
+		loader = document.createElement("div");
+		loader.classList.add("loader");
+		var loaderTitle = document.createElement("div");
+			loaderTitle.classList.add("title");
+			loaderTitle.innerHTML = "Lade...";	
+		var loaderBar = document.createElement("div");
+			loaderBar.classList.add("bar");			
+			var loaderBackground = document.createElement("div");
+				loaderBackground.classList.add("background");
+				loaderBackground.innerHTML = "KaroMUSKEL";
+			var loaderValue = document.createElement("div");
+				loaderValue.id = LOADER_VALUE_ID;
+				loaderValue.classList.add("value");	
+			loaderBar.appendChild(loaderBackground);
+			loaderBar.appendChild(loaderValue);
+		var loaderText = document.createElement("div");
+			loaderText.id = LOADER_TEXT_ID;
+			loaderText.classList.add("text");
+			loaderText.innerHTML = "0%";			
+		loader.appendChild(loaderTitle);
+		loader.appendChild(loaderBar);
+		loader.appendChild(loaderText);
+		wrapper.appendChild(loader);
 	};
-	var initWhenReady = function() {
-		if(userListSet && mapListSet && currentUserSet && documentLoaded)
-			init();
+	var initUI = function() {
+		ui = document.createElement("div");
+		ui.classList.add("ui");
+		
+		// update UI
+		loader.style.display = "none";
+		wrapper.appendChild(ui);
 	};
 	
-	// general initialization
-	Events.addEventListener("DOMContentLoaded", function(){	
-		// add data script nodes
-		addScript(karoURL + "user/list.json", "KaroMUSKEL.setUserList");
-		addScript(karoURL + "map/list.json?nocode=true", "KaroMUSKEL.setMapList");
-		addScript(karoURL + "user/check.json", "KaroMUSKEL.setCurrentUser");
-	
-		documentLoaded = true;
-		initWhenReady();		
-	}, false);
-	
-	// DEBUGGING
-	if(local)
+	// get KaroMUSKELWrapper
 	{
-		var base = document.location.href;
-		base = base.substring(0, base.lastIndexOf("/") - "KaroMUSKEL".length);
-		base += "api/";
-		karoURL = base;
+		wrapper = document.getElementById("KaroMUSKELWrapper");
+		if(wrapper == null)
+		{
+			wrapper = document.body;
+			console.warn("KaroMUSKEL: KaroMUSKELWrapper not found - using body instead!");
+		}
 	}
-	if(debug)
-	{	
-		log("Karo-API-URL used is '" + karoURL + "'");
+	// create loader bar
+	initLoader();
+	// load dependencies
+	if(DependencyManager)
+	{
+		console.log("KaroMUSKEL: DependencyManager found - loading dependencies...");
+		// init DependencyManager
+		DependencyManager.instantLoad = false;
+		// register syncnapsis-core-utils
+		DependencyManager.register("Arrays", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
+		DependencyManager.register("Elements", 		"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
+		DependencyManager.register("Events", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
+		DependencyManager.register("Strings", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
+		// register syncnapsis-universe components
+		DependencyManager.register("ComboSelect", 	"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
+		DependencyManager.register("Select", 		"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
+		DependencyManager.register("Tabs", 			"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
+		// register JSON-data
+		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "/api/users/list.json", true, true);
+		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "/api/maps/list.json?nocode=true", true, true);
+		// get the data indexes
+		var userListIndex = DependencyManager.indexOf(DATA_USER_LIST);		
+		var mapListIndex = DependencyManager.indexOf(DATA_MAP_LIST);			
+		if(local)
+		{
+			// fake JSON-data since AJAX won't work on file system (with just some reduced data)
+			DependencyManager.scriptContents[userListIndex] = "[{\"id\": 1,\"login\": \"Didi\",\"color\": \"ffffff\",\"lastVisit\": 0,\"signup\": 4877,\"dran\": 15,\"activeGames\": 140,\"acceptsDayGames\": true,\"acceptsNightGames\": true,\"maxGames\": 154,\"sound\": 1,\"soundfile\": \"/mp3/quiek.mp3\",\"size\": 11,\"border\": 1,\"desperate\": false,\"birthdayToday\": false,\"karodayToday\": false,\"gravatar\": \"http://www.gravatar.com/avatar/bb493dfa04160c4c284b8740a5b23557?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40\"},{\"id\": 1411,\"login\": \"ultimate\",\"color\": \"10FF01\",\"lastVisit\": 0,\"signup\": 3011,\"dran\": 11,\"activeGames\": 360,\"acceptsDayGames\": true,\"acceptsNightGames\": true,\"maxGames\": 0,\"sound\": 0,\"soundfile\": \"/mp3/brumm.mp3\",\"size\": 10,\"border\": 1,\"desperate\": true,\"birthdayToday\": false,\"karodayToday\": false,\"gravatar\": \"http://www.gravatar.com/avatar/20d5212b8d0fcb0b04576f1db9b25839?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40\"},{\"id\": 1413,\"login\": \"tepetz\",\"color\": \"990033\",\"lastVisit\": 0,\"signup\": 3009,\"dran\": 0,\"activeGames\": 22,\"acceptsDayGames\": true,\"acceptsNightGames\": true,\"maxGames\": 20,\"sound\": 1,\"soundfile\": \"/mp3/brumm.mp3\",\"size\": 20,\"border\": 1,\"desperate\": false,\"birthdayToday\": false,\"karodayToday\": false,\"gravatar\": \"http://www.gravatar.com/avatar/7d10a6052eb3ebf7fbe2665b5dcbd00c?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40\"},{\"id\": 1823,\"login\": \"A300\",\"color\": \"330000\",\"lastVisit\": 1,\"signup\": 2617,\"dran\": 13,\"activeGames\": 91,\"acceptsDayGames\": true,\"acceptsNightGames\": true,\"maxGames\": 500,\"sound\": 1,\"soundfile\": \"/mp3/brumm.mp3\",\"size\": 12,\"border\": 1,\"desperate\": false,\"birthdayToday\": false,\"karodayToday\": false,\"gravatar\": \"http://www.gravatar.com/avatar/5913830e0b83c43281bcb484fcc590de?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40\"},{\"id\": 1830,\"login\": \"sir tobi\",\"color\": \"FFFFFF\",\"lastVisit\": 0,\"signup\": 2602,\"dran\": 0,\"activeGames\": 80,\"acceptsDayGames\": true,\"acceptsNightGames\": false,\"maxGames\": 250,\"sound\": 10,\"soundfile\": \"/mp3/fiep.mp3\",\"size\": 12,\"border\": 1,\"desperate\": false,\"birthdayToday\": false,\"karodayToday\": false,\"gravatar\": \"http://www.gravatar.com/avatar/6328af4498c6fa580cbb489c3077fdc7?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40\"}]";
+			DependencyManager.scriptAdded[userListIndex] = true;		
+			DependencyManager.scriptContents[mapListIndex] = "[{\"id\": 1,\"name\": \"Die Erste\",\"author\": \"Didi\",\"cols\": 60,\"rows\": 25,\"rating\": 4.11111,\"players\": 5,\"cps\": [\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\": 2,\"name\": \"Die Zweite\",\"author\": \"Didi\",\"cols\": 60,\"rows\": 25,\"rating\": 4.03226,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 3,\"name\": \"Die Dritte\",\"author\": \"Didi\",\"cols\": 80,\"rows\": 33,\"rating\": 3.83333,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 4,\"name\": \"\",\"author\": \"(unknown)\",\"cols\": 80,\"rows\": 31,\"rating\": 3.30769,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 5,\"name\": \"\",\"author\": \"(unknown)\",\"cols\": 80,\"rows\": 35,\"rating\": 3.83333,\"players\": 5,\"cps\": [\"1\",\"2\",\"3\"]}]";
+			DependencyManager.scriptAdded[mapListIndex] = true;
+			
+			DependencyManager.scriptsLoaded += 2;
+		}
+		// complete registration
+		DependencyManager.onLoadingProgressed(DependencyManager.defaultOnLoadingProgressed(LOADER_VALUE_ID, LOADER_TEXT_ID));
+		DependencyManager.onLoadingFinished(function() {
+			// init
+			console.log("KaroMUSKEL: all dependencies loaded!");
+			console.log("KaroMUSKEL: initializing...");
+			// get karopapier data from JSON
+			eval(DATA_USER_LIST + " = " + DependencyManager.scriptContents[userListIndex]);
+			eval(DATA_MAP_LIST  + " = " + DependencyManager.scriptContents[mapListIndex]);
+			// lookup current user
+			console.log("KaroMUSKEL: you are logged in as '" + ME.login + "'");
+			for(var i = 0; i < userList.length; i++)
+			{
+				if(userList[i].login == ME.login)
+				{
+					currentUser = userList[i];
+					break;
+				}
+			}
+			if(currentUser == null)
+			{
+				console.error("KaroMUSKEL: current user not found in user list!");
+			}
+			initUI();
+			initialized = true;
+		});
+		DependencyManager.registrationDone();
+	}
+	else
+	{
+		console.error("KaroMUSKEL: DependencyManager required - please include syncnapsis Request.js");
 	}
 	
+	// export public functions
 	return {
-		setUserList : function(data) {
-			log("setting user list");
-			userList = data;
-			userListSet = true;
-			if(currentUser != null)
-			{
-				// overwrite the current user with the matching user from the list
-				// so there is only one object for the user
-				for(var i = 0; i < userList.length; i++)
-				{
-					if(userList[i].id == currentUser.id)
-					{
-						currentUser = userList[i]
-						currentUserSet = true;
-						break;
-					}
-				}
-			}
-			initWhenReady();
-		},
-		getUserList : function() {
-			return userList;
-		},
-		setMapList : function(data) {
-			log("setting map list");
-			mapList = data;
-			mapListSet = true;
-			initWhenReady();
-		},
-		getMapList : function() {
-			return mapList;
-		},
-		setCurrentUser : function(data) {
-			log("setting current user");
-			if(userList != null)
-			{
-				// set the current user with the matching user from the list
-				// so there is only one object for the user
-				for(var i = 0; i < userList.length; i++)
-				{
-					if(userList[i].id == data.id)
-					{
-						currentUser = userList[i]
-						currentUserSet = true;
-						break;
-					}
-				}
-			}
-			else
-			{
-				// set the current user temporarily until the list is loaded
-				currentUser = data;
-			}
-			initWhenReady();
-		},
-		getCurrentUser : function() {
-			return currentUser;
-		},
-		createGame : create,
+		// getters
+		isInitialized: 	function() { 	return initialized; 	},
+		getUserList : 	function() { 	return userList; 		},
+		getMapList : 	function() { 	return mapList; 		},
+		getCurrentUser: function() { 	return currentUser;		},
+		// export private functions
+		createGame:		create,
 	};
-})(true, false);
-*/
+})();
