@@ -130,8 +130,8 @@ var KaroMUSKEL = (function() {
 		DependencyManager.register("Select", 		"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
 		DependencyManager.register("Tabs", 			"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
 		// register JSON-data
-		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "users/list.json", true, true);
-		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "maps/list.json?nocode=true", true, true);
+		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "user/list.json", true, true);
+		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "map/list.json?nocode=true", true, true);
 		// get the data indexes
 		var userListIndex = DependencyManager.indexOf(DATA_USER_LIST);		
 		var mapListIndex = DependencyManager.indexOf(DATA_MAP_LIST);			
