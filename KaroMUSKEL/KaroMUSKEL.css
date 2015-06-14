@@ -3,6 +3,10 @@
 	padding: 1px;
 }
 
+.frame {
+	border: 1px solid rgba(51, 51, 153, 0.8);
+}
+
 .loader {
 	margin-left: auto;
 	margin-right: auto;
@@ -49,13 +53,13 @@
 }
 
 .loader .bar .background {
-	border: 1px solid #333399;
+	border: 1px solid rgb(51,51,153);
 	width: 100%;
 }
 
 .loader .bar .value {
 	border: 1px solid rgba(0,0,0,0);
-	background-color: #333399;
+	background-color: rgb(51,51,153);
 	opacity: 0.5;
 }
 
@@ -66,3 +70,156 @@
 	text-align: right;
 	width: 100px;
 }
+
+#tab_bar {
+	height: 30px;
+	margin: 15px;
+}
+
+/* TABS */
+.tabbar_horizontal {
+	padding: 0px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a {
+	float: left;
+	display: inline;
+	height: 100%;
+	text-decoration: none;
+	margin-top: -2px;
+	margin-left: -1px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a+a {
+	margin-left: 3px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a>div {
+	margin-top: 1px;
+	text-align: center;
+	vertical-align: middle;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a:hover>div,.tabbar_horizontal a.selected>div {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+}
+
+.tabcontainer_horizontal {
+	overflow: hidden;
+}
+
+.tabcontainer_horizontal>div {
+	width: 1000%;
+}
+
+.tabcontainer_horizontal>div>span {
+	display: inline-block;
+	width: 0%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	float: left;
+	height: 500px;
+	min-height: 500px;
+}
+
+.tabcontainer_horizontal>div>span+span {
+	border-left: 1px solid rgba(51,51,153, 0.5);
+	margin-left: -1px;
+}
+
+.tabcontainer_horizontal>div>span.selected {
+	width: 10.1%;
+	/*height: auto;*/
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+/*
+.tabbar_vertical {
+	padding: 0px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a {
+	float: left;
+	display: inline;
+	width: 100%;
+	text-decoration: none;
+	margin-top: -2px;
+	margin-left: -1px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a+a {
+	margin-top: 3px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a>div {
+	margin-top: 1px;
+	text-align: center;
+	vertical-align: middle;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a:hover>div,.tabbar_vertical a.selected>div {
+	background: rgba(51,51,153, 0.5);
+	transition: all 0.5s;
+}
+
+.tabcontainer_vertical {
+	width: 100%;
+	overflow: hidden;
+	height: 100%;
+}
+
+.tabcontainer_vertical>div {
+	height: 100%;
+	width: 100%;
+}
+
+.tabcontainer_vertical>div>div {
+	height: 0px;
+	max-height: 0px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	transition: all 1s;
+	padding-right: 5px;
+	padding-left: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	transition: all 0.5s, overflow-x 0s 1s, overflow-y 0s 1s;
+}
+
+.tabcontainer_vertical>div>div+div {
+	border-top: 1px solid rgba(51,51,153, 0.5);
+	margin-top: -1px;
+}
+
+.tabcontainer_vertical>div>div.selected {
+	height: 100%;
+	max-height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	transition: all 0.5s, overflow-x 0s 1s, overflow-y 0s 1s;
+}
+*/

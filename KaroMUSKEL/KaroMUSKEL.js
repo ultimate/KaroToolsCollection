@@ -33,6 +33,8 @@ var KaroMUSKEL = (function() {
 	var KARO_URL = "http://www.karopapier.de/api/";
 	var LOADER_VALUE_ID = "loader_value";
 	var LOADER_TEXT_ID = "loader_text";
+	var TAB_BAR_ID = "tab_bar";
+	var TAB_CONTENT_ID = "tab_content";
 	var DATA_USER_LIST = "userList";
 	var DATA_MAP_LIST = "mapList";
 	// private variables
@@ -105,10 +107,31 @@ var KaroMUSKEL = (function() {
 	var initUI = function() {
 		ui = document.createElement("div");
 		ui.classList.add("ui");
+		var tabBar = document.createElement("div");
+			tabBar.id = TAB_BAR_ID;
+			tabBar.innerHTML = "<a id='bar_1' class='selected'><div class='frame'>a</div></a>\
+								<a id='bar_2'><div class='frame'>b</div></a>\
+								<a id='bar_3'><div class='frame'>c</div></a>\
+								<a id='bar_4'><div class='frame'>d</div></a>";
+		var tabContent = document.createElement("div");
+			tabContent.id = TAB_CONTENT_ID;
+			//tabContent.classList.add("frame");
+			tabContent.innerHTML = "<div>\
+										<div id='content_1' class='selected'>A</div>\
+										<div id='content_2' class=''>B</div>\
+										<div id='content_3' class=''>C</div>\
+										<div id='content_4' class=''>D</div>\
+									</div>"
+		ui.appendChild(tabBar);
+		ui.appendChild(tabContent);
 		
 		// update UI
 		loader.style.display = "none";
 		wrapper.appendChild(ui);
+		
+		// init initelligent elements
+		// tabs = new Tabs(barId, barMode, containerId, containerMode, selectedOverwriteWidth, selectedOverwriteHeight)
+		tabs = new Tabs(TAB_BAR_ID, TABS_HORIZONTAL, TAB_CONTENT_ID, TABS_HORIZONTAL);
 	};
 	
 	// get KaroMUSKELWrapper
