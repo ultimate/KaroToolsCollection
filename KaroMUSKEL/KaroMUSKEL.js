@@ -57,13 +57,13 @@ var KaroMUSKEL = (function() {
 			{
 				if((request.status >= 200) && (request.status < 300))
 				{
-					log("game created");
-					log(request);
+					console.log("game created");
+					console.log(request);
 				}
 				else
 				{
-					log("game creation failed");
-					log(request);
+					console.error("game creation failed");
+					console.error(request);
 				}
 			}
 		};
