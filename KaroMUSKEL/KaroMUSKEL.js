@@ -29,6 +29,7 @@ game = {
  
 var KaroMUSKEL = (function() {	
 	// constants
+	var VERSION = "4.0-dev";
 	var KARO_URL = "http://www.karopapier.de/api/";
 	var LOADER_VALUE_ID = "loader_value";
 	var LOADER_TEXT_ID = "loader_text";
@@ -38,6 +39,7 @@ var KaroMUSKEL = (function() {
 	var wrapper;
 	var loader;
 	var ui;
+	var versionInfo;
 	var local = (document.location.href.indexOf("file://") != -1);
 	var initialized = false;
 	// karopapier data
@@ -94,6 +96,12 @@ var KaroMUSKEL = (function() {
 		loader.appendChild(loaderText);
 		wrapper.appendChild(loader);
 	};
+	var initVersionInfo = function() {
+		versionInfo = document.createElement("div");
+		versionInfo.classList.add("version");
+		versionInfo.innerHTML = VERSION;
+		wrapper.appendChild(versionInfo);
+	};
 	var initUI = function() {
 		ui = document.createElement("div");
 		ui.classList.add("ui");
@@ -114,6 +122,7 @@ var KaroMUSKEL = (function() {
 	}
 	// create loader bar
 	initLoader();
+	initVersionInfo();
 	// load dependencies
 	if(DependencyManager)
 	{

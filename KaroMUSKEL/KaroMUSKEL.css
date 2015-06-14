@@ -1,3 +1,8 @@
+#KaroMUSKELWrapper {
+	position: relative;
+	padding: 1px;
+}
+
 .loader {
 	margin-left: auto;
 	margin-right: auto;
@@ -52,4 +57,12 @@
 	border: 1px solid rgba(0,0,0,0);
 	background-color: #333399;
 	opacity: 0.5;
+}
+
+.version {
+	position: absolute;
+	right: 20px;
+	bottom: -22px;
+	text-align: right;
+	width: 100px;
 }
