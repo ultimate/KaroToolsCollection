@@ -1,4 +1,4 @@
-KaroMUSKEL.setUserList([ {
+[ {
 	"id" : 1,
 	"login" : "Didi",
 	"color" : "FFFFFF",
@@ -9501,4 +9501,4 @@ KaroMUSKEL.setUserList([ {
 	"birthdayToday" : false,
 	"karodayToday" : true,
 	"gravatar" : "http:\/\/www.gravatar.com\/avatar\/7123a8b563e74205f9e2f3d76f4663db?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40"
-} ]);
+} ]

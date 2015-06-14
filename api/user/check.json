@@ -1,4 +1,4 @@
-KaroMUSKEL.setCurrentUser({
+{
 	"id" : 1411,
 	"login" : "ultimate",
 	"color" : "10FF01",
@@ -15,4 +15,4 @@ KaroMUSKEL.setCurrentUser({
 	"birthdayToday" : false,
 	"karodayToday" : false,
 	"gravatar" : "http:\/\/www.gravatar.com\/avatar\/20d5212b8d0fcb0b04576f1db9b25839?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40"
-});
+}
