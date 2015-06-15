@@ -11,6 +11,7 @@ Nach der Fertigstellung der Version 1.0 Mitte 2008 hat sich lange nichts beim Sk
 Um den Nutzerkreis zu erweitern und die Benutzung zu vereinfachen, habe ich mich entschlossen für die Version 4 auf HTML5/JavaScript zu setzen. Das bedeutete eine komplette Neuentwicklung mit vielen neuen Funktionen. Die grundlegenden Features aus Version 2 sind jedoch erhalten geblieben.
 
 ##Version 3.x
+###Version 3.0-dev
 Bevor ich mich entschlossen den Technologie-Wechsel (zurück) zu HTML5/JavaScript zu vollziehen, hatte ich schon mal begonnen, eine neues Karopapier-Backend-Anbindung in Java zu implementieren. Diese sollte (im Gegensatz zur vorherigen Version) auf der KaroAPI beruhen und so direkt mit JSON-Daten gefüttert werden, statt die für die Nutzer gedachten HTML-Seiten zu parsen. Auch wenn es hier nie zu eine benutzbaren Version des KaroMUSKELs kam, ist die <a href="http://github.com/ultimate/KaroAPI4J">KaroAPI4J</a> dennoch als Relikt erhalten geblieben.
 
 ##Version 2.x
