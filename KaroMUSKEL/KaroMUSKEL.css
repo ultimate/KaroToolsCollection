@@ -77,6 +77,8 @@ body {
 
 .ui {
     padding: 10px;
+    margin: auto;
+    width: 1000px;
 }
 
 .menu {
@@ -148,7 +150,7 @@ body {
 }
 
 .tabcontainer_horizontal>div>span {
-	display: inline-block;
+	display: none; /*inline-block;*/
 	width: 0%;
 	overflow-x: hidden;
 	overflow-y: hidden;
@@ -173,6 +175,7 @@ body {
 	overflow-y: auto;
 	padding-right: 5px;
 	padding-left: 5px;
+    display: inline;
 }
 
 .tabbar_vertical {
