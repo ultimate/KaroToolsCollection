@@ -33,15 +33,18 @@ var KaroMUSKEL = (function() {
 	var KARO_URL = "http://www.karopapier.de/api/";
 	var LOADER_VALUE_ID = "loader_value";
 	var LOADER_TEXT_ID = "loader_text";
+	var MENU_ID = "menu";
 	var TAB_BAR_ID = "tab_bar";
 	var TAB_CONTENT_ID = "tab_content";
 	var DATA_USER_LIST = "userList";
 	var DATA_MAP_LIST = "mapList";
+	var VERSION_HISTORY = "versionHistory";
 	// private variables
 	var wrapper;
 	var loader;
 	var ui;
 	var versionInfo;
+    var versionHistory;
 	var local = (document.location.href.indexOf("file://") != -1);
 	var initialized = false;
 	// karopapier data
@@ -104,15 +107,29 @@ var KaroMUSKEL = (function() {
 		versionInfo.innerHTML = VERSION;
 		wrapper.appendChild(versionInfo);
 	};
+    var componentFactory = {
+        createADiv: function(id, content, aClass, divClass, onclick) {
+            var a = document.createElement("a");
+            a.id = id;
+            if(aClass) a.classList.add(aClass);
+            var div = document.createElement("div");
+            div.innerHTML = content;
+            if(divClass) div.classList.add(divClass);
+            a.appendChild(div);
+            a.onclick = onclick;
+            return a;
+        },
+    };
 	var initUI = function() {
 		ui = document.createElement("div");
 		ui.classList.add("ui");
 		var tabBar = document.createElement("div");
 			tabBar.id = TAB_BAR_ID;
-			tabBar.innerHTML = "<a id='bar_1' class='selected'><div class='frame'>a</div></a>\
-								<a id='bar_2'><div class='frame'>b</div></a>\
-								<a id='bar_3'><div class='frame'>c</div></a>\
-								<a id='bar_4'><div class='frame'>d</div></a>";
+			tabBar.innerHTML = "<a id='bar_1' class='selected'><div class='frame'>&Uuml;bersicht</div></a>\
+								<a id='bar_2'><div class='frame'>Spieler / Teams</div></a>\
+								<a id='bar_3'><div class='frame'>Spieltage / Runden</div></a>\
+								<a id='bar_4'><div class='frame'>Zusammenfassung</div></a>\
+								<a id='bar_5'><div class='frame'>Auswertung</div></a>";
 		var tabContent = document.createElement("div");
 			tabContent.id = TAB_CONTENT_ID;
 			//tabContent.classList.add("frame");
@@ -121,7 +138,33 @@ var KaroMUSKEL = (function() {
 										<div id='content_2' class=''>B</div>\
 										<div id='content_3' class=''>C</div>\
 										<div id='content_4' class=''>D</div>\
-									</div>"
+										<div id='content_5' class=''>coming soon...</div>\
+										<div id='content_6' class=''></div>\
+									</div>";
+        var mainMenu = document.createElement("div");
+			//mainMenu.id = MENU_ID;
+            mainMenu.classList.add("menu");
+            mainMenu.classList.add("tabbar_vertical");
+            mainMenu.appendChild(componentFactory.createADiv("menu_1", "Neu", null, "frame"));
+            mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", null, "frame"));
+            mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", null, "frame"));
+            mainMenu.appendChild(componentFactory.createADiv("menu_4", "Info", null, "frame", function() {  
+                tabs.select(5);
+                if(tabContent.firstChild.lastChild.children.length <= 1)
+                {
+                    var data = JSON.stringify({
+                        text: versionHistory,
+                        mode: "markdown",
+                        context: "ultimate/KaroMUSKEL"
+                        });
+                    console.log(data);
+                    AJAX.sendRequestUrlEncoded("http://api.github.com/markdown", data, HTTP.POST, function(request) {
+                        console.log(request.responseText);
+                        tabContent.firstChild.lastChild.innerHTML = request.responseText;
+                    });                   
+                }
+            }));
+        ui.appendChild(mainMenu);
 		ui.appendChild(tabBar);
 		ui.appendChild(tabContent);
 		
@@ -164,9 +207,12 @@ var KaroMUSKEL = (function() {
 		// register JSON-data
 		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "user/list.json", true, true);
 		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "map/list.json?nocode=true", true, true);
+        // register version history
+		DependencyManager.register(VERSION_HISTORY, "http://rawgit.com/ultimate/KaroMUSKEL/master/README.md", true, true);
 		// get the data indexes
 		var userListIndex = DependencyManager.indexOf(DATA_USER_LIST);		
-		var mapListIndex = DependencyManager.indexOf(DATA_MAP_LIST);			
+		var mapListIndex = DependencyManager.indexOf(DATA_MAP_LIST);		
+		var versionHistoryIndex = DependencyManager.indexOf(VERSION_HISTORY);			
 		if(local)
 		{
 			// fake JSON-data since AJAX won't work on file system (with just some reduced data)
@@ -183,6 +229,8 @@ var KaroMUSKEL = (function() {
 			// init
 			console.log("KaroMUSKEL: all dependencies loaded!");
 			console.log("KaroMUSKEL: initializing...");
+			// get non-karopapier data from DependencyManager
+			versionHistory = DependencyManager.scriptContents[versionHistoryIndex];
 			// get karopapier data from JSON
 			eval(DATA_USER_LIST + " = " + DependencyManager.scriptContents[userListIndex]);
 			eval(DATA_MAP_LIST  + " = " + DependencyManager.scriptContents[mapListIndex]);
@@ -219,5 +267,6 @@ var KaroMUSKEL = (function() {
 		getCurrentUser: function() { 	return currentUser;		},
 		// export private functions
 		createGame:		create,
+        getInfo:        info,
 	};
 })();
