@@ -7,27 +7,34 @@ Der KaroMUSKEL wird seit Anfang 2008 von mir (<a href="http://github.com/ultimat
 Nach der Fertigstellung der Version 1.0 Mitte 2008 hat sich lange nichts beim Skript getan. Es wurden einzig zwischendurch mal ein paar Anpassungen auf Neuerungen von <a href="http://www.karopapier.de">karopapier.de</a> eingebaut, damit das Skipt weiter Funktionsfähig bleibt. Im März 2010 habe ich mich dann mal ran gesetzt das ganze rund zu erneuern. Das Ergebnis war die Version 2.x, die sich über 5 Jahre erfolgreich hielt, bis ich den Entschluss gefasst habe nochmal ein komplettes Redesign mit Technologie-Wechsel zu machen. So entstand Version 4. Nachfolgend sind die Änderungen/Neuerungen der einzelnen Versionen (von neu nach alt) kurz aufgelistet.
 
 ##Version 4.x
+
 ###Version 4.0
-Um den Nutzerkreis zu erweitern und die Benutzung zu vereinfachen, habe ich mich entschlossen für die Version 4 auf HTML5/JavaScript zu setzen. Das bedeutete eine komplette Neuentwicklung mit vielen neuen Funktionen. Die grundlegenden Features aus Version 2 sind jedoch erhalten geblieben.
+Um den Nutzerkreis zu erweitern und die Benutzung zu vereinfachen, habe ich mich entschlossen für die Version 4 auf HTML5/JavaScript zu setzen. Das bedeutete eine komplette Neuentwicklung mit vielen neuen Funktionen. Der Vollständigkeit halber sind die wichtigsten Neuerungen hier kurz zusammengefasst.
+- ... kommt noch ...
 
 ##Version 3.x
+
 ###Version 3.0-dev
 Bevor ich mich entschlossen den Technologie-Wechsel (zurück) zu HTML5/JavaScript zu vollziehen, hatte ich schon mal begonnen, eine neues Karopapier-Backend-Anbindung in Java zu implementieren. Diese sollte (im Gegensatz zur vorherigen Version) auf der KaroAPI beruhen und so direkt mit JSON-Daten gefüttert werden, statt die für die Nutzer gedachten HTML-Seiten zu parsen. Auch wenn es hier nie zu eine benutzbaren Version des KaroMUSKELs kam, ist die <a href="http://github.com/ultimate/KaroAPI4J">KaroAPI4J</a> dennoch als Relikt erhalten geblieben.
 
 ##Version 2.x
+
 ###Version 2.3
 Version 2.3 wurde für die KaroLiga (und natürlich andere Meisterschaften im Liga-Format) angepasst.
 Ein spezieller Algorithmus sorgt nun dafür, dass die Anzahl der Heim- und Auswärtsspiele für jeden Spieler in Hin- und Rückrunde ausgeglichen verteilt ist.
+
 ###Version 2.2
 Version 2.2 war nur eine kleine Anpassung nach Einführung der KaroAPI, damit das Skript Funktionsfähig blieb.
+
 ###Version 2.1
 Version 2.1 wurde speziell für die CraZZZy Crash Challenge in Angriff genommen. Zusätzlich wurden noch ein paar Wünsche von Nutzern des Skripts berücksichtigt.
 - Neuer Serientyp "Ausgewogene Spieleserie"
 - Neue Strukturierung der Platzhalter
 - Hinzufügen neuer Platzhalter
 - Bug-Fix bei der Erstellung von mehr als 50 Spielen
+
 ###Version 2.0
-Bei dem Schritt auf Version 2 hat sich so viel verändert, dass hier einmal der (halbwegs) komplette Funktionsumfang aufgelistet wird. Was unter KaroMUSKEL 1 steht ist als nicht mehr zwangsläufig möglich...
+Bei dem Schritt auf Version 2 hat sich so viel verändert, dass hier einmal der (halbwegs) komplette Funktionsumfang aufgelistet wird. Was unter KaroMUSKEL 1 steht ist also nicht mehr zwangsläufig möglich...
 - Erweiterte Möglichkeiten der Spieleserienerstellung nach verschiedenen Serientypen: "Einfache Spieleserie", "Liga", "KO-Meisterschaft"
 - Spielerstellung unterteilt in mehrere Teilschritte: "Einstellungen", "Regeln", "Spielerauswahl", "Streckenauswahl", "Zusammenfassung"
 - Speichern und Laden von Spielserien
@@ -48,8 +55,10 @@ Bei dem Schritt auf Version 2 hat sich so viel verändert, dass hier einmal der 
 - Minivorschau für Karten
 
 ##Version 1.x
+
 ###Version 1.1
 Version 1.1 war nur eine kleine Anpassung an Änderungen in der "newgame.php", damit das Skript Funktionsfähig blieb.
+
 ###Version 1.0
 Dies ist die erste verfügbare Version gewesen. Daher hier die komplette Liste der Funktionen.
 - Grundlegende Funktionsbereitstellung für einfache Spieleserien
@@ -62,6 +71,7 @@ Dies ist die erste verfügbare Version gewesen. Daher hier die komplette Liste d
 - Minivorschau für Karten
 
 ##Version 0.x
+
 ###Version 0.1
 Bevor ich angefangen habe das ganze vernünftig in Java zu programmieren gab es noch eine ganz einfache, schnell zusammengetippte HTML/JavaScript-Version. Die wurde aber überhaupt nicht weiterverfolgt und ist nur durch Zufall mal wieder auf meiner Festplatte aufgetaucht...
 
