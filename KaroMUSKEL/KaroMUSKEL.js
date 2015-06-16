@@ -280,5 +280,21 @@ var KaroMUSKEL = (function() {
 		getCurrentUser: function() { 	return currentUser;		},
 		// export private functions
 		createGame:		create,
+        // Karopapier constants
+        DIRECTIONS: ["classic", "free", "formula1", "random"],
+        CRASHS: ["allowed", "forbidden", "free", "random"],
+        // Karopapier data types     
+        Game: function(name, players, map, options) {
+            this.name = name;
+            this.players = players;
+            this.map = map;
+            this.options = options;
+        },
+        Options: function(startdirection, withCheckpoints, zzz, crashallowed) {
+            this.startdirection = startdirection;
+            this.withCheckpoints = withCheckpoints;
+            this.zzz = zzz;
+            this.crashallowed = crashallowed;
+        }
 	};
 })();
