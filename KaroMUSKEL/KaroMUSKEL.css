@@ -159,8 +159,8 @@ body {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	float: left;
-	/*height: 500px;
-	min-height: 500px;*/
+	/*height: 500px;*/
+	min-height: 400px;
 }
 
 .tabcontainer_horizontal>div>span+span {
