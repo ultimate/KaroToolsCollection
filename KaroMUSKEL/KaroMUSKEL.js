@@ -39,6 +39,7 @@ var KaroMUSKEL = (function() {
 	var DATA_USER_LIST = "userList";
 	var DATA_MAP_LIST = "mapList";
 	var VERSION_HISTORY = "versionHistory";
+	var STYLE_SHEET = "styleSheet";
 	// private variables
 	var wrapper;
 	var loader;
@@ -78,33 +79,36 @@ var KaroMUSKEL = (function() {
 	};
 	var initLoader = function() {	
 		loader = document.createElement("div");
-		loader.classList.add("loader");
-		var loaderTitle = document.createElement("div");
-			loaderTitle.classList.add("title");
-			loaderTitle.innerHTML = "Lade...";	
-		var loaderBar = document.createElement("div");
-			loaderBar.classList.add("bar");			
-			var loaderBackground = document.createElement("div");
-				loaderBackground.classList.add("background");
-				loaderBackground.innerHTML = "KaroMUSKEL";
-			var loaderValue = document.createElement("div");
-				loaderValue.id = LOADER_VALUE_ID;
-				loaderValue.classList.add("value");	
-			loaderBar.appendChild(loaderBackground);
-			loaderBar.appendChild(loaderValue);
-		var loaderText = document.createElement("div");
-			loaderText.id = LOADER_TEXT_ID;
-			loaderText.classList.add("text");
-			loaderText.innerHTML = "0%";			
-		loader.appendChild(loaderTitle);
-		loader.appendChild(loaderBar);
-		loader.appendChild(loaderText);
+        // include style here, since CSS is not yet loaded
+        loader.style.marginLeft     = "auto";
+        loader.style.marginRight    = "auto";
+        loader.style.marginTop      = "100px";
+	    loader.style.marginBottom   = "100px";
+	    loader.style.position       = "relative";
+	    loader.style.left           = "0px";
+	    loader.style.right          = "0px";
+	    loader.style.top            = "0px";
+	    loader.style.bottom         = "0px";
+	    loader.style.width          = "400px";
+	    loader.style.height         = "20px";
+        // add children by html, since this makes it easier to include style
+        loader.innerHTML = "<div style='position: absolute; left: 0px; height: 100%; width: 100px;'>Lade...</div>\
+                            <div style='position: absolute;	left: 100px; height: 100%; width: 200px; text-align: center;'>\
+                                <div style='position: absolute; left: 0px; height: 100%; text-align: center; border: 1px solid rgb(51,51,153); width: 100%;'>KaroMUSKEL</div>\
+                                <div style='position: absolute; left: 0px; height: 100%; text-align: center; border: 1px solid rgba(0,0,0,0); background-color: rgb(51,51,153);	opacity: 0.5;' id='" + LOADER_VALUE_ID + "'></div>\
+                            </div>\
+                            <div style='position: absolute; right: 0px; height: 100%;	width: 100px; text-align: right;' id='" + LOADER_TEXT_ID + "'>0%</div>";
 		wrapper.appendChild(loader);
 	};
 	var initVersionInfo = function() {
 		versionInfo = document.createElement("div");
-		versionInfo.classList.add("version");
 		versionInfo.innerHTML = VERSION;
+        // include style here, since CSS is not yet loaded
+        versionInfo.style.position  = "absolute";
+        versionInfo.style.right     = "20px";
+        versionInfo.style.bottom    = "-22px";
+        versionInfo.style.textAlign = "right";
+        versionInfo.style.width     = "100px";
 		wrapper.appendChild(versionInfo);
 	};
     var componentFactory = {
@@ -207,12 +211,14 @@ var KaroMUSKEL = (function() {
 		// register JSON-data
 		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "user/list.json", true, true);
 		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "map/list.json?nocode=true", true, true);
-        // register version history
+        // register other dependencies
 		DependencyManager.register(VERSION_HISTORY, "http://rawgit.com/ultimate/KaroMUSKEL/master/README.md", true, true);
+		DependencyManager.register(STYLE_SHEET,     "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
 		// get the data indexes
-		var userListIndex = DependencyManager.indexOf(DATA_USER_LIST);		
-		var mapListIndex = DependencyManager.indexOf(DATA_MAP_LIST);		
-		var versionHistoryIndex = DependencyManager.indexOf(VERSION_HISTORY);			
+		var userListIndex       = DependencyManager.indexOf(DATA_USER_LIST);		
+		var mapListIndex        = DependencyManager.indexOf(DATA_MAP_LIST);		
+		var versionHistoryIndex = DependencyManager.indexOf(VERSION_HISTORY);	
+		var styleSheetIndex     = DependencyManager.indexOf(STYLE_SHEET);			
 		if(local)
 		{
 			// fake JSON-data since AJAX won't work on file system (with just some reduced data)
@@ -220,8 +226,11 @@ var KaroMUSKEL = (function() {
 			DependencyManager.scriptAdded[userListIndex] = true;		
 			DependencyManager.scriptContents[mapListIndex] = "[{\"id\": 1,\"name\": \"Die Erste\",\"author\": \"Didi\",\"cols\": 60,\"rows\": 25,\"rating\": 4.11111,\"players\": 5,\"cps\": [\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\": 2,\"name\": \"Die Zweite\",\"author\": \"Didi\",\"cols\": 60,\"rows\": 25,\"rating\": 4.03226,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 3,\"name\": \"Die Dritte\",\"author\": \"Didi\",\"cols\": 80,\"rows\": 33,\"rating\": 3.83333,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 4,\"name\": \"\",\"author\": \"(unknown)\",\"cols\": 80,\"rows\": 31,\"rating\": 3.30769,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 5,\"name\": \"\",\"author\": \"(unknown)\",\"cols\": 80,\"rows\": 35,\"rating\": 3.83333,\"players\": 5,\"cps\": [\"1\",\"2\",\"3\"]}]";
 			DependencyManager.scriptAdded[mapListIndex] = true;
-			
-			DependencyManager.scriptsLoaded += 2;
+            // fake style sheet, so we are working with the local version
+			DependencyManager.scriptContents[styleSheetIndex] = "/*empty*/";
+			DependencyManager.scriptAdded[styleSheetIndex] = true;
+            
+			DependencyManager.scriptsLoaded += 3;
 		}
 		// complete registration
 		DependencyManager.onLoadingProgressed(DependencyManager.defaultOnLoadingProgressed(LOADER_VALUE_ID, LOADER_TEXT_ID));
@@ -229,8 +238,12 @@ var KaroMUSKEL = (function() {
 			// init
 			console.log("KaroMUSKEL: all dependencies loaded!");
 			console.log("KaroMUSKEL: initializing...");
-			// get non-karopapier data from DependencyManager
+			// prepare other loaded from DependencyManager
 			versionHistory = DependencyManager.scriptContents[versionHistoryIndex];
+            var style = document.createElement("style");
+            style.type = "text/css";
+            style.innerHTML = DependencyManager.scriptContents[styleSheetIndex];
+            document.head.appendChild(style);
 			// get karopapier data from JSON
 			eval(DATA_USER_LIST + " = " + DependencyManager.scriptContents[userListIndex]);
 			eval(DATA_MAP_LIST  + " = " + DependencyManager.scriptContents[mapListIndex]);
@@ -267,6 +280,5 @@ var KaroMUSKEL = (function() {
 		getCurrentUser: function() { 	return currentUser;		},
 		// export private functions
 		createGame:		create,
-        getInfo:        info,
 	};
 })();
