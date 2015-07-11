@@ -149,7 +149,7 @@ var KaroMUSKEL = (function() {
 										<div id='gamedays_rounds' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
 										<div id='summary' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
 										<div id='evaluation' class='container'>coming soon...</div>\
-										<div id='new' class='container'></div>\
+										<div id='new' class='container'><h1>Neue Spieleserie erstellen</h1></div>\
 										<div id='info' class='container'></div>\
 									</div>";
         var mainMenu = document.createElement("div");
@@ -177,7 +177,8 @@ var KaroMUSKEL = (function() {
                     console.log(data);
                     AJAX.sendRequestUrlEncoded("http://api.github.com/markdown", data, HTTP.POST, function(request) {
                         console.log(request.responseText);
-                        tabContent.firstChild.lastChild.innerHTML = request.responseText;
+                        tabContent.firstChild.lastChild.firstChild.innerHTML = request.responseText;
+						tabContent.firstChild.lastChild.firstChild.appendChild(componentFactory.closeButton());
                     });                   
                 }
             }));
@@ -200,7 +201,6 @@ var KaroMUSKEL = (function() {
 		// append sub-content
 		document.getElementById("new").appendChild(typeSelection);
 		document.getElementById("new").appendChild(componentFactory.closeButton());
-		document.getElementById("info").appendChild(componentFactory.closeButton());
 		
 		// init initelligent elements
 		// tabs = new Tabs(barId, barMode, containerId, containerMode, selectedOverwriteWidth, selectedOverwriteHeight)
