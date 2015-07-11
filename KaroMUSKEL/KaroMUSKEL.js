@@ -48,6 +48,7 @@ var KaroMUSKEL = (function() {
     var versionHistory;
 	var local = (document.location.href.indexOf("file://") != -1);
 	var initialized = false;
+	var gameSeries = null;
 	// karopapier data
 	var userList;
 	var mapList;
@@ -138,18 +139,25 @@ var KaroMUSKEL = (function() {
 			tabContent.id = TAB_CONTENT_ID;
 			//tabContent.classList.add("frame");
 			tabContent.innerHTML = "<div>\
-										<div id='content_1' class='selected'>A</div>\
-										<div id='content_2' class=''>B</div>\
-										<div id='content_3' class=''>C</div>\
-										<div id='content_4' class=''>D</div>\
-										<div id='content_5' class=''>coming soon...</div>\
-										<div id='content_6' class=''></div>\
+										<div id='overview' class='container selected'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
+										<div id='players_teams' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
+										<div id='gamedays_rounds' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
+										<div id='summary' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
+										<div id='evaluation' class='container'>coming soon...</div>\
+										<div id='info' class='container'></div>\
+										<div id='new' class='container'></div>\
 									</div>";
         var mainMenu = document.createElement("div");
 			//mainMenu.id = MENU_ID;
             mainMenu.classList.add("menu");
             mainMenu.classList.add("tabbar_vertical");
-            mainMenu.appendChild(componentFactory.createADiv("menu_1", "Neu", null, "frame"));
+            mainMenu.appendChild(componentFactory.createADiv("menu_1", "Neu", null, "frame", function() {
+					// show type selection
+					tabs.select(6);
+					
+					gameSeries = new KaroMUSKEL.GameSeries();
+					updateUI(gameSeries);
+				}));
             mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", null, "frame"));
             mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", null, "frame"));
             mainMenu.appendChild(componentFactory.createADiv("menu_4", "Info", null, "frame", function() {  
@@ -168,6 +176,14 @@ var KaroMUSKEL = (function() {
                     });                   
                 }
             }));
+		var typeSelection = document.createElement("div");
+			typeSelection.classList.add("type_selection");
+			typeSelection.classList.add("tabbar_horizontal");
+			typeSelection.classList.add("centered");
+			typeSelection.appendChild(componentFactory.createADiv("type_simple", "<div class='centered double_row'>Einfache Spieleserie</div>", null, "frame", function() {} ));
+			typeSelection.appendChild(componentFactory.createADiv("type_balanced", "<div class='centered double_row'>Ausgewogene Spieleserie</div>", null, "frame", function() {} ));
+			typeSelection.appendChild(componentFactory.createADiv("type_league", "<div class='centered single_row'>Liga</div>", null, "frame", function() {} ));
+			typeSelection.appendChild(componentFactory.createADiv("type_ko", "<div class='centered double_row'>KO- Meisterschaft</div>", null, "frame", function() {} ));
         ui.appendChild(mainMenu);
 		ui.appendChild(tabBar);
 		ui.appendChild(tabContent);
@@ -175,10 +191,14 @@ var KaroMUSKEL = (function() {
 		// update UI
 		loader.style.display = "none";
 		wrapper.appendChild(ui);
+		// append sub-content
+		document.getElementById("new").appendChild(typeSelection);
 		
 		// init initelligent elements
 		// tabs = new Tabs(barId, barMode, containerId, containerMode, selectedOverwriteWidth, selectedOverwriteHeight)
 		tabs = new Tabs(TAB_BAR_ID, TABS_HORIZONTAL, TAB_CONTENT_ID, TABS_HORIZONTAL);
+	};
+	var updateUI = function(gameSeries) {
 	};
 	
 	// get KaroMUSKELWrapper
@@ -278,11 +298,18 @@ var KaroMUSKEL = (function() {
 		getUserList : 	function() { 	return userList; 		},
 		getMapList : 	function() { 	return mapList; 		},
 		getCurrentUser: function() { 	return currentUser;		},
+		getGameSeries:	function() { 	return gameSeries;		},
 		// export private functions
 		createGame:		create,
         // Karopapier constants
         DIRECTIONS: ["classic", "free", "formula1", "random"],
         CRASHS: ["allowed", "forbidden", "free", "random"],
+		// KaroMUSKEL constants
+		TYPES: ["simple", "balanced", "league", "KO" ],
+		// internal data types
+		GameSeries: function(type) {
+			this.type = type;
+		},
         // Karopapier data types     
         Game: function(name, players, map, options) {
             this.name = name;

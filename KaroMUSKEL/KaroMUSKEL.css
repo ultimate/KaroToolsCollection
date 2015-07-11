@@ -11,6 +11,17 @@ body {
 	border: 1px solid rgba(51, 51, 153, 0.8);
 }
 
+.centered {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+}
+
+/* layout */
+
 .ui {
     padding: 10px;
     margin: auto;
@@ -39,6 +50,35 @@ body {
 #tab_content {
 	margin: 15px;
     margin-left: 109px;
+}
+
+.container {
+	position: relative;
+}
+
+#new {
+	height: 400px;
+}
+
+.type_selection {
+	width: 416px;
+	height: 100px;
+    cursor: pointer;
+}
+
+.type_selection a div {
+	position: relative;
+	width: 100px !important;
+}
+
+.type_selection a div>div {
+	position: absolute !important;
+	width: 100px !important;
+	height: 50px;
+}
+
+.type_selection a div>div.single_row {
+	height: 25px;
 }
 
 /* TABS */
