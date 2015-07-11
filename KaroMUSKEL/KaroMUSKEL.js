@@ -44,6 +44,8 @@ var KaroMUSKEL = (function() {
 	var wrapper;
 	var loader;
 	var ui;
+	var tabs;
+	var tabIndex = 0;
 	var versionInfo;
     var versionHistory;
 	var local = (document.location.href.indexOf("file://") != -1);
@@ -124,6 +126,9 @@ var KaroMUSKEL = (function() {
             a.onclick = onclick;
             return a;
         },
+		closeButton: function() {	
+			return this.createADiv(null, "x", "close_button", "frame", function() { tabs.select(tabIndex); });
+		}
     };
 	var initUI = function() {
 		ui = document.createElement("div");
@@ -144,8 +149,8 @@ var KaroMUSKEL = (function() {
 										<div id='gamedays_rounds' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
 										<div id='summary' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
 										<div id='evaluation' class='container'>coming soon...</div>\
-										<div id='info' class='container'></div>\
 										<div id='new' class='container'></div>\
+										<div id='info' class='container'></div>\
 									</div>";
         var mainMenu = document.createElement("div");
 			//mainMenu.id = MENU_ID;
@@ -153,7 +158,7 @@ var KaroMUSKEL = (function() {
             mainMenu.classList.add("tabbar_vertical");
             mainMenu.appendChild(componentFactory.createADiv("menu_1", "Neu", null, "frame", function() {
 					// show type selection
-					tabs.select(6);
+					tabs.select(5);
 					
 					gameSeries = new KaroMUSKEL.GameSeries();
 					updateUI(gameSeries);
@@ -161,7 +166,7 @@ var KaroMUSKEL = (function() {
             mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", null, "frame"));
             mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", null, "frame"));
             mainMenu.appendChild(componentFactory.createADiv("menu_4", "Info", null, "frame", function() {  
-                tabs.select(5);
+                tabs.select(6);
                 if(tabContent.firstChild.lastChild.children.length <= 1)
                 {
                     var data = JSON.stringify({
@@ -180,10 +185,11 @@ var KaroMUSKEL = (function() {
 			typeSelection.classList.add("type_selection");
 			typeSelection.classList.add("tabbar_horizontal");
 			typeSelection.classList.add("centered");
-			typeSelection.appendChild(componentFactory.createADiv("type_simple", "<div class='centered double_row'>Einfache Spieleserie</div>", null, "frame", function() {} ));
-			typeSelection.appendChild(componentFactory.createADiv("type_balanced", "<div class='centered double_row'>Ausgewogene Spieleserie</div>", null, "frame", function() {} ));
-			typeSelection.appendChild(componentFactory.createADiv("type_league", "<div class='centered single_row'>Liga</div>", null, "frame", function() {} ));
-			typeSelection.appendChild(componentFactory.createADiv("type_ko", "<div class='centered double_row'>KO- Meisterschaft</div>", null, "frame", function() {} ));
+			var typeSelected = function(type) { return function() { gameSeries = new KaroMUSKEL.GameSeries(type); tabs.select(0); }; };
+			typeSelection.appendChild(componentFactory.createADiv("type_simple", 	"<div class='centered double_row'>Einfache Spieleserie</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[0]) ));
+			typeSelection.appendChild(componentFactory.createADiv("type_balanced", 	"<div class='centered double_row'>Ausgewogene Spieleserie</div>", 	null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[1]) ));
+			typeSelection.appendChild(componentFactory.createADiv("type_league", 	"<div class='centered single_row'>Liga</div>", 						null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[2]) ));
+			typeSelection.appendChild(componentFactory.createADiv("type_ko", 		"<div class='centered double_row'>KO- Meisterschaft</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[3]) ));
         ui.appendChild(mainMenu);
 		ui.appendChild(tabBar);
 		ui.appendChild(tabContent);
@@ -193,10 +199,16 @@ var KaroMUSKEL = (function() {
 		wrapper.appendChild(ui);
 		// append sub-content
 		document.getElementById("new").appendChild(typeSelection);
+		document.getElementById("new").appendChild(componentFactory.closeButton());
+		document.getElementById("info").appendChild(componentFactory.closeButton());
 		
 		// init initelligent elements
 		// tabs = new Tabs(barId, barMode, containerId, containerMode, selectedOverwriteWidth, selectedOverwriteHeight)
 		tabs = new Tabs(TAB_BAR_ID, TABS_HORIZONTAL, TAB_CONTENT_ID, TABS_HORIZONTAL);
+		tabs.onSelect = function(index) {
+			if(index < 5)
+				tabIndex = index;
+		};
 	};
 	var updateUI = function(gameSeries) {
 	};
@@ -305,7 +317,7 @@ var KaroMUSKEL = (function() {
         DIRECTIONS: ["classic", "free", "formula1", "random"],
         CRASHS: ["allowed", "forbidden", "free", "random"],
 		// KaroMUSKEL constants
-		TYPES: ["simple", "balanced", "league", "KO" ],
+		SERIES_TYPES: ["simple", "balanced", "league", "KO" ],
 		// internal data types
 		GameSeries: function(type) {
 			this.type = type;

@@ -81,6 +81,26 @@ body {
 	height: 25px;
 }
 
+.close_button {
+	position: absolute;
+	right: 15px;
+	top: 5px;
+	cursor: pointer;
+}
+
+.close_button>div {
+	text-align: center;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+}
+
+.close_button:hover {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+	text-decoration: none;
+}
+
 /* TABS */
 .tabbar_horizontal {
 	padding: 0px;
