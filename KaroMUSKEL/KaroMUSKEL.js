@@ -144,11 +144,11 @@ var KaroMUSKEL = (function() {
 			tabContent.id = TAB_CONTENT_ID;
 			//tabContent.classList.add("frame");
 			tabContent.innerHTML = "<div>\
-										<div id='overview' class='container selected'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
-										<div id='players_teams' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
-										<div id='gamedays_rounds' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
-										<div id='summary' class='container'>Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...</div>\
-										<div id='evaluation' class='container'>coming soon...</div>\
+										<div id='overview' class='container selected'><!-- Tab 0 - filled in updateUI(gameSeries) --></div>\
+										<div id='players_teams' class='container'><!-- Tab 1 - filled in updateUI(gameSeries) --></div>\
+										<div id='gamedays_rounds' class='container'><!-- Tab 2 - filled in updateUI(gameSeries) --></div>\
+										<div id='summary' class='container'><!-- Tab 3 - filled in updateUI(gameSeries) --></div>\
+										<div id='evaluation' class='container'><!-- Tab 4 - filled in updateUI(gameSeries) --></div>\
 										<div id='new' class='container'><h1>Neue Spieleserie erstellen</h1></div>\
 										<div id='info' class='container'></div>\
 									</div>";
@@ -186,7 +186,7 @@ var KaroMUSKEL = (function() {
 			typeSelection.classList.add("type_selection");
 			typeSelection.classList.add("tabbar_horizontal");
 			typeSelection.classList.add("centered");
-			var typeSelected = function(type) { return function() { gameSeries = new KaroMUSKEL.GameSeries(type); tabs.select(0); }; };
+			var typeSelected = function(type) { return function() { gameSeries = new KaroMUSKEL.GameSeries(type); updateUI(gameSeries); tabs.select(0); }; };
 			typeSelection.appendChild(componentFactory.createADiv("type_simple", 	"<div class='centered double_row'>Einfache Spieleserie</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[0]) ));
 			typeSelection.appendChild(componentFactory.createADiv("type_balanced", 	"<div class='centered double_row'>Ausgewogene Spieleserie</div>", 	null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[1]) ));
 			typeSelection.appendChild(componentFactory.createADiv("type_league", 	"<div class='centered single_row'>Liga</div>", 						null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[2]) ));
@@ -210,7 +210,52 @@ var KaroMUSKEL = (function() {
 				tabIndex = index;
 		};
 	};
-	var updateUI = function(gameSeries) {
+	var updateUI = function(gameSeries) {		
+		if(gameSeries == null)
+		{
+			// reset the view
+			var message = "Nutze das Men&uuml; links um mit der Spielerstellung zu beginnen...";
+			document.getElementById("overview").innerHTML = message;
+			document.getElementById("players_teams").innerHTML = message;
+			document.getElementById("gamedays_rounds").innerHTML = message;
+			document.getElementById("summary").innerHTML = message;
+			document.getElementById("evaluation").innerHTML = "coming soon...";
+		}
+		else
+		{
+			var placeholders = "<ul id='placeholders' class='size150'>\
+									<li class='tree_item size150 frame'>Platzhalter einf&uuml;gen\
+										<ul class='size200'>\
+											<li class='tree_item frame'>Allgemeine Einstellungen\
+												<ul class='size100'>\
+													<li class='tree_item frame'>ZZZ</li>\
+													<li class='tree_item frame'>TC</li>\
+													<li class='tree_item frame'>CPs</li>\
+												</ul>\
+											</li>\
+											<li class='tree_item frame'>Spieler / Teams\
+												<ul class='size200'>\
+													<li class='tree_item frame'>Spieler (ohne Spielersteller)</li>\
+													<li class='tree_item frame'>Spieler (mit Spielersteller)</li>\
+													<li class='tree_item frame'>Heim-Spieler/Team</li>\
+													<li class='tree_item frame'>Gast-SpielerTeam</li>\
+												</ul>\
+											</li>\
+											<li class='tree_item frame'>Spieltage / Runden\
+												<ul class='size250'>\
+													<li class='tree_item frame'>Laufende Spielnummer (total)</li>\
+													<li class='tree_item frame'>Laufende Spielnummer (Spieltag)</li>\
+													<li class='tree_item frame'>Anzahl Spiele (total)</li>\
+													<li class='tree_item frame'>Anzahl Spiele (Spieltag)</li>\
+												</ul>\
+											</li>\
+										</ul>\
+									</li>\
+								</ul>";
+			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='title' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/>" + placeholders + "<br/>\
+															 <span id='preview'></span>\
+															 abc";
+		}
 	};
 	
 	// get KaroMUSKELWrapper
@@ -294,6 +339,7 @@ var KaroMUSKEL = (function() {
 				console.error("KaroMUSKEL: current user not found in user list!");
 			}
 			initUI();
+			updateUI(null);
 			initialized = true;
 		});
 		DependencyManager.registrationDone();

@@ -101,6 +101,75 @@ body {
 	text-decoration: none;
 }
 
+/* FORM */
+.label:after {
+	content: ':';
+}
+
+/* TREE */
+#placeholders {
+	display: inline;
+	position: absolute;
+	top: -13px;
+}
+
+li.tree_item {
+	list-style: none;
+	position: relative;
+	margin-top: -1px;
+	padding-left: 2px;
+	height: 20px;
+	cursor: pointer;
+}
+
+li.tree_item > ul {
+	/*display: none;*/
+	opacity: 0.0;
+	padding-left: 0px;
+	margin-left: -2px;
+}
+
+li.tree_item:hover {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+}
+
+li.tree_item:hover > ul { /*:hover*/
+	/*display: block;*/
+	opacity: 1.0;
+	position: absolute;
+	top: 0px;
+	transition: opacity 0.5s;
+}
+
+ul.size100 > li {
+	width: 100px;
+}
+ul.size100 > li > ul  {
+	left: 100px;
+}
+
+ul.size150 {
+	width: 150px;
+}
+ul.size150 > li > ul  {
+	left: 150px;
+}
+
+ul.size200 {
+	width: 200px;
+}
+ul.size200 > li > ul  {
+	left: 200px;
+}
+
+ul.size250 {
+	width: 250px;
+}
+ul.size250 > li > ul  {
+	left: 250px;
+}
+
 /* TABS */
 .tabbar_horizontal {
 	padding: 0px;
