@@ -105,13 +105,57 @@ body {
 .label:after {
 	content: ':';
 }
+.label.empty:after {
+	content: '';
+}
+
+.label {
+	width: 150px;
+	display: block;
+	float: left;
+}
+
+input[type=text] {
+	height: 22px;
+	position: relative;
+	top: 1px;
+}
+
+input[type=text]:disabled {
+	border-color: transparent;
+	background: transparent;
+}
+
+.spacer {
+	height: 10px;
+}
 
 /* TREE */
 #placeholders {
 	display: inline;
 	position: absolute;
 	top: -13px;
+	padding-left: 0px;
+	margin-left: 10px;
 }
+
+/*
+li.tree_item {
+	list-style: none;
+}
+
+li.tree_item:hover {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+}
+
+#placeholders li * {
+	opacity: 0.0;
+}
+#placeholders:hover li * {
+	opacity: 1.0;
+}
+*/
 
 li.tree_item {
 	list-style: none;
@@ -123,7 +167,6 @@ li.tree_item {
 }
 
 li.tree_item > ul {
-	/*display: none;*/
 	opacity: 0.0;
 	padding-left: 0px;
 	margin-left: -2px;
@@ -134,12 +177,18 @@ li.tree_item:hover {
 	transition: background 0.5s;
 }
 
-li.tree_item:hover > ul { /*:hover*/
-	/*display: block;*/
+li.tree_item:hover > ul {
 	opacity: 1.0;
 	position: absolute;
 	top: 0px;
 	transition: opacity 0.5s;
+}
+
+ul.size50 > li {
+	width: 50px;
+}
+ul.size50 > li > ul  {
+	left: 50px;
 }
 
 ul.size100 > li {

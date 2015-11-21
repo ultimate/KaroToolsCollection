@@ -224,7 +224,7 @@ var KaroMUSKEL = (function() {
 		else
 		{
 			var placeholders = "<ul id='placeholders' class='size150'>\
-									<li class='tree_item size150 frame'>Platzhalter einf&uuml;gen\
+									<li class='tree_item frame'>Platzhalter einf&uuml;gen\
 										<ul class='size200'>\
 											<li class='tree_item frame'>Allgemeine Einstellungen\
 												<ul class='size100'>\
@@ -252,9 +252,23 @@ var KaroMUSKEL = (function() {
 										</ul>\
 									</li>\
 								</ul>";
-			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='title' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/>" + placeholders + "<br/>\
-															 <span id='preview'></span>\
-															 abc";
+			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='title' style='width: 500px;' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/>" + placeholders + "<br/>\
+															 <span class='label empty'>&nbsp;</span><input id='preview' type='text' disabled='disabled' style='width: 500px;' value='preview...'/><br/>\
+															 <div class='spacer'></div>\
+															 <div class='spacer'></div>\
+															 <span class='label'>Typ</span><span id='type'></span><br/>\
+															 <div class='spacer'></div>\
+															 <span class='label'>Team-Optionen</span><input id='useTeams' type='checkbox'/>Teams verwenden?<br/>\
+															 <span class='label empty'>&nbsp;</span><input id='playersInMultipleteams' type='checkbox' disabled='disabled'/>Spieler in mehreren Teams?<br/>\
+															 <span class='label empty'>&nbsp;</span><input id='shuffleTeams' type='checkbox' disabled='disabled'/>Teams mischen?<br/>\
+															 <span class='label empty'>&nbsp;</span><input id='autoTeamNames' type='checkbox' disabled='disabled'/>Automatische Teamnamen?<br/>\
+															 <span class='label empty'>&nbsp;</span><input id='creatorNoTeam' type='checkbox' disabled='disabled'/>Spielersteller Neutral?<br/>\
+															 <div class='spacer'></div>\
+															 <span class='label'>Sonstige-Optionen</span><input id='checkInvitable' type='checkbox' checked='checked'/>Einladbarkeit beachten?<br/>\
+															 <span class='label empty'>&nbsp;</span><input id='creatorLeaveMatches' type='checkbox' disabled='disabled'/>Spielersteller aussteigen?<br/>\
+															 ";
+			// update form
+			document.getElementById("type").innerHTML = "\"" + gameSeries.type + "\"";
 		}
 	};
 	
