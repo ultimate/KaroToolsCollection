@@ -186,11 +186,15 @@ var KaroMUSKEL = (function() {
 			typeSelection.classList.add("type_selection");
 			typeSelection.classList.add("tabbar_horizontal");
 			typeSelection.classList.add("centered");
-			var typeSelected = function(type) { return function() { gameSeries = new KaroMUSKEL.GameSeries(type); updateUI(gameSeries); tabs.select(0); }; };
+			var typeSelected = function(type) { return function() { gameSeries = new KaroMUSKEL.GameSeries(type, document.getElementById("useTeams").checked); updateUI(gameSeries); tabs.select(0); }; };
 			typeSelection.appendChild(componentFactory.createADiv("type_simple", 	"<div class='centered double_row'>Einfache Spieleserie</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[0]) ));
 			typeSelection.appendChild(componentFactory.createADiv("type_balanced", 	"<div class='centered double_row'>Ausgewogene Spieleserie</div>", 	null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[1]) ));
 			typeSelection.appendChild(componentFactory.createADiv("type_league", 	"<div class='centered single_row'>Liga</div>", 						null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[2]) ));
 			typeSelection.appendChild(componentFactory.createADiv("type_ko", 		"<div class='centered double_row'>KO- Meisterschaft</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[3]) ));
+		var useTeams = document.createElement("div");
+			useTeams.classList.add("use_teams");
+			useTeams.classList.add("centered");
+			useTeams.innerHTML = "<input id='useTeams' type='checkbox'/><span>Teams verwenden?</span>";
         ui.appendChild(mainMenu);
 		ui.appendChild(tabBar);
 		ui.appendChild(tabContent);
@@ -200,6 +204,7 @@ var KaroMUSKEL = (function() {
 		wrapper.appendChild(ui);
 		// append sub-content
 		document.getElementById("new").appendChild(typeSelection);
+		document.getElementById("new").appendChild(useTeams);
 		document.getElementById("new").appendChild(componentFactory.closeButton());
 		
 		// init initelligent elements
@@ -252,23 +257,28 @@ var KaroMUSKEL = (function() {
 										</ul>\
 									</li>\
 								</ul>";
+			var teamOptions = "<span class='label empty'>&nbsp;</span><input id='playersInMultipleteams' type='checkbox'/>Spieler in mehreren Teams?<br/>\
+							   <span class='label empty'>&nbsp;</span><input id='shuffleTeams' type='checkbox'/>Teams mischen?<br/>\
+							   <span class='label empty'>&nbsp;</span><input id='autoTeamNames' type='checkbox'/>Automatische Teamnamen?<br/>\
+							   <span class='label empty'>&nbsp;</span><input id='creatorNoTeam' type='checkbox'/>Spielersteller Neutral?<br/>";
 			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='title' style='width: 500px;' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/>" + placeholders + "<br/>\
 															 <span class='label empty'>&nbsp;</span><input id='preview' type='text' disabled='disabled' style='width: 500px;' value='preview...'/><br/>\
 															 <div class='spacer'></div>\
 															 <div class='spacer'></div>\
 															 <span class='label'>Typ</span><span id='type'></span><br/>\
 															 <div class='spacer'></div>\
-															 <span class='label'>Team-Optionen</span><input id='useTeams' type='checkbox'/>Teams verwenden?<br/>\
-															 <span class='label empty'>&nbsp;</span><input id='playersInMultipleteams' type='checkbox' disabled='disabled'/>Spieler in mehreren Teams?<br/>\
-															 <span class='label empty'>&nbsp;</span><input id='shuffleTeams' type='checkbox' disabled='disabled'/>Teams mischen?<br/>\
-															 <span class='label empty'>&nbsp;</span><input id='autoTeamNames' type='checkbox' disabled='disabled'/>Automatische Teamnamen?<br/>\
-															 <span class='label empty'>&nbsp;</span><input id='creatorNoTeam' type='checkbox' disabled='disabled'/>Spielersteller Neutral?<br/>\
+															 <span class='label'>Team-Optionen</span><input type='checkbox' disabled='disabled' " + (gameSeries.useTeams ? "checked='checked'" : "") + "/>Teams verwenden?<br/>\
+															 " + (gameSeries.useTeams ? teamOptions : "") + "\
 															 <div class='spacer'></div>\
 															 <span class='label'>Sonstige-Optionen</span><input id='checkInvitable' type='checkbox' checked='checked'/>Einladbarkeit beachten?<br/>\
 															 <span class='label empty'>&nbsp;</span><input id='creatorLeaveMatches' type='checkbox' disabled='disabled'/>Spielersteller aussteigen?<br/>\
 															 ";
+			document.getElementById("players_teams").innerHTML  = ""; // TODO
+															 
 			// update form
 			document.getElementById("type").innerHTML = "\"" + gameSeries.type + "\"";
+			
+			// TODO auf der Auswahl-Seite für die Art der Spieleserie eine Check-box "Teams verwenden" ergänzen und dieses flag gleich bei der Erstellung übergeben
 		}
 	};
 	
@@ -379,8 +389,9 @@ var KaroMUSKEL = (function() {
 		// KaroMUSKEL constants
 		SERIES_TYPES: ["simple", "balanced", "league", "KO" ],
 		// internal data types
-		GameSeries: function(type) {
+		GameSeries: function(type, useTeams) {
 			this.type = type;
+			this.useTeams = useTeams;
 		},
         // Karopapier data types     
         Game: function(name, players, map, options) {

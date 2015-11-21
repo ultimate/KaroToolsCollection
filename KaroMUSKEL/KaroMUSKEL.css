@@ -81,6 +81,12 @@ body {
 	height: 25px;
 }
 
+.use_teams.centered {
+	width: 150px;
+	height: 20px;
+	top: 149px;
+}
+
 .close_button {
 	position: absolute;
 	right: 15px;
