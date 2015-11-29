@@ -25,6 +25,8 @@ import muskel2.util.Language;
 public class StartScreen extends Screen implements ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
+	
+	public static final int BUTTON_SIZE = 60;
 
 	private ButtonGroup			buttonGroup;
 	
@@ -44,7 +46,7 @@ public class StartScreen extends Screen implements ActionListener
 		radioButton = new JRadioButton(Language.getString("gameseries.simple"));
 		radioButton.setActionCommand("muskel2.model.series.SimpleGameSeries");
 		radioButton.addActionListener(this);
-		setIcons(radioButton, 80);
+		setIcons(radioButton, BUTTON_SIZE);
 		
 		gbc.gridy = 0;
 		gbc.gridx = 0;
@@ -54,9 +56,9 @@ public class StartScreen extends Screen implements ActionListener
 		radioButton = new JRadioButton(Language.getString("gameseries.balanced"));
 		radioButton.setActionCommand("muskel2.model.series.BalancedGameSeries");
 		radioButton.addActionListener(this);
-		setIcons(radioButton, 80);
+		setIcons(radioButton, BUTTON_SIZE);
 		
-		gbc.gridy = 1;
+		gbc.gridy++;
 		gbc.gridx = 0;
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);
@@ -64,9 +66,19 @@ public class StartScreen extends Screen implements ActionListener
 		radioButton = new JRadioButton(Language.getString("gameseries.league"));
 		radioButton.setActionCommand("muskel2.model.series.LeagueGameSeries");
 		radioButton.addActionListener(this);
-		setIcons(radioButton, 80);
+		setIcons(radioButton, BUTTON_SIZE);
 		
-		gbc.gridy = 2;
+		gbc.gridy++;
+		gbc.gridx = 0;
+		this.add(radioButton, gbc);
+		this.buttonGroup.add(radioButton);
+
+		radioButton = new JRadioButton(Language.getString("gameseries.allcombinations"));
+		radioButton.setActionCommand("muskel2.model.series.AllCombinationsGameSeries");
+		radioButton.addActionListener(this);
+		setIcons(radioButton, BUTTON_SIZE);
+		
+		gbc.gridy++;
 		gbc.gridx = 0;
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);
@@ -74,9 +86,9 @@ public class StartScreen extends Screen implements ActionListener
 		radioButton = new JRadioButton(Language.getString("gameseries.ko"));
 		radioButton.setActionCommand("muskel2.model.series.KOGameSeries");
 		radioButton.addActionListener(this);
-		setIcons(radioButton, 80);
+		setIcons(radioButton, BUTTON_SIZE);
 
-		gbc.gridy = 3;
+		gbc.gridy++;
 		gbc.gridx = 0;
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);
@@ -84,9 +96,9 @@ public class StartScreen extends Screen implements ActionListener
 		radioButton = new JRadioButton(Language.getString("gameseries.load"));
 		radioButton.setActionCommand("load");
 		radioButton.addActionListener(this);
-		setIcons(radioButton, 80);
+		setIcons(radioButton, BUTTON_SIZE);
 
-		gbc.gridy = 4;
+		gbc.gridy++;
 		gbc.gridx = 0;
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);

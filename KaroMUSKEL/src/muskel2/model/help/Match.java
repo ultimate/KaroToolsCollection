@@ -6,30 +6,29 @@ public class Match implements Serializable
 {
 	private static final long	serialVersionUID	= 1L;
 
-	private Team				team1;
-	private Team				team2;
+	private Team[]	teams;
 
-	public Match(Team team1, Team team2)
+	public Match(Team... teams)
 	{
 		super();
-		this.team1 = team1;
-		this.team2 = team2;
-	}
-
-	public Team getTeam1()
-	{
-		return team1;
-	}
-
-	public Team getTeam2()
-	{
-		return team2;
+		this.teams = teams;
 	}
 	
-	public void swapTeams()
+	public Team[] getTeams()
 	{
-		Team tmp = team1;
-		team1 = team2;
-		team2 = tmp;
+		return teams;
+	}
+
+	public Team getTeam(int index)
+	{
+		return teams[index];
+	}
+
+	public void rotateTeams()
+	{
+		Team tmp = teams[0];
+		for(int i = 1; i < teams.length; i++)
+			teams[i-1] = teams[i];
+		teams[teams.length-1] = tmp;
 	}
 }

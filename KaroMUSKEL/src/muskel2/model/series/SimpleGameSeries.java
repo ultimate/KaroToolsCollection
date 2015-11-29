@@ -108,7 +108,7 @@ public class SimpleGameSeries extends GameSeries
 			increasePlannedGames(gamePlayers);
 
 			tmpRules = rules.clone().createRandomValues();
-			name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, null, null, -1);
+			name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, null, -1);
 			
 			game = new Game(name, map, gamePlayers, tmpRules);
 			this.games.add(game);

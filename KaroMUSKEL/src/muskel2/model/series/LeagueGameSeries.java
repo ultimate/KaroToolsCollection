@@ -58,13 +58,13 @@ public class LeagueGameSeries extends TeamBasedGameSeries
 				{					
 					if(round % 2 == 0)
 					{
-						home = match.getTeam1();
-						guest = match.getTeam2();
+						home = match.getTeam(0);
+						guest = match.getTeam(1);
 					}
 					else
 					{
-						home = match.getTeam2();
-						guest = match.getTeam1();
+						home = match.getTeam(1);
+						guest = match.getTeam(0);
 					}
 					
 					if(this.useHomeMaps && !((round % 2 == 1) && (round == this.numberOfGamesPerPair)))
@@ -92,7 +92,7 @@ public class LeagueGameSeries extends TeamBasedGameSeries
 					increasePlannedGames(gamePlayers);
 
 					tmpRules = rules.clone().createRandomValues();
-					name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, home, guest, -1);
+					name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, match.getTeams(), -1);
 					
 					game = new Game(name, map, gamePlayers, tmpRules);
 					

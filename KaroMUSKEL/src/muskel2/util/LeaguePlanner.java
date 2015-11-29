@@ -1,5 +1,7 @@
 package muskel2.util;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -106,7 +108,7 @@ public abstract class LeaguePlanner
 					{
 						for(Match m : ms)
 						{
-							if(m.getTeam1().equals(t) && minHomeTeams.contains(m.getTeam2()))
+							if(m.getTeam(0).equals(t) && minHomeTeams.contains(m.getTeam(1)))
 								swappable++;
 						}
 					}
@@ -124,7 +126,7 @@ public abstract class LeaguePlanner
 					{
 						for(Match m : ms)
 						{
-							if(m.getTeam2().equals(t) && maxHomeTeams.contains(m.getTeam1()))
+							if(m.getTeam(1).equals(t) && maxHomeTeams.contains(m.getTeam(0)))
 								swappable++;
 						}
 					}
@@ -154,9 +156,9 @@ public abstract class LeaguePlanner
 				{
 					for(Match m : ms)
 					{
-						if(m.getTeam1().equals(t1) && m.getTeam2().equals(t2))
+						if(m.getTeam(0).equals(t1) && m.getTeam(1).equals(t2))
 						{
-							m.swapTeams();
+							m.rotateTeams();
 							swapped = true;
 							maxHomeTeams.remove(t1);
 							minHomeTeams.remove(t2);
@@ -171,6 +173,63 @@ public abstract class LeaguePlanner
 		return matches;
 	}
 
+	public static List<Match> createMatchesSpecial(List<Team> teams, int numberOfTeamsPerMatch)
+	{
+		List<Match> matches = new ArrayList<Match>();
+		
+		int[] selectors = new int[numberOfTeamsPerMatch];
+		for(int i = 0; i < numberOfTeamsPerMatch; i++)
+			selectors[i] = i;
+		
+		Team[] matchTeams;
+		do
+		{
+			matchTeams = new Team[numberOfTeamsPerMatch];
+			for(int i = 0; i < numberOfTeamsPerMatch; i++)
+				matchTeams[i] = teams.get(selectors[i]); 
+			matches.add(new Match(matchTeams));
+		} while(incrementSelectors(selectors, teams.size()));
+		
+		return matches;
+	}
+
+	private static boolean incrementSelectors(int[] s, int max)
+	{
+		int pointer = s.length-1;
+		
+		boolean success = false;
+		while(pointer >= 0)
+		{
+			if(s[pointer] < max-(s.length-pointer))
+			{
+				s[pointer]++;
+				for(int p = pointer + 1; p < s.length; p++)
+				{
+					s[p] = s[p-1]+1;
+					if(s[p] > max-(s.length-p))
+						return false;
+				}
+				success = true;
+				break;
+			}
+			else
+			{
+				pointer--;
+			}
+		}
+		return success;
+	}
+
+	public static int calculateNumberOfMatches(int teams, int teamsPerMatch)
+	{
+		BigInteger ret = BigInteger.ONE;
+		for(int k = 0; k < teamsPerMatch; k++)
+		{
+			ret = ret.multiply(BigInteger.valueOf(teams - k)).divide(BigInteger.valueOf(k + 1));
+		}
+		return ret.intValue();
+	}
+
 	private static int countHomeMatches(List<List<Match>> matches, Team t)
 	{
 		int home = 0;
@@ -178,7 +237,7 @@ public abstract class LeaguePlanner
 		{
 			for(Match m : ms)
 			{
-				if(m.getTeam1().equals(t))
+				if(m.getTeam(0).equals(t))
 					home++;
 			}
 		}
@@ -187,6 +246,18 @@ public abstract class LeaguePlanner
 
 	public static void main(String[] args)
 	{
+		int[] s = new int[] {0,1,2,3};
+		do
+		{
+			for(int i = 0; i < s.length; i++)
+				System.out.print(s[i] + " ");
+			System.out.println();
+		}
+		while(incrementSelectors(s, 8));
+		
+		
+		
+		
 		for(int i = 0; i < 1; i++)
 		{
 			List<Player> list = new LinkedList<Player>();
@@ -223,11 +294,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}
@@ -257,11 +328,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}
@@ -291,11 +362,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}
@@ -325,11 +396,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}
@@ -359,11 +430,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}
@@ -393,11 +464,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}
@@ -427,11 +498,11 @@ public abstract class LeaguePlanner
 			{
 				for(Match match : dayList)
 				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
+					System.out.print(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+					if(check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))])
 						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))] = true;
+					check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))] = true;
 				}
 				System.out.println("");
 			}

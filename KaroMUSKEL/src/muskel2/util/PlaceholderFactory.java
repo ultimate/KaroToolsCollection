@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import muskel2.model.Direction;
+import muskel2.model.Game;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
@@ -12,7 +13,7 @@ import muskel2.model.help.Team;
 
 public abstract class PlaceholderFactory
 {
-	public static String applyPlaceholders(Karopapier karopapier, String title, Map map, List<Player> gamePlayers, Rules rules, int count, int day, int dayCount, Team home, Team guest, int teams)
+	public static String applyPlaceholders(Karopapier karopapier, String title, Map map, List<Player> gamePlayers, Rules rules, int count, int day, int dayCount, Team[] teams, int rounds)
 	{
 		String name = title;
 		StringBuilder tmp;
@@ -63,25 +64,34 @@ public abstract class PlaceholderFactory
 		}
 		
 		// teams
-		if(home != null)
-			name = name.replace("${team.heim}", "" + home.getName());
-		if(home != null)
-			name = name.replace("${team.gast}", "" + guest.getName());
+		if(teams != null)
+		{
+			tmp = new StringBuilder();
+			
+			for(int i = 0; i < teams.length; i++)
+			{
+				if(i > 0)
+					tmp.append(" vs. ");
+				tmp.append(teams[i].getName());
+			}
+			
+			name = name.replace("${teams}", tmp.toString());
+		}
 		
 		// runde
-		if(teams > 0)
+		if(rounds > 0)
 		{
 			if(name.contains("${runde}"))
 			{
-				if(teams == 2)
+				if(rounds == 2)
 					name = name.replace("${runde}", Language.getString("titlepatterns.final"));
-				else if(teams == 4)
+				else if(rounds == 4)
 					name = name.replace("${runde}", Language.getString("titlepatterns.semifinal"));
-				else if(teams == 8)
+				else if(rounds == 8)
 					name = name.replace("${runde}", Language.getString("titlepatterns.quarterfinal"));
 				else
 				{
-					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (teams/2)).replace("${i}", "" + (teams)));
+					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (rounds/2)).replace("${i}", "" + (rounds)));
 					
 				}
 			}
@@ -137,5 +147,19 @@ public abstract class PlaceholderFactory
 		name = name.replace("${regeln.richtung}", Language.getString("titlepatterns.direction") + rules.getDirection());
 
 		return name;
+	}
+	
+	/**
+	 * Shortcut for {@link PlaceholderFactory#applyPlaceholders(Karopapier, String, Map, List, Rules, int, int, int, Team, Team, int)}
+	 * Note: some Placeholders might not work here!
+	 * @param karopapier
+	 * @param title
+	 * @param game
+	 * @param count
+	 * @return
+	 */
+	public static String applyPlaceholders(Karopapier karopapier, String title, Game game, int count)
+	{
+		return applyPlaceholders(karopapier, title, game.getMap(), game.getPlayers(), game.getRules(), count, 0, 0, null, 0);
 	}
 }

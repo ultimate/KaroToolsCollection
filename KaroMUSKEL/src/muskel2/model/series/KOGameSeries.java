@@ -101,7 +101,7 @@ public class KOGameSeries extends TeamBasedGameSeries
 				increasePlannedGames(gamePlayers);
 
 				tmpRules = rules.clone().createRandomValues();
-				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, home, guest, shuffledTeams.size());
+				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, new Team[] {home, guest}, shuffledTeams.size());
 				
 				game = new Game(name, map, gamePlayers, tmpRules);
 
