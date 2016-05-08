@@ -26,6 +26,8 @@ game = {
 		}
 	}
 */
+
+var ME; // init variable in order to be able to check if for undefined
  
 var KaroMUSKEL = (function() {	
 	// constants
@@ -135,11 +137,18 @@ var KaroMUSKEL = (function() {
 		ui.classList.add("ui");
 		var tabBar = document.createElement("div");
 			tabBar.id = TAB_BAR_ID;
+			/*
 			tabBar.innerHTML = "<a id='bar_1' class='selected'><div class='frame'>&Uuml;bersicht</div></a>\
 								<a id='bar_2'><div class='frame'>Spieler / Teams</div></a>\
 								<a id='bar_3'><div class='frame'>Spieltage / Runden</div></a>\
 								<a id='bar_4'><div class='frame'>Zusammenfassung</div></a>\
 								<a id='bar_5'><div class='frame'>Auswertung</div></a>";
+								*/
+			tabBar.appendChild(componentFactory.createADiv("bar_1", "&Uuml;bersicht", 		"selected", "frame", null));
+			tabBar.appendChild(componentFactory.createADiv("bar_2", "Spieler / Teams", 		null, 		"frame", null));
+			tabBar.appendChild(componentFactory.createADiv("bar_3", "Spieltage / Runden", 	null, 		"frame", null));
+			tabBar.appendChild(componentFactory.createADiv("bar_4", "Zusammenfassung", 		null, 		"frame", null));
+			tabBar.appendChild(componentFactory.createADiv("bar_5", "Auswertung", 			null, 		"frame", null));
 		var tabContent = document.createElement("div");
 			tabContent.id = TAB_CONTENT_ID;
 			//tabContent.classList.add("frame");
@@ -163,9 +172,9 @@ var KaroMUSKEL = (function() {
 					gameSeries = new KaroMUSKEL.GameSeries();
 					updateUI(gameSeries);
 				}));
-            mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", null, "frame"));
-            mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", null, "frame"));
-            mainMenu.appendChild(componentFactory.createADiv("menu_4", "Info", null, "frame", function() {  
+            mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", 	null, "frame"));
+            mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", 	null, "frame"));
+            mainMenu.appendChild(componentFactory.createADiv("menu_4", "Info", 			null, "frame", function() {  
                 tabs.select(6);
                 if(tabContent.firstChild.lastChild.children.length <= 1)
                 {
@@ -349,22 +358,39 @@ var KaroMUSKEL = (function() {
 			eval(DATA_USER_LIST + " = " + DependencyManager.scriptContents[userListIndex]);
 			eval(DATA_MAP_LIST  + " = " + DependencyManager.scriptContents[mapListIndex]);
 			// lookup current user
-			console.log("KaroMUSKEL: you are logged in as '" + ME.login + "'");
-			for(var i = 0; i < userList.length; i++)
+			if(ME)
 			{
-				if(userList[i].login == ME.login)
+				console.log("KaroMUSKEL: you are logged in as '" + ME.login + "'");
+				for(var i = 0; i < userList.length; i++)
 				{
-					currentUser = userList[i];
-					break;
+					if(userList[i].login == ME.login)
+					{
+						currentUser = userList[i];
+						break;
+					}
 				}
+				if(currentUser == null)
+				{
+					console.error("KaroMUSKEL: current user not found in user list!");
+				}
+				initUI();
+				updateUI(null);
+				initialized = true;
 			}
-			if(currentUser == null)
-			{
-				console.error("KaroMUSKEL: current user not found in user list!");
+			else
+			{				
+				console.log("KaroMUSKEL: you are not logged in!");
+				// TODO show not logged in message
+				var elem = document.getElementById(LOADER_TEXT_ID).parentElement;
+				var div = document.createElement("div");
+				div.appendChild(document.createTextNode("Du bist nicht eingeloggt! Bitte einloggen und neu laden!"));
+				// not sure if css is loaded properly
+				div.style.color = "red";
+				div.style.position = "relative";
+				div.style.top = "2em";
+				div.style.textAlign = "center";
+				elem.appendChild(div);
 			}
-			initUI();
-			updateUI(null);
-			initialized = true;
 		});
 		DependencyManager.registrationDone();
 	}
