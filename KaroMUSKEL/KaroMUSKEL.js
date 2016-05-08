@@ -38,6 +38,7 @@ var KaroMUSKEL = (function() {
 	var MENU_ID = "menu";
 	var PLACEHOLDERS_ID = "placeholders";
 	var TITLE_ID = "title";
+	var PREVIEW_ID = "preview";
 	var TAB_BAR_ID = "tab_bar";
 	var TAB_CONTENT_ID = "tab_content";
 	var DATA_USER_LIST = "userList";
@@ -275,7 +276,7 @@ var KaroMUSKEL = (function() {
 							   <span class='label empty'>&nbsp;</span><input id='autoTeamNames' type='checkbox'/>Automatische Teamnamen?<br/>\
 							   <span class='label empty'>&nbsp;</span><input id='creatorNoTeam' type='checkbox'/>Spielersteller Neutral?<br/>";
 			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='" + TITLE_ID + "' style='width: 500px;' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/><br/>\
-															 <span class='label empty'>&nbsp;</span><input id='preview' type='text' disabled='disabled' style='width: 500px;' value='preview...'/><br/>\
+															 <span class='label empty'>&nbsp;</span><input id='" + PREVIEW_ID + "' type='text' disabled='disabled' style='width: 500px;' value='preview...'/><br/>\
 															 " + placeholders + "<br/>\
 															 <div class='spacer'></div>\
 															 <div class='spacer'></div>\
@@ -292,13 +293,21 @@ var KaroMUSKEL = (function() {
 			// update form
 			document.getElementById("type").innerHTML = "\"" + gameSeries.type + "\"";
 			
-			// append handlers
+			// add event handlers
+			document.getElementById(TITLE_ID).onkeypress = function(event) {
+					var title = document.getElementById(TITLE_ID).value;
+					// TODO replace placeholders
+					document.getElementById(PREVIEW_ID).value = title;
+				};			
+			document.getElementById(TITLE_ID).onkeydown = document.getElementById(TITLE_ID).onkeypress;
+			document.getElementById(TITLE_ID).onkeyup = document.getElementById(TITLE_ID).onkeypress;
 			document.getElementById(PLACEHOLDERS_ID).onclick = function(event) {
 					var placeholder = event.target.getAttribute("placeholder_value");
 					if(placeholder != null)
 					{
 						console.log("inserting placeholder '" + placeholder + "' at caret");
-						insertAtCaret(TITLE_ID, placeholder); 	
+						insertAtCaret(TITLE_ID, placeholder); 
+						document.getElementById(TITLE_ID).onkeypress();
 					}					
 				};
 			
