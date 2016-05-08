@@ -2,6 +2,10 @@ body {
     overflow-y: scroll;
 }
 
+a {
+	color: inherit;
+}
+
 #KaroMUSKELWrapper {
 	position: relative;
 	padding: 1px;
@@ -257,7 +261,8 @@ ul.size250 > li > ul  {
 	transition: all 0s, background 0.5s;
 }
 
-.tabbar_horizontal a:hover>div,.tabbar_horizontal a.selected>div {
+.tabbar_horizontal a:hover>div,
+.tabbar_horizontal a.selected>div {
 	background: rgba(51,51,153, 0.2);
 	transition: background 0.5s;
 }
