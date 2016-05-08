@@ -18,6 +18,7 @@ body {
 	left: 0px;
 	right: 0px;
 	margin: auto;
+	transform: unset !important;
 }
 
 /* layout */

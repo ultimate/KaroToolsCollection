@@ -1,0 +1,26 @@
+<NotepadPlus>
+    <Project name="KaroMUSKEL">
+        <File name="KaroMUSKEL\KaroMUSKEL.css" />
+        <File name="KaroMUSKEL\KaroMUSKEL.html" />
+        <File name="KaroMUSKEL\KaroMUSKEL.js" />
+    </Project>
+    <Project name="KaroAPI">
+        <Folder name="game">
+            <File name="api\game\add.json" />
+        </Folder>
+        <Folder name="map">
+            <File name="api\map\list.json" />
+        </Folder>
+        <Folder name="user">
+            <Folder name="1">
+                <File name="api\user\1\blocker.json" />
+                <File name="api\user\1\info.json" />
+            </Folder>
+            <Folder name="Botrix">
+                <File name="api\user\Botrix\dran.json" />
+            </Folder>
+            <File name="api\user\check.json" />
+            <File name="api\user\list.json" />
+        </Folder>
+    </Project>
+</NotepadPlus>
