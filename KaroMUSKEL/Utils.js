@@ -1,4 +1,4 @@
-function insertAtCaret(areaId,text) {
+var insertAtCaret = function(areaId,text) {
     var txtarea = document.getElementById(areaId);
     var scrollPos = txtarea.scrollTop;
     var strPos = 0;
@@ -30,4 +30,4 @@ function insertAtCaret(areaId,text) {
         txtarea.focus();
     }
     txtarea.scrollTop = scrollPos;
-}
+};

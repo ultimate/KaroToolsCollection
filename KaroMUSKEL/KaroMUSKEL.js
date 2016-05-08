@@ -36,6 +36,8 @@ var KaroMUSKEL = (function() {
 	var LOADER_VALUE_ID = "loader_value";
 	var LOADER_TEXT_ID = "loader_text";
 	var MENU_ID = "menu";
+	var PLACEHOLDERS_ID = "placeholders";
+	var TITLE_ID = "title";
 	var TAB_BAR_ID = "tab_bar";
 	var TAB_CONTENT_ID = "tab_content";
 	var DATA_USER_LIST = "userList";
@@ -237,30 +239,32 @@ var KaroMUSKEL = (function() {
 		}
 		else
 		{
-			var placeholders = "<ul id='placeholders' class='size150'>\
-									<li class='tree_item frame'>Platzhalter einf&uuml;gen\
+			// TODO placeholder_values so anpassen, dass diese den echten Spiel-Properties entsprechen,
+			// so dass darüber generisch auf die Eigenschaften zugegriffen werden kann.
+			var placeholders = "<ul id='" + PLACEHOLDERS_ID + "' class='size200'>\
+									<li class='tree_item frame'><b>+</b> Platzhalter einf&uuml;gen\
 										<ul class='size200'>\
 											<li class='tree_item frame'>Allgemeine Einstellungen\
 												<ul class='size100'>\
-													<li class='tree_item frame'>ZZZ</li>\
-													<li class='tree_item frame'>TC</li>\
-													<li class='tree_item frame'>CPs</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.zzz}'>ZZZ</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.tc}'>TC</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.cps}'>CPs</li>\
 												</ul>\
 											</li>\
 											<li class='tree_item frame'>Spieler / Teams\
 												<ul class='size200'>\
-													<li class='tree_item frame'>Spieler (ohne Spielersteller)</li>\
-													<li class='tree_item frame'>Spieler (mit Spielersteller)</li>\
-													<li class='tree_item frame'>Heim-Spieler/Team</li>\
-													<li class='tree_item frame'>Gast-SpielerTeam</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.spieler2}'>Spieler (ohne Spielersteller)</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.spieler}'>Spieler (mit Spielersteller)</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.teams.heim}'>Heim-Spieler/Team</li>\
+													<li class='tree_item frame' placeholder_value='${spiel.teams.gast}'>Gast-SpielerTeam</li>\
 												</ul>\
 											</li>\
 											<li class='tree_item frame'>Spieltage / Runden\
 												<ul class='size250'>\
-													<li class='tree_item frame'>Laufende Spielnummer (total)</li>\
-													<li class='tree_item frame'>Laufende Spielnummer (Spieltag)</li>\
-													<li class='tree_item frame'>Anzahl Spiele (total)</li>\
-													<li class='tree_item frame'>Anzahl Spiele (Spieltag)</li>\
+													<li class='tree_item frame' placeholder_value='${serie.spielnummer.total}'>Laufende Spielnummer (total)</li>\
+													<li class='tree_item frame' placeholder_value='${serie.spielnummer.spieltag}'>Laufende Spielnummer (Spieltag)</li>\
+													<li class='tree_item frame' placeholder_value='${serie.spielanzahl.total}'>Anzahl Spiele (total)</li>\
+													<li class='tree_item frame' placeholder_value='${serie.spielanzahl.spieltag}'>Anzahl Spiele (Spieltag)</li>\
 												</ul>\
 											</li>\
 										</ul>\
@@ -270,8 +274,9 @@ var KaroMUSKEL = (function() {
 							   <span class='label empty'>&nbsp;</span><input id='shuffleTeams' type='checkbox'/>Teams mischen?<br/>\
 							   <span class='label empty'>&nbsp;</span><input id='autoTeamNames' type='checkbox'/>Automatische Teamnamen?<br/>\
 							   <span class='label empty'>&nbsp;</span><input id='creatorNoTeam' type='checkbox'/>Spielersteller Neutral?<br/>";
-			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='title' style='width: 500px;' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/>" + placeholders + "<br/>\
+			document.getElementById("overview").innerHTML = "<span class='label'>Titel</span><input id='" + TITLE_ID + "' style='width: 500px;' type='text' placeholder='Bitte gebe der Spielserie einen Namen...'/><br/>\
 															 <span class='label empty'>&nbsp;</span><input id='preview' type='text' disabled='disabled' style='width: 500px;' value='preview...'/><br/>\
+															 " + placeholders + "<br/>\
 															 <div class='spacer'></div>\
 															 <div class='spacer'></div>\
 															 <span class='label'>Typ</span><span id='type'></span><br/>\
@@ -286,6 +291,16 @@ var KaroMUSKEL = (function() {
 															 
 			// update form
 			document.getElementById("type").innerHTML = "\"" + gameSeries.type + "\"";
+			
+			// append handlers
+			document.getElementById(PLACEHOLDERS_ID).onclick = function(event) {
+					var placeholder = event.target.getAttribute("placeholder_value");
+					if(placeholder != null)
+					{
+						console.log("inserting placeholder '" + placeholder + "' at caret");
+						insertAtCaret(TITLE_ID, placeholder); 	
+					}					
+				};
 			
 			// TODO auf der Auswahl-Seite für die Art der Spieleserie eine Check-box "Teams verwenden" ergänzen und dieses flag gleich bei der Erstellung übergeben
 		}
@@ -322,6 +337,7 @@ var KaroMUSKEL = (function() {
 		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "user/list.json", true, true);
 		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "map/list.json?nocode=true", true, true);
         // register other dependencies
+		DependencyManager.register("Utils", 		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/Utils.js", false, true);
 		DependencyManager.register(VERSION_HISTORY, "http://rawgit.com/ultimate/KaroMUSKEL/master/README.md", true, true);
 		DependencyManager.register(STYLE_SHEET,     "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
 		// get the data indexes

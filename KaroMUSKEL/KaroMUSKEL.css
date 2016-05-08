@@ -145,9 +145,9 @@ input[type=text]:disabled {
 #placeholders {
 	display: inline;
 	position: absolute;
-	top: -13px;
 	padding-left: 0px;
-	margin-left: 10px;
+	margin-left: 150px;
+	margin-top: 0px;
 }
 
 /*
