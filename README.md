@@ -1,5 +1,5 @@
-KaroMUSKEL1
-===========
+KaroMUSKEL V1.x
+===============
 
 <b>This is a backup and maintenance branch for the outdated Version 1 only!<br>
 See other branches for other versions!</b>
