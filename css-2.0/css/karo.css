@@ -1,0 +1,277 @@
+body,td,ul,caption,center,form,div,span {
+	font-weight:normal;
+	text-decoration:none;
+}
+
+body
+{
+	background-image:url(/images/background.jpg);
+	margin: 0;
+}
+
+p
+{
+	padding: 5px;
+}
+
+select,textarea,input { font-size: 0.8em; background-color: #CCCCCC; color: #000000; border: 1px solid #999999}
+h1
+{
+	font-size: 1.5em;
+  text-align: center;
+  text-shadow: 2px 2px 0px rgba(100,100,100,0.5);
+}
+h2
+{
+	font-size: 1.3em;
+  font-weight:bold
+}
+
+/* general formats */
+span.small {
+	font-size: .7em;
+}
+
+div.clearer
+{
+	clear: both;
+}
+
+#header
+{
+  background-image: url(/images/head.jpg);
+  background-position: -4px 0px;
+  /* height: 81px; */
+  height: 51px;
+}
+
+#infoBar
+{
+	position: absolute;
+	right: 20px;
+	top: 27px;
+	width: 250px;
+}
+
+#container
+{
+	float: left;
+	width: 100%;
+}
+
+#sidebar
+{
+	float: left;
+	width: 170px;
+	margin-left: -100%;
+}
+
+#content
+{
+	margin-left: 170px;
+}
+
+#navi
+{
+  font-size: 1.2em;
+  /* background-image: url(/images/line.jpg);
+  background-position: -1px 19px;
+  background-repeat: repeat-x; */
+  padding: 25px 0px 0px 0px;
+  margin: 0px;
+}
+
+#navi li
+{
+	/* float: left; */
+  height: 25px;
+	list-style: none;
+	padding: 0px 10px 0px 10px;
+	/* margin: 0px 2px 0px 2px;
+	text-align: center; */
+	background-color: rgba(255,255,255,.4);
+}
+
+#navi li a {
+	text-decoration: none;
+}
+
+#navi li a:hover {
+	text-decoration: none;
+	text-shadow: #333333 1px -1px 1px;
+	background-image: url(/images/unterstrich.png);
+	background-repeat: no-repeat;
+	background-position: 0px 15px;
+}
+
+#navi li a:visited {
+}
+
+/* Navigation 2. Ebene */
+#navi li ul {
+  display: none;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid black;
+  left: 50px;
+  top: -25px;
+}
+
+#navi li:hover ul {
+  display: block;
+}
+
+#navi li ul li {
+  display: block;
+  float: none;
+	/* background-color: rgba(255,255,255,.9); */
+	background-color: #fff;
+}
+
+
+.clearer
+{
+	clear: both;
+}
+
+a {
+	text-decoration:none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+table.thin
+{ 
+	border-spacing: 0px;
+	border: none;
+	border-collapse:collapse
+}
+
+table.thin > tbody > tr > th
+{
+	border-right: 1px solid #339;
+	border-bottom: 1px solid #339;
+	padding: 2px;
+}
+
+table.thin > tbody > tr > th.last
+{
+	border-right: none;
+}
+
+table.thin > tbody > tr > td
+{
+	border-right: 1px solid #339;
+	border-top: 1px dotted #339;
+	padding: 2px;
+}
+
+table.thin > tbody > tr > td.last
+{
+	border-right: none;
+}
+
+.boxtr, .boxtl, .boxbr, .boxbl {
+margin:0;
+padding:0; 
+}
+
+.boxcontent {
+margin:0;
+padding:15px 20px 15px 25px;
+}
+
+.boxcontent p {
+margin:0;
+padding:0;
+}
+
+.info
+{
+	border: 1px solid blue;
+	background-color: lightblue;
+}
+
+.notify
+{
+	border: 1px solid green;
+	background-color: lightgreen;
+}
+
+.warning
+{
+	border: 1px solid orange;
+	background-color: yellow;
+}
+
+.error
+{
+	border: 1px solid red;
+	background-color: orange;
+}
+
+.userLabel:hover
+{
+	color: #66c;
+}
+
+.userTag
+{
+	font-size: 0.8em;
+	position: absolute;
+	width: 250px;
+	height: 150px;
+	background-color: white;
+	opacity: 1;
+	moz-opacity: 1;
+	border: 1px solid #339;
+	overflow: auto;
+	z-index: 999999999;
+}
+
+.mapTag
+{
+	font-size: 0.8em;
+	position: absolute;
+	width: 250px;
+	height: 150px;
+	background-color: white;
+	opacity: 1;
+	moz-opacity: 1;
+	border: 1px solid #339;
+	overflow: auto;
+	z-index: 999999999;
+}
+
+.highlight
+{
+  color: #44a;
+  font-weight: bold;
+  background-color: #ff9;
+}
+
+.userTagActions
+{
+	padding: 1px;
+}
+
+.userTagActionImg
+{
+  cursor: pointer;
+	border-right: 1px solid #ccf;
+	border-bottom: 1px solid #ccf;
+	padding-left: 1px;
+	padding-top: 1px;
+}
+
+.userTagActionImg:hover
+{
+	border: 1px solid blue;
+	padding: 0px;
+}
+
+.left
+{
+	text-align: left;
+}
