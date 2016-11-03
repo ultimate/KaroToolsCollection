@@ -1,4 +1,4 @@
-package eval;
+package ultimate.karopapier.eval.model;
 
 import java.util.Map;
 import java.util.TreeMap;

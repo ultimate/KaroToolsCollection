@@ -1,4 +1,4 @@
-package eval;
+package ultimate.karopapier.eval.model;
 
 public class TableRecord extends Record<TableRecord, Integer>
 {

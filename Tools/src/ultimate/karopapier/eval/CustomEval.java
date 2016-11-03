@@ -1,4 +1,4 @@
-package eval;
+package ultimate.karopapier.eval;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -25,6 +25,10 @@ import java.util.TreeMap;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.threads.ThreadQueue;
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
+import ultimate.karopapier.eval.model.GameResult;
+import ultimate.karopapier.eval.model.PlayerRecord;
+import ultimate.karopapier.eval.model.PlayerResult;
+import ultimate.karopapier.eval.model.TableRecord;
 
 public abstract class CustomEval
 {

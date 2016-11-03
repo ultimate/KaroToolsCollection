@@ -1,4 +1,4 @@
-package eval;
+package ultimate.karopapier.eval;
 
 import java.util.Collections;
 import java.util.Date;
@@ -6,6 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
+import ultimate.karopapier.eval.model.GameResult;
+import ultimate.karopapier.eval.model.PlayerRecord;
+import ultimate.karopapier.eval.model.PlayerResult;
+import ultimate.karopapier.eval.model.TableRecord;
 
 public class IQEval extends CustomEval
 {
