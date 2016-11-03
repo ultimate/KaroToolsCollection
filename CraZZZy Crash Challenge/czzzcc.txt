@@ -1,0 +1,33 @@
+[[Bild:Czzzcc01.jpg]]
+
+= CraZZZy Crash Challenge = 
+== Worum geht's? ==
+Ziel dieser Challenges ist es den wohl verrücktesten und im Umgang mit Crashs geschicktesten Fahrer zu ermitteln. Es geht dabei in allen Rennen nicht nur darum als erster ins Ziel zu kommen, sondern das auch noch mit möglichst vielen Crashs. Die Herausforderung besteht also darin geschickt TCs in den Rennen unterzubringen um dadurch Punkte zu sammeln und dennoch schnell ins Ziel zu gelangen.
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Organisation & Reglement ==
+Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen Spielersteller 'CraZZZy' erstellt. Ich selbst nehme als ganz normaler Teilnehmer teil.
+
+Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne ich eine Strecke, die mit einem bestimmten ZZZ absolviert wird. Es ist dabei auch möglich, dass eine Strecke mit mehreren ZZZ-Einstellungen befahren wird, diese zählen dann als einzelne Challenges. Die Liste der Challenges wird von Ausführung zu Ausführung variiert, genauso, wie sich die Teilnehmerzahl oder Kleinigkeiten an den Regeln ändern können.
+
+== Punktevergabe ==
+Die Punkte eines Spielers werden pro Rennen als Produkt aus der Anzahl der Crashs und der Grundpunktezahl, die anhand der Platzierung vergeben wird, berechnet. Es liegt also im Interesse aller Spieler sowohl so schnell wie möglich, als auch mit so vielen Crashs wie Möglich ins Ziel zu gelangen.
+
+Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, wenn man nicht crasht, da bekanntlicher Weise auch für den ersten Platz 0 Crashs * 7 Punkte = 0 Punkte ist. Im Gegenzug ist es aber möglich als zweiter oder dritter auch mehr Punkte als der erste zu haben, wenn man entsprechend mehr Crashs auf dem Konto hat.
+
+Außerdem gibt es in den einzelnen Ausführungen Sonderregeln für Bonus- oder Strafpunkte.
+
+== Historie ==
+Die CraZZZy Crash Challenge gibt es in mehreren Ausführungen:
+
+{|class="wikitable"
+! Ausführung||Ankündigung||Start||Ende||Challenges||Teilnehmer||Rennen p.S.p.C.||Rennen p.S.||Rennen insgesamt||Züge insgesamt||Crashs insgesamt||Gewinner
+|-
+|[[CraZZZy Crash Challenge 1]]||05.09.2010||03.10.2010||13.04.2016||15||42||5||75||465||326492||15846||{{Benutzer|quabla}} 
+|-
+|[[CraZZZy Crash Challenge 2]]||08.10.2011||11.02.2012||21.07.2014||20||30||6||120||870||212761||18842||{{Benutzer|quabla}} 
+|-
+|}
+[[Kategorie:Meisterschaft]]

@@ -1,0 +1,482 @@
+[[Bild:Czzzcc02.jpg|rechts]]
+
+= CraZZZy Crash Challenge 2 = 
+== Worum geht's? ==
+Es ist so weit...
+
+Die '''"hüpfdolig scheibenpoliturdurchsichtig und baumwipfelpilzgut(e) Idee"''' (Robert 06.09.2010) einer '''"kraZZZe(n) Unfallstatistikerweiterungsrennserie"''' (Jody 14.09.2010) geht in die nächste Runde!
+
+Diesmal geht es um mehr, als nur den wohl verrücktesten und im Umgang mit Crashs geschicktesten Fahrer zu ermitteln! Hier geht es um '''Titelverteidigung''', '''Wiederherstellung der eigenen Ehre''', '''neue Taktiken''' und natürlich jede Menge '''Spaß'''!
+
+Wie vorher geht dabei in allen Rennen nicht nur darum als erster ins Ziel zu kommen, sondern das auch noch mit möglichst vielen Crashs. Die Herausforderung besteht also darin geschickt TCs in den Rennen unterzubringen um dadurch Punkte zu sammeln und dennoch schnell ins Ziel zu gelangen.
+
+Dies ist die [[CraZZZy Crash Challenge 2|2. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist und bleibt {{Benutzer|ultimate}}
+
+== And the winner is... ==
+
+... '''{{Benutzer|quabla}}'''
+
+Details gibt es in der [[#Gesamtwertung|Gesamtwertung]]
+
+= Organisation & Reglement =
+== Allgemeines ==
+Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen Spielersteller 'CraZZZy' erstellt. Ich selbst nehme als ganz normaler Teilnehmer teil.
+
+Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne ich eine Strecke, die mit einem bestimmten ZZZ absolviert wird. Es ist dabei auch möglich, dass eine Strecke mit mehreren ZZZ-Einstellungen befahren wird, diese zählen dann als einzelne Challenges. Die Liste der Challenges gibt es unten: [[#Challenges|Challenges]]
+
+Das [[#Teilnehmerfeld|Teilnehmerfeld]] steht fest! [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Die Anmeldung lief wieder übers Forum] !
+
+== Regeln ==
+1. TC ist erlaubt und ausdrücklich erwünscht bzw. notwendig!
+
+2. Das Ausnutzen des Punktesystems ist untersagt. *
+
+3. Die Spielrichtung wird für jede Challenge individuell festgelegt und ist strikt einzuhalten.
+
+4. Sämtliche Regelverstöße führen zu einer Nichtwertung des verstoßenden Spielers im entsprechenden Rennen.
+
+5. Blocken wird bestraft, ich weiß aber noch nicht wie ;-)
+
+6. Sollte ein Spieler (z.B. bei ZZZ=0) in die Situation kommen, dass er sich nicht mehr bewegen kann und daher bei jedem Seitenaufruf immer wieder crashen, bis Didi ihn versetzt, dann zählt das nur als ein Crash. **
+
+7. Ausstiege und Rausschmisse werden mit Strafpunkten geahndet. Mehr dazu im Abschnitt [[#Strafpunkte|Strafpunkte]].
+
+8. Der Spielveranstalter ({{Benutzer|ultimate}}) behält sich vor die Regeln zu ergänzen oder außer Kraft zu setzen, wenn dies erforderlich ist.
+
+'''Anmerkungen:'''
+
+<nowiki>*</nowiki> Ziel dieser Regel ist es Situationen zu vermeiden, in denen Spieler, beliebig viele Crashs bauen können, um so ihren Punktestand unfair in die Höhe zu treiben, z.B. durch taktische Absprachen mit anderen Spielern. Sollte außerdem das Teilnehmerfeld eines Rennens durch Ausstiege oder Rauswürfe so weit reduziert werden, dass alle noch verbleibenden Spieler einen Platz in den Punkterängen belegen, so werden alle Crashs nach dem entscheidenen Rausschmiss/Ausstieg nicht mehr gewertet. In Ausnahmefällen können die Crashs gewertet werden, wenn ersichtlich ist, dass alle Spieler ohne Absprachen "normal" weiter in Ziel gefahren sind.
+
+<nowiki>**</nowiki> Ich habe diese Regeln noch nachgetragen, da dieser Fall, wenn auch unwahrscheinlich, eintreten kann und dann dem betroffenen Spieler (auch wenn er unter Umständen nichts dafür kann) einen entscheidenden und unfairen Vorteil bringt.
+
+== Punktevergabe ==
+=== Reguläre Punkte ===
+Die Punkte eines Spielers werden pro Rennen als Produkt aus der Anzahl der Crashs und der Grundpunktezahl, die anhand der Platzierung vergeben wird, berechnet. Es liegt also im Interesse aller Spieler sowohl so schnell wie möglich, als auch mit so vielen Crashs wie Möglich ins Ziel zu gelangen.
+
+Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, wenn man nicht crasht, da bekanntlicher Weise auch für den ersten Platz 0 Crashs * 7 Punkte = 0 Punkte ist. Im Gegenzug ist es aber möglich als zweiter oder dritter auch mehr Punkte als der erste zu haben, wenn man entsprechend mehr Crashs auf dem Konto hat.
+
+{|class="wikitable"
+!Grundpunktezahl 3er||||Grundpunktezahl 4er||||Grundpunktezahl 5er
+|-
+|
+{|class="wikitable"
+! Platzierung||Punkte 
+|- 
+|1.||3 
+|-
+|2.||1 
+|-
+|3.||0
+|-
+|}
+||||
+
+{|class="wikitable"
+! Platzierung||Punkte 
+|- 
+|1.||4 
+|-
+|2.||2 
+|-
+|3.||1
+|-
+|4.||0
+|-
+|}
+||||
+
+{|class="wikitable"
+! Platzierung||Punkte 
+|- 
+|1.||5 
+|-
+|2.||3 
+|-
+|3.||2
+|-
+|4.||1
+|-
+|5.||0
+|-
+|}
+|-
+|}
+
+=== Bonuspunkte ===
+Zusätzlich zur regulären Punktezahl aus Crashs*Grundpunktezahl wird Bonuspunkte für besondere Leistungen geben. Diese werde sowohl pro Challenge, als auch auf die gesamte Meisterschaft gesehen vergeben:
+
+{|class="wikitable"
+!Leistung||Bonuspunkte (Challenge)||Bonuspunkte (gesamt)
+|-
+|Kleinste Gesamtzugzahl (ohne Crashs)||10||100
+|-
+|Meiste Crashs||10||100
+|-
+|Höchste Summe der Grundpunkte (= beste Gesamtplatzierung)||10||100
+|-
+|}
+
+=== Strafpunkte ===
+Sollte ein Spieler im Laufe der Challenge aus einem oder mehreren Spielen aussteigen oder rausgeworfen werden (egal ob automatisch oder durch Didi), dann werden dem Teilnehmer Strafpunkte abgezogen. Der betroffene Spieler erhält dabei in diesem Rennen so viele Strafpunkte, wie insgesamt Spieler an dem Rennen teilgenommen haben.
+
+Des weiteren gelten für die betroffenen Rennen eine Sonderregeln, die das Ausnutzen des Regelsystems verhindern soll:
+
+* Die Zugzahl des betroffenen Spielers wird in dem Rennen um eins höher gesetzt, als die maximal benötigte Zuganzahl, damit man durch den Ausstieg keinen Vorteil auf den Bonus für die geringste Zugzahl hat.
+
+=== Gesamtpunkte ===
+Aufgrund der Unterschiede zwischen den einzelnen Challenges (ZZZ, Strecke) wird es starke Unterschiede, was die Anzahl der Crashs angeht, zwischen den Challenges geben. Um dennoch allen Challenges die gleiche Wichtigkeit und den gleichen Einfluss auf die Gesamtwertung zuzusprechen, ist es notwendig eine Gewichtung der einzelnen Challenges vorzunehmen. Anderen Falls hätten Spieler, die bei einer Challenge mit hoher Crashzahl vorne liegen (z.B. erster Spieler mit 10 Crashs * 5 Punkte = 50 Punkte), Vorteile gegenüber Spielern , die bei einer Challenge vorne liegen, wo nur wenige Crashs sinnvoll sind (z.B. erster Spieler mit 1 Crashs * 5 Punkte = 5 Punkte).
+
+Für die Gesamtwertung werden daher die Gesamtpunkte aller Spieler pro Challenge so skaliert, dass der Spieler mit der höchsten Punktzahl bei dieser Challenge (ohne Bonuspunkte) auf genau 100 Punkte kommt. 
+
+Diese Regel hat keinen Einfluss auf die Einzelwertungen der Rennen oder die Reihenfolge der Spieler in der Tabellarischen Wertung für die Challenge. Weiterhin bleibt es sinnvoll, so schnell wie möglich, mit so vielen Crashs wie möglich ins Ziel zu kommen. 
+
+=== Beispiel ===
+In der folgenden Tabelle sind die Zahlen in den ersten beiden Spalten wie folgt zu lesen:
+
+''"Grundpunkte aufgrund der Platzierung im 1. Rennen"''*''"Crashzahl im 1. Rennen"'' + ''"Grundpunkte aufgrund der Platzierung im 2. Rennen"''*''"Crashzahl im 2. Rennen"'' + ...
+
+Spieler C hat in Challenge X kein gutes Ergebnis erfahren. Da jedoch in Challenge Y aufgrund der vielen Crashs alle Spieler eine sehr hohe Punktzahl erreicht haben, spielt Challenge X bei der Gesamtwertung kaum eine Rolle. Durch die Skalierung der Punkte wird dieses Problem behoben und Spieler mit konstant guten Leistungen erhalten einen besseren Schnitt. Es wird also mehr Wert auf eine durchweg gute Leistung gelegt.
+
+In Challenge X ist die höchste Punktzahl 24, daher wird mit (100/24) skaliert. In Challenge Y ist die höchste Punktzahl 137, daher wird mit (100/137) skaliert. Auf die Gesamtpunktzahl würden dann noch die Bonuspunkte draufgerechnet werden.
+
+{|class="wikitable"
+! Spieler||Challenge X||Challenge Y||Summe (unskaliert)||Summe (skaliert)
+|- 
+|A||5*1 + 3*2 + 1*1 + 5*2 + 2*1 = 24||3*9 + 2*8 + 0*10 + 3*8 + 1*9 = 76||24 + 76 = 100||24*(100/24) + 76*(100/137) = 100 + 48,9 = 148,9
+|-
+|B||3*1 + 2*2 + 0*1 + 3*2 + 1*1 = 14||2*9 + 1*8 + 5*10 + 2*8 + 0*9 = 92||14 + 92 = 106||14*(100/24) + 92*(100/137) = 58,3 + 67,2 = 125,5
+|-
+|C||2*1 + 0*2 + 5*1 + 0*2 + 0*1 = 7||5*9 + 3*8 + 1*10 + 5*8 + 2*9 = 137||7 + 137 = 144||7*(100/24) + 137*(100/137) = 29,2 + 100 = 129,2
+|-
+|D||1*1 + 1*2 + 3*1 + 1*2 + 5*1 = 13||1*9 + 0*8 + 3*10 + 1*8 + 5*9 = 92||13 + 92 = 105||13*(100/24) + 92*(100/137) = 54,2 + 67,2 = 121,4
+|-
+|E||0*1 + 5*2 + 2*1 + 2*2 + 3*1 = 19||0*9 + 5*8 + 2*10 + 0*8 + 3*9 = 87||19 + 87 = 106||19*(100/24) + 87*(100/137) = 79,2 + 63,5 = 142,7
+|-
+|}
+
+=== Punktgleichheit ===
+Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
+
+1. mehr Crashs
+
+2. mehr Grundpunkte
+
+3. weniger Züge
+
+== Challenges ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 2 gefahren:
+
+{|class="wikitable"
+! Nr.||Strecke||Spielerzahl||ZZZ||CPs||Spielzahl
+|-
+|'''1'''||{{Karte|114}} Fischi||3||5||ja||60
+|-
+|'''2'''||{{Karte|135}} Schnuller||3||8||ja||60
+|-
+|'''3'''||{{Karte|187}} Yun2||3||5||ja||60
+|-
+|'''4'''||{{Karte|108}} Für Annie :wavey:||3||9||ja||60
+|-
+|'''5'''||{{Karte|116}} Silbermond||4||8||ja||45
+|-
+|'''6'''||{{Karte|188}} Karo Wave||4||11||ja||45
+|-
+|'''7'''||{{Karte|164}} Notenschlüssel||4||4||ja||45
+|-
+|'''8'''||{{Karte|33}} Highway To Hell||4||0||n.V.||45
+|-
+|'''9'''||{{Karte|174}} Billard||4||7||ja||45
+|-
+|'''10'''||{{Karte|111}} Yin und Yang||4||1||n.V.||45
+|-
+|'''11'''||{{Karte|190}} Twister||5||2||ja||36
+|-
+|'''12'''||{{Karte|83}} Checkpoint-Strecke||5||3||ja||36
+|-
+|'''13'''||{{Karte|181}} Sandbowl||5||6||ja||36
+|-
+|'''14'''||{{Karte|191}} Doppelkringel||5||11||ja||36
+|-
+|'''15'''||{{Karte|127}} Ball||5||4||ja||36
+|-
+|'''16'''||{{Karte|154}} Parkanalage||5||15||ja||36
+|-
+|'''17'''||{{Karte|123}} Miez||5||3||ja||36
+|-
+|'''18'''||{{Karte|138}} Kreis||5||10||ja||36
+|-
+|'''19'''||{{Karte|94}} Taschenrechner||5||0||ja||36
+|-
+|'''20'''||{{Karte|182}} Mensch ärgere dich nicht||5||0||ja||36
+|-
+|}
+
+Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
+
+== Spielzusammenstellung ==
+Die Spielerverteilung auf die zu bestreitenden Rennen erfolgt zufällig, da die gesamte Serie mit dem [[KaroMUSKEL]] erstellt wird. Das Prinzip sieht aber wie folgt aus.
+
+Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei 30 Teilnehmern 180 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4 oder 5) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Auf diese Weise sollte sich eine faire und gleichmäßige Verteilung der Spieler über die Rennen einstellen. Da das aber bei der [[CraZZZy Crash Challenge 1]] nur mäßig gut funktioniert hat wurde der [[KaroMUSKEL]] hier nochmal nachgebessert. Es werden nun immer die Spielerkombinationen bevorzugt, die bisher am seltensten waren, wodurch die Wer-gegen-Wen-Verteilung wesentlich ausgewogener ist. (Scheint aber irgendwie noch nicht ganz so zu funktionieren wie gedacht...)
+
+Auf diese Weise ergeben sich bei 180 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 6:
+
+{|class="wikitable"
+! Anzahl Spieler pro Rennen||Gesamtzahl der Rennen in einer Challenge||Anzahl Challenges mit dieser Spielerzahl||Gesamtzahl der Rennen
+|-
+|3||60||4||240
+|-
+|4||45||6||270
+|-
+|5||36||10||360
+|-
+|}
+''
+'''Summe: 870 Rennen'''
+
+== Teilnehmerfeld ==
+Die angestrebte Spielerzahl von 30 wurde erreicht!
+
+Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?forumid=8&thread=928 Anmeldung im Forum] oder bei der [http://www.karopapier.de/poll.php?pid=199 Umfrage].
+Es werden natürlich auch [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Anmeldungen im CCC 1 Forum] berücksichtigt, es war hier ja auch lange Zeit falsch verlinkt... :-)
+
+{|class="wikitable"
+! Teilnehmer||||||||
+|-
+|1. {{Benutzer|ultimate}}||7. {{Benutzer|aristarch}}||13. {{Benutzer|mAvErICk}}||19. {{Benutzer|greesu}}||25. {{Benutzer|OleOCrasher}}
+|-
+|2. {{Benutzer|cptjag}}||8. {{Benutzer|quabla}}||14. {{Benutzer|phiurr}}||20. {{Benutzer|hasi}}||26. {{Benutzer|ImThinkin}}
+|-
+|3. {{Benutzer|InstanceOfChris}}||9. {{Benutzer|Superhajo }}||15. {{Benutzer|Rennsumsa}}||21. {{Benutzer|A300}}||27. {{Benutzer|Akari}}
+|-
+|4. {{Benutzer|Robert}}||10. {{Benutzer|cachito}}||16. {{Benutzer|loecksche}}||22. {{Benutzer|RyxX}}||28. {{Benutzer|Karaser}}
+|-
+|5. {{Benutzer|wolle}}||11. {{Benutzer|Pitty}}||17. {{Benutzer|Kinvarra}}||23. {{Benutzer|sir tobi}}||29. {{Benutzer|KingT}}
+|-
+|6. {{Benutzer|ulli}}||12. {{Benutzer|falcristo}}||18. {{Benutzer|Jody}}||24. {{Benutzer|Yashem}}||30. {{Benutzer|Mippi}}
+|-
+|}
+
+= Status =
+== Durchführungstatus ==
+
+* '''07.10.2011 12:00''' {{Benutzer|ultimate}} fängt in seiner Mittagspause schon mal ganz heimlich mit den ersten Vorbereitungen an...
+* '''08.10.2011 16:00''' Arbeiten an der Wiki-Seite und Erstellung des Forums
+* '''??.11.2011	??:??''' Immer mal wieder Strecken und ZZZs testen
+* '''??.12.2011	??:??''' Immer mal wieder Strecken und ZZZs testen
+* '''01.01.2012	16:20''' Start der [http://www.karopapier.de/poll.php?pid=199 Umfrage zur CCC 2]
+* '''01.01.2012	16:21''' Neue Infos hier im Wiki (Karten, Spielerzahl, ...)
+* '''07.01.2012	21:16''' Anmeldung geschlossen, alle 30 Plätze belegt
+* '''21.01.2012	16:38''' Nachtkarten durch andere Challenges ersetzt
+* '''28.01.2012	13:35''' Bild hinzugefügt
+* '''11.02.2012	13:25''' Spiele gestartet
+* '''18.02.2012	12:30''' Erste Auswertung
+* '''24.03.2012	??:??''' {{Benutzer|InstanceOfChris}} fällt der [[KaroMAMA]] zum Opfer
+* '''15.10.2012 20:39''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 11|Challenge 11]] ist beendet
+* '''28.11.2012 00:34''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 7|Challenge 7]] ist beendet
+* '''04.01.2013 09:03''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 4|Challenge 4]] ist beendet
+* '''02.05.2013 07:09''' {{Benutzer|Hasi}} ist als erster (ohne Ausstieg) mit allen Rennen fertig
+* '''23.05.2013 01:15''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 13|Challenge 13]] ist beendet
+* '''05.06.2013 15:31''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 1|Challenge 1]] ist beendet
+* '''10.06.2013 11:16''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 5|Challenge 5]] ist beendet
+* '''14.06.2013 16:23''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 12|Challenge 12]] ist beendet
+* '''19.06.2013 17:13''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 18|Challenge 18]] ist beendet
+* '''14.08.2013 23:37''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 14|Challenge 14]] ist beendet
+* '''11.09.2013 16:00''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 2|Challenge 2]] ist beendet
+* '''07.10.2013 09:15''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 16|Challenge 16]] ist beendet
+* '''01.11.2013 23:38''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 17|Challenge 17]] ist beendet
+* '''05.11.2013 22:13''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 20|Challenge 20]] ist beendet
+* '''23.01.2014 21:47''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 9|Challenge 9]] ist beendet
+* '''29.01.2014 23:28''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 3|Challenge 3]] ist beendet
+* '''28.04.2014 19:52''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 6|Challenge 6]] ist beendet
+* '''04.05.2014 10:42''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 10|Challenge 10]] ist beendet
+* '''22.05.2014 07:18''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 8|Challenge 8]] ist beendet
+* '''19.06.2014 09:27''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 15|Challenge 15]] ist beendet
+* '''21.07.2014 11:23''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 19|Challenge 19]] ist beendet
+* '''10.02.2015 09:20''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
+
+== Detailwertung ==
+Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
+
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 1|Challenge 1]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 2|Challenge 2]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 3|Challenge 3]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 4|Challenge 4]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 5|Challenge 5]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 6|Challenge 6]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 7|Challenge 7]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 8|Challenge 8]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 9|Challenge 9]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 10|Challenge 10]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 11|Challenge 11]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 12|Challenge 12]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 13|Challenge 13]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 14|Challenge 14]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 15|Challenge 15]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 16|Challenge 16]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 17|Challenge 17]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 18|Challenge 18]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 19|Challenge 19]]
+*[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 20|Challenge 20]]
+
+
+== Gesamtwertung ==
+{|class="wikitable alignedright"
+!Platz||Spieler||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 1|1]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 2|2]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 3|3]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 4|4]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 5|5]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 6|6]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 7|7]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 8|8]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 9|9]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 10|10]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 11|11]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 12|12]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 13|13]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 14|14]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 15|15]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 16|16]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 17|17]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 18|18]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 19|19]]||[[CraZZZy Crash Challenge 2 - Detailwertung Challenge 20|20]]||Grundpunkte (gesamt)||Crashs (gesamt)||Züge (gesamt)||Skalierte Punkte (gesamt)||Challenge-Bonus (gesamt)||Bonus (Gesamtwertung)||Endergebnis
+|-
+|1.||'''[[Benutzer:quabla|quabla]]'''||44.44||'''100.0'''||78.68||'''100.0'''||88.79||'''100.0'''||86.36||83.33||'''100.0'''||'''100.0'''||76.47||'''100.0'''||77.11||'''100.0'''||97.14||'''100.0'''||74.55||'''100.0'''||86.18||70.45||'''390'''||'''779'''||6723||1763.5||+130||'''+200'''||'''2093.5'''
+|-
+|2.||'''[[Benutzer:cptjag|cptjag]]'''||97.53||22.22||72.06||73.72||96.55||55.56||77.27||95.83||78.57||56.04||79.41||'''100.0'''||'''100.0'''||49.23||77.14||52.17||67.27||44.87||69.45||90.45||374||631||'''6530'''||1455.34||+90||'''+100'''||'''1645.34'''
+|-
+|3.||'''[[Benutzer:hasi|hasi]]'''||74.07||80.95||57.35||71.15||'''100.0'''||73.33||81.82||50.0||53.57||71.98||73.53||76.92||89.16||55.38||'''100.0'''||46.96||87.27||34.62||61.82||92.27||368||639||6656||1432.15||+60||-||'''1492.15'''
+|-
+|4.||'''[[Benutzer:ulli|ulli]]'''||95.06||42.86||77.21||51.92||48.28||47.22||'''100.0'''||75.0||21.43||42.86||61.76||'''100.0'''||55.42||45.38||92.86||46.96||78.18||39.74||'''100.0'''||'''100.0'''||348||597||6698||1322.14||+100||-||'''1422.14'''
+|-
+|5.||'''[[Benutzer:aristarch|aristarch]]'''||54.32||61.11||48.53||48.72||66.38||65.0||56.82||64.88||37.86||70.33||47.06||50.0||91.57||66.92||71.43||58.26||'''100.0'''||47.44||52.73||73.64||317||640||6832||1233.0||+20||-||'''1253.0'''
+|-
+|6.||'''[[Benutzer:mAvErICk|mAvErICk]]'''||'''100.0'''||83.33||'''100.0'''||32.05||51.72||45.0||52.27||46.43||70.71||39.01||50.0||37.18||43.37||73.08||36.43||49.57||60.0||19.23||69.82||69.55||271||674||6869||1128.75||+40||-||'''1168.75'''
+|-
+|7.||'''[[Benutzer:OleOJumper|OleOCrasher]]'''||43.21||66.67||57.35||46.79||53.45||66.11||75.0||41.07||46.43||70.33||41.18||50.0||77.11||75.38||62.86||48.7||70.91||28.21||49.45||73.64||279||691||6847||1143.85||+20||-||'''1163.85'''
+|-
+|8.||'''[[Benutzer:Rennsumsa|Rennsumsa]]'''||44.44||45.24||38.97||28.21||51.72||46.67||48.86||67.86||51.43||38.46||97.06||76.92||37.35||86.92||57.14||47.83||67.27||25.64||70.91||78.64||281||639||6880||1107.54||+0||-||'''1107.54'''
+|-
+|9.||'''[[Benutzer:ultimate|ultimate]]'''||64.2||32.54||66.91||38.46||20.69||65.0||45.45||66.07||29.29||50.0||64.71||42.31||91.57||36.92||85.71||33.04||81.82||24.36||47.64||46.36||262||661||6903||1033.05||+10||-||'''1043.05'''
+|-
+|10.||'''[[Benutzer:RyxX|RyxX]]'''||50.62||72.22||81.62||70.51||46.55||27.78||47.73||72.62||14.29||33.52||85.29||50.0||'''100.0'''||26.15||28.57||41.74||78.18||37.18||29.09||33.64||243||619||6936||1027.3||+0||-||'''1027.3'''
+|-
+|11.||'''[[Benutzer:Pitty|Pitty]]'''||58.02||47.62||23.53||33.97||43.97||82.22||14.77||34.52||43.57||42.31||41.18||55.13||31.33||67.69||71.43||43.48||72.73||42.31||40.36||63.18||219||746||7056||953.32||+60||-||'''1013.32'''
+|-
+|12.||'''[[Benutzer:Mippi|Mippi]]'''||77.78||54.76||8.82||67.31||55.17||17.78||42.05||68.45||74.29||48.35||38.24||62.82||49.4||65.38||43.57||48.7||29.09||48.72||21.09||69.09||241||680||6970||990.86||+10||-||'''1000.86'''
+|-
+|13.||'''[[Benutzer:falcristo|falcristo]]'''||96.3||65.08||34.56||46.79||49.14||17.78||34.09||63.69||51.43||18.13||47.06||84.62||78.31||49.23||72.86||31.3||18.18||51.28||17.45||62.27||227||607||6884||989.55||+10||-||'''999.55'''
+|-
+|14.||'''[[Benutzer:phiurr|phiurr]]'''||41.98||57.14||65.44||53.85||44.83||45.56||32.95||18.45||52.86||42.31||44.12||34.62||81.93||56.92||29.29||26.09||85.45||32.05||32.0||67.73||242||660||6903||945.57||+0||-||'''945.57'''
+|-
+|15.||'''[[Benutzer:wolle|wolle]]'''||34.57||70.63||41.18||22.44||32.76||43.33||60.23||19.64||32.86||26.92||52.94||73.08||30.12||62.31||67.14||43.48||65.45||47.44||36.73||50.0||213||723||7163||913.25||+20||-||'''933.25'''
+|-
+|16.||'''[[Benutzer:Kinvarra|Kinvarra]]'''||49.38||64.29||15.44||41.03||34.48||37.78||40.91||51.19||48.57||26.37||79.41||28.21||79.52||96.92||40.71||52.17||30.91||23.08||37.09||47.73||215||681||7035||925.19||+0||-||'''925.19'''
+|-
+|17.||'''[[Benutzer:KingT|KingT]]'''||76.54||66.67||25.0||36.54||44.83||49.44||72.73||52.98||48.57||30.77||17.65||73.08||16.87||24.62||39.29||54.78||45.45||32.05||36.36||78.64||215||629||6935||922.86||+0||-||'''922.86'''
+|-
+|18.||'''[[Benutzer:Jody|Jody]]'''||0.0||26.98||11.76||0.0||24.14||48.33||65.91||'''100.0'''||32.86||36.26||'''100.0'''||61.54||55.42||25.38||71.43||20.87||30.91||57.69||41.82||57.73||210||660||7142||869.03||+30||-||'''899.03'''
+|-
+|19.||'''[[Benutzer:A300|A300]]'''||82.72||48.41||20.59||20.51||27.59||36.11||51.14||50.0||33.57||49.45||50.0||55.13||69.88||58.46||29.29||60.0||21.82||11.54||61.82||37.27||251||564||6842||875.3||+10||-||'''885.3'''
+|-
+|20.||'''[[Benutzer:Yashem|Yashem]]'''||38.27||23.02||22.79||13.46||44.83||46.11||39.77||76.79||26.43||35.16||55.88||21.79||39.76||42.31||38.57||14.78||67.27||23.08||30.55||27.27||167||688||7148||727.89||+40||-||'''767.89'''
+|-
+|21.||'''[[Benutzer:sir tobi|sir tobi]]'''||13.58||45.24||33.82||28.21||27.59||48.89||38.64||59.52||35.0||23.63||41.18||61.54||49.4||49.23||46.43||33.91||12.73||41.03||16.36||41.36||211||568||7006||747.29||+0||-||'''747.29'''
+|-
+|22.||'''[[Benutzer:Karaser|Karaser]]'''||25.93||30.16||48.53||5.13||27.59||48.89||25.0||16.07||52.86||25.27||20.59||28.21||55.42||36.15||12.86||26.96||83.64||16.67||46.18||75.91||167||679||7314||708.02||+20||-||'''728.02'''
+|-
+|23.||'''[[Benutzer:ImThinkin|ImThinkin]]'''||32.1||44.44||8.82||45.51||31.03||35.0||15.91||30.95||43.57||13.74||47.06||44.87||97.59||42.31||30.71||33.04||32.73||8.97||20.73||43.64||165||721||7716||702.72||+10||-||'''712.72'''
+|-
+|24.||'''[[Benutzer:loecksche|loecksche]]'''||30.86||38.89||14.71||37.82||36.21||17.78||52.27||33.33||15.71||2.75||32.35||56.41||72.29||43.08||36.43||15.65||32.73||33.33||50.55||33.18||183||611||7215||686.33||+0||-||'''686.33'''
+|-
+|25.||'''[[Benutzer:Akari|Akari]]'''||69.14||24.6||10.29||41.67||31.03||13.33||30.68||14.29||12.14||18.13||88.24||30.77||84.34||34.62||32.86||19.13||38.18||8.97||12.36||23.18||144||668||7453||637.95||+20||-||'''657.95'''
+|-
+|26.||'''[[Benutzer:Superhajo|Superhajo]]'''||24.69||4.76||25.0||54.49||17.24||37.78||31.82||73.81||32.86||18.68||29.41||11.54||50.6||48.46||61.43||33.91||29.09||19.23||17.09||23.18||152||680||7448||645.07||+0||-||'''645.07'''
+|-
+|27.||'''[[Benutzer:cachito|cachito]]'''||23.46||0.0||8.82||8.97||27.59||3.33||9.09||30.36||37.14||17.03||20.59||30.77||63.86||15.38||21.43||13.04||23.64||37.18||28.73||58.64||142||545||7696||479.05||+10||-||'''489.05'''
+|-
+|28.||'''[[Benutzer:greesu|greesu]]'''||14.81||11.11||27.21||22.44||6.9||17.22||19.32||12.5||21.43||16.48||32.35||42.31||54.22||32.31||11.43||10.43||34.55||24.36||33.45||25.91||110||698||7648||470.74||+10||-||'''480.74'''
+|-
+|29.||'''[[Benutzer:Robert|Robert]]'''||17.28||26.19||-4.41||20.51||31.9||-5.56||38.64||0.6||5.0||-8.79||44.12||5.13||33.73||-10.77||29.29||2.61||3.64||21.79||-3.27||-6.82||-64||464||7598||240.81||+0||-||'''240.81'''
+|-
+|30.||'''[[Benutzer:InstanceOfChris|InstanceOfChris]]'''||-22.22||-14.29||-13.24||-11.54||-20.69||-13.33||-27.27||-14.29||-17.14||-13.19||-88.24||-38.46||-36.14||-23.08||-21.43||-26.09||-54.55||-38.46||-10.91||-13.64||-516||0||7715||-518.2||+0||-||'''-518.2'''
+|-
+|}
+
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 5 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"''
+* Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
+** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
+
+== Statistik ==
+==== Zahlen & Fakten ====
+*Rennen insgesamt: '''870'''
+*Teilnehmer: '''30'''
+*Rennen pro Spieler: '''120'''
+*Rennen pro Spieler pro Challenge: '''6'''
+*Züge insgesamt: '''212761'''
+*Crashs insgesamt: '''18842'''
+*Häufigste Begegnung: 23 mal [[Benutzer:Karaser|Karaser]] '''vs.''' [[Benutzer:OleOJumper|OleOCrasher]]
+*Seltenste Begegnung: 5 mal [[Benutzer:greesu|greesu]] '''vs.''' [[Benutzer:Yashem|Yashem]]
+==== Wer gegen wen? ====
+Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...
+{|class="wikitable"
+|||[[Benutzer:A300|A300]]||[[Benutzer:Akari|Akari]]||[[Benutzer:aristarch|aristarch]]||[[Benutzer:cachito|cachito]]||[[Benutzer:cptjag|cptjag]]||[[Benutzer:falcristo|falcristo]]||[[Benutzer:greesu|greesu]]||[[Benutzer:hasi|hasi]]||[[Benutzer:ImThinkin|ImThinkin]]||[[Benutzer:InstanceOfChris|InstanceOfChris]]||[[Benutzer:Jody|Jody]]||[[Benutzer:Karaser|Karaser]]||[[Benutzer:KingT|KingT]]||[[Benutzer:Kinvarra|Kinvarra]]||[[Benutzer:loecksche|loecksche]]||[[Benutzer:mAvErICk|mAvErICk]]||[[Benutzer:Mippi|Mippi]]||[[Benutzer:OleOJumper|OleOCrasher]]||[[Benutzer:phiurr|phiurr]]||[[Benutzer:Pitty|Pitty]]||[[Benutzer:quabla|quabla]]||[[Benutzer:Rennsumsa|Rennsumsa]]||[[Benutzer:Robert|Robert]]||[[Benutzer:RyxX|RyxX]]||[[Benutzer:sir tobi|sir tobi]]||[[Benutzer:Superhajo|Superhajo]]||[[Benutzer:ulli|ulli]]||[[Benutzer:ultimate|ultimate]]||[[Benutzer:wolle|wolle]]||[[Benutzer:Yashem|Yashem]]
+|-
+|[[Benutzer:A300|A300]]||-||17||17||12||11||19||10||13||8||14||13||16||12||12||12||9||19||17||13||12||13||14||21||22||9||12||15||11||14||9
+|-
+|[[Benutzer:Akari|Akari]]||17||-||18||9||19||8||22||12||9||13||14||17||17||15||9||15||14||13||16||15||11||15||15||13||11||12||19||8||6||14
+|-
+|[[Benutzer:aristarch|aristarch]]||17||18||-||9||14||10||15||11||10||18||15||12||11||18||14||13||15||18||15||12||15||10||16||11||15||12||8||10||17||17
+|-
+|[[Benutzer:cachito|cachito]]||12||9||9||-||19||14||16||16||14||14||13||13||10||9||13||16||13||11||18||15||17||17||12||9||15||10||15||14||18||15
+|-
+|[[Benutzer:cptjag|cptjag]]||11||19||14||19||-||17||11||16||17||16||13||11||11||13||13||13||9||14||16||14||13||11||11||10||12||13||14||14||17||14
+|-
+|[[Benutzer:falcristo|falcristo]]||19||8||10||14||17||-||17||12||13||14||12||15||16||13||12||14||12||13||12||16||17||14||14||15||9||10||16||13||18||11
+|-
+|[[Benutzer:greesu|greesu]]||10||22||15||16||11||17||-||15||11||13||13||13||16||15||14||15||9||7||10||15||12||13||13||18||13||20||13||21||11||5
+|-
+|[[Benutzer:hasi|hasi]]||13||12||11||16||16||12||15||-||16||14||16||8||9||9||10||17||16||10||17||17||12||18||14||13||19||12||10||12||14||18
+|-
+|[[Benutzer:ImThinkin|ImThinkin]]||8||9||10||14||17||13||11||16||-||20||7||15||14||9||17||13||18||14||13||10||19||22||17||10||9||18||13||13||11||16
+|-
+|[[Benutzer:InstanceOfChris|InstanceOfChris]]||14||13||18||14||16||14||13||14||20||-||14||13||10||7||8||11||15||10||12||15||14||16||16||11||18||17||14||12||12||15
+|-
+|[[Benutzer:Jody|Jody]]||13||14||15||13||13||12||13||16||7||14||-||19||12||15||16||12||14||19||13||10||13||9||16||10||19||18||13||16||13||9
+|-
+|[[Benutzer:Karaser|Karaser]]||16||17||12||13||11||15||13||8||15||13||19||-||17||15||15||10||8||23||12||15||17||8||8||7||17||17||17||13||12||13
+|-
+|[[Benutzer:KingT|KingT]]||12||17||11||10||11||16||16||9||14||10||12||17||-||19||19||14||10||20||11||13||9||15||8||16||15||19||17||11||9||16
+|-
+|[[Benutzer:Kinvarra|Kinvarra]]||12||15||18||9||13||13||15||9||9||7||15||15||19||-||17||15||12||18||14||18||9||19||13||12||11||16||12||15||14||12
+|-
+|[[Benutzer:loecksche|loecksche]]||12||9||14||13||13||12||14||10||17||8||16||15||19||17||-||13||15||13||21||14||13||12||11||13||17||15||11||13||15||11
+|-
+|[[Benutzer:mAvErICk|mAvErICk]]||9||15||13||16||13||14||15||17||13||11||12||10||14||15||13||-||6||19||13||12||13||13||18||15||14||7||15||15||18||18
+|-
+|[[Benutzer:Mippi|Mippi]]||19||14||15||13||9||12||9||16||18||15||14||8||10||12||15||6||-||9||6||18||13||14||18||18||13||20||9||14||19||20
+|-
+|[[Benutzer:OleOJumper|OleOCrasher]]||17||13||18||11||14||13||7||10||14||10||19||23||20||18||13||19||9||-||11||8||8||15||17||10||19||8||13||15||9||15
+|-
+|[[Benutzer:phiurr|phiurr]]||13||16||15||18||16||12||10||17||13||12||13||12||11||14||21||13||6||11||-||10||16||11||13||13||14||16||16||21||13||10
+|-
+|[[Benutzer:Pitty|Pitty]]||12||15||12||15||14||16||15||17||10||15||10||15||13||18||14||12||18||8||10||-||15||15||11||18||13||14||12||12||14||13
+|-
+|[[Benutzer:quabla|quabla]]||13||11||15||17||13||17||12||12||19||14||13||17||9||9||13||13||13||8||16||15||-||12||18||16||16||14||18||15||8||10
+|-
+|[[Benutzer:Rennsumsa|Rennsumsa]]||14||15||10||17||11||14||13||18||22||16||9||8||15||19||12||13||14||15||11||15||12||-||16||13||13||13||12||12||13||11
+|-
+|[[Benutzer:Robert|Robert]]||21||15||16||12||11||14||13||14||17||16||16||8||8||13||11||18||18||17||13||11||18||16||-||12||12||8||10||8||16||14
+|-
+|[[Benutzer:RyxX|RyxX]]||22||13||11||9||10||15||18||13||10||11||10||7||16||12||13||15||18||10||13||18||16||13||12||-||15||14||17||14||18||13
+|-
+|[[Benutzer:sir tobi|sir tobi]]||9||11||15||15||12||9||13||19||9||18||19||17||15||11||17||14||13||19||14||13||16||13||12||15||-||7||7||13||11||20
+|-
+|[[Benutzer:Superhajo|Superhajo]]||12||12||12||10||13||10||20||12||18||17||18||17||19||16||15||7||20||8||16||14||14||13||8||14||7||-||12||9||17||16
+|-
+|[[Benutzer:ulli|ulli]]||15||19||8||15||14||16||13||10||13||14||13||17||17||12||11||15||9||13||16||12||18||12||10||17||7||12||-||22||11||15
+|-
+|[[Benutzer:ultimate|ultimate]]||11||8||10||14||14||13||21||12||13||12||16||13||11||15||13||15||14||15||21||12||15||12||8||14||13||9||22||-||16||14
+|-
+|[[Benutzer:wolle|wolle]]||14||6||17||18||17||18||11||14||11||12||13||12||9||14||15||18||19||9||13||14||8||13||16||18||11||17||11||16||-||12
+|-
+|[[Benutzer:Yashem|Yashem]]||9||14||17||15||14||11||5||18||16||15||9||13||16||12||11||18||20||15||10||13||10||11||14||13||20||16||15||14||12||-
+|-
+|}
+
+[[Kategorie:Meisterschaft]]
