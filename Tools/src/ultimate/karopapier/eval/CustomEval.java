@@ -24,7 +24,7 @@ import java.util.TreeMap;
 
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.threads.ThreadQueue;
-import ultimate.karoapi4j.utils.web.URLLoaderThread;
+import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
 import ultimate.karopapier.eval.model.GameResult;
 import ultimate.karopapier.eval.model.PlayerRecord;
 import ultimate.karopapier.eval.model.PlayerResult;
@@ -150,7 +150,7 @@ public abstract class CustomEval
 		int start, end;
 		String page;
 		int pageSize = 25;
-		URLLoaderThread t;
+		StringURLLoaderThread t;
 		URL url = new URL(url_gameList);
 		String params = "finished_limit=10000000&games_order=gid&limit=";
 		String gidS = "showmap.php?GID=";
@@ -159,10 +159,10 @@ public abstract class CustomEval
 		while(Math.abs(upperBound - lowerBound) > pageSize)
 		{
 			limit = (upperBound + lowerBound) / 2;
-			t = new URLLoaderThread(url, params + limit);
+			t = new StringURLLoaderThread(url, params + limit);
 			t.start();
 			t.join();
-			page = t.getLoadedURLContent();
+			page = t.getLoadedContent();
 			page = page.substring(0, page.indexOf(pageEnd)); // chat-nachricht ausschliessen...
 			start = page.lastIndexOf(gidS);
 			end = page.indexOf(andS, start);
@@ -243,7 +243,7 @@ public abstract class CustomEval
 		{
 			file = new File(folderFile, e.getKey() + ".csv");
 			sb = new StringBuilder();
-			for(String s : e.getValue().get(0).labels)
+			for(String s : e.getValue().get(0).getLabels())
 			{
 				sb.append(s);
 				sb.append(";");
@@ -279,7 +279,7 @@ public abstract class CustomEval
 		String valueString;
 		sb = new StringBuilder();
 		sb.append("Spieler;");
-		for(String s : list.get(0).labels)
+		for(String s : list.get(0).getLabels())
 		{
 			sb.append(s);
 			sb.append(";");
@@ -685,7 +685,7 @@ public abstract class CustomEval
 
 	public abstract List<TableRecord> getTable();
 
-	private static class ResultThread extends URLLoaderThread
+	private static class ResultThread extends StringURLLoaderThread
 	{
 		private int	gid;
 

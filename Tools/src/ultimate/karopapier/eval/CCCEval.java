@@ -70,6 +70,7 @@ public class CCCEval
 
 	private static final String					highlight				= "'''";
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception
 	{
 		long start;
