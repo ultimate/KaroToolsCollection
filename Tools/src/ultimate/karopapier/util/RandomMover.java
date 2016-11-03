@@ -1,10 +1,11 @@
-package test;
+package ultimate.karopapier.util;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
-import muskelx.core.karoaccess.KaropapierLoader;
+import ultimate.karopapier.muskelx.core.karoaccess.KaropapierLoader;
+
 public class RandomMover
 {
 	public static void main(String[] args) throws IOException, InterruptedException

@@ -1,4 +1,4 @@
-package test;
+package ultimate.karopapier.test;
 
 import java.util.HashMap;
 import java.util.Map;

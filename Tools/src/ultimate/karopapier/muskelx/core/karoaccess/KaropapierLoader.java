@@ -166,7 +166,7 @@ public class KaropapierLoader
 			int end = playerPage.indexOf("BGCOLOR=", start);
 			if(end == -1)
 				break;
-			end = end + "BGCOLOR=".length() + 6;
+			end = Math.min(end + "BGCOLOR=".length() + 6, playerPage.indexOf(">", end));
 			currentIndex = end;
 
 			String playerS = playerPage.substring(start, end);

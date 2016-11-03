@@ -1,4 +1,4 @@
-package test;
+package ultimate.karopapier.test;
 
 import java.awt.Color;
 import java.util.LinkedList;
