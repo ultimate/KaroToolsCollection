@@ -39,8 +39,9 @@ import ultimate.karopapier.muskelx.model.Karopapier;
 
 // TODO Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die
 // auch für die Serie ausgewählt wurden
-public class PlayerCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener, TableCellRenderer
+public class PlayerCellEditor //extends AbstractCellEditor implements TableCellEditor, ActionListener, TableCellRenderer
 {
+	/*
 	private static final long	serialVersionUID	= 1L;
 
 	private JButton				button;
@@ -405,4 +406,5 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 		{
 		}
 	}
+	*/
 }

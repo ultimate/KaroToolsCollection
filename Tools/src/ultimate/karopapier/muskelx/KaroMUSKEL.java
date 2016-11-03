@@ -1,9 +1,8 @@
 package ultimate.karopapier.muskelx;
 
-import com.sun.scenario.Settings;
-
-import sun.java2d.cmm.Profile;
 import ultimate.karopapier.muskelx.model.Karopapier;
+import ultimate.karopapier.muskelx.model.Profile;
+import ultimate.karopapier.muskelx.model.Settings;
 
 public class KaroMUSKEL
 {

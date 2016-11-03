@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import muskel2.util.Language;
-import muskel2.util.PropertiesUtil;
+import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public class Settings
 {

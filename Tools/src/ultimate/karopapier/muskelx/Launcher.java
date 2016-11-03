@@ -3,13 +3,12 @@ package ultimate.karopapier.muskelx;
 import java.io.File;
 import java.util.Properties;
 
-import com.sun.scenario.Settings;
-
 import muskel2.util.Language;
 import ultimate.karopapier.muskelx.core.karoaccess.KaropapierLoader;
 import ultimate.karopapier.muskelx.gui.MainFrame;
 import ultimate.karopapier.muskelx.model.Karopapier;
 import ultimate.karopapier.muskelx.model.Profile;
+import ultimate.karopapier.muskelx.model.Settings;
 
 public class Launcher
 {

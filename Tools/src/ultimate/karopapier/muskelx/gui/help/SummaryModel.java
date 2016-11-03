@@ -16,8 +16,10 @@ import muskel2.model.Player;
 import muskel2.util.Language;
 import ultimate.karopapier.muskelx.Launcher;
 
-public class SummaryModel extends AbstractTableModel implements TableModel
+public class SummaryModel //extends AbstractTableModel implements TableModel
 {
+	/*
+	
 	private static final long	serialVersionUID	= 1L;
 
 	private GameSeries			gameSeries;
@@ -272,4 +274,5 @@ public class SummaryModel extends AbstractTableModel implements TableModel
 				break;
 		}
 	}
+	*/
 }
