@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ultimate</groupId>
+    <artifactId>workspace</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <name>ultimate's Karopapier Project</name>
+    <url>http://www.karopapier.de</url>
+	
+	<modules>
+		<module>KaroAPI4J</module>
+		<module>KaroMUSKEL</module>
+		<module>KaroTest</module>
+	</modules>
+
+	<prerequisites>
+		<maven>2.2.1</maven>
+	</prerequisites>
+
+	<developers>
+		<developer>
+			<name>ultimate</name>
+		</developer>
+	</developers>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+        <plugins>
+			<plugin>
+				<!-- compile the project -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<!-- Compiler Version -->
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- generate eclipse project files -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+					<workspace>${basedir}</workspace>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- execute unit-tests and generate test reports (html with all tests and results) -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<useFile>false</useFile>
+				</configuration>
+			</plugin>
+		</plugins>
+		<resources>
+			<!-- enable resource filterung for this folder -->
+			<!-- resource filterung means replacing ${...} values from the pom -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>		
+			<!-- additional resources only for test purposes -->
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+			<testResource>
+				<directory>src/main/webapp</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</testResource>
+		</testResources>
+		<extensions>
+		</extensions>
+	</build>
+
+	<repositories>
+		<!-- repositories used to download dependencies -->
+		<repository>
+			<id>central</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>glassfish-repository.dev.java.net</id>
+			<url>http://download.java.net/maven/glassfish</url>
+		</repository>
+		<repository>
+			<id>appfuse</id>
+			<url>http://static.appfuse.org/repository</url>
+		</repository>
+		<repository>
+			<id>mvnrepository.com</id>
+			<url>http://mvnrepository.com</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<!-- no additional plugin repos -->
+	</pluginRepositories>
+	
+	<profiles>
+		<profile>
+			<id>fullInstall</id>
+			<build>
+				<plugins>
+					<plugin>
+						<!-- create a jar file with the sources and add it to the local repo -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.1.2</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<!-- create a jar file with the javadoc and add it to the local repo -->
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.8</version>
+						<executions>
+							<execution>
+								<id>attach-javadoc</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	
+	<properties>
+		<!-- configure properties here for better overview -->
+
+		<!-- Versions of own libraries -->
+		<ultimate.KaroAPI4J.version>0.1</ultimate.KaroAPI4J.version>
+		<ultimate.KaroMUSKEL.version>3.0.0-pre</ultimate.KaroMUSKEL.version>
+		
+	</properties>
+</project>
