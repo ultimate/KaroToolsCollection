@@ -2,7 +2,6 @@ package muskel2.model;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.util.Map.Entry;
 
@@ -202,7 +201,12 @@ public class Player implements Serializable
 				}
 			}
 			if(original == null)
-				throw new NotSerializableException("could not deserialize player with id: " + this.id);
+			{
+				key = "<deleted>";
+				original = new Player(this.id, key, false, false, 0, 0, -1, -1, new Color(255, 0, 0));
+				//throw new NotSerializableException("could not deserialize player with id: " + this.id);
+				System.err.println("could not deserialize player with id: " + this.id);
+			}
 			Main.getKaropapier().getPlayers().put(key, this);
 		}
 		this.name = original.name;

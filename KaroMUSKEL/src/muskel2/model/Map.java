@@ -2,7 +2,6 @@ package muskel2.model;
 
 import java.awt.Image;
 import java.io.IOException;
-import java.io.NotSerializableException;
 import java.io.Serializable;
 
 import muskel2.Main;
@@ -16,7 +15,7 @@ public class Map implements Serializable
 	private String				creator;
 	private boolean				night;
 	private int					maxPlayers;
-	private Image			image;
+	private Image				image;
 
 	public Map()
 	{
@@ -93,7 +92,7 @@ public class Map implements Serializable
 	{
 		this.image = image;
 	}
-	
+
 	public String getLabel()
 	{
 		return this.name + " (#" + this.id + ")";
@@ -105,18 +104,22 @@ public class Map implements Serializable
 		return "Karte " + this.id + ": " + this.name + " (" + this.maxPlayers + " Spieler) von '" + creator + "' "
 				+ (this.night ? "'Nacht'" : "'Tag'");
 	}
-	
+
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
 		out.writeInt(this.id);
 	}
-	
+
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		this.id = in.readInt();
 		Map original = Main.getKaropapier().getMaps().get(this.id);
 		if(original == null)
-			throw new NotSerializableException("could not deserialize map with id: " + this.id);
+		{
+			original = new Map(this.id, "<deleted>", "unknown", false, 0, null);
+			// throw new NotSerializableException("could not deserialize map with id: " + this.id);
+			System.err.println("could not deserialize map with id: " + this.id);
+		}
 		this.name = original.name;
 		this.creator = original.creator;
 		this.night = original.night;

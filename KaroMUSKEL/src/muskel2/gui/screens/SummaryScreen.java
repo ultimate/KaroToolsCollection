@@ -8,8 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -33,9 +35,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+
+import org.json.JSONObject;
 
 import muskel2.core.karoaccess.GameCreator;
 import muskel2.gui.Screen;
@@ -48,6 +53,7 @@ import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.help.DirectionModel;
+import muskel2.util.JSONUtil;
 import muskel2.util.Language;
 import muskel2.util.PlaceholderFactory;
 
@@ -73,6 +79,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private JButton				createButton;
 	private JButton				leaveButton;
 	private JButton				saveButton;
+	private JButton				exportButton;
 
 	private SummaryModel		model;
 
@@ -156,6 +163,11 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.saveButton.setActionCommand("save");
 		this.saveButton.addActionListener(this);
 		buttonPanel.add(this.saveButton);
+
+		this.exportButton = new JButton(Language.getString("screen.summary.export"));
+		this.exportButton.setActionCommand("export");
+		this.exportButton.addActionListener(this);
+		buttonPanel.add(this.exportButton);
 
 		this.model = new SummaryModel();
 		this.table = new JTable(this.model);
@@ -272,6 +284,13 @@ public class SummaryScreen extends Screen implements ActionListener
 				if(action == JFileChooser.APPROVE_OPTION)
 				{
 					File file = fc.getSelectedFile();
+					
+					if(file.exists())
+					{
+						int result = JOptionPane.showConfirmDialog(this, Language.getString("option.overwrite"));
+						if(result != JOptionPane.OK_OPTION)
+							return;
+					}
 
 					FileOutputStream fos = new FileOutputStream(file);
 					BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -295,6 +314,67 @@ public class SummaryScreen extends Screen implements ActionListener
 			catch(IOException ex)
 			{
 				JOptionPane.showMessageDialog(this, Language.getString("error.save") + ex.getLocalizedMessage(), Language.getString("error.title"),
+						JOptionPane.ERROR_MESSAGE);
+			}
+			enableButtons();
+		}
+		else if(e.getActionCommand().equals("export"))
+		{
+			final String extension = ".json";
+			JFileChooser fc = new JFileChooser();
+			fc.setFileFilter(new FileFilter() {
+				
+				@Override
+				public String getDescription()
+				{
+					return "*" + extension;
+				}
+				
+				@Override
+				public boolean accept(File f)
+				{
+					return f.getName().endsWith(extension);
+				}
+			});
+			fc.setAcceptAllFileFilterUsed(false);
+			int action = fc.showSaveDialog(this);
+			try
+			{
+				if(action == JFileChooser.APPROVE_OPTION)
+				{
+					File file = fc.getSelectedFile();
+					
+					if(!file.getName().endsWith(extension))
+						file = new File(file.getPath() + extension);
+					
+					if(file.exists())
+					{
+						int result = JOptionPane.showConfirmDialog(this, Language.getString("option.overwrite"));
+						if(result != JOptionPane.OK_OPTION)
+							return;
+					}
+
+					FileWriter fw = new FileWriter(file);
+					BufferedWriter bw = new BufferedWriter(fw);
+
+					JSONObject json = JSONUtil.toJSON(gameSeries);
+					bw.write(json.toString(4));
+					//json.write(bw);
+					
+					bw.flush();
+					fw.flush();
+					
+					bw.close();
+					fw.close();
+				}
+				else if(action == JFileChooser.ERROR_OPTION)
+				{
+					throw new IOException("unknown");
+				}
+			}
+			catch(IOException ex)
+			{
+				JOptionPane.showMessageDialog(this, Language.getString("error.export") + ex.getLocalizedMessage(), Language.getString("error.title"),
 						JOptionPane.ERROR_MESSAGE);
 			}
 			enableButtons();
