@@ -235,14 +235,14 @@ Auf diese Weise ergeben sich bei 180 "Zetteln" je nach größe der Rennen untersch
 == Teilnehmerfeld ==
 Es wird wieder eine Spielerzahl von 30 angestrebt!
 
-Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?thread=1002&forumid=8 Anmeldung im Forum].
+Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?thread=1002&forumid=8 Anmeldung im Forum] oder bei der [https://www.karopapier.de/poll.php?pid=228 Umfrage].
 
 {|class="wikitable"
 ! Teilnehmer||||||||
 |-
-|1. {{Benutzer|ultimate}}||7. {{Benutzer|cachito}}||13. {{Benutzer|?}}||19. {{Benutzer|?}}||25. {{Benutzer|?}}
+|1. {{Benutzer|ultimate}}||7. {{Benutzer|cachito}}||13. {{Benutzer|cptjag}}||19. {{Benutzer|?}}||25. {{Benutzer|?}}
 |-
-|2. {{Benutzer|sash1501}}||8. {{Benutzer|Akari}}||14. {{Benutzer|?}}||20. {{Benutzer|?}}||26. {{Benutzer|?}}
+|2. {{Benutzer|sash1501}}||8. {{Benutzer|Akari}}||14. {{Benutzer|Kev}}||20. {{Benutzer|?}}||26. {{Benutzer|?}}
 |-
 |3. {{Benutzer|aristarch}}||9. {{Benutzer|wolle}}||15. {{Benutzer|?}}||21. {{Benutzer|?}}||27. {{Benutzer|?}}
 |-
