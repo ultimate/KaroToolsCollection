@@ -9,13 +9,13 @@ import muskel2.model.Direction;
 import muskel2.model.Player;
 import muskel2.model.Rules;
 
-public class BalancedShuffling
+public class BalancedShufflingDemo
 {
 	public static void main(String[] args)
 	{
-		int totalPlayers = 42;
-		int numberOfMaps = 15;
-		int gamesPerPlayer = 5;
+		int totalPlayers = 30;
+		int numberOfMaps = 20;
+		int gamesPerPlayer = 6;
 		
 		List<Player> players = new LinkedList<Player>();
 		for(char c = 65; c < 65 + totalPlayers; c++)
@@ -23,7 +23,7 @@ public class BalancedShuffling
 			players.add(new Player((int) c, "" + c, true, true, 9999, 0, 0, 999, new Color(c, c, c)));
 		}
 
-		BalancedShuffling bs = new BalancedShuffling(totalPlayers, numberOfMaps, players);
+		BalancedShufflingDemo bs = new BalancedShufflingDemo(totalPlayers, numberOfMaps, players);
 
 		List<Rules> rules = new LinkedList<Rules>();
 		for(int i = 0; i < numberOfMaps; i++)
@@ -136,7 +136,7 @@ public class BalancedShuffling
 	protected int		numberOfMaps;
 	protected int[][] 	whoOnWho;
 
-	public BalancedShuffling(int totalPlayers, int numberOfMaps, List<Player> players)
+	public BalancedShufflingDemo(int totalPlayers, int numberOfMaps, List<Player> players)
 	{
 		super();
 		this.players = new LinkedList<Player>();
@@ -343,7 +343,7 @@ public class BalancedShuffling
 			// letztes Rennen auffüllen... (falls nicht voll)
 			for(;g < games && p < rules.get(m).getNumberOfPlayers(); p++)
 			{
-				this.shuffledPlayers[m][g][p++] = -1;
+				this.shuffledPlayers[m][g][p] = -1;
 			}
 		}
 	}
