@@ -23,6 +23,9 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
 public class CCCEval
 {
+//	public static final String FOLDER = "CraZZZy Crash Challenge/";
+	public static final String FOLDER = "";
+	
 	private static int[][]						gids;
 	private static int[]						numberOfPlayers;
 	private static int[]						maps;
@@ -79,7 +82,7 @@ public class CCCEval
 
 		System.out.print("reading properties (" + cccx + ")... ");
 		start = System.currentTimeMillis();
-		readProperties("CraZZZy Crash Challenge/czzzcc" + cccx + "-gid.properties");
+		readProperties(FOLDER + "czzzcc" + cccx + "-gid.properties");
 		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		System.out.print("buffering pages... ");
@@ -94,7 +97,7 @@ public class CCCEval
 
 		System.out.print("creating WIKI... ");
 		start = System.currentTimeMillis();
-		String wiki = createWiki("CraZZZy Crash Challenge/czzzcc" + cccx + "-schema.txt");
+		String wiki = createWiki(FOLDER + "czzzcc" + cccx + "-schema.txt");
 		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		// System.out.println();
@@ -142,7 +145,7 @@ public class CCCEval
 			detail.append(tableToString(totalTableHeads[c], totalTables[c]));
 			detail.append("\n");
 
-			toFile("CraZZZy Crash Challenge/czzzcc" + cccx + "-wiki-challenge" + c + ".txt", detail.toString());
+			toFile(FOLDER + "czzzcc" + cccx + "-wiki-challenge" + c + ".txt", detail.toString());
 			detailLinks.append("*" + challengeToLink(c, true) + "\n");
 		}
 
@@ -182,7 +185,7 @@ public class CCCEval
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
 
-		toFile("CraZZZy Crash Challenge/czzzcc" + cccx + "-wiki-overview.txt", s.toString());
+		toFile(FOLDER + "czzzcc" + cccx + "-wiki-overview.txt", s.toString());
 
 		return s;
 	}
