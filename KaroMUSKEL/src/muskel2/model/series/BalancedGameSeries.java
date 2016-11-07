@@ -1,6 +1,7 @@
 package muskel2.model.series;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class BalancedGameSeries extends GameSeries
 
 	private int					numberOfMaps;
 
-	private List<Map>			mapList;
-	private List<Rules>			rulesList;
+	private HashMap<Integer, Map>	mapList;
+	private HashMap<Integer, Rules>	rulesList;
 
 	protected Player[][]		shuffledPlayers;
 
@@ -45,8 +46,8 @@ public class BalancedGameSeries extends GameSeries
 			MAX_GAMES_PER_PLAYER = 1000;
 			MAX_MAPS = 1000;
 		}
-		mapList = new ArrayList<Map>();
-		rulesList = new ArrayList<Rules>();
+		mapList = new HashMap<Integer, Map>();
+		rulesList = new HashMap<Integer, Rules>();
 	}
 
 	@Override
@@ -63,16 +64,12 @@ public class BalancedGameSeries extends GameSeries
 	public void setNumberOfMaps(int numberOfMaps)
 	{
 		this.numberOfMaps = numberOfMaps;
-		while(mapList.size() < numberOfMaps)
-			mapList.add(null);
-		while(rulesList.size() < numberOfMaps)
-			rulesList.add(null);
 	}
 
 	public void setMap(int i, Map map, Rules rules)
 	{
-		this.mapList.set(i, map);
-		this.rulesList.set(i, rules);
+		this.mapList.put(i, map);
+		this.rulesList.put(i, rules);
 	}
 
 	public Map getMap(int i)
@@ -123,8 +120,12 @@ public class BalancedGameSeries extends GameSeries
 		int count = 0;
 		int dayCount;
 		Rules tmpRules;
-
-		Player[][][] shuffledPlayers = BalancedShuffling.shufflePlayers(this.players, this.rulesList);
+		
+		List<Rules> tmpRulesList = new ArrayList<Rules>(numberOfMaps);
+		for(int i = 0; i < numberOfMaps; i++)
+			tmpRulesList.add(this.rulesList.get(i));
+		
+		Player[][][] shuffledPlayers = BalancedShuffling.shufflePlayers(this.players, tmpRulesList);
 
 		for(int i = 0; i < this.numberOfMaps; i++)
 		{

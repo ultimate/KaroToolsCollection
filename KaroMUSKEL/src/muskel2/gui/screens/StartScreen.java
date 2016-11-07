@@ -157,14 +157,17 @@ public class StartScreen extends Screen implements ActionListener
 			catch(ClassNotFoundException ex)
 			{
 				JOptionPane.showMessageDialog(this, Language.getString("error.loadcast"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
+				ex.printStackTrace();
 			}
 			catch(ClassCastException ex)
 			{
 				JOptionPane.showMessageDialog(this, Language.getString("error.loadcast"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
+				ex.printStackTrace();
 			}
 			catch(IOException ex)
 			{
 				JOptionPane.showMessageDialog(this, Language.getString("error.load") + ex.getLocalizedMessage(), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
+				ex.printStackTrace();
 			}
 		}
 		else
