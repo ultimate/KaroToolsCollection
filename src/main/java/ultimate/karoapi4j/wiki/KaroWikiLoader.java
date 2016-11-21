@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.core;
+package ultimate.karoapi4j.wiki;
 
 import java.io.IOException;
 import java.net.CookieHandler;
@@ -15,12 +15,13 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.KaroURLs;
+import ultimate.karoapi4j.KaroWikiURLs;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.URLLoaderUtil;
 import ultimate.karoapi4j.utils.web.SimpleCookieHandler;
 
-public class KaropapierLoader
+public class KaroWikiLoader
 {
 	/**
 	 * Logger-Instance
@@ -37,7 +38,7 @@ public class KaropapierLoader
 	 */
 	public static final TypeReference<List<Game>>	TYPEREF_GAME_LIST			= new TypeReference<List<Game>>() {};
 
-	public KaropapierLoader()
+	public KaroWikiLoader()
 	{
 		if(CookieHandler.getDefault() == null)
 			CookieHandler.setDefault(new SimpleCookieHandler());
@@ -48,10 +49,13 @@ public class KaropapierLoader
 		logger.debug("Performing login: \"" + username + "\"...");
 
 		Map<String, String> parameters = new HashMap<String, String>();
-		parameters.put(KaroURLs.PARAMETER_USERNAME, username);
-		parameters.put(KaroURLs.PARAMETER_PASSWORD, password);
+		parameters.put(KaroWikiURLs.PARAMETER_ACTION, KaroWikiURLs.ACTION_LOGIN);
+		parameters.put(KaroWikiURLs.PARAMETER_ACTION_LOGIN_USER, username);
+		parameters.put(KaroWikiURLs.PARAMETER_ACTION_LOGIN_PASSWORD, password);
 
 		String page = URLLoaderUtil.load(new URL(KaroURLs.USER_LOGIN), URLLoaderUtil.formatParameters(parameters));
+		
+		System.out.println(page);
 
 		boolean success = page.contains(CONTENT_LOGIN_SUCCESSFUL) && page.contains(username);
 
@@ -75,9 +79,9 @@ public class KaropapierLoader
 		List<Game> games = new ArrayList<Game>(gamesActive.size() + gamesFinished.size());
 		games.addAll(gamesActive);
 		games.addAll(gamesFinished);
-
-		// Collections.sort(games, c); // TODO sort by id
-
+		
+//		Collections.sort(games, c); // TODO sort by id
+		
 		return games;
 	}
 
