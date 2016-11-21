@@ -23,66 +23,84 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
 public class CCCEval
 {
-//	public static final String FOLDER = "CraZZZy Crash Challenge/";
-	public static final String FOLDER = "";
-	
-	private static int[][]						gids;
-	private static int[]						numberOfPlayers;
-	private static int[]						maps;
-	private static String[][]					pages;
-	private static String[][]					logs;
+	public static final String	DEFAULT_FOLDER	= "";
+	public static final int[]	ALL_COLUMNS;
 
-	private static int							stats_racesPerPlayer;
-	private static int							stats_racesPerPlayerPerChallenge;
-	private static int							stats_races;
-	private static int							stats_moves;
-	private static int							stats_crashs;
-	private static int							stats_players;
+	static
+	{
+		ALL_COLUMNS = new int[100];
+		for(int i = 0; i < ALL_COLUMNS.length; i++)
+			ALL_COLUMNS[i] = i;
+	}
 
-	private static Map<String, List<Integer>[]>	real_points;
-	private static Map<String, List<Integer>[]>	real_crashs;
-	private static Map<String, List<Integer>[]>	real_crashs_allraces;
-	private static Map<String, Double[]>		expected_points;
-	private static Map<String, Double>			expected_total_points;
+	private int[][]							gids;
+	private int[]							numberOfPlayers;
+	private int[]							maps;
+	private String[][]						pages;
+	private String[][]						logs;
 
-	private static String[][][][]				tables;
-	private static String[][][]					totalTables;
-	private static String[][]					finalTable;
+	private int								stats_racesPerPlayer;
+	private int								stats_racesPerPlayerPerChallenge;
+	private int								stats_races;
+	private int								stats_moves;
+	private int								stats_crashs;
+	private int								stats_players;
 
-	private static String[][]					whoOnWho;
+	private Map<String, List<Integer>[]>	real_points;
+	private Map<String, List<Integer>[]>	real_crashs;
+	private Map<String, List<Integer>[]>	real_crashs_allraces;
+	private Map<String, Double[]>			expected_points;
+	private Map<String, Double>				expected_total_points;
 
-	private static Properties					p;
+	private String[][][][]					tables;
+	private String[][][]					totalTables;
+	private String[][]						finalTable;
 
-	private static int							cccx;
+	private String[][]						whoOnWho;
 
-	private static final String[]				raceTableHead			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge",
-			"Punkte"													};
-	private static String[]						finalTableHead;
-	private static String[][]					totalTableHeads;
+	private Properties						p;
 
-	private static final String					start_playerName		= "&nbsp</TD><TD>";
-	private static final String					start_moves				= "</TD><TD ALIGN=CENTER>";
-	private static final String					end_moves				= "</TD><TD>&nbsp;";
+	private int								cccx;
+	private String							folder;
 
-	private static final String					start_playerName_Log	= ": ";
-	private static final String					end_playerName_Log		= " -> ";
+	private final String[]					raceTableHead			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge", "Punkte" };
+	private String[]						finalTableHead;
+	private String[][]						totalTableHeads;
 
-	private static final int					maxCols					= 7;
-	private static final String					loadType				= "logs";
-	private static final ThreadQueue			queue					= new ThreadQueue(50);
+	private final String					start_playerName		= "&nbsp</TD><TD>";
+	private final String					start_moves				= "</TD><TD ALIGN=CENTER>";
+	private final String					end_moves				= "</TD><TD>&nbsp;";
 
-	private static final String					highlight				= "'''";
+	private final String					start_playerName_Log	= ": ";
+	private final String					end_playerName_Log		= " -> ";
 
-	@SuppressWarnings("unused")
+	private final int						maxCols					= 7;
+	private final String					loadType				= "logs";
+	private final ThreadQueue				queue					= new ThreadQueue(50);
+
+	private final String					highlight				= "'''";
+
 	public static void main(String[] args) throws Exception
 	{
+
+		int cccx = Integer.parseInt(args[0]);
+
+		CCCEval e = new CCCEval(cccx, DEFAULT_FOLDER);
+		e.doEvaluation();
+	}
+
+	public CCCEval(int cccx, String folder)
+	{
+		this.cccx = cccx;
+		this.folder = folder;
+	}
+
+	public String doEvaluation() throws IOException, InterruptedException
+	{
 		long start;
-
-		cccx = Integer.parseInt(args[0]);
-
 		System.out.print("reading properties (" + cccx + ")... ");
 		start = System.currentTimeMillis();
-		readProperties(FOLDER + "czzzcc" + cccx + "-gid.properties");
+		readProperties(folder + "czzzcc" + cccx + "-gid.properties");
 		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		System.out.print("buffering pages... ");
@@ -92,21 +110,23 @@ public class CCCEval
 
 		System.out.println("creating tables... ");
 		start = System.currentTimeMillis();
-		createTables();
+		boolean finished = createTables();
 		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		System.out.print("creating WIKI... ");
 		start = System.currentTimeMillis();
-		String wiki = createWiki(FOLDER + "czzzcc" + cccx + "-schema.txt");
+		String wiki = createWiki(folder + "czzzcc" + cccx + "-schema.txt", finished);
 		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		// System.out.println();
 		// System.out.println();
 
 		// System.out.println(wiki);
+
+		return wiki;
 	}
 
-	private static String createWiki(String schemaFile) throws IOException
+	private String createWiki(String schemaFile, boolean finished) throws IOException
 	{
 		StringBuilder detail = new StringBuilder();
 		StringBuilder detailLinks = new StringBuilder();
@@ -130,7 +150,7 @@ public class CCCEval
 			int col = 0;
 			for(int r = 1; r < tables[c].length; r++)
 			{
-				tableTable[row][col] = "\nChallenge " + raceToLink(c, r) + "\n" + tableToString(raceTableHead, tables[c][r]) + "\n";
+				tableTable[row][col] = "\nChallenge " + raceToLink(c, r) + "\n" + tableToString(raceTableHead, tables[c][r], null, ALL_COLUMNS) + "\n";
 				col++;
 				if(col == maxCols)
 				{
@@ -139,19 +159,22 @@ public class CCCEval
 				}
 			}
 
-			detail.append(tableToString(null, tableTable));
+			detail.append(tableToString(null, tableTable, null, ALL_COLUMNS));
 			detail.append("\n");
 			detail.append("== Tabellarische Auswertung ==\n");
-			detail.append(tableToString(totalTableHeads[c], totalTables[c]));
+			detail.append(tableToString(totalTableHeads[c], totalTables[c], null, ALL_COLUMNS));
 			detail.append("\n");
 
-			toFile(FOLDER + "czzzcc" + cccx + "-wiki-challenge" + c + ".txt", detail.toString());
+			toFile(folder + "czzzcc" + cccx + "-wiki-challenge" + c + ".txt", detail.toString());
 			detailLinks.append("*" + challengeToLink(c, true) + "\n");
 		}
 
 		StringBuilder total = new StringBuilder();
 
-		total.append(tableToString(finalTableHead, finalTable, "alignedright"));
+		if(!finished)
+			total.append(tableToString(finalTableHead, finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length-1)));
+		else
+			total.append(tableToString(finalTableHead, finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length-3)));
 
 		StringBuilder stats = new StringBuilder();
 
@@ -166,8 +189,9 @@ public class CCCEval
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\n");
 
 		stats.append("==== Wer gegen wen? ====\n");
-		stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
-		stats.append(tableToString(null, whoOnWho));
+		stats.append(
+				"Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
+		stats.append(tableToString(null, whoOnWho, null, ALL_COLUMNS));
 
 		StringBuilder schema = new StringBuilder();
 
@@ -181,16 +205,17 @@ public class CCCEval
 		br.close();
 
 		String s = schema.toString();
+		// TODO maps automatisch einfuegen
 		s = s.replace("${DETAIL}", detailLinks.toString());
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
 
-		toFile(FOLDER + "czzzcc" + cccx + "-wiki-overview.txt", s.toString());
+		toFile(folder + "czzzcc" + cccx + "-wiki-overview.txt", s.toString());
 
 		return s;
 	}
 
-	private static void createTables()
+	private boolean createTables()
 	{
 		String[][] totalTable;
 		String[] totalTableHead;
@@ -310,6 +335,7 @@ public class CCCEval
 
 		double expected_bonus, expected_old, total;
 		String tmp, tmp2;
+		boolean finished = true;
 		for(int i = 0; i < challengePlayers.size(); i++)
 		{
 			player = challengePlayers.get(i);
@@ -321,8 +347,11 @@ public class CCCEval
 				// total_sum_races_bychallenge.get(player)[c] + "/" +
 				// stats_racesPerPlayerPerChallenge + ")</span>";
 				if(stats_racesPerPlayerPerChallenge - total_sum_races_bychallenge.get(player)[c] > 0)
+				{
 					tmp2 = "&nbsp;<span style=\"font-size:50%\">(" + (stats_racesPerPlayerPerChallenge - total_sum_races_bychallenge.get(player)[c])
 							+ ")</span>";
+					finished = false;
+				}
 				else
 					tmp2 = "";
 				if(tmp.equals("100.0"))
@@ -353,8 +382,10 @@ public class CCCEval
 			finalTable[i][tables.length + 9] = highlight("" + round(round(expected_total_points.get(player) + expected_bonus)));
 			finalTable[i][tables.length + 10] = ("" + round(round(expected_old + expected_bonus)));
 		}
+		
+		System.out.println("finished=" + finished);
 
-		sortFinalTable();
+		sortFinalTable(finished);
 
 		for(int i = 0; i < finalTable.length; i++)
 		{
@@ -370,9 +401,11 @@ public class CCCEval
 				finalTable[i][0] = (i + 1) + ".";
 			}
 		}
+		
+		return finished;
 	}
 
-	private static void initWhoOnWho(List<String> challengePlayers)
+	private void initWhoOnWho(List<String> challengePlayers)
 	{
 		whoOnWho = new String[challengePlayers.size() + 1][challengePlayers.size() + 1];
 		whoOnWho[0][0] = "";
@@ -389,7 +422,7 @@ public class CCCEval
 		}
 	}
 
-	private static void createWhoOnWho(int c, int r, List<String> challengePlayers)
+	private void createWhoOnWho(int c, int r, List<String> challengePlayers)
 	{
 		List<String> racePlayers = getChallengePlayersFromLog(c, r);
 		int ci1, ci2;
@@ -417,7 +450,7 @@ public class CCCEval
 		}
 	}
 
-	private static String getMaxMinWhoOnWho(String type)
+	private String getMaxMinWhoOnWho(String type)
 	{
 		List<int[]> maxMinList = new LinkedList<int[]>();
 		int maxMin = (type.equals("max") ? Integer.MIN_VALUE : Integer.MAX_VALUE);
@@ -473,7 +506,7 @@ public class CCCEval
 		return ret.toString();
 	}
 
-	private static String[][] createRaceTableFromLog(int c, int r, String[][] totalTable, List<String> challengePlayers,
+	private String[][] createRaceTableFromLog(int c, int r, String[][] totalTable, List<String> challengePlayers,
 			Map<String, Integer> sum_pointsUnskaled, Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs,
 			Map<String, Integer> sum_moves, Map<String, Integer> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
 			Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
@@ -555,7 +588,7 @@ public class CCCEval
 				crashs -= 42;
 			}
 			// if(crashsAfterLastRankWithoutPointsThrown > 0)
-			// System.out.println("    " + player + ": " + crashsAfterLastRankWithoutPointsThrown);
+			// System.out.println(" " + player + ": " + crashsAfterLastRankWithoutPointsThrown);
 
 			position = log.lastIndexOf(player);
 			if(position == -1)
@@ -601,11 +634,11 @@ public class CCCEval
 		return table;
 	}
 
-	private static String[][] createRaceTable(int c, int r, String[][] totalTable, List<String> challengePlayers,
-			Map<String, Integer> sum_pointsUnskaled, Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs,
-			Map<String, Integer> sum_moves, Map<String, Integer> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
-			Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
-			Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
+	private String[][] createRaceTable(int c, int r, String[][] totalTable, List<String> challengePlayers, Map<String, Integer> sum_pointsUnskaled,
+			Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves,
+			Map<String, Integer> total_sum_basePoints, Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves,
+			Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus,
+			Map<String, Integer[]> total_sum_races_bychallenge)
 	{
 		String[][] table = new String[numberOfPlayers[c]][raceTableHead.length];
 		int last = numberOfPlayers[c];
@@ -685,8 +718,8 @@ public class CCCEval
 		return table;
 	}
 
-	private static void fillRaceTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r,
-			int position, int points, int crashs, int moves, Map<String, Integer> sum_pointsUnskaled, Map<String, Integer> sum_basePoints,
+	private void fillRaceTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r, int position,
+			int points, int crashs, int moves, Map<String, Integer> sum_pointsUnskaled, Map<String, Integer> sum_basePoints,
 			Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Integer> total_sum_basePoints,
 			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled,
 			Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
@@ -721,13 +754,17 @@ public class CCCEval
 		total_sum_moves.put(player, total_sum_moves.get(player) + moves);
 	}
 
-	private static void sortFinalTable()
+	private void sortFinalTable(boolean finished)
 	{
-		Arrays.sort(finalTable, new FinalTableRowSorter());
+		if(!finished)
+			Arrays.sort(finalTable, new FinalTableRowSorter( -2 )); // sort by Erwartungswert
+		else
+			Arrays.sort(finalTable, new FinalTableRowSorter( -4 ));	// sort by Endergebnis		
 	}
 
-	private static int addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Integer> sum_pointsUnskaled,
-			Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Integer> total_sum_bonus)
+	private int addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Integer> sum_pointsUnskaled,
+			Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves,
+			Map<String, Integer> total_sum_bonus)
 	{
 		String player;
 
@@ -801,7 +838,7 @@ public class CCCEval
 		return maxPointsUnskaled;
 	}
 
-	private static void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers,
+	private void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers,
 			Map<String, Integer> total_sum_bonus)
 	{
 		for(int i : indexes)
@@ -827,7 +864,7 @@ public class CCCEval
 		}
 	}
 
-	private static void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Integer> total_sum_basePoints,
+	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Integer> total_sum_basePoints,
 			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Integer> final_sum_bonus)
 	{
 		String player;
@@ -881,7 +918,7 @@ public class CCCEval
 		addFinalBonus(index_maxBasePoints, pages.length + 1, finalTable, challengePlayers, final_sum_bonus);
 	}
 
-	private static void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers,
+	private void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers,
 			Map<String, Integer> final_sum_bonus)
 	{
 		for(int i : indexes)
@@ -909,7 +946,7 @@ public class CCCEval
 		}
 	}
 
-	private static void calculateExpected(List<String> challengePlayers)
+	private void calculateExpected(List<String> challengePlayers)
 	{
 		expected_points = new TreeMapXArray<String, Double>(challengePlayers, new Double[tables.length], 0.0);
 		expected_total_points = new TreeMapX<String, Double>(challengePlayers, 0.0);
@@ -1011,7 +1048,7 @@ public class CCCEval
 		}
 	}
 
-	private static List<String> getChallengePlayersFromLog(int c)
+	private List<String> getChallengePlayersFromLog(int c)
 	{
 		TreeMap<String, String> players = new TreeMap<String, String>();
 		for(int r = 1; r < pages[c].length; r++)
@@ -1024,7 +1061,7 @@ public class CCCEval
 		return new LinkedList<String>(players.values());
 	}
 
-	private static List<String> getChallengePlayersFromLog(int c, int r)
+	private List<String> getChallengePlayersFromLog(int c, int r)
 	{
 		List<String> players = new LinkedList<String>();
 		int index = 0;
@@ -1060,7 +1097,7 @@ public class CCCEval
 		return players;
 	}
 
-	private static List<String> getChallengePlayers(int c)
+	private List<String> getChallengePlayers(int c)
 	{
 		TreeMap<String, String> players = new TreeMap<String, String>();
 		for(int r = 1; r < pages[c].length; r++)
@@ -1073,7 +1110,7 @@ public class CCCEval
 		return new LinkedList<String>(players.values());
 	}
 
-	private static List<String> getChallengePlayers(int c, int r)
+	private List<String> getChallengePlayers(int c, int r)
 	{
 		List<String> players = new LinkedList<String>();
 		int index = 0;
@@ -1093,7 +1130,7 @@ public class CCCEval
 		return players;
 	}
 
-	private static void readContent() throws MalformedURLException, InterruptedException
+	private void readContent() throws MalformedURLException, InterruptedException
 	{
 		if(loadType.equals("logs"))
 			readLogs();
@@ -1101,7 +1138,7 @@ public class CCCEval
 			readPages();
 	}
 
-	private static void readPages() throws MalformedURLException, InterruptedException
+	private void readPages() throws MalformedURLException, InterruptedException
 	{
 		for(int c = 1; c < pages.length; c++)
 		{
@@ -1114,7 +1151,7 @@ public class CCCEval
 		queue.waitForFinisched();
 	}
 
-	private static void readLogs() throws MalformedURLException, InterruptedException
+	private void readLogs() throws MalformedURLException, InterruptedException
 	{
 		for(int c = 1; c < logs.length; c++)
 		{
@@ -1127,7 +1164,7 @@ public class CCCEval
 		queue.waitForFinisched();
 	}
 
-	private static String getPage(int c, int r)
+	private String getPage(int c, int r)
 	{
 		if(pages[c][r] == null)
 		{
@@ -1145,7 +1182,7 @@ public class CCCEval
 		return pages[c][r];
 	}
 
-	private static String getLog(int c, int r)
+	private String getLog(int c, int r)
 	{
 		if(logs[c][r] == null)
 		{
@@ -1163,7 +1200,7 @@ public class CCCEval
 		return logs[c][r];
 	}
 
-	private static void readProperties(String file) throws IOException
+	private void readProperties(String file) throws IOException
 	{
 		p = PropertiesUtil.loadProperties(new File(file));
 
@@ -1200,22 +1237,22 @@ public class CCCEval
 		}
 	}
 
-	private static String raceToLink(int challenge, int race)
+	private String raceToLink(int challenge, int race)
 	{
 		return "{{Rennen|" + gids[challenge][race] + "|" + challenge + "." + race + "}}";
 	}
 
-	private static String challengeToLink(int c, boolean text)
+	private String challengeToLink(int c, boolean text)
 	{
 		return "[[CraZZZy Crash Challenge " + cccx + " - Detailwertung Challenge " + c + "|" + (text ? "Challenge " : "") + c + "]]";
 	}
 
-	private static String mapToLink(int challenge)
+	private String mapToLink(int challenge)
 	{
 		return "{{Karte|" + maps[challenge] + "}}";
 	}
 
-	private static String playerToLink(String player, boolean bold)
+	private String playerToLink(String player, boolean bold)
 	{
 		String tmp;
 		if(player.startsWith("Deep"))
@@ -1229,33 +1266,44 @@ public class CCCEval
 		return tmp;
 	}
 
-	private static String tableToString(String[] head, String[][] table, String... cssclasses)
+	private String tableToString(String[] head, String[][] table, String cssclasses, int[] columns)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("{|class=\"wikitable");
 		if(cssclasses != null)
-			for(String cssclass : cssclasses)
-				sb.append(" " + cssclass);
+			sb.append(" " + cssclasses);
 		sb.append("\"\n");
+
+		int col;
 		if(head != null)
 		{
 			sb.append("!");
-			for(int i = 0; i < head.length; i++)
+			for(int i = 0; i < columns.length; i++)
 			{
+				col = columns[i];
+				if(col >= head.length)
+					continue;
+
 				if(i > 0)
 					sb.append("||");
-				sb.append(head[i]);
+				
+				sb.append(head[col]);
 			}
 			sb.append("\n|-\n");
 		}
 		for(String[] row : table)
 		{
 			sb.append("|");
-			for(int i = 0; i < row.length; i++)
+			for(int i = 0; i < columns.length; i++)
 			{
+				col = columns[i];
+				if(col >= row.length)
+					continue;
+				
 				if(i > 0)
 					sb.append("||");
-				sb.append(row[i]);
+				
+				sb.append(row[col]);
 			}
 			sb.append("\n|-\n");
 		}
@@ -1263,17 +1311,17 @@ public class CCCEval
 		return sb.toString();
 	}
 
-	private static int countOccurrences(String source, String part)
+	private int countOccurrences(String source, String part)
 	{
 		return countOccurrences(source, part, true, 0, source.length());
 	}
 
-	private static int countOccurrences(String source, String part, int from)
+	private int countOccurrences(String source, String part, int from)
 	{
 		return countOccurrences(source, part, true, from, source.length());
 	}
 
-	private static int countOccurrences(String source, String part, boolean ignoreDuplicates, int from, int to)
+	private int countOccurrences(String source, String part, boolean ignoreDuplicates, int from, int to)
 	{
 		int lastIndex = from;
 		int index = from;
@@ -1291,7 +1339,7 @@ public class CCCEval
 		return count;
 	}
 
-	private static void toFile(String filename, String content) throws IOException
+	private void toFile(String filename, String content) throws IOException
 	{
 		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filename));
 
@@ -1301,27 +1349,27 @@ public class CCCEval
 		bos.close();
 	}
 
-	private static double round(double d)
+	private double round(double d)
 	{
 		return Math.round(d * 100) / 100.0;
 	}
 
-	private static int intFromString(String s)
+	private int intFromString(String s)
 	{
 		return Integer.parseInt(s.replace(highlight, ""));
 	}
 
-	private static double doubleFromString(String s)
+	private double doubleFromString(String s)
 	{
 		return Double.parseDouble(s.replace(highlight, ""));
 	}
 
-	private static String highlight(String s)
+	private String highlight(String s)
 	{
 		return highlight + s + highlight;
 	}
 
-	private static class GameLoaderThread extends URLLoaderThread<String>
+	private class GameLoaderThread extends URLLoaderThread<String>
 	{
 		private int		challenge;
 		private int		race;
@@ -1329,9 +1377,9 @@ public class CCCEval
 
 		public GameLoaderThread(int challenge, int race, String type) throws MalformedURLException
 		{
-			super(new URL(type.equals("log") ? "http://www.karopapier.de/logs/" + gids[challenge][race] + ".log"
-					: "http://www.karopapier.de/showmap.php"), type.equals("log") ? "GET" : "POST", type.equals("log") ? "" : "GID="
-					+ gids[challenge][race], 10000);
+			super(new URL(
+					type.equals("log") ? "http://www.karopapier.de/logs/" + gids[challenge][race] + ".log" : "http://www.karopapier.de/showmap.php"),
+					type.equals("log") ? "GET" : "POST", type.equals("log") ? "" : "GID=" + gids[challenge][race], 10000);
 			this.challenge = challenge;
 			this.race = race;
 			this.type = type;
@@ -1357,15 +1405,22 @@ public class CCCEval
 		}
 	}
 
-	private static class FinalTableRowSorter implements Comparator<String[]>
+	private class FinalTableRowSorter implements Comparator<String[]>
 	{
+		private int mainColumnOffset;
+		
+		public FinalTableRowSorter(int mainColumnOffset)
+		{
+			this.mainColumnOffset = mainColumnOffset;
+		}
+		
 		@Override
 		public int compare(String[] o1, String[] o2)
 		{
-			double exp1 = doubleFromString(o1[o1.length - 2]);
-			double exp2 = doubleFromString(o2[o2.length - 2]);
-			if(exp2 != exp1)
-				return (int) Math.signum(exp2 - exp1);
+			double val1 = doubleFromString(o1[o1.length + mainColumnOffset]);
+			double val2 = doubleFromString(o2[o2.length + mainColumnOffset]);
+			if(val2 != val1)
+				return (int) Math.signum(val2 - val1);
 
 			// mehr crashs
 			int c1 = intFromString(o1[o1.length - 9]);
@@ -1389,9 +1444,9 @@ public class CCCEval
 		}
 	}
 
-	private static class TreeMapX<K, V> extends TreeMap<K, V>
+	private class TreeMapX<K, V> extends TreeMap<K, V>
 	{
-		private static final long	serialVersionUID	= 1L;
+		private static final long serialVersionUID = 1L;
 
 		public TreeMapX(List<K> keys, V defaultValue)
 		{
@@ -1402,9 +1457,9 @@ public class CCCEval
 		}
 	}
 
-	private static class TreeMapX2<K, V> extends TreeMap<K, List<V>[]>
+	private class TreeMapX2<K, V> extends TreeMap<K, List<V>[]>
 	{
-		private static final long	serialVersionUID	= 1L;
+		private static final long serialVersionUID = 1L;
 
 		@SuppressWarnings("unchecked")
 		public TreeMapX2(List<K> keys)
@@ -1424,9 +1479,9 @@ public class CCCEval
 		}
 	}
 
-	private static class TreeMapXArray<K, V> extends TreeMap<K, V[]>
+	private class TreeMapXArray<K, V> extends TreeMap<K, V[]>
 	{
-		private static final long	serialVersionUID	= 1L;
+		private static final long serialVersionUID = 1L;
 
 		public TreeMapXArray(List<K> keys, V[] array, V defaultValue)
 		{
