@@ -15,6 +15,12 @@ Dies ist die [[CraZZZy Crash Challenge 2|2. CraZZZy Crash Challenge]]. Hier gibt
 == Veranstalter ==
 ... ist und bleibt {{Benutzer|ultimate}}
 
+== And the winner is... ==
+
+... '''{{Benutzer|quabla}}'''
+
+Details gibt es in der [[#Gesamtwertung|Gesamtwertung]]
+
 = Organisation & Reglement =
 == Allgemeines ==
 Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen Spielersteller 'CraZZZy' erstellt. Ich selbst nehme als ganz normaler Teilnehmer teil.
@@ -284,8 +290,12 @@ Es werden natürlich auch [http://www.karopapier.de/showthread.php?forumid=8&thre
 * '''05.11.2013 22:13''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 20|Challenge 20]] ist beendet
 * '''23.01.2014 21:47''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 9|Challenge 9]] ist beendet
 * '''29.01.2014 23:28''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 3|Challenge 3]] ist beendet
+* '''28.04.2014 19:52''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 6|Challenge 6]] ist beendet
+* '''04.05.2014 10:42''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 10|Challenge 10]] ist beendet
+* '''22.05.2014 07:18''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 8|Challenge 8]] ist beendet
 * '''19.06.2014 09:27''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 15|Challenge 15]] ist beendet
 * '''21.07.2014 11:23''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 19|Challenge 19]] ist beendet
+* '''10.02.2015 09:20''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
 
 == Detailwertung ==
 Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
