@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.TestCase;
-import ultimate.karoapi4j.KaroWikiURLs;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public class KaroWikiLoaderTest extends TestCase
@@ -20,6 +19,7 @@ public class KaroWikiLoaderTest extends TestCase
 
 	public static final String	PAGE_EXISTING	= "Test";
 	public static final String	PAGE_MISSING	= "Asdfasdfasdfasdf";
+	private static final int	EDIT_TESTS		= 1;
 
 	static
 	{
@@ -117,36 +117,37 @@ public class KaroWikiLoaderTest extends TestCase
 			assertTrue(wl.logout());
 		}
 	}
-	
+
 	public void testEdit() throws Exception
 	{
 		KaroWikiLoader wl = new KaroWikiLoader();
 		try
 		{
 			assertTrue(wl.login(username, password));
+			for(int i = 0; i < EDIT_TESTS; i++)
+			{
+				String content = wl.getContent(PAGE_EXISTING);
+				assertNotNull(content);
 
-			String content = wl.getContent(PAGE_EXISTING);
-			assertNotNull(content);
-			
-			String newContent = content + "\n\nsome new line --~~~~";
-			
-			boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true);
-			assertTrue(success);
-			
-			Date date = new Date();
-			DateFormat df = new SimpleDateFormat("HH:mm, dd. MMM. YYYY");
-			String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] " + df.format(date) + " (CET)");
-			
-			String updatedContent = wl.getContent(PAGE_EXISTING);
-			assertEquals(expectedContent, updatedContent);
-			
+				String newContent = content + "\n\nsome new line --~~~~";
+
+				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true);
+				assertTrue(success);
+
+				Date date = new Date();
+				DateFormat df = new SimpleDateFormat("HH:mm, dd. MMM. YYYY");
+				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] " + df.format(date) + " (CET)");
+
+				String updatedContent = wl.getContent(PAGE_EXISTING);
+				assertEquals(expectedContent, updatedContent);
+			}
+
 		}
 		finally
 		{
 			assertTrue(wl.logout());
 		}
 	}
-	
 
 	public void testSomething() throws Exception
 	{
