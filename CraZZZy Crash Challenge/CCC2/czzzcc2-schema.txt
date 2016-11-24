@@ -169,50 +169,7 @@ Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
 == Challenges ==
 Folgende Challenges werden bei der CraZZZy Crash Challenge 2 gefahren:
 
-{|class="wikitable"
-! Nr.||Strecke||Spielerzahl||ZZZ||CPs||Spielzahl
-|-
-|'''1'''||{{Karte|114}} Fischi||3||5||ja||60
-|-
-|'''2'''||{{Karte|135}} Schnuller||3||8||ja||60
-|-
-|'''3'''||{{Karte|187}} Yun2||3||5||ja||60
-|-
-|'''4'''||{{Karte|108}} Für Annie :wavey:||3||9||ja||60
-|-
-|'''5'''||{{Karte|116}} Silbermond||4||8||ja||45
-|-
-|'''6'''||{{Karte|188}} Karo Wave||4||11||ja||45
-|-
-|'''7'''||{{Karte|164}} Notenschlüssel||4||4||ja||45
-|-
-|'''8'''||{{Karte|33}} Highway To Hell||4||0||n.V.||45
-|-
-|'''9'''||{{Karte|174}} Billard||4||7||ja||45
-|-
-|'''10'''||{{Karte|111}} Yin und Yang||4||1||n.V.||45
-|-
-|'''11'''||{{Karte|190}} Twister||5||2||ja||36
-|-
-|'''12'''||{{Karte|83}} Checkpoint-Strecke||5||3||ja||36
-|-
-|'''13'''||{{Karte|181}} Sandbowl||5||6||ja||36
-|-
-|'''14'''||{{Karte|191}} Doppelkringel||5||11||ja||36
-|-
-|'''15'''||{{Karte|127}} Ball||5||4||ja||36
-|-
-|'''16'''||{{Karte|154}} Parkanalage||5||15||ja||36
-|-
-|'''17'''||{{Karte|123}} Miez||5||3||ja||36
-|-
-|'''18'''||{{Karte|138}} Kreis||5||10||ja||36
-|-
-|'''19'''||{{Karte|94}} Taschenrechner||5||0||ja||36
-|-
-|'''20'''||{{Karte|182}} Mensch ärgere dich nicht||5||0||ja||36
-|-
-|}
+${MAPS}
 
 Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
 
