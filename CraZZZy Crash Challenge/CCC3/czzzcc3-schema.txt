@@ -217,6 +217,8 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''10.02.2015 09:21''' Erste Ankündigung im Forum - Frage nach Interesse
 * '''01.11.2016 08:39''' Eröffnung der Anmeldung im Forum
 * '''07.11.2016 12:00''' Wiki-Seite erstellt
+* '''21.11.2016 16:00''' CCC-Eval-Tool umgebaut, Wiki-Anbindung automatisiert
+* '''24.11.2016 19:30''' CCC-Eval-Tool umgebaut, Wiki-Anbindung automatisiert
 
 == Detailwertung ==
 Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
