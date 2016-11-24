@@ -170,7 +170,7 @@ Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
 Folgende Challenges werden bei der CraZZZy Crash Challenge 2 gefahren:
 
 {|class="wikitable"
-! Nr.||Strecke||Spielerzahl||ZZZ||CPs||Spielzahl
+!Nr.||Strecke||Spielerzahl||ZZZ||CPs||Spielzahl
 |-
 |'''1'''||{{Karte|114}} Fischi||3||5||ja||60
 |-
@@ -202,7 +202,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 2 gefahren:
 |-
 |'''15'''||{{Karte|127}} Ball||5||4||ja||36
 |-
-|'''16'''||{{Karte|154}} Parkanalage||5||15||ja||36
+|'''16'''||{{Karte|154}} Parkanlage||5||15||ja||36
 |-
 |'''17'''||{{Karte|123}} Miez||5||3||ja||36
 |-
