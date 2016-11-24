@@ -34,8 +34,12 @@ public class CCCEval
 	}
 
 	private int[][]							gids;
+	private int[]							races;
 	private int[]							numberOfPlayers;
 	private int[]							maps;
+	private String[]						mapNames;	
+	private int[]							zzz;
+	private boolean[]						cps;
 	private String[][]						pages;
 	private String[][]						logs;
 
@@ -63,6 +67,7 @@ public class CCCEval
 	private int								cccx;
 	private String							folder;
 
+	private final String[]					mapTableHead			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
 	private final String[]					raceTableHead			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge", "Punkte" };
 	private String[]						finalTableHead;
 	private String[][]						totalTableHeads;
@@ -128,6 +133,17 @@ public class CCCEval
 
 	private String createWiki(String schemaFile, boolean finished) throws IOException
 	{
+		String[][] mapTable = new String[tables.length-1][6];
+		for(int c = 1; c < tables.length; c++)
+		{
+			mapTable[c-1][0] = highlight("" + c);
+			mapTable[c-1][1] = mapToLink(c, true);
+			mapTable[c-1][2] = "" + numberOfPlayers[c];
+			mapTable[c-1][3] = "" + zzz[c];
+			mapTable[c-1][4] = "" + (cps[c] ? "ja" : "n.V.");
+			mapTable[c-1][5] = "" + races[c];
+		}
+
 		StringBuilder detail = new StringBuilder();
 		StringBuilder detailLinks = new StringBuilder();
 
@@ -137,7 +153,7 @@ public class CCCEval
 		{
 			detail = new StringBuilder();
 			detail.append("= Challenge " + c + " =\n");
-			detail.append("Strecke: " + mapToLink(c) + "\n");
+			detail.append("Strecke: " + mapToLink(c, false) + "\n");
 			detail.append("== Rennergebnisse ==\n");
 
 			tableTable = new String[tables[c].length / maxCols + 1][maxCols];
@@ -150,7 +166,8 @@ public class CCCEval
 			int col = 0;
 			for(int r = 1; r < tables[c].length; r++)
 			{
-				tableTable[row][col] = "\nChallenge " + raceToLink(c, r) + "\n" + tableToString(raceTableHead, tables[c][r], null, ALL_COLUMNS) + "\n";
+				tableTable[row][col] = "\nChallenge " + raceToLink(c, r) + "\n" + tableToString(raceTableHead, tables[c][r], null, ALL_COLUMNS)
+						+ "\n";
 				col++;
 				if(col == maxCols)
 				{
@@ -172,9 +189,9 @@ public class CCCEval
 		StringBuilder total = new StringBuilder();
 
 		if(!finished)
-			total.append(tableToString(finalTableHead, finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length-1)));
+			total.append(tableToString(finalTableHead, finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length - 1)));
 		else
-			total.append(tableToString(finalTableHead, finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length-3)));
+			total.append(tableToString(finalTableHead, finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length - 3)));
 
 		StringBuilder stats = new StringBuilder();
 
@@ -205,7 +222,7 @@ public class CCCEval
 		br.close();
 
 		String s = schema.toString();
-		// TODO maps automatisch einfuegen
+		s = s.replace("${MAPS}", tableToString(mapTableHead, mapTable, null, ALL_COLUMNS));
 		s = s.replace("${DETAIL}", detailLinks.toString());
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
@@ -382,7 +399,7 @@ public class CCCEval
 			finalTable[i][tables.length + 9] = highlight("" + round(round(expected_total_points.get(player) + expected_bonus)));
 			finalTable[i][tables.length + 10] = ("" + round(round(expected_old + expected_bonus)));
 		}
-		
+
 		System.out.println("finished=" + finished);
 
 		sortFinalTable(finished);
@@ -401,7 +418,7 @@ public class CCCEval
 				finalTable[i][0] = (i + 1) + ".";
 			}
 		}
-		
+
 		return finished;
 	}
 
@@ -757,9 +774,9 @@ public class CCCEval
 	private void sortFinalTable(boolean finished)
 	{
 		if(!finished)
-			Arrays.sort(finalTable, new FinalTableRowSorter( -2 )); // sort by Erwartungswert
+			Arrays.sort(finalTable, new FinalTableRowSorter(-2)); // sort by Erwartungswert
 		else
-			Arrays.sort(finalTable, new FinalTableRowSorter( -4 ));	// sort by Endergebnis		
+			Arrays.sort(finalTable, new FinalTableRowSorter(-4)); // sort by Endergebnis
 	}
 
 	private int addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Integer> sum_pointsUnskaled,
@@ -1206,11 +1223,19 @@ public class CCCEval
 
 		int amount = intFromString(p.getProperty("challenges"));
 		maps = new int[amount + 1];
+		mapNames = new String[amount + 1];
+		races = new int[amount +1];
 		numberOfPlayers = new int[amount + 1];
+		zzz = new int[amount + 1];
+		cps = new boolean[amount + 1];
 		for(int c = 1; c <= amount; c++)
 		{
 			maps[c] = intFromString(p.getProperty(c + ".map"));
+			mapNames[c] = new String(p.getProperty(c + ".mapName").getBytes("ISO-8859-1"), "UTF-8");
+			races[c] = intFromString(p.getProperty(c + ".races"));
 			numberOfPlayers[c] = intFromString(p.getProperty(c + ".players"));
+			zzz[c] = intFromString(p.getProperty(c + ".zzz"));
+			cps[c] = booleanFromString(p.getProperty(c + ".cps"));
 		}
 
 		gids = new int[amount + 1][];
@@ -1220,17 +1245,14 @@ public class CCCEval
 		totalTables = new String[amount + 1][][];
 		totalTableHeads = new String[amount + 1][];
 
-		int races;
 		for(int c = 1; c <= amount; c++)
 		{
-			races = intFromString(p.getProperty(c + ".races"));
+			gids[c] = new int[races[c] + 1];
+			pages[c] = new String[races[c] + 1];
+			logs[c] = new String[races[c] + 1];
+			tables[c] = new String[races[c] + 1][][];
 
-			gids[c] = new int[races + 1];
-			pages[c] = new String[races + 1];
-			logs[c] = new String[races + 1];
-			tables[c] = new String[races + 1][][];
-
-			for(int r = 1; r <= races; r++)
+			for(int r = 1; r <= races[c]; r++)
 			{
 				gids[c][r] = intFromString(p.getProperty(c + "." + r));
 			}
@@ -1247,9 +1269,9 @@ public class CCCEval
 		return "[[CraZZZy Crash Challenge " + cccx + " - Detailwertung Challenge " + c + "|" + (text ? "Challenge " : "") + c + "]]";
 	}
 
-	private String mapToLink(int challenge)
+	private String mapToLink(int challenge, boolean includeName)
 	{
-		return "{{Karte|" + maps[challenge] + "}}";
+		return "{{Karte|" + maps[challenge] + "}}" + (includeName ? " " + mapNames[challenge] : "");
 	}
 
 	private String playerToLink(String player, boolean bold)
@@ -1286,7 +1308,7 @@ public class CCCEval
 
 				if(i > 0)
 					sb.append("||");
-				
+
 				sb.append(head[col]);
 			}
 			sb.append("\n|-\n");
@@ -1299,10 +1321,10 @@ public class CCCEval
 				col = columns[i];
 				if(col >= row.length)
 					continue;
-				
+
 				if(i > 0)
 					sb.append("||");
-				
+
 				sb.append(row[col]);
 			}
 			sb.append("\n|-\n");
@@ -1359,6 +1381,11 @@ public class CCCEval
 		return Integer.parseInt(s.replace(highlight, ""));
 	}
 
+	private boolean booleanFromString(String s)
+	{
+		return Boolean.valueOf(s.replace(highlight, ""));
+	}
+
 	private double doubleFromString(String s)
 	{
 		return Double.parseDouble(s.replace(highlight, ""));
@@ -1408,12 +1435,12 @@ public class CCCEval
 	private class FinalTableRowSorter implements Comparator<String[]>
 	{
 		private int mainColumnOffset;
-		
+
 		public FinalTableRowSorter(int mainColumnOffset)
 		{
 			this.mainColumnOffset = mainColumnOffset;
 		}
-		
+
 		@Override
 		public int compare(String[] o1, String[] o2)
 		{
