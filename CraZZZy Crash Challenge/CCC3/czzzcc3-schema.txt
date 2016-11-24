@@ -163,50 +163,7 @@ Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
 == Challenges ==
 Folgende Challenges werden bei der CraZZZy Crash Challenge 3 gefahren:
 
-{|class="wikitable"
-! Nr.||Strecke||Spielerzahl||ZZZ||CPs||Spielzahl
-|-
-|'''1'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''2'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''3'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''4'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''5'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''6'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''7'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''8'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''9'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''10'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''11'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''12'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''13'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''14'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''15'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''16'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''17'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''18'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''19'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|'''20'''||{{Karte|?}} ?||?||?||ja||?
-|-
-|}
+${MAPS}
 
 Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
 
