@@ -376,7 +376,7 @@ public class KaropapierLoader
 		{
 			try
 			{
-				image = ImageIO.read(new URL(serverReloaded + "/map/" + mapId + ".png?width=" + standardImageLoadSize + "&border=0"));
+				image = ImageIO.read(new URL(server + "/mappreview.php?MID=" + mapId + "&SIZE=8&BORDER=0"));
 			}
 			catch (IOException e1)
 			{
@@ -388,7 +388,7 @@ public class KaropapierLoader
 				{
 					try
 					{
-						image = ImageIO.read(new URL(server + "/oo/viewmap.php?MID=" + mapId + "&SIZE=8&BORDER=0"));
+						image = ImageIO.read(new URL(serverReloaded + "/map/" + mapId + ".png?width=" + standardImageLoadSize + "&border=0"));
 					}
 					catch (IOException e3)
 					{
