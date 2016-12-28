@@ -140,10 +140,10 @@ public class KaropapierLoader
 		int currentIndex = 0;
 		while (true)
 		{
-			int start = playerPage.indexOf("userinfo.php?about=", currentIndex);
+			int start = playerPage.indexOf("/users/", currentIndex);
 			if (start == -1)
 				break;
-			start = start + "userinfo.php?about=".length();
+			start = start + "/users/".length();
 			int end = playerPage.indexOf("BGCOLOR=", start);
 			end = playerPage.indexOf(">", end);
 			if (end == -1)
@@ -155,8 +155,8 @@ public class KaropapierLoader
 			if (playerS == null)
 				break;
 
-			String idS = playerS.substring(0, playerS.indexOf(">"));
-			String name = playerS.substring(playerS.indexOf("<B>") + "<B>".length(), playerS.indexOf("</B>"));
+			String idS = playerS.substring(0, playerS.indexOf("\">"));
+			String name = playerS.substring(playerS.indexOf("<b>") + "<b>".length(), playerS.indexOf("</b>"));
 			String colorS = "#" + playerS.substring(playerS.indexOf("BGCOLOR=") + "BGCOLOR=".length());
 
 			Player currentPlayer = new Player();
@@ -284,7 +284,7 @@ public class KaropapierLoader
 			String plName;
 			try
 			{
-				plName = playerS.substring(playerS.indexOf(plId + "", (plId + "").length()) + (plId + "").length() + 2, playerS.indexOf("[")).trim();
+				plName = playerS.substring(playerS.indexOf(plId + "", (plId + "").length()) + (plId + "").length() + 2, playerS.lastIndexOf("[")).trim();
 			}
 			catch (StringIndexOutOfBoundsException e)
 			{
@@ -366,7 +366,7 @@ public class KaropapierLoader
 		maps.put(115, new Map(115, HtmlUtil.fixHtml("lol (alt)"), maps.get(118).getCreator(), false, 10, readImage(115, false, true)));
 		maps.put(144, new Map(144, HtmlUtil.fixHtml("Jodys groﬂer Knoten"), maps.get(143).getCreator(), false, 10, readImage(144, false, true)));
 		maps.put(177, new Map(177, HtmlUtil.fixHtml("City Race (alt)"), maps.get(178).getCreator(), false, 8, readImage(177, false, true)));
-		maps.put(186, new Map(177, HtmlUtil.fixHtml("Yun2 (alt)"), maps.get(187).getCreator(), false, 7, readImage(186, false, true)));
+		maps.put(186, new Map(186, HtmlUtil.fixHtml("Yun2 (alt)"), maps.get(187).getCreator(), false, 7, readImage(186, false, true)));
 	}
 
 	public static Image readImage(int mapId, boolean night, boolean special)

@@ -50,12 +50,12 @@ public class ThreadQueue
 		this.debugEnabled = debugEnabled;
 	}
 
-	public boolean iscountEnabled()
+	public boolean isCountEnabled()
 	{
 		return countEnabled;
 	}
 
-	public void setcountEnabled(boolean countEnabled)
+	public void setCountEnabled(boolean countEnabled)
 	{
 		this.countEnabled = countEnabled;
 	}
@@ -82,6 +82,16 @@ public class ThreadQueue
 	{
 		launchThreads();
 	}
+	
+	public int getRemainingThreads()
+	{
+		return this.q.size();
+	}
+	
+	public int getRunningThreads()
+	{
+		return this.noT;
+	}
 
 	public void notifyFinished(QueuableThread th)
 	{
@@ -104,7 +114,7 @@ public class ThreadQueue
 		launchThreads();
 	}
 
-	public void waitForFinisched() throws InterruptedException
+	protected void waitForFinisched() throws InterruptedException
 	{
 		synchronized(this.synco)
 		{
@@ -113,9 +123,8 @@ public class ThreadQueue
 		}
 	}
 
-	private void launchThreads()
+	protected void launchThreads()
 	{
-		this.q.size();
 		while(this.noT < this.max)
 		{
 			QueuableThread th = this.q.poll();
@@ -125,7 +134,7 @@ public class ThreadQueue
 		}
 	}
 
-	private void launchThread(QueuableThread th)
+	protected void launchThread(QueuableThread th)
 	{
 		th.start(this.currId++);
 		synchronized(this.noT)

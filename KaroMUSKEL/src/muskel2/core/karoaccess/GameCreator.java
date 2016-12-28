@@ -37,7 +37,7 @@ public class GameCreator
 
 	private SummaryScreen		summaryScreen;
 
-	public static final int		maxLoadThreads		= 50;
+	public static int			MAX_LOAD_THREADS		= 10;
 
 	public GameCreator(Karopapier karopapier, SummaryScreen summaryScreen)
 	{
@@ -50,7 +50,7 @@ public class GameCreator
 
 	public void createGames(List<Game> games)
 	{
-		this.urlLoadQ = new KaroThreadQueue(maxLoadThreads, summaryScreen, true, false, false);
+		this.urlLoadQ = new KaroThreadQueue(MAX_LOAD_THREADS, summaryScreen, true, false, false);
 
 		for(Game game : games)
 		{
@@ -65,7 +65,7 @@ public class GameCreator
 
 	public void leaveGames(List<Game> games, Player player)
 	{
-		this.urlLoadQ = new KaroThreadQueue(maxLoadThreads, summaryScreen, false, false, false);
+		this.urlLoadQ = new KaroThreadQueue(MAX_LOAD_THREADS, summaryScreen, false, false, false);
 
 		try
 		{
@@ -169,14 +169,14 @@ public class GameCreator
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args)
 	{
 		GameCreator gc = new GameCreator(null, null);
 		Rules r = new Rules(1, 1, true, true, Direction.egal, true, true);
 		r.createRandomValues();
 		Map m = new Map(111, "x", "x", true, 1, null);
-		List<Player> ps = Arrays.asList(new Player[]{new Player(222, "x", true, true, 999, 99, 999, 999, null)});
+		List<Player> ps = Arrays.asList(new Player[] { new Player(222, "x", true, true, 999, 99, 999, 999, null) });
 		Game g = new Game("test & nix", m, ps, r);
 		System.out.println(gc.createNewGameURL(g));
 	}
