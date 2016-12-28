@@ -96,7 +96,7 @@ public class URLLoaderThread extends QueuableThread
 			};
 			t.start();
 			if(this.timeout > 0)
-				t.join(10000);
+				t.join(timeout);
 			else
 				t.join();
 		}
