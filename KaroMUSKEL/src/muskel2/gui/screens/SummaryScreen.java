@@ -192,7 +192,10 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.create.confirm").replace("%N", "" + amount));
 		if(result != JOptionPane.OK_OPTION)
+		{
+			enableButtons();
 			return;
+		}
 
 		this.inProgress = true;
 		GameCreator gc = new GameCreator(karopapier, this);
@@ -225,7 +228,10 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.leave.confirm").replace("%N", "" + amount));
 		if(result != JOptionPane.OK_OPTION)
+		{
+			enableButtons();
 			return;
+		}
 
 		this.inProgress = true;
 		GameCreator gc = new GameCreator(karopapier, this);
