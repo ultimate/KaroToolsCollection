@@ -202,6 +202,11 @@ public class Main
 	{
 		return karopapier;
 	}
+	
+	public static void setKaropapier(Karopapier karopapier)
+	{
+		Main.karopapier = karopapier;
+	}
 
 	public static void exit()
 	{

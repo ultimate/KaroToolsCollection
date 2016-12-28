@@ -102,6 +102,11 @@ public class GameCreator
 		GameCreatorThread th = new GameCreatorThread(game, url, parameter, "Neues Spiel erstellt", this.karopapier.isInDebugMode());
 		this.urlLoadQ.addThread(th);
 	}
+	
+	public void waitForFinished() throws InterruptedException 
+	{
+		this.urlLoadQ.waitForFinished();
+	}
 
 	public String createNewGameURL(Game game)
 	{

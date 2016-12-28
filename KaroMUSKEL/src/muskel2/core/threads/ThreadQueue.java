@@ -114,11 +114,11 @@ public class ThreadQueue
 		launchThreads();
 	}
 
-	protected void waitForFinisched() throws InterruptedException
+	public void waitForFinished() throws InterruptedException
 	{
 		synchronized(this.synco)
 		{
-			while(this.noT > 0)
+			while(this.noT > 0 || this.q.size() > 0)
 				this.synco.wait();
 		}
 	}
