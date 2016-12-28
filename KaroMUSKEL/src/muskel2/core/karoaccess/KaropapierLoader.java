@@ -35,6 +35,8 @@ public class KaropapierLoader
 {
 	private static CookieHandler	ch;
 	private static String			currentUser;
+	
+	public static final String 		imageCache = "cache";
 
 	public static final String		server					= "http://www.karopapier.de";
 	public static final String		serverReloaded			= "http://reloaded.karopapier.de";
@@ -110,19 +112,19 @@ public class KaropapierLoader
 		ArrayList<Player> players = new ArrayList<Player>();
 
 		int currentIndex = 0;
-		while (true)
+		while(true)
 		{
 			int start = loginPage.indexOf("<OPTION VALUE=\"", currentIndex);
-			if (start == -1)
+			if(start == -1)
 				break;
 			start = start + "<OPTION VALUE=\"".length();
 			int end = loginPage.indexOf("\">", start);
-			if (end == -1)
+			if(end == -1)
 				break;
 			currentIndex = end;
 
 			String playerName = loginPage.substring(start, end);
-			if (playerName == null)
+			if(playerName == null)
 				break;
 
 			Player currentPlayer = new Player();
@@ -138,21 +140,21 @@ public class KaropapierLoader
 		List<Player> players = new LinkedList<Player>();
 
 		int currentIndex = 0;
-		while (true)
+		while(true)
 		{
 			int start = playerPage.indexOf("/users/", currentIndex);
-			if (start == -1)
+			if(start == -1)
 				break;
 			start = start + "/users/".length();
 			int end = playerPage.indexOf("BGCOLOR=", start);
 			end = playerPage.indexOf(">", end);
-			if (end == -1)
+			if(end == -1)
 				break;
-//			end = end + "BGCOLOR=".length() + 6;
+			// end = end + "BGCOLOR=".length() + 6;
 			currentIndex = end;
 
 			String playerS = playerPage.substring(start, end);
-			if (playerS == null)
+			if(playerS == null)
 				break;
 
 			String idS = playerS.substring(0, playerS.indexOf("\">"));
@@ -170,7 +172,8 @@ public class KaropapierLoader
 		return players;
 	}
 
-	public static Karopapier processNewGamePages(String server, String newGamePage, String newGamePage2, List<Player> playersFromPlayerPage) throws MalformedURLException, IOException
+	public static Karopapier processNewGamePages(String server, String newGamePage, String newGamePage2, List<Player> playersFromPlayerPage)
+			throws MalformedURLException, IOException
 	{
 		int currentIndex;
 
@@ -180,31 +183,32 @@ public class KaropapierLoader
 		boolean unlocked = KaropapierLoader.checkUnlockFile(currentUser);
 
 		// maps lesen aus newGamePage
-		String firstSelect = newGamePage.substring(newGamePage.indexOf("<SELECT NAME=mapid"), newGamePage.indexOf("</SELECT>", newGamePage.indexOf("<SELECT NAME=mapid")) + "</SELECT>".length());
+		String firstSelect = newGamePage.substring(newGamePage.indexOf("<SELECT NAME=mapid"),
+				newGamePage.indexOf("</SELECT>", newGamePage.indexOf("<SELECT NAME=mapid")) + "</SELECT>".length());
 		String mapS = null, mapId, mapName, maxPlayers, creator;
 		currentIndex = 0;
-		while (true)
+		while(true)
 		{
 			try
 			{
 				int start = firstSelect.indexOf("<OPTION VALUE=", currentIndex);
-				if (start == -1)
+				if(start == -1)
 					break;
 				start = start + "<OPTION VALUE=".length();
 				int end = firstSelect.indexOf("<", start);
-				if (end == -1)
+				if(end == -1)
 				{
 					break;
 				}
 				currentIndex = end;
-	
+
 				mapS = firstSelect.substring(start, end);
-				if (mapS == null)
+				if(mapS == null)
 					break;
-	
+
 				mapId = mapS.substring(0, mapS.indexOf(">"));
 				mapName = mapS.substring(mapS.indexOf(mapId + "", (mapId + "").length()) + (mapId + "").length(), mapS.indexOf("("));
-				if (mapName.equals(" "))
+				if(mapName.equals(" "))
 					mapName = "Karte " + mapId;
 				else
 				{
@@ -212,7 +216,7 @@ public class KaropapierLoader
 				}
 				mapName = HtmlUtil.fixHtml(mapName);
 				maxPlayers = mapS.substring(mapS.indexOf("(") + 1, mapS.indexOf(" Spieler"));
-	
+
 				Map currentMap = new Map();
 				currentMap.setId(Integer.parseInt(mapId));
 				currentMap.setName(mapName);
@@ -229,31 +233,32 @@ public class KaropapierLoader
 
 		// kartenersteller lesen aus newGamePage2
 		currentIndex = 0;
-		while (true)
+		while(true)
 		{
 			int start = newGamePage2.indexOf("return overlib('", currentIndex);
-			if (start == -1)
+			if(start == -1)
 				break;
 			start = start + "return overlib('".length();
 			int end = newGamePage2.indexOf(" Spieler: <IMG SRC", start);
-			if (end == -1)
+			if(end == -1)
 			{
 				break;
 			}
 			currentIndex = end;
 
 			String tooltip = newGamePage2.substring(start, end);
-			if (tooltip == null)
+			if(tooltip == null)
 				break;
 
 			mapId = tooltip.substring(0, tooltip.indexOf(" "));
-			creator = tooltip.substring(tooltip.indexOf("&quot; von ") + "&quot; von ".length(), tooltip.indexOf(", ", tooltip.indexOf("&quot; von ") + "&quot; von ".length()));
+			creator = tooltip.substring(tooltip.indexOf("&quot; von ") + "&quot; von ".length(),
+					tooltip.indexOf(", ", tooltip.indexOf("&quot; von ") + "&quot; von ".length()));
 
 			if(maps.get(Integer.parseInt(mapId)) != null)
 				maps.get(Integer.parseInt(mapId)).setCreator(creator);
 		}
 
-		if (unlocked)
+		if(unlocked)
 		{
 			// Spezial Map added!!!
 			addSpecialMaps(maps);
@@ -263,38 +268,39 @@ public class KaropapierLoader
 		String secondSelect = newGamePage.substring(newGamePage.indexOf("<SELECT NAME=teilnehmer"),
 				newGamePage.indexOf("</SELECT>", newGamePage.indexOf("<SELECT NAME=teilnehmer")) + "</SELECT>".length());
 		currentIndex = 0;
-		while (true)
+		while(true)
 		{
 			int start = secondSelect.indexOf("<OPTION VALUE=", currentIndex);
-			if (start == -1)
+			if(start == -1)
 				break;
 			start = start + "<OPTION VALUE=".length();
 			int end = secondSelect.indexOf("<", start);
-			if (end == -1)
+			if(end == -1)
 			{
 				break;
 			}
 			currentIndex = end;
 
 			String playerS = secondSelect.substring(start, end);
-			if (playerS == null)
+			if(playerS == null)
 				break;
 
 			String plId = playerS.substring(0, playerS.indexOf(">"));
 			String plName;
 			try
 			{
-				plName = playerS.substring(playerS.indexOf(plId + "", (plId + "").length()) + (plId + "").length() + 2, playerS.lastIndexOf("[")).trim();
+				plName = playerS.substring(playerS.indexOf(plId + "", (plId + "").length()) + (plId + "").length() + 2, playerS.lastIndexOf("["))
+						.trim();
 			}
-			catch (StringIndexOutOfBoundsException e)
+			catch(StringIndexOutOfBoundsException e)
 			{
 				// trenner für mehr als 3 Tage weg...
 				continue;
 			}
-			if (plName.indexOf("(BOT): ") != -1)
+			if(plName.indexOf("(BOT): ") != -1)
 				plName = plName.substring(plName.indexOf("(BOT): ") + "(BOT): ".length());
 			boolean nightB = true;
-			if (plName.indexOf("(keine Nachtrennen)") != -1)
+			if(plName.indexOf("(keine Nachtrennen)") != -1)
 			{
 				plName = plName.substring(0, plName.lastIndexOf("("));
 				nightB = false;
@@ -314,7 +320,7 @@ public class KaropapierLoader
 				currentPlayer.setGamesAct(Integer.parseInt(gamesActS));
 				currentPlayer.setGamesActOrPlanned(Integer.parseInt(gamesActS));
 			}
-			catch (NumberFormatException e)
+			catch(NumberFormatException e)
 			{
 				currentPlayer.setGamesAct(0);
 			}
@@ -322,7 +328,7 @@ public class KaropapierLoader
 			{
 				currentPlayer.setGamesMax((gamesMaxS.equals("&#8734;") ? 0 : Integer.parseInt(gamesMaxS)));
 			}
-			catch (NumberFormatException e)
+			catch(NumberFormatException e)
 			{
 				System.out.println(plName);
 				throw e;
@@ -333,9 +339,9 @@ public class KaropapierLoader
 		}
 
 		// player seiten player einarbeiten
-		for (Player p : playersFromPlayerPage)
+		for(Player p : playersFromPlayerPage)
 		{
-			if (!players.containsKey(p.getName().toLowerCase()))
+			if(!players.containsKey(p.getName().toLowerCase()))
 			{
 				players.put(p.getName().toLowerCase(), p);
 			}
@@ -360,7 +366,8 @@ public class KaropapierLoader
 		maps.put(48, new Map(48, HtmlUtil.fixHtml("Die Checkpointteststrecke"), maps.get(1).getCreator(), false, 5, readImage(48, false, true)));
 		maps.put(52, new Map(52, HtmlUtil.fixHtml("Dubya (groß)"), maps.get(57).getCreator(), false, 18, readImage(52, false, true)));
 		maps.put(81, new Map(81, HtmlUtil.fixHtml("Checkpointtester"), maps.get(1).getCreator(), false, 3, readImage(81, false, true)));
-		maps.put(100, new Map(100, HtmlUtil.fixHtml("Das Haus vom Nikolaus (alt)"), maps.get(109).getCreator(), false, 5, readImage(100, false, true)));
+		maps.put(100,
+				new Map(100, HtmlUtil.fixHtml("Das Haus vom Nikolaus (alt)"), maps.get(109).getCreator(), false, 5, readImage(100, false, true)));
 		maps.put(106, new Map(106, HtmlUtil.fixHtml("Für Annie :wavey: (alt)"), maps.get(108).getCreator(), false, 9, readImage(106, false, true)));
 		maps.put(113, new Map(113, HtmlUtil.fixHtml("Knubbelbubbeldings (alt)"), maps.get(121).getCreator(), false, 4, readImage(113, false, true)));
 		maps.put(115, new Map(115, HtmlUtil.fixHtml("lol (alt)"), maps.get(118).getCreator(), false, 10, readImage(115, false, true)));
@@ -371,28 +378,61 @@ public class KaropapierLoader
 
 	public static Image readImage(int mapId, boolean night, boolean special)
 	{
-		Image image = night ? blackImage : whiteImage;
-		if (!night)
+		BufferedImage image = night ? blackImage : whiteImage;
+		if(!night)
 		{
-			try
-			{
-				image = ImageIO.read(new URL(server + "/mappreview.php?MID=" + mapId + "&SIZE=8&BORDER=0"));
-			}
-			catch (IOException e1)
+			File imageFile = new File(imageCache + "/" + mapId + ".png");
+			boolean imageLoaded = false;
+			if(imageFile.exists())
 			{
 				try
 				{
-					image = ImageIO.read(new URL(server + "/previews/" + mapId + ".png"));
+					image = ImageIO.read(imageFile);
+					imageLoaded = true;
 				}
-				catch (IOException e2)
+				catch(IOException e)
+				{
+					// ignore
+				}
+			}
+			if(!imageLoaded)
+			{
+				try
+				{
+					image = ImageIO.read(new URL(server + "/map/" + mapId + ".png?width=" + standardImageLoadSize + "&border=1"));
+					imageLoaded = true;
+				}
+				catch(IOException e1)
 				{
 					try
 					{
-						image = ImageIO.read(new URL(serverReloaded + "/map/" + mapId + ".png?width=" + standardImageLoadSize + "&border=0"));
+						image = ImageIO.read(new URL(server + "/mappreview.php?MID=" + mapId + "&pixel=8&karoborder=0"));
+						imageLoaded = true;
 					}
-					catch (IOException e3)
+					catch(IOException e2)
 					{
-						special = true;
+						try
+						{
+							image = ImageIO.read(new URL(server + "/previews/" + mapId + ".png"));
+							imageLoaded = true;
+						}
+						catch(IOException e3)
+						{
+							special = true;
+						}
+					}
+				}
+				if(imageLoaded)
+				{
+					if(!imageFile.getParentFile().exists())
+						imageFile.getParentFile().mkdirs();
+					try
+					{
+						ImageIO.write(image, "png", imageFile);
+					}
+					catch(IOException e)
+					{
+						System.out.println("Fehler beim Cachen des Bildes für Map " + mapId);
 					}
 				}
 			}
@@ -436,7 +476,7 @@ public class KaropapierLoader
 		InputStream is = connection.getInputStream();
 		BufferedInputStream bis = new BufferedInputStream(is);
 		int curr = bis.read();
-		while (curr != -1)
+		while(curr != -1)
 		{
 			site.append((char) curr);
 			curr = bis.read();
@@ -470,39 +510,39 @@ public class KaropapierLoader
 
 		int count = 0;
 		boolean gameFound = true;
-		while (gameFound)
+		while(gameFound)
 		{
 			gameFound = false;
 
-			while (true)
+			while(true)
 			{
 				try
 				{
 					gameListPage = readPage(gameListURL, gameListParams.replace("%I", "" + count));
 					break;
 				}
-				catch (Exception e)
+				catch(Exception e)
 				{
 
 				}
 			}
 
 			int currentIndex = 0;
-			while (true)
+			while(true)
 			{
 				int start = gameListPage.indexOf("<A HREF=showmap.php?", currentIndex) + "<A HREF=showmap.php?".length();
 				start = gameListPage.indexOf("<A HREF=showmap.php?", start);
-				if (start == -1)
+				if(start == -1)
 					break;
 				start = start + "<A HREF=showmap.php?".length();
 				int start2 = gameListPage.indexOf(">", start) + 1;
 				int end = gameListPage.indexOf("<", start2);
-				if (end == -1)
+				if(end == -1)
 					break;
 				currentIndex = end;
 
 				String name = gameListPage.substring(start2, end).trim();
-				if (name.isEmpty())
+				if(name.isEmpty())
 					break;
 				count++;
 				gameFound = true;
@@ -510,11 +550,11 @@ public class KaropapierLoader
 				int id = Integer.parseInt(gameListPage.substring(start + "GID=".length(), gameListPage.indexOf("&", start)));
 				System.out.println(" --> " + name + " (" + id + ")");
 
-				for (Game game : gameList)
+				for(Game game : gameList)
 				{
-					if (game.getName().equals(name))
+					if(game.getName().equals(name))
 					{
-						if (game.getId() == null || game.getId() < id)
+						if(game.getId() == null || game.getId() < id)
 							game.setId(id);
 					}
 				}
@@ -534,24 +574,24 @@ public class KaropapierLoader
 		int tmp;
 		String tmpS;
 
-		for (int i = 0; i < username.length(); i++)
+		for(int i = 0; i < username.length(); i++)
 		{
 			curr = username.charAt(i);
-			if (!chars.containsKey(curr))
+			if(!chars.containsKey(curr))
 			{
 				chars.put(curr, new LinkedList<Integer>());
 			}
 			chars.get(curr).add(i);
 		}
 
-		for (Character key : chars.keySet())
+		for(Character key : chars.keySet())
 		{
 			positions = chars.get(key);
 			tmp = (int) key.charValue();
-			for (Integer position : positions)
+			for(Integer position : positions)
 			{
 				tmpS = Integer.toHexString(tmp + position);
-				if (tmpS.length() < 2)
+				if(tmpS.length() < 2)
 					tmpS = "0" + tmpS;
 				unlockKey.append(tmpS.toUpperCase());
 				check += position * Math.pow(10, count);
@@ -560,7 +600,7 @@ public class KaropapierLoader
 		}
 
 		tmpS = Long.toHexString(check);
-		if (tmpS.length() % 2 == 1)
+		if(tmpS.length() % 2 == 1)
 			tmpS = "0" + tmpS;
 		unlockKey.append(tmpS.toUpperCase());
 
@@ -581,7 +621,7 @@ public class KaropapierLoader
 		FileOutputStream fos = new FileOutputStream(file);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
 
-		for (int i = 0; i < username.length(); i++)
+		for(int i = 0; i < username.length(); i++)
 		{
 			bos.write(username.charAt(i));
 		}
@@ -592,7 +632,7 @@ public class KaropapierLoader
 		bos.close();
 		fos.close();
 	}
-	
+
 	public static String encodeParameters(String s)
 	{
 		StringBuffer sb = new StringBuffer();

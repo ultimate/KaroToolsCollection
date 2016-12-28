@@ -167,7 +167,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.exportButton = new JButton(Language.getString("screen.summary.export"));
 		this.exportButton.setActionCommand("export");
 		this.exportButton.addActionListener(this);
-		buttonPanel.add(this.exportButton);
+//		buttonPanel.add(this.exportButton);
 
 		this.model = new SummaryModel();
 		this.table = new JTable(this.model);
