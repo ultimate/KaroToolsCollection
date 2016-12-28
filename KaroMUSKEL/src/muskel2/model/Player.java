@@ -155,8 +155,10 @@ public class Player implements Serializable
 
 	public String toString()
 	{
-		return this.id + " - " + this.name + (this.invitableNight ? "" : " (keine Nachtrennen)") + " [ " + this.activeSince + " | "
-				+ this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
+//		return this.id + " - " + this.name + (this.invitableNight ? "" : " (keine Nachtrennen)") + " [ " + this.activeSince + " | "
+//				+ this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
+		return this.name + " (ID=" + this.id + (this.invitableNight ? "" : ", keine Nachtrennen") + ") [ " + this.activeSince + " | "
+			+ this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
 	}
 
 	public boolean isInvitable(boolean night)
