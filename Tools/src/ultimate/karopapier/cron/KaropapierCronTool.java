@@ -40,7 +40,7 @@ public class KaropapierCronTool
 		System.out.println("---------------------------------------------------------------");
 		System.out.println("--- EXECUTION " + DATE_FORMAT.format(new Date()));
 		System.out.println("---------------------------------------------------------------");
-		
+
 		File propertiesFile;
 		if(args != null && args.length > 0)
 			propertiesFile = new File(args[0]);
@@ -86,7 +86,7 @@ public class KaropapierCronTool
 		properties.setProperty("executions", "" + executions);
 
 		GameSeries gs = null;
-		
+
 		// create games
 		if(gameseriesFile != null)
 		{
@@ -123,7 +123,7 @@ public class KaropapierCronTool
 						gc.waitForFinished();
 						System.out.println("OK");
 
-						for(Game g: gamesToCreate)
+						for(Game g : gamesToCreate)
 							g.setCreated(true);
 
 						if(gameseriesLeave)
@@ -133,7 +133,7 @@ public class KaropapierCronTool
 							gc.waitForFinished();
 							System.out.println("OK");
 
-							for(Game g: gamesToCreate)
+							for(Game g : gamesToCreate)
 								g.setLeft(true);
 						}
 						else
@@ -163,7 +163,7 @@ public class KaropapierCronTool
 				e.printStackTrace();
 			}
 		}
-		
+
 		// do evaluation
 		if(evalClass != null)
 		{
@@ -195,21 +195,25 @@ public class KaropapierCronTool
 					String summary = "Automatische Auswertung " + DATE_FORMAT.format(new Date());
 					for(Entry<String, String> e : wikiFiles.entrySet())
 					{
-						System.out.println("uploading " + e.getKey() + " -> " + e.getValue() + " ... ");
-						String content = null;
-						try
+						File file = new File(e.getKey());
+						if(file.exists())
 						{
-							content = readFile(new File(e.getKey()));
+							System.out.println("uploading " + e.getKey() + " -> " + e.getValue() + " ... ");
+							String content = null;
+							try
+							{
+								content = readFile(file);
+							}
+							catch(IOException ex)
+							{
+								System.out.println("ERROR: " + ex.getMessage());
+								continue;
+							}
+							if(wl.edit(e.getValue(), content, summary, true))
+								System.out.println("OK");
+							else
+								System.out.println("FAILED");
 						}
-						catch(IOException ex)
-						{
-							System.out.println("ERROR: " + ex.getMessage());
-							continue;
-						}
-						if(wl.edit(e.getValue(), content, summary, true))
-							System.out.println("OK");
-						else
-							System.out.println("FAILED");
 
 					}
 					wl.logout();
@@ -240,16 +244,16 @@ public class KaropapierCronTool
 			System.err.println("ERROR: could not write properties: " + propertiesFile.getPath());
 			return;
 		}
-		
+
 		System.exit(0);
 	}
 
 	private static Karopapier initiateKaropapier() throws IOException
 	{
 		Karopapier karopapier = KaropapierLoader.initiateKaropapier();
-		
+
 		Main.setKaropapier(karopapier);
-		
+
 		return karopapier;
 	}
 
