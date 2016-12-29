@@ -32,6 +32,8 @@ public class KaroWikiURLs
 	public static final String	PARAMETER_ACTION_EDIT_TOKEN			= "token";
 	public static final String	PARAMETER_ACTION_EDIT_SUMMARY		= "summary";
 	public static final String	PARAMETER_ACTION_EDIT_BASETIMESTAMP	= "basetimestamp";
+	public static final String	PARAMETER_ACTION_EDIT_CAPTCHAID		= "captchaid";
+	public static final String	PARAMETER_ACTION_EDIT_CAPTCHAWORD	= "captchaword";
 
 	public static final String	FORMAT_JSON							= "json";
 

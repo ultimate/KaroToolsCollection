@@ -181,9 +181,29 @@ public class KaroWikiLoader
 
 		String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
 		success = "success".equalsIgnoreCase(result);
-		if(!success)
+		int tries = 0;
+		while(!success && tries < 5)
 		{
-			// TODO captcha
+			// handle captcha
+			Map<String, Object> captcha = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("edit")).get("captcha");
+			if(captcha != null)
+			{
+				String question = (String) captcha.get("question");
+				String id = (String) captcha.get("id");
+				String answer = getCaptchaAnswer(question);
+				parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_CAPTCHAID, id);
+				parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
+				
+				// try again
+				json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
+				System.out.println(json);
+				jsonObject = (Map<String, Object>) JSONUtil.deserialize(json);
+				
+				result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
+				success = "success".equalsIgnoreCase(result);
+				
+				tries++;
+			}
 		}
 		logger.debug("  " + (success ? "Successful!" : "Failed!"));
 		return success;
@@ -219,6 +239,14 @@ public class KaroWikiLoader
 
 	private String getCaptchaAnswer(String question)
 	{
-		return null;
+		if("Was steht im Forum hinter uralten Threads?".equals(question))
+			return "saualt";
+		if("Wer is hier an allem Schuld? (wer hat's programmiert?)".equals(question))
+			return "Didi";
+		if("Wie heisst der Bot (weiblich), der staendig im Chat rumlabert?".equals(question))
+			return "Botrix";
+		if("Was erscheint im Chat2.0 fuer ein Bildchen vor den spielegeilen?".equals(question))
+			return "Spiegelei";
+		return "";
 	}
 }
