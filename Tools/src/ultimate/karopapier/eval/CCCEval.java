@@ -1,11 +1,14 @@
 package ultimate.karopapier.eval;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,11 +20,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import javax.swing.JFileChooser;
+
+import muskel2.Main;
+import muskel2.model.Game;
+import muskel2.model.GameSeries;
+import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.threads.ThreadQueue;
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
-public class CCCEval
+public class CCCEval implements Eval
 {
 	public static final String	DEFAULT_FOLDER	= "";
 	public static final int[]	ALL_COLUMNS;
@@ -37,7 +46,7 @@ public class CCCEval
 	private int[]							races;
 	private int[]							numberOfPlayers;
 	private int[]							maps;
-	private String[]						mapNames;	
+	private String[]						mapNames;
 	private int[]							zzz;
 	private boolean[]						cps;
 	private String[][]						pages;
@@ -91,6 +100,29 @@ public class CCCEval
 		int cccx = Integer.parseInt(args[0]);
 
 		CCCEval e = new CCCEval(cccx, DEFAULT_FOLDER);
+
+//		{
+//			JFileChooser fileChooser = new JFileChooser();
+//			int result = fileChooser.showOpenDialog(null);
+//			if(result != JFileChooser.APPROVE_OPTION)
+//				return;
+//			File file = fileChooser.getSelectedFile();
+//
+//			Main.main(new String[] { "-l=debug" });
+//			Main.getGui().setVisible(false);
+//
+//			FileInputStream fis = new FileInputStream(file);
+//			BufferedInputStream bis = new BufferedInputStream(fis);
+//			ObjectInputStream ois = new ObjectInputStream(bis);
+//
+//			GameSeries gs = (GameSeries) ois.readObject();
+//
+//			ois.close();
+//			bis.close();
+//			fis.close();
+//
+//			e.prepare(gs, 20);
+//		}
 		e.doEvaluation();
 	}
 
@@ -131,17 +163,32 @@ public class CCCEval
 		return wiki;
 	}
 
+	@Override
+	public void prepare(GameSeries gs, int execution)
+	{
+		String file = folder + "czzzcc" + cccx + "-gid.properties";
+		try
+		{
+			writeProperties(file, gs, execution);
+		}
+		catch(IOException e)
+		{
+			System.err.println("could not create " + file);
+			e.printStackTrace();
+		}
+	}
+
 	private String createWiki(String schemaFile, boolean finished) throws IOException
 	{
-		String[][] mapTable = new String[tables.length-1][6];
+		String[][] mapTable = new String[tables.length - 1][6];
 		for(int c = 1; c < tables.length; c++)
 		{
-			mapTable[c-1][0] = highlight("" + c);
-			mapTable[c-1][1] = mapToLink(c, true);
-			mapTable[c-1][2] = "" + numberOfPlayers[c];
-			mapTable[c-1][3] = "" + zzz[c];
-			mapTable[c-1][4] = "" + (cps[c] ? "ja" : "n.V.");
-			mapTable[c-1][5] = "" + races[c];
+			mapTable[c - 1][0] = highlight("" + c);
+			mapTable[c - 1][1] = mapToLink(c, true);
+			mapTable[c - 1][2] = "" + numberOfPlayers[c];
+			mapTable[c - 1][3] = "" + zzz[c];
+			mapTable[c - 1][4] = "" + (cps[c] ? "ja" : "n.V.");
+			mapTable[c - 1][5] = "" + races[c];
 		}
 
 		StringBuilder detail = new StringBuilder();
@@ -1224,7 +1271,7 @@ public class CCCEval
 		int amount = intFromString(p.getProperty("challenges"));
 		maps = new int[amount + 1];
 		mapNames = new String[amount + 1];
-		races = new int[amount +1];
+		races = new int[amount + 1];
 		numberOfPlayers = new int[amount + 1];
 		zzz = new int[amount + 1];
 		cps = new boolean[amount + 1];
@@ -1257,6 +1304,66 @@ public class CCCEval
 				gids[c][r] = intFromString(p.getProperty(c + "." + r));
 			}
 		}
+	}
+
+	private void writeProperties(String fileName, GameSeries gameSeries, int execution) throws IOException
+	{
+		if(!(gameSeries instanceof BalancedGameSeries))
+			return;
+
+		BalancedGameSeries gs = (BalancedGameSeries) gameSeries;
+
+		Properties p;
+
+		File file = new File(fileName);
+		if(file.exists())
+		{
+			// load points from predefined properties
+			p = PropertiesUtil.loadProperties(file);
+			// backup file
+			file.renameTo(new File(fileName + "." + (execution - 1)));
+		}
+		else
+		{
+			p = new Properties();
+		}
+
+		p.setProperty("challenges", "" + execution);
+		p.setProperty("creator", gs.getCreator().getName());
+		int numberOfPlayers = gs.getPlayers().size();
+		int gamesPerPlayerPerChallenge = gs.getRules(1).getGamesPerPlayer(); // same for all
+																				// challenges
+		p.setProperty("races.per.player.per.challenge", "" + gamesPerPlayerPerChallenge);
+
+		for(int c = 1; c <= execution; c++)
+		{
+			int numberOfPlayersPerRace = gs.getRules(c - 1).getNumberOfPlayers();
+			int races = gamesPerPlayerPerChallenge * numberOfPlayers / numberOfPlayersPerRace;
+			p.setProperty(c + ".map", "" + gs.getMap(c - 1).getId());
+			p.setProperty(c + ".mapName", "" + gs.getMap(c - 1).getName());
+			p.setProperty(c + ".races", "" + races);
+			p.setProperty(c + ".players", "" + numberOfPlayersPerRace);
+			p.setProperty(c + ".zzz", "" + gs.getRules(c - 1).getMinZzz());
+			p.setProperty(c + ".cps", "" + gs.getRules(c - 1).getCheckpointsActivated());
+
+			Game g;
+			for(int i = 1; i <= races; i++)
+			{
+				g = null;
+				for(Game gi : gs.getGames())
+				{
+					if(gi.getName().contains("Challenge " + c + "." + i))
+					{
+						g = gi;
+						break;
+					}
+				}
+				if(g != null && g.isCreated() && g.getId() > 0)
+					p.setProperty(c + "." + i, "" + g.getId());
+			}
+		}
+
+		PropertiesUtil.storeProperties(file, p, "");
 	}
 
 	private String raceToLink(int challenge, int race)
