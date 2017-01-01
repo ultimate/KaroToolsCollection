@@ -249,6 +249,7 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''31.12.2016 09:00''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
 * '''31.12.2016 10:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 * '''01.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]]
+* '''01.01.2017 13:00''' Behebung der ersten kleinen Startschwierigkeiten
 * '''08.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
 * '''15.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
 * '''22.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]]
