@@ -32,7 +32,7 @@ Das [[#Teilnehmerfeld|Teilnehmerfeld]] ist für die [http://www.karopapier.de/sh
 
 4. Sämtliche Regelverstöße führen zu einer Nichtwertung des verstoßenden Spielers im entsprechenden Rennen.
 
-5. Blockieren (nicht [[Blocken]]) wird bestraft, ich weiß aber noch nicht wie ;-)
+5. Blockieren (nicht [[Blocken]]) wird bestraft, ich weiß aber weiterhin noch nicht wie ;-)
 
 6. Sollte ein Spieler (z.B. bei ZZZ=0) in die Situation kommen, dass er sich nicht mehr bewegen kann und daher bei jedem Seitenaufruf immer wieder crashen, bis Didi ihn versetzt, dann zählt das nur als ein Crash. **
 
@@ -53,7 +53,7 @@ Die Punkte eines Spielers werden pro Rennen als Produkt aus der Anzahl der Crash
 Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, wenn man nicht crasht, da bekanntlicher Weise auch für den ersten Platz 0 Crashs * 7 Punkte = 0 Punkte ist. Im Gegenzug ist es aber möglich als zweiter oder dritter auch mehr Punkte als der erste zu haben, wenn man entsprechend mehr Crashs auf dem Konto hat.
 
 {|class="wikitable"
-!Grundpunktezahl 3er||||Grundpunktezahl 4er||||Grundpunktezahl 5er
+!Grundpunktezahl 3er||||Grundpunktezahl 4er||||Grundpunktezahl 6er||||Grundpunktezahl 7er
 |-
 |
 {|class="wikitable"
@@ -85,15 +85,37 @@ Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, w
 {|class="wikitable"
 ! Platzierung||Punkte 
 |- 
-|1.||5 
+|1.||6 
 |-
-|2.||3 
+|2.||4 
 |-
-|3.||2
+|3.||3
 |-
-|4.||1
+|4.||2
 |-
-|5.||0
+|5.||1
+|-
+|6.||0
+|-
+|}
+||||
+
+{|class="wikitable"
+! Platzierung||Punkte 
+|- 
+|1.||7 
+|-
+|2.||5 
+|-
+|3.||4
+|-
+|4.||3
+|-
+|5.||2
+|-
+|6.||1
+|-
+|7.||0
 |-
 |}
 |-
@@ -170,44 +192,46 @@ Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
 == Spielzusammenstellung ==
 Die Spielerverteilung auf die zu bestreitenden Rennen erfolgt zufällig, da die gesamte Serie mit dem [[KaroMUSKEL]] erstellt wird. Das Prinzip sieht aber wie folgt aus.
 
-Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4 oder 5) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Auf diese Weise sollte sich eine faire und gleichmäßige Verteilung der Spieler über die Rennen einstellen. Da das bei der CCC2 zwar schon besser als bei der CCC1 funktioniert hat, aber immer noch nicht zufriedenstellend war, habe ich noch mal einen Versuch unternommen das "Wer-gegen-Wen"-Verhältnis durch einen anderen Algorithmus zu verbessern und dem [[KaroMUSKEL]] noch mal ein Update verpasst. Mal schauen, ob es mir gelungen ist... (Wir werden es mit der ersten Auswertung sehen...) 
+Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4, 6 oder 7) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Auf diese Weise sollte sich eine faire und gleichmäßige Verteilung der Spieler über die Rennen einstellen. Da das bei der CCC2 zwar schon besser als bei der CCC1 funktioniert hat, aber immer noch nicht zufriedenstellend war, habe ich noch mal einen Versuch unternommen das "Wer-gegen-Wen"-Verhältnis durch einen anderen Algorithmus zu verbessern und dem [[KaroMUSKEL]] noch mal ein Update verpasst. Mal schauen, ob es mir gelungen ist... (Wir werden es mit der ersten Auswertung sehen...) 
 
-Auf diese Weise ergeben sich bei 180 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 6:
-
-''Die folgende Tabelle ist beispielhaft und ändert sich vermutlich noch!''
+Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 6:
 
 {|class="wikitable"
 ! Anzahl Spieler pro Rennen||Gesamtzahl der Rennen in einer Challenge||Anzahl Challenges mit dieser Spielerzahl||Gesamtzahl der Rennen
 |-
-|3||60||4||240
+|3||56||5||280
 |-
-|4||45||6||270
+|4||42||5||210
 |-
-|5||36||10||360
+|6||28||5||140
+|-
+|7||24||5||120
 |-
 |}
 ''
-'''Summe: 870 Rennen'''
+'''Summe: 750 Rennen'''
 
 == Teilnehmerfeld ==
-Es wird wieder eine Spielerzahl von 30 angestrebt!
+Es haben sich 25 Spieler für die Teilnahme gemeldet. Das Teilnehmerfeld wurde zusätzlich durch 3 Bots auf insgesamt 28 Teilnehmer aufgefüllt.
 
 Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?thread=1002&forumid=8 Anmeldung im Forum] oder bei der [https://www.karopapier.de/poll.php?pid=228 Umfrage].
 
 {|class="wikitable"
-! Teilnehmer||||||||
+! Teilnehmer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 |-
-|1. {{Benutzer|ultimate}}||7. {{Benutzer|cachito}}||13. {{Benutzer|cptjag}}||19. {{Benutzer|eisbaer04}}||25. {{Benutzer|?}}
+|1. {{Benutzer|ultimate}}||8. {{Benutzer|Akari}}||15. {{Benutzer|Dainte}}||22. {{Benutzer|Foley}}
 |-
-|2. {{Benutzer|sash1501}}||8. {{Benutzer|Akari}}||14. {{Benutzer|Kev}}||20. {{Benutzer|recke}}||26. {{Benutzer|?}}
+|2. {{Benutzer|sash1501}}||9. {{Benutzer|wolle}}||16. {{Benutzer|kili}}||23. {{Benutzer|A300}}
 |-
-|3. {{Benutzer|aristarch}}||9. {{Benutzer|wolle}}||15. {{Benutzer|Dainte}}||21. {{Benutzer|gitarrenteufel}}||27. {{Benutzer|?}}
+|3. {{Benutzer|aristarch}}||10. {{Benutzer|ulli}}||17. {{Benutzer|Sly}}||24. {{Benutzer|sir tobi}}
 |-
-|4. {{Benutzer|mAvErICk}}||10. {{Benutzer|ulli}}||16. {{Benutzer|kili}}||22. {{Benutzer|Foley}}||28. {{Benutzer|Slybotone}}
+|4. {{Benutzer|mAvErICk}}||11. {{Benutzer|tepetz}}||18. {{Benutzer|Kinvarra}}||25. {{Benutzer|CarpeNoctem}}
 |-
-|5. {{Benutzer|Karaser}}||11. {{Benutzer|tepetz}}||17. {{Benutzer|Sly}}||23. {{Benutzer|A300}}||29. {{Benutzer|DeepPink}}
+|5. {{Benutzer|Karaser}}||12. {{Benutzer|hasi}}||19. {{Benutzer|eisbaer04}}||26. {{Benutzer|Slybotone}}
 |-
-|6. {{Benutzer|quabla}}||12. {{Benutzer|hasi}}||18. {{Benutzer|Kinvarra}}||24. {{Benutzer|sir tobi}}||30. {{Benutzer|DeepGray}}
+|6. {{Benutzer|quabla}}||13. {{Benutzer|cptjag}}||20. {{Benutzer|recke}}||27. {{Benutzer|DeepPink}}
+|-
+|7. {{Benutzer|cachito}}||14. {{Benutzer|Kev}}||21. {{Benutzer|gitarrenteufel}}||28. {{Benutzer|DeepGray}}
 |-
 |}
 
@@ -220,8 +244,30 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''21.11.2016 16:00''' CCC-Eval-Tool umgebaut, Wiki-Anbindung automatisiert
 * '''24.11.2016 19:30''' CCC-Eval-Tool umgebaut, Wiki-Anbindung automatisiert
 * '''27.11.2016 12:09''' Ankündigung des Startzeitpunkts und der Änderungen gegenüber CCC1 & CCC2
-* '''28.12.2016 12:00''' KaroMUSKEL-Bug-Fix & kleinere Vorbereitungen
+* '''28.12.2016 12:00''' [[KaroMUSKEL|KaroMUSKEL]]-Bug-Fix & kleinere Vorbereitungen
 * '''29.12.2016 12:00''' Implementierung Cron-Job-Tool für automatische Erstellung & Auswertung
+* '''31.12.2016 09:00''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
+* '''31.12.2016 10:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''01.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]]
+* '''08.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
+* '''15.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
+* '''22.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]]
+* '''29.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 5|Challenge 5]]
+* '''05.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]]
+* '''12.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 7|Challenge 7]]
+* '''19.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 8|Challenge 8]]
+* '''26.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 9|Challenge 9]]
+* '''05.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 10|Challenge 10]]
+* '''12.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 11|Challenge 11]]
+* '''19.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 12|Challenge 12]]
+* '''26.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 13|Challenge 13]]
+* '''02.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 14|Challenge 14]]
+* '''09.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 15|Challenge 15]]
+* '''16.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 16|Challenge 16]]
+* '''23.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 17|Challenge 17]]
+* '''30.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 18|Challenge 18]]
+* '''07.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]]
+* '''14.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 20|Challenge 20]]
 
 == Detailwertung ==
 Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...

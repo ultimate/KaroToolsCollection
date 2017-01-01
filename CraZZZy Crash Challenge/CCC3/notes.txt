@@ -1,1 +1,1 @@
-Namesformat:	CraZZZy Crash Challenge 3 - Challenge ${spieltag}.${spieltag.i} - Karte ${karte.id} | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}
+Namensformat:	CraZZZy Crash Challenge 3 - Challenge ${spieltag}.${spieltag.i} - Karte ${karte.id} | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}
