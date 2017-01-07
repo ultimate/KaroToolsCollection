@@ -219,19 +219,19 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 {|class="wikitable"
 ! Teilnehmer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 |-
-|1. {{Benutzer|ultimate}}||8. {{Benutzer|Akari}}||15. {{Benutzer|Dainte}}||22. {{Benutzer|Foley}}
+|1. {{Benutzer|ultimate}}||8. {{Benutzer|wolle}}||15. {{Benutzer|kili}}||22. {{Benutzer|A300}}
 |-
-|2. {{Benutzer|sash1501}}||9. {{Benutzer|wolle}}||16. {{Benutzer|kili}}||23. {{Benutzer|A300}}
+|2. {{Benutzer|aristarch}}||9. {{Benutzer|ulli}}||16. {{Benutzer|Sly}}||23. {{Benutzer|sir tobi}}
 |-
-|3. {{Benutzer|aristarch}}||10. {{Benutzer|ulli}}||17. {{Benutzer|Sly}}||24. {{Benutzer|sir tobi}}
+|3. {{Benutzer|mAvErICk}}||10. {{Benutzer|tepetz}}||17. {{Benutzer|Kinvarra}}||24. {{Benutzer|CarpeNoctem}}
 |-
-|4. {{Benutzer|mAvErICk}}||11. {{Benutzer|tepetz}}||18. {{Benutzer|Kinvarra}}||25. {{Benutzer|CarpeNoctem}}
+|4. {{Benutzer|Karaser}}||11. {{Benutzer|hasi}}||18. {{Benutzer|eisbaer04}}||25. {{Benutzer|Slybotone}}
 |-
-|5. {{Benutzer|Karaser}}||12. {{Benutzer|hasi}}||19. {{Benutzer|eisbaer04}}||26. {{Benutzer|Slybotone}}
+|5. {{Benutzer|quabla}}||12. {{Benutzer|cptjag}}||19. {{Benutzer|recke}}||26. {{Benutzer|DeepPink}}
 |-
-|6. {{Benutzer|quabla}}||13. {{Benutzer|cptjag}}||20. {{Benutzer|recke}}||27. {{Benutzer|DeepPink}}
+|6. {{Benutzer|cachito}}||13. {{Benutzer|Kev}}||20. {{Benutzer|gitarrenteufel}}||27. {{Benutzer|DeepGray}}
 |-
-|7. {{Benutzer|cachito}}||14. {{Benutzer|Kev}}||21. {{Benutzer|gitarrenteufel}}||28. {{Benutzer|DeepGray}}
+|7. {{Benutzer|Akari}}||14. {{Benutzer|Dainte}}||21. {{Benutzer|Foley}}||28. <del>{{Benutzer|sash1501}}</del> {{Benutzer|MM}}
 |-
 |}
 
@@ -250,6 +250,8 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''31.12.2016 10:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 * '''01.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]]
 * '''01.01.2017 13:00''' Behebung der ersten kleinen Startschwierigkeiten
+* '''07.01.2017 13:30''' In der Planung für die kommenden Challenges wurde {{Benutzer|sash1501}} aufgrund von Inaktivität durch {{Benutzer|MM}} ersetzt
+* '''07.01.2017 13:45''' Für die bereits mit {{Benutzer|sash1501}} gestarteten Spiele wurden Ersatzspiele mit {{Benutzer|MM}} erstellt
 * '''08.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
 * '''15.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
 * '''22.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]]
