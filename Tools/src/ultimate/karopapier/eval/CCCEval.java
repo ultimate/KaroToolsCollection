@@ -90,7 +90,7 @@ public class CCCEval implements Eval
 
 	private final int						maxCols					= 7;
 	private final String					loadType				= "logs";
-	private final ThreadQueue				queue					= new ThreadQueue(50);
+	private final ThreadQueue				queue					= new ThreadQueue(1, false, false);
 
 	private final String					highlight				= "'''";
 
@@ -101,28 +101,28 @@ public class CCCEval implements Eval
 
 		CCCEval e = new CCCEval(cccx, DEFAULT_FOLDER);
 
-//		{
-//			JFileChooser fileChooser = new JFileChooser();
-//			int result = fileChooser.showOpenDialog(null);
-//			if(result != JFileChooser.APPROVE_OPTION)
-//				return;
-//			File file = fileChooser.getSelectedFile();
-//
-//			Main.main(new String[] { "-l=debug" });
-//			Main.getGui().setVisible(false);
-//
-//			FileInputStream fis = new FileInputStream(file);
-//			BufferedInputStream bis = new BufferedInputStream(fis);
-//			ObjectInputStream ois = new ObjectInputStream(bis);
-//
-//			GameSeries gs = (GameSeries) ois.readObject();
-//
-//			ois.close();
-//			bis.close();
-//			fis.close();
-//
-//			e.prepare(gs, 20);
-//		}
+		// {
+		// JFileChooser fileChooser = new JFileChooser();
+		// int result = fileChooser.showOpenDialog(null);
+		// if(result != JFileChooser.APPROVE_OPTION)
+		// return;
+		// File file = fileChooser.getSelectedFile();
+		//
+		// Main.main(new String[] { "-l=debug" });
+		// Main.getGui().setVisible(false);
+		//
+		// FileInputStream fis = new FileInputStream(file);
+		// BufferedInputStream bis = new BufferedInputStream(fis);
+		// ObjectInputStream ois = new ObjectInputStream(bis);
+		//
+		// GameSeries gs = (GameSeries) ois.readObject();
+		//
+		// ois.close();
+		// bis.close();
+		// fis.close();
+		//
+		// e.prepare(gs, 20);
+		// }
 		e.doEvaluation();
 	}
 
@@ -1129,15 +1129,17 @@ public class CCCEval implements Eval
 	{
 		List<String> players = new LinkedList<String>();
 		int index = 0;
-		int end, end1, end2;
+		int end, end1, end2, end3;
 		String player;
 		String log = getLog(c, r);
 		int firstMovePartEnd = log.indexOf(": -----------------------------------");
 		if(firstMovePartEnd == -1)
 		{
+			// System.out.println("First round not yet completed: need to look in page instead of
+			// log: " + c + "." + r);
 			return getChallengePlayers(c, r);
 		}
-		String firstMovePart = log.substring(log.indexOf("steigt aus dem Spiel aus"), firstMovePartEnd);
+		String firstMovePart = log.substring(log.indexOf("von " + p.getProperty("creator") + " erstellt"), firstMovePartEnd);
 		while(true)
 		{
 			index = firstMovePart.indexOf(start_playerName_Log, index + 1) + start_playerName_Log.length();
@@ -1145,13 +1147,16 @@ public class CCCEval implements Eval
 				break;
 			end1 = firstMovePart.indexOf(end_playerName_Log, index + 1);
 			end2 = firstMovePart.indexOf(" wird von ", index + 1);
-			if(end1 >= 0 && end2 >= 0)
-				end = Math.min(end1, end2);
-			else if(end1 >= 0)
-				end = end1;
-			else
-				// (end2 >= 0)
-				end = end2;
+			end3 = firstMovePart.indexOf(" steigt aus ", index + 1);
+
+			if(end1 == -1)
+				end1 = Integer.MAX_VALUE;
+			if(end2 == -1)
+				end2 = Integer.MAX_VALUE;
+			if(end3 == -1)
+				end3 = Integer.MAX_VALUE;
+			end = Math.min(end1, Math.min(end2, end3));
+
 			player = firstMovePart.substring(index, end);
 
 			if(player.equals(p.getProperty("creator")))
@@ -1212,7 +1217,8 @@ public class CCCEval implements Eval
 			}
 		}
 		queue.begin();
-		queue.waitForFinisched();
+		queue.waitForFinished();
+		// System.out.println("all pages loaded");
 	}
 
 	private void readLogs() throws MalformedURLException, InterruptedException
@@ -1225,23 +1231,26 @@ public class CCCEval implements Eval
 			}
 		}
 		queue.begin();
-		queue.waitForFinisched();
+		queue.waitForFinished();
+		// System.out.println("all logs loaded");
 	}
 
 	private String getPage(int c, int r)
 	{
 		if(pages[c][r] == null)
 		{
+			// System.out.println("page null: loading: " + c + "." + r);
 			try
 			{
 				queue.addThread(new GameLoaderThread(c, r, "page"));
 				queue.begin();
-				queue.waitForFinisched();
+				queue.waitForFinished();
 			}
 			catch(Exception e)
 			{
 				e.printStackTrace();
 			}
+			// System.out.println(pages[c][r]);
 		}
 		return pages[c][r];
 	}
@@ -1254,7 +1263,7 @@ public class CCCEval implements Eval
 			{
 				queue.addThread(new GameLoaderThread(c, r, "log"));
 				queue.begin();
-				queue.waitForFinisched();
+				queue.waitForFinished();
 			}
 			catch(Exception e)
 			{

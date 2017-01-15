@@ -197,7 +197,7 @@ public abstract class CustomEval
 		}
 		if(added < 2 * queue.getMax())
 			queue.begin();
-		queue.waitForFinisched();
+		queue.waitForFinished();
 	}
 
 	private static void evaluate(List<GameResult> results, String listName) throws InstantiationException, IllegalAccessException
