@@ -290,9 +290,7 @@ ${TOTAL}
 *** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
 ** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
 ** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
-** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"''
-* Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
-** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"'' 
 
 == Statistik ==
 ${STATS}
