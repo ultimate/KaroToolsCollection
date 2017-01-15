@@ -21,7 +21,7 @@ Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen 
 
 Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne ich eine Strecke, die mit einem bestimmten ZZZ absolviert wird. Es ist dabei auch möglich, dass eine Strecke mit mehreren ZZZ-Einstellungen befahren wird, diese zählen dann als einzelne Challenges. Die Liste der Challenges gibt es unten: [[#Challenges|Challenges]]
 
-Das [[#Teilnehmerfeld|Teilnehmerfeld]] ist für die [http://www.karopapier.de/showthread.php?forumid=8&thread=880 die Anmeldung übers Forum] eröffnet!
+Das [[#Teilnehmerfeld|Teilnehmerfeld]] steht fest! [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Die Anmeldung lief wieder übers Forum] !
 
 == Regeln ==
 1. TC ist erlaubt und ausdrücklich erwünscht bzw. notwendig!
@@ -190,6 +190,10 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 3 gefahren:
 |-
 |'''1'''||{{Karte|197}} Le Mans||6||1||ja||28
 |-
+|'''2'''||{{Karte|228}} Fahrrad||6||6||ja||28
+|-
+|'''3'''||{{Karte|221}} Zierschleife||6||8||ja||28
+|-
 |}
 
 Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
@@ -224,19 +228,19 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 {|class="wikitable"
 ! Teilnehmer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 |-
-|1. {{Benutzer|ultimate}}||8. {{Benutzer|Akari}}||15. {{Benutzer|Dainte}}||22. {{Benutzer|Foley}}
+|1. {{Benutzer|ultimate}}||8. {{Benutzer|wolle}}||15. {{Benutzer|kili}}||22. {{Benutzer|A300}}
 |-
-|2. {{Benutzer|sash1501}}||9. {{Benutzer|wolle}}||16. {{Benutzer|kili}}||23. {{Benutzer|A300}}
+|2. {{Benutzer|aristarch}}||9. {{Benutzer|ulli}}||16. {{Benutzer|Sly}}||23. {{Benutzer|sir tobi}}
 |-
-|3. {{Benutzer|aristarch}}||10. {{Benutzer|ulli}}||17. {{Benutzer|Sly}}||24. {{Benutzer|sir tobi}}
+|3. {{Benutzer|mAvErICk}}||10. {{Benutzer|tepetz}}||17. {{Benutzer|Kinvarra}}||24. {{Benutzer|CarpeNoctem}}
 |-
-|4. {{Benutzer|mAvErICk}}||11. {{Benutzer|tepetz}}||18. {{Benutzer|Kinvarra}}||25. {{Benutzer|CarpeNoctem}}
+|4. {{Benutzer|Karaser}}||11. {{Benutzer|hasi}}||18. {{Benutzer|eisbaer04}}||25. {{Benutzer|Slybotone}}
 |-
-|5. {{Benutzer|Karaser}}||12. {{Benutzer|hasi}}||19. {{Benutzer|eisbaer04}}||26. {{Benutzer|Slybotone}}
+|5. {{Benutzer|quabla}}||12. {{Benutzer|cptjag}}||19. {{Benutzer|recke}}||26. {{Benutzer|DeepPink}}
 |-
-|6. {{Benutzer|quabla}}||13. {{Benutzer|cptjag}}||20. {{Benutzer|recke}}||27. {{Benutzer|DeepPink}}
+|6. {{Benutzer|cachito}}||13. {{Benutzer|Kev}}||20. {{Benutzer|gitarrenteufel}}||27. {{Benutzer|DeepGray}}
 |-
-|7. {{Benutzer|cachito}}||14. {{Benutzer|Kev}}||21. {{Benutzer|gitarrenteufel}}||28. {{Benutzer|DeepGray}}
+|7. {{Benutzer|Akari}}||14. {{Benutzer|Dainte}}||21. {{Benutzer|Foley}}||28. <del>{{Benutzer|sash1501}}</del> {{Benutzer|MM}}
 |-
 |}
 
@@ -254,6 +258,9 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''31.12.2016 09:00''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
 * '''31.12.2016 10:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 * '''01.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]]
+* '''01.01.2017 13:00''' Behebung der ersten kleinen Startschwierigkeiten
+* '''07.01.2017 13:30''' In der Planung für die kommenden Challenges wurde {{Benutzer|sash1501}} aufgrund von Inaktivität durch {{Benutzer|MM}} ersetzt
+* '''07.01.2017 13:45''' Für die bereits mit {{Benutzer|sash1501}} gestarteten Spiele wurden Ersatzspiele mit {{Benutzer|MM}} erstellt
 * '''08.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
 * '''15.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
 * '''22.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]]
@@ -278,67 +285,69 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
 
 *[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]]
+*[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
+*[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
 
 
 == Gesamtwertung ==
 {|class="wikitable alignedright"
-!Platz||Spieler||[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|1]]||Grundpunkte (gesamt)||Crashs (gesamt)||Züge (gesamt)||Skalierte Punkte (gesamt)||Challenge-Bonus (gesamt)||Bonus (Gesamtwertung)||Endergebnis||Abgeschlossene Rennen||Erwartungswert
+!Platz||Spieler||[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|1]]||[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|2]]||[[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|3]]||Grundpunkte (gesamt)||Crashs (gesamt)||Z�ge (gesamt)||Skalierte Punkte (gesamt)||Challenge-Bonus (gesamt)||Bonus (Gesamtwertung)||Endergebnis||Abgeschlossene Rennen||Erwartungswert
 |-
-|1.||'''[[Benutzer:A300|A300]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|1.||'''[[Benutzer:ulli|ulli]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||0||'''0'''||0.0||+70||'''+200'''||'''270.0'''||0||'''420.0'''
 |-
-| ||'''[[Benutzer:Akari|Akari]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|2.||'''[[Benutzer:mAvErICk|mAvErICk]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''10'''||113||0.0||+50||'''+200'''||'''250.0'''||0||'''400.0'''
 |-
-| ||'''[[Benutzer:CarpeNoctem|CarpeNoctem]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|3.||'''[[Benutzer:CarpeNoctem|CarpeNoctem]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''10'''||147||0.0||+50||'''+200'''||'''250.0'''||0||'''400.0'''
 |-
-| ||'''[[Benutzer:eisbaer04|eisbaer04]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|4.||'''[[Benutzer:wolle|wolle]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''10'''||154||0.0||+50||'''+200'''||'''250.0'''||0||'''400.0'''
 |-
-| ||'''[[Benutzer:Kev|Kev]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|5.||'''[[Benutzer:sir tobi|sir tobi]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||7||97||0.0||+60||'''+100'''||'''160.0'''||0||'''310.0'''
 |-
-| ||'''[[Benutzer:Kinvarra|Kinvarra]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|6.||'''[[Benutzer:ultimate|ultimate]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||8||138||0.0||+50||'''+100'''||'''150.0'''||0||'''300.0'''
 |-
-| ||'''[[Benutzer:quabla|quabla]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|7.||'''[[Benutzer:Slybotone|Slybotone]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||4||136||0.0||+50||'''+100'''||'''150.0'''||0||'''300.0'''
 |-
-| ||'''[[Benutzer:sash1501|sash1501]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|8.||'''[[Benutzer:A300|A300]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||3||68||0.0||+50||'''+100'''||'''150.0'''||0||'''300.0'''
 |-
-| ||'''[[Benutzer:tepetz|tepetz]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|9.||'''[[Benutzer:Kev|Kev]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||3||129||0.0||+50||'''+100'''||'''150.0'''||0||'''300.0'''
 |-
-| ||'''[[Benutzer:ulli|ulli]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|10.||'''[[Benutzer:Kinvarra|Kinvarra]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||1||101||0.0||+50||'''+100'''||'''150.0'''||0||'''300.0'''
 |-
-| ||'''[[Benutzer:ultimate|ultimate]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||'''0'''||0.0||+30||'''+300'''||'''330.0'''||0||'''380.0'''
+|11.||'''[[Benutzer:quabla|quabla]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||1||111||0.0||+50||'''+100'''||'''150.0'''||0||'''300.0'''
 |-
-|12.||'''[[Benutzer:cptjag|cptjag]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||1||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|12.||'''[[Benutzer:eisbaer04|eisbaer04]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||9||129||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:hasi|hasi]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||1||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+| ||'''[[Benutzer:recke|recke]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||9||129||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:Karaser|Karaser]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||1||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|14.||'''[[Benutzer:aristarch|aristarch]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||9||134||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:recke|recke]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||1||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|15.||'''[[Benutzer:Dainte|Dainte]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||9||144||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:sir tobi|sir tobi]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||1||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|16.||'''[[Benutzer:kili|kili]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||8||151||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-|17.||'''[[Benutzer:cachito|cachito]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|17.||'''[[Benutzer:Foley|Foley]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||7||144||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:Dainte|Dainte]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|18.||'''[[Benutzer:tepetz|tepetz]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||5||95||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:Foley|Foley]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|19.||'''[[Benutzer:Karaser|Karaser]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||5||109||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:kili|kili]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|20.||'''[[Benutzer:Akari|Akari]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||5||131||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:mAvErICk|mAvErICk]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|21.||'''[[Benutzer:cptjag|cptjag]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||5||135||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:Slybotone|Slybotone]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|22.||'''[[DeepPink]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||5||163||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:wolle|wolle]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||2||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|23.||'''[[Benutzer:cachito|cachito]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||4||129||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-|24.||'''[[Benutzer:aristarch|aristarch]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||3||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|24.||'''[[Benutzer:gitarrenteufel|gitarrenteufel]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||4||131||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[DeepGray]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||3||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|25.||'''[[DeepGray]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||4||149||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[DeepPink]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||3||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|26.||'''[[Benutzer:hasi|hasi]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||3||129||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:gitarrenteufel|gitarrenteufel]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||3||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|27.||'''[[Benutzer:MM|MM]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||2||87||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
-| ||'''[[Benutzer:Sly|Sly]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||'''0'''||3||0.0||+20||'''+200'''||'''220.0'''||0||'''270.0'''
+|28.||'''[[Benutzer:Sly|Sly]]'''||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||0.0&nbsp;<span style="font-size:50%">(6)</span>||'''0'''||2||120||0.0||+40||'''+100'''||'''140.0'''||0||'''290.0'''
 |-
 |}
 
@@ -352,80 +361,78 @@ Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert.
 *** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
 ** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
 ** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
-** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"''
-* Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
-** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"'' 
 
 == Statistik ==
 ==== Zahlen & Fakten ====
-*Rennen insgesamt: '''28'''
+*Rennen insgesamt: '''84'''
 *Teilnehmer: '''28'''
-*Rennen pro Spieler: '''6'''
+*Rennen pro Spieler: '''18'''
 *Rennen pro Spieler pro Challenge: '''6'''
-*Züge insgesamt: '''34'''
-*Crashs insgesamt: '''0'''
-*Häufigste Begegnung: 3 mal [[Benutzer:cptjag|cptjag]] '''vs.''' [[Benutzer:wolle|wolle]], [[DeepGray]] '''vs.''' [[DeepPink]] und [[Benutzer:gitarrenteufel|gitarrenteufel]] '''vs.''' [[Benutzer:ultimate|ultimate]]
-*Seltenste Begegnung: 0 mal [[Benutzer:A300|A300]] '''vs.''' [[Benutzer:Dainte|Dainte]], [[Benutzer:A300|A300]] '''vs.''' [[Benutzer:gitarrenteufel|gitarrenteufel]], [[Benutzer:Akari|Akari]] '''vs.''' [[Benutzer:sash1501|sash1501]], [[Benutzer:aristarch|aristarch]] '''vs.''' [[Benutzer:eisbaer04|eisbaer04]], [[Benutzer:aristarch|aristarch]] '''vs.''' [[Benutzer:ultimate|ultimate]], [[Benutzer:aristarch|aristarch]] '''vs.''' [[Benutzer:wolle|wolle]], [[Benutzer:cachito|cachito]] '''vs.''' [[Benutzer:sir tobi|sir tobi]], [[Benutzer:cachito|cachito]] '''vs.''' [[Benutzer:tepetz|tepetz]], [[Benutzer:CarpeNoctem|CarpeNoctem]] '''vs.''' [[Benutzer:hasi|hasi]], [[Benutzer:CarpeNoctem|CarpeNoctem]] '''vs.''' [[Benutzer:wolle|wolle]], [[Benutzer:cptjag|cptjag]] '''vs.''' [[Benutzer:Kev|Kev]], [[Benutzer:cptjag|cptjag]] '''vs.''' [[Benutzer:kili|kili]], [[Benutzer:cptjag|cptjag]] '''vs.''' [[Benutzer:Kinvarra|Kinvarra]], [[Benutzer:Dainte|Dainte]] '''vs.''' [[DeepPink]], [[Benutzer:Dainte|Dainte]] '''vs.''' [[Benutzer:kili|kili]], [[Benutzer:Dainte|Dainte]] '''vs.''' [[Benutzer:tepetz|tepetz]], [[DeepGray]] '''vs.''' [[Benutzer:hasi|hasi]], [[DeepGray]] '''vs.''' [[Benutzer:mAvErICk|mAvErICk]], [[DeepPink]] '''vs.''' [[Benutzer:gitarrenteufel|gitarrenteufel]], [[DeepPink]] '''vs.''' [[Benutzer:Karaser|Karaser]], [[DeepPink]] '''vs.''' [[Benutzer:mAvErICk|mAvErICk]], [[DeepPink]] '''vs.''' [[Benutzer:quabla|quabla]], [[Benutzer:eisbaer04|eisbaer04]] '''vs.''' [[Benutzer:gitarrenteufel|gitarrenteufel]], [[Benutzer:eisbaer04|eisbaer04]] '''vs.''' [[Benutzer:Sly|Sly]], [[Benutzer:Foley|Foley]] '''vs.''' [[Benutzer:Kinvarra|Kinvarra]], [[Benutzer:Foley|Foley]] '''vs.''' [[Benutzer:sir tobi|sir tobi]], [[Benutzer:gitarrenteufel|gitarrenteufel]] '''vs.''' [[Benutzer:sir tobi|sir tobi]], [[Benutzer:gitarrenteufel|gitarrenteufel]] '''vs.''' [[Benutzer:tepetz|tepetz]], [[Benutzer:hasi|hasi]] '''vs.''' [[Benutzer:quabla|quabla]], [[Benutzer:Karaser|Karaser]] '''vs.''' [[Benutzer:mAvErICk|mAvErICk]], [[Benutzer:Karaser|Karaser]] '''vs.''' [[Benutzer:recke|recke]], [[Benutzer:Karaser|Karaser]] '''vs.''' [[Benutzer:ultimate|ultimate]], [[Benutzer:Kev|Kev]] '''vs.''' [[Benutzer:Slybotone|Slybotone]], [[Benutzer:Kinvarra|Kinvarra]] '''vs.''' [[Benutzer:sash1501|sash1501]], [[Benutzer:Kinvarra|Kinvarra]] '''vs.''' [[Benutzer:ultimate|ultimate]], [[Benutzer:mAvErICk|mAvErICk]] '''vs.''' [[Benutzer:ulli|ulli]], [[Benutzer:recke|recke]] '''vs.''' [[Benutzer:ulli|ulli]], [[Benutzer:Sly|Sly]] '''vs.''' [[Benutzer:Slybotone|Slybotone]], [[Benutzer:Sly|Sly]] '''vs.''' [[Benutzer:ultimate|ultimate]] und [[Benutzer:Sly|Sly]] '''vs.''' [[Benutzer:wolle|wolle]]
+*Z�ge insgesamt: '''3403'''
+*Crashs insgesamt: '''152'''
+*H�ufigste Begegnung: 5 mal [[Benutzer:aristarch|aristarch]] '''vs.''' [[Benutzer:Kev|Kev]], [[Benutzer:cachito|cachito]] '''vs.''' [[DeepGray]], [[Benutzer:Dainte|Dainte]] '''vs.''' [[Benutzer:wolle|wolle]], [[DeepGray]] '''vs.''' [[Benutzer:ultimate|ultimate]], [[Benutzer:gitarrenteufel|gitarrenteufel]] '''vs.''' [[Benutzer:ultimate|ultimate]], [[Benutzer:Karaser|Karaser]] '''vs.''' [[Benutzer:ultimate|ultimate]] und [[Benutzer:recke|recke]] '''vs.''' [[Benutzer:sir tobi|sir tobi]]
+*Seltenste Begegnung: 2 mal [[Benutzer:cachito|cachito]] '''vs.''' [[Benutzer:eisbaer04|eisbaer04]], [[Benutzer:cachito|cachito]] '''vs.''' [[Benutzer:MM|MM]], [[Benutzer:CarpeNoctem|CarpeNoctem]] '''vs.''' [[DeepGray]], [[Benutzer:cptjag|cptjag]] '''vs.''' [[Benutzer:hasi|hasi]], [[DeepPink]] '''vs.''' [[Benutzer:mAvErICk|mAvErICk]], [[DeepPink]] '''vs.''' [[Benutzer:ultimate|ultimate]], [[Benutzer:gitarrenteufel|gitarrenteufel]] '''vs.''' [[Benutzer:kili|kili]], [[Benutzer:sir tobi|sir tobi]] '''vs.''' [[Benutzer:Slybotone|Slybotone]] und [[Benutzer:tepetz|tepetz]] '''vs.''' [[Benutzer:wolle|wolle]]
 ==== Wer gegen wen? ====
 Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...
 {|class="wikitable"
-|||[[Benutzer:A300|A300]]||[[Benutzer:Akari|Akari]]||[[Benutzer:aristarch|aristarch]]||[[Benutzer:cachito|cachito]]||[[Benutzer:CarpeNoctem|CarpeNoctem]]||[[Benutzer:cptjag|cptjag]]||[[Benutzer:Dainte|Dainte]]||[[DeepGray]]||[[DeepPink]]||[[Benutzer:eisbaer04|eisbaer04]]||[[Benutzer:Foley|Foley]]||[[Benutzer:gitarrenteufel|gitarrenteufel]]||[[Benutzer:hasi|hasi]]||[[Benutzer:Karaser|Karaser]]||[[Benutzer:Kev|Kev]]||[[Benutzer:kili|kili]]||[[Benutzer:Kinvarra|Kinvarra]]||[[Benutzer:mAvErICk|mAvErICk]]||[[Benutzer:quabla|quabla]]||[[Benutzer:recke|recke]]||[[Benutzer:sash1501|sash1501]]||[[Benutzer:sir tobi|sir tobi]]||[[Benutzer:Sly|Sly]]||[[Benutzer:Slybotone|Slybotone]]||[[Benutzer:tepetz|tepetz]]||[[Benutzer:ulli|ulli]]||[[Benutzer:ultimate|ultimate]]||[[Benutzer:wolle|wolle]]
+|||[[Benutzer:A300|A300]]||[[Benutzer:Akari|Akari]]||[[Benutzer:aristarch|aristarch]]||[[Benutzer:cachito|cachito]]||[[Benutzer:CarpeNoctem|CarpeNoctem]]||[[Benutzer:cptjag|cptjag]]||[[Benutzer:Dainte|Dainte]]||[[DeepGray]]||[[DeepPink]]||[[Benutzer:eisbaer04|eisbaer04]]||[[Benutzer:Foley|Foley]]||[[Benutzer:gitarrenteufel|gitarrenteufel]]||[[Benutzer:hasi|hasi]]||[[Benutzer:Karaser|Karaser]]||[[Benutzer:Kev|Kev]]||[[Benutzer:kili|kili]]||[[Benutzer:Kinvarra|Kinvarra]]||[[Benutzer:mAvErICk|mAvErICk]]||[[Benutzer:MM|MM]]||[[Benutzer:quabla|quabla]]||[[Benutzer:recke|recke]]||[[Benutzer:sir tobi|sir tobi]]||[[Benutzer:Sly|Sly]]||[[Benutzer:Slybotone|Slybotone]]||[[Benutzer:tepetz|tepetz]]||[[Benutzer:ulli|ulli]]||[[Benutzer:ultimate|ultimate]]||[[Benutzer:wolle|wolle]]
 |-
-|[[Benutzer:A300|A300]]||-||1||1||2||1||1||0||1||1||1||1||0||1||1||1||1||1||2||1||2||1||1||2||1||1||2||1||1
+|[[Benutzer:A300|A300]]||-||4||4||4||3||3||3||4||4||4||3||4||3||3||4||3||3||3||3||3||3||3||3||3||3||4||3||3
 |-
-|[[Benutzer:Akari|Akari]]||1||-||2||1||1||1||1||1||2||1||1||1||1||1||1||1||2||1||1||1||0||1||1||1||1||2||1||1
+|[[Benutzer:Akari|Akari]]||4||-||3||4||3||4||3||4||3||3||3||3||3||3||4||3||3||4||4||3||3||3||3||4||3||4||3||3
 |-
-|[[Benutzer:aristarch|aristarch]]||1||2||-||1||1||1||1||1||1||0||1||1||1||1||2||1||2||2||1||1||1||1||2||2||1||1||0||0
+|[[Benutzer:aristarch|aristarch]]||4||3||-||3||3||3||3||3||3||3||3||4||4||3||5||4||4||3||3||4||3||3||3||4||3||3||3||3
 |-
-|[[Benutzer:cachito|cachito]]||2||1||1||-||1||1||2||1||1||1||1||1||1||2||1||1||2||2||1||1||1||0||1||1||0||1||1||1
+|[[Benutzer:cachito|cachito]]||4||4||3||-||3||4||3||5||4||2||4||3||3||3||4||3||3||4||2||4||3||3||4||3||3||3||3||3
 |-
-|[[Benutzer:CarpeNoctem|CarpeNoctem]]||1||1||1||1||-||1||1||1||1||2||1||1||0||1||1||2||1||1||1||1||1||1||2||1||2||1||2||0
+|[[Benutzer:CarpeNoctem|CarpeNoctem]]||3||3||3||3||-||4||3||2||3||3||4||3||4||3||4||3||4||3||3||3||4||4||3||4||4||3||4||3
 |-
-|[[Benutzer:cptjag|cptjag]]||1||1||1||1||1||-||1||2||2||1||1||1||1||2||0||0||0||1||1||1||1||1||1||1||2||1||1||3
+|[[Benutzer:cptjag|cptjag]]||3||4||3||4||4||-||3||3||3||3||4||3||2||3||3||3||3||4||3||4||3||3||4||4||3||4||3||4
 |-
-|[[Benutzer:Dainte|Dainte]]||0||1||1||2||1||1||-||2||0||1||2||2||2||1||2||0||1||1||1||1||1||1||1||1||0||1||2||1
+|[[Benutzer:Dainte|Dainte]]||3||3||3||3||3||3||-||3||3||4||3||4||3||4||3||4||3||4||4||3||3||3||3||3||3||4||3||5
 |-
-|[[DeepGray]]||1||1||1||1||1||2||2||-||3||1||1||1||0||1||1||1||1||0||1||1||1||1||2||1||1||1||1||1
+|[[DeepGray]]||4||4||3||5||2||3||3||-||3||4||3||4||3||3||3||3||3||3||3||3||3||3||4||3||4||3||5||3
 |-
-|[[DeepPink]]||1||2||1||1||1||2||0||3||-||1||2||0||1||0||2||2||1||0||0||1||1||1||1||1||2||1||1||1
+|[[DeepPink]]||4||3||3||4||3||3||3||3||-||4||3||3||4||4||4||3||4||2||3||4||4||3||3||3||4||3||2||4
 |-
-|[[Benutzer:eisbaer04|eisbaer04]]||1||1||0||1||2||1||1||1||1||-||2||0||1||1||1||1||1||1||1||2||1||2||0||1||2||1||2||1
+|[[Benutzer:eisbaer04|eisbaer04]]||4||3||3||2||3||3||4||4||4||-||4||3||4||3||3||4||4||4||3||3||3||3||3||3||3||3||3||4
 |-
-|[[Benutzer:Foley|Foley]]||1||1||1||1||1||1||2||1||2||2||-||1||1||1||1||1||0||1||1||2||1||0||1||1||1||1||1||2
+|[[Benutzer:Foley|Foley]]||3||3||3||4||4||4||3||3||3||4||-||3||3||3||3||4||3||3||4||4||3||4||4||3||3||3||3||3
 |-
-|[[Benutzer:gitarrenteufel|gitarrenteufel]]||0||1||1||1||1||1||2||1||0||0||1||-||2||1||1||2||1||1||1||1||2||0||1||2||0||2||3||1
+|[[Benutzer:gitarrenteufel|gitarrenteufel]]||4||3||4||3||3||3||4||4||3||3||3||-||3||4||3||2||3||3||4||3||3||4||4||3||3||3||5||3
 |-
-|[[Benutzer:hasi|hasi]]||1||1||1||1||0||1||2||0||1||1||1||2||-||1||1||1||2||1||0||1||2||1||2||1||1||1||2||1
+|[[Benutzer:hasi|hasi]]||3||3||4||3||4||2||3||3||4||4||3||3||-||3||3||4||4||3||4||3||4||3||3||3||3||3||4||4
 |-
-|[[Benutzer:Karaser|Karaser]]||1||1||1||2||1||2||1||1||0||1||1||1||1||-||2||1||1||0||2||0||1||1||2||2||1||1||0||2
+|[[Benutzer:Karaser|Karaser]]||3||3||3||3||3||3||4||3||4||3||3||4||3||-||4||3||3||3||3||3||3||3||4||4||4||3||5||3
 |-
-|[[Benutzer:Kev|Kev]]||1||1||2||1||1||0||2||1||2||1||1||1||1||2||-||1||2||1||1||1||1||1||1||0||1||1||1||1
+|[[Benutzer:Kev|Kev]]||4||4||5||4||4||3||3||3||4||3||3||3||3||4||-||4||3||3||3||3||3||3||3||3||3||3||3||3
 |-
-|[[Benutzer:kili|kili]]||1||1||1||1||2||0||0||1||2||1||1||2||1||1||1||-||1||1||1||1||1||1||1||1||1||2||1||2
+|[[Benutzer:kili|kili]]||3||3||4||3||3||3||4||3||3||4||4||2||4||3||4||-||3||3||3||3||4||4||3||4||4||3||3||3
 |-
-|[[Benutzer:Kinvarra|Kinvarra]]||1||2||2||2||1||0||1||1||1||1||0||1||2||1||2||1||-||1||2||2||0||1||1||1||1||1||0||1
+|[[Benutzer:Kinvarra|Kinvarra]]||3||3||4||3||4||3||3||3||4||4||3||3||4||3||3||3||-||4||4||3||3||4||3||3||3||4||3||3
 |-
-|[[Benutzer:mAvErICk|mAvErICk]]||2||1||2||2||1||1||1||0||0||1||1||1||1||0||1||1||1||-||2||1||1||2||1||1||2||0||1||2
+|[[Benutzer:mAvErICk|mAvErICk]]||3||4||3||4||3||4||4||3||2||4||3||3||3||3||3||3||4||-||4||4||3||3||3||3||4||4||3||3
 |-
-|[[Benutzer:quabla|quabla]]||1||1||1||1||1||1||1||1||0||1||1||1||0||2||1||1||2||2||-||1||1||2||1||1||1||2||1||1
+|[[Benutzer:MM|MM]]||3||4||3||2||3||3||4||3||3||3||4||4||4||3||3||3||4||4||-||3||4||4||3||3||3||4||3||3
 |-
-|[[Benutzer:recke|recke]]||2||1||1||1||1||1||1||1||1||2||2||1||1||0||1||1||2||1||1||-||1||2||1||1||1||0||1||1
+|[[Benutzer:quabla|quabla]]||3||3||4||4||3||4||3||3||4||3||4||3||3||3||3||3||3||4||3||-||3||3||3||4||3||4||3||4
 |-
-|[[Benutzer:sash1501|sash1501]]||1||0||1||1||1||1||1||1||1||1||1||2||2||1||1||1||0||1||1||1||-||2||1||2||1||1||2||1
+|[[Benutzer:recke|recke]]||3||3||3||3||4||3||3||3||4||3||3||3||4||3||3||4||3||3||4||3||-||5||3||4||4||3||3||3
 |-
-|[[Benutzer:sir tobi|sir tobi]]||1||1||1||0||1||1||1||1||1||2||0||0||1||1||1||1||1||2||2||2||2||-||1||2||1||1||1||1
+|[[Benutzer:sir tobi|sir tobi]]||3||3||3||3||4||3||3||3||3||3||4||4||3||3||3||4||4||3||4||3||5||-||3||2||4||3||4||3
 |-
-|[[Benutzer:Sly|Sly]]||2||1||2||1||2||1||1||2||1||0||1||1||2||2||1||1||1||1||1||1||1||1||-||0||2||1||0||0
+|[[Benutzer:Sly|Sly]]||3||3||3||4||3||4||3||4||3||3||4||4||3||4||3||3||3||3||3||3||3||3||-||3||4||3||4||4
 |-
-|[[Benutzer:Slybotone|Slybotone]]||1||1||2||1||1||1||1||1||1||1||1||2||1||2||0||1||1||1||1||1||2||2||0||-||1||1||1||1
+|[[Benutzer:Slybotone|Slybotone]]||3||4||4||3||4||4||3||3||3||3||3||3||3||4||3||4||3||3||3||4||4||2||3||-||4||3||3||4
 |-
-|[[Benutzer:tepetz|tepetz]]||1||1||1||0||2||2||0||1||2||2||1||0||1||1||1||1||1||2||1||1||1||1||2||1||-||1||1||1
+|[[Benutzer:tepetz|tepetz]]||3||3||3||3||4||3||3||4||4||3||3||3||3||4||3||4||3||4||3||3||4||4||4||4||-||3||3||2
 |-
-|[[Benutzer:ulli|ulli]]||2||2||1||1||1||1||1||1||1||1||1||2||1||1||1||2||1||0||2||0||1||1||1||1||1||-||1||1
+|[[Benutzer:ulli|ulli]]||4||4||3||3||3||4||4||3||3||3||3||3||3||3||3||3||4||4||4||4||3||3||3||3||3||-||3||4
 |-
-|[[Benutzer:ultimate|ultimate]]||1||1||0||1||2||1||2||1||1||2||1||3||2||0||1||1||0||1||1||1||2||1||0||1||1||1||-||1
+|[[Benutzer:ultimate|ultimate]]||3||3||3||3||4||3||3||5||2||3||3||5||4||5||3||3||3||3||3||3||3||4||4||3||3||3||-||3
 |-
-|[[Benutzer:wolle|wolle]]||1||1||0||1||0||3||1||1||1||1||2||1||1||2||1||2||1||2||1||1||1||1||0||1||1||1||1||-
+|[[Benutzer:wolle|wolle]]||3||3||3||3||3||4||5||3||4||4||3||3||4||3||3||3||3||3||3||4||3||3||4||4||2||4||3||-
 |-
 |}
 
