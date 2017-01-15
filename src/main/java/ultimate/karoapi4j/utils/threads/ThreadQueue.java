@@ -82,6 +82,16 @@ public class ThreadQueue
 	{
 		launchThreads();
 	}
+	
+	public int getRemainingThreads()
+	{
+		return this.q.size();
+	}
+	
+	public int getRunningThreads()
+	{
+		return this.noT;
+	}
 
 	public void notifyFinished(QueuableThread th)
 	{
@@ -104,18 +114,17 @@ public class ThreadQueue
 		launchThreads();
 	}
 
-	public void waitForFinisched() throws InterruptedException
+	public void waitForFinished() throws InterruptedException
 	{
 		synchronized(this.synco)
 		{
-			while(this.noT > 0)
+			while(this.noT > 0 || this.q.size() > 0)
 				this.synco.wait();
 		}
 	}
 
-	private void launchThreads()
+	protected void launchThreads()
 	{
-		this.q.size();
 		while(this.noT < this.max)
 		{
 			QueuableThread th = this.q.poll();
@@ -125,7 +134,7 @@ public class ThreadQueue
 		}
 	}
 
-	private void launchThread(QueuableThread th)
+	protected void launchThread(QueuableThread th)
 	{
 		th.start(this.currId++);
 		synchronized(this.noT)
