@@ -254,9 +254,11 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''07.01.2017 13:45''' Für die bereits mit {{Benutzer|sash1501}} gestarteten Spiele wurden Ersatzspiele mit {{Benutzer|MM}} erstellt
 * '''08.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
 * '''15.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
+* '''15.01.2017 15:00''' Fehler im Auswerte-Tool behoben
 * '''22.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]]
 * '''29.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 5|Challenge 5]]
-* '''05.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]]
+* '''05.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]] hat aus irgendeinem Grund nicht stattgefunden
+* '''05.02.2017 14:00''' Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]] nachgeholt
 * '''12.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 7|Challenge 7]]
 * '''19.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 8|Challenge 8]]
 * '''26.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 9|Challenge 9]]
