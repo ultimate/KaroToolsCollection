@@ -271,7 +271,8 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''16.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 16|Challenge 16]]
 * '''23.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 17|Challenge 17]]
 * '''30.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 18|Challenge 18]]
-* '''07.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]]
+* '''07.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] hat nicht stattgefunden, weil ich vergessen haben den Cron-Job nach einem Neustart meines Heim-NAS neu zu starten.
+* '''07.05.2017 10:55''' Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] nachgeholt
 * '''14.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 20|Challenge 20]]
 
 == Detailwertung ==
