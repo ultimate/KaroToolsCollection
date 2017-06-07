@@ -274,6 +274,9 @@ Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?
 * '''07.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] hat nicht stattgefunden, weil ich vergessen haben den Cron-Job nach einem Neustart meines Heim-NAS neu zu starten.
 * '''07.05.2017 10:55''' Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] nachgeholt
 * '''14.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 20|Challenge 20]]
+* '''19.05.2017 20:00''' Automatische Auswertung wegen Urlaub pausiert
+* '''??.05.2017 00:00''' {{Benutzer|cptjag}} fliegt so langsam aus allen Spielen raus...
+* '''07.06.2017 22:00''' Automatische Auswertung auf täglich geändert
 
 == Detailwertung ==
 Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
