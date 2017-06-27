@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,6 +68,7 @@ public class KaropapierCronTool
 		String karoPassword = properties.getProperty("karo.password");
 		String wikiUsername = properties.getProperty("wiki.username");
 		String wikiPassword = properties.getProperty("wiki.password");
+		boolean wikiBot = Boolean.valueOf(properties.getProperty("wiki.bot"));
 		Map<String, String> wikiFiles = new HashMap<String, String>();
 		for(Object k : properties.keySet())
 		{
@@ -209,7 +209,7 @@ public class KaropapierCronTool
 								System.out.println("ERROR: " + ex.getMessage());
 								continue;
 							}
-							if(wl.edit(e.getValue(), content, summary, true))
+							if(wl.edit(e.getValue(), content, summary, true, wikiBot))
 								System.out.println("OK");
 							else
 								System.out.println("FAILED");
