@@ -131,7 +131,7 @@ public class KaroWikiLoaderTest extends TestCase
 
 				String newContent = content + "\n\nsome new line --~~~~";
 
-				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true);
+				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false);
 				assertTrue(success);
 
 				Date date = new Date();

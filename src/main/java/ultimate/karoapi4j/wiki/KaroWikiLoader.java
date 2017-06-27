@@ -148,7 +148,8 @@ public class KaroWikiLoader
 		return query(title, KaroWikiURLs.PARAMETER_ACTION_QUERY_PROP_IN, KaroWikiURLs.PARAMETER_ACTION_QUERY_INPROP, propertiesList);
 	}
 
-	public boolean edit(String title, String content, String summary, boolean ignoreConflicts) throws IOException
+	@SuppressWarnings("unchecked")
+	public boolean edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot) throws IOException
 	{
 		Map<String, String> parameters;
 		String json;
@@ -168,6 +169,8 @@ public class KaroWikiLoader
 		parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_TEXT, content);
 		if(summary != null)
 			parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_SUMMARY, summary);
+		if(bot)
+			parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_BOT, "true");
 		if(!ignoreConflicts)
 		{
 			String baseTimestamp = getTimestamp(title); 
