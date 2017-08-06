@@ -63,8 +63,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
-	
-	private boolean 			skipPlan;
+
+	private boolean				skipPlan;
 
 	private List<Game>			gamesCreated;
 	private List<Game>			gamesLeft;
@@ -105,7 +105,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.gamesToCreate = new LinkedList<Game>();
 		this.gamesToLeave = new LinkedList<Game>();
-		
+
 		this.skipPlan = false;
 	}
 
@@ -133,7 +133,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else
 		{
-			for(Game game: gameSeries.getGames())
+			for(Game game : gameSeries.getGames())
 			{
 				if(game.isCreated())
 					this.gamesCreated.add(game);
@@ -167,7 +167,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.exportButton = new JButton(Language.getString("screen.summary.export"));
 		this.exportButton.setActionCommand("export");
 		this.exportButton.addActionListener(this);
-		buttonPanel.add(this.exportButton);
+//		buttonPanel.add(this.exportButton);
 
 		this.model = new SummaryModel();
 		this.table = new JTable(this.model);
@@ -175,7 +175,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.initTable(this.table);
 		this.tableSP = new JScrollPane(this.table);
 		this.add(this.tableSP, BorderLayout.CENTER);
-		
+
 		enableButtons();
 	}
 
@@ -187,13 +187,22 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void createGames()
 	{
+		int amount = this.gamesToCreate.size();
+		System.out.println("Spiele zu erstellen: " + amount);
+
+		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.create.confirm").replace("%N", "" + amount));
+		if(result != JOptionPane.OK_OPTION)
+		{
+			enableButtons();
+			return;
+		}
+
 		this.inProgress = true;
 		GameCreator gc = new GameCreator(karopapier, this);
 		for(Game game : this.gamesToCreate)
 		{
 			this.model.setStatus(game, CREATING);
 		}
-		System.out.println("Spiele zu erstellen: " + this.gamesToCreate.size());
 		if(this.gamesToCreate.size() > 0)
 		{
 			gc.createGames(this.gamesToCreate);
@@ -207,18 +216,29 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void leaveGames()
 	{
-		this.inProgress = true;
-		GameCreator gc = new GameCreator(karopapier, this);
 		this.gamesToLeaveTmp = new LinkedList<Game>();
 		for(Game game : this.gamesToLeave)
 		{
 			if(game.isCreated())
-			{
 				this.gamesToLeaveTmp.add(game);
-				this.model.setStatus(game, LEAVING);
-			}
 		}
-		System.out.println("Spiele zu verlassen: " + gamesToLeaveTmp.size());
+
+		int amount = this.gamesToLeaveTmp.size();
+		System.out.println("Spiele zu verlassen: " + amount);
+
+		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.leave.confirm").replace("%N", "" + amount));
+		if(result != JOptionPane.OK_OPTION)
+		{
+			enableButtons();
+			return;
+		}
+
+		this.inProgress = true;
+		GameCreator gc = new GameCreator(karopapier, this);
+		for(Game game : this.gamesToLeaveTmp)
+		{
+			this.model.setStatus(game, LEAVING);
+		}
 		if(this.gamesToLeaveTmp.size() > 0)
 		{
 			gc.leaveGames(gamesToLeaveTmp, this.gameSeries.getCreator());
@@ -284,7 +304,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				if(action == JFileChooser.APPROVE_OPTION)
 				{
 					File file = fc.getSelectedFile();
-					
+
 					if(file.exists())
 					{
 						int result = JOptionPane.showConfirmDialog(this, Language.getString("option.overwrite"));
@@ -323,13 +343,13 @@ public class SummaryScreen extends Screen implements ActionListener
 			final String extension = ".json";
 			JFileChooser fc = new JFileChooser();
 			fc.setFileFilter(new FileFilter() {
-				
+
 				@Override
 				public String getDescription()
 				{
 					return "*" + extension;
 				}
-				
+
 				@Override
 				public boolean accept(File f)
 				{
@@ -343,10 +363,10 @@ public class SummaryScreen extends Screen implements ActionListener
 				if(action == JFileChooser.APPROVE_OPTION)
 				{
 					File file = fc.getSelectedFile();
-					
+
 					if(!file.getName().endsWith(extension))
 						file = new File(file.getPath() + extension);
-					
+
 					if(file.exists())
 					{
 						int result = JOptionPane.showConfirmDialog(this, Language.getString("option.overwrite"));
@@ -359,11 +379,11 @@ public class SummaryScreen extends Screen implements ActionListener
 
 					JSONObject json = JSONUtil.toJSON(gameSeries);
 					bw.write(json.toString(4));
-					//json.write(bw);
-					
+					// json.write(bw);
+
 					bw.flush();
 					fw.flush();
-					
+
 					bw.close();
 					fw.close();
 				}
@@ -452,31 +472,34 @@ public class SummaryScreen extends Screen implements ActionListener
 				col.setCellRenderer(editor);
 			}
 		}
-		
+
 		// Batch-Update-Support
 		table.getTableHeader().addMouseListener(new MouseAdapter() {
-		    @Override
-		    public void mouseClicked(MouseEvent e) {
-		        int col = table.columnAtPoint(e.getPoint());
-		        if(col == 0) // Title
-		        	batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
-		        else if(col == 1) // Map
-		        	batchUpdateEnum(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel(karopapier.getMaps().values().toArray(new Map[0])));
-		        else if(col == 2) // Players
-		        	batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
-		        else if(col == 3) // ZZZ
-		        	batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
-		        else if(col == 4) // TC
-		        	batchUpdateBoolean(col, Language.getString("screen.summary.table.crashs"));
-		        else if(col == 5) // CPs
-		        	batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
-		        else if(col == 6) // Direction
-		        	batchUpdateEnum(col, Language.getString("screen.summary.table.direction"), new DirectionModel(Direction.egal, false));
-		        else if(col == 7) // Create
-		        	batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
-		        else if(col == 8) // Leave
-		        	batchUpdateBoolean(col, Language.getString("screen.summary.table.leavestatus"));
-		    }
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				int col = table.columnAtPoint(e.getPoint());
+				if(col == 0) // Title
+					batchUpdateString(col, Language.getString("screen.summary.table.name"),
+							Language.getString("screen.summary.batchUpdate.note.name"));
+				else if(col == 1) // Map
+					batchUpdateEnum(col, Language.getString("screen.summary.table.map"),
+							new DefaultComboBoxModel(karopapier.getMaps().values().toArray(new Map[0])));
+				else if(col == 2) // Players
+					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
+				else if(col == 3) // ZZZ
+					batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
+				else if(col == 4) // TC
+					batchUpdateBoolean(col, Language.getString("screen.summary.table.crashs"));
+				else if(col == 5) // CPs
+					batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
+				else if(col == 6) // Direction
+					batchUpdateEnum(col, Language.getString("screen.summary.table.direction"), new DirectionModel(Direction.egal, false));
+				else if(col == 7) // Create
+					batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
+				else if(col == 8) // Leave
+					batchUpdateBoolean(col, Language.getString("screen.summary.table.leavestatus"));
+			}
 		});
 
 		for(Game game : this.gameSeries.getGames())
@@ -484,58 +507,58 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.model.addRow(game);
 		}
 	}
-	
+
 	private void batchUpdateBoolean(int column, String label)
 	{
-    	JCheckBox checkbox = new JCheckBox(label);    	
-    	int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-    			JOptionPane.QUESTION_MESSAGE);
-    	
-    	if(result == JOptionPane.OK_OPTION)
-    	{
-    		boolean value = checkbox.isSelected();
-    		System.out.println("Setze " + label + "=" + value);
-    		for(int row = 0; row < model.getRowCount(); row++)
-    		{
-    			if(model.isCellEditable(row, column))
-    				model.setValueAt(value, row, column);
-    		}
-    	}
+		JCheckBox checkbox = new JCheckBox(label);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"),
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			boolean value = checkbox.isSelected();
+			System.out.println("Setze " + label + "=" + value);
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				if(model.isCellEditable(row, column))
+					model.setValueAt(value, row, column);
+			}
+		}
 	}
-	
+
 	private void batchUpdateInt(int column, String label, SpinnerModel spinnerModel)
 	{
 		JPanel panel = new JPanel();
-    	JSpinner spinner = new JSpinner(spinnerModel);   
-    	panel.add(new JLabel(label));
-    	panel.add(spinner);
-    	panel.setLayout(new FlowLayout());
-    	((FlowLayout) panel.getLayout()).setAlignment(FlowLayout.LEFT);
-    	
-    	int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-    			JOptionPane.QUESTION_MESSAGE);
-    	
-    	if(result == JOptionPane.OK_OPTION)
-    	{
-    		Integer value = (Integer) spinner.getValue();
-    		System.out.println("Setze " + label + "=" + value);
-    		for(int row = 0; row < model.getRowCount(); row++)
-    		{
-    			if(model.isCellEditable(row, column))
-    				model.setValueAt(value, row, column);
-    		}
-    	}
+		JSpinner spinner = new JSpinner(spinnerModel);
+		panel.add(new JLabel(label));
+		panel.add(spinner);
+		panel.setLayout(new FlowLayout());
+		((FlowLayout) panel.getLayout()).setAlignment(FlowLayout.LEFT);
+
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"),
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			Integer value = (Integer) spinner.getValue();
+			System.out.println("Setze " + label + "=" + value);
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				if(model.isCellEditable(row, column))
+					model.setValueAt(value, row, column);
+			}
+		}
 	}
-	
+
 	private void batchUpdateString(int column, String label, String note)
 	{
 		JPanel panel = new JPanel();
-		JTextField textfield = new JTextField(50);   
+		JTextField textfield = new JTextField(50);
 		panel.add(new JLabel(label));
 		panel.add(textfield);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
-		
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"),
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
 		if(result == JOptionPane.OK_OPTION)
 		{
 			String value = (String) textfield.getText();
@@ -548,64 +571,62 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 		}
 	}
-	
+
 	private void batchUpdateEnum(int column, String label, ComboBoxModel comboBoxModel)
 	{
-		JComboBox combobox = new JComboBox(comboBoxModel);	
-    	int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-    			JOptionPane.QUESTION_MESSAGE);
-    	
-    	if(result == JOptionPane.OK_OPTION)
-    	{
-    		Object value = combobox.getSelectedItem();
-    		System.out.println("Setze " + label + "=" + value);
-    		for(int row = 0; row < model.getRowCount(); row++)
-    		{
-    			if(model.isCellEditable(row, column))
-    				model.setValueAt(value, row, column);
-    		}
-    	}
+		JComboBox combobox = new JComboBox(comboBoxModel);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"),
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+		if(result == JOptionPane.OK_OPTION)
+		{
+			Object value = combobox.getSelectedItem();
+			System.out.println("Setze " + label + "=" + value);
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				if(model.isCellEditable(row, column))
+					model.setValueAt(value, row, column);
+			}
+		}
 	}
-	
+
 	private void batchUpdatePlayers(int column, String label)
 	{
 		Collection<Player> players = karopapier.getPlayers().values();
 		players.remove(gameSeries.getCreator());
 		JComboBox combobox = new JComboBox(new DefaultComboBoxModel(players.toArray(new Player[0])));
 
-		Object[] options = new Object[] {
-				Language.getString("screen.summary.batchUpdate.players.add"),
-				Language.getString("screen.summary.batchUpdate.players.remove"),
-				Language.getString("option.cancel")
-		};
-    	
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
-    	
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"),
+				Language.getString("screen.summary.batchUpdate.players.remove"), Language.getString("option.cancel") };
+
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox },
+				Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
+
 		List<Player> updatedPlayers;
-    	if(result == 0) // add
-    	{
-    		Player value = (Player) combobox.getSelectedItem();
-    		System.out.println("Füge Spieler " + value + " hinzu");
-    		for(int row = 0; row < model.getRowCount(); row++)
-    		{
-    			updatedPlayers = new ArrayList<Player>(model.getRow(row).getPlayers());
-    			updatedPlayers.add(value);
-    			if(model.isCellEditable(row, column))
-    				model.setValueAt(updatedPlayers, row, column);
-    		}
-    	}
-    	else if(result == 1) // remove
-    	{
-    		Player value = (Player) combobox.getSelectedItem();
-    		System.out.println("Entferne Spieler " + value);
-    		for(int row = 0; row < model.getRowCount(); row++)
-    		{
-    			updatedPlayers = new ArrayList<Player>(model.getRow(row).getPlayers());
-    			updatedPlayers.remove(value);
-    			if(model.isCellEditable(row, column))
-    				model.setValueAt(updatedPlayers, row, column);
-    		}
-    	}
+		if(result == 0) // add
+		{
+			Player value = (Player) combobox.getSelectedItem();
+			System.out.println("Füge Spieler " + value + " hinzu");
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				updatedPlayers = new ArrayList<Player>(model.getRow(row).getPlayers());
+				updatedPlayers.add(value);
+				if(model.isCellEditable(row, column))
+					model.setValueAt(updatedPlayers, row, column);
+			}
+		}
+		else if(result == 1) // remove
+		{
+			Player value = (Player) combobox.getSelectedItem();
+			System.out.println("Entferne Spieler " + value);
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				updatedPlayers = new ArrayList<Player>(model.getRow(row).getPlayers());
+				updatedPlayers.remove(value);
+				if(model.isCellEditable(row, column))
+					model.setValueAt(updatedPlayers, row, column);
+			}
+		}
 	}
 
 	public class SummaryModel extends AbstractTableModel implements TableModel
@@ -647,14 +668,14 @@ public class SummaryScreen extends Screen implements ActionListener
 
 			row[0] = game.getName();
 			row[1] = game.getMap();
-			row[2] = game.getPlayers(); 
+			row[2] = game.getPlayers();
 			row[3] = game.getRules().getZzz();
 			row[4] = game.getRules().getCrashingAllowed();
 			row[5] = game.getRules().getCheckpointsActivated();
 			row[6] = game.getRules().getDirection();
 			row[7] = true;
 			row[8] = game.getRules().isCreatorGiveUp() || game.isLeft();
-			
+
 			if(!game.isCreated())
 				gamesToCreate.add(game);
 			if(!game.isLeft() && game.getRules().isCreatorGiveUp())
@@ -662,7 +683,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 			this.rows.add(row);
 			this.games.add(game);
-			
+
 			int status = OPEN;
 			if(game.isLeft())
 				status = LEFT;
@@ -728,7 +749,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			if(inProgress)
 				return false;
-			
+
 			if(columnIndex == getColumnCount() - 1) // status
 				return false;
 
@@ -737,8 +758,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 			if(getRow(rowIndex).isCreated() && columnIndex < 8)
 				return false;
-			
-			if(columnIndex == getColumnCount() -2)
+
+			if(columnIndex == getColumnCount() - 2)
 				return karopapier.isUnlocked();
 
 			return true;
@@ -784,7 +805,8 @@ public class SummaryScreen extends Screen implements ActionListener
 				case 7:
 					if((Boolean) aValue)
 					{
-						gamesToCreate.add(game);
+						if(!gamesToCreate.contains(game))
+							gamesToCreate.add(game);
 					}
 					else
 					{
@@ -795,7 +817,8 @@ public class SummaryScreen extends Screen implements ActionListener
 					game.getRules().setCreatorGiveUp((Boolean) aValue);
 					if((Boolean) aValue)
 					{
-						gamesToLeave.add(game);
+						if(!gamesToLeave.contains(game))
+							gamesToLeave.add(game);
 					}
 					else
 					{

@@ -1,1 +1,0 @@
-java -cp KaroMUSKEL/bin muskel2.Main
