@@ -1,9 +1,15 @@
 package muskel2.core.karoaccess;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import muskel2.gui.screens.SummaryScreen;
@@ -13,31 +19,34 @@ import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.Rules;
+import muskel2.util.RequestLogger;
 
 public class GameCreator
 {
-	private static final String	name				= "name=%NAME";
-	private static final String	nonCriticalChars	= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-	private static final String	map					= "mapid=%MAPID";
-	private static final String	player				= "teilnehmer[%I]=%PID";
-	private static final String	checkpoints			= "checkers=on";
-	private static final String	zzz					= "zzz=%ZZZ";
-	private static final String	crashs				= "crashallowed=%MODE";
-	private static final String	directionS			= "startdirection=%MODE";
+	private static final String		name				= "name=%NAME";
+//	private static final String		nonCriticalChars	= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	private static final String		map					= "mapid=%MAPID";
+	private static final String		player				= "teilnehmer[%I]=%PID";
+	private static final String		checkpoints			= "checkers=on";
+	private static final String		zzz					= "zzz=%ZZZ";
+	private static final String		crashs				= "crashallowed=%MODE";
+	private static final String		directionS			= "startdirection=%MODE";
 
-	private static final String	kick				= "http://www.karopapier.de/kickplayer.php";
-	private static final String	kickParam			= "GID=%GID&UID=%UID&sicher=1";
+	private static final String		kick				= "http://www.karopapier.de/kickplayer.php";
+	private static final String		kickParam			= "GID=%GID&UID=%UID&sicher=1";
 
-	private String				server;
-	private String				newGameURLString;
+	private static final DateFormat	dateFormat			= new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 
-	private KaroThreadQueue		urlLoadQ;
+	private String					server;
+	private String					newGameURLString;
 
-	private Karopapier			karopapier;
+	private KaroThreadQueue			urlLoadQ;
 
-	private SummaryScreen		summaryScreen;
+	private Karopapier				karopapier;
 
-	public static int			MAX_LOAD_THREADS		= 10;
+	private SummaryScreen			summaryScreen;
+
+	public static int				MAX_LOAD_THREADS	= 10;
 
 	public GameCreator(Karopapier karopapier, SummaryScreen summaryScreen)
 	{
@@ -50,7 +59,18 @@ public class GameCreator
 
 	public void createGames(List<Game> games)
 	{
-		this.urlLoadQ = new KaroThreadQueue(MAX_LOAD_THREADS, summaryScreen, true, false, false);
+		RequestLogger logger = null;
+		try
+		{
+			logger = new RequestLogger(dateFormat.format(new Date()) + " create.log");
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("could not create RequestLogger:");
+			e.printStackTrace();
+		}
+		
+		this.urlLoadQ = new KaroThreadQueue(MAX_LOAD_THREADS, summaryScreen, true, false, false, logger);
 
 		for(Game game : games)
 		{
@@ -65,7 +85,18 @@ public class GameCreator
 
 	public void leaveGames(List<Game> games, Player player)
 	{
-		this.urlLoadQ = new KaroThreadQueue(MAX_LOAD_THREADS, summaryScreen, false, false, false);
+		RequestLogger logger = null;
+		try
+		{
+			logger = new RequestLogger(dateFormat.format(new Date()) + " leave.log");
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("could not create RequestLogger:");
+			e.printStackTrace();
+		}
+		
+		this.urlLoadQ = new KaroThreadQueue(MAX_LOAD_THREADS, summaryScreen, false, false, false, logger);
 
 		try
 		{
@@ -87,13 +118,19 @@ public class GameCreator
 
 	public void launchGame(Game game)
 	{
-		String urlS = createNewGameURL(game);
+		String urlS;
 		URL url;
 		try
 		{
+			urlS = createNewGameURL(game);
 			url = new URL(urlS.substring(0, urlS.indexOf("?")));
 		}
 		catch(MalformedURLException e)
+		{
+			e.printStackTrace();
+			return;
+		}
+		catch(UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 			return;
@@ -102,20 +139,21 @@ public class GameCreator
 		GameCreatorThread th = new GameCreatorThread(game, url, parameter, "Neues Spiel erstellt", this.karopapier.isInDebugMode());
 		this.urlLoadQ.addThread(th);
 	}
-	
-	public void waitForFinished() throws InterruptedException 
+
+	public void waitForFinished() throws InterruptedException
 	{
 		this.urlLoadQ.waitForFinished();
 	}
 
-	public String createNewGameURL(Game game)
+	public String createNewGameURL(Game game) throws UnsupportedEncodingException
 	{
 		StringBuilder gameUrl = new StringBuilder();
 
 		gameUrl.append(this.server);
 		gameUrl.append((this.newGameURLString.charAt(0) == '/' ? "" : "/") + this.newGameURLString);
 		gameUrl.append("?");
-		gameUrl.append(name.replace("%NAME", makeNameURLReady(game.getName())));
+		gameUrl.append(name.replace("%NAME", URLEncoder.encode(game.getName(), "UTF-8")));
+//		gameUrl.append(name.replace("%NAME", makeNameURLReady(game.getName())));
 		gameUrl.append("&");
 		gameUrl.append(map.replace("%MAPID", "" + game.getMap().getId()));
 		gameUrl.append("&");
@@ -139,23 +177,23 @@ public class GameCreator
 		return gameUrl.toString();
 	}
 
-	public String makeNameURLReady(String name)
-	{
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < name.length(); i++)
-		{
-			if(nonCriticalChars.indexOf(name.charAt(i)) == -1)
-				sb.append(charToASCII(name.charAt(i)));
-			else
-				sb.append(name.charAt(i));
-		}
-		return sb.toString();
-	}
-
-	public String charToASCII(char c)
-	{
-		return "%" + Integer.toHexString((int) c);
-	}
+//	private String makeNameURLReady(String name)
+//	{
+//		StringBuilder sb = new StringBuilder();
+//		for(int i = 0; i < name.length(); i++)
+//		{
+//			if(nonCriticalChars.indexOf(name.charAt(i)) == -1)
+//				sb.append(charToASCII(name.charAt(i)));
+//			else
+//				sb.append(name.charAt(i));
+//		}
+//		return sb.toString();
+//	}
+//
+//	private String charToASCII(char c)
+//	{
+//		return "%" + Integer.toHexString((int) c);
+//	}
 
 	public void kickPlayer(Game game, Player player)
 	{
@@ -175,7 +213,7 @@ public class GameCreator
 		}
 	}
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws UnsupportedEncodingException
 	{
 		GameCreator gc = new GameCreator(null, null);
 		Rules r = new Rules(1, 1, true, true, Direction.egal, true, true);
