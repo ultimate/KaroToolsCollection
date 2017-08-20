@@ -4,13 +4,14 @@ import java.net.URL;
 
 import muskel2.core.web.URLLoaderThread;
 import muskel2.model.Game;
+import muskel2.util.RequestLogger;
 
 public class GameCreatorThread extends URLLoaderThread
 {
-	private Game	game;
-	private String	successMessage;
+	private Game			game;
+	private String			successMessage;
 
-	private boolean	inDebugMode;
+	private boolean			inDebugMode;
 
 	public GameCreatorThread(Game game, URL url, String parameter, String successMessage, boolean inDebugMode)
 	{
@@ -23,15 +24,30 @@ public class GameCreatorThread extends URLLoaderThread
 	@Override
 	public void innerRun()
 	{
+		RequestLogger logger = ((KaroThreadQueue) this.q).getLogger();
 		if(!inDebugMode)
 		{
 			int tries = 0;
 			do
 			{
+				RequestLogger.LogEntry logEntry = null;
+				if(logger != null)
+					logEntry = logger.add(url, parameter);
+				
 				super.innerRun();
+				
+				if(logger != null && logEntry != null)
+					logger.log(logEntry, this.result, this.responseCode);
 
 				if(success())
+//				{
+//					System.out.println("Request for game '" + game.getName() + "' successful: responseCode=" + responseCode + " time=" + (end-start));
 					return;
+//				}
+//				else
+//				{
+//					System.out.println("Request for game '" + game.getName() + "' unsuccessful: responseCode=" + responseCode + " time=" + (end-start));
+//				}
 
 				try
 				{

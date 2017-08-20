@@ -30,13 +30,16 @@ import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.HtmlUtil;
+import muskel2.util.Language;
 
 public class KaropapierLoader
 {
 	private static CookieHandler	ch;
 	private static String			currentUser;
-	
-	public static final String 		imageCache = "cache";
+
+	public static final String		imageCache				= "cache";
+
+	public static final String		userAgent				= "KaroMUSKEL-" + Language.getString("version") + " (Java " + System.getProperty("java.version") + ")";
 
 	public static final String		server					= "http://www.karopapier.de";
 	public static final String		serverReloaded			= "http://reloaded.karopapier.de";
@@ -77,6 +80,9 @@ public class KaropapierLoader
 		URL newGameURL2 = new URL(server + (newGameURL2String.charAt(0) == '/' ? "" : "/") + newGameURL2String);
 
 		URL playerURL = new URL(server + (newGameURLString.charAt(0) == '/' ? "" : "/") + playerURLString);
+		
+		System.out.println("Setting HTTP user agent: " + userAgent);
+		System.setProperty("http.agent", userAgent);
 
 		System.out.println("Initiating content from newGamePage " + newGameURL.toString());
 		System.out.println("                   and newGamePage2 " + newGameURL2.toString());

@@ -3,6 +3,7 @@ package muskel2.core.karoaccess;
 import muskel2.core.threads.QueuableThread;
 import muskel2.core.threads.ThreadQueue;
 import muskel2.gui.screens.SummaryScreen;
+import muskel2.util.RequestLogger;
 
 public class KaroThreadQueue extends ThreadQueue
 {
@@ -11,14 +12,17 @@ public class KaroThreadQueue extends ThreadQueue
 	private boolean			create;
 
 	private Integer			errorCount	= 0;
-	
-	private Long 		startTime = null;
 
-	public KaroThreadQueue(int max, SummaryScreen summaryScreen, boolean create, boolean debugEnabled, boolean countEnabled)
+	private Long			startTime	= null;
+
+	private RequestLogger	logger = null;
+
+	public KaroThreadQueue(int max, SummaryScreen summaryScreen, boolean create, boolean debugEnabled, boolean countEnabled, RequestLogger logger)
 	{
 		super(max, debugEnabled, countEnabled);
 		this.summaryScreen = summaryScreen;
 		this.create = create;
+		this.logger = logger;
 	}
 
 	@Override
@@ -39,7 +43,7 @@ public class KaroThreadQueue extends ThreadQueue
 			else
 				this.summaryScreen.notifyGameLeft(((GameCreatorThread) th).getGame());
 		}
-		
+
 		super.notifyFinished(th);
 
 		if(this.getRemainingThreads() == 0 && this.getRunningThreads() == 0)
@@ -85,5 +89,10 @@ public class KaroThreadQueue extends ThreadQueue
 		{
 			this.errorCount = 0;
 		}
+	}
+
+	public RequestLogger getLogger()
+	{
+		return logger;
 	}
 }

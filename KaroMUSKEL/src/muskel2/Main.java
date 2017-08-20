@@ -18,6 +18,7 @@ import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.Language;
+import muskel2.util.RequestLogger;
 
 public class Main
 {
@@ -133,9 +134,9 @@ public class Main
 			final JTextField tf = new JTextField();
 			final JLabel pwL = new JLabel(Language.getString("login.password"));
 			final JPasswordField pw = new JPasswordField();
-			
+
 			// request Focus on username-TF when dialog is shown
-			tfL.addAncestorListener( new AncestorListener() {
+			tfL.addAncestorListener(new AncestorListener() {
 				@Override
 				public void ancestorAdded(AncestorEvent arg0)
 				{
@@ -189,6 +190,13 @@ public class Main
 			gui.requestFocus();
 		}
 
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run()
+			{
+				cleanUpLoggers();
+			}
+		});
+
 		System.out.println("Initialisierung abgeschlossen!");
 		System.out.println("-------------------------------------------------------------------------");
 	}
@@ -202,10 +210,17 @@ public class Main
 	{
 		return karopapier;
 	}
-	
+
 	public static void setKaropapier(Karopapier karopapier)
 	{
 		Main.karopapier = karopapier;
+	}
+	
+	public static void cleanUpLoggers()
+	{
+		System.out.println("Beende Logging...");
+		RequestLogger.cleanUp();
+		System.out.println("Logging beendet!");
 	}
 
 	public static void exit()
@@ -219,7 +234,7 @@ public class Main
 		{
 			gui.setVisible(false);
 			gui.dispose();
-		}
+		}		
 
 		System.out.println("Programm beendet!");
 		System.out.println("-------------------------------------------------------------------------");

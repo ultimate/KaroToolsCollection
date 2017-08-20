@@ -15,6 +15,7 @@ public class URLLoaderThread extends QueuableThread
 	protected URL		url;
 	protected String	parameter;
 	protected String	result;
+	protected int		responseCode;
 	protected String	method;
 	protected int		timeout;
 
@@ -45,6 +46,7 @@ public class URLLoaderThread extends QueuableThread
 		this.url = url;
 		this.parameter = parameter;
 		this.result = null;
+		this.responseCode = -1;
 		this.timeout = timeout;
 		this.method = method;
 	}
@@ -54,6 +56,9 @@ public class URLLoaderThread extends QueuableThread
 	{
 		try
 		{
+			this.result = null;
+			this.responseCode = -1;
+			
 			Thread t = new Thread() {
 				public void run()
 				{
@@ -68,6 +73,7 @@ public class URLLoaderThread extends QueuableThread
 
 						if(method.equals("POST"))
 						{
+							connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 							connection.setDoOutput(true);
 							PrintWriter out = new PrintWriter(connection.getOutputStream());
 							out.print(parameter);
@@ -87,6 +93,7 @@ public class URLLoaderThread extends QueuableThread
 						is.close();
 
 						result = site.toString();
+						responseCode = connection.getResponseCode();
 					}
 					catch(IOException e)
 					{
@@ -109,5 +116,10 @@ public class URLLoaderThread extends QueuableThread
 	public String getLoadedURLContent()
 	{
 		return result;
+	}
+	
+	public int getResponseCode()
+	{
+		return responseCode;
 	}
 }
