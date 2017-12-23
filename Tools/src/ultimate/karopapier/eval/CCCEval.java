@@ -1015,8 +1015,9 @@ public class CCCEval implements Eval
 		double avg_crashs_allraces;
 		double avg_points;
 		double expected;
-		double expected_negative;
 		double expected_max;
+		double actual_positive;
+		double actual_negative;
 		int negative_count;
 		double player_avg_crashs;
 		double player_avg_points;
@@ -1054,41 +1055,56 @@ public class CCCEval implements Eval
 			{
 				player_avg_crashs = 0;
 				player_avg_points = 0;
-				expected_negative = 0;
+				actual_positive = 0;
+				actual_negative = 0;
 				negative_count = 0;
 
-				if(real_points.get(player)[c].size() != 0)
+				for(int i = 0; i < real_points.get(player)[c].size(); i++)
 				{
-					for(int i = 0; i < real_points.get(player)[c].size(); i++)
+					if(real_points.get(player)[c].get(i) > 0)
 					{
-						if(real_points.get(player)[c].get(i) > 0)
-						{
-							player_avg_crashs += real_crashs.get(player)[c].get(i);
-							player_avg_points += real_points.get(player)[c].get(i);
-							total_players_finished++;
-						}
-						else
-						{
-							expected_negative += real_points.get(player)[c].get(i);
-							negative_count++;
-						}
-					}
-					if(real_points.get(player)[c].size() - negative_count > 0)
-					{
-						player_avg_crashs /= real_points.get(player)[c].size();
-						player_avg_points /= real_points.get(player)[c].size();
+						actual_positive += real_crashs.get(player)[c].get(i)*real_points.get(player)[c].get(i);
+						player_avg_crashs += real_crashs.get(player)[c].get(i);
+						player_avg_points += real_points.get(player)[c].get(i);
+						total_players_finished++;
 					}
 					else
 					{
-						player_avg_points = 0;
+						actual_negative += real_points.get(player)[c].get(i);
+						negative_count++;
 					}
-
-					expected = player_avg_crashs * player_avg_points * (stats_racesPerPlayerPerChallenge - negative_count) + expected_negative;
+				}
+				
+				if(real_points.get(player)[c].size() - negative_count > 0)
+				{
+					player_avg_crashs /= real_points.get(player)[c].size();
+					player_avg_points /= real_points.get(player)[c].size();
 				}
 				else
 				{
-					// spieler hat noch keine Rennen beendet
-					expected = avg_crashs * avg_points * stats_racesPerPlayerPerChallenge;
+					player_avg_points = 0;
+				}
+				
+				if(real_points.get(player)[c].size() == stats_racesPerPlayerPerChallenge)
+				{
+					// spieler hat alle Rennen beendet
+					expected = actual_positive + actual_negative;
+				}
+				else if(real_points.get(player)[c].size() - negative_count > 0)
+				{
+					// spieler hat ein paar Rennen regulaer beendet (ohne rauswurf)
+					// eigene durchschnittliche Punkte und Crashs verwenden
+					expected = actual_positive + actual_negative;
+					expected += player_avg_crashs * player_avg_points * (stats_racesPerPlayerPerChallenge - real_points.get(player)[c].size());
+					//expected = player_avg_crashs * player_avg_points * (stats_racesPerPlayerPerChallenge - negative_count ) + expected_negative;
+				}
+				else
+				{
+					// spieler hat noch keine Rennen beendet regulaer beendet
+					// allgemeine durchschnittliche Punkte und Crashs verwenden
+					expected = actual_positive + actual_negative;
+					expected += avg_crashs * avg_points * (stats_racesPerPlayerPerChallenge - real_points.get(player)[c].size());
+					// expected = avg_crashs * avg_points * stats_racesPerPlayerPerChallenge;
 				}
 				expected_points.get(player)[c] = expected;
 				if(expected > expected_max)
