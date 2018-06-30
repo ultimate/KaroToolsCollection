@@ -347,7 +347,7 @@ var KaroMUSKEL = (function() {
 		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "map/list.json?nocode=true", true, true);
         // register other dependencies
 		DependencyManager.register("Utils", 		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/Utils.js", false, true);
-		DependencyManager.register(VERSION_HISTORY, "http://rawgit.com/ultimate/KaroMUSKEL/master/README.md", true, true);
+		DependencyManager.register(VERSION_HISTORY, "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/README.md", true, true);
 		DependencyManager.register(STYLE_SHEET,     "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
 		// get the data indexes
 		var userListIndex       = DependencyManager.indexOf(DATA_USER_LIST);		
