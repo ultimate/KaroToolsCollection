@@ -169,11 +169,14 @@ var KaroMUSKEL = (function() {
             mainMenu.classList.add("menu");
             mainMenu.classList.add("tabbar_vertical");
             mainMenu.appendChild(componentFactory.createADiv("menu_1", "Neu", null, "frame", function() {
+					//TODO add confirm dialog
+					
 					// show type selection
 					tabs.select(5);
 					
-					gameSeries = new KaroMUSKEL.GameSeries();
-					updateUI(gameSeries);
+					//gameSeries = new KaroMUSKEL.GameSeries();
+					//updateUI(gameSeries);
+					updateUI(null);
 				}));
             mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", 	null, "frame"));
             mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", 	null, "frame"));
