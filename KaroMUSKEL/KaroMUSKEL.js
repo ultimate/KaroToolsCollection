@@ -31,20 +31,20 @@ var ME; // init variable in order to be able to check if for undefined
  
 var KaroMUSKEL = (function() {	
 	// constants
-	var VERSION = "4.0-dev";
-	var KARO_URL = "http://www.karopapier.de/api/";
-	var LOADER_VALUE_ID = "loader_value";
-	var LOADER_TEXT_ID = "loader_text";
-	var MENU_ID = "menu";
-	var PLACEHOLDERS_ID = "placeholders";
-	var TITLE_ID = "title";
-	var PREVIEW_ID = "preview";
-	var TAB_BAR_ID = "tab_bar";
-	var TAB_CONTENT_ID = "tab_content";
-	var DATA_USER_LIST = "userList";
-	var DATA_MAP_LIST = "mapList";
-	var VERSION_HISTORY = "versionHistory";
-	var STYLE_SHEET = "styleSheet";
+	const VERSION = "4.0-dev";
+	const KARO_URL = "http://www.karopapier.de/api/";
+	const LOADER_VALUE_ID = "loader_value";
+	const LOADER_TEXT_ID = "loader_text";
+	const MENU_ID = "menu";
+	const PLACEHOLDERS_ID = "placeholders";
+	const TITLE_ID = "title";
+	const PREVIEW_ID = "preview";
+	const TAB_BAR_ID = "tab_bar";
+	const TAB_CONTENT_ID = "tab_content";
+	const DATA_USER_LIST = "userList";
+	const DATA_MAP_LIST = "mapList";
+	const VERSION_HISTORY = "versionHistory";
+	const STYLE_SHEET = "styleSheet";
 	// private variables
 	var wrapper;
 	var loader;
