@@ -119,22 +119,6 @@ var KaroMUSKEL = (function() {
         versionInfo.style.width     = "100px";
 		wrapper.appendChild(versionInfo);
 	};
-    var componentFactory = {
-        createADiv: function(id, content, aClass, divClass, onclick) {
-            var a = document.createElement("a");
-            a.id = id;
-            if(aClass) a.classList.add(aClass);
-            var div = document.createElement("div");
-            div.innerHTML = content;
-            if(divClass) div.classList.add(divClass);
-            a.appendChild(div);
-            a.onclick = onclick;
-            return a;
-        },
-		closeButton: function() {	
-			return this.createADiv(null, "x", "close_button", "frame", function() { tabs.select(tabIndex); });
-		}
-    };
 	var initUI = function() {
 		ui = document.createElement("div");
 		ui.classList.add("ui");
@@ -147,11 +131,11 @@ var KaroMUSKEL = (function() {
 								<a id='bar_4'><div class='frame'>Zusammenfassung</div></a>\
 								<a id='bar_5'><div class='frame'>Auswertung</div></a>";
 								*/
-			tabBar.appendChild(componentFactory.createADiv("bar_1", "&Uuml;bersicht", 		"selected", "frame", null));
-			tabBar.appendChild(componentFactory.createADiv("bar_2", "Spieler / Teams", 		null, 		"frame", null));
-			tabBar.appendChild(componentFactory.createADiv("bar_3", "Spieltage / Runden", 	null, 		"frame", null));
-			tabBar.appendChild(componentFactory.createADiv("bar_4", "Zusammenfassung", 		null, 		"frame", null));
-			tabBar.appendChild(componentFactory.createADiv("bar_5", "Auswertung", 			null, 		"frame", null));
+			tabBar.appendChild(createADiv("bar_1", "&Uuml;bersicht", 		"selected", "frame", null));
+			tabBar.appendChild(createADiv("bar_2", "Spieler / Teams", 		null, 		"frame", null));
+			tabBar.appendChild(createADiv("bar_3", "Spieltage / Runden", 	null, 		"frame", null));
+			tabBar.appendChild(createADiv("bar_4", "Zusammenfassung", 		null, 		"frame", null));
+			tabBar.appendChild(createADiv("bar_5", "Auswertung", 			null, 		"frame", null));
 		var tabContent = document.createElement("div");
 			tabContent.id = TAB_CONTENT_ID;
 			//tabContent.classList.add("frame");
@@ -168,7 +152,7 @@ var KaroMUSKEL = (function() {
 			//mainMenu.id = MENU_ID;
             mainMenu.classList.add("menu");
             mainMenu.classList.add("tabbar_vertical");
-            mainMenu.appendChild(componentFactory.createADiv("menu_1", "Neu", null, "frame", function() {
+            mainMenu.appendChild(createADiv("menu_1", "Neu", null, "frame", function() {
 					//TODO add confirm dialog
 					
 					// show type selection
@@ -178,9 +162,9 @@ var KaroMUSKEL = (function() {
 					//updateUI(gameSeries);
 					updateUI(null);
 				}));
-            mainMenu.appendChild(componentFactory.createADiv("menu_2", "&Ouml;ffnen", 	null, "frame"));
-            mainMenu.appendChild(componentFactory.createADiv("menu_3", "Speichern", 	null, "frame"));
-            mainMenu.appendChild(componentFactory.createADiv("menu_4", "Info", 			null, "frame", function() {  
+            mainMenu.appendChild(createADiv("menu_2", "&Ouml;ffnen", 	null, "frame"));
+            mainMenu.appendChild(createADiv("menu_3", "Speichern", 	null, "frame"));
+            mainMenu.appendChild(createADiv("menu_4", "Info", 			null, "frame", function() {  
                 tabs.select(6);
                 if(tabContent.firstChild.lastChild.children.length <= 1)
                 {
@@ -193,7 +177,7 @@ var KaroMUSKEL = (function() {
                     AJAX.sendRequestUrlEncoded("http://api.github.com/markdown", data, HTTP.POST, function(request) {
                         console.log(request.responseText);
                         tabContent.firstChild.lastChild.firstChild.innerHTML = request.responseText;
-						tabContent.firstChild.lastChild.firstChild.appendChild(componentFactory.closeButton());
+						tabContent.firstChild.lastChild.firstChild.appendChild(createCloseButton());
                     });                   
                 }
             }));
@@ -202,10 +186,10 @@ var KaroMUSKEL = (function() {
 			typeSelection.classList.add("tabbar_horizontal");
 			typeSelection.classList.add("centered");
 			var typeSelected = function(type) { return function() { gameSeries = new KaroMUSKEL.GameSeries(type, document.getElementById("useTeams").checked); updateUI(gameSeries); tabs.select(0); }; };
-			typeSelection.appendChild(componentFactory.createADiv("type_simple", 	"<div class='centered double_row'>Einfache Spieleserie</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[0]) ));
-			typeSelection.appendChild(componentFactory.createADiv("type_balanced", 	"<div class='centered double_row'>Ausgewogene Spieleserie</div>", 	null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[1]) ));
-			typeSelection.appendChild(componentFactory.createADiv("type_league", 	"<div class='centered single_row'>Liga</div>", 						null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[2]) ));
-			typeSelection.appendChild(componentFactory.createADiv("type_ko", 		"<div class='centered double_row'>KO- Meisterschaft</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[3]) ));
+			typeSelection.appendChild(createADiv("type_simple", 	"<div class='centered double_row'>Einfache Spieleserie</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[0]) ));
+			typeSelection.appendChild(createADiv("type_balanced", 	"<div class='centered double_row'>Ausgewogene Spieleserie</div>", 	null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[1]) ));
+			typeSelection.appendChild(createADiv("type_league", 	"<div class='centered single_row'>Liga</div>", 						null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[2]) ));
+			typeSelection.appendChild(createADiv("type_ko", 		"<div class='centered double_row'>KO- Meisterschaft</div>", 		null, "frame", typeSelected(KaroMUSKEL.SERIES_TYPES[3]) ));
 		var useTeams = document.createElement("div");
 			useTeams.classList.add("use_teams");
 			useTeams.classList.add("centered");
@@ -220,7 +204,7 @@ var KaroMUSKEL = (function() {
 		// append sub-content
 		document.getElementById("new").appendChild(typeSelection);
 		document.getElementById("new").appendChild(useTeams);
-		document.getElementById("new").appendChild(componentFactory.closeButton());
+		document.getElementById("new").appendChild(createCloseButton());
 		
 		// init initelligent elements
 		// tabs = new Tabs(barId, barMode, containerId, containerMode, selectedOverwriteWidth, selectedOverwriteHeight)
@@ -337,21 +321,22 @@ var KaroMUSKEL = (function() {
 		// init DependencyManager
 		DependencyManager.instantLoad = false;
 		// register syncnapsis-core-utils
-		DependencyManager.register("Arrays", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
-		DependencyManager.register("Elements", 		"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
-		DependencyManager.register("Events", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
-		DependencyManager.register("Strings", 		"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
+		DependencyManager.register("Arrays", 			"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
+		DependencyManager.register("Elements", 			"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
+		DependencyManager.register("Events", 			"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
+		DependencyManager.register("Strings", 			"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
 		// register syncnapsis-universe components
-		DependencyManager.register("ComboSelect", 	"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
-		DependencyManager.register("Select", 		"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
-		DependencyManager.register("Tabs", 			"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
+		DependencyManager.register("ComboSelect", 		"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
+		DependencyManager.register("Select", 			"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
+		DependencyManager.register("Tabs", 				"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
 		// register JSON-data
-		DependencyManager.register(DATA_USER_LIST, 	KARO_URL + "user/list.json", true, true);
-		DependencyManager.register(DATA_MAP_LIST, 	KARO_URL + "map/list.json?nocode=true", true, true);
+		DependencyManager.register(DATA_USER_LIST, 		KARO_URL + "user/list.json", true, true);
+		DependencyManager.register(DATA_MAP_LIST, 		KARO_URL + "map/list.json?nocode=true", true, true);
         // register other dependencies
-		DependencyManager.register("Utils", 		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/Utils.js", false, true);
-		DependencyManager.register(VERSION_HISTORY, "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/README.md", true, true);
-		DependencyManager.register(STYLE_SHEET,     "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
+		DependencyManager.register("ComponentFactory", 	"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/ComponentFactory.js", false, true);
+		DependencyManager.register("Utils", 			"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/Utils.js", false, true);
+		DependencyManager.register(VERSION_HISTORY, 	"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/README.md", true, true);
+		DependencyManager.register(STYLE_SHEET,     	"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
 		// get the data indexes
 		var userListIndex       = DependencyManager.indexOf(DATA_USER_LIST);		
 		var mapListIndex        = DependencyManager.indexOf(DATA_MAP_LIST);		
