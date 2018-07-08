@@ -340,12 +340,12 @@ var KaroMUSKEL = (function() {
 		DependencyManager.register(VERSION_HISTORY, 		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/README.md", true, true);
 		DependencyManager.register(STYLE_SHEET,     		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
 		// get the data indexes
-		var userListIndex       = DependencyManager.indexOf(DATA_USER_LIST);		
-		var mapListIndex        = DependencyManager.indexOf(DATA_MAP_LIST);		
-		var versionHistoryIndex = DependencyManager.indexOf(VERSION_HISTORY);	
-		var styleSheetIndex     = DependencyManager.indexOf(STYLE_SHEET);		
-		var utilsIndex     		= DependencyManager.indexOf(UTILS_SCRIPT);		
-		var compFacIndex	    = DependencyManager.indexOf(COMPONENTFACTORY_SCRIPT);			
+		let userListIndex       = DependencyManager.indexOf(DATA_USER_LIST);		
+		let mapListIndex        = DependencyManager.indexOf(DATA_MAP_LIST);		
+		let versionHistoryIndex = DependencyManager.indexOf(VERSION_HISTORY);	
+		let styleSheetIndex     = DependencyManager.indexOf(STYLE_SHEET);		
+		let utilsIndex     		= DependencyManager.indexOf(UTILS_SCRIPT);		
+		let compFacIndex	    = DependencyManager.indexOf(COMPONENTFACTORY_SCRIPT);			
 		if(local)
 		{
 			// fake JSON-data since AJAX won't work on file system (with just some reduced data)
@@ -404,8 +404,8 @@ var KaroMUSKEL = (function() {
 			{				
 				console.log("KaroMUSKEL: you are not logged in!");
 				// TODO show not logged in message
-				var elem = document.getElementById(LOADER_TEXT_ID).parentElement;
-				var div = document.createElement("div");
+				let elem = document.getElementById(LOADER_TEXT_ID).parentElement;
+				let div = document.createElement("div");
 				div.appendChild(document.createTextNode("Du bist nicht eingeloggt! Bitte einloggen und neu laden!"));
 				// not sure if css is loaded properly
 				div.style.color = "red";
