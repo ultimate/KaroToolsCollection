@@ -299,8 +299,6 @@ var KaroMUSKEL = (function() {
 						document.getElementById(TITLE_ID).onkeypress();
 					}					
 				};
-			
-			// TODO auf der Auswahl-Seite für die Art der Spieleserie eine Check-box "Teams verwenden" ergänzen und dieses flag gleich bei der Erstellung übergeben
 		}
 	};
 	
