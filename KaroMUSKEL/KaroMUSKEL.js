@@ -154,17 +154,24 @@ var KaroMUSKEL = (function() {
 			//mainMenu.id = MENU_ID;
             mainMenu.classList.add("menu");
             mainMenu.classList.add("tabbar_vertical");
-            mainMenu.appendChild(createADiv("menu_1", "Neu", null, "frame", function() {
-					//TODO add confirm dialog
+            mainMenu.appendChild(createADiv("menu_1", "Neu", null, "frame", function() {					
+					var conf = (gameSeries == null) || confirm("Achtung: Es gehen alle Änderungen an der aktuellen Spieleserie verworfen und es wird eine neue erstellt!");
+					if(!conf)
+						return;		
 					
 					// show type selection
 					tabs.select(5);
-					
-					//gameSeries = new KaroMUSKEL.GameSeries();
-					//updateUI(gameSeries);
 					updateUI(null);
 				}));
-            mainMenu.appendChild(createADiv("menu_2", "&Ouml;ffnen", 	null, "frame"));
+            mainMenu.appendChild(createADiv("menu_2", "&Ouml;ffnen", 	null, "frame", function() {					
+					var conf = (gameSeries == null) || confirm("Achtung: Es gehen alle Änderungen an der aktuellen Spieleserie verworfen und es wird eine andere geladen!");
+					if(!conf)
+						return;		
+					
+					// show type selection
+					gs = null; // TODO load
+					updateUI(gs);
+				}));
             mainMenu.appendChild(createADiv("menu_3", "Speichern", 	null, "frame"));
             mainMenu.appendChild(createADiv("menu_4", "Info", 			null, "frame", function() {  
                 tabs.select(6);
