@@ -3,6 +3,7 @@
         <File name="KaroMUSKEL\KaroMUSKEL.css" />
         <File name="KaroMUSKEL\KaroMUSKEL.html" />
         <File name="KaroMUSKEL\KaroMUSKEL.js" />
+        <File name="KaroMUSKEL\ComponentFactory.js" />
         <File name="KaroMUSKEL\Utils.js" />
     </Project>
     <Project name="KaroAPI">
