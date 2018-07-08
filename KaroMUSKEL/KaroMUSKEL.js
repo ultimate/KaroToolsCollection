@@ -45,6 +45,8 @@ var KaroMUSKEL = (function() {
 	const DATA_MAP_LIST = "mapList";
 	const VERSION_HISTORY = "versionHistory";
 	const STYLE_SHEET = "styleSheet";
+	const UTILS_SCRIPT = "utils";
+	const COMPONENTFACTORY_SCRIPT = "componentFactory";
 	// private variables
 	var wrapper;
 	var loader;
@@ -321,27 +323,29 @@ var KaroMUSKEL = (function() {
 		// init DependencyManager
 		DependencyManager.instantLoad = false;
 		// register syncnapsis-core-utils
-		DependencyManager.register("Arrays", 			"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
-		DependencyManager.register("Elements", 			"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
-		DependencyManager.register("Events", 			"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
-		DependencyManager.register("Strings", 			"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
+		DependencyManager.register("Arrays", 				"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Arrays.js", 				false, true);
+		DependencyManager.register("Elements", 				"http://cdn.rawgit.com/ultimate/syncnapsis/13a0536b4fd0c9490f89cdfe9373d38c6fde5336/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Elements.js", 			false, true);
+		DependencyManager.register("Events", 				"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Events.js", 				false, true);
+		DependencyManager.register("Strings", 				"http://cdn.rawgit.com/ultimate/syncnapsis/71656b61de31b1c0fb0b1d2680ea32bec743fef8/syncnapsis-core/syncnapsis-core-utils/src/main/webapp/scripts/util/Strings.js", 			false, true);
 		// register syncnapsis-universe components
-		DependencyManager.register("ComboSelect", 		"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
-		DependencyManager.register("Select", 			"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
-		DependencyManager.register("Tabs", 				"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
+		DependencyManager.register("ComboSelect", 			"http://cdn.rawgit.com/ultimate/syncnapsis/b59bcaf1e8673bb5f3fc1ba9521ad7a9f3622657/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/comboselect.js", 	false, true);
+		DependencyManager.register("Select", 				"http://cdn.rawgit.com/ultimate/syncnapsis/d0687d2ebc385fbf1fc757cb4ffc3e65299920b5/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/select.js", 		false, true);
+		DependencyManager.register("Tabs", 					"http://cdn.rawgit.com/ultimate/syncnapsis/11b13002162abb8672f126068f0dd3bb4c8d4740/syncnapsis-universe/syncnapsis-universe-conquest/src/main/webapp/scripts/tabs.js", 			false, true);
 		// register JSON-data
-		DependencyManager.register(DATA_USER_LIST, 		KARO_URL + "user/list.json", true, true);
-		DependencyManager.register(DATA_MAP_LIST, 		KARO_URL + "map/list.json?nocode=true", true, true);
+		DependencyManager.register(DATA_USER_LIST, 			KARO_URL + "user/list.json", true, true);
+		DependencyManager.register(DATA_MAP_LIST, 			KARO_URL + "map/list.json?nocode=true", true, true);
         // register other dependencies
-		DependencyManager.register("ComponentFactory", 	"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/ComponentFactory.js", false, true);
-		DependencyManager.register("Utils", 			"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/Utils.js", false, true);
-		DependencyManager.register(VERSION_HISTORY, 	"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/README.md", true, true);
-		DependencyManager.register(STYLE_SHEET,     	"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
+		DependencyManager.register(COMPONENTFACTORY_SCRIPT, "http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/ComponentFactory.js", false, true);
+		DependencyManager.register(UTILS_SCRIPT, 			"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/Utils.js", false, true);
+		DependencyManager.register(VERSION_HISTORY, 		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/README.md", true, true);
+		DependencyManager.register(STYLE_SHEET,     		"http://rawgit.com/ultimate/KaroMUSKEL/V4.x/KaroMUSKEL/KaroMUSKEL.css", true, true);
 		// get the data indexes
 		var userListIndex       = DependencyManager.indexOf(DATA_USER_LIST);		
 		var mapListIndex        = DependencyManager.indexOf(DATA_MAP_LIST);		
 		var versionHistoryIndex = DependencyManager.indexOf(VERSION_HISTORY);	
-		var styleSheetIndex     = DependencyManager.indexOf(STYLE_SHEET);			
+		var styleSheetIndex     = DependencyManager.indexOf(STYLE_SHEET);		
+		var utilsIndex     		= DependencyManager.indexOf(UTILS_SCRIPT);		
+		var compFacIndex	    = DependencyManager.indexOf(COMPONENTFACTORY_SCRIPT);			
 		if(local)
 		{
 			// fake JSON-data since AJAX won't work on file system (with just some reduced data)
@@ -349,11 +353,17 @@ var KaroMUSKEL = (function() {
 			DependencyManager.scriptAdded[userListIndex] = true;		
 			DependencyManager.scriptContents[mapListIndex] = "[{\"id\": 1,\"name\": \"Die Erste\",\"author\": \"Didi\",\"cols\": 60,\"rows\": 25,\"rating\": 4.11111,\"players\": 5,\"cps\": [\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\": 2,\"name\": \"Die Zweite\",\"author\": \"Didi\",\"cols\": 60,\"rows\": 25,\"rating\": 4.03226,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 3,\"name\": \"Die Dritte\",\"author\": \"Didi\",\"cols\": 80,\"rows\": 33,\"rating\": 3.83333,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 4,\"name\": \"\",\"author\": \"(unknown)\",\"cols\": 80,\"rows\": 31,\"rating\": 3.30769,\"players\": 5,\"cps\": [\"1\",\"2\"]},{\"id\": 5,\"name\": \"\",\"author\": \"(unknown)\",\"cols\": 80,\"rows\": 35,\"rating\": 3.83333,\"players\": 5,\"cps\": [\"1\",\"2\",\"3\"]}]";
 			DependencyManager.scriptAdded[mapListIndex] = true;
-            // fake style sheet, so we are working with the local version
+            // fake style sheet & Utils etc., so we are working with the local version --> content is added regular via KaroMUSKEL.html instead
 			DependencyManager.scriptContents[styleSheetIndex] = "/*empty*/";
 			DependencyManager.scriptAdded[styleSheetIndex] = true;
+			DependencyManager.scriptContents[utilsIndex] = "/*empty*/";
+			DependencyManager.scriptAdded[utilsIndex] = true;
+			DependencyManager.scriptContents[compFacIndex] = "/*empty*/";
+			DependencyManager.scriptAdded[compFacIndex] = true;
+			
+			// Note: DependencyManager will attempt to load the scripts anyway and may produce cross-origin-request errors, but scripts won't be added twice
             
-			DependencyManager.scriptsLoaded += 3;
+			DependencyManager.scriptsLoaded += 5;
 		}
 		// complete registration
 		DependencyManager.onLoadingProgressed(DependencyManager.defaultOnLoadingProgressed(LOADER_VALUE_ID, LOADER_TEXT_ID));
