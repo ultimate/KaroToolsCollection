@@ -213,7 +213,7 @@ public class KaropapierLoader
 					break;
 
 				mapId = mapS.substring(0, mapS.indexOf(">"));
-				mapName = mapS.substring(mapS.indexOf(mapId + "", (mapId + "").length()) + (mapId + "").length(), mapS.indexOf("("));
+				mapName = mapS.substring(mapS.indexOf(mapId + "", (mapId + "").length()) + (mapId + "").length(), mapS.lastIndexOf("("));
 				if(mapName.equals(" "))
 					mapName = "Karte " + mapId;
 				else
@@ -221,7 +221,7 @@ public class KaropapierLoader
 					mapName = mapName.substring(mapName.indexOf(":") + 1).trim();
 				}
 				mapName = HtmlUtil.fixHtml(mapName);
-				maxPlayers = mapS.substring(mapS.indexOf("(") + 1, mapS.indexOf(" Spieler"));
+				maxPlayers = mapS.substring(mapS.lastIndexOf("(") + 1, mapS.indexOf(" Spieler"));
 
 				Map currentMap = new Map();
 				currentMap.setId(Integer.parseInt(mapId));
