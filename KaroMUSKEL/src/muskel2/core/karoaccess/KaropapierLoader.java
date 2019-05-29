@@ -94,7 +94,7 @@ public class KaropapierLoader
 		System.out.println(" OK!");
 
 		System.out.print("Downloading newGamePage2...");
-		String newGamePage2 = readPage(newGameURL2, "ChangeMap=Ändern"); // für
+		String newGamePage2 = readPage(newGameURL2, "ChangeMap=Ã„ndern"); // fÃ¼r
 																			// Karteninfos
 		System.out.println(" OK!");
 
@@ -227,7 +227,7 @@ public class KaropapierLoader
 				currentMap.setId(Integer.parseInt(mapId));
 				currentMap.setName(mapName);
 				currentMap.setMaxPlayers(Integer.parseInt(maxPlayers));
-				currentMap.setNight(currentMap.getId() < 1000 ? false : true);
+				currentMap.setNight(currentMap.getId() < 1000 || currentMap.getId() > 9999 ? false : true);
 				currentMap.setImage(readImage(currentMap.getId(), currentMap.isNight(), false));
 				maps.put(currentMap.getId(), currentMap);
 			}
@@ -300,7 +300,7 @@ public class KaropapierLoader
 			}
 			catch(StringIndexOutOfBoundsException e)
 			{
-				// trenner für mehr als 3 Tage weg...
+				// trenner fÃ¼r mehr als 3 Tage weg...
 				continue;
 			}
 			if(plName.indexOf("(BOT): ") != -1)
@@ -363,21 +363,21 @@ public class KaropapierLoader
 
 	public static void addSpecialMaps(TreeMap<Integer, Map> maps)
 	{
-		maps.put(25, new Map(25, HtmlUtil.fixHtml("Nadelöhr"), maps.get(37).getCreator(), false, 4, readImage(25, false, true)));
+		maps.put(25, new Map(25, HtmlUtil.fixHtml("NadelÃ¶hr"), maps.get(37).getCreator(), false, 4, readImage(25, false, true)));
 		maps.put(30, new Map(30, HtmlUtil.fixHtml("Karo-F (alt)"), maps.get(43).getCreator(), false, 10, readImage(30, false, true)));
-		maps.put(31, new Map(31, HtmlUtil.fixHtml("Nadelöhr II (alt)"), maps.get(37).getCreator(), false, 10, readImage(31, false, true)));
+		maps.put(31, new Map(31, HtmlUtil.fixHtml("NadelÃ¶hr II (alt)"), maps.get(37).getCreator(), false, 10, readImage(31, false, true)));
 		maps.put(32, new Map(32, HtmlUtil.fixHtml("Flugplatz (alt)"), maps.get(34).getCreator(), false, 20, readImage(32, false, true)));
 		maps.put(39, new Map(39, HtmlUtil.fixHtml("Frischer Fisch"), maps.get(41).getCreator(), false, 6, readImage(39, false, true)));
 		maps.put(47, new Map(47, HtmlUtil.fixHtml("Klapperschlange (alt)"), maps.get(54).getCreator(), false, 8, readImage(47, false, true)));
 		maps.put(48, new Map(48, HtmlUtil.fixHtml("Die Checkpointteststrecke"), maps.get(1).getCreator(), false, 5, readImage(48, false, true)));
-		maps.put(52, new Map(52, HtmlUtil.fixHtml("Dubya (groß)"), maps.get(57).getCreator(), false, 18, readImage(52, false, true)));
+		maps.put(52, new Map(52, HtmlUtil.fixHtml("Dubya (groÃŸ)"), maps.get(57).getCreator(), false, 18, readImage(52, false, true)));
 		maps.put(81, new Map(81, HtmlUtil.fixHtml("Checkpointtester"), maps.get(1).getCreator(), false, 3, readImage(81, false, true)));
 		maps.put(100,
 				new Map(100, HtmlUtil.fixHtml("Das Haus vom Nikolaus (alt)"), maps.get(109).getCreator(), false, 5, readImage(100, false, true)));
-		maps.put(106, new Map(106, HtmlUtil.fixHtml("Für Annie :wavey: (alt)"), maps.get(108).getCreator(), false, 9, readImage(106, false, true)));
+		maps.put(106, new Map(106, HtmlUtil.fixHtml("FÃ¼r Annie :wavey: (alt)"), maps.get(108).getCreator(), false, 9, readImage(106, false, true)));
 		maps.put(113, new Map(113, HtmlUtil.fixHtml("Knubbelbubbeldings (alt)"), maps.get(121).getCreator(), false, 4, readImage(113, false, true)));
 		maps.put(115, new Map(115, HtmlUtil.fixHtml("lol (alt)"), maps.get(118).getCreator(), false, 10, readImage(115, false, true)));
-		maps.put(144, new Map(144, HtmlUtil.fixHtml("Jodys großer Knoten"), maps.get(143).getCreator(), false, 10, readImage(144, false, true)));
+		maps.put(144, new Map(144, HtmlUtil.fixHtml("Jodys groÃŸer Knoten"), maps.get(143).getCreator(), false, 10, readImage(144, false, true)));
 		maps.put(177, new Map(177, HtmlUtil.fixHtml("City Race (alt)"), maps.get(178).getCreator(), false, 8, readImage(177, false, true)));
 		maps.put(186, new Map(186, HtmlUtil.fixHtml("Yun2 (alt)"), maps.get(187).getCreator(), false, 7, readImage(186, false, true)));
 	}
@@ -438,7 +438,7 @@ public class KaropapierLoader
 					}
 					catch(IOException e)
 					{
-						System.out.println("Fehler beim Cachen des Bildes für Map " + mapId);
+						System.out.println("Fehler beim Cachen des Bildes fÃ¼r Map " + mapId);
 					}
 				}
 			}
