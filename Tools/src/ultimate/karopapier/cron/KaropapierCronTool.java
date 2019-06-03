@@ -63,6 +63,7 @@ public class KaropapierCronTool
 		File gameseriesFile = new File(properties.getProperty("gameseries.file"));
 		String gameseriesPattern = properties.getProperty("gameseries.pattern");
 		boolean gameseriesLeave = Boolean.valueOf(properties.getProperty("gameseries.leave"));
+		int gameseriesCreate = Integer.parseInt(properties.getProperty("gameseries.create"));
 		String evalClass = properties.getProperty("eval.class");
 		String karoUsername = properties.getProperty("karo.username");
 		String karoPassword = properties.getProperty("karo.password");
@@ -105,10 +106,10 @@ public class KaropapierCronTool
 					List<Game> allGames = gs.getGames();
 					List<Game> gamesToCreate = new ArrayList<Game>();
 
-					String pattern = gameseriesPattern.replace("%{EXEC}", "" + executions);
+					String pattern = gameseriesPattern.replace("%{EXEC}", "" + (executions/gameseriesCreate));
 					for(Game g : allGames)
 					{
-						if(g.getName().contains(pattern))
+						if(g.getName().contains(pattern) && !g.isCreated())
 							gamesToCreate.add(g);
 					}
 
