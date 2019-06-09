@@ -192,7 +192,7 @@ Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
 3. weniger Züge
 
 == Challenges ==
-Folgende Challenges werden bei der CraZZZy Crash Challenge 3 gefahren:
+Folgende Challenges werden bei der CraZZZy Crash Challenge 4 gefahren:
 
 ${MAPS}
 
@@ -201,7 +201,7 @@ Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
 == Spielzusammenstellung ==
 Die Spielerverteilung auf die zu bestreitenden Rennen erfolgt zufällig, da die gesamte Serie mit dem [[KaroMUSKEL]] erstellt wird. Das Prinzip sieht aber wie folgt aus.
 
-Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4, 6 oder 7) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Auf diese Weise sollte sich eine faire und gleichmäßige Verteilung der Spieler über die Rennen einstellen. Da das bei der CCC2 zwar schon besser als bei der CCC1 funktioniert hat, aber immer noch nicht zufriedenstellend war, habe ich noch mal einen Versuch unternommen das "Wer-gegen-Wen"-Verhältnis durch einen anderen Algorithmus zu verbessern und dem [[KaroMUSKEL]] noch mal ein Update verpasst. Mal schauen, ob es mir gelungen ist... (Wir werden es mit der ersten Auswertung sehen...) 
+Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4, 6 oder 7) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Zusätzlich wird das Verfahren seit der CCC3 daraufhin optimiert, dass möglichst alle Begegnungen gleichhäufig vorkommen. 
 
 Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 6:
 
