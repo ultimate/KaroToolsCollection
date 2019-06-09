@@ -236,11 +236,11 @@ Das Starterfeld in der Reihenfolge der [https://www.karopapier.de/showthread.php
 |-
 |4. {{Benutzer|Foley}}||11. {{Benutzer|cachito}}||18. {{Benutzer|ulli}}||25. {{Benutzer|???}}
 |-
-|5. {{Benutzer|hasi}}||12. {{Benutzer|A300}}||19. {{Benutzer|???}}||26. {{Benutzer|???}}
+|5. {{Benutzer|hasi}}||12. {{Benutzer|A300}}||19. {{Benutzer|Cpxy}}||26. {{Benutzer|DeepPink}}
 |-
-|6. {{Benutzer|quabla}}||13. {{Benutzer|eisbaer04}}||20. {{Benutzer|???}}||27. {{Benutzer|???}}
+|6. {{Benutzer|quabla}}||13. {{Benutzer|eisbaer04}}||20. {{Benutzer|Graf_Zahl}}||27. {{Benutzer|Kabotte}}
 |-
-|7. {{Benutzer|Wobbel}}||14. {{Benutzer|recke}}||21. {{Benutzer|???}}||28. {{Benutzer|???}}
+|7. {{Benutzer|Wobbel}}||14. {{Benutzer|recke}}||21. {{Benutzer|sir tobi}}||28. {{Benutzer|slybotone}}
 |-
 |}
 

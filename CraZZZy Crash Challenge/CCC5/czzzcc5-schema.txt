@@ -227,19 +227,19 @@ Das Starterfeld in der Reihenfolge der [https://www.karopapier.de/showthread.php
 {|class="wikitable"
 ! Teilnehmer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 |-
-|1. {{Benutzer|ultimate}}||8. {{Benutzer|Karaser}}||15. {{Benutzer|Sly}}||22. {{Benutzer|???}}
+|1. {{Benutzer|ultimate}}||8. {{Benutzer|Kinvarra}}||15. {{Benutzer|recke}}||22. {{Benutzer|???}}
 |-
-|2. {{Benutzer|aristarch}}||9. {{Benutzer|Kamik}}||16. {{Benutzer|coffee}}||23. {{Benutzer|???}}
+|2. {{Benutzer|aristarch}}||9. {{Benutzer|Karaser}}||16. {{Benutzer|Sly}}||23. {{Benutzer|???}}
 |-
-|3. {{Benutzer|eris}}||10. {{Benutzer|cachito}}||17. {{Benutzer|Yashem}}||24. {{Benutzer|???}}
+|3. {{Benutzer|eris}}||10. {{Benutzer|Kamik}}||17. {{Benutzer|coffee}}||24. {{Benutzer|???}}
 |-
-|4. {{Benutzer|hasi}}||11. {{Benutzer|A300}}||18. {{Benutzer|ulli}}||25. {{Benutzer|???}}
+|4. {{Benutzer|Foley}}||11. {{Benutzer|cachito}}||18. {{Benutzer|Yashem}}||25. {{Benutzer|???}}
 |-
-|5. {{Benutzer|quabla}}||12. {{Benutzer|goodygoody}}||19. {{Benutzer|???}}||26. {{Benutzer|???}}
+|5. {{Benutzer|hasi}}||12. {{Benutzer|A300}}||19. {{Benutzer|ulli}}||26. {{Benutzer|DeepPink}}
 |-
-|6. {{Benutzer|Wobbel}}||13. {{Benutzer|eisbaer04}}||20. {{Benutzer|???}}||27. {{Benutzer|???}}
+|6. {{Benutzer|quabla}}||13. {{Benutzer|goodygoody}}||20. {{Benutzer|Graf_Zahl}}||27. {{Benutzer|Kabotte}}
 |-
-|7. {{Benutzer|Kinvarra}}||14. {{Benutzer|recke}}||21. {{Benutzer|???}}||28. {{Benutzer|???}}
+|7. {{Benutzer|Wobbel}}||14. {{Benutzer|eisbaer04}}||21. {{Benutzer|sir tobi}}||28. {{Benutzer|slybotone}}
 |-
 |}
 
