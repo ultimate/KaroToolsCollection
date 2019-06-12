@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import muskel2.Main;
 import muskel2.core.karoaccess.GameCreator;
@@ -24,6 +25,7 @@ import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
+import muskel2.util.Language;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.wiki.KaroWikiLoader;
 import ultimate.karopapier.eval.Eval;
@@ -33,12 +35,19 @@ public class KaropapierCronTool
 	public static final String		DEFAULT_PROPERTIES	= "crontool.properties";
 	public static final DateFormat	DATE_FORMAT			= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	public static final String		PROP_WIKI_PREFIX	= "wiki.file.";
+	
+	static
+	{
+		DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("CET"));
+	}
 
 	public static void main(String[] args)
 	{
 		System.out.println("---------------------------------------------------------------");
 		System.out.println("--- EXECUTION " + DATE_FORMAT.format(new Date()));
 		System.out.println("---------------------------------------------------------------");
+
+		Language.load("de");
 
 		File propertiesFile;
 		if(args != null && args.length > 0)
@@ -106,9 +115,10 @@ public class KaropapierCronTool
 					List<Game> allGames = gs.getGames();
 					List<Game> gamesToCreate = new ArrayList<Game>();
 
-					String pattern = gameseriesPattern.replace("%{EXEC}", "" + (executions/gameseriesCreate));
+					String pattern = gameseriesPattern.replace("%{EXEC}", "" + (executions/gameseriesCreate + 1));
 					for(Game g : allGames)
 					{
+//						System.out.println("checking '" + g.getName() + "' with '" + pattern + "' & created=" + g.isCreated() + " -> " + (g.getName().contains(pattern) && !g.isCreated()));
 						if(g.getName().contains(pattern) && !g.isCreated())
 							gamesToCreate.add(g);
 					}
