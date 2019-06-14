@@ -223,10 +223,10 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 == Durchführungstatus ==
 
 
-* '''27.05.2018 12:??''' Idee zur Parallelplanung der CCC5 zur CCC4
-* '''30.05.2018 15:52''' Wiki-Seite erstellt
-* '''30.05.2018 16:07''' Eröffnung der Anmeldung im Forum
-* '''tbd''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
+* '''27.05.2019 12:??''' Idee zur Parallelplanung der CCC5 zur CCC4
+* '''30.05.2019 15:52''' Wiki-Seite erstellt
+* '''30.05.2019 16:07''' Eröffnung der Anmeldung im Forum
+* '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele* '''tbd''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
 * '''tbd''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 
 

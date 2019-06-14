@@ -226,9 +226,10 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 * '''10.04.2017 20:01''' Erste Ankündigung im Forum - Frage nach Interesse
 * '''02.12.2017 13:17''' Eröffnung der Anmeldung im Forum
 * '''??.??.2018 ??:??''' Irgendwie ist die CCC4 bei mir in Vergessenheit geraten...
-* '''27.05.2018 ??:??''' Idee zur Wiederbelebung der CCC4
-* '''30.05.2018 15:51''' Wiki-Seite erstellt
-* '''30.05.2018 16:08''' Erneute Eröffnung der Anmeldung im Forum
+* '''27.05.2019 ??:??''' Idee zur Wiederbelebung der CCC4
+* '''30.05.2019 15:51''' Wiki-Seite erstellt
+* '''30.05.2019 16:08''' Erneute Eröffnung der Anmeldung im Forum
+* '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
 * '''tbd''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
 * '''tbd''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 
