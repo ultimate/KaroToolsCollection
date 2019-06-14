@@ -18,19 +18,19 @@ Dies ist die [[CraZZZy Crash Challenge 4|4. CraZZZy Crash Challenge]]. Hier gibt
 == Veranstalter ==
 ... ist und bleibt {{Benutzer|ultimate}}
 
-== And the winner is... ==
+== Teilnehmer & Gewinner ==
 
-... '''{{Benutzer|???}}'''
+And the winner is... '''{{Benutzer|???}}'''
 
-Details gibt es in der [[#Gesamtwertung|Gesamtwertung]]
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1063 Forum] und Teilnehmer vergangener CCCs sowie Addicts wurden auch noch per Spiel+Bordfunk eingeladen.
 
 = Organisation & Reglement =
 == Allgemeines ==
 Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen Spielersteller 'CraZZZy' erstellt. Ich selbst nehme als ganz normaler Teilnehmer teil.
 
 Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne ich eine Strecke, die mit einem bestimmten ZZZ absolviert wird. Es ist dabei auch möglich, dass eine Strecke mit mehreren ZZZ-Einstellungen befahren wird, diese zählen dann als einzelne Challenges. Die Liste der Challenges gibt es unten: [[#Challenges|Challenges]]
-
-Das [[#Teilnehmerfeld|Teilnehmerfeld]] steht fest! [https://www.karopapier.de/showthread.php?thread=1063 Die Anmeldung lief wieder übers Forum] !
 
 == Regeln ==
 1. TC ist erlaubt und ausdrücklich erwünscht bzw. notwendig!
@@ -201,7 +201,7 @@ Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
 == Spielzusammenstellung ==
 Die Spielerverteilung auf die zu bestreitenden Rennen erfolgt zufällig, da die gesamte Serie mit dem [[KaroMUSKEL]] erstellt wird. Das Prinzip sieht aber wie folgt aus.
 
-Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4, 6 oder 7) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Zusätzlich wird das Verfahren seit der CCC3 daraufhin optimiert, dass möglichst alle Begegnungen gleichhäufig vorkommen. 
+Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4, 6 oder 7) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Zusätzlich wird das Verfahren seit der CCC3 daraufhin optimiert, dass möglichst alle Begegnungen gleichhäufig vorkommen.
 
 Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 6:
 
@@ -220,30 +220,6 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 ''
 '''Summe: 750 Rennen'''
 
-== Teilnehmerfeld ==
-Es haben sich 25 Spieler für die Teilnahme gemeldet. Das Teilnehmerfeld wurde zusätzlich durch 3 Bots auf insgesamt 28 Teilnehmer aufgefüllt.
-
-Das Starterfeld in der Reihenfolge der [https://www.karopapier.de/showthread.php?thread=1063 Anmeldung im Forum].
-
-{|class="wikitable"
-! Teilnehmer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-|-
-|1. {{Benutzer|ultimate}}||8. {{Benutzer|Kinvarra}}||15. {{Benutzer|Sly}}||22. {{Benutzer|???}}
-|-
-|2. {{Benutzer|aristarch}}||9. {{Benutzer|Karaser}}||16. {{Benutzer|coffee}}||23. {{Benutzer|???}}
-|-
-|3. {{Benutzer|eris}}||10. {{Benutzer|Kamik}}||17. {{Benutzer|Yashem}}||24. {{Benutzer|???}}
-|-
-|4. {{Benutzer|Foley}}||11. {{Benutzer|cachito}}||18. {{Benutzer|ulli}}||25. {{Benutzer|???}}
-|-
-|5. {{Benutzer|hasi}}||12. {{Benutzer|A300}}||19. {{Benutzer|Cpxy}}||26. {{Benutzer|DeepPink}}
-|-
-|6. {{Benutzer|quabla}}||13. {{Benutzer|eisbaer04}}||20. {{Benutzer|Graf_Zahl}}||27. {{Benutzer|Kabotte}}
-|-
-|7. {{Benutzer|Wobbel}}||14. {{Benutzer|recke}}||21. {{Benutzer|sir tobi}}||28. {{Benutzer|slybotone}}
-|-
-|}
-
 = Status =
 == Durchführungstatus ==
 
@@ -252,7 +228,7 @@ Das Starterfeld in der Reihenfolge der [https://www.karopapier.de/showthread.php
 * '''??.??.2018 ??:??''' Irgendwie ist die CCC4 bei mir in Vergessenheit geraten...
 * '''27.05.2018 ??:??''' Idee zur Wiederbelebung der CCC4
 * '''30.05.2018 15:51''' Wiki-Seite erstellt
-* '''tbd''' Erneute Eröffnung der Anmeldung im Forum
+* '''30.05.2018 16:08''' Erneute Eröffnung der Anmeldung im Forum
 * '''tbd''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
 * '''tbd''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 
