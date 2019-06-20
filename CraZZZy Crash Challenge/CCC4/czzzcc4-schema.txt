@@ -183,7 +183,7 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 * '''30.05.2019 16:08''' Erneute Eröffnung der Anmeldung im Forum
 * '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
 * '''19.06.2019 16:32''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
-* '''20.06.2019 11:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''20.06.2019 21:49''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 
 
 == Detailwertung ==
