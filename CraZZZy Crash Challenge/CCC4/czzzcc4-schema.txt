@@ -61,72 +61,24 @@ Die Punkte eines Spielers werden pro Rennen als Produkt aus der Anzahl der Crash
 
 Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, wenn man nicht crasht, da bekanntlicher Weise auch für den ersten Platz 0 Crashs * 7 Punkte = 0 Punkte ist. Im Gegenzug ist es aber möglich als zweiter oder dritter auch mehr Punkte als der erste zu haben, wenn man entsprechend mehr Crashs auf dem Konto hat.
 
-{|class="wikitable"
-!Grundpunktezahl 3er||||Grundpunktezahl 4er||||Grundpunktezahl 6er||||Grundpunktezahl 7er
-|-
-|
-{|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||3 
-|-
-|2.||1 
-|-
-|3.||0
-|-
-|}
-||||
+Es werden folgende Grundpunkte entsprechend der Platzierung für die unterschiedlich großen Challenges vergeben:
 
 {|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||4 
+!Platzierung||3er Challenge||4er Challenge||6er Challenge||7er Challenge
 |-
-|2.||2 
+|1.||3||4||6||7
 |-
-|3.||1
+|2.||1||2||4||5
 |-
-|4.||0
+|3.||0||1||3||4
 |-
-|}
-||||
-
-{|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||6 
+|4.||-||0||2||3
 |-
-|2.||4 
+|5.||-||-||1||2
 |-
-|3.||3
+|6.||-||-||0||1
 |-
-|4.||2
-|-
-|5.||1
-|-
-|6.||0
-|-
-|}
-||||
-
-{|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||7 
-|-
-|2.||5 
-|-
-|3.||4
-|-
-|4.||3
-|-
-|5.||2
-|-
-|6.||1
-|-
-|7.||0
-|-
-|}
+|7.||-||-||-||0
 |-
 |}
 
@@ -208,17 +160,17 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 {|class="wikitable"
 ! Anzahl Spieler pro Rennen||Gesamtzahl der Rennen in einer Challenge||Anzahl Challenges mit dieser Spielerzahl||Gesamtzahl der Rennen
 |-
-|3||56||5||280
+|3||56||3||168
 |-
-|4||42||5||210
+|4||42||6||252
 |-
-|6||28||5||140
+|6||28||6||168
 |-
 |7||24||5||120
 |-
 |}
 ''
-'''Summe: 750 Rennen'''
+'''Summe: 708 Rennen'''
 
 = Status =
 == Durchführungstatus ==
@@ -231,7 +183,7 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 * '''30.05.2019 16:08''' Erneute Eröffnung der Anmeldung im Forum
 * '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
 * '''19.06.2019 16:32''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
-* '''tbd''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''20.06.2019 11:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 
 
 == Detailwertung ==

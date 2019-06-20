@@ -1,4 +1,16 @@
-[[Bild:Czzzcc01.jpg]]
+{{Infobox Meisterschaft
+| AktuelleSaison      = [[CraZZZy_Crash_Challenge_4|Nummer 4]] & [[CraZZZy_Crash_Challenge_5|Nummer 5]]
+| Logo                = Czzzcc01.jpg
+| Name                = CraZZZy Crash Challenge
+| NameLang            =
+| NameKurz            = CCC
+| AktuellerMeister    = {{Benutzer|quabla}}
+| Rekordmeister       = {{Benutzer|quabla}}
+| RekordmeisterAnzahl = 3
+| Gegründet           = 2010
+| Organisator         = {{Benutzer|ultimate}}
+| Mannschaften        = 28
+}}
 
 = CraZZZy Crash Challenge = 
 == Worum geht's? ==
@@ -23,13 +35,24 @@ Außerdem gibt es in den einzelnen Ausführungen Sonderregeln für Bonus- oder Stra
 Die CraZZZy Crash Challenge gibt es in mehreren Ausführungen:
 
 {|class="wikitable"
-! Ausführung||Ankündigung||Start||Ende||Challenges||Teilnehmer||Rennen p.S.p.C.||Rennen p.S.||Rennen insgesamt||Züge insgesamt||Crashs insgesamt||Gewinner
+! Ausführung||Ankündigung||Start||Ende||Challenges||Teilnehmer||Rennen p.S.p.C.<sup>1</sup>||Rennen p.S.<sup>2</sup>||Rennen insgesamt||Züge insgesamt||Crashs insgesamt||Gewinner
 |-
 |[[CraZZZy Crash Challenge 1]]||05.09.2010||03.10.2010||13.04.2016||15||42||5||75||465||326492||15846||{{Benutzer|quabla}} 
 |-
 |[[CraZZZy Crash Challenge 2]]||08.10.2011||11.02.2012||21.07.2014||20||30||6||120||870||212761||18842||{{Benutzer|quabla}} 
 |-
-|[[CraZZZy Crash Challenge 3]]||01.11.2016||-||-||20 (?)||(?)||6 (?)||120 (?)||(?)||-||-||{{Benutzer|???}} 
+|[[CraZZZy Crash Challenge 3]]||01.11.2016||01.01.2017||07.03.2018||20||28||6||120||750||224169||15445||{{Benutzer|quabla}} 
+|-
+|[[CraZZZy Crash Challenge 4|CraZZZy Crash Challenge 4 - Super Mario Kart Special]]||10.04.2017<sup>3</sup><br/>30.05.2019||21.06.2019||läuft noch...||20||28||6||120||708||?||?||{{Benutzer|???}} 
+|-
+|[[CraZZZy Crash Challenge 5]]||30.05.2019||tbd||?||tbd||?||6||tbd||?||?||?||{{Benutzer|???}} 
 |-
 |}
+
+'''Hinweise:'''
+
+<sup>1</sup> Rennen pro Spieler pro Challenge<br/>
+<sup>2</sup> Rennen pro Spieler<br/>
+<sup>3</sup> Nach der ersten Ankündigung ist die Sache leider in Vergessenheit geraten. Erneute Ankündigung und Eröffnung der Anmeldung gut 2 Jahre später...<br/>
+
 [[Kategorie:Meisterschaft]]
