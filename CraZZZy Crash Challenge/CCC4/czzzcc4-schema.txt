@@ -184,6 +184,28 @@ Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unters
 * '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
 * '''19.06.2019 16:32''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
 * '''20.06.2019 21:49''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''21.06.2019 04:00''' Spielerstellung fehlgeschlagen, wegen 2 Fehlern in der Cron-Job-Konfiguration und im Eval-Script
+* '''21.06.2019 06:30''' Fehler #1 gefunden und behoben - Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 1|Challenge 1]] nachgeholt
+* '''21.06.2019 06:30''' Fehler #2 gefunden und behoben - Jetzt läuft auch die automatische Auswertung...
+* '''28.06.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 2|Challenge 2]] (geplant)
+* '''05.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 3|Challenge 3]] (geplant)
+* '''12.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 4|Challenge 4]] (geplant)
+* '''19.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 5|Challenge 5]] (geplant)
+* '''26.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 6|Challenge 6]] (geplant)
+* '''02.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 7|Challenge 7]] (geplant)
+* '''09.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 8|Challenge 8]] (geplant)
+* '''16.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 9|Challenge 9]] (geplant)
+* '''23.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] (geplant)
+* '''30.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 11|Challenge 11]] (geplant)
+* '''06.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 12|Challenge 12]] (geplant)
+* '''13.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]] (geplant)
+* '''20.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 14|Challenge 14]] (geplant)
+* '''27.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 15|Challenge 15]] (geplant)
+* '''04.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 16|Challenge 16]] (geplant)
+* '''11.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 17|Challenge 17]] (geplant)
+* '''18.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 18|Challenge 18]] (geplant)
+* '''25.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 19|Challenge 19]] (geplant)
+* '''01.11.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 20|Challenge 20]] (geplant)
 
 
 == Detailwertung ==
