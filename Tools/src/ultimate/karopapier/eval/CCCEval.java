@@ -1332,9 +1332,6 @@ public class CCCEval implements Eval
 		
 		BalancedGameSeries gs = (BalancedGameSeries) gameSeries;
 
-		int challenges = Math.min(execution, gs.getNumberOfMaps());	
-		System.out.println("number of challenges: " + challenges);	
-		
 		Properties p;
 
 		File file = new File(fileName);
@@ -1350,14 +1347,14 @@ public class CCCEval implements Eval
 			p = new Properties();
 		}
 
-		p.setProperty("challenges", "" + challenges);
 		p.setProperty("creator", gs.getCreator().getName());
 		int numberOfPlayers = gs.getPlayers().size();
 		int gamesPerPlayerPerChallenge = gs.getRules(1).getGamesPerPlayer(); // same for all
 																				// challenges
-		p.setProperty("races.per.player.per.challenge", "" + gamesPerPlayerPerChallenge);
-
-		for(int c = 1; c <= challenges; c++)
+		p.setProperty("races.per.player.per.challenge", "" + gamesPerPlayerPerChallenge);		
+		
+		int c;
+		for(c = 1; c <= gs.getNumberOfMaps(); c++)
 		{
 			int numberOfPlayersPerRace = gs.getRules(c - 1).getNumberOfPlayers();
 			int races = gamesPerPlayerPerChallenge * numberOfPlayers / numberOfPlayersPerRace;
@@ -1369,6 +1366,7 @@ public class CCCEval implements Eval
 			p.setProperty(c + ".cps", "" + gs.getRules(c - 1).getCheckpointsActivated());
 
 			Game g;
+			int racesCreated = 0;
 			for(int i = 1; i <= races; i++)
 			{
 				g = null;
@@ -1381,9 +1379,19 @@ public class CCCEval implements Eval
 					}
 				}
 				if(g != null && g.isCreated() && g.getId() > 0)
+				{
 					p.setProperty(c + "." + i, "" + g.getId());
+					racesCreated++;
+				}
+			}
+			if(racesCreated != races)
+			{
+				break;
 			}
 		}
+		int challenges = c - 1;
+		System.out.println("number of challenges: " + challenges);	
+		p.setProperty("challenges", "" + challenges);
 
 		PropertiesUtil.storeProperties(file, p, "");
 	}
