@@ -115,7 +115,7 @@ public class KaropapierCronTool
 					List<Game> allGames = gs.getGames();
 					List<Game> gamesToCreate = new ArrayList<Game>();
 
-					String pattern = gameseriesPattern.replace("%{EXEC}", "" + (executions/gameseriesCreate + 1));
+					String pattern = gameseriesPattern.replace("%{EXEC}", "" + ((executions-1)/gameseriesCreate + 1));
 					for(Game g : allGames)
 					{
 //						System.out.println("checking '" + g.getName() + "' with '" + pattern + "' & created=" + g.isCreated() + " -> " + (g.getName().contains(pattern) && !g.isCreated()));
