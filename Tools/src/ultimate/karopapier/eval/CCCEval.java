@@ -174,24 +174,20 @@ public class CCCEval implements Eval
 
 	private String createWiki(String schemaFile, boolean finished) throws IOException
 	{
-		String[][] mapTable = new String[tables.length - 1][6];
-		for(int c = 1; c < tables.length; c++)
-		{
-			mapTable[c - 1][0] = highlight("" + c);
-			mapTable[c - 1][1] = mapToLink(c, true);
-			mapTable[c - 1][2] = "" + numberOfPlayers[c];
-			mapTable[c - 1][3] = "" + zzz[c];
-			mapTable[c - 1][4] = "" + (cps[c] ? "ja" : "n.V.");
-			mapTable[c - 1][5] = "" + races[c];
-		}
-
 		StringBuilder detail = new StringBuilder();
 		StringBuilder detailLinks = new StringBuilder();
 
 		String[][] tableTable;
-
+		String[][] mapTable = new String[tables.length - 1][6];
 		for(int c = 1; c < tables.length; c++)
 		{
+			mapTable[c - 1][0] = challengeToLink(c, true);
+			mapTable[c - 1][1] = mapToLink(c, true);
+			mapTable[c - 1][2] = "" + numberOfPlayers[c];
+			mapTable[c - 1][3] = "" + (zzz[c] != -1 ? zzz[c] : "Random");
+			mapTable[c - 1][4] = "" + (cps[c] ? "ja" : "n.V.");
+			mapTable[c - 1][5] = "" + races[c];
+			
 			detail = new StringBuilder();
 			detail.append("= Challenge " + c + " =\n");
 			detail.append("Strecke: " + mapToLink(c, false) + "\n");
@@ -236,7 +232,7 @@ public class CCCEval implements Eval
 
 		StringBuilder stats = new StringBuilder();
 
-		stats.append("==== Zahlen & Fakten ====\n");
+		stats.append("== Zahlen & Fakten ==\n");
 		stats.append("*Rennen insgesamt: '''" + stats_races + "'''\n");
 		stats.append("*Teilnehmer: '''" + stats_players + "'''\n");
 		stats.append("*Rennen pro Spieler: '''" + stats_racesPerPlayer + "'''\n");
@@ -246,7 +242,7 @@ public class CCCEval implements Eval
 		stats.append("*Häufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\n");
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\n");
 
-		stats.append("==== Wer gegen wen? ====\n");
+		stats.append("== Wer gegen wen? ==\n");
 		stats.append(
 				"Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
 		stats.append(tableToString(null, whoOnWho, null, ALL_COLUMNS));
@@ -1362,7 +1358,7 @@ public class CCCEval implements Eval
 			p.setProperty(c + ".mapName", "" + gs.getMap(c - 1).getName());
 			p.setProperty(c + ".races", "" + races);
 			p.setProperty(c + ".players", "" + numberOfPlayersPerRace);
-			p.setProperty(c + ".zzz", "" + gs.getRules(c - 1).getMinZzz());
+			p.setProperty(c + ".zzz", "" + (gs.getRules(c - 1).getMinZzz() == gs.getRules(c - 1).getMaxZzz() ? gs.getRules(c - 1).getMinZzz() : -1));
 			p.setProperty(c + ".cps", "" + gs.getRules(c - 1).getCheckpointsActivated());
 
 			Game g;
