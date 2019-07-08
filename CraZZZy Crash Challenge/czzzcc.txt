@@ -48,7 +48,7 @@ Die CraZZZy Crash Challenge gibt es in mehreren Ausführungen:
 
 <sup>1</sup> Rennen pro Spieler pro Challenge<br/>
 <sup>2</sup> Rennen pro Spieler<br/>
-<sup>3</sup> MaxP: Höchste Summe der Grundpunkte / MaxC: Meiste Crashs / MinZ: Kleinste Gesamtzugzahl
+<sup>3</sup> MaxP: Höchste Summe der Grundpunkte / MaxC: Meiste Crashs / MinZ: Kleinste Gesamtzugzahl<br/>
 <sup>4</sup> Nach der ersten Ankündigung ist die Sache leider in Vergessenheit geraten. Erneute Ankündigung und Eröffnung der Anmeldung gut 2 Jahre später...<br/>
 
 = Organisation & Reglement =
