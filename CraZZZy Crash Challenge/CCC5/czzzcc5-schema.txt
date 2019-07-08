@@ -1,196 +1,28 @@
-[[Bild:Czzzcc5.jpg|rechts]]
+[[[Bild:Czzzcc05.jpg|rechts]]
 
-= CraZZZy Crash Challenge 5 = 
+= Kurz-Info = 
 == Worum geht's? ==
-Es ist so weit...
-
-Die '''"hüpfdolig scheibenpoliturdurchsichtig und baumwipfelpilzgut(e) Idee"''' (Robert 06.09.2010) einer '''"kraZZZe(n) Unfallstatistikerweiterungsrennserie"''' (Jody 14.09.2010) geht in die dritte Runde!
-
-Und auch diesmal geht wieder um '''Titelverteidigung''', '''Wiederherstellung der eigenen Ehre''', '''neue Taktiken''', um jede Menge '''Spaß''' und darum den verrückteste und im Umgang mit Crashs geschicktesten Fahrer zu ermitteln!
-
-Bei der Idee zur Wiederbelebung der [[CraZZZy Crash Challenge 4|4. CraZZZy Crash Challenge]] dachte ich mir: Warum nicht gleich noch eine 5. CCC hinterher planen. Die CCC4 ist durch das Super Mario Kart Special - nun ja, speziell - aber ich möchte den alten Charakter weiter am Leben halten :)
-
-Wie vorher geht dabei in allen Rennen nicht nur darum als erster ins Ziel zu kommen, sondern das auch noch mit möglichst vielen Crashs. Die Herausforderung besteht also darin geschickt TCs in den Rennen unterzubringen um dadurch Punkte zu sammeln und dennoch schnell ins Ziel zu gelangen.
-
 Dies ist die [[CraZZZy Crash Challenge 5|5. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
 
 == Veranstalter ==
-... ist und bleibt {{Benutzer|ultimate}}
+... ist {{Benutzer|ultimate}}
 
 == Teilnehmer & Gewinner ==
 
-And the winner is... '''{{Benutzer|???}}'''
+And the winner is... '''{{Benutzer|quabla}}'''
 
 Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
 
 Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1098 Forum] und Teilnehmer vergangener CCCs sowie Addicts wurden auch noch per Spiel+Bordfunk eingeladen.
 
-= Organisation & Reglement =
-== Allgemeines ==
-Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen Spielersteller 'CraZZZy' erstellt. Ich selbst nehme als ganz normaler Teilnehmer teil.
-
-Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne ich eine Strecke, die mit einem bestimmten ZZZ absolviert wird. Es ist dabei auch möglich, dass eine Strecke mit mehreren ZZZ-Einstellungen befahren wird, diese zählen dann als einzelne Challenges. Die Liste der Challenges gibt es unten: [[#Challenges|Challenges]]
-
-== Regeln ==
-1. TC ist erlaubt und ausdrücklich erwünscht bzw. notwendig!
-
-2. Das Ausnutzen des Punktesystems ist untersagt. *
-
-3. Die Spielrichtung wird für jede Challenge individuell festgelegt und ist strikt einzuhalten.
-
-4. Sämtliche Regelverstöße führen zu einer Nichtwertung des verstoßenden Spielers im entsprechenden Rennen.
-
-5. Blockieren (nicht [[Blocken]]) wird bestraft, ich weiß aber weiterhin noch nicht wie ;-)
-
-6. Sollte ein Spieler (z.B. bei ZZZ=0) in die Situation kommen, dass er sich nicht mehr bewegen kann und daher bei jedem Seitenaufruf immer wieder crashen, bis Didi ihn versetzt, dann zählt das nur als ein Crash. **
-
-7. Ausstiege und Rausschmisse werden mit Strafpunkten geahndet. Mehr dazu im Abschnitt [[#Strafpunkte|Strafpunkte]].
-
-8. Der Spielveranstalter ({{Benutzer|ultimate}}) behält sich vor die Regeln zu ergänzen oder außer Kraft zu setzen, wenn dies erforderlich ist.
-
-'''Anmerkungen:'''
-
-<nowiki>*</nowiki> Ziel dieser Regel ist es Situationen zu vermeiden, in denen Spieler, beliebig viele Crashs bauen können, um so ihren Punktestand unfair in die Höhe zu treiben, z.B. durch taktische Absprachen mit anderen Spielern. Sollte außerdem das Teilnehmerfeld eines Rennens durch Ausstiege oder Rauswürfe so weit reduziert werden, dass alle noch verbleibenden Spieler einen Platz in den Punkterängen belegen, so werden alle Crashs nach dem entscheidenen Rausschmiss/Ausstieg nicht mehr gewertet. In Ausnahmefällen können die Crashs gewertet werden, wenn ersichtlich ist, dass alle Spieler ohne Absprachen "normal" weiter in Ziel gefahren sind.
-
-<nowiki>**</nowiki> Ich habe diese Regeln noch nachgetragen, da dieser Fall, wenn auch unwahrscheinlich, eintreten kann und dann dem betroffenen Spieler (auch wenn er unter Umständen nichts dafür kann) einen entscheidenden und unfairen Vorteil bringt.
-
-== Punktevergabe ==
-=== Reguläre Punkte ===
-Die Punkte eines Spielers werden pro Rennen als Produkt aus der Anzahl der Crashs und der Grundpunktezahl, die anhand der Platzierung vergeben wird, berechnet. Es liegt also im Interesse aller Spieler sowohl so schnell wie möglich, als auch mit so vielen Crashs wie Möglich ins Ziel zu gelangen.
-
-Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, wenn man nicht crasht, da bekanntlicher Weise auch für den ersten Platz 0 Crashs * 7 Punkte = 0 Punkte ist. Im Gegenzug ist es aber möglich als zweiter oder dritter auch mehr Punkte als der erste zu haben, wenn man entsprechend mehr Crashs auf dem Konto hat.
-
-Es werden folgende Grundpunkte entsprechend der Platzierung für die unterschiedlich großen Challenges vergeben:
-
-{|class="wikitable"
-!Platzierung||3er Challenge||4er Challenge||6er Challenge||7er Challenge
-|-
-|1.||3||4||6||7
-|-
-|2.||1||2||4||5
-|-
-|3.||0||1||3||4
-|-
-|4.||-||0||2||3
-|-
-|5.||-||-||1||2
-|-
-|6.||-||-||0||1
-|-
-|7.||-||-||-||0
-|-
-|}
-
-=== Bonuspunkte ===
-Zusätzlich zur regulären Punktezahl aus Crashs*Grundpunktezahl wird Bonuspunkte für besondere Leistungen geben. Diese werde sowohl pro Challenge, als auch auf die gesamte Meisterschaft gesehen vergeben:
-
-{|class="wikitable"
-!Leistung||Bonuspunkte (Challenge)||Bonuspunkte (gesamt)
-|-
-|Kleinste Gesamtzugzahl (ohne Crashs)||10||100
-|-
-|Meiste Crashs||10||100
-|-
-|Höchste Summe der Grundpunkte (= beste Gesamtplatzierung)||10||100
-|-
-|}
-
-=== Strafpunkte ===
-Sollte ein Spieler im Laufe der Challenge aus einem oder mehreren Spielen aussteigen oder rausgeworfen werden (egal ob automatisch oder durch Didi), dann werden dem Teilnehmer Strafpunkte abgezogen. Der betroffene Spieler erhält dabei in diesem Rennen so viele Strafpunkte, wie insgesamt Spieler an dem Rennen teilgenommen haben.
-
-Des weiteren gelten für die betroffenen Rennen eine Sonderregeln, die das Ausnutzen des Regelsystems verhindern soll:
-
-* Die Zugzahl des betroffenen Spielers wird in dem Rennen um eins höher gesetzt, als die maximal benötigte Zuganzahl, damit man durch den Ausstieg keinen Vorteil auf den Bonus für die geringste Zugzahl hat.
-
-=== Gesamtpunkte ===
-Aufgrund der Unterschiede zwischen den einzelnen Challenges (ZZZ, Strecke) wird es starke Unterschiede, was die Anzahl der Crashs angeht, zwischen den Challenges geben. Um dennoch allen Challenges die gleiche Wichtigkeit und den gleichen Einfluss auf die Gesamtwertung zuzusprechen, ist es notwendig eine Gewichtung der einzelnen Challenges vorzunehmen. Anderen Falls hätten Spieler, die bei einer Challenge mit hoher Crashzahl vorne liegen (z.B. erster Spieler mit 10 Crashs * 5 Punkte = 50 Punkte), Vorteile gegenüber Spielern , die bei einer Challenge vorne liegen, wo nur wenige Crashs sinnvoll sind (z.B. erster Spieler mit 1 Crashs * 5 Punkte = 5 Punkte).
-
-Für die Gesamtwertung werden daher die Gesamtpunkte aller Spieler pro Challenge so skaliert, dass der Spieler mit der höchsten Punktzahl bei dieser Challenge (ohne Bonuspunkte) auf genau 100 Punkte kommt. 
-
-Diese Regel hat keinen Einfluss auf die Einzelwertungen der Rennen oder die Reihenfolge der Spieler in der Tabellarischen Wertung für die Challenge. Weiterhin bleibt es sinnvoll, so schnell wie möglich, mit so vielen Crashs wie möglich ins Ziel zu kommen. 
-
-=== Beispiel ===
-In der folgenden Tabelle sind die Zahlen in den ersten beiden Spalten wie folgt zu lesen:
-
-''"Grundpunkte aufgrund der Platzierung im 1. Rennen"''*''"Crashzahl im 1. Rennen"'' + ''"Grundpunkte aufgrund der Platzierung im 2. Rennen"''*''"Crashzahl im 2. Rennen"'' + ...
-
-Spieler C hat in Challenge X kein gutes Ergebnis erfahren. Da jedoch in Challenge Y aufgrund der vielen Crashs alle Spieler eine sehr hohe Punktzahl erreicht haben, spielt Challenge X bei der Gesamtwertung kaum eine Rolle. Durch die Skalierung der Punkte wird dieses Problem behoben und Spieler mit konstant guten Leistungen erhalten einen besseren Schnitt. Es wird also mehr Wert auf eine durchweg gute Leistung gelegt.
-
-In Challenge X ist die höchste Punktzahl 24, daher wird mit (100/24) skaliert. In Challenge Y ist die höchste Punktzahl 137, daher wird mit (100/137) skaliert. Auf die Gesamtpunktzahl würden dann noch die Bonuspunkte draufgerechnet werden.
-
-{|class="wikitable"
-! Spieler||Challenge X||Challenge Y||Summe (unskaliert)||Summe (skaliert)
-|- 
-|A||5*1 + 3*2 + 1*1 + 5*2 + 2*1 = 24||3*9 + 2*8 + 0*10 + 3*8 + 1*9 = 76||24 + 76 = 100||24*(100/24) + 76*(100/137) = 100 + 48,9 = 148,9
-|-
-|B||3*1 + 2*2 + 0*1 + 3*2 + 1*1 = 14||2*9 + 1*8 + 5*10 + 2*8 + 0*9 = 92||14 + 92 = 106||14*(100/24) + 92*(100/137) = 58,3 + 67,2 = 125,5
-|-
-|C||2*1 + 0*2 + 5*1 + 0*2 + 0*1 = 7||5*9 + 3*8 + 1*10 + 5*8 + 2*9 = 137||7 + 137 = 144||7*(100/24) + 137*(100/137) = 29,2 + 100 = 129,2
-|-
-|D||1*1 + 1*2 + 3*1 + 1*2 + 5*1 = 13||1*9 + 0*8 + 3*10 + 1*8 + 5*9 = 92||13 + 92 = 105||13*(100/24) + 92*(100/137) = 54,2 + 67,2 = 121,4
-|-
-|E||0*1 + 5*2 + 2*1 + 2*2 + 3*1 = 19||0*9 + 5*8 + 2*10 + 0*8 + 3*9 = 87||19 + 87 = 106||19*(100/24) + 87*(100/137) = 79,2 + 63,5 = 142,7
-|-
-|}
-
-=== Punktgleichheit ===
-Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
-
-1. mehr Crashs
-
-2. mehr Grundpunkte
-
-3. weniger Züge
-
-== Challenges ==
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
 Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 
 ${MAPS}
 
-Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
-
-== Spielzusammenstellung ==
-Die Spielerverteilung auf die zu bestreitenden Rennen erfolgt zufällig, da die gesamte Serie mit dem [[KaroMUSKEL]] erstellt wird. Das Prinzip sieht aber wie folgt aus.
-
-Da jeder Spieler pro Challenge 6 Rennen fahren soll werden für jeden Teilnehmer 6 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei n Teilnehmern n*60 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (3, 4, 6 oder 7) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Zusätzlich wird das Verfahren seit der CCC3 daraufhin optimiert, dass möglichst alle Begegnungen gleichhäufig vorkommen.
-
-Auf diese Weise ergeben sich bei 168 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 6:
-
-{|class="wikitable"
-! Anzahl Spieler pro Rennen||Gesamtzahl der Rennen in einer Challenge||Anzahl Challenges mit dieser Spielerzahl||Gesamtzahl der Rennen
-|-
-|3||56||5||280
-|-
-|4||42||5||210
-|-
-|6||28||5||140
-|-
-|7||24||5||120
-|-
-|}
-''
-'''Summe: 750 Rennen'''
-
-= Status =
-== Durchführungstatus ==
-
-
-* '''27.05.2019 12:??''' Idee zur Parallelplanung der CCC5 zur CCC4
-* '''30.05.2019 15:52''' Wiki-Seite erstellt
-* '''30.05.2019 16:07''' Eröffnung der Anmeldung im Forum
-* '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
-* '''tbd''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
-* '''tbd''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
-
-
-== Detailwertung ==
-Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
-
-${DETAIL}
-
 == Gesamtwertung ==
 ${TOTAL}
-
 
 '''Anmerkungen:'''
 
@@ -203,7 +35,18 @@ ${TOTAL}
 ** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
 ** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"'' 
 
-== Statistik ==
+== Durchführungstatus ==
+
+
+* '''27.05.2019 12:??''' Idee zur Parallelplanung der CCC5 zur CCC4
+* '''30.05.2019 15:52''' Wiki-Seite erstellt
+* '''30.05.2019 16:07''' Eröffnung der Anmeldung im Forum
+* '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
+* '''05.07.2019 ??:??''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen* '''08.07.2019 16:00''' Wiki etwas aufgeräumt und übersichtlicher gestaltet
+* '''tbd''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
+* '''tbd''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+
+= Statistik =
 ${STATS}
 
 [[Kategorie:Meisterschaft]]

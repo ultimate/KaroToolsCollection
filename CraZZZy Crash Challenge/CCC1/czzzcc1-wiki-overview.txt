@@ -1,344 +1,58 @@
 [[Bild:Czzzcc01.jpg|rechts]]
 
-= CraZZZy Crash Challenge = 
+= Kurz-Info = 
 == Worum geht's? ==
-Ziel dieser Challenge ist es den wohl verrücktesten und im Umgang mit Crashs geschicktesten Fahrer zu ermitteln. Es geht dabei in allen Rennen nicht nur darum als erster ins Ziel zu kommen, sondern das auch noch mit möglichst vielen Crashs. Die Herausforderung besteht also darin geschickt TCs in den Rennen unterzubringen um dadurch Punkte zu sammeln und dennoch schnell ins Ziel zu gelangen.
-
 Dies ist die [[CraZZZy Crash Challenge 1|1. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
 
 == Veranstalter ==
 ... ist {{Benutzer|ultimate}}
 
-== And the winner is... ==
+== Teilnehmer & Gewinner ==
 
-... '''{{Benutzer|quabla}}'''
+And the winner is... '''{{Benutzer|quabla}}'''
 
-Details gibt es in der [[#Gesamtwertung|Gesamtwertung]]
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
 
-= Organisation & Reglement =
-== Allgemeines ==
-Die Meisterschaft wird durch meinen [[KaroMUSKEL|KaroMUSKEL]] mit den neutralen Spielersteller 'CraZZZy' erstellt. Ich selbst nehme als ganz normaler Teilnehmer teil.
+Die Anmeldung lief übers [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Forum].
 
-Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne ich eine Strecke, die mit einem bestimmten ZZZ absolviert wird. Es ist dabei auch möglich, dass eine Strecke mit mehreren ZZZ-Einstellungen befahren wird, diese zählen dann als einzelne Challenges. Die Liste der Challenges gibt es unten: [[#Challenges|Challenges]]
-
-Das Teilnehmerfeld ist auf 42 Spieler festgelegt, von denen jeder pro Challenge 5 Rennen bestreiten muss. Die Challenges werden dabei je nach Kartengröße unterteilt in 5er, 7er und 10er Challenges, für die jeweils eine unterschiedliche Wertung vorgenommen wird. Die Verteilung der Spieler auf die verschiedenen Rennen wird dabei nach dem unten beschriebenen System vorgenommen: [[#Spielzusammenstellung|Spielzusammenstellung]]
-
-Für den Gesamtsieg der Meisterschaft ist es nicht zwingend entscheidend immer erster zu werden, vielmehr setzt sich die erfahrene Gesamtpunktzahl daraus zusammen, wie erfolgreich man unter die ersten Plätze gefahren ist und trotzdem so viele Crashs wie möglich gebaut hat: [[#Punktevergabe|Punktevergabe]]
-
-== Regeln ==
-1. TC ist erlaubt und ausdrücklich erwünscht bzw. notwendig!
-
-2. Das Ausnutzen des Punktesystems ist untersagt. *
-
-3. Die Spielrichtung wird für jede Challenge individuell festgelegt und ist strikt einzuhalten.
-
-4. Sämtliche Regelverstöße führen zu einer Nichtwertung des verstoßenden Spielers im entsprechenden Rennen.
-
-5. Blocken wird bestraft, ich weiß aber noch nicht wie ;-)
-
-6. Sollte ein Spieler (z.B. bei ZZZ=0) in die Situation kommen, dass er sich nicht mehr bewegen kann und daher bei jedem Seitenaufruf immer wieder crashen, bis Didi ihn versetzt, dann zählt das nur als ein Crash. **
-
-7. Ausstiege und Rausschmisse werden mit Strafpunkten geahndet. Mehr dazu im Abschnitt [[#Strafpunkte|Strafpunkte]].
-
-8. Der Spielveranstalter ({{Benutzer|ultimate}}) behält sich vor die Regeln zu ergänzen oder außer Kraft zu setzen, wenn dies erforderlich ist.
-
-'''Anmerkungen:'''
-
-<nowiki>*</nowiki> Ziel dieser Regel ist es Situationen zu vermeiden, in denen Spieler, beliebig viele Crashs bauen können, um so ihren Punktestand unfair in die Höhe zu treiben, z.B. durch taktische Absprachen mit anderen Spielern. Sollte außerdem das Teilnehmerfeld eines Rennens durch Ausstiege oder Rauswürfe so weit reduziert werden, dass alle noch verbleibenden Spieler einen Platz in den Punkterängen belegen, so werden alle Crashs nach dem entscheidenen Rausschmiss/Ausstieg nicht mehr gewertet. In Ausnahmefällen können die Crashs gewertet werden, wenn ersichtlich ist, dass alle Spieler ohne Absprachen "normal" weiter in Ziel gefahren sind.
-
-<nowiki>**</nowiki> Ich habe diese Regeln noch nachgetragen, da dieser Fall, wenn auch unwahrscheinlich, eintreten kann und dann dem betroffenen Spieler (auch wenn er unter Umständen nichts dafür kann) einen entscheidenden und unfairen Vorteil bringt.
-
-== Punktevergabe ==
-=== Reguläre Punkte ===
-Die Punkte eines Spielers werden pro Rennen als Produkt aus der Anzahl der Crashs und der Grundpunktezahl, die anhand der Platzierung vergeben wird, berechnet. Es liegt also im Interesse aller Spieler sowohl so schnell wie möglich, als auch mit so vielen Crashs wie Möglich ins Ziel zu gelangen.
-
-Es ist also auf diese Weise nicht möglich Punkte in einem Rennen zu erfahren, wenn man nicht crasht, da bekanntlicher Weise auch für den ersten Platz 0 Crashs * 7 Punkte = 0 Punkte ist. Im Gegenzug ist es aber möglich als zweiter oder dritter auch mehr Punkte als der erste zu haben, wenn man entsprechend mehr Crashs auf dem Konto hat.
-
-{|class="wikitable"
-!Grundpunktezahl 5er||||Grundpunktezahl 7er||||Grundpunktezahl 10er
-|-
-|
-{|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||5 
-|-
-|2.||3 
-|-
-|3.||2
-|-
-|4.||1
-|-
-|5.||0
-|-
-|}
-||||
-
-{|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||7 
-|-
-|2.||5 
-|-
-|3.||3
-|-
-|4.||2
-|-
-|5.||1
-|-
-|6.||0
-|-
-|7.||0
-|-
-|}
-||||
-
-{|class="wikitable"
-! Platzierung||Punkte 
-|- 
-|1.||10 
-|-
-|2.||7 
-|-
-|3.||5
-|-
-|4.||4
-|-
-|5.||3
-|-
-|6.||2
-|-
-|7.||1
-|-
-|8.||0
-|-
-|9.||0
-|-
-|10.||0
-|-
-|}
-|-
-|}
-
-=== Bonuspunkte ===
-Zusätzlich zur regulären Punktezahl aus Crashs*Grundpunktezahl wird Bonuspunkte für besondere Leistungen geben. Diese werde sowohl pro Challenge, als auch auf die gesamte Meisterschaft gesehen vergeben:
-
-{|class="wikitable"
-!Leistung||Bonuspunkte (Challenge)||Bonuspunkte (gesamt)
-|-
-|Kleinste Gesamtzugzahl (ohne Crashs)||10||100
-|-
-|Meiste Crashs||10||100
-|-
-|Höchste Summe der Grundpunkte (= beste Gesamtplatzierung)||10||100
-|-
-|}
-
-=== Strafpunkte ===
-
-Sollte ein Spieler im Laufe der Challenge aus einem oder mehreren Spielen aussteigen oder rausgeworfen werden (egal ob automatisch oder durch Didi), dann werden dem Teilnehmer Strafpunkte abgezogen. Der betroffene Spieler erhält dabei in diesem Rennen so viele Strafpunkte, wie insgesamt Spieler an dem Rennen teilgenommen haben.
-
-Des weiteren gelten für die betroffenen Rennen eine Sonderregeln, die das Ausnutzen des Regelsystems verhindern soll:
-
-* Die Zugzahl des betroffenen Spielers wird in dem Rennen um eins höher gesetzt, als die maximal benötigte Zuganzahl, damit man durch den Ausstieg keinen Vorteil auf den Bonus für die geringste Zugzahl hat.
-
-* Sollten so viele Spieler aus einem Rennen aussteigen oder rausgeworfen werden, dass automatisch alle noch verbleibenden Spieler Punkte bekommen, so wird eine Kontrolle von mir vorgenommen, ob die restlichen Spieler die Situation auch nicht ausnutzen (durch sinnloses crashen nur zum Punkte in die Höhe treiben). Alle Spieler sollen demnach in diesem Fall mehr oder weniger direkt ins Ziel fahren. Crashs die unterwegs sinnvoll sind oder wenn noch jemand hinter einem liegt sind natürlich erlaubt.
-
-=== Gesamtpunkte ===
-Aufgrund der Unterschiede zwischen den einzelnen Challenges (ZZZ, Strecke) wird es starke Unterschiede, was die Anzahl der Crashs angeht, zwischen den Challenges geben. Um dennoch allen Challenges die gleiche Wichtigkeit und den gleichen Einfluss auf die Gesamtwertung zuzusprechen, ist es notwendig eine Gewichtung der einzelnen Challenges vorzunehmen. Anderen Falls hätten Spieler, die bei einer Challenge mit hoher Crashzahl vorne liegen (z.B. erster Spieler mit 10 Crashs * 5 Punkte = 50 Punkte), Vorteile gegenüber Spielern , die bei einer Challenge vorne liegen, wo nur wenige Crashs sinnvoll sind (z.B. erster Spieler mit 1 Crashs * 5 Punkte = 5 Punkte).
-
-Für die Gesamtwertung werden daher die Gesamtpunkte aller Spieler pro Challenge so skaliert, dass der Spieler mit der höchsten Punktzahl bei dieser Challenge (ohne Bonuspunkte) auf genau 100 Punkte kommt. 
-
-Diese Regel hat keinen Einfluss auf die Einzelwertungen der Rennen oder die Reihenfolge der Spieler in der Tabellarischen Wertung für die Challenge. Weiterhin bleibt es sinnvoll, so schnell wie möglich, mit so vielen Crashs wie möglich ins Ziel zu kommen. 
-
-=== Beispiel ===
-In der folgenden Tabelle sind die Zahlen in den ersten beiden Spalten wie folgt zu lesen:
-
-''"Grundpunkte aufgrund der Platzierung im 1. Rennen"''*''"Crashzahl im 1. Rennen"'' + ''"Grundpunkte aufgrund der Platzierung im 2. Rennen"''*''"Crashzahl im 2. Rennen"'' + ...
-
-Spieler C hat in Challenge X kein gutes Ergebnis erfahren. Da jedoch in Challenge Y aufgrund der vielen Crashs alle Spieler eine sehr hohe Punktzahl erreicht haben, spielt Challenge X bei der Gesamtwertung kaum eine Rolle. Durch die Skalierung der Punkte wird dieses Problem behoben und Spieler mit konstant guten Leistungen erhalten einen besseren Schnitt. Es wird also mehr Wert auf eine durchweg gute Leistung gelegt.
-
-In Challenge X ist die höchste Punktzahl 24, daher wird mit (100/24) skaliert. In Challenge Y ist die höchste Punktzahl 137, daher wird mit (100/137) skaliert. Auf die Gesamtpunktzahl würden dann noch die Bonuspunkte draufgerechnet werden.
-
-{|class="wikitable"
-! Spieler||Challenge X||Challenge Y||Summe (unskaliert)||Summe (skaliert)
-|- 
-|A||5*1 + 3*2 + 1*1 + 5*2 + 2*1 = 24||3*9 + 2*8 + 0*10 + 3*8 + 1*9 = 76||24 + 76 = 100||24*(100/24) + 76*(100/137) = 100 + 48,9 = 148,9
-|-
-|B||3*1 + 2*2 + 0*1 + 3*2 + 1*1 = 14||2*9 + 1*8 + 5*10 + 2*8 + 0*9 = 92||14 + 92 = 106||14*(100/24) + 92*(100/137) = 58,3 + 67,2 = 125,5
-|-
-|C||2*1 + 0*2 + 5*1 + 0*2 + 0*1 = 7||5*9 + 3*8 + 1*10 + 5*8 + 2*9 = 137||7 + 137 = 144||7*(100/24) + 137*(100/137) = 29,2 + 100 = 129,2
-|-
-|D||1*1 + 1*2 + 3*1 + 1*2 + 5*1 = 13||1*9 + 0*8 + 3*10 + 1*8 + 5*9 = 92||13 + 92 = 105||13*(100/24) + 92*(100/137) = 54,2 + 67,2 = 121,4
-|-
-|E||0*1 + 5*2 + 2*1 + 2*2 + 3*1 = 19||0*9 + 5*8 + 2*10 + 0*8 + 3*9 = 87||19 + 87 = 106||19*(100/24) + 87*(100/137) = 79,2 + 63,5 = 142,7
-|-
-|}
-
-=== Punktgleichheit ===
-Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt:
-
-1. mehr Crashs
-
-2. mehr Grundpunkte
-
-3. weniger Züge
-
-== Challenges ==
-Folgende Challenges werden bei der CraZZZy Crash Challenge gefahren:
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 1 gefahren:
 
 {|class="wikitable"
 ! Nr.||Spielerzahl||Strecke||ZZZ||CPs||Richtungsmodus||Spielzahl
 |-
-|'''1'''||5er Challenge||{{Karte|92}}||17||ja||egal||42
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]]||5er Challenge||{{Karte|92}}||17||ja||egal||42
 |-
-|'''2'''||5er Challenge||{{Karte|109}}||15||ja||egal||42
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]]||5er Challenge||{{Karte|109}}||15||ja||egal||42
 |-
-|'''3'''||5er Challenge||{{Karte|128}}||1||ja||egal||42
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]]||5er Challenge||{{Karte|128}}||1||ja||egal||42
 |-
-|'''4'''||5er Challenge||{{Karte|157}}||2||ja||egal||42
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]]||5er Challenge||{{Karte|157}}||2||ja||egal||42
 |-
-|'''5'''||5er Challenge||{{Karte|171}}||0||ja||egal||42
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]]||5er Challenge||{{Karte|171}}||0||ja||egal||42
 |-
-|'''6'''||7er Challenge||{{Karte|38}}||1||ja||egal||30
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]]||7er Challenge||{{Karte|38}}||1||ja||egal||30
 |-
-|'''7'''||7er Challenge||{{Karte|102}}||14||ja||egal||30
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]]||7er Challenge||{{Karte|102}}||14||ja||egal||30
 |-
-|'''8'''||7er Challenge||{{Karte|143}}||6||ja||egal||30
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]]||7er Challenge||{{Karte|143}}||6||ja||egal||30
 |-
-|'''9'''||7er Challenge||{{Karte|155}}||4||ja||egal||30
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]]||7er Challenge||{{Karte|155}}||4||ja||egal||30
 |-
-|'''10'''||7er Challenge||{{Karte|169}}||8||ja||egal||30
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]]||7er Challenge||{{Karte|169}}||8||ja||egal||30
 |-
-|'''11'''||10er Challenge||{{Karte|17}}||57||ja||egal||21
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]]||10er Challenge||{{Karte|17}}||57||ja||egal||21
 |-
-|'''12'''||10er Challenge||{{Karte|34}}||123||ja||egal||21
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]]||10er Challenge||{{Karte|34}}||123||ja||egal||21
 |-
-|'''13'''||10er Challenge||{{Karte|45}}||5||nein||egal||21
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]]||10er Challenge||{{Karte|45}}||5||nein||egal||21
 |-
-|'''14'''||10er Challenge||{{Karte|52}}||3||nein||egal||21
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]]||10er Challenge||{{Karte|52}}||3||nein||egal||21
 |-
-|'''15'''||10er Challenge||{{Karte|124}}||7||ja||egal||21
-|-
-|}
-Das macht insgesamt 465 Spiele :-)
-
-Wie die Einteilung geschieht lest ihr im nächsten Abschnitt...
-
-== Spielzusammenstellung ==
-Die Spielerverteilung auf die zu bestreitenden Rennen erfolgt zufällig. Ich werde das ganze zwar programmieren um es nicht von Hand machen zu müssen, das Prinzip sieht aber wie folgt aus.
-
-Da jeder Spieler pro Challenge 5 Rennen fahren soll werden für jeden Teilnehmer 5 "Zettel" mit seinem Namen in einen großen Topf geworfen. Das ergibt bei 42 Teilnehmern 210 Zettel. Nun wird für jedes Rennen die erforderliche Anzahl Spieler (5, 7 oder 10) aus dem Topf gezogen, die dann zusammen das Rennen bestreiten dürfen. Wird ein Spieler doppelt für ein Rennen gezogen, so wird dieser zurück gelegt und stattdessen ein anderer gezogen. Auf diese Weise sollte sich eine faire und gleichmäßige Verteilung der Spieler über die Rennen einstellen.
-
-Auf diese Weise ergeben sich bei 210 "Zetteln" je nach größe der Rennen unterschiedlich viele Rennen, jedoch pro Spieler immer 5:
-
-{|class="wikitable"
-! Anzahl Spieler pro Rennen||Gesamtzahl der Rennen
-|-
-|5||42
-|-
-|7||30
-|-
-|10||21
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]]||10er Challenge||{{Karte|124}}||7||ja||egal||21
 |-
 |}
-
-== Teilnehmerfeld ==
-Die ursprünglich angestrebte Spielerzahl von 35 ist erreicht, daher wurde das Teilnehmerfeld auf 42 Spieler erweitert. 
-
-Das Starterfeld ist jetzt vollständig und somit geschlossen!
-
-Das Starterfeld in der Reihenfolge der [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Anmeldung im Forum]
-{|class="wikitable"
-! Teilnehmer||||||||||
-|-
-|1. {{Benutzer|ultimate}}||8. {{Benutzer|kili}}||15. {{Benutzer|phiurr}}||22. [[Benutzer:OleOJumper|OleOCrasher]]||29. {{Benutzer|KingT}}||36. {{Benutzer|Tambal}}
-|-
-|2. {{Benutzer|sparrows bruder}}||9. {{Benutzer|loecksche}}||16. {{Benutzer|rick}}||23. {{Benutzer|Rennsumsa}}||30. {{Benutzer|mAvErICk}}||37. {{Benutzer|RyxX}}
-|-
-|3. {{Benutzer|recke}}||10. {{Benutzer|Kinvarra}}||17. {{Benutzer|InstanceOfChris}}||24. {{Benutzer|kollesch}}||31. {{Benutzer|cptjag}}||38. {{Benutzer|ulli}}
-|-
-|4. {{Benutzer|gitarrenteufel}}||11. {{Benutzer|cachito}}||18. {{Benutzer|falcristo}}||25. {{Benutzer|Yashem}}||32. {{Benutzer|Pitty}}||39. {{Benutzer|wolle}}
-|-
-|5. {{Benutzer|HANSA}}||12. {{Benutzer|Robert}}||19. {{Benutzer|Mippi}}||26. {{Benutzer|aristarch}}||33. {{Benutzer|Superhajo}}||40. [[DeepPink]]
-|-
-|6. {{Benutzer|marie}}||13. {{Benutzer|BCM1860}}||20. {{Benutzer|A300}}||27. {{Benutzer|hacki}}||34. {{Benutzer|Jody}}||41. {{Benutzer|memsga}}
-|-
-|7. {{Benutzer|brian}}||14. {{Benutzer|quabla}}||21. {{Benutzer|sir tobi}}||28. {{Benutzer|Blindschleiche}}||35. {{Benutzer|Akari}}||42. [[DeepGray]]
-|-
-|}
-
-= Status =
-== Durchführungstatus ==
-
-* '''05.09.2010 14:47''' Erstellung der Wiki-Seite
-* '''05.09.2010 15:07''' Ankündigung im Forum & Eröffnung der Anmeldung
-* '''06.09.2010 08:27''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 35 Spieler
-* '''06.09.2010 08:45''' Regelergänzungen
-* '''14.09.2010 16:29''' Starterfeld von 35 Spielern erreicht
-* '''15.09.2010 11:00''' Warteliste bis 42 Spieler eröffnet
-* '''21.09.2010 20:30''' Festlegung der Challenges
-* '''21.09.2010 20:50''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 42 Spieler, Warteliste ist jetzt Teil des Starterfelds
-* '''21.09.2010 20:50''' Anpassung der Rennen pro Spieler pro Challenge auf 5
-* '''21.09.2010 20:50''' Änderung der 4er Challenges in 5er Challenges
-* '''03.10.2010 15:20''' Anmeldung geschlossen, [[#Teilnehmerfeld|Starterfeld]] vollständig besetzt mit 42 Spielern
-* '''03.10.2010 15:30''' Spielplanung mit dem [[KaroMUSKEL]] gestartet
-* '''03.10.2010 15:50''' Ein kleiner Bug im [[KaroMUSKEL]] hat verhindert, dass alle 465 Spiele auf einmal erstellt werden konnten, es wurden nur 50 erstellt
-* '''03.10.2010 15:55''' Nach den Bugfix konnte der Rest der Spiele nachgeholt werden
-* '''03.10.2010 16:10''' Spielerstellung abgeschlossen
-* '''19.10.2010 12:40''' Regelergänzung, Skalierung der Punkte der einzelnen Challenges
-* '''25.10.2010 22:57''' Das erste Rennen ist beendet (Dank den [[DeepGray|Deeps]] ging das echt flott...)
-* '''26.10.2010 20:00''' Programmierung des Auswertetools begonnen
-* '''27.10.2010 11:03''' Erste Auswertung online gestellt
-* '''27.10.2010 11:20''' Festlegung, was bei [[#Punktgleichheit|Punktgleichheit]] passiert
-* '''17.11.2010 09:00''' Auslagerung der Detailwertungen auf einzelne Seiten, damit diese hier nicht mehr so riesig ist...
-* '''03.12.2010 08:30''' Kleinen Sortierungsfehler im Auswertungstool behoben, damit die Platzierung bei Punktgleichheit auch genau so verläuft wie beschrieben...
-* '''10.02.2011 21:30''' Einführung von [[#Strafpunkte|Strafpunkten]] für Ausstiegen und Rausschmisse
-* '''05.03.2011 13:00''' Hervorhebung der Boni und Challengesieger in den Tabellen hinzugefügt
-* '''15.04.2011 11:00''' {{Benutzer|brian}} steigt aus 40 Spielen aus
-* '''15.04.2011 11:00''' Anpassung der [[#Strafpunkte|Punkteverteilung]] bei Ausstiegen und Rausschmissen
-* '''01.06.2011 ??:??''' {{Benutzer|brian}} ist längst aus allen Spielen raus, jetzt wird {{Benutzer|marie}} langsam aber sicher durch die [[KaroMAMA]] rausgeworfen...
-* '''25.06.2011 15:30''' Ergänzung der Auswertung um noch nicht abgeschlossene Rennen pro Challenge
-* '''22.07.2011 22:35''' {{Benutzer|sparrows bruder}} müssen in Challenge {{Rennen|56410|9.24}} leider 15 Crashs aberkannt werden, weil er seinen 5. Platz mit Punktsicherheit ausgenutzt hat! 15 Crashs sind schon echt dreist...
-* '''14.12.2011 10:49''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]] ist als erste Challenge beendet
-* '''28.04.2012 11:20''' {{Benutzer|BCM1860}} ist im Laufe der Woche aus allen Spielen rausgeflogen
-* '''24.03.2012	??:??''' {{Benutzer|InstanceOfChris}} fällt ebenfalls der [[KaroMAMA]] zum Opfer
-* '''21.05.2012 20:14''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]] ist beendet
-* '''13.08.2012 10:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]] ist beendet
-* '''15.10.2012 22:04''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]] ist beendet	
-* '''16.10.2012 17:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]] ist beendet	
-* '''13.11.2012 09:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]] ist beendet
-* '''25.12.2012 22:47''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]] ist beendet
-* '''29.12.2012 00:15''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]] ist beendet	
-* '''28.05.2013 07:54''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]] ist beendet
-* '''09.03.2014 19:59''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]] ist beendet
-* '''11.05.2014 13:45''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]] ist beendet
-* '''27.11.2014 10:09''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]] ist beendet
-* '''20.12.2014 22:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]] ist beendet
-* '''04.06.2015 10:52''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]] ist beendet
-* '''13.04.2016 07:56''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]] ist beendet
-* '''12.06.2016 12:10''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
-
-== Detailwertung ==
-Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert...
-
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]]
-*[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]]
-
 
 == Gesamtwertung ==
 {|class="wikitable alignedright"
@@ -444,8 +158,58 @@ Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert.
 * Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
 ** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
 
-== Statistik ==
-==== Zahlen & Fakten ====
+== Durchführungstatus ==
+
+* '''05.09.2010 14:47''' Erstellung der Wiki-Seite
+* '''05.09.2010 15:07''' Ankündigung im Forum & Eröffnung der Anmeldung
+* '''06.09.2010 08:27''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 35 Spieler
+* '''06.09.2010 08:45''' Regelergänzungen
+* '''14.09.2010 16:29''' Starterfeld von 35 Spielern erreicht
+* '''15.09.2010 11:00''' Warteliste bis 42 Spieler eröffnet
+* '''21.09.2010 20:30''' Festlegung der Challenges
+* '''21.09.2010 20:50''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 42 Spieler, Warteliste ist jetzt Teil des Starterfelds
+* '''21.09.2010 20:50''' Anpassung der Rennen pro Spieler pro Challenge auf 5
+* '''21.09.2010 20:50''' Änderung der 4er Challenges in 5er Challenges
+* '''03.10.2010 15:20''' Anmeldung geschlossen, [[#Teilnehmerfeld|Starterfeld]] vollständig besetzt mit 42 Spielern
+* '''03.10.2010 15:30''' Spielplanung mit dem [[KaroMUSKEL]] gestartet
+* '''03.10.2010 15:50''' Ein kleiner Bug im [[KaroMUSKEL]] hat verhindert, dass alle 465 Spiele auf einmal erstellt werden konnten, es wurden nur 50 erstellt
+* '''03.10.2010 15:55''' Nach den Bugfix konnte der Rest der Spiele nachgeholt werden
+* '''03.10.2010 16:10''' Spielerstellung abgeschlossen
+* '''19.10.2010 12:40''' Regelergänzung, Skalierung der Punkte der einzelnen Challenges
+* '''25.10.2010 22:57''' Das erste Rennen ist beendet (Dank den [[DeepGray|Deeps]] ging das echt flott...)
+* '''26.10.2010 20:00''' Programmierung des Auswertetools begonnen
+* '''27.10.2010 11:03''' Erste Auswertung online gestellt
+* '''27.10.2010 11:20''' Festlegung, was bei [[#Punktgleichheit|Punktgleichheit]] passiert
+* '''17.11.2010 09:00''' Auslagerung der Detailwertungen auf einzelne Seiten, damit diese hier nicht mehr so riesig ist...
+* '''03.12.2010 08:30''' Kleinen Sortierungsfehler im Auswertungstool behoben, damit die Platzierung bei Punktgleichheit auch genau so verläuft wie beschrieben...
+* '''10.02.2011 21:30''' Einführung von [[#Strafpunkte|Strafpunkten]] für Ausstiegen und Rausschmisse
+* '''05.03.2011 13:00''' Hervorhebung der Boni und Challengesieger in den Tabellen hinzugefügt
+* '''15.04.2011 11:00''' {{Benutzer|brian}} steigt aus 40 Spielen aus
+* '''15.04.2011 11:00''' Anpassung der [[#Strafpunkte|Punkteverteilung]] bei Ausstiegen und Rausschmissen
+* '''01.06.2011 ??:??''' {{Benutzer|brian}} ist längst aus allen Spielen raus, jetzt wird {{Benutzer|marie}} langsam aber sicher durch die [[KaroMAMA]] rausgeworfen...
+* '''25.06.2011 15:30''' Ergänzung der Auswertung um noch nicht abgeschlossene Rennen pro Challenge
+* '''22.07.2011 22:35''' {{Benutzer|sparrows bruder}} müssen in Challenge {{Rennen|56410|9.24}} leider 15 Crashs aberkannt werden, weil er seinen 5. Platz mit Punktsicherheit ausgenutzt hat! 15 Crashs sind schon echt dreist...
+* '''14.12.2011 10:49''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]] ist als erste Challenge beendet
+* '''28.04.2012 11:20''' {{Benutzer|BCM1860}} ist im Laufe der Woche aus allen Spielen rausgeflogen
+* '''24.03.2012	??:??''' {{Benutzer|InstanceOfChris}} fällt ebenfalls der [[KaroMAMA]] zum Opfer
+* '''21.05.2012 20:14''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]] ist beendet
+* '''13.08.2012 10:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]] ist beendet
+* '''15.10.2012 22:04''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]] ist beendet	
+* '''16.10.2012 17:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]] ist beendet	
+* '''13.11.2012 09:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]] ist beendet
+* '''25.12.2012 22:47''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]] ist beendet
+* '''29.12.2012 00:15''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]] ist beendet	
+* '''28.05.2013 07:54''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]] ist beendet
+* '''09.03.2014 19:59''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]] ist beendet
+* '''11.05.2014 13:45''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]] ist beendet
+* '''27.11.2014 10:09''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]] ist beendet
+* '''20.12.2014 22:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]] ist beendet
+* '''04.06.2015 10:52''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]] ist beendet
+* '''13.04.2016 07:56''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]] ist beendet
+* '''12.06.2016 12:10''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
+
+= Statistik =
+== Zahlen & Fakten ==
 *Rennen insgesamt: '''465'''
 *Teilnehmer: '''42'''
 *Rennen pro Spieler: '''75'''
@@ -454,7 +218,7 @@ Da die Detailwertung echt riesig ist, wurde sie auf einzelne Seiten ausgelagert.
 *Crashs insgesamt: '''15846'''
 *Häufigste Begegnung: 21 mal [[Benutzer:Akari|Akari]] '''vs.''' [[Benutzer:recke|recke]] und [[Benutzer:aristarch|aristarch]] '''vs.''' [[Benutzer:loecksche|loecksche]]
 *Seltenste Begegnung: 3 mal [[Benutzer:BCM1860|BCM1860]] '''vs.''' [[Benutzer:Superhajo|Superhajo]]
-==== Wer gegen wen? ====
+== Wer gegen wen? ==
 Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...
 {|class="wikitable"
 |||[[Benutzer:A300|A300]]||[[Benutzer:Akari|Akari]]||[[Benutzer:aristarch|aristarch]]||[[Benutzer:BCM1860|BCM1860]]||[[Benutzer:Blindschleiche|Blindschleiche]]||[[Benutzer:brian|brian]]||[[Benutzer:cachito|cachito]]||[[Benutzer:cptjag|cptjag]]||[[DeepGray]]||[[DeepPink]]||[[Benutzer:falcristo|falcristo]]||[[Benutzer:gitarrenteufel|gitarrenteufel]]||[[Benutzer:hacki|hacki]]||[[Benutzer:HANSA|HANSA]]||[[Benutzer:InstanceOfChris|InstanceOfChris]]||[[Benutzer:Jody|Jody]]||[[Benutzer:kili|kili]]||[[Benutzer:KingT|KingT]]||[[Benutzer:Kinvarra|Kinvarra]]||[[Benutzer:kollesch|kollesch]]||[[Benutzer:loecksche|loecksche]]||[[Benutzer:marie|marie]]||[[Benutzer:mAvErICk|mAvErICk]]||[[Benutzer:memsga|memsga]]||[[Benutzer:Mippi|Mippi]]||[[Benutzer:OleOJumper|OleOCrasher]]||[[Benutzer:phiurr|phiurr]]||[[Benutzer:Pitty|Pitty]]||[[Benutzer:quabla|quabla]]||[[Benutzer:recke|recke]]||[[Benutzer:Rennsumsa|Rennsumsa]]||[[Benutzer:rick|rick]]||[[Benutzer:Robert|Robert]]||[[Benutzer:RyxX|RyxX]]||[[Benutzer:sir tobi|sir tobi]]||[[Benutzer:sparrows bruder|sparrows bruder]]||[[Benutzer:Superhajo|Superhajo]]||[[Benutzer:Tambal|Tambal]]||[[Benutzer:ulli|ulli]]||[[Benutzer:ultimate|ultimate]]||[[Benutzer:wolle|wolle]]||[[Benutzer:Yashem|Yashem]]
