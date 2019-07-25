@@ -42,7 +42,8 @@ ${TOTAL}
 * '''30.05.2019 15:52''' Wiki-Seite erstellt
 * '''30.05.2019 16:07''' Eröffnung der Anmeldung im Forum
 * '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
-* '''05.07.2019 ??:??''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen* '''08.07.2019 16:00''' Wiki etwas aufgeräumt und übersichtlicher gestaltet
+* '''05.07.2019 ??:??''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
+* '''08.07.2019 16:00''' Wiki etwas aufgeräumt und übersichtlicher gestaltet
 * '''12.07.2019 09:55''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
 * '''12.07.2019 10:41''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
 * '''16.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 1|Challenge 1]]
