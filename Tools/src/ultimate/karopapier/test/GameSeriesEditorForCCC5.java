@@ -20,6 +20,8 @@ import muskel2.model.GameSeries;
 import muskel2.model.Rules;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karopapier.eval.CCCEval;
+import ultimate.karopapier.eval.impl.CCC5Eval;
 
 public class GameSeriesEditorForCCC5
 {	
@@ -83,6 +85,8 @@ public class GameSeriesEditorForCCC5
 		{
 			System.out.println("nothing to save");
 		}
+		
+//		new CCC5Eval().prepare(gs, 9999);
 	}
 
 	protected static GameSeries loadGameseries(File file) throws IOException, ClassNotFoundException
