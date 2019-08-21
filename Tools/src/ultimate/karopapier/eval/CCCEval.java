@@ -345,14 +345,29 @@ public class CCCEval implements Eval
 				stats_races++;
 
 				totalTableHead[r] = raceToLink(c, r);
-				if(loadType.equals("logs"))
-					tables[c][r] = createRaceTableFromLog(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs,
-							sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
-							total_sum_bonus, total_sum_races_bychallenge);
-				else
-					tables[c][r] = createRaceTable(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves,
-							total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus,
-							total_sum_races_bychallenge);
+				try
+				{
+					if(loadType.equals("logs"))
+						tables[c][r] = createRaceTableFromLog(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs,
+								sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
+								total_sum_bonus, total_sum_races_bychallenge);
+					else
+						tables[c][r] = createRaceTable(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves,
+								total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus,
+								total_sum_races_bychallenge);
+				}
+				catch(Exception e)
+				{
+					System.out.println("----------------------------------------------");
+					System.out.println("----------------------------------------------");
+					System.out.println("----------------------------------------------");
+					System.out.println("ERROR for race " + c + "." + r);
+					System.out.print(getLog(c, r));
+					System.out.println("----------------------------------------------");
+					System.out.println("----------------------------------------------");
+					System.out.println("----------------------------------------------");
+					throw new RuntimeException(e);
+				}
 
 				createWhoOnWho(c, r, challengePlayers);
 			}
@@ -654,6 +669,14 @@ public class CCCEval implements Eval
 					|| log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
 					|| log.lastIndexOf(player + " steigt aus dem Spiel aus") == position)
 			{
+				position = players.size();
+				points = -players.size();
+				moves = maxMoves + 1;
+			}
+			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") < position)
+			{
+				// Ausstiegs-Bug abfangen: Nach dem Ausstieg wurde gecrasht...
+				// dann ist in der Zeile vor dem CRASH der Ausstieg
 				position = players.size();
 				points = -players.size();
 				moves = maxMoves + 1;
@@ -1135,7 +1158,7 @@ public class CCCEval implements Eval
 	{
 		List<String> players = new LinkedList<String>();
 		int index = 0;
-		int end, end1, end2, end3;
+		int end, end1, end2, end3, end4;
 		String player;
 		String log = getLog(c, r);
 		int firstMovePartEnd = log.indexOf(": -----------------------------------");
@@ -1154,6 +1177,7 @@ public class CCCEval implements Eval
 			end1 = firstMovePart.indexOf(end_playerName_Log, index + 1);
 			end2 = firstMovePart.indexOf(" wird von ", index + 1);
 			end3 = firstMovePart.indexOf(" steigt aus ", index + 1);
+			end4 = firstMovePart.indexOf(" CRASHT!!!", index + 1);
 
 			if(end1 == -1)
 				end1 = Integer.MAX_VALUE;
@@ -1161,12 +1185,16 @@ public class CCCEval implements Eval
 				end2 = Integer.MAX_VALUE;
 			if(end3 == -1)
 				end3 = Integer.MAX_VALUE;
-			end = Math.min(end1, Math.min(end2, end3));
+			if(end4 == -1)
+				end4 = Integer.MAX_VALUE;
+			end = Math.min(end1, Math.min(end2, Math.min(end3, end4)));
 
 			player = firstMovePart.substring(index, end);
 
 			if(player.equals(p.getProperty("creator")))
 				continue;
+			if(players.contains(player))
+				continue; // Beim Ausstiegs-Bug kann es zu Doppeleinträgen (Ausstieg + Crash) in der ersten Runde kommen
 			players.add(player);
 		}
 		return players;
@@ -1193,6 +1221,8 @@ public class CCCEval implements Eval
 		String page = getPage(c, r);
 		while(true)
 		{
+			if(page == null)
+				System.out.println("ERROR: page is null");
 			index = page.indexOf(start_playerName, index + 1) + start_playerName.length();
 			if(index == start_playerName.length() - 1)
 				break;
