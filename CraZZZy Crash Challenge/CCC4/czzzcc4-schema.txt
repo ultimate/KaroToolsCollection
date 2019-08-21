@@ -56,10 +56,12 @@ ${TOTAL}
 * '''11.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 4|Challenge 4]]
 * '''18.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 5|Challenge 5]]
 * '''25.07.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 6|Challenge 6]]
-* '''01.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 7|Challenge 7]] (geplant)
-* '''08.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 8|Challenge 8]] (geplant)
-* '''15.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 9|Challenge 9]] (geplant)
-* '''22.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] (geplant)
+* '''01.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 7|Challenge 7]]
+* '''08.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 8|Challenge 8]]
+* '''15.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 9|Challenge 9]]
+* '''16.08.2019 18:00''' Folgen des Ausstiegs-Bugs von {{Benutzer|Didi}} behoben
+* '''21.08.2019 22:00''' Behandlung des Ausstiegs-Bugs im Auswerte-Skript korrigiert
+* '''22.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]]
 * '''29.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 11|Challenge 11]] (geplant)
 * '''05.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 12|Challenge 12]] (geplant)
 * '''12.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]] (geplant)
