@@ -62,6 +62,7 @@ ${TOTAL}
 * '''16.08.2019 18:00''' Folgen des Ausstiegs-Bugs von {{Benutzer|Didi}} behoben
 * '''21.08.2019 22:00''' Behandlung des Ausstiegs-Bugs im Auswerte-Skript korrigiert
 * '''22.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]]
+* '''23.08.2019 04:00''' Durch einen Fehler wurde die [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] doppelt erstellt. Die extra Spiele zählen jedoch nicht...
 * '''29.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 11|Challenge 11]] (geplant)
 * '''05.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 12|Challenge 12]] (geplant)
 * '''12.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]] (geplant)
