@@ -63,8 +63,10 @@ ${TOTAL}
 * '''21.08.2019 22:00''' Behandlung des Ausstiegs-Bugs im Auswerte-Skript korrigiert
 * '''22.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]]
 * '''23.08.2019 04:00''' Durch einen Fehler wurde die [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] doppelt erstellt. Die extra Spiele zählen jedoch nicht...
-* '''30.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 11|Challenge 11]] (1 Tag später als geplant aufgrund des Fehlers in Challene 10. Nachfolgende Challenges werden auch verschoben)
+* '''30.08.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 11|Challenge 11]] (1 Tag später als geplant aufgrund des Fehlers in [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]]. Nachfolgende Challenges werden auch verschoben)
 * '''06.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 12|Challenge 12]]
+* '''06.09.2019 04:05''' Der Fehler von [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] trat erneut auf. :-/ Aber immerhin habe ich es diesmal vor der Doppel-Erstellung von Spielen gemerkt...
+* '''06.09.2019 18:50''' Bug-Fix des oben erwähnten Fehlers: es konnte durch Timeouts dazu kommen, dass das Skript die GIDs des Spiele nicht korrekt ermittelt hat, wodurch das Aussteigen in eine Endlosschleife lief.
 * '''13.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]] (geplant)
 * '''20.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 14|Challenge 14]] (geplant)
 * '''27.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 15|Challenge 15]] (geplant)
