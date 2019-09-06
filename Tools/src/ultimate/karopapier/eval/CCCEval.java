@@ -673,7 +673,7 @@ public class CCCEval implements Eval
 				points = -players.size();
 				moves = maxMoves + 1;
 			}
-			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") < position)
+			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0 && log.indexOf(player + " steigt aus dem Spiel aus") < position)
 			{
 				// Ausstiegs-Bug abfangen: Nach dem Ausstieg wurde gecrasht...
 				// dann ist in der Zeile vor dem CRASH der Ausstieg

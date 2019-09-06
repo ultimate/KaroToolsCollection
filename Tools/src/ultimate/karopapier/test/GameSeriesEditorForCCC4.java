@@ -111,18 +111,28 @@ public class GameSeriesEditorForCCC4
 		}
 		else if(option == 2)
 		{
-			Properties gids = PropertiesUtil.loadProperties(new File(file.getParentFile().getAbsolutePath() + "/czzzcc4-gid.properties.63"));
+			Properties gids = PropertiesUtil.loadProperties(new File(file.getParentFile().getAbsolutePath() + "/czzzcc4-gid.properties.78"));
 			
 			String cid;
 			int gid;
 			for(Game g: gs.getGames())
 			{
-				if(g.getName().contains("Challenge 10."))
+//				if(g.getName().contains("Challenge 10."))
+//				{
+//					cid = g.getName().substring("CraZZZy Crash Challenge 4 - Challenge ".length(), "CraZZZy Crash Challenge 4 - Challenge ".length()+5).trim();
+//					gid = Integer.parseInt(gids.getProperty(cid));
+//					System.out.println(cid + " (created=" + g.isCreated() + " left=" + g.isLeft() + "): " + g.getId() + " => " + gid);
+//					g.setId(gid);
+//					changed = true;
+//				}
+				if(g.getName().contains("Challenge 12."))
 				{
 					cid = g.getName().substring("CraZZZy Crash Challenge 4 - Challenge ".length(), "CraZZZy Crash Challenge 4 - Challenge ".length()+5).trim();
 					gid = Integer.parseInt(gids.getProperty(cid));
-					System.out.println(cid + " : " + g.getId() + " => " + gid);
+					System.out.println(cid + " (created=" + g.isCreated() + " left=" + g.isLeft() + "): " + g.getId() + " => " + gid);
 					g.setId(gid);
+					g.setCreated(true);
+					g.setLeft(true);
 					changed = true;
 				}
 			}
