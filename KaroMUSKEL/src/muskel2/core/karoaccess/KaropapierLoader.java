@@ -511,8 +511,20 @@ public class KaropapierLoader
 	{
 		URL gameListURL = new URL(server + (gameListString.charAt(0) == '/' ? "" : "/") + gameListString);
 		String gameListPage;
-
+		
 		System.out.println("Suche nach Spiel-IDs...");
+		
+		int knownIDs = 0;
+		for(Game game : gameList)
+		{
+			if(game.getId() > 0)
+				knownIDs++;
+		}
+		if(knownIDs == gameList.size())
+		{
+			System.out.println(" --> Bereits alle Spiel-IDs bekannt!");
+			return;
+		}
 
 		int count = 0;
 		boolean gameFound = true;

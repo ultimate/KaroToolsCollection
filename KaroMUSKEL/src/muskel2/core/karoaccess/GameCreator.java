@@ -36,6 +36,9 @@ public class GameCreator
 	private static final String		kickParam			= "GID=%GID&UID=%UID&sicher=1";
 
 	private static final DateFormat	dateFormat			= new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+	
+	private static final String 	SUCCESS_CREATE		= "Neues Spiel erstellt<br /> <a href=\"showmap.php?GID=";
+	private static final String 	SUCCESS_LEAVE		= "Fertig, Du bist draussen...";
 
 	private String					server;
 	private String					newGameURLString;
@@ -111,7 +114,12 @@ public class GameCreator
 		for(Game game : games)
 		{
 			if(game.isCreated())
-				kickPlayer(game, player);
+			{
+				if(game.getId() > 0)
+					kickPlayer(game, player);
+				else
+					System.out.println("Warning: Could not leave game because of unknown ID: " + game.getName() + " (" + game.getId() + ")");
+			}
 		}
 		this.urlLoadQ.begin();
 	}
@@ -136,7 +144,7 @@ public class GameCreator
 			return;
 		}
 		String parameter = urlS.substring(urlS.indexOf("?") + 1);
-		GameCreatorThread th = new GameCreatorThread(game, url, parameter, "Neues Spiel erstellt", this.karopapier.isInDebugMode());
+		GameCreatorThread th = new GameCreatorThread(game, url, parameter, SUCCESS_CREATE, this.karopapier.isInDebugMode());
 		this.urlLoadQ.addThread(th);
 	}
 
@@ -204,7 +212,7 @@ public class GameCreator
 			parameter = parameter.replace("%GID", "" + game.getId());
 			parameter = parameter.replace("%UID", "" + player.getId());
 
-			GameCreatorThread th = new GameCreatorThread(game, url, parameter, "Fertig, Du bist draussen...", this.karopapier.isInDebugMode());
+			GameCreatorThread th = new GameCreatorThread(game, url, parameter, SUCCESS_LEAVE, this.karopapier.isInDebugMode());
 			this.urlLoadQ.addThread(th);
 		}
 		catch(MalformedURLException e)

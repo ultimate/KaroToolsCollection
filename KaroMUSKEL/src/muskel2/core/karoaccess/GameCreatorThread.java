@@ -40,10 +40,24 @@ public class GameCreatorThread extends URLLoaderThread
 					logger.log(logEntry, this.result, this.responseCode);
 
 				if(success())
-//				{
+				{
+					if(this.game.getId() < 0)
+					{
+						String gids = "n/a";
+						try
+						{
+							int start = result.indexOf(successMessage) + successMessage.length();
+							gids = result.substring(start, result.indexOf("\"", start));
+							this.game.setId(Integer.parseInt(gids));
+						}
+						catch(Exception e)
+						{
+							System.out.println("Error setting gid: " + gids);
+						}
+					}
 //					System.out.println("Request for game '" + game.getName() + "' successful: responseCode=" + responseCode + " time=" + (end-start));
 					return;
-//				}
+				}
 //				else
 //				{
 //					System.out.println("Request for game '" + game.getName() + "' unsuccessful: responseCode=" + responseCode + " time=" + (end-start));
