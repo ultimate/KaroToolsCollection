@@ -76,7 +76,7 @@ Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne 
 
 '''Anmerkungen:'''
 
-<sup>1</sup> Ziel dieser Regel ist es Situationen zu vermeiden, in denen Spieler, beliebig viele Crashs bauen können, um so ihren Punktestand unfair in die Höhe zu treiben, z.B. durch taktische Absprachen mit anderen Spielern. Sollte außerdem das Teilnehmerfeld eines Rennens durch Ausstiege oder Rauswürfe so weit reduziert werden, dass alle noch verbleibenden Spieler einen Platz in den Punkterängen belegen, so werden alle Crashs nach dem entscheidenen Rausschmiss/Ausstieg nicht mehr gewertet. In Ausnahmefällen können die Crashs gewertet werden, wenn ersichtlich ist, dass alle Spieler ohne Absprachen "normal" weiter in Ziel gefahren sind.
+<sup>1</sup> Ziel dieser Regel ist es Situationen zu vermeiden, in denen Spieler, beliebig viele Crashs bauen können, um so ihren Punktestand unfair in die Höhe zu treiben, z.B. durch taktische Absprachen mit anderen Spielern. Sollte außerdem das Teilnehmerfeld eines Rennens durch Ausstiege oder Rauswürfe so weit reduziert werden, dass alle noch verbleibenden Spieler einen Platz in den Punkterängen belegen, so behalte ich mir vor alle Crashs nach dem entscheidenen Rausschmiss/Ausstieg nicht mehr zu werten, wenn nicht ersichtlich ist, dass alle Spieler ohne Absprachen "normal" weiter in Ziel gefahren sind. Da ich grundsätzlich von fairem Verhalten ausgehe wird diese Nicht-Wertung nur manuell von mir im Skript vermerkt und findet nicht automatisch statt. Im Interesse der Fairness bitte ich daher darum solche Fälle zu melden.
 
 <sup>2</sup> Ich habe diese Regeln noch nachgetragen, da dieser Fall, wenn auch unwahrscheinlich, eintreten kann und dann dem betroffenen Spieler (auch wenn er unter Umständen nichts dafür kann) einen entscheidenden und unfairen Vorteil bringt.
 
@@ -108,6 +108,17 @@ Es werden folgende Grundpunkte entsprechend der Platzierung für die unterschiedl
 |7.||-||-||-||-||0
 |-
 |}
+
+===== Zuggleichheit (ab CraZZZy Crash Challenge 4) =====
+Bei Zuggleichheit erhalten alle betroffenen Spieler den Mittelwert der Grundpunkte der entsprechenden Plätze.
+z. B.:
+* 4er Challenge, 1. und 2. Zuggleich => Beide erhalten (2+4)/2 = 3 Grundpunkte 
+* 6er Challenge, 2. und 3. Zuggleich => Beide erhalten (3+4)/2 = 3,5 Grundpunkte 
+* 7er Challenge, 1. und 2. und 3. Zuggleich => Alle 3 erhalten (4+5+7)/3 = 5,33 Grundpunkte 
+
+'''Hinweise:'''
+* Es kann dabei zu Rundungsfehlern kommen, weil das Skript in der Auswertung teilweise zwischendurch für die Darstellung rundet und dann mit den gerundeten Werte weiter rechnet.
+* Ich behalte mir vor diese Änderung ohne Angabe von Gründen rückgängig zu machen
 
 ==== Grundpunkteverteilung (CraZZZy Crash Challenge 1) ====
 In der [[CraZZZy Crash Challenge 1]] galt noch eine etwas andere Verteilung:
