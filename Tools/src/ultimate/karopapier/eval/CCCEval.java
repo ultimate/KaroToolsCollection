@@ -749,7 +749,7 @@ public class CCCEval implements Eval
 					}
 				}
 
-				if(playersWithSameAmountOfMoves.size() > 1)
+				if(playersWithSameAmountOfMoves.size() > 1 && cccx > 5)
 				{
 					i += (playersWithSameAmountOfMoves.size() - 1);
 					points = totalPoints/playersWithSameAmountOfMoves.size();
