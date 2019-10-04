@@ -54,7 +54,7 @@ public class CCCEval implements Eval
 	private int								stats_crashs;
 	private int								stats_players;
 
-	private Map<String, List<Integer>[]>	real_points;
+	private Map<String, List<Double>[]>		real_points;
 	private Map<String, List<Integer>[]>	real_crashs;
 	private Map<String, List<Integer>[]>	real_crashs_allraces;
 	private Map<String, Double[]>			expected_points;
@@ -188,7 +188,7 @@ public class CCCEval implements Eval
 			mapTable[c - 1][3] = "" + (zzz[c] != -1 ? zzz[c] : "Random");
 			mapTable[c - 1][4] = "" + (cps[c] ? "ja" : "n.V.");
 			mapTable[c - 1][5] = "" + races[c];
-			
+
 			detail = new StringBuilder();
 			detail.append("= Challenge " + c + " =\n");
 			detail.append("Strecke: " + mapToLink(c, false) + "\n");
@@ -278,11 +278,11 @@ public class CCCEval implements Eval
 		List<String> challengePlayers = loadType.equals("logs") ? getChallengePlayersFromLog(1) : getChallengePlayers(1);
 		stats_players = challengePlayers.size();
 
-		Map<String, Integer> sum_pointsUnskaled;
-		Map<String, Integer> sum_basePoints;
+		Map<String, Double> sum_pointsUnskaled;
+		Map<String, Double> sum_basePoints;
 		Map<String, Integer> sum_crashs;
 		Map<String, Integer> sum_moves;
-		Map<String, Integer> total_sum_basePoints = new TreeMapX<String, Integer>(challengePlayers, 0);
+		Map<String, Double> total_sum_basePoints = new TreeMapX<String, Double>(challengePlayers, 0.0);
 		Map<String, Integer> total_sum_crashs = new TreeMapX<String, Integer>(challengePlayers, 0);
 		Map<String, Integer> total_sum_moves = new TreeMapX<String, Integer>(challengePlayers, 0);
 		Map<String, Double> total_sum_pointsSkaled = new TreeMapX<String, Double>(challengePlayers, 0.0);
@@ -291,7 +291,7 @@ public class CCCEval implements Eval
 		Map<String, Integer> final_sum_bonus = new TreeMapX<String, Integer>(challengePlayers, 0);
 		Map<String, Integer[]> total_sum_races_bychallenge = new TreeMapXArray<String, Integer>(challengePlayers, new Integer[tables.length], 0);
 
-		real_points = new TreeMapX2<String, Integer>(challengePlayers);
+		real_points = new TreeMapX2<String, Double>(challengePlayers);
 		real_crashs = new TreeMapX2<String, Integer>(challengePlayers);
 		real_crashs_allraces = new TreeMapX2<String, Integer>(challengePlayers);
 
@@ -327,8 +327,8 @@ public class CCCEval implements Eval
 
 			totalTable = new String[challengePlayers.size()][totalTableHead.length];
 
-			sum_pointsUnskaled = new TreeMapX<String, Integer>(challengePlayers, 0);
-			sum_basePoints = new TreeMapX<String, Integer>(challengePlayers, 0);
+			sum_pointsUnskaled = new TreeMapX<String, Double>(challengePlayers, 0.0);
+			sum_basePoints = new TreeMapX<String, Double>(challengePlayers, 0.0);
 			sum_crashs = new TreeMapX<String, Integer>(challengePlayers, 0);
 			sum_moves = new TreeMapX<String, Integer>(challengePlayers, 0);
 
@@ -383,7 +383,7 @@ public class CCCEval implements Eval
 			{
 				if(!totalTable[i][pages[c].length + 3].equals("?") && !totalTable[i][pages[c].length + 3].equals("-"))
 				{
-					skaledPoints = round(intFromString(totalTable[i][pages[c].length + 3]) * 100 / maxPointsUnskaled);
+					skaledPoints = round(doubleFromString(totalTable[i][pages[c].length + 3]) * 100 / maxPointsUnskaled);
 					totalTable[i][pages[c].length + 4] = "" + skaledPoints;
 					if(totalTable[i][pages[c].length + 4].equals("100.0"))
 					{
@@ -429,7 +429,7 @@ public class CCCEval implements Eval
 				else
 					finalTable[i][c + 1] = tmp + tmp2;
 			}
-			finalTable[i][tables.length + 1] = "" + total_sum_basePoints.get(player);
+			finalTable[i][tables.length + 1] = "" + round(total_sum_basePoints.get(player));
 			finalTable[i][tables.length + 2] = "" + total_sum_crashs.get(player);
 			stats_crashs += total_sum_crashs.get(player);
 			finalTable[i][tables.length + 3] = "" + total_sum_moves.get(player);
@@ -577,8 +577,8 @@ public class CCCEval implements Eval
 	}
 
 	private String[][] createRaceTableFromLog(int c, int r, String[][] totalTable, List<String> challengePlayers,
-			Map<String, Integer> sum_pointsUnskaled, Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs,
-			Map<String, Integer> sum_moves, Map<String, Integer> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
+			Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs,
+			Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
 			Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
 			Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
 	{
@@ -588,14 +588,14 @@ public class CCCEval implements Eval
 		while(intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + lastRankWithPoints)) == 0)
 			lastRankWithPoints--;
 
-		Map<String, Integer> playerMoves = new HashMap<String, Integer>();
-		Map<String, Integer> playerCrashs = new HashMap<String, Integer>();
-		Map<String, Integer> playerPosition = new HashMap<String, Integer>();
-		Map<String, Integer> playerPoints = new HashMap<String, Integer>();
+		final Map<String, Integer> playerMoves = new HashMap<String, Integer>();
+		final Map<String, Integer> playerCrashs = new HashMap<String, Integer>();
+		final Map<String, Integer> playerPosition = new HashMap<String, Integer>();
+		final Map<String, Double> playerPoints = new HashMap<String, Double>();
 		int moves;
 		int crashs;
-		int points;
-		int position; 
+		double points;
+		int position;
 		int crashsAfterLastRankWithoutPointsThrown;
 		String log = getLog(c, r);
 
@@ -678,7 +678,8 @@ public class CCCEval implements Eval
 				points = -players.size();
 				moves = maxMoves + 1;
 			}
-			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0 && log.indexOf(player + " steigt aus dem Spiel aus") < position)
+			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0
+					&& log.indexOf(player + " steigt aus dem Spiel aus") < position)
 			{
 				// Ausstiegs-Bug abfangen: Nach dem Ausstieg wurde gecrasht...
 				// dann ist in der Zeile vor dem CRASH der Ausstieg
@@ -701,7 +702,7 @@ public class CCCEval implements Eval
 				position = last--;
 				points = -1;
 			}
-			
+
 			// store in maps for later use
 			playerMoves.put(player, moves);
 			playerCrashs.put(player, crashs);
@@ -709,23 +710,73 @@ public class CCCEval implements Eval
 			playerPosition.put(player, position);
 		}
 
+		// sort players by position
+		System.out.println("before: " + players);
+		players.sort(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2)
+			{
+				return playerPosition.get(o1) - playerPosition.get(o2);
+			}
+		});
+		System.out.println("after: " + players);
+
 		// TODO: check players for finishing in same round
-		
+		String player1, player2;
+		List<String> playersWithSameAmountOfMoves;
+		for(int i = 0; i < players.size(); i++)
+		{
+			player1 = players.get(i);
+			moves = playerMoves.get(player1);
+			points = playerPoints.get(player1);
+
+			// Player has finished
+			if(points != -1)
+			{
+				playersWithSameAmountOfMoves = new ArrayList<String>(players.size());
+				playersWithSameAmountOfMoves.add(player1);
+
+				double totalPoints = points;
+
+				for(int j = i + 1; j < players.size(); j++)
+				{
+					player2 = players.get(j);
+					// Check same amount of moves
+					if(playerMoves.get(player2) == moves)
+					{
+						playersWithSameAmountOfMoves.add(player2);
+						totalPoints += playerPoints.get(player2);
+					}
+				}
+
+				if(playersWithSameAmountOfMoves.size() > 1)
+				{
+					i += (playersWithSameAmountOfMoves.size() - 1);
+					points = totalPoints/playersWithSameAmountOfMoves.size();
+					for(String player : playersWithSameAmountOfMoves)
+					{
+						playerPoints.put(player, points);
+					}
+					System.out.println("  Challenge " + c + "." + r + " > Zuggleichheit (" + moves + " Züge, " + points + " Punkte): " + playersWithSameAmountOfMoves);
+				}
+			}
+		}
+
 		// process maps
 		for(String player : players)
-		{			
+		{
 			moves = playerMoves.get(player);
 			crashs = playerCrashs.get(player);
 			points = playerPoints.get(player);
 			position = playerPosition.get(player);
-			
+
 			if(points != -1)
 			{
 				real_points.get(player)[c].add(points);
 				real_crashs.get(player)[c].add(crashs);
 			}
 			real_crashs_allraces.get(player)[c].add(crashs);
-			
+
 			fillRaceTable(table, totalTable, player, challengePlayers, c, r, position, points, crashs, moves, sum_pointsUnskaled, sum_basePoints,
 					sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
 					total_sum_bonus, total_sum_races_bychallenge);
@@ -733,9 +784,9 @@ public class CCCEval implements Eval
 		return table;
 	}
 
-	private String[][] createRaceTable(int c, int r, String[][] totalTable, List<String> challengePlayers, Map<String, Integer> sum_pointsUnskaled,
-			Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves,
-			Map<String, Integer> total_sum_basePoints, Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves,
+	private String[][] createRaceTable(int c, int r, String[][] totalTable, List<String> challengePlayers, Map<String, Double> sum_pointsUnskaled,
+			Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves,
+			Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves,
 			Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus,
 			Map<String, Integer[]> total_sum_races_bychallenge)
 	{
@@ -818,13 +869,13 @@ public class CCCEval implements Eval
 	}
 
 	private void fillRaceTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r, int position,
-			int points, int crashs, int moves, Map<String, Integer> sum_pointsUnskaled, Map<String, Integer> sum_basePoints,
-			Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Integer> total_sum_basePoints,
+			double points, int crashs, int moves, Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints,
+			Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints,
 			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled,
 			Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
 	{
 
-		String racePoints = (points < 0 ? (points == -1 ? "?" : "" + points) : "" + (crashs * points));
+		String racePoints = (points < 0 ? (points == -1 ? "?" : "" + round(points)) : "" + round(crashs * points));
 
 		while(table[position - 1][0] != null)
 		{
@@ -832,7 +883,7 @@ public class CCCEval implements Eval
 		}
 		table[position - 1][0] = position + ".";
 		table[position - 1][1] = playerToLink(player, false);
-		table[position - 1][2] = (points == -1 ? "?" : "" + points);
+		table[position - 1][2] = (points == -1 ? "?" : "" + round(points));
 		table[position - 1][3] = "" + crashs;
 		table[position - 1][4] = "" + moves;
 		table[position - 1][5] = racePoints;
@@ -861,16 +912,16 @@ public class CCCEval implements Eval
 			Arrays.sort(finalTable, new FinalTableRowSorter(-4)); // sort by Endergebnis
 	}
 
-	private int addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Integer> sum_pointsUnskaled,
-			Map<String, Integer> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves,
+	private double addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Double> sum_pointsUnskaled,
+			Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves,
 			Map<String, Integer> total_sum_bonus)
 	{
 		String player;
 
 		int minMoves = Integer.MAX_VALUE;
 		int maxCrashs = -1;
-		int maxBasePoints = -1;
-		int maxPointsUnskaled = -1;
+		double maxBasePoints = -1;
+		double maxPointsUnskaled = -1;
 		List<Integer> index_minMoves = new ArrayList<Integer>();
 		List<Integer> index_maxCrashs = new ArrayList<Integer>();
 		List<Integer> index_maxBasePoints = new ArrayList<Integer>();
@@ -878,7 +929,7 @@ public class CCCEval implements Eval
 		for(int i = 0; i < challengePlayers.size(); i++)
 		{
 			player = challengePlayers.get(i);
-			totalTable[i][pages[c].length + 3] = "" + sum_pointsUnskaled.get(player);
+			totalTable[i][pages[c].length + 3] = "" + round(sum_pointsUnskaled.get(player));
 			if(sum_pointsUnskaled.get(player) > maxPointsUnskaled)
 			{
 				maxPointsUnskaled = sum_pointsUnskaled.get(player);
@@ -890,7 +941,7 @@ public class CCCEval implements Eval
 				maxPointsUnskaled = sum_pointsUnskaled.get(player);
 				index_maxPointsUnskaled.add(i);
 			}
-			totalTable[i][pages[c].length + 0] = "" + sum_basePoints.get(player);
+			totalTable[i][pages[c].length + 0] = "" + round(sum_basePoints.get(player));
 			if(sum_basePoints.get(player) > maxBasePoints)
 			{
 				maxBasePoints = sum_basePoints.get(player);
@@ -963,14 +1014,14 @@ public class CCCEval implements Eval
 		}
 	}
 
-	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Integer> total_sum_basePoints,
+	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Double> total_sum_basePoints,
 			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Integer> final_sum_bonus)
 	{
 		String player;
 
 		int minMoves = Integer.MAX_VALUE;
 		int maxCrashs = -1;
-		int maxBasePoints = -1;
+		double maxBasePoints = -1;
 		List<Integer> index_minMoves = new ArrayList<Integer>();
 		List<Integer> index_maxCrashs = new ArrayList<Integer>();
 		List<Integer> index_maxBasePoints = new ArrayList<Integer>();
@@ -1104,7 +1155,7 @@ public class CCCEval implements Eval
 				{
 					if(real_points.get(player)[c].get(i) > 0)
 					{
-						actual_positive += real_crashs.get(player)[c].get(i)*real_points.get(player)[c].get(i);
+						actual_positive += real_crashs.get(player)[c].get(i) * real_points.get(player)[c].get(i);
 						player_avg_crashs += real_crashs.get(player)[c].get(i);
 						player_avg_points += real_points.get(player)[c].get(i);
 						total_players_finished++;
@@ -1115,7 +1166,7 @@ public class CCCEval implements Eval
 						negative_count++;
 					}
 				}
-				
+
 				if(real_points.get(player)[c].size() - negative_count > 0)
 				{
 					player_avg_crashs /= real_points.get(player)[c].size();
@@ -1125,7 +1176,7 @@ public class CCCEval implements Eval
 				{
 					player_avg_points = 0;
 				}
-				
+
 				if(real_points.get(player)[c].size() == stats_racesPerPlayerPerChallenge)
 				{
 					// spieler hat alle Rennen beendet
@@ -1137,7 +1188,8 @@ public class CCCEval implements Eval
 					// eigene durchschnittliche Punkte und Crashs verwenden
 					expected = actual_positive + actual_negative;
 					expected += player_avg_crashs * player_avg_points * (stats_racesPerPlayerPerChallenge - real_points.get(player)[c].size());
-					//expected = player_avg_crashs * player_avg_points * (stats_racesPerPlayerPerChallenge - negative_count ) + expected_negative;
+					// expected = player_avg_crashs * player_avg_points *
+					// (stats_racesPerPlayerPerChallenge - negative_count ) + expected_negative;
 				}
 				else
 				{
@@ -1216,7 +1268,8 @@ public class CCCEval implements Eval
 			if(player.equals(p.getProperty("creator")))
 				continue;
 			if(players.contains(player))
-				continue; // Beim Ausstiegs-Bug kann es zu Doppeleinträgen (Ausstieg + Crash) in der ersten Runde kommen
+				continue; // Beim Ausstiegs-Bug kann es zu Doppeleinträgen (Ausstieg + Crash) in der
+							// ersten Runde kommen
 			players.add(player);
 		}
 		return players;
@@ -1377,7 +1430,7 @@ public class CCCEval implements Eval
 	{
 		if(!(gameSeries instanceof BalancedGameSeries))
 			return;
-		
+
 		BalancedGameSeries gs = (BalancedGameSeries) gameSeries;
 
 		Properties p;
@@ -1399,8 +1452,8 @@ public class CCCEval implements Eval
 		int numberOfPlayers = gs.getPlayers().size();
 		int gamesPerPlayerPerChallenge = gs.getRules(1).getGamesPerPlayer(); // same for all
 																				// challenges
-		p.setProperty("races.per.player.per.challenge", "" + gamesPerPlayerPerChallenge);		
-		
+		p.setProperty("races.per.player.per.challenge", "" + gamesPerPlayerPerChallenge);
+
 		int c;
 		for(c = 1; c <= gs.getNumberOfMaps(); c++)
 		{
@@ -1438,7 +1491,7 @@ public class CCCEval implements Eval
 			}
 		}
 		int challenges = c - 1;
-		System.out.println("number of challenges: " + challenges);	
+		System.out.println("number of challenges: " + challenges);
 		p.setProperty("challenges", "" + challenges);
 
 		PropertiesUtil.storeProperties(file, p, "");
