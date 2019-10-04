@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -587,11 +588,15 @@ public class CCCEval implements Eval
 		while(intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + lastRankWithPoints)) == 0)
 			lastRankWithPoints--;
 
+		Map<String, Integer> playerMoves = new HashMap<String, Integer>();
+		Map<String, Integer> playerCrashs = new HashMap<String, Integer>();
+		Map<String, Integer> playerPosition = new HashMap<String, Integer>();
+		Map<String, Integer> playerPoints = new HashMap<String, Integer>();
 		int moves;
 		int crashs;
-		int crashsAfterLastRankWithoutPointsThrown;
-		int position;
 		int points;
+		int position; 
+		int crashsAfterLastRankWithoutPointsThrown;
 		String log = getLog(c, r);
 
 		List<String> players = getChallengePlayersFromLog(c, r);
@@ -696,14 +701,31 @@ public class CCCEval implements Eval
 				position = last--;
 				points = -1;
 			}
+			
+			// store in maps for later use
+			playerMoves.put(player, moves);
+			playerCrashs.put(player, crashs);
+			playerPoints.put(player, points);
+			playerPosition.put(player, position);
+		}
 
+		// TODO: check players for finishing in same round
+		
+		// process maps
+		for(String player : players)
+		{			
+			moves = playerMoves.get(player);
+			crashs = playerCrashs.get(player);
+			points = playerPoints.get(player);
+			position = playerPosition.get(player);
+			
 			if(points != -1)
 			{
 				real_points.get(player)[c].add(points);
 				real_crashs.get(player)[c].add(crashs);
 			}
 			real_crashs_allraces.get(player)[c].add(crashs);
-
+			
 			fillRaceTable(table, totalTable, player, challengePlayers, c, r, position, points, crashs, moves, sum_pointsUnskaled, sum_basePoints,
 					sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
 					total_sum_bonus, total_sum_races_bychallenge);
