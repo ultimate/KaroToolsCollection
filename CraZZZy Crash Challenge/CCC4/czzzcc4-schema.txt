@@ -67,10 +67,11 @@ ${TOTAL}
 * '''06.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 12|Challenge 12]]
 * '''06.09.2019 04:05''' Der Fehler von [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] trat erneut auf. :-/ Aber immerhin habe ich es diesmal vor der Doppel-Erstellung von Spielen gemerkt...
 * '''06.09.2019 18:50''' Bug-Fix des oben erwähnten Fehlers: es konnte durch Timeouts dazu kommen, dass das Skript die GIDs des Spiele nicht korrekt ermittelt hat, wodurch das Aussteigen in eine Endlosschleife lief.
-* '''13.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]] (geplant)
-* '''20.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 14|Challenge 14]] (geplant)
-* '''27.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 15|Challenge 15]] (geplant)
-* '''04.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 16|Challenge 16]] (geplant)
+* '''13.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]]
+* '''20.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 14|Challenge 14]]
+* '''27.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 15|Challenge 15]]
+* '''04.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 16|Challenge 16]]
+* '''04.10.2019 11:00''' Punkteverteilung bei Zuggleichheit angepasst: Alle Spieler mit gleicher Zugzahl erhalten den Mittelwert der Punkte der entsprechenden Plätze (vorbehaltlich der Wiederrückgängigmachung)
 * '''11.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 17|Challenge 17]] (geplant)
 * '''18.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 18|Challenge 18]] (geplant)
 * '''25.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 19|Challenge 19]] (geplant)
