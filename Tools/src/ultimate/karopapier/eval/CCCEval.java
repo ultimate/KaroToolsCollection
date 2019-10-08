@@ -1694,8 +1694,8 @@ public class CCCEval implements Eval
 				return (int) Math.signum(c2 - c1);
 
 			// mehr grundpunkte
-			int b1 = intFromString(o1[o1.length - 10]);
-			int b2 = intFromString(o2[o2.length - 10]);
+			double b1 = doubleFromString(o1[o1.length - 10]);
+			double b2 = doubleFromString(o2[o2.length - 10]);
 			if(b2 != b1)
 				return (int) Math.signum(b2 - b1);
 
