@@ -711,7 +711,7 @@ public class CCCEval implements Eval
 		}
 
 		// sort players by position
-		System.out.println("before: " + players);
+//		System.out.println("before: " + players);
 		players.sort(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2)
@@ -719,7 +719,7 @@ public class CCCEval implements Eval
 				return playerPosition.get(o1) - playerPosition.get(o2);
 			}
 		});
-		System.out.println("after: " + players);
+//		System.out.println("after: " + players);
 
 		// TODO: check players for finishing in same round
 		String player1, player2;
