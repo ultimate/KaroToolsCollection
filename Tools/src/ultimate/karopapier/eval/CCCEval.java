@@ -36,6 +36,8 @@ public class CCCEval implements Eval
 		for(int i = 0; i < ALL_COLUMNS.length; i++)
 			ALL_COLUMNS[i] = i;
 	}
+	
+	private Properties 						gidProperties;
 
 	private int[][]							gids;
 	private int[]							races;
@@ -132,7 +134,7 @@ public class CCCEval implements Eval
 		long start;
 		System.out.print("reading properties (" + cccx + ")... ");
 		start = System.currentTimeMillis();
-		readProperties(folder + "czzzcc" + cccx + "-gid.properties");
+		gidProperties = readProperties(folder + "czzzcc" + cccx + "-gid.properties");
 		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		System.out.print("buffering pages... ");
@@ -660,6 +662,19 @@ public class CCCEval implements Eval
 			else if(cccx == 2 && c == 4 && r == 58 && player.equals("KingT"))
 			{
 				crashs -= 42;
+			}
+			else if(cccx >= 4 && gidProperties.containsKey(c + "." + r + "." + player))
+			{
+				System.out.print("    correcting crash count for " + player + " @ " + c + "." + r);
+				try
+				{
+					crashs += intFromString(gidProperties.getProperty(c + "." + r + "." + player));
+					System.out.println(" >> OK");
+				}
+				catch(NumberFormatException e)
+				{
+					System.out.println(" >> ERROR: " + e.getMessage());
+				}
 			}
 			// if(crashsAfterLastRankWithoutPointsThrown > 0)
 			// System.out.println(" " + player + ": " + crashsAfterLastRankWithoutPointsThrown);
@@ -1384,7 +1399,7 @@ public class CCCEval implements Eval
 		return logs[c][r];
 	}
 
-	private void readProperties(String file) throws IOException
+	private Properties readProperties(String file) throws IOException
 	{
 		p = PropertiesUtil.loadProperties(new File(file));
 
@@ -1424,6 +1439,8 @@ public class CCCEval implements Eval
 				gids[c][r] = intFromString(p.getProperty(c + "." + r));
 			}
 		}
+		
+		return p;
 	}
 
 	private void writeProperties(String fileName, GameSeries gameSeries, int execution) throws IOException
