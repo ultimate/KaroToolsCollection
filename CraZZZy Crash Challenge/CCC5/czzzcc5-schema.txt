@@ -63,9 +63,10 @@ ${TOTAL}
 * '''17.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 10|Challenge 10]]
 * '''24.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 11|Challenge 11]]
 * '''01.10.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 12|Challenge 12]]
-* '''04.10.2019 11:00''' Punkteverteilung bei Zuggleichheit angepasst: Alle Spieler mit gleicher Zugzahl erhalten den Mittelwert der Punkte der entsprechenden Plätze (vorbehaltlich der Wiederrückgängigmachung)
 * '''08.10.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 13|Challenge 13]]
-* '''10.10.2019 20:00''' Wegen der hohen Spieleauslastung gibt es eine kleine Pause von ca. 2 Monaten. Weiter geht es dann voraussichtlich zu den folgenden Terminen:
+* '''10.10.2019 20:00''' Wegen der hohen Spieleauslastung gibt es eine kleine Pause von ca. 2 Monaten (mehr dazu im [[https://www.karopapier.de/showthread.php?thread=1098|Forum]]). Weiter geht es dann voraussichtlich zu den folgenden Terminen:
+* '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
+* '''09.12.2019 04:00''' Ende der Auswertungs-Pause
 * '''10.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]] (geplant)
 * '''17.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]] (geplant)
 * '''24.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]] (geplant)

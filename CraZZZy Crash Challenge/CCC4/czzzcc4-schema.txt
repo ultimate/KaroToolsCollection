@@ -71,11 +71,12 @@ ${TOTAL}
 * '''20.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 14|Challenge 14]]
 * '''27.09.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 15|Challenge 15]]
 * '''04.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 16|Challenge 16]]
-* '''04.10.2019 11:00''' Punkteverteilung bei Zuggleichheit angepasst: Alle Spieler mit gleicher Zugzahl erhalten den Mittelwert der Punkte der entsprechenden Plätze (vorbehaltlich der Wiederrückgängigmachung)
 * '''11.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 17|Challenge 17]]
 * '''18.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 18|Challenge 18]]
 * '''25.10.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 19|Challenge 19]]
 * '''01.11.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 20|Challenge 20]]
+* '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
+* '''09.12.2019 04:00''' Ende der Auswertungs-Pause
 
 = Statistik =
 ${STATS}
