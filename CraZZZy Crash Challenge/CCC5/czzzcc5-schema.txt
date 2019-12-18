@@ -67,8 +67,9 @@ ${TOTAL}
 * '''10.10.2019 20:00''' Wegen der hohen Spieleauslastung gibt es eine kleine Pause von ca. 2 Monaten (mehr dazu im [[https://www.karopapier.de/showthread.php?thread=1098|Forum]]). Weiter geht es dann voraussichtlich zu den folgenden Terminen:
 * '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
 * '''09.12.2019 04:00''' Ende der Auswertungs-Pause
-* '''10.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]] (geplant)
-* '''17.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]] (geplant)
+* '''10.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]]
+* '''13.12.2019 ??:??''' Unbekannter Fehler führt dazu, dass Cron-Job und damit Eval-Script nicht mehr ausgeführt werden... Dies verhindert auch die planmäßige Erstellung der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]]
+* '''18.12.2019 17:30''' Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]] nachgeholt
 * '''24.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]] (geplant)
 * '''31.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|Challenge 17]] (geplant)
 * '''07.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|Challenge 18]] (geplant)
