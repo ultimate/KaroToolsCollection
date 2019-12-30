@@ -24,6 +24,11 @@ public class KOGameSeries extends TeamBasedGameSeries
 	{
 		super("gameseries.ko.titlepatterns");
 	}
+	
+	protected KOGameSeries(String patternKey)
+	{
+		super("gameseries.ko.titlepatterns");
+	}
 
 	@Override
 	protected void initSubType()

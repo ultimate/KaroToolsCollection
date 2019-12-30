@@ -227,7 +227,7 @@ public class GameCreator
 		Rules r = new Rules(1, 1, true, true, Direction.egal, true, true);
 		r.createRandomValues();
 		Map m = new Map(111, "x", "x", true, 1, null);
-		List<Player> ps = Arrays.asList(new Player[] { new Player(222, "x", true, true, 999, 99, 999, 999, null) });
+		List<Player> ps = Arrays.asList(new Player[] { new Player(222, "x", true, true, 999, 99, 999, 999, null, 0, null) });
 		Game g = new Game("test & nix", m, ps, r);
 		System.out.println(gc.createNewGameURL(g));
 	}

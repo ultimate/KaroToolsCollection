@@ -21,6 +21,7 @@ import muskel2.gui.help.MapRenderer;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
+import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
@@ -47,11 +48,23 @@ public class HomeMapsScreen extends Screen
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
-		Map homeMap;
-		for(int i = 0; i < this.numberOfTeams; i++)
+		if(gameSeries instanceof TeamBasedGameSeries)
 		{
-			homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
-			((TeamBasedGameSeries) gameSeries).getTeams().get(i).setHomeMap(homeMap);
+			Map homeMap;
+			for(int i = 0; i < this.numberOfTeams; i++)
+			{
+				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
+				((TeamBasedGameSeries) gameSeries).getTeams().get(i).setHomeMap(homeMap);
+			}
+		}
+		else if(gameSeries instanceof KLCGameSeries)
+		{
+			Map homeMap;
+			for(int i = 0; i < this.numberOfTeams; i++)
+			{
+				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
+				((KLCGameSeries) gameSeries).getPlayers().get(i).setHomeMap(homeMap);
+			}
 		}
 		return gameSeries;
 	}
@@ -59,8 +72,19 @@ public class HomeMapsScreen extends Screen
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
-		int numberOfTeamsTmp = ((TeamBasedGameSeries) gameSeries).getNumberOfTeams();
-		int minSupportedPlayersPerMapTmp = ((TeamBasedGameSeries) gameSeries).getMinSupportedPlayersPerMap();
+		int numberOfTeamsTmp = 0;
+		int minSupportedPlayersPerMapTmp = 0;
+
+		if(gameSeries instanceof TeamBasedGameSeries)
+		{
+			numberOfTeamsTmp = ((TeamBasedGameSeries) gameSeries).getNumberOfTeams();
+			minSupportedPlayersPerMapTmp = ((TeamBasedGameSeries) gameSeries).getMinSupportedPlayersPerMap();
+		}
+		else if(gameSeries instanceof KLCGameSeries)
+		{
+			numberOfTeamsTmp = KLCGameSeries.PLAYERS;
+			minSupportedPlayersPerMapTmp = ((KLCGameSeries) gameSeries).getMinSupportedPlayersPerMap();
+		}
 
 		if(this.firstCall)
 		{
@@ -90,11 +114,13 @@ public class HomeMapsScreen extends Screen
 				maxTeams = KOGameSeries.MAX_TEAMS;
 			else if(gameSeries instanceof LeagueGameSeries)
 				maxTeams = LeagueGameSeries.MAX_TEAMS;
+			else if(gameSeries instanceof KLCGameSeries)
+				maxTeams = KLCGameSeries.PLAYERS;
 
 			for(int i = 0; i < maxTeams; i++)
 			{
 				gbc.gridy = i;
-				
+
 				teamLabel = new JLabel();
 				gbc.gridx = 0;
 				contentPanel.add(teamLabel, gbc);
@@ -137,18 +163,20 @@ public class HomeMapsScreen extends Screen
 				this.mapCBList.get(i).setModel(new DefaultComboBoxModel(maps.values().toArray(new Map[0])));
 			}
 		}
-		
+
 		boolean enabled;
 		String label;
 		for(int i = 0; i < this.mapCBList.size(); i++)
 		{
 			enabled = (i < this.numberOfTeams);
-			
-			if(enabled)
+
+			if(enabled && gameSeries instanceof TeamBasedGameSeries)
 				label = ((TeamBasedGameSeries) gameSeries).getTeams().get(i).getName();
+			else if(enabled && gameSeries instanceof KLCGameSeries)
+				label = ((KLCGameSeries) gameSeries).getPlayers().get(i).getName();
 			else
 				label = "Team " + (i + 1);
-			
+
 			this.teamNameLabelList.get(i).setText(label);
 			this.mapCBList.get(i).setEnabled(enabled);
 		}

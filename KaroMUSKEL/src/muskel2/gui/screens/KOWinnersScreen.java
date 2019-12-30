@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +22,9 @@ import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
+import muskel2.model.Player;
 import muskel2.model.help.Team;
+import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
@@ -43,24 +46,44 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
-		int teamsBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
-		List<Team> teams = ((TeamBasedGameSeries) gameSeries).getTeams();
-
-		List<Team> winnerTeams = new LinkedList<Team>();
-		for(int i = 0; i < this.winners.length; i++)
+		if(gameSeries instanceof TeamBasedGameSeries)
 		{
-			if(this.winners[i])
+			int teamsBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
+			List<Team> teams = ((TeamBasedGameSeries) gameSeries).getTeams();
+
+			List<Team> winnerTeams = new LinkedList<Team>();
+			for(int i = 0; i < this.winners.length; i++)
 			{
-				winnerTeams.add(teams.get(i));
+				if(this.winners[i])
+				{
+					winnerTeams.add(teams.get(i));
+				}
 			}
+			if(winnerTeams.size() != teamsBefore / 2)
+				throw new GameSeriesException("screen.kowinners.notenoughwinners");
+
+			((KOGameSeries) gameSeries).setTeams(winnerTeams);
+			((KOGameSeries) gameSeries).setShuffleTeams(false);
+			((KOGameSeries) gameSeries).setNumberOfTeams(winnerTeams.size());
 		}
-		if(winnerTeams.size() != teamsBefore / 2)
-			throw new GameSeriesException("screen.kowinners.notenoughwinners");
+		else if(gameSeries instanceof KLCGameSeries)
+		{
+			int playersBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
+			List<Player> players = ((KLCGameSeries) gameSeries).getPlayersRoundOfX(playersBefore);
 
-		((KOGameSeries) gameSeries).setTeams(winnerTeams);
-		((KOGameSeries) gameSeries).setShuffleTeams(false);
-		((KOGameSeries) gameSeries).setNumberOfTeams(winnerTeams.size());
+			List<Player> winnerPlayers = new LinkedList<Player>();
+			for(int i = 0; i < this.winners.length; i++)
+			{
+				if(this.winners[i])
+				{
+					winnerPlayers.add(players.get(i));
+				}
+			}
+			if(winnerPlayers.size() != ((KLCGameSeries) gameSeries).getRound())
+				throw new GameSeriesException("screen.kowinners.notenoughwinners");
 
+			((KLCGameSeries) gameSeries).getPlayersGroupX(((KLCGameSeries) gameSeries).getRound()).addAll(winnerPlayers);
+		}
 		return gameSeries;
 	}
 
@@ -70,9 +93,27 @@ public class KOWinnersScreen extends Screen implements ActionListener
 		if(this.firstCall)
 		{
 			this.firstCall = false;
-			int teamsBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
-			List<Team> teams = ((TeamBasedGameSeries) gameSeries).getTeams();
-			this.winners = new boolean[teamsBefore];
+			int numBefore = 0;
+			List<String> names = null;
+			if(gameSeries instanceof TeamBasedGameSeries)
+			{
+				numBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
+				names = new ArrayList<String>(((TeamBasedGameSeries) gameSeries).getTeams().size());
+				for(Team t: ((TeamBasedGameSeries) gameSeries).getTeams())
+				{
+					names.add(t.getName());
+				}
+			}
+			else if(gameSeries instanceof KLCGameSeries)
+			{
+				numBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
+				names = new ArrayList<String>(numBefore);
+				for(Player p: ((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()))
+				{
+					names.add(p.getName());
+				}
+			}
+			this.winners = new boolean[numBefore];
 
 			JPanel contentPanel = new JPanel();
 			JScrollPane contentSP = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -84,30 +125,30 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(5, 5, 5, 5);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-			
+
 			ButtonGroup buttonGroup;
 			JRadioButton radioButton;
 			JLabel vsLabel;
-			for(int i = 0; i < teamsBefore; i = i + 2)
+			for(int i = 0; i < numBefore; i = i + 2)
 			{
 				gbc.gridy = i;
-				
+
 				buttonGroup = new ButtonGroup();
-				
-				radioButton = new JRadioButton(teams.get(i).getName());
+
+				radioButton = new JRadioButton(names.get(i));
 				radioButton.setActionCommand("" + i);
 				radioButton.addActionListener(this);
 				setIcons(radioButton, 30);
 				buttonGroup.add(radioButton);
 				gbc.gridx = 0;
 				contentPanel.add(radioButton, gbc);
-				
+
 				vsLabel = new JLabel(Language.getString("screen.kowinners.versus"));
 				gbc.gridx = 1;
 				contentPanel.add(vsLabel, gbc);
 
-				radioButton = new JRadioButton(teams.get(i+1).getName());
-				radioButton.setActionCommand("" + (i+1));
+				radioButton = new JRadioButton(names.get(i + 1));
+				radioButton.setActionCommand("" + (i + 1));
 				radioButton.addActionListener(this);
 				radioButton.setHorizontalTextPosition(SwingConstants.LEFT);
 				setIcons(radioButton, 30);

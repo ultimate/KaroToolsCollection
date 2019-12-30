@@ -29,6 +29,7 @@ import muskel2.model.Player;
 import muskel2.model.help.GenericListModel;
 import muskel2.model.help.Team;
 import muskel2.model.series.BalancedGameSeries;
+import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.SimpleGameSeries;
@@ -93,7 +94,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(gameSeries instanceof SimpleGameSeries)
 		{
 			Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(0).getModel()).getEntryArray();
-			if(players.length < ((SimpleGameSeries) gameSeries).getMinPlayersPerGame()-1)
+			if(players.length < ((SimpleGameSeries) gameSeries).getMinPlayersPerGame() - 1)
 				throw new GameSeriesException("screen.players.notenoughplayers");
 			gameSeries.getPlayers().clear();
 			for(Object player : players)
@@ -108,6 +109,24 @@ public class PlayersScreen extends Screen implements ActionListener
 			for(Object player : players)
 			{
 				gameSeries.getPlayers().add((Player) player);
+			}
+		}
+		else if(gameSeries instanceof KLCGameSeries)
+		{
+			List<Player> playerList;
+			for(int i = 0; i < this.teams; i++)
+			{
+				String teamName = this.teamNameTFList.get(i).getText();
+				playerList = ((KLCGameSeries) gameSeries).getPlayersLeagueX(i + 1);
+				playerList.clear();
+				Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(i).getModel()).getEntryArray();
+				if(players.length == KLCGameSeries.GROUPS)
+					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName);
+				for(Object player : players)
+				{
+					playerList.add((Player) player);
+					((KLCGameSeries) gameSeries).getAllPlayers().add((Player)player);
+				}
 			}
 		}
 		return gameSeries;
@@ -126,6 +145,13 @@ public class PlayersScreen extends Screen implements ActionListener
 			maxPlayersPerTeamTmp = ((TeamBasedGameSeries) gameSeries).getMaxPlayersPerTeam();
 			this.autoNameTeams = ((TeamBasedGameSeries) gameSeries).isAutoNameTeams();
 			multipleTeamsTmp = ((TeamBasedGameSeries) gameSeries).isMultipleTeams();
+		}
+		else if(gameSeries instanceof KLCGameSeries)
+		{
+			teamsTmp = KLCGameSeries.LEAGUES;
+			maxPlayersPerTeamTmp = 1;
+			this.autoNameTeams = false;
+			multipleTeamsTmp = false;
 		}
 
 		boolean changed = false;
@@ -299,9 +325,13 @@ public class PlayersScreen extends Screen implements ActionListener
 				removeButton = this.removeButtonList.get(i);
 
 				teamPlayersLI.setEnabled(i < this.teams);
-				teamNameTF.setEnabled(i < this.teams);
 				addButton.setEnabled(i < this.teams);
 				removeButton.setEnabled(i < this.teams);
+
+				if(gameSeries instanceof KLCGameSeries)
+					teamNameTF.setEnabled(i < this.teams);
+				else
+					teamNameTF.setText("Liga " + (i + 1));
 
 				if(i >= this.teams)
 				{
@@ -406,7 +436,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				for(int i = 0; i < this.teamLIList.size(); i++)
 				{
 					teamPlayersLI = this.teamLIList.get(i);
-	
+
 					Object[] players = ((GenericListModel<String, Player>) teamPlayersLI.getModel()).getEntryArray();
 					Player player;
 					String key;

@@ -93,6 +93,16 @@ public class StartScreen extends Screen implements ActionListener
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);
 
+		radioButton = new JRadioButton(Language.getString("gameseries.klc"));
+		radioButton.setActionCommand("muskel2.model.series.KLCGameSeries");
+		radioButton.addActionListener(this);
+		setIcons(radioButton, BUTTON_SIZE);
+
+		gbc.gridy++;
+		gbc.gridx = 0;
+		this.add(radioButton, gbc);
+		this.buttonGroup.add(radioButton);
+
 		radioButton = new JRadioButton(Language.getString("gameseries.load"));
 		radioButton.setActionCommand("load");
 		radioButton.addActionListener(this);
