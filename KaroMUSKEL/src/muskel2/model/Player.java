@@ -22,6 +22,9 @@ public class Player implements Serializable
 	private int					activeSince;
 	private Color				color;
 
+	private int					league;
+	private Map					homeMap;
+
 	public Player()
 	{
 		this.id = -1;
@@ -33,7 +36,7 @@ public class Player implements Serializable
 	}
 
 	public Player(int id, String name, boolean invitableNormal, boolean invitableNight, int gamesMax, int gamesAct, int lastVisited, int activeSince,
-			Color color)
+			Color color, int league, Map homeMap)
 	{
 		super();
 		this.id = id;
@@ -46,6 +49,8 @@ public class Player implements Serializable
 		this.lastVisited = lastVisited;
 		this.activeSince = activeSince;
 		this.color = color;
+		this.league = league;
+		this.homeMap = homeMap;
 	}
 
 	public int getId()
@@ -62,7 +67,7 @@ public class Player implements Serializable
 	{
 		return name;
 	}
-	
+
 	public String getNameLowerCase()
 	{
 		return name.toLowerCase();
@@ -153,12 +158,33 @@ public class Player implements Serializable
 		this.color = color;
 	}
 
+	public int getLeague()
+	{
+		return league;
+	}
+
+	public void setLeague(int league)
+	{
+		this.league = league;
+	}
+
+	public Map getHomeMap()
+	{
+		return homeMap;
+	}
+
+	public void setHomeMap(Map homeMap)
+	{
+		this.homeMap = homeMap;
+	}
+
 	public String toString()
 	{
-//		return this.id + " - " + this.name + (this.invitableNight ? "" : " (keine Nachtrennen)") + " [ " + this.activeSince + " | "
-//				+ this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
+		// return this.id + " - " + this.name + (this.invitableNight ? "" : " (keine Nachtrennen)")
+		// + " [ " + this.activeSince + " | "
+		// + this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
 		return this.name + " (ID=" + this.id + (this.invitableNight ? "" : ", keine Nachtrennen") + ") [ " + this.activeSince + " | "
-			+ this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
+				+ this.lastVisited + " @ " + this.gamesActOrPlanned + " / " + this.gamesMax + " ]";
 	}
 
 	public boolean isInvitable(boolean night)
@@ -175,12 +201,12 @@ public class Player implements Serializable
 		else
 			return this.invitableNormal && b;
 	}
-	
+
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{
 		out.writeInt(this.id);
 	}
-	
+
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		this.id = in.readInt();
@@ -193,7 +219,7 @@ public class Player implements Serializable
 		}
 		else
 		{
-			for(Entry<String, Player> player: Main.getKaropapier().getPlayers().entrySet())
+			for(Entry<String, Player> player : Main.getKaropapier().getPlayers().entrySet())
 			{
 				if(player.getValue().getId() == this.id)
 				{
@@ -205,8 +231,9 @@ public class Player implements Serializable
 			if(original == null)
 			{
 				key = "<deleted>";
-				original = new Player(this.id, key, false, false, 0, 0, -1, -1, new Color(255, 0, 0));
-				//throw new NotSerializableException("could not deserialize player with id: " + this.id);
+				original = new Player(this.id, key, false, false, 0, 0, -1, -1, new Color(255, 0, 0), 0, null);
+				// throw new NotSerializableException("could not deserialize player with id: " +
+				// this.id);
 				System.err.println("could not deserialize player with id: " + this.id);
 			}
 			Main.getKaropapier().getPlayers().put(key, this);
@@ -219,6 +246,8 @@ public class Player implements Serializable
 		this.gamesActOrPlanned = original.gamesActOrPlanned;
 		this.lastVisited = original.lastVisited;
 		this.activeSince = original.activeSince;
-		this.color = original.color;		
+		this.color = original.color;
+		this.league = original.league;
+		this.homeMap = original.homeMap;
 	}
 }

@@ -113,7 +113,7 @@ public class Main
 			TreeMap<String, Player> players = new TreeMap<String, Player>();
 			for(int i = 0; i < 100; i++)
 			{
-				players.put("p" + i, new Player(i, "p" + i, true, true, i, 100 - i, 0, 0, Color.black));
+				players.put("p" + i, new Player(i, "p" + i, true, true, i, 100 - i, 0, 0, Color.black, 0, null));
 			}
 
 			karopapier = new Karopapier(maps, players, "p0", false);
