@@ -203,18 +203,18 @@ public class CCCEvalNew implements Eval
 			detail.append("= Challenge " + c + " =\n");
 			detail.append("Strecke: " + mapToLink(c, false) + "\n");
 			detail.append("== Punkteverteilung ==\n");
-			
+
 			pointsTable = new String[2][pointsForMoves[c].size() + 1];
 			pointsTable[0][0] = highlight("Züge");
 			pointsTable[1][0] = highlight("Grundpunkte");
 			int col = 1;
-			for(Entry<Integer, Integer> pfm: pointsForMoves[c].entrySet())
+			for(Entry<Integer, Integer> pfm : pointsForMoves[c].entrySet())
 			{
 				pointsTable[0][col] = "" + pfm.getKey();
 				pointsTable[1][col] = "" + pfm.getValue();
 				col++;
 			}
-			
+
 			detail.append(tableToString(null, pointsTable, null, ALL_COLUMNS));
 			detail.append("\n");
 			detail.append("== Rennergebnisse ==\n");
@@ -371,6 +371,7 @@ public class CCCEvalNew implements Eval
 			final Map<?, ?>[] playerMoves = new Map<?, ?>[pages[c].length + 1];
 			final Map<?, ?>[] playerCrashs = new Map<?, ?>[pages[c].length + 1];
 			final Map<?, ?>[] playerPosition = new Map<?, ?>[pages[c].length + 1];
+			final Map<?, ?>[] playerFinished = new Map<?, ?>[pages[c].length + 1];
 
 			// create table Part 1
 			for(int r = 1; r < pages[c].length; r++)
@@ -382,11 +383,12 @@ public class CCCEvalNew implements Eval
 				playerMoves[r] = new HashMap<String, Integer>();
 				playerCrashs[r] = new HashMap<String, Integer>();
 				playerPosition[r] = new HashMap<String, Integer>();
+				playerFinished[r] = new HashMap<String, Boolean>();
 
 				try
 				{
 					tables[c][r] = createRaceTableFromLog_Part1(c, r, (Map<String, Integer>) playerMoves[r], (Map<String, Integer>) playerCrashs[r],
-							(Map<String, Integer>) playerPosition[r]);
+							(Map<String, Integer>) playerPosition[r], (Map<String, Boolean>) playerFinished[r]);
 				}
 				catch(Exception e)
 				{
@@ -411,22 +413,47 @@ public class CCCEvalNew implements Eval
 			int avgMoves;
 
 			// calculate min and avg moves
+			// only consider finished players (if there are some)
+			boolean someoneFinished = false;
 			for(int r = 1; r < pages[c].length; r++)
 			{
-				// TODO only consider finished players (if there are some)
-				// else: minMoves = maxMoves
-				Collection<Integer> allMoves = ((Map<String, Integer>) playerMoves[r]).values();
-				for(Integer moves : allMoves)
+				for(Boolean finished : ((Map<String, Boolean>) playerFinished[r]).values())
 				{
-					if(moves < minMoves)
-						minMoves = moves;
-					if(moves > maxMoves)
-						maxMoves = moves;
-					totalMoves += moves;
+					if(finished)
+					{
+						someoneFinished = true;
+						break;
+					}
+				}
+				if(someoneFinished)
+					break;
+			}
+			for(int r = 1; r < pages[c].length; r++)
+			{
+				for(Entry<String, Integer> e : ((Map<String, Integer>) playerMoves[r]).entrySet())
+				{
+					// only use finished players for minMoves
+					if(((Map<String, Boolean>) playerFinished[r]).get(e.getKey()) && e.getValue() < minMoves)
+						minMoves = e.getValue();
+					// use all players for maxMoves
+					if(e.getValue() > maxMoves)
+						maxMoves = e.getValue();
+					totalMoves += e.getValue();
 					divisor++;
 				}
 			}
-			avgMoves = totalMoves / divisor;
+			if(someoneFinished)
+			{
+				// calculate avg if there are finished players
+				avgMoves = totalMoves / divisor;
+			}
+			else
+			{
+				// if no one is finished the true min and avg will still increase
+				// hence use the current max for that
+				minMoves = maxMoves;
+				avgMoves = maxMoves;
+			}
 
 			// assign points for moves
 			int points = (avgMoves - minMoves) * 2;
@@ -438,7 +465,7 @@ public class CCCEvalNew implements Eval
 				if(points > 0)
 					points--;
 			}
-			
+
 			// create table Part 2
 			for(int r = 1; r < pages[c].length; r++)
 			{
@@ -447,7 +474,7 @@ public class CCCEvalNew implements Eval
 					createRaceTableFromLog_Part2(tables[c][r], c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs,
 							sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
 							total_sum_bonus, total_sum_races_bychallenge, (Map<String, Integer>) playerMoves[r],
-							(Map<String, Integer>) playerCrashs[r], (Map<String, Integer>) playerPosition[r], pointsForMoves[c]);
+							(Map<String, Integer>) playerCrashs[r], (Map<String, Integer>) playerPosition[r], (Map<String, Boolean>) playerFinished[r], pointsForMoves[c]);
 				}
 				catch(Exception e)
 				{
@@ -489,7 +516,9 @@ public class CCCEvalNew implements Eval
 			totalTables[c] = totalTable;
 		}
 
-		stats_racesPerPlayerPerChallenge = intFromString(p.getProperty("races.per.player.per.challenge"));
+		stats_racesPerPlayerPerChallenge =
+
+				intFromString(p.getProperty("races.per.player.per.challenge"));
 		stats_racesPerPlayer = stats_racesPerPlayerPerChallenge * (pages.length - 1);
 
 		calculateExpected(challengePlayers);
@@ -668,7 +697,7 @@ public class CCCEvalNew implements Eval
 	}
 
 	private String[][] createRaceTableFromLog_Part1(int c, int r, Map<String, Integer> playerMoves, Map<String, Integer> playerCrashs,
-			Map<String, Integer> playerPosition)
+			final Map<String, Integer> playerPosition, Map<String, Boolean> playerFinished)
 	{
 		String[][] table = new String[numberOfPlayers[c]][raceTableHead.length];
 		int last = numberOfPlayers[c];
@@ -679,6 +708,7 @@ public class CCCEvalNew implements Eval
 		int moves;
 		int crashs;
 		int position;
+		boolean finished;
 		int crashsAfterLastRankWithoutPointsThrown;
 		String log = getLog(c, r);
 
@@ -747,6 +777,7 @@ public class CCCEvalNew implements Eval
 			if(position == -1)
 			{
 				position = last--;
+				finished = false;
 			}
 			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position
 					|| log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
@@ -754,6 +785,7 @@ public class CCCEvalNew implements Eval
 			{
 				position = players.size();
 				moves = maxMoves + 1;
+				finished = false;
 			}
 			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0
 					&& log.indexOf(player + " steigt aus dem Spiel aus") < position)
@@ -762,6 +794,7 @@ public class CCCEvalNew implements Eval
 				// dann ist in der Zeile vor dem CRASH der Ausstieg
 				position = players.size();
 				moves = maxMoves + 1;
+				finished = false;
 			}
 			else if(log.lastIndexOf(player + " wird") == position)
 			{
@@ -769,14 +802,16 @@ public class CCCEvalNew implements Eval
 				position = intFromString(log.substring(position, log.indexOf(".", position + 1)));
 				if((lastRankWithoutPointsThrownIndex > 0) && (position == lastRankWithPoints) && (crashsAfterLastRankWithoutPointsThrown > 0))
 					System.out.println("    " + player + ": " + crashsAfterLastRankWithoutPointsThrown + " (" + crashs + ")");
+				finished = true;
 			}
 			else
 			{
 				position = last--;
+				finished = false;
 			}
 
 			// store in maps for later use
-			// TODO playerFinished.put(player, finished);
+			playerFinished.put(player, finished);
 			playerMoves.put(player, moves);
 			playerCrashs.put(player, crashs);
 			playerPosition.put(player, position);
@@ -801,7 +836,7 @@ public class CCCEvalNew implements Eval
 			Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
 			Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
 			Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge, Map<String, Integer> playerMoves,
-			Map<String, Integer> playerCrashs, Map<String, Integer> playerPosition, Map<Integer, Integer> pointsForMoves)
+			Map<String, Integer> playerCrashs, Map<String, Integer> playerPosition, Map<String, Boolean> playerFinished, Map<Integer, Integer> pointsForMoves)
 	{
 		int moves;
 		int crashs;
@@ -817,8 +852,10 @@ public class CCCEvalNew implements Eval
 			crashs = playerCrashs.get(player);
 			points = pointsForMoves.get(moves);
 			position = playerPosition.get(player);
-			
-			// TODO Ausstiege immer 0 Punkte!
+
+			// Ausstiege/Rausschmisse immer 0 Punkte!
+			if(!playerFinished.get(player))
+				points = 0;
 
 			if(points != -1)
 			{
