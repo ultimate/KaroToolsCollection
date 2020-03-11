@@ -20,7 +20,7 @@ public class BalancedShufflingDemo
 		List<Player> players = new LinkedList<Player>();
 		for(char c = 65; c < 65 + totalPlayers; c++)
 		{
-			players.add(new Player((int) c, "" + c, true, true, 9999, 0, 0, 999, new Color(c, c, c)));
+			players.add(new Player((int) c, "" + c, true, true, 9999, 0, 0, 999, new Color(c, c, c), 0, null));
 		}
 
 		BalancedShufflingDemo bs = new BalancedShufflingDemo(totalPlayers, numberOfMaps, players);
