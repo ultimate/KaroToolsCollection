@@ -27,8 +27,8 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
 public class CCCEval implements Eval
 {
-	public static final String	DEFAULT_FOLDER	= "";
-	public static final int[]	ALL_COLUMNS;
+	private static final String	DEFAULT_FOLDER	= "";
+	private static final int[]	ALL_COLUMNS;
 
 	static
 	{
