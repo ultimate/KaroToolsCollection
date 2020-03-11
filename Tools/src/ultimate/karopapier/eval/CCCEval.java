@@ -736,43 +736,46 @@ public class CCCEval implements Eval
 		});
 //		System.out.println("after: " + players);
 
-		// TODO: check players for finishing in same round
-		String player1, player2;
-		List<String> playersWithSameAmountOfMoves;
-		for(int i = 0; i < players.size(); i++)
+		// check players for finishing in same round (only CCC6+)
+		if(cccx > 5)
 		{
-			player1 = players.get(i);
-			moves = playerMoves.get(player1);
-			points = playerPoints.get(player1);
-
-			// Player has finished
-			if(points != -1)
+			String player1, player2;
+			List<String> playersWithSameAmountOfMoves;
+			for(int i = 0; i < players.size(); i++)
 			{
-				playersWithSameAmountOfMoves = new ArrayList<String>(players.size());
-				playersWithSameAmountOfMoves.add(player1);
-
-				double totalPoints = points;
-
-				for(int j = i + 1; j < players.size(); j++)
+				player1 = players.get(i);
+				moves = playerMoves.get(player1);
+				points = playerPoints.get(player1);
+	
+				// Player has finished
+				if(points != -1)
 				{
-					player2 = players.get(j);
-					// Check same amount of moves
-					if(playerMoves.get(player2) == moves)
+					playersWithSameAmountOfMoves = new ArrayList<String>(players.size());
+					playersWithSameAmountOfMoves.add(player1);
+	
+					double totalPoints = points;
+	
+					for(int j = i + 1; j < players.size(); j++)
 					{
-						playersWithSameAmountOfMoves.add(player2);
-						totalPoints += playerPoints.get(player2);
+						player2 = players.get(j);
+						// Check same amount of moves
+						if(playerMoves.get(player2) == moves)
+						{
+							playersWithSameAmountOfMoves.add(player2);
+							totalPoints += playerPoints.get(player2);
+						}
 					}
-				}
-
-				if(playersWithSameAmountOfMoves.size() > 1 && cccx > 5)
-				{
-					i += (playersWithSameAmountOfMoves.size() - 1);
-					points = totalPoints/playersWithSameAmountOfMoves.size();
-					for(String player : playersWithSameAmountOfMoves)
+	
+					if(playersWithSameAmountOfMoves.size() > 1)
 					{
-						playerPoints.put(player, points);
+						i += (playersWithSameAmountOfMoves.size() - 1);
+						points = totalPoints/playersWithSameAmountOfMoves.size();
+						for(String player : playersWithSameAmountOfMoves)
+						{
+							playerPoints.put(player, points);
+						}
+						System.out.println("  Challenge " + c + "." + r + " > Zuggleichheit (" + moves + " Züge, " + points + " Punkte): " + playersWithSameAmountOfMoves);
 					}
-					System.out.println("  Challenge " + c + "." + r + " > Zuggleichheit (" + moves + " Züge, " + points + " Punkte): " + playersWithSameAmountOfMoves);
 				}
 			}
 		}
