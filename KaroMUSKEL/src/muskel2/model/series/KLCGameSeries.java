@@ -67,9 +67,11 @@ public class KLCGameSeries extends GameSeries
 	protected Screen createScreens()
 	{
 		Screen s01 = new SettingsScreen(startScreen, karopapier, previousButton, nextButton);
-		Screen s02 = new PlayersScreen(s01, karopapier, previousButton, nextButton);
-		Screen s03 = new HomeMapsScreen(s02, karopapier, previousButton, nextButton);
-		Screen s04 = new SummaryScreen(s03, karopapier, previousButton, nextButton);
+		Screen s02 = new RulesScreen(s01, karopapier, previousButton, nextButton);
+		Screen s03 = new PlayersScreen(s02, karopapier, previousButton, nextButton);
+		Screen s04 = new HomeMapsScreen(s03, karopapier, previousButton, nextButton);
+		s04.setNextKey("screen.homemaps.nextskip");
+		Screen s05 = new SummaryScreen(s04, karopapier, previousButton, nextButton);
 		return s01;
 	}
 
@@ -105,11 +107,23 @@ public class KLCGameSeries extends GameSeries
 	{
 		if(this.round == PLAYERS)
 		{
+			// Liegen durchmischen
+			for(int l = 1; l <= LEAGUES; l++)
+				Collections.shuffle(this.getPlayersLeagueX(l));
+			
 			// Gruppenphase
 			for(int g = 1; g <= GROUPS; g++)
 			{
+				// Bilde Gruppe aus je 1 Spieler pro Liga
+				// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe X jeweils den X-ten Spieler pro Gruppe nehmen
+				this.getPlayersGroupX(g).clear();
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(1).get(g-1));				
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(2).get(g-1));				
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(3).get(g-1));				
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(4).get(g-1));				
 				Collections.shuffle(this.getPlayersGroupX(g), random);
-				// create a temporarily list of teams to be able to use the LeageuPlanner
+				
+				// create a temporarily list of teams to be able to use the LeaguePlanner
 				List<Team> teamsTmp = new ArrayList<Team>(this.getPlayersGroupX(g).size());
 				for(Player p : this.getPlayersGroupX(g))
 				{
@@ -168,7 +182,7 @@ public class KLCGameSeries extends GameSeries
 						increasePlannedGames(gamePlayers);
 
 						tmpRules = rules.clone().createRandomValues();
-						name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, null, this.round);
+						name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, null, this.round, g);
 
 						game = new Game(name, map, gamePlayers, tmpRules);
 
@@ -231,7 +245,7 @@ public class KLCGameSeries extends GameSeries
 				increasePlannedGames(gamePlayers);
 
 				tmpRules = rules.clone().createRandomValues();
-				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, null, this.round);
+				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, null, this.round, -1);
 
 				game = new Game(name, map, gamePlayers, tmpRules);
 
