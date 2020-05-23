@@ -31,7 +31,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
 	
-	private static final Dimension size = new Dimension(1200, 800);
+	private static final Dimension size = new Dimension(1200, 900);
 	private static final Dimension aboutSize = new Dimension(700, 500);
 
 	private Karopapier			karopapier;
