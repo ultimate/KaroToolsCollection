@@ -78,7 +78,7 @@ public class AllCombinationsGameSeries extends TeamBasedGameSeries
 				increasePlannedGames(gamePlayers);
 
 				tmpRules = rules.clone().createRandomValues();
-				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, 0, 0, match.getTeams(), -1);
+				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, 0, 0, match.getTeams(), -1, -1);
 				
 				game = new Game(name, map, gamePlayers, tmpRules);
 				

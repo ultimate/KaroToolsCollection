@@ -13,7 +13,7 @@ import muskel2.model.help.Team;
 
 public abstract class PlaceholderFactory
 {
-	public static String applyPlaceholders(Karopapier karopapier, String title, Map map, List<Player> gamePlayers, Rules rules, int count, int day, int dayCount, Team[] teams, int rounds)
+	public static String applyPlaceholders(Karopapier karopapier, String title, Map map, List<Player> gamePlayers, Rules rules, int count, int day, int dayCount, Team[] teams, int round, int group)
 	{
 		String name = title;
 		StringBuilder tmp;
@@ -22,9 +22,15 @@ public abstract class PlaceholderFactory
 		name = name.replace("${i}", "" + (count + 1));
 		if(day >= 0)
 		{
-			name = name.replace("${spieltag}", "" + (day + 1));
+			name = name.replace("${spieltag}", Language.getString("titlepatterns.day") + " " + (day + 1));
 			name = name.replace("${spieltag.i}", "" + (dayCount + 1));
 		}
+		else
+		{
+			name = name.replace("${spieltag}", "");
+			name = name.replace("${spieltag.i}", "");
+		}
+			
 		
 		// karte
 		name = name.replace("${karte.id}", "" + map.getId());
@@ -79,21 +85,20 @@ public abstract class PlaceholderFactory
 		}
 		
 		// runde
-		if(rounds > 0)
+		if(round > 0)
 		{
 			if(name.contains("${runde}"))
 			{
-				if(rounds == 2)
+				if(round == 2)
 					name = name.replace("${runde}", Language.getString("titlepatterns.final"));
-				else if(rounds == 4)
+				else if(round == 4)
 					name = name.replace("${runde}", Language.getString("titlepatterns.semifinal"));
-				else if(rounds == 8)
+				else if(round == 8)
 					name = name.replace("${runde}", Language.getString("titlepatterns.quarterfinal"));
-				else
-				{
-					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (rounds/2)).replace("${i}", "" + (rounds)));
-					
-				}
+				else if(group <= 0)
+					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round/2)).replace("${i}", "" + (round)));
+				else 
+					name = name.replace("${runde}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
 			}
 		}
 		
@@ -160,6 +165,6 @@ public abstract class PlaceholderFactory
 	 */
 	public static String applyPlaceholders(Karopapier karopapier, String title, Game game, int count)
 	{
-		return applyPlaceholders(karopapier, title, game.getMap(), game.getPlayers(), game.getRules(), count, 0, 0, null, 0);
+		return applyPlaceholders(karopapier, title, game.getMap(), game.getPlayers(), game.getRules(), count, 0, 0, null, 0, 0);
 	}
 }
