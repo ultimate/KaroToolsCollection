@@ -63,7 +63,7 @@ public class HomeMapsScreen extends Screen
 			for(int i = 0; i < this.numberOfTeams; i++)
 			{
 				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
-				((KLCGameSeries) gameSeries).getPlayers().get(i).setHomeMap(homeMap);
+				((KLCGameSeries) gameSeries).getAllPlayers().get(i).setHomeMap(homeMap);
 			}
 		}
 		return gameSeries;
@@ -173,7 +173,7 @@ public class HomeMapsScreen extends Screen
 			if(enabled && gameSeries instanceof TeamBasedGameSeries)
 				label = ((TeamBasedGameSeries) gameSeries).getTeams().get(i).getName();
 			else if(enabled && gameSeries instanceof KLCGameSeries)
-				label = ((KLCGameSeries) gameSeries).getPlayers().get(i).getName();
+				label = ((KLCGameSeries) gameSeries).getAllPlayers().get(i).getName();
 			else
 				label = "Team " + (i + 1);
 

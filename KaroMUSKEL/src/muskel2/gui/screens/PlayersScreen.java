@@ -120,7 +120,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				playerList = ((KLCGameSeries) gameSeries).getPlayersLeagueX(i + 1);
 				playerList.clear();
 				Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(players.length == KLCGameSeries.GROUPS)
+				if(players.length != KLCGameSeries.GROUPS)
 					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName);
 				for(Object player : players)
 				{
@@ -290,6 +290,8 @@ public class PlayersScreen extends Screen implements ActionListener
 					buttonPanel.add(removeButton, gbc2);
 
 					teamNameTF = new JTextField("Team " + (i + 1), 15);
+					if(gameSeries instanceof KLCGameSeries)
+						teamNameTF.setText("Liga " + (i + 1));
 					teamNameTF.setEnabled(enabled);
 
 					teamPlayersLI = new JList(new GenericListModel<String, Player>(new HashMap<String, Player>()));
@@ -329,9 +331,9 @@ public class PlayersScreen extends Screen implements ActionListener
 				removeButton.setEnabled(i < this.teams);
 
 				if(gameSeries instanceof KLCGameSeries)
-					teamNameTF.setEnabled(i < this.teams);
-				else
 					teamNameTF.setText("Liga " + (i + 1));
+				else
+					teamNameTF.setEnabled(i < this.teams);
 
 				if(i >= this.teams)
 				{
