@@ -23,7 +23,7 @@ public class AllCombinationsGameSeries extends TeamBasedGameSeries
 
 	public AllCombinationsGameSeries()
 	{
-		super("gameseries.allcombinations.titlepatterns");
+		super("gameseries.allcombinations.defaultTitle");
 	}
 
 	public int getNumberOfTeamsPerMatch()

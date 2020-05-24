@@ -60,7 +60,7 @@ public class KLCGameSeries extends GameSeries
 
 	public KLCGameSeries()
 	{
-		super("gameseries.klc.titlepatterns");
+		super("gameseries.klc.defaultTitle");
 	}
 
 	@Override

@@ -114,6 +114,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 			this.titleLabel = new JLabel(Language.getString("screen.settings.title"));
 			this.titleTF = new JTextField(84);
+			this.titleTF.setText(Language.getString(this.gameSeries.getDefaultTitleKey()));
 			this.titleTF.setToolTipText(Language.getString("titlepatterns"));
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;

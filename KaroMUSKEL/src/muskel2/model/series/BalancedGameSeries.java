@@ -35,7 +35,7 @@ public class BalancedGameSeries extends GameSeries
 
 	public BalancedGameSeries()
 	{
-		super("gameseries.balanced.titlepatterns");
+		super("gameseries.balanced.defaultTitle");
 	}
 
 	@Override

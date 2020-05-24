@@ -21,7 +21,7 @@ public class LeagueGameSeries extends TeamBasedGameSeries
 
 	public LeagueGameSeries()
 	{
-		super("gameseries.league.titlepatterns");
+		super("gameseries.league.defaultTitle");
 	}
 
 	@Override

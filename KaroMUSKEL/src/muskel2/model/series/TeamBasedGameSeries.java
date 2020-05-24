@@ -31,9 +31,9 @@ public abstract class TeamBasedGameSeries extends GameSeries
 	protected List<Team>		teams;
 	protected List<Team>		shuffledTeams;
 
-	public TeamBasedGameSeries(String patternKey)
+	public TeamBasedGameSeries(String defaultTitleKey)
 	{
-		super(patternKey);
+		super(defaultTitleKey);
 		this.teams = new LinkedList<Team>();
 	}
 

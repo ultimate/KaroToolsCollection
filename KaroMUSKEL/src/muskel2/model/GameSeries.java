@@ -12,9 +12,11 @@ import muskel2.gui.screens.SummaryScreen;
 
 public abstract class GameSeries implements Serializable
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long		serialVersionUID	= 2L;
 
 	protected String				title;
+	protected String				defaultTitleKey;
+	@Deprecated
 	protected String				patternKey;
 	protected Player				creator;
 	protected Rules					rules;
@@ -31,12 +33,12 @@ public abstract class GameSeries implements Serializable
 
 	protected static Random			random				= new Random();
 
-	public GameSeries(String patternKey)
+	public GameSeries(String defaultTitleKey)
 	{
 		this.games = new LinkedList<Game>();
 		this.players = new LinkedList<Player>();
 		this.maps = new LinkedList<Map>();
-		this.patternKey = patternKey;
+		this.defaultTitleKey = defaultTitleKey;
 	}
 
 	public String getTitle()
@@ -44,9 +46,9 @@ public abstract class GameSeries implements Serializable
 		return title;
 	}
 
-	public String getPatternKey()
+	public String getDefaultTitleKey()
 	{
-		return patternKey;
+		return defaultTitleKey;
 	}
 
 	public Player getCreator()
@@ -153,7 +155,7 @@ public abstract class GameSeries implements Serializable
 	}
 
 	protected abstract Screen createScreens();
-	
+
 	protected Screen createScreensOnLoad()
 	{
 		SummaryScreen s = new SummaryScreen(startScreen, karopapier, previousButton, nextButton);
@@ -169,22 +171,22 @@ public abstract class GameSeries implements Serializable
 		this.planGames0();
 		System.out.println("Spiele geplant: " + this.games.size());
 	}
-	
+
 	protected abstract void planGames0();
 
 	public abstract int getMinSupportedPlayersPerMap();
-	
+
 	protected void resetPlannedGames(List<Player> players)
 	{
-		for(Player player: players)
+		for(Player player : players)
 		{
 			player.setGamesActOrPlanned(player.getGamesAct());
 		}
 	}
-	
+
 	protected void increasePlannedGames(List<Player> players)
 	{
-		for(Player player: players)
+		for(Player player : players)
 		{
 			player.setGamesActOrPlanned(player.getGamesActOrPlanned() + 1);
 		}
