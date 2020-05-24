@@ -22,12 +22,7 @@ public class KOGameSeries extends TeamBasedGameSeries
 
 	public KOGameSeries()
 	{
-		super("gameseries.ko.titlepatterns");
-	}
-	
-	protected KOGameSeries(String patternKey)
-	{
-		super("gameseries.ko.titlepatterns");
+		super("gameseries.ko.defaultTitle");
 	}
 
 	@Override

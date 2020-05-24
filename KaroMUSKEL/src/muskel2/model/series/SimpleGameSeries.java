@@ -28,7 +28,7 @@ public class SimpleGameSeries extends GameSeries
 
 	public SimpleGameSeries()
 	{
-		super("gameseries.simple.titlepatterns");
+		super("gameseries.simple.defaultTitle");
 	}
 
 	@Override
