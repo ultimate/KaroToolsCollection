@@ -22,7 +22,7 @@ public abstract class PlaceholderFactory
 		name = name.replace("${i}", "" + (count + 1));
 		if(day >= 0)
 		{
-			name = name.replace("${spieltag}", Language.getString("titlepatterns.day") + " " + (day + 1));
+			name = name.replace("${spieltag}", "" + (day + 1));
 			name = name.replace("${spieltag.i}", "" + (dayCount + 1));
 		}
 		else
@@ -99,6 +99,19 @@ public abstract class PlaceholderFactory
 					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round/2)).replace("${i}", "" + (round)));
 				else 
 					name = name.replace("${runde}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
+			}
+			if(name.contains("${runde.x}"))
+			{
+				if(round == 2)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.final") + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else if(round == 4)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.semifinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else if(round == 8)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.quarterfinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else if(group <= 0)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round/2)).replace("${i}", "" + (round)) + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else 
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)) + ", " + Language.getString("titlepatterns.day") + " " + (day+1) );
 			}
 		}
 		
