@@ -3,20 +3,22 @@ package muskel2.model.series;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import muskel2.gui.Screen;
 import muskel2.gui.screens.GroupWinnersScreen;
 import muskel2.gui.screens.HomeMapsScreen;
 import muskel2.gui.screens.KOWinnersScreen;
-import muskel2.gui.screens.MapsScreen;
 import muskel2.gui.screens.PlayersScreen;
 import muskel2.gui.screens.RulesScreen;
 import muskel2.gui.screens.SettingsScreen;
 import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
+import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.Rules;
@@ -27,30 +29,34 @@ import muskel2.util.PlaceholderFactory;
 
 public class KLCGameSeries extends GameSeries
 {
-	private static final long	serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
-	public static int			GROUPS				= 8;
-	public static int			LEAGUES				= 4;
-	public static int			PLAYERS				= GROUPS * LEAGUES;
+	public static int					GROUPS				= 8;
+	public static int					LEAGUES				= 4;
+	public static int					PLAYERS				= GROUPS * LEAGUES;
+	public static int					FIRST_KO_ROUND		= 16;
+	public static int					WINNERS_PER_GROUP	= FIRST_KO_ROUND / GROUPS;
 
-	private List<Player>		allPlayers			= new ArrayList<Player>(PLAYERS);
-	private List<Player>		playersLeague1		= new ArrayList<Player>(8);
-	private List<Player>		playersLeague2		= new ArrayList<Player>(8);
-	private List<Player>		playersLeague3		= new ArrayList<Player>(8);
-	private List<Player>		playersLeague4		= new ArrayList<Player>(8);
-	private List<Player>		playersGroup1		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup2		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup3		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup4		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup5		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup6		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup7		= new ArrayList<Player>(4);
-	private List<Player>		playersGroup8		= new ArrayList<Player>(4);
-	private List<Player>		playersRoundOf16	= new ArrayList<Player>(16);
-	private List<Player>		playersRoundOf8		= new ArrayList<Player>(8);
-	private List<Player>		playersRoundOf4		= new ArrayList<Player>(4);
-	private List<Player>		playersRoundOf2		= new ArrayList<Player>(2);
-	private int					round				= PLAYERS;
+	private List<Player>				allPlayers			= new ArrayList<Player>(PLAYERS);
+	private List<Player>				playersLeague1		= new ArrayList<Player>(8);
+	private List<Player>				playersLeague2		= new ArrayList<Player>(8);
+	private List<Player>				playersLeague3		= new ArrayList<Player>(8);
+	private List<Player>				playersLeague4		= new ArrayList<Player>(8);
+	private List<Player>				playersGroup1		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup2		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup3		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup4		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup5		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup6		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup7		= new ArrayList<Player>(4);
+	private List<Player>				playersGroup8		= new ArrayList<Player>(4);
+	private List<Player>				playersRoundOf16	= new ArrayList<Player>(16);
+	private List<Player>				playersRoundOf8		= new ArrayList<Player>(8);
+	private List<Player>				playersRoundOf4		= new ArrayList<Player>(4);
+	private List<Player>				playersRoundOf2		= new ArrayList<Player>(2);
+	private int							round				= PLAYERS;
+
+	private HashMap<Integer, Integer>	homeMaps			= new HashMap<Integer, Integer>();
 
 	public KLCGameSeries()
 	{
@@ -88,41 +94,59 @@ public class KLCGameSeries extends GameSeries
 	{
 		Screen s01 = super.createScreensOnLoad();
 		s01.setNextKey("screen.summary.nextko");
-		if(this.players.size() == PLAYERS)
+		if(round == PLAYERS)
 		{
 			Screen s02 = new GroupWinnersScreen(s01, karopapier, previousButton, nextButton);
 			Screen s03 = new SummaryScreen(s02, karopapier, previousButton, nextButton);
 		}
-		else if(playersRoundOf2.size() == 0)
+		else if(round > 2)
 		{
 			Screen s02 = new KOWinnersScreen(s01, karopapier, previousButton, nextButton);
 			Screen s03 = new SummaryScreen(s02, karopapier, previousButton, nextButton);
 		}
 		round = round / 2;
+		
+		// Restore HomeMaps
+		System.out.println("restoring homemaps");
+		for(Entry<Integer, Integer> e: this.homeMaps.entrySet())
+		{
+			for(Player p: this.getKaropapier().getPlayers().values())
+			{
+				if(p.getId() == e.getKey())
+					p.setHomeMap(this.getKaropapier().getMaps().get(e.getValue()));
+			}
+		}
+		
 		return s01;
 	}
 
 	@Override
 	protected void planGames0()
 	{
+		// HomeMaps für Serialization sichern
+		this.homeMaps.clear();
+		for(Player p: this.allPlayers)
+			this.homeMaps.put(p.getId(), p.getHomeMap().getId());
+		
 		if(this.round == PLAYERS)
 		{
 			// Liegen durchmischen
 			for(int l = 1; l <= LEAGUES; l++)
 				Collections.shuffle(this.getPlayersLeagueX(l));
-			
+
 			// Gruppenphase
 			for(int g = 1; g <= GROUPS; g++)
 			{
 				// Bilde Gruppe aus je 1 Spieler pro Liga
-				// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe X jeweils den X-ten Spieler pro Gruppe nehmen
+				// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
+				// X jeweils den X-ten Spieler pro Gruppe nehmen
 				this.getPlayersGroupX(g).clear();
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(1).get(g-1));				
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(2).get(g-1));				
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(3).get(g-1));				
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(4).get(g-1));				
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(1).get(g - 1));
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(2).get(g - 1));
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(3).get(g - 1));
+				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(4).get(g - 1));
 				Collections.shuffle(this.getPlayersGroupX(g), random);
-				
+
 				// create a temporarily list of teams to be able to use the LeaguePlanner
 				List<Team> teamsTmp = new ArrayList<Team>(this.getPlayersGroupX(g).size());
 				for(Player p : this.getPlayersGroupX(g))
@@ -182,7 +206,7 @@ public class KLCGameSeries extends GameSeries
 						increasePlannedGames(gamePlayers);
 
 						tmpRules = rules.clone().createRandomValues();
-						name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, null, this.round, g);
+						name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, match.getTeams(), this.round, g);
 
 						game = new Game(name, map, gamePlayers, tmpRules);
 
@@ -206,6 +230,7 @@ public class KLCGameSeries extends GameSeries
 			Player home, guest;
 			List<Player> gamePlayers;
 			Rules tmpRules;
+			Team tmpTeamHome, tmpTeamGuest;
 			for(int i = 0; i < this.round; i = i + 2)
 			{
 				if(this.getPlayersRoundOfX(this.round).get(i).getLeague() > this.getPlayersRoundOfX(this.round).get(i + 1).getLeague())
@@ -245,7 +270,9 @@ public class KLCGameSeries extends GameSeries
 				increasePlannedGames(gamePlayers);
 
 				tmpRules = rules.clone().createRandomValues();
-				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, null, this.round, -1);
+				tmpTeamHome = new Team(home.getName(), Arrays.asList(home));
+				tmpTeamGuest = new Team(guest.getName(), Arrays.asList(guest));
+				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, new Team[] { tmpTeamHome, tmpTeamGuest }, this.round, -1);
 
 				game = new Game(name, map, gamePlayers, tmpRules);
 

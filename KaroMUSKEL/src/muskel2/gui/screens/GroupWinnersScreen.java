@@ -1,15 +1,16 @@
 package muskel2.gui.screens;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -24,7 +25,6 @@ import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.Player;
-import muskel2.model.help.GenericListModel;
 import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
@@ -44,6 +44,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
@@ -69,9 +70,22 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 			for(int g = 1; g <= KLCGameSeries.GROUPS; g++)
 			{
-				for(int i = 0; i < (Integer) numberOfWinnersPerGroupSpinner.getValue(); i++)
+				DefaultListModel<String> model = (DefaultListModel<String>) groupLists[g - 1].getModel();
+				String name;
+				Player player;
+				for(int i = 0; i < KLCGameSeries.WINNERS_PER_GROUP; i++)
 				{
-					winnerPlayers.add(((KLCGameSeries) gameSeries).getPlayersGroupX(g).get(i));
+					name = model.get(i);
+					player = null;
+					for(Player p: ((KLCGameSeries) gameSeries).getPlayersGroupX(g))
+					{
+						if(p.getName().equalsIgnoreCase(name))
+						{
+							player = p;
+							break;
+						}
+					}
+					winnerPlayers.add(player);
 				}
 			}
 
@@ -117,12 +131,14 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(5, 5, 5, 5);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
+			
+			// TODO numberOfWinnersPerGroup
 
 			groupLists = new JList[groups];
 
 			JLabel groupLabel;
 			JButton upButton, downButton;
-			for(int i = 0; i < groups; i = i + 2)
+			for(int i = 0; i < groups; i++)
 			{
 				gbc.gridy = i * 2;
 
@@ -130,20 +146,27 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				gbc.gridx = 0;
 				gbc.gridheight = 2;
 				contentPanel.add(groupLabel, gbc);
+				
+				DefaultListModel<String> model = new DefaultListModel<String>();
+				for(String name: names.get(i))
+					model.addElement(name);
 
-				groupLists[i] = new JList<String>(names.get(i).toArray(new String[] {}));
+				groupLists[i] = new JList<String>(model);
+				groupLists[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 				gbc.gridx = 1;
 				gbc.gridheight = 2;
 				contentPanel.add(groupLists[i], gbc);
 
 				upButton = new JButton(Language.getString("screen.groupwinners.up"));
 				upButton.setActionCommand("up_" + (i + 1));
+				upButton.addActionListener(this);
 				gbc.gridx = 2;
 				gbc.gridheight = 1;
 				contentPanel.add(upButton, gbc);
 
 				downButton = new JButton(Language.getString("screen.groupwinners.down"));
 				downButton.setActionCommand("down_" + (i + 1));
+				downButton.addActionListener(this);
 				gbc.gridx = 2;
 				gbc.gridy++;
 				gbc.gridheight = 1;
@@ -175,14 +198,14 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			}
 			groupLists[group - 1].setSelectedIndices(indices);
 		}
-		else
+		else if(e.getActionCommand().startsWith("down"))
 		{
 			int[] indices = groupLists[group - 1].getSelectedIndices();
 			DefaultListModel<String> model = (DefaultListModel<String>) groupLists[group - 1].getModel();
-			for(int si = indices.length-1; si >= 0; si++)
+			for(int si = indices.length-1; si >= 0; si--)
 			{
 				int index = indices[si];
-				if(index == model.getSize())
+				if(index == model.getSize() - 1)
 					break;
 				String tmp = model.get(index + 1);
 				model.set(index + 1, model.get(index));
@@ -190,7 +213,6 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				indices[si]++;
 			}
 			groupLists[group - 1].setSelectedIndices(indices);
-
 		}
 	}
 }
