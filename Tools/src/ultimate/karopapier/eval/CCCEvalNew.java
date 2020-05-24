@@ -850,8 +850,8 @@ public class CCCEvalNew implements Eval
 		{
 			moves = playerMoves.get(player);
 			crashs = playerCrashs.get(player);
-			points = pointsForMoves.get(moves);
 			position = playerPosition.get(player);
+			points = pointsForMoves.get(moves) * (intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + position)) + 1);
 
 			// Ausstiege/Rausschmisse immer 0 Punkte!
 			if(!playerFinished.get(player))
@@ -980,9 +980,9 @@ public class CCCEvalNew implements Eval
 			}
 		}
 
-		addBonus(c, index_minMoves, pages[c].length + 2, totalTable, challengePlayers, total_sum_bonus);
+//		addBonus(c, index_minMoves, pages[c].length + 2, totalTable, challengePlayers, total_sum_bonus);
 		addBonus(c, index_maxCrashs, pages[c].length + 1, totalTable, challengePlayers, total_sum_bonus);
-		addBonus(c, index_maxBasePoints, pages[c].length + 0, totalTable, challengePlayers, total_sum_bonus);
+//		addBonus(c, index_maxBasePoints, pages[c].length + 0, totalTable, challengePlayers, total_sum_bonus);
 		// addBonus(c, index_maxPointsUnskaled, totalTable, challengePlayers,
 		// total_sum_bonus);
 
