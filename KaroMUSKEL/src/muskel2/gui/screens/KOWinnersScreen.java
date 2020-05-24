@@ -81,8 +81,8 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 			if(winnerPlayers.size() != ((KLCGameSeries) gameSeries).getRound())
 				throw new GameSeriesException("screen.kowinners.notenoughwinners");
-
-			((KLCGameSeries) gameSeries).getPlayersGroupX(((KLCGameSeries) gameSeries).getRound()).addAll(winnerPlayers);
+			((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()).clear();
+			((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()).addAll(winnerPlayers);
 		}
 		return gameSeries;
 	}
@@ -108,7 +108,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			{
 				numBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
 				names = new ArrayList<String>(numBefore);
-				for(Player p: ((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()))
+				for(Player p: ((KLCGameSeries) gameSeries).getPlayersRoundOfX(numBefore))
 				{
 					names.add(p.getName());
 				}
