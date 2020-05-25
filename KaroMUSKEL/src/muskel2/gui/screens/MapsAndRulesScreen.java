@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -125,11 +126,19 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 			Boolean checkpointsActivated;
 
 			for(int i = 0; i < this.numberOfMaps; i++)
-			{
+			{				
+				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
+				LinkedList<Map> maps = new LinkedList<Map>(karopapier.getMaps().values());
+				maps.removeIf(new Predicate<Map>() { @Override
+				public boolean test(Map t)
+				{
+					return t.getMaxPlayers() < 3;
+				}});
+				
 				map = ((BalancedGameSeries) gameSeries).getMap(i);
 				if(map == null)
-					map = karopapier.getMaps().firstEntry().getValue();
-
+					map = maps.getFirst();
+					
 				rules = ((BalancedGameSeries) gameSeries).getRules(i);
 				if(rules != null)
 				{
@@ -159,7 +168,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				contentPanel.add(label, gbc);
 
 				mapCB = new JComboBox();
-				mapCB.setModel(new DefaultComboBoxModel(karopapier.getMaps().values().toArray(new Map[0])));
+				mapCB.setModel(new DefaultComboBoxModel(maps.toArray(new Map[0])));
 				mapCB.setRenderer(new MapRenderer());
 				mapCB.setSelectedItem(map);
 				mapCB.addActionListener(this);
@@ -182,7 +191,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				label = new JLabel(Language.getString("screen.mapsAndRules.numberOfPlayers"));
 				gbc.gridx++;
 				contentPanel.add(label, gbc);
-				numberOfPlayersSpinner = new JSpinner(new SpinnerNumberModel(Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers), 1, Math
+				numberOfPlayersSpinner = new JSpinner(new SpinnerNumberModel(Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers), 2, Math
 						.min(gameSeries.getPlayers().size()+1, map.getMaxPlayers()-1), 1));
 				gbc.gridx++;
 				contentPanel.add(numberOfPlayersSpinner, gbc);
