@@ -20,6 +20,9 @@ public abstract class PlaceholderFactory
 
 		// zaehlung
 		name = name.replace("${i}", "" + (count + 1));
+		name = name.replace("${ii}", toString(count + 1, 2));
+		name = name.replace("${iii}", toString(count + 1, 3));
+		name = name.replace("${iiii}", toString(count + 1, 4));
 		if(day >= 0)
 		{
 			name = name.replace("${spieltag}", "" + (day + 1));
@@ -164,6 +167,11 @@ public abstract class PlaceholderFactory
 		name = name.replace("${regeln.cps}", Language.getString("titlepatterns.cps." + rules.getCheckpointsActivated()));
 		name = name.replace("${regeln.richtung}", Language.getString("titlepatterns.direction") + rules.getDirection());
 
+		name = name.replace("  ", "");
+		name = name.trim();
+		if(name.endsWith(","))
+			name = name.substring(0, name.length() -1);
+		
 		return name;
 	}
 	
@@ -179,5 +187,13 @@ public abstract class PlaceholderFactory
 	public static String applyPlaceholders(Karopapier karopapier, String title, Game game, int count)
 	{
 		return applyPlaceholders(karopapier, title, game.getMap(), game.getPlayers(), game.getRules(), count, 0, 0, null, 0, 0);
+	}
+	
+	private static String toString(int x, int digits)
+	{
+		String s = "" + x;
+		while(s.length() < digits)
+			s = "0" + s;
+		return s;
 	}
 }
