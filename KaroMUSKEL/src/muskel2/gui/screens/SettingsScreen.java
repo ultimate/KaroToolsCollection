@@ -179,7 +179,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 4, LeagueGameSeries.MAX_TEAMS, 2));
 						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(false);
+						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
 						numberOfTeamsSpinner.addChangeListener(this);
 					}
@@ -187,7 +187,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						numberOfTeamsSpinner = new JSpinner(new KORoundNumberModel(8, KOGameSeries.MAX_TEAMS));
 						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(false);
+						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
 						numberOfTeamsSpinner.addChangeListener(this);
 					}
@@ -195,11 +195,11 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 3, AllCombinationsGameSeries.MAX_TEAMS, 1));
 						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(false);
+						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
 						numberOfTeamsPerMatchSpinner = new JSpinner(new AllCombinationsNumberModel(3, numberOfTeamsSpinner));
 						((DefaultEditor) this.numberOfTeamsPerMatchSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
-						((DefaultEditor) this.numberOfTeamsPerMatchSpinner.getEditor()).getTextField().setEditable(false);
+						((DefaultEditor) this.numberOfTeamsPerMatchSpinner.getEditor()).getTextField().setEditable(true);
 
 						numberOfTeamsSpinner.addChangeListener(this);
 						numberOfTeamsPerMatchSpinner.addChangeListener(this);
