@@ -70,15 +70,16 @@ ${TOTAL}
 * '''10.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]]
 * '''13.12.2019 ??:??''' Unbekannter Fehler führt dazu, dass Cron-Job und damit Eval-Script nicht mehr ausgeführt werden... Dies verhindert auch die planmäßige Erstellung der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]]
 * '''18.12.2019 17:30''' Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]] nachgeholt
-* '''24.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]] (geplant)
-* '''31.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|Challenge 17]] (geplant)
-* '''07.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|Challenge 18]] (geplant)
-* '''14.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 19|Challenge 19]] (geplant)
-* '''21.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 20|Challenge 20]] (geplant)
-* '''28.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 21|Challenge 21]] (geplant)
-* '''04.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 22|Challenge 22]] (geplant)
-* '''11.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 23|Challenge 23]] (geplant)
-* '''18.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 24|Challenge 24]] (geplant)
+* '''24.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]]
+* '''31.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|Challenge 17]]
+* '''07.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|Challenge 18]]
+* '''14.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 19|Challenge 19]]
+* '''21.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 20|Challenge 20]]
+* '''28.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 21|Challenge 21]]
+* '''04.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 22|Challenge 22]]
+* '''11.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 23|Challenge 23]]
+* '''18.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 24|Challenge 24]]
+* '''25.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 25|Challenge 25]]
 
 = Statistik =
 ${STATS}
