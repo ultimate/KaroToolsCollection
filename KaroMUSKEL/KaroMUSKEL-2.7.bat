@@ -1,1 +1,0 @@
-java -cp bin muskel2.Main
