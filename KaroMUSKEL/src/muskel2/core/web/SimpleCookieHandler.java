@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class SimpleCookieHandler extends CookieHandler
 {
-	private List<Cookie>	cache	= new LinkedList<Cookie>();
+	private List<Cookie>	cache	= Collections.synchronizedList(new LinkedList<Cookie>());
 
 	@Override
 	public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException
@@ -24,7 +24,8 @@ public class SimpleCookieHandler extends CookieHandler
 			{
 				Cookie cookie = new Cookie(uri, item);
 				// Remove cookie if it already exists - New one will replace
-				for(Cookie existingCookie : cache)
+				List<Cookie> temp = new LinkedList<Cookie>(cache);
+				for(Cookie existingCookie : temp)
 				{
 					if(/* (cookie.getURI().equals(existingCookie.getURI())) && */(cookie.getName().equals(existingCookie.getName())))
 					{
