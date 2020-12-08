@@ -47,7 +47,7 @@ public class KaropapierLoader
 	public static final String		newGameURLString		= "newgame.php";
 	private static final String		newGameURL2String		= "creategame.php";
 
-	private static final String		loginURLString			= "anmelden.php";
+	private static final String		loginURLString			= "anmelden";
 
 	private static final String		playerURLString			= "users.php";
 
