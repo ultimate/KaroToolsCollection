@@ -39,7 +39,8 @@ public class KaropapierLoader
 
 	public static final String		imageCache				= "cache";
 
-	public static final String		userAgent				= "KaroMUSKEL-" + Language.getString("version") + " (Java " + System.getProperty("java.version") + ")";
+	public static final String		userAgent				= "KaroMUSKEL-" + Language.getString("version") + " (Java "
+			+ System.getProperty("java.version") + ")";
 
 	public static final String		server					= "http://www.karopapier.de";
 	public static final String		serverReloaded			= "http://reloaded.karopapier.de";
@@ -80,7 +81,7 @@ public class KaropapierLoader
 		URL newGameURL2 = new URL(server + (newGameURL2String.charAt(0) == '/' ? "" : "/") + newGameURL2String);
 
 		URL playerURL = new URL(server + (newGameURLString.charAt(0) == '/' ? "" : "/") + playerURLString);
-		
+
 		System.out.println("Setting HTTP user agent: " + userAgent);
 		System.setProperty("http.agent", userAgent);
 
@@ -94,8 +95,7 @@ public class KaropapierLoader
 		System.out.println(" OK!");
 
 		System.out.print("Downloading newGamePage2...");
-		String newGamePage2 = readPage(newGameURL2, "ChangeMap=Ändern"); // für
-																			// Karteninfos
+		String newGamePage2 = readPage(newGameURL2, "ChangeMap=Ändern"); // für Karteninfos
 		System.out.println(" OK!");
 
 		System.out.print("Downloading playerPage...");
@@ -115,16 +115,19 @@ public class KaropapierLoader
 
 	public static ArrayList<Player> processLoginPage(String loginPage)
 	{
+		final String startTag= "<OPTION VALUE=\"";
+		final String endTag	= "\">";
+		
 		ArrayList<Player> players = new ArrayList<Player>();
 
 		int currentIndex = 0;
 		while(true)
 		{
-			int start = loginPage.indexOf("<OPTION VALUE=\"", currentIndex);
+			int start = loginPage.indexOf(startTag, currentIndex);
 			if(start == -1)
 				break;
-			start = start + "<OPTION VALUE=\"".length();
-			int end = loginPage.indexOf("\">", start);
+			start = start + startTag.length();
+			int end = loginPage.indexOf(endTag, start);
 			if(end == -1)
 				break;
 			currentIndex = end;
@@ -143,19 +146,22 @@ public class KaropapierLoader
 
 	public static List<Player> processPlayerPage(String playerPage)
 	{
+		final String startTag= "/users/\"";
+		final String endTag	= "bgcolor=";
+		
 		List<Player> players = new LinkedList<Player>();
 
 		int currentIndex = 0;
 		while(true)
 		{
-			int start = playerPage.indexOf("/users/", currentIndex);
+			int start = playerPage.indexOf(startTag, currentIndex);
 			if(start == -1)
 				break;
-			start = start + "/users/".length();
-			int end = playerPage.indexOf("BGCOLOR=", start);
-			end = playerPage.indexOf(">", end);
+			start = start + startTag.length();
+			int end = playerPage.indexOf(endTag, start);
 			if(end == -1)
 				break;
+			end = playerPage.indexOf(">", end) - 1;
 			// end = end + "BGCOLOR=".length() + 6;
 			currentIndex = end;
 
@@ -165,7 +171,7 @@ public class KaropapierLoader
 
 			String idS = playerS.substring(0, playerS.indexOf("\">"));
 			String name = playerS.substring(playerS.indexOf("<b>") + "<b>".length(), playerS.indexOf("</b>"));
-			String colorS = "#" + playerS.substring(playerS.indexOf("BGCOLOR=") + "BGCOLOR=".length());
+			String colorS = playerS.substring(playerS.indexOf(endTag) + endTag.length() + 1);
 
 			Player currentPlayer = new Player();
 			currentPlayer.setId(Integer.parseInt(idS));
@@ -181,6 +187,14 @@ public class KaropapierLoader
 	public static Karopapier processNewGamePages(String server, String newGamePage, String newGamePage2, List<Player> playersFromPlayerPage)
 			throws MalformedURLException, IOException
 	{
+		final String selectStartTag_1= "<SELECT NAME=mapid";
+		final String selectStartTag_2= "<SELECT NAME=teilnehmer";
+		final String selectEndTag= "</SELECT>";
+		final String optionStartTag= "<OPTION VALUE=";
+		final String optionEndTag	= "<";
+		final String creatorStartTag= "return overlib('";
+		final String creatorEndTag	= " Spieler: <IMG SRC";
+		
 		int currentIndex;
 
 		// Initialisierung
@@ -189,19 +203,19 @@ public class KaropapierLoader
 		boolean unlocked = KaropapierLoader.checkUnlockFile(currentUser);
 
 		// maps lesen aus newGamePage
-		String firstSelect = newGamePage.substring(newGamePage.indexOf("<SELECT NAME=mapid"),
-				newGamePage.indexOf("</SELECT>", newGamePage.indexOf("<SELECT NAME=mapid")) + "</SELECT>".length());
+		String firstSelect = newGamePage.substring(newGamePage.indexOf(selectStartTag_1),
+				newGamePage.indexOf(selectEndTag, newGamePage.indexOf(selectStartTag_1)) + selectEndTag.length());
 		String mapS = null, mapId, mapName, maxPlayers, creator;
 		currentIndex = 0;
 		while(true)
 		{
 			try
 			{
-				int start = firstSelect.indexOf("<OPTION VALUE=", currentIndex);
+				int start = firstSelect.indexOf(optionStartTag, currentIndex);
 				if(start == -1)
 					break;
-				start = start + "<OPTION VALUE=".length();
-				int end = firstSelect.indexOf("<", start);
+				start = start + optionStartTag.length();
+				int end = firstSelect.indexOf(optionEndTag, start);
 				if(end == -1)
 				{
 					break;
@@ -241,11 +255,11 @@ public class KaropapierLoader
 		currentIndex = 0;
 		while(true)
 		{
-			int start = newGamePage2.indexOf("return overlib('", currentIndex);
+			int start = newGamePage2.indexOf(creatorStartTag, currentIndex);
 			if(start == -1)
 				break;
-			start = start + "return overlib('".length();
-			int end = newGamePage2.indexOf(" Spieler: <IMG SRC", start);
+			start = start + creatorStartTag.length();
+			int end = newGamePage2.indexOf(creatorEndTag, start);
 			if(end == -1)
 			{
 				break;
@@ -271,16 +285,16 @@ public class KaropapierLoader
 		}
 
 		// player lesen aus newGamePage
-		String secondSelect = newGamePage.substring(newGamePage.indexOf("<SELECT NAME=teilnehmer"),
-				newGamePage.indexOf("</SELECT>", newGamePage.indexOf("<SELECT NAME=teilnehmer")) + "</SELECT>".length());
+		String secondSelect = newGamePage.substring(newGamePage.indexOf(selectStartTag_2),
+				newGamePage.indexOf(selectEndTag, newGamePage.indexOf(selectStartTag_2)) + selectEndTag.length());
 		currentIndex = 0;
 		while(true)
 		{
-			int start = secondSelect.indexOf("<OPTION VALUE=", currentIndex);
+			int start = secondSelect.indexOf(optionStartTag, currentIndex);
 			if(start == -1)
 				break;
-			start = start + "<OPTION VALUE=".length();
-			int end = secondSelect.indexOf("<", start);
+			start = start + optionStartTag.length();
+			int end = secondSelect.indexOf(optionEndTag, start);
 			if(end == -1)
 			{
 				break;
@@ -511,9 +525,9 @@ public class KaropapierLoader
 	{
 		URL gameListURL = new URL(server + (gameListString.charAt(0) == '/' ? "" : "/") + gameListString);
 		String gameListPage;
-		
+
 		System.out.println("Suche nach Spiel-IDs...");
-		
+
 		int knownIDs = 0;
 		for(Game game : gameList)
 		{
