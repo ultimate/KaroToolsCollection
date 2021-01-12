@@ -146,7 +146,9 @@ public class KaropapierLoader
 
 	public static List<Player> processPlayerPage(String playerPage)
 	{
-		final String startTag= "/users/\"";
+		final String startTag= "/users/";
+		final String exclusion = "/games";
+		final int exclusionDelta = 20;
 		final String endTag	= "bgcolor=";
 		
 		List<Player> players = new LinkedList<Player>();
@@ -157,6 +159,11 @@ public class KaropapierLoader
 			int start = playerPage.indexOf(startTag, currentIndex);
 			if(start == -1)
 				break;
+			if(playerPage.indexOf(exclusion, start) - start < exclusionDelta)
+			{
+				currentIndex = start + exclusionDelta;
+				continue;
+			}
 			start = start + startTag.length();
 			int end = playerPage.indexOf(endTag, start);
 			if(end == -1)
@@ -177,6 +184,8 @@ public class KaropapierLoader
 			currentPlayer.setId(Integer.parseInt(idS));
 			currentPlayer.setName(name);
 			currentPlayer.setColor(Color.decode(colorS));
+			
+//			System.out.println(idS + "-> " + name + " -> " + colorS);
 
 			players.add(currentPlayer);
 		}
