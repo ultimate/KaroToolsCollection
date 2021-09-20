@@ -121,6 +121,8 @@ public class CCCEval implements Eval
 		// e.prepare(gs, 20);
 		// }
 		e.doEvaluation();
+		
+		System.exit(0);
 	}
 
 	public CCCEval(int cccx, String folder)
@@ -1250,7 +1252,7 @@ public class CCCEval implements Eval
 	{
 		List<String> players = new LinkedList<String>();
 		int index = 0;
-		int end, end1, end2, end3, end4;
+		int end, end1, end2, end3, end4, end5;
 		String player;
 		String log = getLog(c, r);
 		int firstMovePartEnd = log.indexOf(": -----------------------------------");
@@ -1260,16 +1262,20 @@ public class CCCEval implements Eval
 			// log: " + c + "." + r);
 			return getChallengePlayers(c, r);
 		}
-		String firstMovePart = log.substring(log.indexOf("von " + p.getProperty("creator") + " erstellt"), firstMovePartEnd);
+		// es kommt vor, dass Ausstiege und "---" vertauscht sind, wenn der Ausstieg die letzte Aktion in der ersten Runde war
+		// --> einfach das ganze File parsen
+		// String firstMovePart = log.substring(log.indexOf("von " + p.getProperty("creator") + " erstellt"), firstMovePartEnd);
+		String firstMovePart = log.substring(log.indexOf("von " + p.getProperty("creator") + " erstellt"));
 		while(true)
 		{
 			index = firstMovePart.indexOf(start_playerName_Log, index + 1) + start_playerName_Log.length();
 			if(index == start_playerName_Log.length() - 1)
 				break;
 			end1 = firstMovePart.indexOf(end_playerName_Log, index + 1);
-			end2 = firstMovePart.indexOf(" wird von ", index + 1);
+			end2 = firstMovePart.indexOf(" wird ", index + 1);
 			end3 = firstMovePart.indexOf(" steigt aus ", index + 1);
 			end4 = firstMovePart.indexOf(" CRASHT!!!", index + 1);
+			end5 = firstMovePart.indexOf("-----------------------------------", index); // do not use +1 here, since string starts right-away
 
 			if(end1 == -1)
 				end1 = Integer.MAX_VALUE;
@@ -1279,10 +1285,17 @@ public class CCCEval implements Eval
 				end3 = Integer.MAX_VALUE;
 			if(end4 == -1)
 				end4 = Integer.MAX_VALUE;
-			end = Math.min(end1, Math.min(end2, Math.min(end3, end4)));
-
+			if(end5 == -1)
+				end5 = Integer.MAX_VALUE;
+			end = Math.min(end1, Math.min(end2, Math.min(end3, Math.min(end4, end5))));
+			
+			if(end == Integer.MAX_VALUE)
+				break; // end of string
+				
 			player = firstMovePart.substring(index, end);
-
+			
+			if(player.equalsIgnoreCase(""))
+				continue; // happens on "---" line			
 			if(player.equals(p.getProperty("creator")))
 				continue;
 			if(players.contains(player))
