@@ -77,6 +77,26 @@ ${TOTAL}
 * '''01.11.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 20|Challenge 20]]
 * '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
 * '''09.12.2019 04:00''' Ende der Auswertungs-Pause
+* '''23.01.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 3|Challenge 3]] sind beendet
+* '''14.02.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 2|Challenge 2]] sind beendet
+* '''20.04.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 1|Challenge 1]] sind beendet
+* '''26.04.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 4|Challenge 4]] sind beendet
+* '''10.05.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 6|Challenge 6]] sind beendet
+* '''24.05.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 19|Challenge 19]] sind beendet
+* '''03.06.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 8|Challenge 8]] sind beendet
+* '''22.08.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 11|Challenge 11]] sind beendet
+* '''03.09.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 10|Challenge 10]] sind beendet
+* '''06.09.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 5|Challenge 5]] sind beendet
+* '''13.10.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 7|Challenge 7]] sind beendet
+* '''13.10.2020 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 20|Challenge 20]] sind beendet
+* '''13.01.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 18|Challenge 18]] sind beendet
+* '''25.01.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 15|Challenge 15]] sind beendet
+* '''28.01.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 14|Challenge 14]] sind beendet
+* '''03.02.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 13|Challenge 13]] sind beendet
+* '''10.02.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 12|Challenge 12]] sind beendet
+* '''05.03.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 17|Challenge 17]] sind beendet
+* '''11.03.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 16|Challenge 16]] sind beendet
+* '''27.07.2021 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 9|Challenge 9]] sind beendet
 * '''29.09.2021 10:00''' Bug in der Auswertung behoben, bei dem Ausstiege am Ende der ersten Runde teilweise nicht richtig erkannt wurden
 * '''29.09.2021 10:30''' Bug in der Auswertung behoben, bei dem in Spielen mit {{Benutzer|Sly}} und {{Benutzer|Slybotone}} die Erkennung der Platzierung von {{Benutzer|Sly}} fehlschlug
 * '''29.09.2021 10:40''' Damit werden nun auch alle Spiele als abgeschlossen erkannt. And the winner is {{Benutzer|quabla}}
