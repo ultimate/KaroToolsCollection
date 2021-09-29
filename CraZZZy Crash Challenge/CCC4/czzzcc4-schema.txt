@@ -9,7 +9,7 @@ Dies ist die [[CraZZZy Crash Challenge 4|4. CraZZZy Crash Challenge]]. Hier gibt
 
 == Teilnehmer & Gewinner ==
 
-And the winner is... '''{{Benutzer|???}}'''
+And the winner is... '''{{Benutzer|quabla}}'''
 
 Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
 
@@ -77,6 +77,9 @@ ${TOTAL}
 * '''01.11.2019 04:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 4 - Detailwertung Challenge 20|Challenge 20]]
 * '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
 * '''09.12.2019 04:00''' Ende der Auswertungs-Pause
+* '''29.09.2021 10:00''' Bug in der Auswertung behoben, bei dem Ausstiege am Ende der ersten Runde teilweise nicht richtig erkannt wurden
+* '''29.09.2021 10:30''' Bug in der Auswertung behoben, bei dem in Spielen mit {{Benutzer|Sly}} und {{Benutzer|Slybotone}} die Erkennung der Platzierung von {{Benutzer|Sly}} fehlschlug
+* '''29.09.2021 10:40''' Damit werden nun auch alle Spiele als abgeschlossen erkannt. And the winner is {{Benutzer|quabla}}
 
 = Statistik =
 ${STATS}
