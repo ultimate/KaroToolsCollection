@@ -681,7 +681,7 @@ public class CCCEval implements Eval
 			// if(crashsAfterLastRankWithoutPointsThrown > 0)
 			// System.out.println(" " + player + ": " + crashsAfterLastRankWithoutPointsThrown);
 
-			position = log.lastIndexOf(player);
+			position = log.lastIndexOf(player + " ");
 			if(position == -1)
 			{
 				position = last--;
