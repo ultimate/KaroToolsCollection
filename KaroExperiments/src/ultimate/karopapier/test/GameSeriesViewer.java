@@ -9,9 +9,7 @@ import java.io.ObjectInputStream;
 import javax.swing.JFileChooser;
 
 import muskel2.Main;
-import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 
 public class GameSeriesViewer
 {
@@ -27,6 +25,8 @@ public class GameSeriesViewer
 		Main.getGui().setVisible(false);
 
 		GameSeries gs = loadGameseries(file);
+		
+		System.out.println(gs);
 		
 		System.out.println("gameSeries loaded");
 	}

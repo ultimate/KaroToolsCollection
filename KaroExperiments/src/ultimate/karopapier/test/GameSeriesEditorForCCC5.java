@@ -20,8 +20,6 @@ import muskel2.model.GameSeries;
 import muskel2.model.Rules;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karopapier.eval.CCCEval;
-import ultimate.karopapier.eval.impl.CCC5Eval;
 
 public class GameSeriesEditorForCCC5
 {	
