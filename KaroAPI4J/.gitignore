@@ -1,0 +1,13 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Project Files #
+.project
+.classpath
+.settings/
+target/
+/src/test/resources/wiki.properties

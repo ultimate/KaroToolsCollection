@@ -1,0 +1,105 @@
+[[Bild:Czzzcc03.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 3|3. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|quabla}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief übers [http://www.karopapier.de/showthread.php?forumid=8&thread=1002 Forum] oder per [http://www.karopapier.de/poll.php?pid=228 Umfrage].
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 3 gefahren:
+
+${MAPS}
+
+== Gesamtwertung ==
+${TOTAL}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 6 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"'' 
+
+== Durchführungstatus ==
+
+* '''10.02.2015 09:21''' Erste Ankündigung im Forum - Frage nach Interesse
+* '''01.11.2016 08:39''' Eröffnung der Anmeldung im Forum
+* '''07.11.2016 12:00''' Wiki-Seite erstellt
+* '''21.11.2016 16:00''' CCC-Eval-Tool umgebaut, Wiki-Anbindung automatisiert
+* '''24.11.2016 19:30''' CCC-Eval-Tool umgebaut, Wiki-Anbindung automatisiert
+* '''27.11.2016 12:09''' Ankündigung des Startzeitpunkts und der Änderungen gegenüber CCC1 & CCC2
+* '''28.12.2016 12:00''' [[KaroMUSKEL|KaroMUSKEL]]-Bug-Fix & kleinere Vorbereitungen
+* '''29.12.2016 12:00''' Implementierung Cron-Job-Tool für automatische Erstellung & Auswertung
+* '''31.12.2016 09:00''' Anmeldung geschlossen. Beginn Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]]
+* '''31.12.2016 10:00''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''01.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]]
+* '''01.01.2017 13:00''' Behebung der ersten kleinen Startschwierigkeiten
+* '''07.01.2017 13:30''' In der Planung für die kommenden Challenges wurde {{Benutzer|sash1501}} aufgrund von Inaktivität durch {{Benutzer|MM}} ersetzt
+* '''07.01.2017 13:45''' Für die bereits mit {{Benutzer|sash1501}} gestarteten Spiele wurden Ersatzspiele mit {{Benutzer|MM}} erstellt
+* '''08.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]]
+* '''15.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]]
+* '''15.01.2017 15:00''' Fehler im Auswerte-Tool behoben
+* '''22.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]]
+* '''29.01.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 5|Challenge 5]]
+* '''05.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]] hat aus irgendeinem Grund nicht stattgefunden
+* '''05.02.2017 14:00''' Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]] nachgeholt
+* '''12.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 7|Challenge 7]]
+* '''19.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 8|Challenge 8]]
+* '''26.02.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 9|Challenge 9]]
+* '''05.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 10|Challenge 10]]
+* '''12.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 11|Challenge 11]]
+* '''19.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 12|Challenge 12]]
+* '''26.03.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 13|Challenge 13]]
+* '''02.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 14|Challenge 14]]
+* '''09.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 15|Challenge 15]]
+* '''16.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 16|Challenge 16]]
+* '''23.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 17|Challenge 17]]
+* '''30.04.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 18|Challenge 18]]
+* '''07.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] hat nicht stattgefunden, weil ich vergessen haben den Cron-Job nach einem Neustart meines Heim-NAS neu zu starten.
+* '''07.05.2017 10:55''' Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] nachgeholt
+* '''14.05.2017 00:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 20|Challenge 20]]
+* '''19.05.2017 20:00''' Automatische Auswertung wegen Urlaub pausiert
+* '''??.05.2017 00:00''' {{Benutzer|cptjag}} & {{Benutzer|Dainte}} fliegen so langsam aus allen Spielen raus...
+* '''07.06.2017 22:00''' Automatische Auswertung auf täglich geändert
+* '''07.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 16|Challenge 16]] sind beendet
+* '''12.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 13|Challenge 13]] sind beendet
+* '''12.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 17|Challenge 17]] sind beendet
+* '''12.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 19|Challenge 19]] sind beendet
+* '''12.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 20|Challenge 20]] sind beendet
+* '''15.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 15|Challenge 15]] sind beendet
+* '''24.09.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 10|Challenge 10]] sind beendet
+* '''02.10.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 18|Challenge 18]] sind beendet
+* '''06.10.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 14|Challenge 14]] sind beendet
+* '''08.10.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 12|Challenge 12]] sind beendet
+* '''16.10.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 6|Challenge 6]] sind beendet
+* '''13.11.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 7|Challenge 7]] sind beendet
+* '''18.11.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 5|Challenge 5]] sind beendet
+* '''18.11.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 8|Challenge 8]] sind beendet
+* '''07.12.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 11|Challenge 11]] sind beendet
+* '''??.12.2017 00:00''' {{Benutzer|Akari}} fliegt so langsam aus allen Spielen raus...
+* '''20.12.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 4|Challenge 4]] sind beendet
+* '''25.12.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 1|Challenge 1]] sind beendet
+* '''27.12.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 2|Challenge 2]] sind beendet
+* '''10.01.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 3|Challenge 3]] sind beendet
+* '''07.03.2017 00:00''' Alle Spiele der [[CraZZZy Crash Challenge 3 - Detailwertung Challenge 9|Challenge 9]] sind beendet
+* '''07.03.2015 00:00''' Die CCC3 ist beendet... And the winner is... {{Benutzer|quabla}} 
+
+= Statistik =
+${STATS}
+
+[[Kategorie:Meisterschaft]]

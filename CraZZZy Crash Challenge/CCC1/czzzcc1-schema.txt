@@ -1,0 +1,93 @@
+[[Bild:Czzzcc01.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 1|1. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|quabla}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief übers [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Forum].
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 1 gefahren:
+
+${MAPS}
+
+== Gesamtwertung ==
+${TOTAL}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 5 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"''
+* Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
+** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
+
+== Durchführungstatus ==
+
+* '''05.09.2010 14:47''' Erstellung der Wiki-Seite
+* '''05.09.2010 15:07''' Ankündigung im Forum & Eröffnung der Anmeldung
+* '''06.09.2010 08:27''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 35 Spieler
+* '''06.09.2010 08:45''' Regelergänzungen
+* '''14.09.2010 16:29''' Starterfeld von 35 Spielern erreicht
+* '''15.09.2010 11:00''' Warteliste bis 42 Spieler eröffnet
+* '''21.09.2010 20:30''' Festlegung der Challenges
+* '''21.09.2010 20:50''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 42 Spieler, Warteliste ist jetzt Teil des Starterfelds
+* '''21.09.2010 20:50''' Anpassung der Rennen pro Spieler pro Challenge auf 5
+* '''21.09.2010 20:50''' Änderung der 4er Challenges in 5er Challenges
+* '''03.10.2010 15:20''' Anmeldung geschlossen, [[#Teilnehmerfeld|Starterfeld]] vollständig besetzt mit 42 Spielern
+* '''03.10.2010 15:30''' Spielplanung mit dem [[KaroMUSKEL]] gestartet
+* '''03.10.2010 15:50''' Ein kleiner Bug im [[KaroMUSKEL]] hat verhindert, dass alle 465 Spiele auf einmal erstellt werden konnten, es wurden nur 50 erstellt
+* '''03.10.2010 15:55''' Nach den Bugfix konnte der Rest der Spiele nachgeholt werden
+* '''03.10.2010 16:10''' Spielerstellung abgeschlossen
+* '''19.10.2010 12:40''' Regelergänzung, Skalierung der Punkte der einzelnen Challenges
+* '''25.10.2010 22:57''' Das erste Rennen ist beendet (Dank den [[DeepGray|Deeps]] ging das echt flott...)
+* '''26.10.2010 20:00''' Programmierung des Auswertetools begonnen
+* '''27.10.2010 11:03''' Erste Auswertung online gestellt
+* '''27.10.2010 11:20''' Festlegung, was bei [[#Punktgleichheit|Punktgleichheit]] passiert
+* '''17.11.2010 09:00''' Auslagerung der Detailwertungen auf einzelne Seiten, damit diese hier nicht mehr so riesig ist...
+* '''03.12.2010 08:30''' Kleinen Sortierungsfehler im Auswertungstool behoben, damit die Platzierung bei Punktgleichheit auch genau so verläuft wie beschrieben...
+* '''10.02.2011 21:30''' Einführung von [[#Strafpunkte|Strafpunkten]] für Ausstiegen und Rausschmisse
+* '''05.03.2011 13:00''' Hervorhebung der Boni und Challengesieger in den Tabellen hinzugefügt
+* '''15.04.2011 11:00''' {{Benutzer|brian}} steigt aus 40 Spielen aus
+* '''15.04.2011 11:00''' Anpassung der [[#Strafpunkte|Punkteverteilung]] bei Ausstiegen und Rausschmissen
+* '''01.06.2011 ??:??''' {{Benutzer|brian}} ist längst aus allen Spielen raus, jetzt wird {{Benutzer|marie}} langsam aber sicher durch die [[KaroMAMA]] rausgeworfen...
+* '''25.06.2011 15:30''' Ergänzung der Auswertung um noch nicht abgeschlossene Rennen pro Challenge
+* '''22.07.2011 22:35''' {{Benutzer|sparrows bruder}} müssen in Challenge {{Rennen|56410|9.24}} leider 15 Crashs aberkannt werden, weil er seinen 5. Platz mit Punktsicherheit ausgenutzt hat! 15 Crashs sind schon echt dreist...
+* '''14.12.2011 10:49''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]] ist als erste Challenge beendet
+* '''28.04.2012 11:20''' {{Benutzer|BCM1860}} ist im Laufe der Woche aus allen Spielen rausgeflogen
+* '''24.03.2012	??:??''' {{Benutzer|InstanceOfChris}} fällt ebenfalls der [[KaroMAMA]] zum Opfer
+* '''21.05.2012 20:14''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]] ist beendet
+* '''13.08.2012 10:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]] ist beendet
+* '''15.10.2012 22:04''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]] ist beendet	
+* '''16.10.2012 17:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]] ist beendet	
+* '''13.11.2012 09:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]] ist beendet
+* '''25.12.2012 22:47''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]] ist beendet
+* '''29.12.2012 00:15''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]] ist beendet	
+* '''28.05.2013 07:54''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]] ist beendet
+* '''09.03.2014 19:59''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]] ist beendet
+* '''11.05.2014 13:45''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]] ist beendet
+* '''27.11.2014 10:09''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]] ist beendet
+* '''20.12.2014 22:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]] ist beendet
+* '''04.06.2015 10:52''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]] ist beendet
+* '''13.04.2016 07:56''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]] ist beendet
+* '''12.06.2016 12:10''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
+
+= Statistik =
+${STATS}
+
+[[Kategorie:Meisterschaft]]

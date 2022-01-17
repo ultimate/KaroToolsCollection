@@ -1,0 +1,44 @@
+body,td,ul,caption,center,form,div,span {
+	font-family: 'Comic Sans MS', 'Lucida Grande', 'Lucida Sans Unicode',Arial,Helvetica,Verdana,sans-serif;
+	font-size:11pt;
+	color: #339;
+}
+
+#navi li a {
+	color: #00d;
+}
+#navi li a:hover {
+	color: #00e;
+}
+#navi li a:visited {
+	color: #00f;
+}
+
+a {
+	color: #33f;
+}
+a:visited {
+	color: #33e;
+}
+a:active {
+	color: #00f;
+}
+a:hover {
+	color:#00f;
+}
+
+.boxtl { 
+background:url("/images/blau/tl.png") top left no-repeat; 
+} 
+
+.boxtr { 
+background:url("/images/blau/tr.png") top right no-repeat; 
+}
+
+.boxbr {
+background:url("/images/blau/br.png") bottom right no-repeat
+}
+
+.boxbl {
+background:url("/images/blau/bl.png") bottom left no-repeat;
+}

@@ -1,0 +1,19 @@
+function dist = distanceToLine(p, p1, p2)
+
+    angleLine = atan2(p2(2)-p1(2), p2(1)-p1(1));
+    angleP1 = atan2(p(2)-p1(2), p(1)-p1(1));
+    angleP2 = atan2(p(2)-p2(2), p(1)-p2(1));
+    
+    angle1 = angleP1 - angleLine;
+    angle1 = angleP1 - angleLine;
+    
+    distanceP1 = distance(p, p1);
+    distanceP2 = distance(p, p1);
+    
+    if ((angle >= 0) && (angle <= pi))
+    
+        dist = abs(sin(angle)*distanceP);
+    else
+        dist = distance
+    end
+end

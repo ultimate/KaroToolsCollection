@@ -1,0 +1,312 @@
+[[Bild:Czzzcc01.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 1|1. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|quabla}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief übers [http://www.karopapier.de/showthread.php?forumid=8&thread=880 Forum].
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 1 gefahren:
+
+{|class="wikitable"
+! Nr.||Spielerzahl||Strecke||ZZZ||CPs||Richtungsmodus||Spielzahl
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]]||5er Challenge||{{Karte|92}}||17||ja||egal||42
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]]||5er Challenge||{{Karte|109}}||15||ja||egal||42
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]]||5er Challenge||{{Karte|128}}||1||ja||egal||42
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]]||5er Challenge||{{Karte|157}}||2||ja||egal||42
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]]||5er Challenge||{{Karte|171}}||0||ja||egal||42
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]]||7er Challenge||{{Karte|38}}||1||ja||egal||30
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]]||7er Challenge||{{Karte|102}}||14||ja||egal||30
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]]||7er Challenge||{{Karte|143}}||6||ja||egal||30
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]]||7er Challenge||{{Karte|155}}||4||ja||egal||30
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]]||7er Challenge||{{Karte|169}}||8||ja||egal||30
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]]||10er Challenge||{{Karte|17}}||57||ja||egal||21
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]]||10er Challenge||{{Karte|34}}||123||ja||egal||21
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]]||10er Challenge||{{Karte|45}}||5||nein||egal||21
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]]||10er Challenge||{{Karte|52}}||3||nein||egal||21
+|-
+|[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]]||10er Challenge||{{Karte|124}}||7||ja||egal||21
+|-
+|}
+
+== Gesamtwertung ==
+{|class="wikitable alignedright"
+!Platz||Spieler||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|1]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|2]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|3]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|4]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|5]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|6]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|7]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|8]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|9]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|10]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|11]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|12]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|13]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|14]]||[[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|15]]||Grundpunkte (gesamt)||Crashs (gesamt)||Züge (gesamt)||Skalierte Punkte (gesamt)||Challenge-Bonus (gesamt)||Bonus (Gesamtwertung)||Endergebnis||Abgeschlossene Rennen||Erwartungswert||Erwartungswert (alt)
+|-
+|1.||'''[[Benutzer:quabla|quabla]]'''||96.43||54.76||69.78||71.35||74.58||'''100.0'''||87.88||'''100.0'''||30.17||'''100.0'''||67.25||73.87||98.15||53.66||'''100.0'''||'''407'''||610||7014||1177.88||+80||'''+100'''||'''1357.88'''||75||'''1347.66'''||1357.88
+|-
+|2.||'''[[Benutzer:aristarch|aristarch]]'''||'''100.0'''||88.1||54.44||70.79||76.84||36.13||78.79||51.85||21.55||49.47||'''100.0'''||91.89||'''100.0'''||68.29||80.6||327||572||7304||1068.74||+30||-||'''1098.74'''||75||'''1075.65'''||1098.74
+|-
+|3.||'''[[Benutzer:ulli|ulli]]'''||86.16||57.14||'''100.0'''||'''100.0'''||'''100.0'''||80.67||43.43||34.31||'''100.0'''||46.32||40.94||57.66||62.96||'''100.0'''||38.81||375||456||6903||1048.4||+30||-||'''1078.4'''||75||'''1054.22'''||1078.4
+|-
+|4.||'''[[DeepPink]]'''||26.79||33.33||46.67||45.51||76.55||5.88||78.79||26.48||85.34||15.44||0.0||0.0||38.89||0.0||49.25||364||270||'''6897'''||528.92||+70||'''+100'''||'''698.92'''||75||'''718.12'''||698.92
+|-
+|5.||'''[[Benutzer:Rennsumsa|Rennsumsa]]'''||29.46||66.67||48.67||31.46||98.02||50.42||69.7||34.65||34.48||23.51||23.98||38.74||68.52||75.61||41.79||340||378||7049||735.68||+20||-||'''755.68'''||75||'''716.46'''||755.68
+|-
+|6.||'''[[Benutzer:cptjag|cptjag]]'''||32.14||35.71||58.89||49.44||82.49||89.92||'''100.0'''||19.35||63.79||44.56||15.2||27.03||83.33||43.9||49.25||320||422||7271||795.0||+30||-||'''825.0'''||75||'''712.7'''||825.0
+|-
+|7.||'''[[Benutzer:phiurr|phiurr]]'''||38.39||30.95||45.11||48.31||73.16||31.09||47.47||30.01||37.93||26.32||29.24||64.86||50.0||51.22||85.07||277||438||7217||689.13||+0||-||'''689.13'''||75||'''629.48'''||689.13
+|-
+|8.||'''[[Benutzer:ultimate|ultimate]]'''||39.73||40.48||35.56||60.67||86.16||19.33||72.73||18.92||31.9||31.23||31.58||78.38||50.0||36.59||62.69||305||406||7259||695.95||+10||-||'''705.95'''||75||'''615.2'''||705.95
+|-
+|9.||'''[[Benutzer:Mippi|Mippi]]'''||22.32||26.19||65.33||48.88||53.95||54.62||87.88||32.59||26.72||17.54||20.47||27.03||61.11||73.17||7.46||249||465||7428||625.26||+10||-||'''635.26'''||75||'''611.5'''||635.26
+|-
+|10.||'''[[Benutzer:falcristo|falcristo]]'''||41.52||'''100.0'''||39.33||66.29||58.47||12.61||57.58||25.88||25.86||13.33||38.01||'''100.0'''||-92.59||39.02||41.79||217||416||7157||567.1||+0||-||'''567.1'''||75||'''575.33'''||567.1
+|-
+|11.||'''[[Benutzer:Blindschleiche|Blindschleiche]]'''||35.27||35.71||29.33||49.44||49.44||26.89||56.57||32.93||37.07||34.04||14.04||50.45||37.04||51.22||46.27||253||354||7136||585.71||+0||-||'''585.71'''||75||'''551.75'''||585.71
+|-
+|12.||'''[[Benutzer:mAvErICk|mAvErICk]]'''||77.23||50.0||38.67||34.83||53.11||32.77||28.28||9.2||35.34||24.56||19.3||52.25||81.48||9.76||83.58||194||484||7722||630.36||+10||-||'''640.36'''||75||'''542.12'''||640.36
+|-
+|13.||'''[[Benutzer:Jody|Jody]]'''||24.11||33.33||66.67||72.47||61.3||25.21||82.83||14.45||53.45||51.58||40.94||21.62||-46.3||19.51||49.25||205||412||7321||570.42||+10||-||'''580.42'''||75||'''538.9'''||580.42
+|-
+|14.||'''[[Benutzer:Pitty|Pitty]]'''||20.09||26.19||21.78||44.94||63.84||29.41||31.31||23.9||12.93||57.89||49.71||48.65||-64.81||39.02||65.67||105||'''617'''||7881||470.52||+30||'''+100'''||'''600.52'''||75||'''500.95'''||600.52
+|-
+|15.||'''[[DeepGray]]'''||33.48||33.33||50.0||64.61||48.59||6.72||81.82||27.94||66.38||14.04||0.0||0.0||14.81||0.0||50.75||348||274||6928||492.47||+60||-||'''552.47'''||75||'''499.85'''||552.47
+|-
+|16.||'''[[Benutzer:A300|A300]]'''||20.09||19.05||27.78||29.78||40.4||31.93||31.31||13.16||28.45||27.02||16.96||60.36||88.89||51.22||62.69||223||370||7475||549.09||+0||-||'''549.09'''||75||'''498.15'''||549.09
+|-
+|17.||'''[[Benutzer:KingT|KingT]]'''||42.41||66.67||55.11||29.78||69.21||34.45||84.85||7.74||36.21||44.21||8.19||14.41||-92.59||56.1||59.7||146||451||7430||516.45||+10||-||'''526.45'''||75||'''489.84'''||526.45
+|-
+|18.||'''[[Benutzer:Yashem|Yashem]]'''||23.66||57.14||23.78||55.62||58.76||33.61||38.38||17.11||36.21||11.58||27.49||39.64||75.93||26.83||61.19||241||422||7414||586.93||+0||-||'''586.93'''||75||'''466.6'''||586.93
+|-
+|19.||'''[[Benutzer:Kinvarra|Kinvarra]]'''||34.38||16.67||39.78||61.8||57.63||21.85||22.22||10.75||21.55||30.53||31.58||48.65||55.56||26.83||32.84||214||420||7543||512.62||+10||-||'''522.62'''||75||'''459.52'''||522.62
+|-
+|20.||'''[[Benutzer:RyxX|RyxX]]'''||2.68||26.19||32.67||56.74||67.23||55.46||44.44||2.15||11.21||66.32||25.15||35.14||-1.85||39.02||38.81||190||384||7443||501.36||+10||-||'''511.36'''||75||'''421.13'''||511.36
+|-
+|21.||'''[[Benutzer:sir tobi|sir tobi]]'''||23.21||47.62||13.56||19.1||33.9||43.7||25.25||12.98||62.07||15.09||18.13||40.54||22.22||36.59||64.18||180||408||7675||478.14||+0||-||'''478.14'''||75||'''420.12'''||478.14
+|-
+|22.||'''[[Benutzer:OleOJumper|OleOCrasher]]'''||37.95||26.19||49.11||50.56||60.45||19.33||33.33||13.93||66.38||20.0||22.81||66.67||-55.56||24.39||56.72||177||383||7347||492.26||+0||-||'''492.26'''||75||'''412.96'''||492.26
+|-
+|23.||'''[[Benutzer:wolle|wolle]]'''||24.11||54.76||33.11||35.96||18.64||54.62||33.33||23.99||12.93||9.82||15.2||60.36||44.44||53.66||64.18||202||485||7781||539.11||+0||-||'''539.11'''||75||'''407.75'''||539.11
+|-
+|24.||'''[[Benutzer:loecksche|loecksche]]'''||8.48||26.19||14.67||30.9||51.13||28.57||35.35||2.32||30.17||4.21||14.04||7.21||44.44||51.22||35.82||177||339||7853||384.72||+10||-||'''394.72'''||75||'''283.89'''||394.72
+|-
+|25.||'''[[Benutzer:cachito|cachito]]'''||11.61||23.81||19.78||24.72||55.93||15.97||28.28||2.58||6.9||8.07||2.34||21.62||57.41||53.66||8.96||151||356||8056||341.64||+20||-||'''361.64'''||75||'''273.62'''||361.64
+|-
+|26.||'''[[Benutzer:rick|rick]]'''||24.55||33.33||19.33||56.18||27.4||19.33||60.61||3.78||29.31||32.63||15.79||52.25||-92.59||51.22||68.66||145||391||7698||401.78||+0||-||'''401.78'''||75||'''255.42'''||401.78
+|-
+|27.||'''[[Benutzer:recke|recke]]'''||12.05||16.67||20.44||16.85||22.6||40.34||45.45||5.42||20.69||2.11||14.04||23.42||51.85||29.27||38.81||153||407||8268||360.01||+0||-||'''360.01'''||75||'''242.22'''||360.01
+|-
+|28.||'''[[Benutzer:sparrows bruder|sparrows bruder]]'''||5.36||26.19||8.89||43.26||16.38||10.08||33.33||2.84||1.72||7.02||17.54||14.41||42.59||4.88||14.93||102||388||8581||249.42||+30||-||'''279.42'''||75||'''207.28'''||279.42
+|-
+|29.||'''[[Benutzer:Superhajo|Superhajo]]'''||29.02||21.43||9.11||30.9||24.86||5.04||43.43||6.19||18.1||8.77||5.85||12.61||29.63||24.39||29.85||107||484||8524||299.18||+0||-||'''299.18'''||75||'''164.31'''||299.18
+|-
+|30.||'''[[Benutzer:Tambal|Tambal]]'''||11.16||23.81||18.89||35.39||41.81||16.81||22.22||5.76||36.21||32.98||8.77||39.64||-74.07||17.07||34.33||72||412||7728||270.78||+0||-||'''270.78'''||75||'''145.74'''||270.78
+|-
+|31.||'''[[Benutzer:Robert|Robert]]'''||19.64||40.48||18.44||21.91||32.77||23.53||37.37||-3.01||11.21||22.11||8.19||48.65||-92.59||34.15||20.9||59||313||7976||243.75||+0||-||'''243.75'''||75||'''130.41'''||243.75
+|-
+|32.||'''[[Benutzer:gitarrenteufel|gitarrenteufel]]'''||12.05||16.67||13.33||15.17||32.2||28.57||30.3||3.78||15.52||0.7||8.19||16.22||7.41||9.76||17.91||131||329||8048||227.78||+0||-||'''227.78'''||75||'''122.1'''||227.78
+|-
+|33.||'''[[Benutzer:Akari|Akari]]'''||17.41||35.71||7.78||31.46||29.94||20.17||19.19||4.99||31.03||8.07||7.02||9.01||18.52||4.88||14.93||84||479||8461||260.11||+10||-||'''270.11'''||75||'''116.06'''||270.11
+|-
+|34.||'''[[Benutzer:memsga|memsga]]'''||3.13||23.81||5.78||31.46||6.78||5.88||0.0||1.63||21.55||1.4||3.51||-8.11||27.78||7.32||34.33||73||233||8518||166.25||+0||-||'''166.25'''||75||'''107.13'''||166.25
+|-
+|35.||'''[[Benutzer:kollesch|kollesch]]'''||-1.34||11.9||15.33||15.17||28.25||45.38||14.14||1.81||10.34||21.05||17.54||9.01||-3.7||0.0||29.85||109||313||7960||214.73||+0||-||'''214.73'''||75||'''88.07'''||214.73
+|-
+|36.||'''[[Benutzer:kili|kili]]'''||4.46||14.29||3.78||13.48||22.6||11.76||2.02||1.2||10.34||1.05||0.0||0.9||-7.41||4.88||7.46||49||247||8529||90.81||+0||-||'''90.81'''||75||'''19.39'''||90.81
+|-
+|37.||'''[[Benutzer:InstanceOfChris|InstanceOfChris]]'''||1.79||54.76||50.67||45.51||0.0||-23.53||3.03||-0.17||16.38||15.44||-19.88||-45.05||-92.59||29.27||23.88||-157||345||8215||59.51||+0||-||'''59.51'''||75||'''7.45'''||59.51
+|-
+|38.||'''[[Benutzer:HANSA|HANSA]]'''||11.61||16.67||0.89||0.0||0.56||-5.04||9.09||-0.6||1.72||0.0||0.0||-9.01||-92.59||0.0||0.0||28||89||8556||-66.7||+0||-||'''-66.7'''||75||'''-66.88'''||-66.7
+|-
+|39.||'''[[Benutzer:hacki|hacki]]'''||9.82||0.0||4.44||4.49||22.03||0.0||-14.14||-3.01||-7.76||4.91||3.51||-18.02||-29.63||-31.71||40.3||-75||307||9341||-14.77||+0||-||'''-14.77'''||75||'''-94.18'''||-14.77
+|-
+|40.||'''[[Benutzer:BCM1860|BCM1860]]'''||15.18||38.1||-1.33||19.1||5.93||-21.85||31.31||-3.01||-0.86||22.81||-29.24||-45.05||-92.59||-31.71||-5.97||-232||250||8237||-99.18||+0||-||'''-99.18'''||75||'''-198.21'''||-99.18
+|-
+|41.||'''[[Benutzer:marie|marie]]'''||-11.16||-7.14||-5.56||-14.04||-7.06||-29.41||-35.35||-3.01||-30.17||-4.56||-29.24||-45.05||-92.59||-121.95||-74.63||-517||156||8724||-510.92||+0||-||'''-510.92'''||75||'''-517.33'''||-510.92
+|-
+|42.||'''[[Benutzer:brian|brian]]'''||-11.16||-59.52||-5.56||-14.04||-7.06||-29.41||-35.35||-3.01||-30.17||-12.28||-29.24||-45.05||-92.59||-121.95||-74.63||-550||111||8624||-571.02||+0||-||'''-571.02'''||75||'''-562.56'''||-571.02
+|-
+|}
+
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 5 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"''
+* Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
+** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
+
+== Durchführungstatus ==
+
+* '''05.09.2010 14:47''' Erstellung der Wiki-Seite
+* '''05.09.2010 15:07''' Ankündigung im Forum & Eröffnung der Anmeldung
+* '''06.09.2010 08:27''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 35 Spieler
+* '''06.09.2010 08:45''' Regelergänzungen
+* '''14.09.2010 16:29''' Starterfeld von 35 Spielern erreicht
+* '''15.09.2010 11:00''' Warteliste bis 42 Spieler eröffnet
+* '''21.09.2010 20:30''' Festlegung der Challenges
+* '''21.09.2010 20:50''' Festlegung des [[#Teilnehmerfeld|Starterfelds]] auf 42 Spieler, Warteliste ist jetzt Teil des Starterfelds
+* '''21.09.2010 20:50''' Anpassung der Rennen pro Spieler pro Challenge auf 5
+* '''21.09.2010 20:50''' Änderung der 4er Challenges in 5er Challenges
+* '''03.10.2010 15:20''' Anmeldung geschlossen, [[#Teilnehmerfeld|Starterfeld]] vollständig besetzt mit 42 Spielern
+* '''03.10.2010 15:30''' Spielplanung mit dem [[KaroMUSKEL]] gestartet
+* '''03.10.2010 15:50''' Ein kleiner Bug im [[KaroMUSKEL]] hat verhindert, dass alle 465 Spiele auf einmal erstellt werden konnten, es wurden nur 50 erstellt
+* '''03.10.2010 15:55''' Nach den Bugfix konnte der Rest der Spiele nachgeholt werden
+* '''03.10.2010 16:10''' Spielerstellung abgeschlossen
+* '''19.10.2010 12:40''' Regelergänzung, Skalierung der Punkte der einzelnen Challenges
+* '''25.10.2010 22:57''' Das erste Rennen ist beendet (Dank den [[DeepGray|Deeps]] ging das echt flott...)
+* '''26.10.2010 20:00''' Programmierung des Auswertetools begonnen
+* '''27.10.2010 11:03''' Erste Auswertung online gestellt
+* '''27.10.2010 11:20''' Festlegung, was bei [[#Punktgleichheit|Punktgleichheit]] passiert
+* '''17.11.2010 09:00''' Auslagerung der Detailwertungen auf einzelne Seiten, damit diese hier nicht mehr so riesig ist...
+* '''03.12.2010 08:30''' Kleinen Sortierungsfehler im Auswertungstool behoben, damit die Platzierung bei Punktgleichheit auch genau so verläuft wie beschrieben...
+* '''10.02.2011 21:30''' Einführung von [[#Strafpunkte|Strafpunkten]] für Ausstiegen und Rausschmisse
+* '''05.03.2011 13:00''' Hervorhebung der Boni und Challengesieger in den Tabellen hinzugefügt
+* '''15.04.2011 11:00''' {{Benutzer|brian}} steigt aus 40 Spielen aus
+* '''15.04.2011 11:00''' Anpassung der [[#Strafpunkte|Punkteverteilung]] bei Ausstiegen und Rausschmissen
+* '''01.06.2011 ??:??''' {{Benutzer|brian}} ist längst aus allen Spielen raus, jetzt wird {{Benutzer|marie}} langsam aber sicher durch die [[KaroMAMA]] rausgeworfen...
+* '''25.06.2011 15:30''' Ergänzung der Auswertung um noch nicht abgeschlossene Rennen pro Challenge
+* '''22.07.2011 22:35''' {{Benutzer|sparrows bruder}} müssen in Challenge {{Rennen|56410|9.24}} leider 15 Crashs aberkannt werden, weil er seinen 5. Platz mit Punktsicherheit ausgenutzt hat! 15 Crashs sind schon echt dreist...
+* '''14.12.2011 10:49''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 2|Challenge 2]] ist als erste Challenge beendet
+* '''28.04.2012 11:20''' {{Benutzer|BCM1860}} ist im Laufe der Woche aus allen Spielen rausgeflogen
+* '''24.03.2012	??:??''' {{Benutzer|InstanceOfChris}} fällt ebenfalls der [[KaroMAMA]] zum Opfer
+* '''21.05.2012 20:14''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 14|Challenge 14]] ist beendet
+* '''13.08.2012 10:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 4|Challenge 4]] ist beendet
+* '''15.10.2012 22:04''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 7|Challenge 7]] ist beendet	
+* '''16.10.2012 17:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 1|Challenge 1]] ist beendet	
+* '''13.11.2012 09:53''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 15|Challenge 15]] ist beendet
+* '''25.12.2012 22:47''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 3|Challenge 3]] ist beendet
+* '''29.12.2012 00:15''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 9|Challenge 9]] ist beendet	
+* '''28.05.2013 07:54''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 10|Challenge 10]] ist beendet
+* '''09.03.2014 19:59''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 5|Challenge 5]] ist beendet
+* '''11.05.2014 13:45''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 6|Challenge 6]] ist beendet
+* '''27.11.2014 10:09''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 12|Challenge 12]] ist beendet
+* '''20.12.2014 22:43''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 11|Challenge 11]] ist beendet
+* '''04.06.2015 10:52''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 8|Challenge 8]] ist beendet
+* '''13.04.2016 07:56''' [[CraZZZy Crash Challenge 1 - Detailwertung Challenge 13|Challenge 13]] ist beendet
+* '''12.06.2016 12:10''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
+
+= Statistik =
+== Zahlen & Fakten ==
+*Rennen insgesamt: '''465'''
+*Teilnehmer: '''42'''
+*Rennen pro Spieler: '''75'''
+*Rennen pro Spieler pro Challenge: '''5'''
+*Züge insgesamt: '''326492'''
+*Crashs insgesamt: '''15846'''
+*Häufigste Begegnung: 21 mal [[Benutzer:Akari|Akari]] '''vs.''' [[Benutzer:recke|recke]] und [[Benutzer:aristarch|aristarch]] '''vs.''' [[Benutzer:loecksche|loecksche]]
+*Seltenste Begegnung: 3 mal [[Benutzer:BCM1860|BCM1860]] '''vs.''' [[Benutzer:Superhajo|Superhajo]]
+== Wer gegen wen? ==
+Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...
+{|class="wikitable"
+|||[[Benutzer:A300|A300]]||[[Benutzer:Akari|Akari]]||[[Benutzer:aristarch|aristarch]]||[[Benutzer:BCM1860|BCM1860]]||[[Benutzer:Blindschleiche|Blindschleiche]]||[[Benutzer:brian|brian]]||[[Benutzer:cachito|cachito]]||[[Benutzer:cptjag|cptjag]]||[[DeepGray]]||[[DeepPink]]||[[Benutzer:falcristo|falcristo]]||[[Benutzer:gitarrenteufel|gitarrenteufel]]||[[Benutzer:hacki|hacki]]||[[Benutzer:HANSA|HANSA]]||[[Benutzer:InstanceOfChris|InstanceOfChris]]||[[Benutzer:Jody|Jody]]||[[Benutzer:kili|kili]]||[[Benutzer:KingT|KingT]]||[[Benutzer:Kinvarra|Kinvarra]]||[[Benutzer:kollesch|kollesch]]||[[Benutzer:loecksche|loecksche]]||[[Benutzer:marie|marie]]||[[Benutzer:mAvErICk|mAvErICk]]||[[Benutzer:memsga|memsga]]||[[Benutzer:Mippi|Mippi]]||[[Benutzer:OleOJumper|OleOCrasher]]||[[Benutzer:phiurr|phiurr]]||[[Benutzer:Pitty|Pitty]]||[[Benutzer:quabla|quabla]]||[[Benutzer:recke|recke]]||[[Benutzer:Rennsumsa|Rennsumsa]]||[[Benutzer:rick|rick]]||[[Benutzer:Robert|Robert]]||[[Benutzer:RyxX|RyxX]]||[[Benutzer:sir tobi|sir tobi]]||[[Benutzer:sparrows bruder|sparrows bruder]]||[[Benutzer:Superhajo|Superhajo]]||[[Benutzer:Tambal|Tambal]]||[[Benutzer:ulli|ulli]]||[[Benutzer:ultimate|ultimate]]||[[Benutzer:wolle|wolle]]||[[Benutzer:Yashem|Yashem]]
+|-
+|[[Benutzer:A300|A300]]||-||12||9||12||17||10||9||6||10||11||12||14||15||9||15||13||13||14||16||9||6||13||14||12||13||10||12||12||10||15||10||13||8||10||13||12||13||9||14||11||9||10
+|-
+|[[Benutzer:Akari|Akari]]||12||-||15||11||10||8||12||11||16||12||13||11||12||15||11||7||9||9||10||9||9||8||7||12||11||12||11||16||18||21||14||9||9||12||11||10||11||12||13||13||11||12
+|-
+|[[Benutzer:aristarch|aristarch]]||9||15||-||12||10||8||11||6||16||11||14||8||9||11||13||11||9||12||10||11||21||10||12||12||12||9||12||13||12||13||11||10||13||13||11||10||11||15||8||12||18||11
+|-
+|[[Benutzer:BCM1860|BCM1860]]||12||11||12||-||11||18||11||8||9||18||13||12||13||6||6||15||18||12||8||11||13||12||14||9||10||12||10||10||8||5||18||13||15||11||12||17||3||13||10||15||13||8
+|-
+|[[Benutzer:Blindschleiche|Blindschleiche]]||17||10||10||11||-||9||16||15||10||11||6||14||14||14||10||11||12||9||14||12||11||12||11||10||10||12||10||12||12||11||9||13||11||8||12||18||13||9||8||14||12||12
+|-
+|[[Benutzer:brian|brian]]||10||8||8||18||9||-||12||8||17||14||13||12||19||6||9||12||14||9||8||8||10||16||12||14||17||8||15||9||15||10||10||8||13||12||13||8||7||12||17||14||10||11
+|-
+|[[Benutzer:cachito|cachito]]||9||12||11||11||16||12||-||8||16||10||14||10||10||11||15||12||13||11||13||12||11||14||9||9||9||15||15||14||7||12||9||11||11||11||15||8||14||13||13||16||7||6
+|-
+|[[Benutzer:cptjag|cptjag]]||6||11||6||8||15||8||8||-||16||14||10||12||10||14||10||13||15||11||17||8||17||11||10||7||13||12||11||12||15||8||8||10||12||13||16||15||11||14||8||17||11||12
+|-
+|[[DeepGray]]||10||16||16||9||10||17||16||16||-||7||14||9||9||8||10||13||13||7||11||11||13||15||6||14||12||14||10||13||12||14||13||4||14||14||13||10||9||12||8||6||13||14
+|-
+|[[DeepPink]]||11||12||11||18||11||14||10||14||7||-||17||12||9||14||10||11||11||12||10||14||10||12||12||13||9||10||8||6||11||9||14||10||16||16||19||6||12||10||8||14||13||9
+|-
+|[[Benutzer:falcristo|falcristo]]||12||13||14||13||6||13||14||10||14||17||-||9||15||13||10||15||15||16||12||15||10||5||8||12||11||12||10||8||12||14||11||10||9||18||12||9||9||5||11||13||10||10
+|-
+|[[Benutzer:gitarrenteufel|gitarrenteufel]]||14||11||8||12||14||12||10||12||9||12||9||-||14||13||15||13||12||10||14||8||10||15||13||8||9||14||12||11||8||10||15||13||6||8||8||12||12||11||13||12||15||18
+|-
+|[[Benutzer:hacki|hacki]]||15||12||9||13||14||19||10||10||9||9||15||14||-||13||9||10||13||12||9||12||11||7||15||17||11||13||12||12||10||13||14||15||8||12||9||12||9||7||11||10||7||13
+|-
+|[[Benutzer:HANSA|HANSA]]||9||15||11||6||14||6||11||14||8||14||13||13||13||-||17||10||12||15||11||17||9||6||11||9||15||8||11||13||12||14||13||11||9||16||10||13||13||6||14||13||11||9
+|-
+|[[Benutzer:InstanceOfChris|InstanceOfChris]]||15||11||13||6||10||9||15||10||10||10||10||15||9||17||-||9||11||13||12||14||10||15||12||12||8||15||10||12||19||14||8||13||6||10||8||13||13||9||17||11||10||11
+|-
+|[[Benutzer:Jody|Jody]]||13||7||11||15||11||12||12||13||13||11||15||13||10||10||9||-||14||14||12||13||12||12||9||8||13||14||16||6||11||10||14||10||11||11||7||9||10||15||11||10||14||14
+|-
+|[[Benutzer:kili|kili]]||13||9||9||18||12||14||13||15||13||11||15||12||13||12||11||14||-||14||13||10||11||8||9||10||17||8||12||7||6||12||17||8||18||10||11||6||10||10||10||10||12||12
+|-
+|[[Benutzer:KingT|KingT]]||14||9||12||12||9||9||11||11||7||12||16||10||12||15||13||14||14||-||9||7||8||5||17||19||8||8||16||13||8||15||12||12||11||10||12||13||10||14||13||11||10||14
+|-
+|[[Benutzer:Kinvarra|Kinvarra]]||16||10||10||8||14||8||13||17||11||10||12||14||9||11||12||12||13||9||-||8||12||9||11||13||14||11||8||13||14||10||14||16||9||12||8||11||14||10||11||14||10||14
+|-
+|[[Benutzer:kollesch|kollesch]]||9||9||11||11||12||8||12||8||11||14||15||8||12||17||14||13||10||7||8||-||14||6||10||10||18||12||15||11||14||14||8||16||13||16||13||11||10||10||12||12||11||10
+|-
+|[[Benutzer:loecksche|loecksche]]||6||9||21||13||11||10||11||17||13||10||10||10||11||9||10||12||11||8||12||14||-||12||12||15||5||8||9||14||13||9||12||8||15||10||12||15||9||19||10||16||11||13
+|-
+|[[Benutzer:marie|marie]]||13||8||10||12||12||16||14||11||15||12||5||15||7||6||15||12||8||5||9||6||12||-||16||15||18||9||9||18||13||7||9||13||18||10||8||11||17||12||13||10||16||10
+|-
+|[[Benutzer:mAvErICk|mAvErICk]]||14||7||12||14||11||12||9||10||6||12||8||13||15||11||12||9||9||17||11||10||12||16||-||12||8||11||14||17||9||8||14||11||12||14||8||11||14||10||11||10||17||14
+|-
+|[[Benutzer:memsga|memsga]]||12||12||12||9||10||14||9||7||14||13||12||8||17||9||12||8||10||19||13||10||15||15||12||-||8||13||6||7||14||14||9||17||13||11||11||10||7||13||13||11||9||17
+|-
+|[[Benutzer:Mippi|Mippi]]||13||11||12||10||10||17||9||13||12||9||11||9||11||15||8||13||17||8||14||18||5||18||8||8||-||9||17||14||11||9||8||12||11||18||13||15||12||7||8||6||16||10
+|-
+|[[Benutzer:OleOJumper|OleOCrasher]]||10||12||9||12||12||8||15||12||14||10||12||14||13||8||15||14||8||8||11||12||8||9||11||13||9||-||13||13||12||10||11||16||15||12||13||10||9||10||12||10||15||15
+|-
+|[[Benutzer:phiurr|phiurr]]||12||11||12||10||10||15||15||11||10||8||10||12||12||11||10||16||12||16||8||15||9||9||14||6||17||13||-||11||4||13||9||15||14||9||7||12||15||11||16||11||12||12
+|-
+|[[Benutzer:Pitty|Pitty]]||12||16||13||10||12||9||14||12||13||6||8||11||12||13||12||6||7||13||13||11||14||18||17||7||14||13||11||-||10||7||11||10||13||10||12||8||16||13||13||8||16||11
+|-
+|[[Benutzer:quabla|quabla]]||10||18||12||8||12||15||7||15||12||11||12||8||10||12||19||11||6||8||14||14||13||13||9||14||11||12||4||10||-||11||13||10||9||10||16||15||15||15||10||10||8||13
+|-
+|[[Benutzer:recke|recke]]||15||21||13||5||11||10||12||8||14||9||14||10||13||14||14||10||12||15||10||14||9||7||8||14||9||10||13||7||11||-||17||16||11||9||10||12||12||15||15||7||7||12
+|-
+|[[Benutzer:Rennsumsa|Rennsumsa]]||10||14||11||18||9||10||9||8||13||14||11||15||14||13||8||14||17||12||14||8||12||9||14||9||8||11||9||11||13||17||-||8||7||9||16||10||12||12||11||13||9||13
+|-
+|[[Benutzer:rick|rick]]||13||9||10||13||13||8||11||10||4||10||10||13||15||11||13||10||8||12||16||16||8||13||11||17||12||16||15||10||10||16||8||-||6||6||13||13||13||11||13||11||11||17
+|-
+|[[Benutzer:Robert|Robert]]||8||9||13||15||11||13||11||12||14||16||9||6||8||9||6||11||18||11||9||13||15||18||12||13||11||15||14||13||9||11||7||6||-||10||13||15||11||17||12||11||15||5
+|-
+|[[Benutzer:RyxX|RyxX]]||10||12||13||11||8||12||11||13||14||16||18||8||12||16||10||11||10||10||12||16||10||10||14||11||18||12||9||10||10||9||9||6||10||-||13||11||17||7||14||7||15||10
+|-
+|[[Benutzer:sir tobi|sir tobi]]||13||11||11||12||12||13||15||16||13||19||12||8||9||10||8||7||11||12||8||13||12||8||8||11||13||13||7||12||16||10||16||13||13||13||-||11||16||13||7||11||12||7
+|-
+|[[Benutzer:sparrows bruder|sparrows bruder]]||12||10||10||17||18||8||8||15||10||6||9||12||12||13||13||9||6||13||11||11||15||11||11||10||15||10||12||8||15||12||10||13||15||11||11||-||12||14||10||13||10||14
+|-
+|[[Benutzer:Superhajo|Superhajo]]||13||11||11||3||13||7||14||11||9||12||9||12||9||13||13||10||10||10||14||10||9||17||14||7||12||9||15||16||15||12||12||13||11||17||16||12||-||11||12||10||13||8
+|-
+|[[Benutzer:Tambal|Tambal]]||9||12||15||13||9||12||13||14||12||10||5||11||7||6||9||15||10||14||10||10||19||12||10||13||7||10||11||13||15||15||12||11||17||7||13||14||11||-||10||19||9||11
+|-
+|[[Benutzer:ulli|ulli]]||14||13||8||10||8||17||13||8||8||8||11||13||11||14||17||11||10||13||11||12||10||13||11||13||8||12||16||13||10||15||11||13||12||14||7||10||12||10||-||15||9||11
+|-
+|[[Benutzer:ultimate|ultimate]]||11||13||12||15||14||14||16||17||6||14||13||12||10||13||11||10||10||11||14||12||16||10||10||11||6||10||11||8||10||7||13||11||11||7||11||13||10||19||15||-||7||11
+|-
+|[[Benutzer:wolle|wolle]]||9||11||18||13||12||10||7||11||13||13||10||15||7||11||10||14||12||10||10||11||11||16||17||9||16||15||12||16||8||7||9||11||15||15||12||10||13||9||9||7||-||11
+|-
+|[[Benutzer:Yashem|Yashem]]||10||12||11||8||12||11||6||12||14||9||10||18||13||9||11||14||12||14||14||10||13||10||14||17||10||15||12||11||13||12||13||17||5||10||7||14||8||11||11||11||11||-
+|-
+|}
+
+[[Kategorie:Meisterschaft]]
