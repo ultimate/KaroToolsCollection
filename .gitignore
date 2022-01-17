@@ -10,3 +10,5 @@
 .classpath
 .settings/
 target/
+bin/
+
