@@ -1,0 +1,379 @@
+body {
+    overflow-y: scroll;
+}
+
+a {
+	color: inherit;
+}
+
+#KaroMUSKELWrapper {
+	position: relative;
+	padding: 1px;
+}
+
+.frame {
+	border: 1px solid rgba(51, 51, 153, 0.8);
+}
+
+.centered {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	margin: auto;
+	transform: unset !important;
+}
+
+/* layout */
+
+.ui {
+    padding: 10px;
+    margin: auto;
+    width: 1000px;
+}
+
+.menu {
+    position: absolute;
+    height: 500px;
+    width: 100px;
+    margin-top: 75px;
+}
+
+.menu  a {
+    height: 100px;
+    line-height: 100px;
+    cursor: pointer;
+}
+
+#tab_bar {
+	height: 50px;
+	margin: 15px;
+    margin-left: 110px;
+}
+
+#tab_content {
+	margin: 15px;
+    margin-left: 109px;
+}
+
+.container {
+	position: relative;
+}
+
+#new {
+	height: 400px;
+}
+
+.type_selection {
+	width: 416px;
+	height: 100px;
+    cursor: pointer;
+}
+
+.type_selection a div {
+	position: relative;
+	width: 100px !important;
+}
+
+.type_selection a div>div {
+	position: absolute !important;
+	width: 100px !important;
+	height: 50px;
+}
+
+.type_selection a div>div.single_row {
+	height: 25px;
+}
+
+.use_teams.centered {
+	width: 150px;
+	height: 20px;
+	top: 149px;
+}
+
+.close_button {
+	position: absolute;
+	right: 15px;
+	top: 5px;
+	cursor: pointer;
+}
+
+.close_button>div {
+	text-align: center;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+}
+
+.close_button:hover {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+	text-decoration: none;
+}
+
+/* FORM */
+.label:after {
+	content: ':';
+}
+.label.empty:after {
+	content: '';
+}
+
+.label {
+	width: 150px;
+	display: block;
+	float: left;
+}
+
+input[type=text] {
+	height: 22px;
+	position: relative;
+	top: 1px;
+}
+
+input[type=text]:disabled {
+	border-color: transparent;
+	background: transparent;
+}
+
+.spacer {
+	height: 10px;
+}
+
+/* TREE */
+#placeholders {
+	display: inline;
+	position: absolute;
+	padding-left: 0px;
+	margin-left: 150px;
+	margin-top: 0px;
+}
+
+/*
+li.tree_item {
+	list-style: none;
+}
+
+li.tree_item:hover {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+}
+
+#placeholders li * {
+	opacity: 0.0;
+}
+#placeholders:hover li * {
+	opacity: 1.0;
+}
+*/
+
+li.tree_item {
+	list-style: none;
+	position: relative;
+	margin-top: -1px;
+	padding-left: 2px;
+	height: 20px;
+	cursor: pointer;
+}
+
+li.tree_item > ul {
+	opacity: 0.0;
+	padding-left: 0px;
+	margin-left: -2px;
+}
+
+li.tree_item:hover {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+}
+
+li.tree_item:hover > ul {
+	opacity: 1.0;
+	position: absolute;
+	top: 0px;
+	transition: opacity 0.5s;
+}
+
+ul.size50 > li {
+	width: 50px;
+}
+ul.size50 > li > ul  {
+	left: 50px;
+}
+
+ul.size100 > li {
+	width: 100px;
+}
+ul.size100 > li > ul  {
+	left: 100px;
+}
+
+ul.size150 {
+	width: 150px;
+}
+ul.size150 > li > ul  {
+	left: 150px;
+}
+
+ul.size200 {
+	width: 200px;
+}
+ul.size200 > li > ul  {
+	left: 200px;
+}
+
+ul.size250 {
+	width: 250px;
+}
+ul.size250 > li > ul  {
+	left: 250px;
+}
+
+/* TABS */
+.tabbar_horizontal {
+	padding: 0px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a {
+	float: left;
+	display: inline;
+	height: 100%;
+	text-decoration: none;
+	margin-top: -2px;
+	margin-left: -1px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a+a {
+	margin-left: 3px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a>div {
+	margin-top: 1px;
+	text-align: center;
+	vertical-align: middle;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_horizontal a:hover>div,
+.tabbar_horizontal a.selected>div {
+	background: rgba(51,51,153, 0.2);
+	transition: background 0.5s;
+}
+
+.tabcontainer_horizontal {
+	overflow: hidden;
+}
+
+.tabcontainer_horizontal>div {
+	width: 1000%;
+}
+
+.tabcontainer_horizontal>div>span {
+	display: none; /*inline-block;*/
+	width: 0%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	padding-right: 0px;
+	padding-left: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	float: left;
+	/*height: 500px;*/
+	min-height: 400px;
+}
+
+.tabcontainer_horizontal>div>span+span {
+	border-left: 1px solid rgba(51,51,153, 0.5);
+	margin-left: -1px;
+}
+
+.tabcontainer_horizontal>div>span.selected {
+	width: 10.1%;
+	/*height: auto;*/
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-right: 5px;
+	padding-left: 5px;
+    display: inline;
+}
+
+.tabbar_vertical {
+	padding: 0px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a {
+	float: left;
+	display: inline;
+	width: 100%;
+	text-decoration: none;
+	margin-top: -2px;
+	margin-left: -1px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a+a {
+	margin-top: 3px;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a>div {
+	margin-top: 1px;
+	text-align: center;
+	vertical-align: middle;
+	height: 100%;
+	position: relative;
+	width: 100%;
+	transition: all 0s, background 0.5s;
+}
+
+.tabbar_vertical a:hover>div,.tabbar_vertical a.selected>div {
+	background: rgba(51,51,153, 0.5);
+	transition: all 0.5s;
+}
+
+.tabcontainer_vertical {
+	width: 100%;
+	overflow: hidden;
+	height: 100%;
+}
+
+.tabcontainer_vertical>div {
+	height: 100%;
+	width: 100%;
+}
+
+.tabcontainer_vertical>div>div {
+	height: 0px;
+	max-height: 0px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	transition: all 1s;
+	padding-right: 5px;
+	padding-left: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	transition: all 0.5s, overflow-x 0s 1s, overflow-y 0s 1s;
+}
+
+.tabcontainer_vertical>div>div+div {
+	border-top: 1px solid rgba(51,51,153, 0.5);
+	margin-top: -1px;
+}
+
+.tabcontainer_vertical>div>div.selected {
+	height: 100%;
+	max-height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	transition: all 0.5s, overflow-x 0s 1s, overflow-y 0s 1s;
+}
