@@ -84,8 +84,10 @@
 		</profile>
 	</profiles>
 
-	<properties>		
-		<!-- Dependencies -->
+	<properties>
+    	<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
+  
 		<ultimate.KaroAPI4J.version>1.0</ultimate.KaroAPI4J.version>
 		<ultimate.KaroMUSKEL.version>3.0</ultimate.KaroMUSKEL.version>
 		<ultimate.KaroTools.version>0.1</ultimate.KaroTools.version>
