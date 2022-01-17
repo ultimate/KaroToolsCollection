@@ -1,1 +1,0 @@
-java -cp KaroMUSKEL/bin karopapier.application.StartScript
