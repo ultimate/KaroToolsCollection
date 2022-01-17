@@ -44,7 +44,7 @@ public class Karopapier extends BaseRefreshing<Karopapier>
 	/**
 	 * A Map of the users sorted by ID
 	 */
-	private GenericSynchronizedCollectionMap<String, User>	users_byID;
+	private GenericSynchronizedCollectionMap<Integer, User>	users_byID;
 
 	/**
 	 * The URLLoader used to load the maps
@@ -62,7 +62,7 @@ public class Karopapier extends BaseRefreshing<Karopapier>
 	/**
 	 * A Map of the maps sorted by ID
 	 */
-	private GenericSynchronizedCollectionMap<String, Map>	maps_byID;
+	private GenericSynchronizedCollectionMap<Integer, Map>	maps_byID;
 
 	/**
 	 * The user currently logged-in
@@ -83,13 +83,13 @@ public class Karopapier extends BaseRefreshing<Karopapier>
 			users = new SynchronizedList<User>(userLoader, EnumRefreshMode.manual, false);
 
 			users_byName = new GenericSynchronizedCollectionMap.Tree<String, User>(userLoader, EnumRefreshMode.manual, false, "getLogin");
-			users_byID = new GenericSynchronizedCollectionMap.Tree<String, User>(userLoader, EnumRefreshMode.manual, false, "getId");
+			users_byID = new GenericSynchronizedCollectionMap.Tree<Integer, User>(userLoader, EnumRefreshMode.manual, false, "getId");
 
 			mapLoader = new JSONURLLoaderThread<List<Map>>(new URL(KaroURLs.MAP_LIST));
 			maps = new SynchronizedList<Map>(mapLoader, EnumRefreshMode.manual, false);
 
 			maps_byName = new GenericSynchronizedCollectionMap.Tree<String, Map>(mapLoader, EnumRefreshMode.manual, false, "getName");
-			maps_byID = new GenericSynchronizedCollectionMap.Tree<String, Map>(mapLoader, EnumRefreshMode.manual, false, "getId");
+			maps_byID = new GenericSynchronizedCollectionMap.Tree<Integer, Map>(mapLoader, EnumRefreshMode.manual, false, "getId");
 		}
 		catch(MalformedURLException e)
 		{

@@ -11,6 +11,7 @@ import ultimate.karoapi4j.utils.web.URLLoader;
 import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
 
+@SuppressWarnings("unused")
 public class SyncTest
 {
 	public static void main(String[] args) throws MalformedURLException, InterruptedException

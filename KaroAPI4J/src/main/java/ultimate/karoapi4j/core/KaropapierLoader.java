@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,9 +82,9 @@ public class KaropapierLoader
 
 	public void findIds(List<Game> games)
 	{
-		for(Game g : games)
-		{
-
-		}
+//		for(Game g : games)
+//		{
+//
+//		}
 	}
 }
