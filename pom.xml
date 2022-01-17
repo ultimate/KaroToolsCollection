@@ -21,30 +21,6 @@
 			<name>ultimate</name>
 		</developer>
 	</developers>
-
-	<repositories>
-		<!-- repositories used to download dependencies -->
-		<repository>
-			<id>central</id>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<id>maven2-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<id>glassfish-repository.dev.java.net</id>
-			<url>http://download.java.net/maven/glassfish</url>
-		</repository>
-		<repository>
-			<id>appfuse</id>
-			<url>http://static.appfuse.org/repository</url>
-		</repository>
-		<repository>
-			<id>mvnrepository.com</id>
-			<url>http://mvnrepository.com</url>
-		</repository>
-	</repositories>
 	
 	<profiles>
 		<profile>
