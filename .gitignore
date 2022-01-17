@@ -1,7 +1,19 @@
-cache
+# Eclipse Files
 .metadata
 RemoteSystemsTempFiles
-/Tools/res/test_.properties
-/Tools/res/test_.properties.bak
-/Tools/res/test.properties.bak
-/Tools/dummy.txt
+
+# Binaries
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Project Files #
+.project
+.classpath
+.settings/
+target/
+bin/
+cache/
