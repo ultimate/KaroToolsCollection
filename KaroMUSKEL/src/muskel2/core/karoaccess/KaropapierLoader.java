@@ -519,8 +519,11 @@ public class KaropapierLoader
 	public static boolean login(String username, String password) throws IOException
 	{
 		currentUser = username;
-		ch = new SimpleCookieHandler();
-		CookieHandler.setDefault(ch);
+		if(ch == null)
+		{
+			ch = new SimpleCookieHandler();
+			CookieHandler.setDefault(ch);
+		}
 
 		URL url = new URL(server + (loginURLString.charAt(0) == '/' ? "" : "/") + loginURLString);
 		String page = readPage(url, loginPattern.replace("%ID", username).replace("%PWD", password));
