@@ -4,24 +4,17 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>ultimate</groupId>
-    <artifactId>workspace</artifactId>
+    <artifactId>KaroToolsCollection</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
-    <name>ultimate's Karopapier Project</name>
+    <name>ultimate's Karopapier Tools Collection</name>
     <url>http://www.karopapier.de</url>
 	
 	<modules>
 		<module>KaroAPI4J</module>
-		<module>KaroMUSKEL</module>
-<<<<<<< HEAD
-=======
-		<module>KaroTest</module>
->>>>>>> branch 'master' of https://github.com/ultimate/KaroStuff
+		<module>KaroMUSKEL-Java</module>
+		<module>KaroTools</module>
 	</modules>
-
-	<prerequisites>
-		<maven>2.2.1</maven>
-	</prerequisites>
 
 	<developers>
 		<developer>
@@ -154,14 +147,4 @@
 			</build>
 		</profile>
 	</profiles>
-
-	
-	<properties>
-		<!-- configure properties here for better overview -->
-
-		<!-- Versions of own libraries -->
-		<ultimate.KaroAPI4J.version>0.1</ultimate.KaroAPI4J.version>
-		<ultimate.KaroMUSKEL.version>3.0.0-pre</ultimate.KaroMUSKEL.version>
-		
-	</properties>
 </project>
