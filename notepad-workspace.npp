@@ -1,10 +1,10 @@
 <NotepadPlus>
     <Project name="KaroMUSKEL">
-        <File name="KaroMUSKEL\KaroMUSKEL.css" />
-        <File name="KaroMUSKEL\KaroMUSKEL.html" />
-        <File name="KaroMUSKEL\KaroMUSKEL.js" />
-        <File name="KaroMUSKEL\ComponentFactory.js" />
-        <File name="KaroMUSKEL\Utils.js" />
+        <File name="KaroMUSKEL-Web\KaroMUSKEL.css" />
+        <File name="KaroMUSKEL-Web\KaroMUSKEL.html" />
+        <File name="KaroMUSKEL-Web\KaroMUSKEL.js" />
+        <File name="KaroMUSKEL-Web\ComponentFactory.js" />
+        <File name="KaroMUSKEL-Web\Utils.js" />
     </Project>
     <Project name="KaroAPI">
         <Folder name="game">
