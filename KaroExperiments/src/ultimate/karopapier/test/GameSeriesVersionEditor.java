@@ -20,7 +20,7 @@ import muskel2.model.GameSeries;
 
 public class GameSeriesVersionEditor
 {
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String[] args) throws Exception
 	{
 		JFileChooser fileChooser = new JFileChooser();

@@ -13,8 +13,8 @@
 	<modules>
 		<module>KaroAPI4J</module>
 		<module>KaroEval</module>
+		<module>KaroExperiments</module>
 		<module>KaroMUSKEL-Java</module>
-		<module>KaroTools</module>
 	</modules>
 
 	<developers>
@@ -67,7 +67,7 @@
   
 		<ultimate.KaroAPI4J.version>1.0</ultimate.KaroAPI4J.version>
 		<ultimate.KaroEval.version>3.0</ultimate.KaroEval.version>
+		<ultimate.KaroExperiments.version>0.1</ultimate.KaroExperiments.version>
 		<ultimate.KaroMUSKEL.version>3.0</ultimate.KaroMUSKEL.version>
-		<ultimate.KaroTools.version>0.1</ultimate.KaroTools.version>
 	</properties>
 </project>

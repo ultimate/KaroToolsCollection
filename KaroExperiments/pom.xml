@@ -4,10 +4,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ultimate</groupId>
-	<artifactId>KaroTools</artifactId>
+	<artifactId>KaroExperiments</artifactId>
 	<packaging>jar</packaging>
-    <version>${ultimate.KaroTools.version}</version>
-    <name>ultimate's KaroTools</name>
+    <version>${ultimate.KaroExperiments.version}</version>
+    <name>ultimate's KaroExperiments</name>
 
 	<parent>
 		<groupId>ultimate</groupId>

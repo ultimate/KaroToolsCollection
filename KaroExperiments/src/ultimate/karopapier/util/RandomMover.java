@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 
-import ultimate.karopapier.muskelx.core.karoaccess.KaropapierLoader;
+import muskel2.core.karoaccess.KaropapierLoader;
 
 public class RandomMover
 {
@@ -19,6 +19,7 @@ public class RandomMover
 		{
 			System.out.println("logged in as " + user);
 			
+			@SuppressWarnings("unused")
 			String page;
 			int x = 0;
 			int y = 0;

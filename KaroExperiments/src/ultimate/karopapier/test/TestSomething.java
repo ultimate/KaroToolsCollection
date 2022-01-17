@@ -2,8 +2,6 @@ package ultimate.karopapier.test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import ultimate.karoapi4j.utils.URLLoaderUtil;
 
