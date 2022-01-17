@@ -5,7 +5,7 @@ package ultimate.karoapi4j.exceptions;
  * @author ultimate
  *
  */
-public class DeserializationException extends Exception
+public class DeserializationException extends RuntimeException
 {
 	/**
 	 * Default serialVersionUID
