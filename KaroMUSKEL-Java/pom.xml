@@ -6,13 +6,12 @@
 	<groupId>ultimate</groupId>
 	<artifactId>KaroMUSKEL</artifactId>
 	<packaging>jar</packaging>
-	<version>${ultimate.KaroMUSKEL.version}</version>
-    <name>ultimate's Karopapier Project - KaroMUSKEL</name>
-    <url>https://github.com/ultimate/KaroMUSKEL</url>
+	<version>3.0</version>
+    <name>ultimate's KaroMUSKEL</name>
 
 	<parent>
 		<groupId>ultimate</groupId>
-		<artifactId>workspace</artifactId>
+		<artifactId>KaroToolsCollection</artifactId>
 		<version>1.0.0</version>
 		<relativePath>..</relativePath>
 	</parent>
@@ -22,11 +21,10 @@
 		<dependency>
 			<groupId>ultimate</groupId>
 			<artifactId>KaroAPI4J</artifactId>
-			<version>${ultimate.KaroAPI4J.version}</version>
+			<!--<version>${ultimate.KaroAPI4J.version}</version>-->
 		</dependency>
 	</dependencies>
 
 	<properties>
-		<!-- configure properties here for better overview -->
 	</properties>
 </project>
