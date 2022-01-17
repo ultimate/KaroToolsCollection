@@ -15,8 +15,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.sun.xml.internal.ws.encoding.soap.DeserializationException;
-import com.sun.xml.internal.ws.encoding.soap.SerializationException;
+
+import ultimate.karoapi4j.exceptions.DeserializationException;
+import ultimate.karoapi4j.exceptions.SerializationException;
 
 public abstract class JSONUtil
 {
