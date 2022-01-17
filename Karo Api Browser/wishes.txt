@@ -1,3 +1,0 @@
-- einladbarkeit als Boolean für Tag & Nacht
-- eine Map-Liste mit allen Karten (auch den "Spezial-Karten")
-- vollständiger Zeitpunkt in der Chat-Liste (Datum + Uhrzeit)
