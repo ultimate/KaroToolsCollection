@@ -22,3 +22,9 @@ KaroMUSKEL V2.x
 <b>This is a backup and maintenance branch for the outdated Version 2 only!<br>
 See other branches for other versions!</b>
 
+KaroMUSKEL V3.x
+===============
+
+<b>This is a backup and maintenance branch for the temporary Version 3 only!<br>
+See other branches for other versions!</b>
+

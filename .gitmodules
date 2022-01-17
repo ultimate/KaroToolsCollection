@@ -1,0 +1,3 @@
+[submodule "KaroAPI4J"]
+	path = KaroAPI4J
+	url = https://github.com/ultimate/KaroAPI4J
