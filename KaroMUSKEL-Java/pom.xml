@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>ultimate.KaroToolsCollection</groupId>
+	<groupId>ultimate</groupId>
 	<artifactId>KaroMUSKEL</artifactId>
 	<packaging>jar</packaging>
-    <version>${ultimate.KaroMUSKEL.version}</version>
-    <name>ultimate's KaroMUSKEL</name>
+	<version>${ultimate.KaroMUSKEL.version}</version>
+	<name>ultimate's KaroMUSKEL</name>
 
 	<parent>
 		<groupId>ultimate</groupId>
@@ -23,8 +24,14 @@
 			<artifactId>KaroAPI4J</artifactId>
 			<version>${ultimate.KaroAPI4J.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>${org.json.version}</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
+		<org.json.version>20211205</org.json.version>
 	</properties>
 </project>
