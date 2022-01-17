@@ -1,0 +1,87 @@
+[[Bild:Czzzcc5.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 5|5. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|???}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1098 Forum] und Teilnehmer vergangener CCCs sowie Addicts wurden auch noch per Spiel+Bordfunk eingeladen.
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
+
+${MAPS}
+
+== Gesamtwertung ==
+${TOTAL}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 6 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"'' 
+
+== Durchführungstatus ==
+
+
+* '''27.05.2019 12:??''' Idee zur Parallelplanung der CCC5 zur CCC4
+* '''30.05.2019 15:52''' Wiki-Seite erstellt
+* '''30.05.2019 16:07''' Eröffnung der Anmeldung im Forum
+* '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
+* '''05.07.2019 ??:??''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
+* '''08.07.2019 16:00''' Wiki etwas aufgeräumt und übersichtlicher gestaltet
+* '''12.07.2019 09:55''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
+* '''12.07.2019 10:41''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''16.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 1|Challenge 1]]
+* '''23.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 2|Challenge 2]]
+* '''24.07.2019 09:00''' Aus unbekannten Gründen ist CraZZZy nicht korrekt aus allen Spielen der 2. Challenge ausgestiegen. Die Ausstiege wurden manuell nachgeholt...
+* '''25.07.2019 10:00''' Folgefehler vom Aussteige-Fehler behoben, der eine Auswertung der 2. Challenge verhinderte
+* '''30.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 3|Challenge 3]]
+* '''06.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 4|Challenge 4]]
+* '''13.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 5|Challenge 5]]
+* '''16.08.2019 18:00''' Folgen des Ausstiegs-Bugs von {{Benutzer|Didi}} behoben
+* '''20.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 6|Challenge 6]]
+* '''21.08.2019 22:00''' Behandlung des Ausstiegs-Bugs im Auswerte-Skript korrigiert
+* '''27.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 7|Challenge 7]]
+* '''03.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 8|Challenge 8]]
+* '''06.09.2019 18:50''' Bug-Fix des in der [[CraZZZy Crash Challenge 4]] erwähnten Fehlers: es konnte durch Timeouts dazu kommen, dass das Skript die GIDs des Spiele nicht korrekt ermittelt hat, wodurch das Aussteigen in eine Endlosschleife lief.
+* '''10.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 9|Challenge 9]]
+* '''17.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 10|Challenge 10]]
+* '''24.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 11|Challenge 11]]
+* '''01.10.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 12|Challenge 12]]
+* '''08.10.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 13|Challenge 13]]
+* '''10.10.2019 20:00''' Wegen der hohen Spieleauslastung gibt es eine kleine Pause von ca. 2 Monaten (mehr dazu im [[https://www.karopapier.de/showthread.php?thread=1098|Forum]]). Weiter geht es dann voraussichtlich zu den folgenden Terminen:
+* '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
+* '''09.12.2019 04:00''' Ende der Auswertungs-Pause
+* '''10.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]]
+* '''13.12.2019 ??:??''' Unbekannter Fehler führt dazu, dass Cron-Job und damit Eval-Script nicht mehr ausgeführt werden... Dies verhindert auch die planmäßige Erstellung der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]]
+* '''18.12.2019 17:30''' Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]] nachgeholt
+* '''24.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]]
+* '''31.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|Challenge 17]]
+* '''07.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|Challenge 18]]
+* '''14.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 19|Challenge 19]]
+* '''21.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 20|Challenge 20]]
+* '''28.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 21|Challenge 21]]
+* '''04.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 22|Challenge 22]]
+* '''11.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 23|Challenge 23]]
+* '''18.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 24|Challenge 24]]
+* '''25.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 25|Challenge 25]]
+
+= Statistik =
+${STATS}
+
+[[Kategorie:Meisterschaft]]

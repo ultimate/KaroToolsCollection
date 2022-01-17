@@ -1,0 +1,66 @@
+#chatMessages
+{			
+	float: left;
+	overflow: auto;
+}	
+
+#chatInfo
+{
+	max-width: 300px;
+	position: absolute;
+	right: 10px;
+}
+
+#chatInput
+{
+	position: absolute;
+	width: 70%;
+}
+
+#broughtToYouBy
+{
+	position: relative;
+}
+						
+#chatInfoUsers
+{
+	overflow-y: auto;
+	padding-right: 20px;
+}
+
+/* Listenvariante start
+wenn dir diese Listenvariante nicht gefällt lass sie weg es hat keinen Einfluss auf den Rest
+*/
+#chatInfoUsers li span
+{
+	position: relative;
+	left: 25px;
+}
+
+#chatInfoUsers li img
+{
+	position: relative;
+	top: 5px;
+	margin-right: -20px;
+}
+/* Listenvariante ende*/
+
+#chatWrapper
+{
+	padding: 5px;
+}
+
+div.chatMessage
+{
+	line-height: 18px;
+}
+
+.botrixGame
+{
+	font-size: 80%;
+}
+
+div.noBotrixGames
+{
+	display: none;
+}

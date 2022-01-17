@@ -13,6 +13,10 @@
 	<modules>
 		<module>KaroAPI4J</module>
 		<module>KaroMUSKEL</module>
+<<<<<<< HEAD
+=======
+		<module>KaroTest</module>
+>>>>>>> branch 'master' of https://github.com/ultimate/KaroStuff
 	</modules>
 
 	<prerequisites>

@@ -1,0 +1,1 @@
+java -cp ../KaroTest/target/classes;../KaroOld/bin/default;../KaroAPI4J/target/classes test.CCCEval 2

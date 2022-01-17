@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 KaroMUSKEL Archive
 ==================
 
@@ -118,16 +117,9 @@ License
 All content in the project is published under the GNU General Public License (GPL) (see http://www.gnu.org/copyleft/gpl.html).
 If you have further questions about using the content please don't hesitate to contact me.
 
-=======
-KaroAPI4J
+
+KaroStuff
 =========
 
-A www.karopapier.de JSON-API-Wrapper for Java
+Kleine Sammlung von Tools, Skripten, Karten, Bug-Fixes und anderem zu www.karopapier.de
 
-
-License
-=========
-
-All content in the project is published under the GNU General Public License (GPL) (see http://www.gnu.org/copyleft/gpl.html).
-If you have further questions about using the content please don't hesitate to contact me.
->>>>>>> refs/remotes/KaroAPI4J/master

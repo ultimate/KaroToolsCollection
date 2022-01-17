@@ -1,0 +1,80 @@
+[[Bild:Czzzcc02.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 2|2. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|quabla}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief übers [http://www.karopapier.de/showthread.php?forumid=8&thread=928 Forum] oder per [http://www.karopapier.de/poll.php?pid=199 Umfrage].
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 2 gefahren:
+
+${MAPS}
+
+== Gesamtwertung ==
+${TOTAL}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 5 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"''
+* Der "Erwartungswert (alt)" ist deutlich einfacher, aber vermutlich nicht so aussagekräftig, da er auch Ergebnisse liefern kann, die weder praktisch noch theoretisch erreichbar sind: 
+** ''"Durchschnittliche Punktzahl des Spielers pro Rennen" * 75 / "Anzahl der beendeten Rennen des Spielers" + "aktuell erhaltene Boni"'' 
+
+== Durchführungstatus ==
+
+* '''07.10.2011 12:00''' {{Benutzer|ultimate}} fängt in seiner Mittagspause schon mal ganz heimlich mit den ersten Vorbereitungen an...
+* '''08.10.2011 16:00''' Arbeiten an der Wiki-Seite und Erstellung des Forums
+* '''??.11.2011	??:??''' Immer mal wieder Strecken und ZZZs testen
+* '''??.12.2011	??:??''' Immer mal wieder Strecken und ZZZs testen
+* '''01.01.2012	16:20''' Start der [http://www.karopapier.de/poll.php?pid=199 Umfrage zur CCC 2]
+* '''01.01.2012	16:21''' Neue Infos hier im Wiki (Karten, Spielerzahl, ...)
+* '''07.01.2012	21:16''' Anmeldung geschlossen, alle 30 Plätze belegt
+* '''21.01.2012	16:38''' Nachtkarten durch andere Challenges ersetzt
+* '''28.01.2012	13:35''' Bild hinzugefügt
+* '''11.02.2012	13:25''' Spiele gestartet
+* '''18.02.2012	12:30''' Erste Auswertung
+* '''24.03.2012	??:??''' {{Benutzer|InstanceOfChris}} fällt der [[KaroMAMA]] zum Opfer
+* '''15.10.2012 20:39''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 11|Challenge 11]] ist beendet
+* '''28.11.2012 00:34''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 7|Challenge 7]] ist beendet
+* '''04.01.2013 09:03''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 4|Challenge 4]] ist beendet
+* '''02.05.2013 07:09''' {{Benutzer|Hasi}} ist als erster (ohne Ausstieg) mit allen Rennen fertig
+* '''23.05.2013 01:15''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 13|Challenge 13]] ist beendet
+* '''05.06.2013 15:31''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 1|Challenge 1]] ist beendet
+* '''10.06.2013 11:16''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 5|Challenge 5]] ist beendet
+* '''14.06.2013 16:23''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 12|Challenge 12]] ist beendet
+* '''19.06.2013 17:13''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 18|Challenge 18]] ist beendet
+* '''14.08.2013 23:37''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 14|Challenge 14]] ist beendet
+* '''11.09.2013 16:00''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 2|Challenge 2]] ist beendet
+* '''07.10.2013 09:15''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 16|Challenge 16]] ist beendet
+* '''01.11.2013 23:38''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 17|Challenge 17]] ist beendet
+* '''05.11.2013 22:13''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 20|Challenge 20]] ist beendet
+* '''23.01.2014 21:47''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 9|Challenge 9]] ist beendet
+* '''29.01.2014 23:28''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 3|Challenge 3]] ist beendet
+* '''28.04.2014 19:52''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 6|Challenge 6]] ist beendet
+* '''04.05.2014 10:42''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 10|Challenge 10]] ist beendet
+* '''22.05.2014 07:18''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 8|Challenge 8]] ist beendet
+* '''19.06.2014 09:27''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 15|Challenge 15]] ist beendet
+* '''21.07.2014 11:23''' [[CraZZZy Crash Challenge 2 - Detailwertung Challenge 19|Challenge 19]] ist beendet
+* '''10.02.2015 09:20''' {{Benutzer|ultimate}} hat die letzte Auswertung gemacht... And the winner is... {{Benutzer|quabla}} 
+
+= Statistik =
+${STATS}
+
+[[Kategorie:Meisterschaft]]

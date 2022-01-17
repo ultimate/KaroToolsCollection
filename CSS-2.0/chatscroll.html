@@ -1,0 +1,183 @@
+<html>
+	<head>
+	
+		<script type="text/javascript">
+		var username="ultimate";
+		</script>
+  
+		<link rel="stylesheet" type="text/css" media="screen" href="css/karo.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="css/chat.css" />
+		
+		<!-- 
+			hier per PHP auswaehlen welche farbe der user ausgewaehlt hat
+			karoold.css wird dann nicht mehr benoetigt,
+			aus karo.css wurden die Farb- und Schriftinfos entfernt
+			du kannst so theoretisch beliebig viele themes machen und muss nur die entsprechende css, sowie die bilder im entsprechenden ordner anpassen...
+		-->
+		<link rel="stylesheet" type="text/css" media="screen" href="css/theme-schwarz.css" />
+		<!--<link rel="stylesheet" type="text/css" media="screen" href="css/theme-blau.css" />-->
+		
+		<script language="JavaScript">
+			<!-- ein bisschen JS, was die Komponenten neu berechnet -->
+		
+			var chatMessageHeightCorrection = 10; // damit es zwischen den Chat-Nachrichten und der Zeilen-Auswahl nicht so gequetscht ist
+			var chatInfoCorrection = 20; // damit das auch nicht so gequetscht ist
+			var leftPaddingCorrection = 5;
+			
+			window.onload = window.onresize = recalculateChat = function ()
+			{			
+				// erst alle Werte berechnen, dann kann man besser auf bereits berechnete Werte zugreifen und diese wieder verwenden
+				chatInputLeft = document.getElementById("sidebar").offsetWidth + leftPaddingCorrection;
+				bottomCorrection = 2*document.getElementById("broughtToYouBy").offsetHeight;
+				chatWrapperHeight = document.body.clientHeight - document.getElementById("header").offsetHeight - document.getElementById("boxcontent").offsetHeight - bottomCorrection;
+				chatMessagesHeight = chatWrapperHeight - chatMessageHeightCorrection - document.getElementById("chatInput").offsetHeight;
+				chatInfoUsersHeight = chatMessagesHeight - document.getElementById("chatInfoTitle").offsetHeight - document.getElementById("chatInfoGames").offsetHeight;
+				chatMessagesWidth =  document.body.clientWidth - document.getElementById("sidebar").offsetWidth - document.getElementById("chatInfo").offsetWidth - chatInfoCorrection;
+				chatInfoWidth = document.getElementById("chatInfo").offsetWidth;
+				
+				// Werte zuweisen
+				document.getElementById("chatInput").style.bottom = bottomCorrection + "px";
+				document.getElementById("chatInput").style.left = chatInputLeft + "px";
+				document.getElementById("chatWrapper").style.height = chatWrapperHeight + "px";	
+				document.getElementById("chatMessages").style.height = chatMessagesHeight + "px";	
+				document.getElementById("chatMessages").style.width = chatMessagesWidth + "px";
+				document.getElementById("chatInfoUsers").style.height = chatInfoUsersHeight + "px";	
+				document.getElementById("chatInfo").style.width = chatInfoWidth + "px";	
+			};			
+		</script>
+	</head>
+	<body>
+		<!-- Struktur uebernommen -->
+		<div id="header">
+			<div id="infoBar">
+				<span class="userLabel" name="userLabel1411">ultimate</span> Spiele: <span id="dranCount">33</span>/<span id="gamesCount">486</span>
+				<a href="/logout">Logout</a>				  <div id="NotifierContainer"></div>
+			</div>
+		</div>
+		<div class="clearer"></div>
+
+		<div id="container">
+			<div id="content">
+			
+				<div class="boxtr"> 
+					<div class="boxtl"> 
+						<div class="boxbr"> 
+							<div class="boxbl"> 
+								<!-- hier muss die ID dazu, damit es per JS referenziert werden kann -->
+								<div id="boxcontent" class="boxcontent"> 
+									<h1>Karopapier-Bordfunk für alle!!!!</h1>
+								</div> 
+							</div> 
+						</div> 
+					</div> 
+				</div> 
+			
+				<div id="chatWrapper">
+					<div id="chatMessages">
+						<!-- hier baust du ja die Messages rein -->
+						<div class="chatMessage"><b>x</b> (12:00): hallo y</div>
+						<div class="chatMessage"><b>y</b> (12:00): hallo x</div>
+						<div class="chatMessage"><b>x</b> (12:00): du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>y</b> (12:00): nein du bist dran</div>
+						<div class="chatMessage"><b>x</b> (12:00): nein du bist dran</div>
+					</div>
+
+					<div id="chatInfo">
+						<!-- hier muss die ID dazu, damit es per JS referenziert werden kann -->
+						<span id="chatInfoTitle" class="small">Wer in den letzten 60 Sekunden da war, sortiert nach Althasigkeit</span><br />
+						<!-- von dir uebernommen -->
+						<div id="chatInfoUsers"><ul>
+							<li><span class="userLabel" name="userLabel999998">x</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">y</span></li>
+							<li><span class="userLabel" name="userLabel999998">xx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyyyyyyy</span></li>
+							<li><span class="userLabel" name="userLabel999998">xxxxxxxxxxxxxxxxxxxxx</span></li><li><img src="http://reloaded.karopapier.de/images/spielegeil.png" alt="Spielegeil" title="Spielegeil"/><span class="userLabel" name="userLabel999999">yyyyyyyyyyyyyyyyyyyyy</span></li>
+						</ul></div><div id="chatInfoGames"><a target="ibndran" href="http://www.karopapier.de/showgames.php?dranbin=1">Bei <strong>???</strong> Spielen dran</a></div>
+					</div>
+					
+					<div id="chatInput">
+					<!-- als Gruppierung der Eingabe-Elemente -->
+						Zeilen:
+						<span id="cl10">10</span> &nbsp;
+						<span id="cl20">20</span> &nbsp;
+						<span id="cl100">100</span>
+						<input type="checkbox" id="autoscroll" checked="checked" /><label for="autoscroll">Scrollen?</label>
+						<input type="checkbox" id="showBotrixGames" /><label for="showBotrixGames">Botrix Spielanfragen anzeigen</label>
+						<form id="chatSubmit" onsubmit="return false;">
+							<div id="chatEntryForm">
+								<b>ultimate</b> sagt: 
+								<input size="70" type="text" name="message" id="message" />    <input type="submit" id="sendMsg" value="Sag es">
+							</div>
+							<br />
+							Wartemusik: 
+							<audio controls="controls">
+							  <source src="http://www.karopapier.de/downloads/Didi%20-%20Wham%20my%20Last%20XMas.mp3" >
+							  <source src="http://www.karopapier.de/downloads/Didi%20-%20Wham%20my%20Last%20XMas.ogg" >
+							Dein Browser is doof und mag Dir keine Musik anbieten
+							</audio>(Erklärung, was das ist, <a href="http://www.karopapier.de/showthread.php?thread=634&forumid=4&limit=20">hier</a>)<br /><br />
+							<a target="_blank" href="http://smile.welcomes-you.com/">Smiley-Sammlung</a><br />
+							<!-- hier habe ich einmal br weggenommen! -->
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>	
+		
+		<div id="sidebar">
+		<!-- ebenfalls uebernommen --><ul id="navi"><li><a href="/chat">Chat</a></li><li><a href="/dran">Dran</a></li><li><a href="/theme/black">Schwarz</a></li><li><a href="/theme/blue">Blau</a></li><li><a href="/user/settings">Einstellungen</a></li><li><a href="/faqs">Karo2.0 FAQs</a></li></ul></li></ul>
+		</div>
+
+		<div class="clearer"></div>
+		
+		<!-- hier muss die ID dazu, damit es per JS referenziert werden kann -->
+		<center id="broughtToYouBy">Brought to you by :)idi</center>		
+	</body>
+</html>

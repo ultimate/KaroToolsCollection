@@ -1,0 +1,37 @@
+CCC2 Tracks
+
+Map		Name	   			Max Pl		Players		ZZZ		Moves pP	Moves		CPs
+
+Eigene:		
+114		Fischi				6			3			5		67			ca.	210				Karte 114 Fischi, ZZZ=5 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=114)
+135		Schnuller			8			3			8		75			ca. 230				Karte 135 Schnuller, ZZZ=8 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=135)
+187		Yun2	 			7			3			5		103			ca. 310				Karte 187 Yun2, ZZZ=5 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=187)
+1006	Nacht 6				12			3			9		120			ca. 340				Karte 1006 Irrkartengenerator, ZZZ=9 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=1006)
+
+1005	Nacht 5				7			4			0		55			ca. 220				Karte 1005 Kartograph, ZZZ=0 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=1005)
+188		Karo Wave	 		10			4			11		77			ca. 240				Karte 188 Karo Wave, ZZZ=11 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=188)
+164		Notenschlüssel		10			4			4		61			ca. 250				Karte 164 Notenschlüssel, ZZZ=4 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=164)
+33	   	?	 				5			4			0		63			ca. 260		n.V.	Karte 33 ?, ZZZ=0 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=33)
+174		Billard	   			8			4			7		65			ca. 270				Karte 174 Billard, ZZZ=7 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=174)
+111 	Yin und Yang		8 			4			1		80			ca. 320 	n.V.	Karte 111 Yin und Yang, ZZZ=1 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=111)
+	
+190		Twister				24			5			2		30			ca. 150				Karte 190 Twister, ZZZ=2 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=190)
+83	  	Checkpoint-Strecke	13			5			3		37			ca. 200				Karte 83 Checkpoint-Strecke, ZZZ=3 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=83)
+181		Sandbowl	   		8	 		5			6		39			ca.	200				Karte 181 Sandbowl, ZZZ=6 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=181)
+191		Doppelkringel		6			5			11		40			ca. 200				Karte 191 Doppelkringel, ZZZ=11 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=191)
+127 	Ball 				28 			5			4		42			ca. 210				Karte 127 Ball, ZZZ=4 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=127)
+154		Parkanalage	  		8			5			15		43			ca. 220				Karte 154 Parkanalage, ZZZ=15 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=154)
+123		Miez	 			6			5			3		45			ca. 230				Karte 123 Miez, ZZZ=3 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=123)
+138		Kreis	 			8			5			10		45			ca. 250				Karte 138 Kreis, ZZZ=10 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=138)
+94	  	Taschenrechner	  	6			5			0		55			ca. 280				Karte 94 Taschenrechner, ZZZ=0 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=94)
+182		Mensch ärgere...	12			5			0		65			ca. 330				Karte 182 Mensch ärgere..., ZZZ=0 soll dabei sein (http://www.karopapier.de/mappreview.php?MID=182)
+	
+
+Vorschläge:
+111 	Yin und Yang		8 			5			1		80			ca. 400 
+127 	Ball 				28 			7			4		42			ca. 300
+
+108		Für Annie :wavey:	10			3			9		70			ca.	210
+116		Silbermond			8			4			8		57			ca. 230
+
+
