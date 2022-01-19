@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
+import ultimate.karoapi4j.loading.Loader;
 
 /**
  * Implementation of synchronized maps managing the standard access operations.<br>

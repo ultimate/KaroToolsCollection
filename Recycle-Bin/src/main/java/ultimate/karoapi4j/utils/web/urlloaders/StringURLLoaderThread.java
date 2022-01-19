@@ -51,13 +51,9 @@ public class StringURLLoaderThread extends URLLoaderThread<String>
 		super(url, method, parameter, timeout);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see ultimate.karoapi4j.utils.web.URLLoader#parse(java.lang.String)
-	 */
 	@Override
-	public String parse(String refreshed)
+	public String parse(String content)
 	{
-		return refreshed;
+		return content;
 	}
 }

@@ -1,19 +1,23 @@
-package ultimate.karoapi4j;
+package ultimate.karoapi4j.utils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ultimate.karoapi4j.utils.sync.Refreshable;
 import ultimate.karoapi4j.utils.web.URLLoader;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
 
-public class EnumFinder implements Refreshable<String>
+public class EnumFinder
 {
 	public static final String	url			= "http://reloaded.karopapier.de/api/games";
 	public static final String	params		= "limit=100";
 	public static final String	enumName	= "tcrash";
 	
 	private static URLLoader<String> loader;
+	
+	public static void findEnums(URLLoader.BackgroundLoader<T> loader)
+	{
+		
+	}
 
 	public static void main(String[] args) throws MalformedURLException
 	{

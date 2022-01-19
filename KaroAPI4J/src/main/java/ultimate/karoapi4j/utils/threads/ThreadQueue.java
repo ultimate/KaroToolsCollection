@@ -1,43 +1,40 @@
 package ultimate.karoapi4j.utils.threads;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ThreadQueue
 {
-	private LinkedBlockingQueue<QueuableThread>	q;
-	private int									max;
-	private Integer								noT;
-	private int									currId;
-	private boolean								debugEnabled;
-	private boolean								countEnabled;
-	private Object								synco;
-	private Integer								planned;
-	private Integer								finished;
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass());
+	
+	private LinkedBlockingQueue<QueuableThread<?>>	q;
+	private int										max;
+	private AtomicInteger							noT;
+	private boolean									debugEnabled;
+	private Object									synco;
+	private AtomicInteger							planned;
+	private AtomicInteger							finished;
 
 	public ThreadQueue(int max, boolean debugEnabled, boolean countEnabled)
 	{
-		this.q = new LinkedBlockingQueue<QueuableThread>();
+		this.q = new LinkedBlockingQueue<QueuableThread<?>>();
 		this.max = max;
-		this.noT = 0;
-		this.currId = 1;
+		this.noT = new AtomicInteger(0);
 		this.debugEnabled = debugEnabled;
-		this.countEnabled = countEnabled;
 		this.synco = new Object();
-		this.planned = 0;
-		this.finished = 0;
+		this.planned = new AtomicInteger(0);
+		this.finished = new AtomicInteger(0);
 	}
 
 	public ThreadQueue(int max)
 	{
-		this.q = new LinkedBlockingQueue<QueuableThread>();
-		this.max = max;
-		this.noT = 0;
-		this.currId = 1;
-		this.debugEnabled = false;
-		this.countEnabled = false;
-		this.synco = new Object();
-		this.planned = 0;
-		this.finished = 0;
+		this(max, false, false);
 	}
 
 	public boolean isDebugEnabled()
@@ -50,63 +47,53 @@ public class ThreadQueue
 		this.debugEnabled = debugEnabled;
 	}
 
-	public boolean isCountEnabled()
-	{
-		return countEnabled;
-	}
-
-	public void setCountEnabled(boolean countEnabled)
-	{
-		this.countEnabled = countEnabled;
-	}
-
 	public int getMax()
 	{
 		return this.max;
 	}
 
-	public void addThread(QueuableThread th)
+	public void addThread(QueuableThread<?> th)
 	{
 		if(th == null)
 			throw new IllegalArgumentException("The Thread must not be null!");
 		th.setThreadQueue(this);
 		th.setDebugEnabled(this.debugEnabled);
 		this.q.add(th);
-		synchronized(this.planned)
-		{
-			this.planned++;
-		}
+//		synchronized(this.planned)
+//		{
+			this.planned.incrementAndGet();
+//		}
+		logger.debug("progress = " + getProgress());
 	}
 
 	public void begin()
 	{
 		launchThreads();
 	}
-	
+
 	public int getRemainingThreads()
 	{
 		return this.q.size();
 	}
-	
+
 	public int getRunningThreads()
 	{
-		return this.noT;
+		return this.noT.get();
 	}
 
-	public void notifyFinished(QueuableThread th)
+	public void notifyFinished(QueuableThread<?> th)
 	{
 		if(th == null)
 			throw new IllegalArgumentException("The Thread must not be null!");
-		synchronized(this.noT)
-		{
-			this.noT--;
-		}
-		synchronized(this.finished)
-		{
-			this.finished++;
-			if(this.countEnabled)
-				printCount();
-		}
+//		synchronized(this.noT)
+//		{
+			this.noT.incrementAndGet();
+//		}
+//		synchronized(this.finished)
+//		{
+			this.finished.incrementAndGet();
+			logger.debug("progress = " + getProgress());
+//		}
 		synchronized(this.synco)
 		{
 			this.synco.notifyAll();
@@ -118,29 +105,29 @@ public class ThreadQueue
 	{
 		synchronized(this.synco)
 		{
-			while(this.noT > 0 || this.q.size() > 0)
+			while(this.noT.get() > 0 || this.q.size() > 0)
 				this.synco.wait();
 		}
 	}
 
 	protected void launchThreads()
 	{
-		while(this.noT < this.max)
+		while(this.noT.get() < this.max)
 		{
-			QueuableThread th = this.q.poll();
+			QueuableThread<?> th = this.q.poll();
 			if(th == null)
 				break;
 			launchThread(th);
 		}
 	}
 
-	protected void launchThread(QueuableThread th)
+	protected void launchThread(QueuableThread<?> th)
 	{
-		th.start(this.currId++);
-		synchronized(this.noT)
-		{
-			this.noT++;
-		}
+		th.start();
+//		synchronized(this.noT)
+//		{
+			this.noT.incrementAndGet();
+//		}
 	}
 
 	public void setMax(int max)
@@ -148,15 +135,12 @@ public class ThreadQueue
 		this.max = max;
 	}
 
-	public synchronized void printCount()
+	public String getProgress()
 	{
-		String fin = "" + this.finished;
-		String plan = "" + this.planned;
+		String fin = "" + this.finished.get();
+		String plan = "" + this.planned.get();
 		while(fin.length() < plan.length())
 			fin = " " + fin;
-		String result = fin + "/" + plan;
-		for(int i = 0; i < result.length(); i++)
-			System.out.print("\b");
-		System.out.print(result);
+		return fin + " / " + plan;
 	}
 }

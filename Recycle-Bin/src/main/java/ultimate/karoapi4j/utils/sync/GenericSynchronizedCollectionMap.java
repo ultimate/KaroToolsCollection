@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
+import ultimate.karoapi4j.loading.Loader;
 
 /**
  * Generic extension of {@link SynchronizedCollectionMap} using reflections to determine the required key

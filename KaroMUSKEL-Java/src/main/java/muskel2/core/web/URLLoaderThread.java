@@ -7,17 +7,31 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import muskel2.core.threads.QueuableThread;
+import ultimate.karoapi4j.utils.threads.QueuableThread;
 
 public class URLLoaderThread extends QueuableThread
 {
-
+	/**
+	 * The URL to load
+	 */
 	protected URL		url;
-	protected String	parameter;
+	/**
+	 * A timeout used for loading the URL
+	 */
+	protected int		timeout;
+	/**
+	 * The HTTP-Method used to load the URL
+	 */
+	protected String	method;
+	/**
+	 * The parameters to pass to the URL on load via POST
+	 */
+	protected String	parameters;
+	/**
+	 * The loaded content as a String
+	 */
 	protected String	result;
 	protected int		responseCode;
-	protected String	method;
-	protected int		timeout;
 
 	public URLLoaderThread(URL url, String parameter)
 	{
@@ -58,7 +72,7 @@ public class URLLoaderThread extends QueuableThread
 		{
 			this.result = null;
 			this.responseCode = -1;
-			
+
 			Thread t = new Thread() {
 				public void run()
 				{
@@ -117,7 +131,7 @@ public class URLLoaderThread extends QueuableThread
 	{
 		return result;
 	}
-	
+
 	public int getResponseCode()
 	{
 		return responseCode;

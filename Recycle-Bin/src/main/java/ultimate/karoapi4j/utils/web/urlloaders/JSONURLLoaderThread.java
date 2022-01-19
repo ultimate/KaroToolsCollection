@@ -2,10 +2,10 @@ package ultimate.karoapi4j.utils.web.urlloaders;
 
 import java.net.URL;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 
 /**
  * Implementation of URLLoaderThread for arbitrary JSON-Entities<br>

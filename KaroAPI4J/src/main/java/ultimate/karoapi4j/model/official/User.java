@@ -6,24 +6,30 @@ import java.util.List;
 public class User
 {
 	/*
-	 * user/1/info.json
-	 * "id" : 1,
-	 * "login" : "Didi",
-	 * "color" : "FFFFFF",
-	 * "lastVisit" : 17,
-	 * "signup" : 3798,
-	 * "dran" : 68,
-	 * "activeGames" : 102,
-	 * "maxGames" : 123,
-	 * "sound" : 10,
-	 * "soundfile" : "\/mp3\/brumm.mp3",
-	 * "size" : 12,
-	 * "border" : 1,
-	 * "desperate" : false,
-	 * "birthdayToday" : false,
-	 * "karodayToday" : false,
-	 * "gravatar" :
-	 * "http:\/\/www.gravatar.com\/avatar\/bb493dfa04160c4c284b8740a5b23557?default=http%3A%2F%2Fwww.karopapier.de%2Ffavicon.gif&size=40"
+	 * https://www.karopapier.de/api/users/1
+	 * "id": 1,
+	 * "login": "Didi",
+	 * "color": "ffffff",
+	 * "lastVisit": 0,
+	 * "signup": 7288,
+	 * "dran": 8,
+	 * "activeGames": 66,
+	 * "acceptsDayGames": true,
+	 * "acceptsNightGames": true,
+	 * "maxGames": 150,
+	 * "sound": 10,
+	 * "soundfile": "/mp3/quiek.mp3",
+	 * "size": 12,
+	 * "border": 1,
+	 * "desperate": false,
+	 * "birthdayToday": false,
+	 * "karodayToday": false,
+	 * "theme": "karo1",
+	 * "bot": false,
+	 * "gamesort": "blocktime",
+	 * "state": "active",
+	 * "superCreator": true,
+	 * "uc": 1 // for user check only
 	 */
 	// Standard JSON Fields
 	private int				id;
@@ -33,6 +39,8 @@ public class User
 	private int				signup;
 	private int				dran;
 	private int				activeGames;
+	private boolean			acceptDayGames;
+	private boolean			acceptNightGames;
 	private int				maxGames;
 	private int				sound;
 	private String			soundfile;
@@ -41,13 +49,17 @@ public class User
 	private boolean			desperate;
 	private boolean			birthdayToday;
 	private boolean			karodayToday;
-	private String			gravatar;
+	private String			theme;
+	private boolean			bot;
+	private EnumGameSort	gamesort;
+	private EnumState		state;
+	private boolean			superCreator;
+	private int				uc;
+	private int				blocked;
 	// additional Fields
 	private int				plannedGames;
 	private boolean			invitable;
 	private boolean			invitableNight;
-	// references
-	private List<Blocker>	blocker;
 	private List<Game>		games;
 
 	public User()
@@ -175,8 +187,8 @@ public class User
 	public void setId(int id)
 	{
 		this.id = id;
-		
-//		this.games // load the games?!
+
+		// this.games // load the games?!
 	}
 
 	public void setLogin(String login)

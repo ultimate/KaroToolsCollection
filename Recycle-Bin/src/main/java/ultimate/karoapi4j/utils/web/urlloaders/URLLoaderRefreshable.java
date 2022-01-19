@@ -10,7 +10,7 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
 /**
  * Implementation of {@link Refreshable} that is able to block the access to the loaded URL content.<br>
  * Therefore {@link URLLoader#getLoadedContent()} is wrappend into
- * {@link URLLoaderRefreshable#load()} and the call of that method will be blocked my
+ * {@link URLLoaderRefreshable#load()} and the call of that method will be blocked by
  * monitors until the {@link URLLoaderThread} has finished loading.<br>
  * 
  * @author ultimate

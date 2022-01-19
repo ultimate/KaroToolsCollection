@@ -1,43 +1,34 @@
 package ultimate.karoapi4j.utils.threads;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
-public abstract class QueuableThread extends Thread
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public abstract class QueuableThread<T> extends Thread
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass() + "[" + this.getName() + "]");
 
-	protected ThreadQueue		q;
-	protected String			message;
-	protected int				id;
-	protected boolean			debug;
-
-	protected boolean			running;
-	protected boolean			waiting;
-
-	protected Object			sync	= new Object();
-	protected CountDownLatch	start	= new CountDownLatch(1);
+	protected ThreadQueue				q;
+	protected boolean					debug;
+	protected CountDownLatch			latch;
+	protected Consumer<T>				consumer;
+	protected Exception					exception;
 
 	public QueuableThread()
 	{
-		this(null);
+		this(Long.toHexString(System.currentTimeMillis()));
 	}
 
-	public QueuableThread(String message)
+	public QueuableThread(String name)
 	{
-		super();
-		this.message = message;
+		super(name);
 		this.debug = false;
-		this.running = true;
-		this.waiting = false;
-		super.start();
-		try
-		{
-			// wait (a short time) for the thread to reach it's first wait
-			start.await();
-		}
-		catch(InterruptedException e)
-		{
-			// should not happen
-		}
+		this.latch = new CountDownLatch(1);
 	}
 
 	public boolean isDebugEnabled()
@@ -50,11 +41,6 @@ public abstract class QueuableThread extends Thread
 		this.debug = debug;
 	}
 
-	public final String getMessage()
-	{
-		return message;
-	}
-
 	public final void setThreadQueue(ThreadQueue q)
 	{
 		if(q == null)
@@ -62,119 +48,56 @@ public abstract class QueuableThread extends Thread
 		this.q = q;
 	}
 
-	@Override
-	public void start()
+	public T doBlocking() throws InterruptedException
 	{
-		this.start(0);
+		doAsync(null);
+		waitForFinished();
+		return getResult();
 	}
 
-	public final void start(int id)
+	public void doAsync(Consumer<T> consumer)
 	{
-		if(id < 0)
-			throw new IllegalArgumentException("The id must be a positive Integer.");
-		this.id = id;
-		if(this.waiting)
-		{
-			synchronized(this)
-			{
-				this.notify();
-			}
-		}
-	}
-
-	public void terminate()
-	{
-		this.running = false;
-		synchronized(this)
-		{
-			this.notify();
-		}
+		this.consumer = consumer;
+		if(this.q != null)
+			this.q.addThread(this);
+		else
+			super.start();
 	}
 
 	@Override
 	public final void run()
 	{
-		while(true)
-		{
-			synchronized(this)
-			{
-				if(this.isDebugEnabled())
-					System.out.println(getWaitString());
-				this.waiting = true;
-				try
-				{
-					start.countDown();
-					this.wait();
-				}
-				catch(InterruptedException e)
-				{
-					e.printStackTrace();
-				}
-				this.waiting = false;
-			}
-
-			if(!running)
-				break;
-
-			if(this.isDebugEnabled())
-				System.out.println(getStartString());
-			innerRun();
-			if(this.isDebugEnabled())
-				System.out.println(getEndString());
-			if(this.q != null)
-				this.q.notifyFinished(this);
-
-			synchronized(sync)
-			{
-				sync.notifyAll();
-			}
-		}
+		logger.debug("QueuableThread started");
+		innerRun();
+		logger.debug("QueuableThread finished");
+		if(this.q != null)
+			this.q.notifyFinished(this);
+		this.latch.countDown();
+		if(this.consumer != null)
+			consumer.accept(getResult());
 	}
 
-	public void join2() throws InterruptedException
+	public boolean isFinished()
 	{
-		synchronized(sync)
-		{
-			sync.wait();
-		}
+		return latch.getCount() == 0;
 	}
 
-	private final String getStartString()
+	public void waitForFinished() throws InterruptedException
 	{
-		return "QueuableThread " + getIdString() + " started" + (this.message == null ? "" : ": " + this.message);
+		latch.await();
 	}
 
-	private final String getEndString()
+	public boolean hasException()
 	{
-		return "QueuableThread " + getIdString() + " finished";
+		return this.exception != null;
 	}
 
-	private final String getWaitString()
+	public Exception getException()
 	{
-		return "QueuableThread " + getIdString() + " waiting";
-	}
-
-	private final String getIdString()
-	{
-		String idS = "" + this.id;
-		while(idS.length() < minDigits)
-		{
-			idS = "0" + idS;
-		}
-		return idS;
+		return this.exception;
 	}
 
 	public abstract void innerRun();
 
-	private static int	minDigits	= 5;
-
-	public static final void setMinIdDigits(int minDigits)
-	{
-		QueuableThread.minDigits = minDigits;
-	}
-
-	public static final int getMinIdDigits()
-	{
-		return QueuableThread.minDigits;
-	}
+	public abstract T getResult();
 }
