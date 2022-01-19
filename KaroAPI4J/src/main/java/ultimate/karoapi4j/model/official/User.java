@@ -3,6 +3,10 @@ package ultimate.karoapi4j.model.official;
 import java.awt.Color;
 import java.util.List;
 
+import ultimate.karoapi4j.enums.EnumUserGamesort;
+import ultimate.karoapi4j.enums.EnumUserState;
+import ultimate.karoapi4j.enums.EnumUserTheme;
+
 public class User
 {
 	/*
@@ -32,35 +36,33 @@ public class User
 	 * "uc": 1 // for user check only
 	 */
 	// Standard JSON Fields
-	private int				id;
-	private String			login;
-	private Color			color;
-	private int				lastVisit;
-	private int				signup;
-	private int				dran;
-	private int				activeGames;
-	private boolean			acceptDayGames;
-	private boolean			acceptNightGames;
-	private int				maxGames;
-	private int				sound;
-	private String			soundfile;
-	private int				size;
-	private int				border;
-	private boolean			desperate;
-	private boolean			birthdayToday;
-	private boolean			karodayToday;
-	private String			theme;
-	private boolean			bot;
-	private EnumGameSort	gamesort;
-	private EnumState		state;
-	private boolean			superCreator;
-	private int				uc;
-	private int				blocked;
+	private int					id;
+	private String				login;
+	private Color				color;
+	private int					lastVisit;
+	private int					signup;
+	private int					dran;
+	private int					activeGames;
+	private boolean				acceptDayGames;
+	private boolean				acceptNightGames;
+	private int					maxGames;
+	private int					sound;
+	private String				soundfile;
+	private int					size;
+	private int					border;
+	private boolean				desperate;
+	private boolean				birthdayToday;
+	private boolean				karodayToday;
+	private EnumUserTheme		theme;
+	private boolean				bot;
+	private EnumUserGamesort	gamesort;
+	private EnumUserState		state;
+	private boolean				superCreator;
+	private boolean				uc;
+	private int					blocked;
 	// additional Fields
-	private int				plannedGames;
-	private boolean			invitable;
-	private boolean			invitableNight;
-	private List<Game>		games;
+	private int					plannedGames;
+	private List<Game>			games;
 
 	public User()
 	{
@@ -154,29 +156,9 @@ public class User
 		return karodayToday;
 	}
 
-	public String getGravatar()
-	{
-		return gravatar;
-	}
-
 	public int getPlannedGames()
 	{
 		return plannedGames;
-	}
-
-	public boolean isInvitable()
-	{
-		return invitable;
-	}
-
-	public boolean isInvitableNight()
-	{
-		return invitableNight;
-	}
-
-	public List<Blocker> getBlocker()
-	{
-		return blocker;
 	}
 
 	public List<Game> getGames()
@@ -261,33 +243,114 @@ public class User
 		this.karodayToday = karodayToday;
 	}
 
-	public void setGravatar(String gravatar)
-	{
-		this.gravatar = gravatar;
-	}
-
 	public void setPlannedGames(int plannedGames)
 	{
 		this.plannedGames = plannedGames;
 	}
 
-	public void setInvitable(boolean invitable)
-	{
-		this.invitable = invitable;
-	}
-
-	public void setInvitableNight(boolean invitableNight)
-	{
-		this.invitableNight = invitableNight;
-	}
-
-	public void setBlocker(List<Blocker> blocker)
-	{
-		this.blocker = blocker;
-	}
-
 	public void setGames(List<Game> games)
 	{
 		this.games = games;
+	}
+
+	public boolean isAcceptDayGames()
+	{
+		return acceptDayGames;
+	}
+
+	public void setAcceptDayGames(boolean acceptDayGames)
+	{
+		this.acceptDayGames = acceptDayGames;
+	}
+
+	public boolean isAcceptNightGames()
+	{
+		return acceptNightGames;
+	}
+
+	public void setAcceptNightGames(boolean acceptNightGames)
+	{
+		this.acceptNightGames = acceptNightGames;
+	}
+
+	public EnumUserTheme getTheme()
+	{
+		return theme;
+	}
+
+	public void setTheme(EnumUserTheme theme)
+	{
+		this.theme = theme;
+	}
+
+	public boolean isBot()
+	{
+		return bot;
+	}
+
+	public void setBot(boolean bot)
+	{
+		this.bot = bot;
+	}
+
+	public EnumUserGamesort getGamesort()
+	{
+		return gamesort;
+	}
+
+	public void setGamesort(EnumUserGamesort gamesort)
+	{
+		this.gamesort = gamesort;
+	}
+
+	public EnumUserState getState()
+	{
+		return state;
+	}
+
+	public void setState(EnumUserState state)
+	{
+		this.state = state;
+	}
+
+	public boolean isSuperCreator()
+	{
+		return superCreator;
+	}
+
+	public void setSuperCreator(boolean superCreator)
+	{
+		this.superCreator = superCreator;
+	}
+
+	public boolean getUc()
+	{
+		return uc;
+	}
+
+	public void setUc(boolean uc)
+	{
+		this.uc = uc;
+	}
+
+	public int getBlocked()
+	{
+		return blocked;
+	}
+
+	public void setBlocked(int blocked)
+	{
+		this.blocked = blocked;
+	}
+
+	// derived from other information
+	public boolean isInvitable()
+	{
+		return acceptDayGames && (activeGames < maxGames || maxGames <= 0);
+	}
+
+	public boolean isInvitableNight()
+	{
+		return acceptNightGames && (activeGames < maxGames || maxGames <= 0);
 	}
 }

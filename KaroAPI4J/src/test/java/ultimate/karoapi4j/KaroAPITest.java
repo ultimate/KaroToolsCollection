@@ -20,6 +20,7 @@ public class KaroAPITest extends KaroAPITestcase
 
 		assertNotNull(user);
 		assertEquals(properties.get("karoapi.user"), user.getLogin());
+		assertTrue(user.getUc());
 	}
 
 	@Test
