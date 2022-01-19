@@ -1,48 +1,61 @@
 package ultimate.karoapi4j.utils;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
-import ultimate.karoapi4j.utils.web.URLLoader;
-import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.web.URLLoader.BackgroundLoader;
 
 public class EnumFinder
 {
-	public static final String	url			= "http://reloaded.karopapier.de/api/games";
-	public static final String	params		= "limit=100";
-	public static final String	enumName	= "tcrash";
-	
-	private static URLLoader<String> loader;
-	
-	public static void findEnums(URLLoader.BackgroundLoader<T> loader)
+	/**
+	 * Logger-Instance
+	 */
+	protected transient static final Logger logger = LoggerFactory.getLogger(EnumFinder.class);
+	public static final String QUOT = "\"";
+
+	public static Set<String> findEnums(String raw, String key)
 	{
+		Set<String> values = new HashSet<>();
+		String searchString = QUOT + key + QUOT;
+		int index = 0;
+		int start, end;
 		
-	}
-
-	public static void main(String[] args) throws MalformedURLException
-	{
-//		for(int i = 40000; i < 40100; i++)
-//		{
-//			URLLoader loader = new URLLoaderThread(new URL("http://reloaded.karopapier.de/api/games/" + i + "/info"), "");
-			loader = new StringURLLoaderThread(new URL(url));
-			System.out.println("loading...");
-			loader.load(new EnumFinder());
-//		}
-	}
-
-	@Override
-	public void onRefresh(String refreshed)
-	{
-		System.out.println("load finished, analyzing...");
-		System.out.println(loader.getLoadedContent());
-		int index = refreshed.indexOf(enumName, 0);
-		int i = 0;
-		while(index >= 0)
-		{
-			System.out.println(i++ + ": " + refreshed.substring(index, refreshed.indexOf(",", index)));
-			index = refreshed.indexOf(enumName, index + 1);
+		do {
+			index = raw.indexOf(searchString, index);
+			if(index >= 0)
+			{
+				start = raw.indexOf(QUOT, index + searchString.length() + 1) + QUOT.length();
+				end = raw.indexOf(QUOT, start + QUOT.length());
+				values.add(raw.substring(start, end));
+				index = end;
+			}
 		}
-		System.out.println("analyzation done");
-		System.exit(0);
+		while(index >= 0);
+		return values;
+	}
+
+	public static void main(String[] args) throws InterruptedException, IOException
+	{
+		Properties properties = PropertiesUtil.loadProperties(new File("target/test-classes/test.properties"));
+		logger.info("properties loaded: " + properties);
+		KaroAPI karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
+		logger.info("KaroAPI initialized");
+		
+		BackgroundLoader<List<User>> users = karoAPI.getUsers();
+		users.doBlocking();
+		
+		System.out.println("soundfile = " + findEnums(users.getRawResult(), "soundfile"));
+		System.out.println("theme     = " + findEnums(users.getRawResult(), "theme"));
+		System.out.println("gamesort  = " + findEnums(users.getRawResult(), "gamesort"));
+		System.out.println("state     = " + findEnums(users.getRawResult(), "state"));
 	}
 }
