@@ -49,6 +49,7 @@ public class PropertiesUtil
 	
 	public static void main(String[] args) throws Exception
 	{
+		// TODO move to test
 		Properties p = new Properties();
 		p.setProperty("lala", "1");
 		p.setProperty("xxxx", "yyyy");
