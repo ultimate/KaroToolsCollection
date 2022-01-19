@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
+import ultimate.karoapi4j.loading.Loader;
 
 /**
  * Simple extension of {@link SynchronizedCollection} for Lists adding List-functionality.<br>

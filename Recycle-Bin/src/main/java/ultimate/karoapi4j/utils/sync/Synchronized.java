@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.utils.sync;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
+import ultimate.karoapi4j.loading.Loader;
 
 /**
  * Interface for (self)-synchronizing entities.

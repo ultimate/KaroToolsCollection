@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
+import ultimate.karoapi4j.loading.Loader;
 
 /**
  * Base for synchronized collections managing the most relevant access operations.<br>

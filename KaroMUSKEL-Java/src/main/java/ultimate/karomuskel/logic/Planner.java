@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.core;
+package ultimate.karomuskel.logic;
 
 import java.util.LinkedList;
 import java.util.List;

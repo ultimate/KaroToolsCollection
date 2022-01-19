@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
+import ultimate.karoapi4j.loading.Loader;
 
 /**
  * Implementation for synchronized Maps represented by a Collection.<br>

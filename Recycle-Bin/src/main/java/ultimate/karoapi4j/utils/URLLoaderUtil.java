@@ -1,5 +1,9 @@
 package ultimate.karoapi4j.utils;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
@@ -247,7 +251,7 @@ public abstract class URLLoaderUtil
 	 */
 	public static <T> T load(URLLoaderThread<T> urlLoaderThread)
 	{
-		urlLoaderThread.load();
+		urlLoaderThread.async(null);
 		try
 		{
 			urlLoaderThread.join2();
@@ -257,7 +261,7 @@ public abstract class URLLoaderUtil
 			logger.error("URLLoaderThread has been interrupted!");
 			return null;
 		}
-		return urlLoaderThread.getLoadedContent();
+		return urlLoaderThread.get();
 	}
 
 	/**

@@ -36,7 +36,8 @@ public class LeagueGameSeries extends TeamBasedGameSeries
 
 	@Override
 	protected void planGames0()
-	{
+	{		
+		// TODO use Planner
 		this.shuffleTeams();
 		List<List<Match>> matches = LeaguePlanner.createMatches(this.shuffledTeams);
 		

@@ -1,9 +1,9 @@
 package muskel2.core.karoaccess;
 
-import muskel2.core.threads.QueuableThread;
 import muskel2.core.threads.ThreadQueue;
 import muskel2.gui.screens.SummaryScreen;
 import muskel2.util.RequestLogger;
+import ultimate.karoapi4j.utils.threads.QueuableThread;
 
 public class KaroThreadQueue extends ThreadQueue
 {

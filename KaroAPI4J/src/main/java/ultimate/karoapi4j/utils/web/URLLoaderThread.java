@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import ultimate.karoapi4j.utils.sync.Refreshable;
+import ultimate.karoapi4j.exceptions.ParsingException;
 import ultimate.karoapi4j.utils.threads.QueuableThread;
 import ultimate.karoapi4j.utils.threads.ThreadQueue;
 
@@ -21,12 +21,16 @@ import ultimate.karoapi4j.utils.threads.ThreadQueue;
  * @author ultimate
  * @param <T> - the type of content to load
  */
-public abstract class URLLoaderThread<T> extends QueuableThread implements URLLoader<T>
+public class URLLoaderThread<T> extends QueuableThread<T>
 {
 	/**
 	 * The URL to load
 	 */
 	protected URL				url;
+	/**
+	 * The parser to use
+	 */
+	protected Parser<String, T>	parser;
 	/**
 	 * A timeout used for loading the URL
 	 */
@@ -48,9 +52,9 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 	 */
 	protected T					result_T;
 	/**
-	 * The Refreshable to notify after loading
+	 * The response code
 	 */
-	protected Refreshable<T>	refreshable;
+	protected int				responseCode;
 
 	/**
 	 * Construct a new URLLoaderThread.<br>
@@ -121,6 +125,8 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 		this.url = url;
 		this.parameters = parameters;
 		this.result = null;
+		this.result_T = null;
+		this.responseCode = -1;
 		this.timeout = timeout;
 		this.method = method;
 	}
@@ -193,11 +199,11 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 						connection.setUseCaches(false);
 						connection.setAllowUserInteraction(false);
 						connection.setRequestMethod(method);
-							
+
 						if(method.equals("POST"))
 						{
-							connection.setDoOutput(true);
 							connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+							connection.setDoOutput(true);
 							PrintWriter out = new PrintWriter(connection.getOutputStream());
 							out.print(parameters);
 							out.close();
@@ -216,11 +222,18 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 						is.close();
 
 						result = site.toString();
-						result_T = parse(result);
+						responseCode = connection.getResponseCode();
+						result_T = parser.parse(result);
 					}
 					catch(IOException e)
 					{
-						result = e.toString();
+						exception = e;
+						result_T = null;
+					}
+					catch(ParsingException e)
+					{
+						exception = e;
+						result_T = null;
 					}
 				}
 			};
@@ -232,44 +245,14 @@ public abstract class URLLoaderThread<T> extends QueuableThread implements URLLo
 		}
 		catch(InterruptedException e)
 		{
-			result = e.toString();
-		}
-
-		if(refreshable != null)
-		{
-			refreshable.onRefresh(result_T);
-			refreshable = null;
+			exception = e;
+			result_T = null;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see ultimate.karoapi4j.utils.sync.Loader#load()
-	 */
 	@Override
-	public void load()
-	{
-		load(null);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ultimate.karoapi4j.utils.sync.Loader#getLoadedContent()
-	 */
-	@Override
-	public T getLoadedContent()
+	public T getResult()
 	{
 		return result_T;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see ultimate.karoapi4j.utils.sync.Loader#load(ultimate.karoapi4j.utils.sync.Refreshable)
-	 */
-	@Override
-	public void load(Refreshable<T> refreshable)
-	{
-		this.refreshable = refreshable;
-		this.start();
 	}
 }
