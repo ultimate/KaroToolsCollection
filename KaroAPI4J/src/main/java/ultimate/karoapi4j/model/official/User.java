@@ -323,7 +323,7 @@ public class User
 		this.superCreator = superCreator;
 	}
 
-	public boolean getUc()
+	public boolean isUc()
 	{
 		return uc;
 	}
