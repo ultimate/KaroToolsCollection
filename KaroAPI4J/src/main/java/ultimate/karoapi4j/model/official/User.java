@@ -9,6 +9,7 @@ import ultimate.karoapi4j.enums.EnumUserTheme;
 
 public class User
 {
+	public static final int INVITABLE_LAST_VISIT_LIMIT = 3;
 	/*
 	 * https://www.karopapier.de/api/users/1
 	 * "id": 1,
@@ -43,8 +44,8 @@ public class User
 	private int					signup;
 	private int					dran;
 	private int					activeGames;
-	private boolean				acceptDayGames;
-	private boolean				acceptNightGames;
+	private boolean				acceptsDayGames;
+	private boolean				acceptsNightGames;
 	private int					maxGames;
 	private int					sound;
 	private String				soundfile;
@@ -253,24 +254,24 @@ public class User
 		this.games = games;
 	}
 
-	public boolean isAcceptDayGames()
+	public boolean isAcceptsDayGames()
 	{
-		return acceptDayGames;
+		return acceptsDayGames;
 	}
 
-	public void setAcceptDayGames(boolean acceptDayGames)
+	public void setAcceptsDayGames(boolean acceptsDayGames)
 	{
-		this.acceptDayGames = acceptDayGames;
+		this.acceptsDayGames = acceptsDayGames;
 	}
 
-	public boolean isAcceptNightGames()
+	public boolean isAcceptsNightGames()
 	{
-		return acceptNightGames;
+		return acceptsNightGames;
 	}
 
-	public void setAcceptNightGames(boolean acceptNightGames)
+	public void setAcceptsNightGames(boolean acceptsNightGames)
 	{
-		this.acceptNightGames = acceptNightGames;
+		this.acceptsNightGames = acceptsNightGames;
 	}
 
 	public EnumUserTheme getTheme()
@@ -346,11 +347,30 @@ public class User
 	// derived from other information
 	public boolean isInvitable()
 	{
-		return acceptDayGames && (activeGames < maxGames || maxGames <= 0);
+		return acceptsDayGames && (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
 	}
 
 	public boolean isInvitableNight()
 	{
-		return acceptNightGames && (activeGames < maxGames || maxGames <= 0);
+		return acceptsNightGames && (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
 	}
+
+//	@Override
+//	public int hashCode()
+//	{
+//		return Objects.hash(id);
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj)
+//	{
+//		if(this == obj)
+//			return true;
+//		if(obj == null)
+//			return false;
+//		if(getClass() != obj.getClass())
+//			return false;
+//		User other = (User) obj;
+//		return id == other.id;
+//	}
 }
