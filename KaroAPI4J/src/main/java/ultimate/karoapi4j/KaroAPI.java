@@ -44,14 +44,6 @@ public class KaroAPI
 	public static final Parser<String, List<User>>	PARSER_USER_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<User>>() {}); };
 
 	/**
-	 * Get an anonymous instance
-	 */
-	KaroAPI()
-	{
-
-	}
-
-	/**
 	 * Get an instance for the given user
 	 * 
 	 * @param user - the karopapier.de user
