@@ -29,8 +29,8 @@ public class URLLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger				logger				= LoggerFactory.getLogger(getClass());
-	
+	protected transient final Logger		logger			= LoggerFactory.getLogger(getClass());
+
 	public static final char				DELIMETER		= '/';
 
 	public static final Map<String, String>	POST_PROPERTIES	= new HashMap<>();
@@ -115,6 +115,17 @@ public class URLLoader
 		return new URLLoader(this, relURL.toString(), requestProperties);
 	}
 
+	public URLLoader replace(String target, String replacement)
+	{
+		return replace(target, replacement, null);
+	}
+
+	public URLLoader replace(String target, String replacement, Map<String, String> requestProperties)
+	{
+		String newURL = this.url.replace(target, replacement);
+		return new URLLoader(this.parent, newURL, requestProperties);
+	}
+
 	final String doLoad(String method, Map<String, String> additionalRequestProperties, String output) throws IOException
 	{
 		StringBuilder result = new StringBuilder();
@@ -129,7 +140,7 @@ public class URLLoader
 			prop.putAll(additionalRequestProperties);
 		for(Entry<String, String> reqProp : prop.entrySet())
 			connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
-		
+
 		if(logger.isDebugEnabled())
 			logger.debug(method + " " + url + " -> " + output);
 

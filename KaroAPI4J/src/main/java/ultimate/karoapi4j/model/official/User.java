@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.model.official;
 
 import java.awt.Color;
+import java.util.Date;
 import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumUserGamesort;
@@ -9,7 +10,7 @@ import ultimate.karoapi4j.enums.EnumUserTheme;
 
 public class User
 {
-	public static final int INVITABLE_LAST_VISIT_LIMIT = 3;
+	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
 	/*
 	 * https://www.karopapier.de/api/users/1
 	 * "id": 1,
@@ -34,6 +35,7 @@ public class User
 	 * "gamesort": "blocktime",
 	 * "state": "active",
 	 * "superCreator": true,
+	 * "ts": "2022-01-14 12:20:55", // for contacts only
 	 * "uc": 1 // for user check only
 	 */
 	// Standard JSON Fields
@@ -59,6 +61,7 @@ public class User
 	private EnumUserGamesort	gamesort;
 	private EnumUserState		state;
 	private boolean				superCreator;
+	private Date				ts;
 	private boolean				uc;
 	private int					blocked;
 	// additional Fields
@@ -87,91 +90,14 @@ public class User
 		return id;
 	}
 
-	public String getLogin()
-	{
-		return login;
-	}
-
-	public Color getColor()
-	{
-		return color;
-	}
-
-	public int getLastVisit()
-	{
-		return lastVisit;
-	}
-
-	public int getSignup()
-	{
-		return signup;
-	}
-
-	public int getDran()
-	{
-		return dran;
-	}
-
-	public int getActiveGames()
-	{
-		return activeGames;
-	}
-
-	public int getMaxGames()
-	{
-		return maxGames;
-	}
-
-	public int getSound()
-	{
-		return sound;
-	}
-
-	public String getSoundfile()
-	{
-		return soundfile;
-	}
-
-	public int getSize()
-	{
-		return size;
-	}
-
-	public int getBorder()
-	{
-		return border;
-	}
-
-	public boolean isDesperate()
-	{
-		return desperate;
-	}
-
-	public boolean isBirthdayToday()
-	{
-		return birthdayToday;
-	}
-
-	public boolean isKarodayToday()
-	{
-		return karodayToday;
-	}
-
-	public int getPlannedGames()
-	{
-		return plannedGames;
-	}
-
-	public List<Game> getGames()
-	{
-		return games;
-	}
-
 	public void setId(int id)
 	{
 		this.id = id;
+	}
 
-		// this.games // load the games?!
+	public String getLogin()
+	{
+		return login;
 	}
 
 	public void setLogin(String login)
@@ -179,9 +105,19 @@ public class User
 		this.login = login;
 	}
 
+	public Color getColor()
+	{
+		return color;
+	}
+
 	public void setColor(Color color)
 	{
 		this.color = color;
+	}
+
+	public int getLastVisit()
+	{
+		return lastVisit;
 	}
 
 	public void setLastVisit(int lastVisit)
@@ -189,9 +125,19 @@ public class User
 		this.lastVisit = lastVisit;
 	}
 
+	public int getSignup()
+	{
+		return signup;
+	}
+
 	public void setSignup(int signup)
 	{
 		this.signup = signup;
+	}
+
+	public int getDran()
+	{
+		return dran;
 	}
 
 	public void setDran(int dran)
@@ -199,59 +145,14 @@ public class User
 		this.dran = dran;
 	}
 
+	public int getActiveGames()
+	{
+		return activeGames;
+	}
+
 	public void setActiveGames(int activeGames)
 	{
 		this.activeGames = activeGames;
-	}
-
-	public void setMaxGames(int maxGames)
-	{
-		this.maxGames = maxGames;
-	}
-
-	public void setSound(int sound)
-	{
-		this.sound = sound;
-	}
-
-	public void setSoundfile(String soundfile)
-	{
-		this.soundfile = soundfile;
-	}
-
-	public void setSize(int size)
-	{
-		this.size = size;
-	}
-
-	public void setBorder(int border)
-	{
-		this.border = border;
-	}
-
-	public void setDesperate(boolean desperate)
-	{
-		this.desperate = desperate;
-	}
-
-	public void setBirthdayToday(boolean birthdayToday)
-	{
-		this.birthdayToday = birthdayToday;
-	}
-
-	public void setKarodayToday(boolean karodayToday)
-	{
-		this.karodayToday = karodayToday;
-	}
-
-	public void setPlannedGames(int plannedGames)
-	{
-		this.plannedGames = plannedGames;
-	}
-
-	public void setGames(List<Game> games)
-	{
-		this.games = games;
 	}
 
 	public boolean isAcceptsDayGames()
@@ -272,6 +173,86 @@ public class User
 	public void setAcceptsNightGames(boolean acceptsNightGames)
 	{
 		this.acceptsNightGames = acceptsNightGames;
+	}
+
+	public int getMaxGames()
+	{
+		return maxGames;
+	}
+
+	public void setMaxGames(int maxGames)
+	{
+		this.maxGames = maxGames;
+	}
+
+	public int getSound()
+	{
+		return sound;
+	}
+
+	public void setSound(int sound)
+	{
+		this.sound = sound;
+	}
+
+	public String getSoundfile()
+	{
+		return soundfile;
+	}
+
+	public void setSoundfile(String soundfile)
+	{
+		this.soundfile = soundfile;
+	}
+
+	public int getSize()
+	{
+		return size;
+	}
+
+	public void setSize(int size)
+	{
+		this.size = size;
+	}
+
+	public int getBorder()
+	{
+		return border;
+	}
+
+	public void setBorder(int border)
+	{
+		this.border = border;
+	}
+
+	public boolean isDesperate()
+	{
+		return desperate;
+	}
+
+	public void setDesperate(boolean desperate)
+	{
+		this.desperate = desperate;
+	}
+
+	public boolean isBirthdayToday()
+	{
+		return birthdayToday;
+	}
+
+	public void setBirthdayToday(boolean birthdayToday)
+	{
+		this.birthdayToday = birthdayToday;
+	}
+
+	public boolean isKarodayToday()
+	{
+		return karodayToday;
+	}
+
+	public void setKarodayToday(boolean karodayToday)
+	{
+		this.karodayToday = karodayToday;
 	}
 
 	public EnumUserTheme getTheme()
@@ -324,6 +305,16 @@ public class User
 		this.superCreator = superCreator;
 	}
 
+	public Date getTs()
+	{
+		return ts;
+	}
+
+	public void setTs(Date ts)
+	{
+		this.ts = ts;
+	}
+
 	public boolean isUc()
 	{
 		return uc;
@@ -344,6 +335,26 @@ public class User
 		this.blocked = blocked;
 	}
 
+	public int getPlannedGames()
+	{
+		return plannedGames;
+	}
+
+	public void setPlannedGames(int plannedGames)
+	{
+		this.plannedGames = plannedGames;
+	}
+
+	public List<Game> getGames()
+	{
+		return games;
+	}
+
+	public void setGames(List<Game> games)
+	{
+		this.games = games;
+	}
+
 	// derived from other information
 	public boolean isInvitable()
 	{
@@ -355,22 +366,22 @@ public class User
 		return acceptsNightGames && (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
 	}
 
-//	@Override
-//	public int hashCode()
-//	{
-//		return Objects.hash(id);
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj)
-//	{
-//		if(this == obj)
-//			return true;
-//		if(obj == null)
-//			return false;
-//		if(getClass() != obj.getClass())
-//			return false;
-//		User other = (User) obj;
-//		return id == other.id;
-//	}
+	// @Override
+	// public int hashCode()
+	// {
+	// return Objects.hash(id);
+	// }
+	//
+	// @Override
+	// public boolean equals(Object obj)
+	// {
+	// if(this == obj)
+	// return true;
+	// if(obj == null)
+	// return false;
+	// if(getClass() != obj.getClass())
+	// return false;
+	// User other = (User) obj;
+	// return id == other.id;
+	// }
 }
