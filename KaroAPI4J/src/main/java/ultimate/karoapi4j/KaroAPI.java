@@ -36,22 +36,22 @@ public class KaroAPI
 	// api URLs
 	private static final URLLoader					KAROPAPIER			= new URLLoader("https://www.karopapier.de");
 	private static final URLLoader					API					= KAROPAPIER.relative("/api");
-
+	// users
 	private static final URLLoader					USERS				= API.relative("/users");
 	private static final URLLoader					USER				= USERS.relative("/" + PLACEHOLDER);
 	private static final URLLoader					USER_DRAN			= USER.relative("/dran");
 	private static final URLLoader					USER_BLOCKERS		= USER.relative("/blockers");
-
+	// current user
 	private static final URLLoader					CURRENT_USER		= API.relative("/user");
 	private static final URLLoader					CHECK				= CURRENT_USER.relative("/check");
 	private static final URLLoader					FAVS				= CURRENT_USER.relative("/favs");
 	private static final URLLoader					BLOCKERS			= API.relative("/blockers");
 	private static final URLLoader					NOTES				= API.relative("/notes");
 	private static final URLLoader					PLANNED_MOVES		= API.relative("/planned-moves");
-
+	// games
 	private static final URLLoader					GAMES				= API.relative("/games");
 	private static final URLLoader					GAME				= GAMES.relative("/" + PLACEHOLDER);
-
+	// maps
 	private static final URLLoader					MAPS				= API.relative("/maps");
 	private static final URLLoader					MAP					= MAPS.relative("/" + PLACEHOLDER);
 
