@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -16,7 +17,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
-import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.test.KaroAPITestcase;
 import ultimate.karoapi4j.utils.web.URLLoader.BackgroundLoader;
 
@@ -24,17 +24,19 @@ public class EnumFinderTest extends KaroAPITestcase
 {	
 	public static Stream<Arguments> provideEnums() {
 	    return Stream.of(
-	        arguments(EnumUserTheme.class, "theme"),
-	        arguments(EnumUserGamesort.class, "gamesort"),
-	        arguments(EnumUserState.class, "state")
+	        arguments("getUsers", EnumUserTheme.class, "theme"),
+	        arguments("getUsers", EnumUserGamesort.class, "gamesort"),
+	        arguments("getUsers", EnumUserState.class, "state")
 	    );
 	}
 	
 	@ParameterizedTest	
 	@MethodSource("provideEnums")
-	public <E extends Enum<E>> void test_findEnums(Class<E> cls, String key) throws InterruptedException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	@SuppressWarnings("unchecked")
+	public <E extends Enum<E>> void test_findEnums(String apiCall, Class<E> cls, String key) throws InterruptedException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
-		BackgroundLoader<List<User>> loader = karoAPI.getUsers();
+		Method method = karoAPI.getClass().getMethod(apiCall);
+		BackgroundLoader<List<?>> loader = (BackgroundLoader<List<?>>) method.invoke(karoAPI);
 		loader.doBlocking();		
 		
 		Set<String> enumValuesFound = EnumFinder.findEnums(loader.getRawResult(), key);
