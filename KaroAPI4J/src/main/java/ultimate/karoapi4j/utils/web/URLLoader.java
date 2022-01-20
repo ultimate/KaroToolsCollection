@@ -7,6 +7,10 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,6 +26,11 @@ import ultimate.karoapi4j.utils.threads.QueuableThread;
  */
 public class URLLoader
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger				logger				= LoggerFactory.getLogger(getClass());
+	
 	public static final char				DELIMETER		= '/';
 
 	public static final Map<String, String>	POST_PROPERTIES	= new HashMap<>();
@@ -120,6 +129,9 @@ public class URLLoader
 			prop.putAll(additionalRequestProperties);
 		for(Entry<String, String> reqProp : prop.entrySet())
 			connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
+		
+		if(logger.isDebugEnabled())
+			logger.debug(method + " " + url + " -> " + output);
 
 		if(output != null)
 		{
@@ -220,8 +232,8 @@ public class URLLoader
 	 */
 	public <T> BackgroundLoader<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
 	{
-		if(parameters != null)
-			return doGet(formatParameters(parameters), parser);
+		if(parameters != null && parameters.size() > 0)
+			return doGet("?" + formatParameters(parameters), parser);
 		else
 			return doGet((String) null, parser);
 	}

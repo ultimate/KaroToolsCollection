@@ -18,15 +18,15 @@ public class MethodComparator<T> implements Comparator<T>, Serializable
 	/**
 	 * Orientierung für aufsteigende Sortierung
 	 * 
-	 * @see org.peu.peu.util.SortUtil#ASCENDING
+	 * @see CollectionsUtil#ASCENDING
 	 */
-	public static final int		ASCENDING			= SortUtil.ASCENDING;
+	public static final int		ASCENDING			= CollectionsUtil.ASCENDING;
 	/**
 	 * Orientierung für absteigende Sortierung
 	 * 
-	 * @see org.peu.peu.util.SortUtil#DESCENDING
+	 * @see CollectionsUtil#DESCENDING
 	 */
-	public static final int		DESCENDING			= SortUtil.DESCENDING;
+	public static final int		DESCENDING			= CollectionsUtil.DESCENDING;
 
 	/**
 	 * Default serialVersionUID
@@ -43,8 +43,8 @@ public class MethodComparator<T> implements Comparator<T>, Serializable
 	 * andere Faktoren möglich. 0 ist nicht möglich, da sonst das Ergebnis immer
 	 * 0 ist.
 	 * 
-	 * @see org.peu.peu.util.SortUtil#ASCENDING
-	 * @see org.peu.peu.util.SortUtil#DESCENDING
+	 * @see CollectionsUtil#ASCENDING
+	 * @see CollectionsUtil#DESCENDING
 	 */
 	private int					orientation;
 
