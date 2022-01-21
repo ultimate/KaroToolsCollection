@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -57,13 +56,13 @@ public class KaroAPI
 	protected transient final Logger	logger					= LoggerFactory.getLogger(getClass());
 
 	// config & constants
-	private static final String			PLACEHOLDER				= "$";
-	private static final BufferedImage	DEFAULT_IMAGE_WHITE;
-	private static final BufferedImage	DEFAULT_IMAGE_GRAY;
-	private static final BufferedImage	DEFAULT_IMAGE_BLACK;
-	private static final int			DEFAULT_IMAGE_SIZE		= 100;
-	private static final int			DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
-	private static final int			DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
+	static final String					PLACEHOLDER				= "$";
+	static final BufferedImage			DEFAULT_IMAGE_WHITE;
+	static final BufferedImage			DEFAULT_IMAGE_GRAY;
+	static final BufferedImage			DEFAULT_IMAGE_BLACK;
+	static final int					DEFAULT_IMAGE_SIZE		= 100;
+	static final int					DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
+	static final int					DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
 
 	static
 	{
@@ -100,15 +99,18 @@ public class KaroAPI
 	private static final URLLoader					PLANNED_MOVES		= API.relative("/planned-moves");
 	// games
 	private static final URLLoader					GAMES				= API.relative("/games");
-	// TODO TEMPORARY --> will by renamed to /games
-	private static final URLLoader					GAMES3				= API.relative("/games3");
 	private static final URLLoader					GAME				= GAMES.relative("/" + PLACEHOLDER);
 	// maps
 	private static final URLLoader					MAPS				= API.relative("/maps");
 	private static final URLLoader					MAP					= MAPS.relative("/" + PLACEHOLDER);
 	// mapimages
-	private static final URLLoader					MAP_IMAGE			= API.relative("/map/" + PLACEHOLDER);
+	// do not use API as the base here, since we do not need the authentication here
+	private static final URLLoader					MAP_IMAGE			= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
+	private static final URLLoader					CHAT				= API.relative("/chat");
+	private static final URLLoader					CHAT_LAST			= CHAT.relative("/last");
+	private static final URLLoader					CHAT_USERS			= CHAT.relative("/users");
+	// messaging
 	private static final URLLoader					CONTACTS			= API.relative("/contacts");
 	private static final URLLoader					MESSAGES			= API.relative("/messages/" + PLACEHOLDER);
 
@@ -134,8 +136,8 @@ public class KaroAPI
 	{
 		if(user == null || password == null)
 			throw new IllegalArgumentException("user and password must not be null!");
-		KAROPAPIER.addRequestProperty("X-Auth-Login", user);
-		KAROPAPIER.addRequestProperty("X-Auth-Password", password);
+		API.addRequestProperty("X-Auth-Login", user);
+		API.addRequestProperty("X-Auth-Password", password);
 	}
 
 	// TODO add load balancing via ThreadQueue
@@ -207,7 +209,6 @@ public class KaroAPI
 
 	/**
 	 * Get the list of games where the given user is next.<br>
-	 * Note:
 	 * 
 	 * @see KaroAPI#USER_DRAN
 	 * 
@@ -217,6 +218,30 @@ public class KaroAPI
 	public BackgroundLoader<List<Game>> getUserDran(int userId)
 	{
 		return USER_DRAN.replace(PLACEHOLDER, userId).doGet(PARSER_GAME_LIST);
+	}
+
+	/**
+	 * Get the list blockers.<br>
+	 * 
+	 * @see KaroAPI#BLOCKERS
+	 * 
+	 * @return the list of users
+	 */
+	public BackgroundLoader<List<User>> getBlockers()
+	{
+		return BLOCKERS.doGet(PARSER_USER_LIST);
+	}
+
+	/**
+	 * Get the list blockers for a specific user.<br>
+	 * 
+	 * @see KaroAPI#USER_BLOCKERS
+	 * 
+	 * @return the list of users
+	 */
+	public BackgroundLoader<List<User>> getUserBlockers(int userId)
+	{
+		return USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(PARSER_USER_LIST);
 	}
 
 	///////////////////////
@@ -271,7 +296,7 @@ public class KaroAPI
 		if(offset != null)
 			args.put("offset", offset.toString());
 
-		return GAMES3.doGet(args, PARSER_GAME_LIST);
+		return GAMES.doGet(args, PARSER_GAME_LIST);
 	}
 
 	/**
@@ -399,11 +424,11 @@ public class KaroAPI
 	 * Get a map image by id
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
-	 * @see KaroAPI#MAP
+	 * @see KaroAPI#MAP_IMAGE
 	 * @param mapId - the map id
 	 * @return the map
 	 */
-	public Image getMapImage(int mapId)
+	public BufferedImage getMapImage(int mapId)
 	{
 		return getMapImage(mapId, null);
 	}
@@ -413,13 +438,13 @@ public class KaroAPI
 	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
-	 * @see KaroAPI#MAP
+	 * @see KaroAPI#MAP_IMAGE
 	 * @param mapId - the map id
 	 * @param thumb - true or false or null
 	 * @param cps - true or false or null
 	 * @return the map
 	 */
-	public Image getMapThumb(int mapId, Boolean cps)
+	public BufferedImage getMapThumb(int mapId, Boolean cps)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		args.put("thumb", "1");
@@ -434,14 +459,14 @@ public class KaroAPI
 	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
-	 * @see KaroAPI#MAP
+	 * @see KaroAPI#MAP_IMAGE
 	 * @param mapId - the map id
 	 * @param size - in px (mandatory)
 	 * @param border - in px (optional)
 	 * @param cps - true or false or null (optional)
 	 * @return the map
 	 */
-	public Image getMapImage(int mapId, int size, Integer border, Boolean cps)
+	public BufferedImage getMapImageByPixelSize(int mapId, int size, Integer border, Boolean cps)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		args.put("size", Integer.toString(size));
@@ -458,35 +483,51 @@ public class KaroAPI
 	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
-	 * @see KaroAPI#MAP
+	 * @see KaroAPI#MAP_IMAGE
 	 * @param mapId - the map id
 	 * @param width - the width (optional)
 	 * @param height - the height (optional)
 	 * @param cps - true or false or null (optional)
 	 * @return the map
 	 */
-	public Image getMapImage(int mapId, Integer width, Integer height, Boolean cps)
+	public BufferedImage getMapImageByDimension(int mapId, Integer width, Integer height, Boolean cps)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		if(width != null)
 			args.put("width", width.toString());
 		if(height != null)
-			args.put("height", width.toString());
+			args.put("height", height.toString());
 		if(cps != null)
 			args.put("cps", (cps ? "1" : "0"));
 
 		return getMapImage(mapId, args);
 	}
 
-	protected Image getMapImage(int mapId, HashMap<String, String> args)
+	/**
+	 * Get a map by id with optional arguments.<br>
+	 * Internal method for use by {@link KaroAPI#getMapImage(int)}, {@link KaroAPI#getMapImageByDimension(int, Integer, Integer, Boolean)}, and
+	 * {@link KaroAPI#getMapImageByPixelSize(int, int, Integer, Boolean)} instead.
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#MAP_IMAGE
+	 * @param mapId - the map id
+	 * @param width - the width (optional)
+	 * @param height - the height (optional)
+	 * @param cps - true or false or null (optional)
+	 * @return the map
+	 */
+	protected BufferedImage getMapImage(int mapId, HashMap<String, String> args)
 	{
 		try
 		{
-			// use the doGet mechanism to generate the URL
+			// use the doGet mechanism to generate the URL and query the true image location
 			BackgroundLoader<String> tmp = MAP_IMAGE.replace(PLACEHOLDER, mapId).doGet(args, PARSER_RAW);
+			logger.debug("loading image information for map " + mapId + ": " + tmp.getUrl());
+			tmp.doBlocking();
+			logger.debug("location is: " + tmp.getConnection().getHeaderField("location"));
 			return ImageIO.read(new URL(tmp.getUrl()));
 		}
-		catch(IOException e)
+		catch(Exception e)
 		{
 			logger.error("unexpected error", e);
 			e.printStackTrace();
@@ -514,7 +555,13 @@ public class KaroAPI
 
 	// helper methods
 
-	private static Image createSpecialImage(Image image)
+	/**
+	 * Create a special image by drawing a "don't sign" on top of the given image...
+	 * 
+	 * @param image - the original image
+	 * @return the specialized image
+	 */
+	private static BufferedImage createSpecialImage(Image image)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2d = image2.createGraphics();

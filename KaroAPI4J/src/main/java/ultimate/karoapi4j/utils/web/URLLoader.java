@@ -32,6 +32,7 @@ public class URLLoader
 	protected transient final Logger		logger			= LoggerFactory.getLogger(getClass());
 
 	public static final char				DELIMITER		= '/';
+	public static final char				PARAMETER		= '?';
 
 	public static final Map<String, String>	POST_PROPERTIES	= new HashMap<>();
 
@@ -93,6 +94,43 @@ public class URLLoader
 		return properties;
 	}
 
+	public URLLoader parameterize(Map<String, String> parameters)
+	{
+		return parameterize(parameters, null);
+	}
+
+	public URLLoader parameterize(Map<String, String> parameters, Map<String, String> requestProperties)
+	{
+		if(parameters != null && parameters.size() > 0)
+			return parameterize(formatParameters(parameters), requestProperties);
+		else
+			return parameterize((String) null, requestProperties);
+	}
+
+	public URLLoader parameterize(String parameters)
+	{
+		return parameterize(parameters, null);
+	}
+
+	public URLLoader parameterize(String parameters, Map<String, String> requestProperties)
+	{
+		if(parameters == null || parameters.length() == 0)
+			return this;
+
+		StringBuilder parURL = new StringBuilder();
+		if(this.url.charAt(this.url.length() - 1) == DELIMITER)
+			parURL.append(this.url.substring(0, this.url.length() - 1));
+		else
+			parURL.append(this.url);
+
+		if(parameters.charAt(0) != PARAMETER)
+			parURL.append(PARAMETER);
+		
+		parURL.append(parameters);
+
+		return new URLLoader(this, parURL.toString(), requestProperties);
+	}
+
 	public URLLoader relative(String path)
 	{
 		return relative(path, null);
@@ -146,10 +184,9 @@ public class URLLoader
 		return new URLLoader(this.parent, newURL, requestProperties);
 	}
 
-	final String doLoad(String method, Map<String, String> additionalRequestProperties, String output) throws IOException
+	final String doLoad(HttpURLConnection connection, String method, Map<String, String> additionalRequestProperties, String output) throws IOException
 	{
 		StringBuilder result = new StringBuilder();
-		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 		connection.setDoInput(true);
 		connection.setUseCaches(false);
 		connection.setAllowUserInteraction(false);
@@ -239,15 +276,15 @@ public class URLLoader
 	 * call.
 	 *
 	 * @param <T> - the type of content to load
-	 * @param args - the arguments to append to the url
+	 * @param parameters - the arguments to append to the url
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link URLLoaderThread}
 	 */
-	public <T> BackgroundLoader<T> doGet(String args, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doGet(String parameters, Parser<String, T> parser)
 	{
 		URLLoader tmp = this;
-		if(args != null && args.length() > 0)
-			tmp = this.relative(args);
+		if(parameters != null && parameters.length() > 0)
+			tmp = this.parameterize(parameters);
 		return tmp.new BackgroundLoader<>("GET", null, null, parser);
 	}
 
@@ -263,10 +300,10 @@ public class URLLoader
 	 */
 	public <T> BackgroundLoader<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
 	{
+		URLLoader tmp = this;
 		if(parameters != null && parameters.size() > 0)
-			return doGet("?" + formatParameters(parameters), parser);
-		else
-			return doGet((String) null, parser);
+			tmp = this.parameterize(parameters);
+		return tmp.new BackgroundLoader<>("GET", null, null, parser);
 	}
 
 	public class BackgroundLoader<T> extends QueuableThread<T>
@@ -276,6 +313,7 @@ public class URLLoader
 		private String				output;
 		private Parser<String, T>	parser;
 		private String				result;
+		private HttpURLConnection	connection;
 
 		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output, Parser<String, T> parser)
 		{
@@ -287,7 +325,7 @@ public class URLLoader
 			this.output = output;
 			this.parser = parser;
 		}
-		
+
 		public String getUrl()
 		{
 			return url;
@@ -323,12 +361,18 @@ public class URLLoader
 		{
 			try
 			{
-				this.result = doLoad(this.method, this.requestProperties, this.output);
+				this.connection = (HttpURLConnection) new URL(url).openConnection();
+				this.result = doLoad(connection, this.method, this.requestProperties, this.output);
 			}
 			catch(IOException e)
 			{
 				this.exception = e;
 			}
+		}
+
+		public HttpURLConnection getConnection()
+		{
+			return connection;
 		}
 
 		public String getRawResult()
