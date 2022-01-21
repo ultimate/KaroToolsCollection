@@ -280,11 +280,11 @@ public class KaroAPI
 	 * @param gameId - the game to mark as favorite
 	 * @return void
 	 */
-	public BackgroundLoader<String> addNote(int gameId, String text)
+	public BackgroundLoader<Void> addNote(int gameId, String text)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		args.put("text", text);
-		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_RAW);
+		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_VOID);
 	}
 
 	/**
@@ -293,9 +293,9 @@ public class KaroAPI
 	 * @param gameId - the game to unmark as favorite
 	 * @return void
 	 */
-	public BackgroundLoader<String> removeNote(int gameId)
+	public BackgroundLoader<Void> removeNote(int gameId)
 	{
-		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_RAW);
+		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID);
 	}
 
 	/**
