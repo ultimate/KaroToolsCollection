@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -23,8 +25,9 @@ import ultimate.karoapi4j.utils.MethodComparator;
 
 public class KaroAPITest extends KaroAPITestcase
 {
-	private static final String	TEST_GAMES_NAME	= "KaroAPI4J-Testspiel#";
-	private static final int[]	TEST_GAMES_IDS	= new int[] { 132803, 132804, 132805, 132806, 132807};
+	private static final int	VALIDATION_LIMIT	= 10;
+	private static final String	TEST_GAMES_NAME		= "KaroAPI4J-Testspiel#";
+	private static final int[]	TEST_GAMES_IDS		= new int[] { 132803, 132804, 132805, 132806, 132807 };
 
 	@Test
 	public void test_check() throws InterruptedException
@@ -142,18 +145,62 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
+	public void test_getUserDran() throws InterruptedException
+	{
+		// get the top-blocker first
+		User topBlocker = karoAPI.getBlockers().doBlocking().get(0);
+
+		// now check his dran games
+		List<Game> dran = karoAPI.getUserDran(topBlocker.getId()).doBlocking();
+		assertNotNull(dran);
+		assertTrue(dran.size() > 0);
+		for(int i = 0; i < dran.size() && i < VALIDATION_LIMIT; i++)
+		{
+			Game fullgame = karoAPI.getGame(dran.get(i).getId()).doBlocking();
+			assertEquals(topBlocker.getId(), fullgame.getNext().getId());
+		}
+	}
+
+	@Test
+	public void test_getBlockers() throws InterruptedException
+	{
+		List<User> blockers = karoAPI.getBlockers().doBlocking();
+		assertNotNull(blockers);
+		assertTrue(blockers.size() > 0);
+		
+		for(int i = 0; i < blockers.size() && i < VALIDATION_LIMIT; i++)
+		{
+			assertTrue(blockers.get(i).getDran() > 0);
+		}
+	}
+
+	@Test
+	public void test_getUserBlockers() throws InterruptedException
+	{
+		int userId = 773; // Botrix (since there should always be someone blocking a bot...
+		List<User> blockers = karoAPI.getUserBlockers(userId).doBlocking();
+		assertNotNull(blockers);
+		assertTrue(blockers.size() > 0);
+		
+		for(int i = 0; i < blockers.size() && i < VALIDATION_LIMIT; i++)
+		{
+			assertTrue(blockers.get(i).getBlocked() > 0);
+		}
+	}
+
+	@Test
 	public void test_getGames() throws InterruptedException
 	{
 		List<Game> games = karoAPI.getGames().doBlocking();
+
+		// for CraZZZy the global can be empty
+		assertNotNull(games);
 		logger.debug("loaded games: " + games.size());
 
-		// for CraZZZy the global list should be empty
-		assertNotNull(games);
-		assertEquals(0, games.size());
-		
 		// but if we request !mine, then there should be some games
 		games = karoAPI.getGames(false, null, null, null, null, null, null, null).doBlocking();
 		assertNotNull(games);
+		logger.debug("loaded games: " + games.size());
 		assertTrue(games.size() > 0);
 
 		// check name filter and sorting for some (finished) test games
@@ -183,47 +230,18 @@ public class KaroAPITest extends KaroAPITestcase
 		for(int i = 0; i < games2.size(); i++)
 			logger.debug(i + ": id=" + games2.get(i).getId() + ", name=" + games2.get(i).getName());
 		for(int i = 0; i < games2.size(); i++)
-			assertEquals(TEST_GAMES_NAME + (i+1), games2.get(i).getName());
+			assertEquals(TEST_GAMES_NAME + (i + 1), games2.get(i).getName());
 
-		// check desperate filter
+		// check limit and offset
 
-//		List<Game> desperates = karoAPI.getGames(null, null, true).doBlocking();
-//		logger.debug("loaded desperates: " + desperates.size());
-//		assertNotNull(desperates);
-//		// all games in this list should be desperate
-//		Predicate<Game> findDesperates = (game) -> { return game.isDesperate(); };
-//		assertEquals(desperates.size(), CollectionsUtil.count(desperates, findDesperates));
-//		// the games in invitable should match the invitables from the global game list
-//		List<Game> games_filteredToDesperates = new ArrayList<Game>(games);
-//		games_filteredToDesperates.removeIf(findDesperates.negate());
-//		compareList(games_filteredToDesperates, desperates, new MethodComparator<>("getId", 1));
-//
-//		// check login filter
-//
-//		String login = "bot";
-//		List<Game> bylogin = karoAPI.getGames(login, null, null).doBlocking();
-//		logger.debug("loaded bylogin: " + bylogin.size());
-//		assertNotNull(bylogin);
-//		// all games in this list should match the login
-//		Predicate<Game> findLogin = (game) -> { return game.getLogin().toLowerCase().contains(login.toLowerCase()); };
-//		assertEquals(bylogin.size(), CollectionsUtil.count(bylogin, findLogin));
-//		// the games in invitable should match the invitables from the global game list
-//		List<Game> games_filteredToLogin = new ArrayList<Game>(games);
-//		games_filteredToLogin.removeIf(findLogin.negate());
-//		compareList(games_filteredToLogin, bylogin, new MethodComparator<>("getId", 1));
-//
-//		// combination of all the filters
-//
-//		List<Game> filtered = karoAPI.getGames(login, true, true).doBlocking();
-//		logger.debug("loaded filtered: " + filtered.size());
-//		assertNotNull(filtered);
-//		// all games in this list should match the filter
-//		Predicate<Game> filter = (game) -> { return findInvitable.test(game) && findDesperates.test(game) && findLogin.test(game); };
-//		assertEquals(filtered.size(), CollectionsUtil.count(filtered, filter));
-//		// the games in invitable should match the invitables from the global game list
-//		List<Game> games_filtered = new ArrayList<Game>(games);
-//		games_filtered.removeIf(filter.negate());
-//		compareList(games_filtered, filtered, new MethodComparator<>("getId", 1));
+		List<Game> limited;
+		for(int i = 0; i < TEST_GAMES_IDS.length; i++)
+		{
+			limited = karoAPI.getGames(null, EnumUserGamesort.name, null, true, null, null, 1, i).doBlocking();
+			assertNotNull(limited);
+			assertEquals(1, limited.size());
+			assertEquals(TEST_GAMES_NAME + (i + 1), limited.get(0).getName());
+		}
 	}
 
 	@Test
@@ -323,6 +341,55 @@ public class KaroAPITest extends KaroAPITestcase
 			assertEquals(id, map.getId());
 			checkMapCode(map);
 		}
+	}
+
+	@Test
+	public void test_getMapImage() throws InterruptedException
+	{
+		int id = 1;
+		BufferedImage image;
+
+		Map map = karoAPI.getMap(id).doBlocking();
+
+		// default
+		image = karoAPI.getMapImage(id);
+		assertNotNull(image);
+		assertEquals(780, image.getWidth(null));
+		assertEquals(325, image.getHeight(null));
+
+		// thumb
+		image = karoAPI.getMapThumb(id, null);
+		assertNotNull(image);
+		assertEquals(60, image.getWidth(null));
+		assertEquals(25, image.getHeight(null));
+
+		// by width
+		int width = 200;
+		int expectedWidth = (int) (Math.ceil((double) width / map.getCols()) + 1) * map.getCols();
+		image = karoAPI.getMapImageByDimension(id, width, null, true);
+		logger.debug("width: requested=" + width + ", received=" + image.getWidth() + ", calculated=" + expectedWidth);
+		assertEquals(expectedWidth, image.getWidth());
+		assertTrue(image.getWidth() >= width);
+
+		// by height
+		int height = 200;
+		int expectedHeight = (int) (Math.ceil((double) height / map.getRows()) + 1) * map.getRows();
+		image = karoAPI.getMapImageByDimension(id, null, height, true);
+		assertEquals(expectedHeight, image.getHeight());
+		assertTrue(image.getHeight() >= height);
+
+		// by pixel size
+		int size = 10;
+		int border = 1;
+		image = karoAPI.getMapImageByPixelSize(id, size, border, true);
+		assertEquals((size + border) * map.getCols(), image.getWidth());
+		assertEquals((size + border) * map.getRows(), image.getHeight());
+	}
+
+	@Test
+	public void test_createGameAndMove()
+	{
+		fail("not implemented");
 	}
 
 	private <T> void compareList(List<T> expected, List<T> actual, Comparator<T> comparator)
