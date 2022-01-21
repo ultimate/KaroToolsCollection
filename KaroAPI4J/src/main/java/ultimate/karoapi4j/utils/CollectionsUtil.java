@@ -3,8 +3,10 @@ package ultimate.karoapi4j.utils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -72,21 +74,21 @@ public abstract class CollectionsUtil
 		Collections.sort(unsorted, new MethodComparator<T>(methodName, orientation));
 		return unsorted;
 	}
-	
+
 	public static <T> boolean equals(Collection<T> c1, Collection<T> c2, String methodName)
 	{
 		return equals(c1, c2, new MethodComparator<T>(methodName, 1));
 	}
-	
+
 	public static <T> boolean equals(Collection<T> c1, Collection<T> c2, Comparator<T> comparator)
 	{
 		if(c1.size() != c2.size())
 			return false;
-		
+
 		Iterator<T> i1 = c1.iterator();
 		Iterator<T> i2 = c2.iterator();
 		T o1, o2;
-		
+
 		boolean equals = true;
 		while(i1.hasNext() && i2.hasNext())
 		{
@@ -100,11 +102,11 @@ public abstract class CollectionsUtil
 		}
 		return equals;
 	}
-	
+
 	public static <T> boolean contains(Collection<T> collection, Predicate<T> predicate)
 	{
 		boolean found = false;
-		for(T entity: collection)
+		for(T entity : collection)
 		{
 			if(predicate.test(entity))
 			{
@@ -114,15 +116,28 @@ public abstract class CollectionsUtil
 		}
 		return found;
 	}
-	
+
 	public static <T> int count(Collection<T> collection, Predicate<T> predicate)
 	{
 		int count = 0;
-		for(T entity: collection)
+		for(T entity : collection)
 		{
 			if(predicate.test(entity))
 				count++;
 		}
 		return count;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Map<Integer, T> convertIdListToMap(List<Map<String, Object>> idList, String idIdentifier, String valueIdentifier)
+	{
+		HashMap<Integer, T> notesMap = new HashMap<>();
+		for(Map<String, Object> m : idList)
+		{
+			int key = (int) m.get(idIdentifier);
+			T value = (T) m.get(valueIdentifier);
+			notesMap.put(key, value);
+		}
+		return notesMap;
 	}
 }
