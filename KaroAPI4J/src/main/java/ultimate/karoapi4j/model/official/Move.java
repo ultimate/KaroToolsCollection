@@ -5,21 +5,22 @@ import java.util.Date;
 public class Move
 {
 	/*
-	 * "x" : "73",
-	 * "y" : "3",
-	 * "xv" : "0",
-	 * "yv" : "0",
-	 * "c" : true,
-	 * "t" : "2009-07-30 14:26:22",
-	 * "msg" : "-:KIch werde 2 Z&uuml;ge zur&uuml;ckgesetztK:-"
+	 * from https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
+	 * "x": 73,
+	 * "y": 3,
+	 * "xv": 0,
+	 * "yv": 0,
+	 * "t": "2009-07-30 14:26:22",
+	 * "msg": "-:KIch werde 2 Z&uuml;ge zur&uuml;ckgesetztK:-",
+	 * "crash": 1
 	 */
 	private int		x;
 	private int		y;
 	private int		xv;
 	private int		yv;
-	private boolean	c;
 	private Date	t;
 	private String	msg;
+	private boolean	crash;
 
 	public Move()
 	{
@@ -31,39 +32,14 @@ public class Move
 		return x;
 	}
 
-	public int getY()
-	{
-		return y;
-	}
-
-	public int getXv()
-	{
-		return xv;
-	}
-
-	public int getYv()
-	{
-		return yv;
-	}
-
-	public boolean isC()
-	{
-		return c;
-	}
-
-	public Date getT()
-	{
-		return t;
-	}
-
-	public String getMsg()
-	{
-		return msg;
-	}
-
 	public void setX(int x)
 	{
 		this.x = x;
+	}
+
+	public int getY()
+	{
+		return y;
 	}
 
 	public void setY(int y)
@@ -71,9 +47,19 @@ public class Move
 		this.y = y;
 	}
 
+	public int getXv()
+	{
+		return xv;
+	}
+
 	public void setXv(int xv)
 	{
 		this.xv = xv;
+	}
+
+	public int getYv()
+	{
+		return yv;
 	}
 
 	public void setYv(int yv)
@@ -81,9 +67,9 @@ public class Move
 		this.yv = yv;
 	}
 
-	public void setC(boolean c)
+	public Date getT()
 	{
-		this.c = c;
+		return t;
 	}
 
 	public void setT(Date t)
@@ -91,8 +77,23 @@ public class Move
 		this.t = t;
 	}
 
+	public String getMsg()
+	{
+		return msg;
+	}
+
 	public void setMsg(String msg)
 	{
 		this.msg = msg;
+	}
+
+	public boolean isCrash()
+	{
+		return crash;
+	}
+
+	public void setCrash(boolean crash)
+	{
+		this.crash = crash;
 	}
 }

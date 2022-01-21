@@ -1,60 +1,85 @@
 package ultimate.karoapi4j.model.official;
 
+import java.awt.Color;
 import java.util.List;
 
-import ultimate.karoapi4j.enums.EnumStatus;
+import ultimate.karoapi4j.enums.EnumPlayerStatus;
 
 public class Player
 {
 	/*
-	 * "id" : 1,
-	 * "name" : "Didi",
-	 * "color" : "FFFFFF",
-	 * "dran" : false,
-	 * "moved" : false,
-	 * "position" : 4,
-	 * "status" : "ok",
-	 * "moveCount" : 157,
-	 * "crashCount" : 1,
-	 * "missingCps" : [],
-	 * "lastmove" : {
-	 * "x" : 0,
-	 * "y" : 3,
-	 * "xv" : 0,
-	 * "yv" : 0,
-	 * "c" : 0,
-	 * "t" : "2012-03-05 22:02:14"
-	 * },
-	 * "possibles" : [...],
-	 * "moves" : [...]
+	 * https://www.karopapier.de/api/games/132000?mapcode=1&players=1&moves=1
+	 * "id": 1,
+	 * "name": "Didi",
+	 * "color": "ffffff",
+	 * "status": "ok",
+	 * "moved": false,
+	 * "rank": 4,
+	 * "checkedCps": [ 1, 2 ],
+	 * "moveCount": 157,
+	 * "crashCount": 1,
+	 * "moves": [ ... ], // see type Move
+	 * "motion": { "x": 0, "y": 3, "xv": 0, "yv": 0, "t": "2012-03-05 22:02:14" }, // see type Move
+	 * "missingCps": ["3", "4" ],
+	 * "possibles": [ ... ], // see type Move (just without t, msg and crash)
 	 */
-	// Standard JSON Fields
-	private User				user;
-	private boolean				dran;
+	private int					id;
+	private String				name;
+	private Color				color;
+	private EnumPlayerStatus	status;
 	private boolean				moved;
-	private int					position;
-	private EnumStatus			status;
+	private int					rank;
+	private int[]				checkedCps;
 	private int					moveCount;
 	private int					crashCount;
-	private String[]			missingCps; // type?
-	// Further JSON Fields
-	private Move				lastMove;
-	private List<Possibility>	possibles;
 	private List<Move>			moves;
+	private Move				motion;
+	private int[]				missingCps;
+	private List<Move>			possibles;
 
 	public Player()
 	{
 		super();
 	}
 
-	public User getUser()
+	public int getId()
 	{
-		return user;
+		return id;
 	}
 
-	public boolean isDran()
+	public void setId(int id)
 	{
-		return dran;
+		this.id = id;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public Color getColor()
+	{
+		return color;
+	}
+
+	public void setColor(Color color)
+	{
+		this.color = color;
+	}
+
+	public EnumPlayerStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(EnumPlayerStatus status)
+	{
+		this.status = status;
 	}
 
 	public boolean isMoved()
@@ -62,14 +87,29 @@ public class Player
 		return moved;
 	}
 
-	public int getPosition()
+	public void setMoved(boolean moved)
 	{
-		return position;
+		this.moved = moved;
 	}
 
-	public EnumStatus getStatus()
+	public int getRank()
 	{
-		return status;
+		return rank;
+	}
+
+	public void setRank(int rank)
+	{
+		this.rank = rank;
+	}
+
+	public int[] getCheckedCps()
+	{
+		return checkedCps;
+	}
+
+	public void setCheckedCps(int[] checkedCps)
+	{
+		this.checkedCps = checkedCps;
 	}
 
 	public int getMoveCount()
@@ -77,59 +117,14 @@ public class Player
 		return moveCount;
 	}
 
-	public int getCrashCount()
-	{
-		return crashCount;
-	}
-
-	public String[] getMissingCps()
-	{
-		return missingCps;
-	}
-
-	public Move getLastMove()
-	{
-		return lastMove;
-	}
-
-	public List<Possibility> getPossibles()
-	{
-		return possibles;
-	}
-
-	public List<Move> getMoves()
-	{
-		return moves;
-	}
-
-	public void setUser(User user)
-	{
-		this.user = user;
-	}
-
-	public void setDran(boolean dran)
-	{
-		this.dran = dran;
-	}
-
-	public void setMoved(boolean moved)
-	{
-		this.moved = moved;
-	}
-
-	public void setPosition(int position)
-	{
-		this.position = position;
-	}
-
-	public void setStatus(EnumStatus status)
-	{
-		this.status = status;
-	}
-
 	public void setMoveCount(int moveCount)
 	{
 		this.moveCount = moveCount;
+	}
+
+	public int getCrashCount()
+	{
+		return crashCount;
 	}
 
 	public void setCrashCount(int crashCount)
@@ -137,23 +132,43 @@ public class Player
 		this.crashCount = crashCount;
 	}
 
-	public void setMissingCps(String[] missingCps)
+	public List<Move> getMoves()
 	{
-		this.missingCps = missingCps;
-	}
-
-	public void setLastMove(Move lastMove)
-	{
-		this.lastMove = lastMove;
-	}
-
-	public void setPossibles(List<Possibility> possibles)
-	{
-		this.possibles = possibles;
+		return moves;
 	}
 
 	public void setMoves(List<Move> moves)
 	{
 		this.moves = moves;
+	}
+
+	public Move getMotion()
+	{
+		return motion;
+	}
+
+	public void setMotion(Move motion)
+	{
+		this.motion = motion;
+	}
+
+	public int[] getMissingCps()
+	{
+		return missingCps;
+	}
+
+	public void setMissingCps(int[] missingCps)
+	{
+		this.missingCps = missingCps;
+	}
+
+	public List<Move> getPossibles()
+	{
+		return possibles;
+	}
+
+	public void setPossibles(List<Move> possibles)
+	{
+		this.possibles = possibles;
 	}
 }
