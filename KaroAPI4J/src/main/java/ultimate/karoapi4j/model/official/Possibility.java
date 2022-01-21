@@ -1,8 +1,10 @@
 package ultimate.karoapi4j.model.official;
 
+@Deprecated
 public class Possibility
 {
 	/*
+	 * from https://www.karopapier.de/api/games/132000?mapcode=1&players=1&moves=1
 	 * "x" : 78,
 	 * "y" : 33,
 	 * "xv" : -1,

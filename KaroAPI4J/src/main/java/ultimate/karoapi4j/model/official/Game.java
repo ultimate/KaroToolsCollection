@@ -1,66 +1,53 @@
 package ultimate.karoapi4j.model.official;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-import ultimate.karoapi4j.enums.EnumDirection;
-import ultimate.karoapi4j.enums.EnumTC;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.Rules;
 
 public class Game
 {
 	/*
-	 * "id" : 44773,
-	 * "name" : "Runde um Runde nehmen wir jede Ecke und bleiben auf der Strecke!",
-	 * "map" : 43,
-	 * "cps" : true,
-	 * "withCheckpoints": true,
+	 * https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
+	 * "id": 132000,
+	 * "name": "Paket !KaroIQ!",
+	 * "map": { }, // see type Map
+	 * "cps": true,
 	 * "zzz": 2,
-	 * "tcrash": "forbidden",
 	 * "crashallowed": "forbidden",
-	 * "dir": "classic",
 	 * "startdirection": "classic",
-	 * "started" : true,
-	 * "creator" : "Madeleine",
-	 * "created" : "2009-02-24 11:05:04",
-	 * "finished" : true,
-	 * "dranId" : 26,
-	 * "dran" : "Dummy nicht einladen",
-	 * "blocked" : 116,
-	 * "preview" : "http:\/\/www.karopapier.de\/pre\/44773.png",
-	 * "location" : "http:\/\/www.karopapier.de\/showmap.php?GID=44773"
+	 * "started": true,
+	 * "finished": false,
+	 * "starteddate": "2021-10-16 06:59:17",
+	 * "creator": "KaBotte",
+	 * "next": { "id": 1641, "name": "ImThinkin" }, // reduced user
+	 * "blocked": 1,
+	 * "players": [ ] // see type Player
 	 */
-	// Standard JSON Fields
-	private int				id;
-	private String			name;
-	private Map				map;
-	private boolean			cps;
-//	private boolean 		withCheckpoints;
-	private int				zzz;
-	private EnumTC			tcrash;
-//	private EnumTC			crashallowed;
-	private EnumDirection	dir;
-//	private EnumDirection	startdirection;
-	private boolean			started;
-	private User			creator;
-	private Date			created;
-	private boolean			finished;
-	private int				dranId;
-	private User			dran;
-	private int				blocked;
-	private URL				preview;
-	private URL				location;
+	private int					id;
+	private String				name;
+	private Map					map;
+	private boolean				cps;
+	private int					zzz;
+	private EnumGameTC			crashallowed;
+	private EnumGameDirection	startdirection;
+	private boolean				started;
+	private boolean				finished;
+	private Date				starteddate;
+	private String				creator;
+	private User				next;
+	private int					blocked;
+	private List<Player>		players;
 	// additional Fields
-	private boolean			creatorLeft;
-	// Further JSON Fields
-	private List<Player>	players;
+	private boolean				creatorLeft;
 
 	public Game()
 	{
 		super();
 	}
-	
+
 	public Game(int id)
 	{
 		this();
@@ -72,110 +59,14 @@ public class Game
 		return id;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public Map getMap()
-	{
-		return map;
-	}
-
-	public boolean isCps()
-	{
-		return cps;
-	}
-	
-	public boolean isWithCheckpoints()
-	{
-		return cps;
-	}
-	
-
-	public int getZzz()
-	{
-		return zzz;
-	}
-
-	public EnumTC getTcrash()
-	{
-		return tcrash;
-	}
-
-	public EnumTC getCrashallowed()
-	{
-		return tcrash;
-	}
-	
-	public EnumDirection getDir()
-	{
-		return dir;
-	}
-	
-	public EnumDirection getStartdirection()
-	{
-		return dir;
-	}
-
-	public boolean isStarted()
-	{
-		return started;
-	}
-
-	public User getCreator()
-	{
-		return creator;
-	}
-
-	public Date getCreated()
-	{
-		return created;
-	}
-
-	public boolean isFinished()
-	{
-		return finished;
-	}
-
-	public int getDranId()
-	{
-		return dranId;
-	}
-
-	public User getDran()
-	{
-		return dran;
-	}
-
-	public int getBlocked()
-	{
-		return blocked;
-	}
-
-	public URL getPreview()
-	{
-		return preview;
-	}
-
-	public URL getLocation()
-	{
-		return location;
-	}
-
-	public boolean hasCreatorLeft()
-	{
-		return creatorLeft;
-	}
-
-	public List<Player> getPlayers()
-	{
-		return players;
-	}
-
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 
 	public void setName(String name)
@@ -183,19 +74,29 @@ public class Game
 		this.name = name;
 	}
 
+	public Map getMap()
+	{
+		return map;
+	}
+
 	public void setMap(Map map)
 	{
 		this.map = map;
+	}
+
+	public boolean isCps()
+	{
+		return cps;
 	}
 
 	public void setCps(boolean cps)
 	{
 		this.cps = cps;
 	}
-	
-	public void setWithCheckpoints(boolean withCheckpoints)
+
+	public int getZzz()
 	{
-		this.cps = withCheckpoints;
+		return zzz;
 	}
 
 	public void setZzz(int zzz)
@@ -203,24 +104,29 @@ public class Game
 		this.zzz = zzz;
 	}
 
-	public void setTcrash(EnumTC tcrash)
+	public EnumGameTC getCrashallowed()
 	{
-		this.tcrash = tcrash;
-	}
-	
-	public void setCrashallowed(EnumTC crashallowed)
-	{
-		this.tcrash = crashallowed;
+		return crashallowed;
 	}
 
-	public void setDir(EnumDirection dir)
+	public void setCrashallowed(EnumGameTC crashallowed)
 	{
-		this.dir = dir;
+		this.crashallowed = crashallowed;
 	}
-	
-	public void setStartdirection(EnumDirection startdirection)
+
+	public EnumGameDirection getStartdirection()
 	{
-		this.dir = startdirection;
+		return startdirection;
+	}
+
+	public void setStartdirection(EnumGameDirection startdirection)
+	{
+		this.startdirection = startdirection;
+	}
+
+	public boolean isStarted()
+	{
+		return started;
 	}
 
 	public void setStarted(boolean started)
@@ -228,14 +134,9 @@ public class Game
 		this.started = started;
 	}
 
-	public void setCreator(User creator)
+	public boolean isFinished()
 	{
-		this.creator = creator;
-	}
-
-	public void setCreated(Date created)
-	{
-		this.created = created;
+		return finished;
 	}
 
 	public void setFinished(boolean finished)
@@ -243,14 +144,39 @@ public class Game
 		this.finished = finished;
 	}
 
-	public void setDranId(int dranId)
+	public Date getStarteddate()
 	{
-		this.dranId = dranId;
+		return starteddate;
 	}
 
-	public void setDran(User dran)
+	public void setStarteddate(Date starteddate)
 	{
-		this.dran = dran;
+		this.starteddate = starteddate;
+	}
+
+	public String getCreator()
+	{
+		return creator;
+	}
+
+	public void setCreator(String creator)
+	{
+		this.creator = creator;
+	}
+
+	public User getNext()
+	{
+		return next;
+	}
+
+	public void setNext(User next)
+	{
+		this.next = next;
+	}
+
+	public int getBlocked()
+	{
+		return blocked;
 	}
 
 	public void setBlocked(int blocked)
@@ -258,19 +184,9 @@ public class Game
 		this.blocked = blocked;
 	}
 
-	public void setPreview(URL preview)
+	public List<Player> getPlayers()
 	{
-		this.preview = preview;
-	}
-
-	public void setLocation(URL location)
-	{
-		this.location = location;
-	}
-
-	public void setCreatorLeft(boolean creatorLeft)
-	{
-		this.creatorLeft = creatorLeft;
+		return players;
 	}
 
 	public void setPlayers(List<Player> players)
@@ -278,11 +194,21 @@ public class Game
 		this.players = players;
 	}
 
+	public boolean isCreatorLeft()
+	{
+		return creatorLeft;
+	}
+
+	public void setCreatorLeft(boolean creatorLeft)
+	{
+		this.creatorLeft = creatorLeft;
+	}
+
 	public Game applyRules(Rules rules)
 	{
 		this.cps = rules.getCPs();
-		this.dir = rules.getDirection();
-		this.tcrash = rules.getTC();
+		this.startdirection = rules.getDirection();
+		this.crashallowed = rules.getTC();
 		this.zzz = rules.getZzz();
 		return this;
 	}

@@ -1,5 +1,6 @@
 package ultimate.karoapi4j.model.official;
 
+@Deprecated
 public class Blocker
 {
 	/*

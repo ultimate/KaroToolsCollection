@@ -3,8 +3,8 @@ package ultimate.karoapi4j.model.extended;
 import java.io.Serializable;
 import java.util.Random;
 
-import ultimate.karoapi4j.enums.EnumDirection;
-import ultimate.karoapi4j.enums.EnumTC;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameTC;
 
 public class Rules implements Cloneable, Serializable
 {
@@ -13,9 +13,9 @@ public class Rules implements Cloneable, Serializable
 	private int					minZzz;
 	private int					maxZzz;
 	private Integer				zzz;
-	private EnumTC				tc;
+	private EnumGameTC			tc;
 	private Boolean				cps;
-	private EnumDirection		direction;
+	private EnumGameDirection	direction;
 	private boolean				creatorGiveUp;
 	private boolean				ignoreInvitable;
 	private int					gamesPerPlayer;
@@ -23,7 +23,7 @@ public class Rules implements Cloneable, Serializable
 
 	private Random				random;
 
-	public Rules(int minZzz, int maxZzz, EnumTC tc, Boolean cps, EnumDirection direction, boolean creatorGiveUp, boolean ignoreInvitable)
+	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction, boolean creatorGiveUp, boolean ignoreInvitable)
 	{
 		super();
 		this.minZzz = minZzz;
@@ -37,8 +37,7 @@ public class Rules implements Cloneable, Serializable
 		this.random = new Random();
 	}
 
-	public Rules(int minZzz, int maxZzz, EnumTC tc, Boolean cps, EnumDirection direction, boolean creatorGiveUp, boolean ignoreInvitable,
-			int gamesPerPlayer, int numberOfPlayers)
+	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction, boolean creatorGiveUp, boolean ignoreInvitable, int gamesPerPlayer, int numberOfPlayers)
 	{
 		super();
 		this.minZzz = minZzz;
@@ -68,7 +67,7 @@ public class Rules implements Cloneable, Serializable
 		return maxZzz;
 	}
 
-	public EnumTC getTC()
+	public EnumGameTC getTC()
 	{
 		return tc;
 	}
@@ -78,7 +77,7 @@ public class Rules implements Cloneable, Serializable
 		return cps;
 	}
 
-	public EnumDirection getDirection()
+	public EnumGameDirection getDirection()
 	{
 		return direction;
 	}
@@ -119,7 +118,7 @@ public class Rules implements Cloneable, Serializable
 		this.maxZzz = zzz;
 	}
 
-	public void setTC(EnumTC tc)
+	public void setTC(EnumGameTC tc)
 	{
 		this.tc = tc;
 	}
@@ -129,7 +128,7 @@ public class Rules implements Cloneable, Serializable
 		this.cps = cps;
 	}
 
-	public void setDirection(EnumDirection direction)
+	public void setDirection(EnumGameDirection direction)
 	{
 		this.direction = direction;
 	}
@@ -158,12 +157,12 @@ public class Rules implements Cloneable, Serializable
 	{
 		if(zzz == null)
 			zzz = random.nextInt(maxZzz - minZzz + 1) + minZzz;
-		if(tc == null || tc == EnumTC.random)
-			tc = EnumTC.getByValue(random.nextInt(EnumTC.values().length - 1));
+		if(tc == null || tc == EnumGameTC.random)
+			tc = EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1));
 		if(cps == null)
 			cps = random.nextBoolean();
-		if(direction == null || direction == EnumDirection.random)
-			direction = EnumDirection.getByValue(random.nextInt(EnumDirection.values().length - 1));
+		if(direction == null || direction == EnumGameDirection.random)
+			direction = EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1));
 		return this;
 	}
 
@@ -176,9 +175,8 @@ public class Rules implements Cloneable, Serializable
 	@Override
 	public String toString()
 	{
-		return "Regeln:\n" + " -> zzz                  = [" + minZzz + "," + maxZzz + "]\n" + " -> tc                   = " + tc + "\n"
-				+ " -> cps                  = " + cps + "\n" + " -> direction            = " + direction + "\n" + " -> creatorGiveUp        = "
-				+ creatorGiveUp + "\n" + " -> ignoreInvitable      = " + ignoreInvitable;
+		return "Regeln:\n" + " -> zzz                  = [" + minZzz + "," + maxZzz + "]\n" + " -> tc                   = " + tc + "\n" + " -> cps                  = " + cps + "\n"
+				+ " -> direction            = " + direction + "\n" + " -> creatorGiveUp        = " + creatorGiveUp + "\n" + " -> ignoreInvitable      = " + ignoreInvitable;
 	}
 
 	@Override

@@ -1,26 +1,27 @@
 package ultimate.karoapi4j.enums;
 
-public enum EnumTC
+
+public enum EnumGameDirection
 {
-	allowed,
-	forbidden,
+	classic,
 	free,
+	formula1,
 	random;
 	
 	public int getValue()
 	{
-		if(this.equals(allowed))
+		if(this.equals(classic))
 			return 1;
-		if(this.equals(forbidden))
+		if(this.equals(formula1))
 			return 2;
 		if(this.equals(free))
 			return 0;
 		return -1;
 	}
 	
-	public static EnumTC getByValue(int value)
+	public static EnumGameDirection getByValue(int value)
 	{
-		for(EnumTC e : values())
+		for(EnumGameDirection e : values())
 		{
 			if(e.getValue() == value)
 				return e;

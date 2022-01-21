@@ -4,31 +4,38 @@ import java.awt.Image;
 
 public class Map
 {
+	public static final String ROW_DELIMITER = "\n";
 	/*
-	 * map/list.json
-	 * "id" : 1,
-	 * "name" : "Die Erste",
-	 * "author" : "Didi",
-	 * "cols" : 60,
-	 * "rows" : 25,
-	 * "mapcode" :
-	 * "PXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\nPXXXXOOOOOOOFSOOOOOOOOOOOOOOOOOOOOOO1OOOOOOOOOOOOOOOXXXXXXXX\r\nPXXOOOOOOOOOFSOOOOOOOOOOOOOOOOOOOOO1O1OOOOOOOOOOOOOOOOOXXXXX\r\nPXOOOOOOOOOOFSOOOOOOOOOOOOOOOOOOOO1O1O1OOOOOOOOOOOOOOOOOOXXX\r\nPXOOOOOOOOOOFSOOOOOOOOOOOOOOOOOOO1O1O1O1OOOOOOOOOOOOOOOOOOOX\r\nXOOOOOOOOOOOFSOOOOOOOOOOOOOOOOOO1O1O1O1O1OOOOOOOOOOOOOOOOOOX\r\nXXOOOOOOOOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOX\r\nXOOOOOOOXXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOXXXXXXXOOOOOOOOX\r\nXOOOOOOXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOXXXXXXOOOOOOOXX\r\nX77777XXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOXXXOOOOOOOOXX\r\nXOOOOOXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOXXOOOOOOO33XXX2O2O2O2XX\r\nXOOOOOOXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOXXXXXOO3333OXX2222222XX\r\nXOOOOOOOOXXXXXXXXXXXXXXXXXXXXOOOOOOOXXXXXXXX333OOOOOOOOOOXXX\r\nXOOOOOOOOXXXXXXXXXXXXXXXXXXXXX444444XXXXXXXXXOOOOOOOOOOOOXXX\r\nXXOOOOOOOOOXXXXXXXXXXXXXXXXXXXXOOOOOOXXXXXXXXOOOOOOOOOOOXXXX\r\nXXXOOOOOOO666XXXXXXXXXXXXXXXXXXXOOOOOOOXXXXXXXXOOOOOOOOXXXXX\r\nXXXOOOOOO66OOOOOOOOOOXXXXXXXXXXXXOOOOOOOXXXXXXXXXXXXXXXXXXXX\r\nXXXOOOOOO6OOOOOOOOOOOOOOXXXXXXXXOOOOOOOOXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXX6OOOOOOOOOOOOOOOOXXXOOOOOOOOOOOXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXXXXXXXXXOOOOOOOOOO555OOOOOOOOOOXXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXXXXXXXXXXXXOOOOOOO555OOOOOOOOXXXXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXXXXXXXXXXXXXXOOOOO555OOOOOOXXXXXXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXXXXXXXXXXXXXXXXXXO555OOOXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\r\nXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-	 * ,
-	 * "cps" : [ "1", "2", "3", "4", "5", "6", "7" ]
+	 * https://www.karopapier.de/api/maps/1?mapcode=true
+	 * "id": 1,
+	 * "name": "Die Erste",
+	 * "author": "Didi",
+	 * "cols": 60,
+	 * "rows": 25,
+	 * "rating": 3.9487,
+	 * "players": 5,
+	 * "cps": ["1","2","3","4","5","6","7"],
+	 * "active": true,
+	 * "night": 0,
+	 * "record": 3,
+	 * "code": "PXXX...XXXXXXX"
 	 */
 	// Standard JSON Fields
-	private int			id;
-	private String		name;
-	private String		author;
-	private int			cols;
-	private int			rows;
-	private String		mapcode;
-	private String[]	cps;
+	private int		id;
+	private String	name;
+	private String	author;
+	private int		cols;
+	private int		rows;
+	private double	rating;
+	private int		players;
+	private int[]	cps;
+	private boolean	active;
+	private boolean	night;
+	private int		record;
+	private String	code;
 	// additional Fields
-	private Image		image;
-	private Image		preview;
-	private int			maxPlayers;
-	private boolean		night;
+	private Image	image;
+	private Image	preview;
 
 	public Map()
 	{
@@ -46,59 +53,14 @@ public class Map
 		return id;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-
-	public String getAuthor()
-	{
-		return author;
-	}
-
-	public int getCols()
-	{
-		return cols;
-	}
-
-	public int getRows()
-	{
-		return rows;
-	}
-
-	public String getMapcode()
-	{
-		return mapcode;
-	}
-
-	public String[] getCps()
-	{
-		return cps;
-	}
-
-	public Image getImage()
-	{
-		return image;
-	}
-
-	public Image getPreview()
-	{
-		return preview;
-	}
-
-	public int getMaxPlayers()
-	{
-		return maxPlayers;
-	}
-
-	public boolean isNight()
-	{
-		return night;
-	}
-
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+
+	public String getName()
+	{
+		return name;
 	}
 
 	public void setName(String name)
@@ -106,9 +68,19 @@ public class Map
 		this.name = name;
 	}
 
+	public String getAuthor()
+	{
+		return author;
+	}
+
 	public void setAuthor(String author)
 	{
 		this.author = author;
+	}
+
+	public int getCols()
+	{
+		return cols;
 	}
 
 	public void setCols(int cols)
@@ -116,19 +88,89 @@ public class Map
 		this.cols = cols;
 	}
 
+	public int getRows()
+	{
+		return rows;
+	}
+
 	public void setRows(int rows)
 	{
 		this.rows = rows;
 	}
 
-	public void setMapcode(String mapcode)
+	public double getRating()
 	{
-		this.mapcode = mapcode;
+		return rating;
 	}
 
-	public void setCps(String[] cps)
+	public void setRating(double rating)
+	{
+		this.rating = rating;
+	}
+
+	public int getPlayers()
+	{
+		return players;
+	}
+
+	public void setPlayers(int players)
+	{
+		this.players = players;
+	}
+
+	public int[] getCps()
+	{
+		return cps;
+	}
+
+	public void setCps(int[] cps)
 	{
 		this.cps = cps;
+	}
+
+	public boolean isActive()
+	{
+		return active;
+	}
+
+	public void setActive(boolean active)
+	{
+		this.active = active;
+	}
+
+	public boolean isNight()
+	{
+		return night;
+	}
+
+	public void setNight(boolean night)
+	{
+		this.night = night;
+	}
+
+	public int getRecord()
+	{
+		return record;
+	}
+
+	public void setRecord(int record)
+	{
+		this.record = record;
+	}
+
+	public String getCode()
+	{
+		return code;
+	}
+
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
+
+	public Image getImage()
+	{
+		return image;
 	}
 
 	public void setImage(Image image)
@@ -136,21 +178,16 @@ public class Map
 		this.image = image;
 	}
 
+	public Image getPreview()
+	{
+		return preview;
+	}
+
 	public void setPreview(Image preview)
 	{
 		this.preview = preview;
 	}
 
-	public void setMaxPlayers(int maxPlayers)
-	{
-		this.maxPlayers = maxPlayers;
-	}
-
-	public void setNight(boolean night)
-	{
-		this.night = night;
-	}
-	
 	public String getLabel()
 	{
 		return this.name + " (#" + this.id + ")";
@@ -159,10 +196,9 @@ public class Map
 	@Override
 	public String toString()
 	{
-		return "Karte " + this.id + ": " + this.name + " (" + this.maxPlayers + " Spieler) von '" + author + "' "
-				+ (this.night ? "'Nacht'" : "'Tag'");
+		return "Karte " + this.id + ": " + this.name + " (" + this.players + " Spieler) von '" + author + "' " + (this.night ? "'Nacht'" : "'Tag'");
 	}
-	
+
 	// TODO hasCP
 	// TODO CPs as int[]
 }

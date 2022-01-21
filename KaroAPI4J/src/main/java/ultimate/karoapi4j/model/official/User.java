@@ -35,8 +35,9 @@ public class User
 	 * "gamesort": "blocktime",
 	 * "state": "active",
 	 * "superCreator": true,
+	 * "uc": 1 // for current user only
+	 * "blocked": "6", // for blockers only
 	 * "ts": "2022-01-14 12:20:55", // for contacts only
-	 * "uc": 1 // for user check only
 	 */
 	// Standard JSON Fields
 	private int					id;

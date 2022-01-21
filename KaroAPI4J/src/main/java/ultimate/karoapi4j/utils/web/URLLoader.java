@@ -31,7 +31,7 @@ public class URLLoader
 	 */
 	protected transient final Logger		logger			= LoggerFactory.getLogger(getClass());
 
-	public static final char				DELIMETER		= '/';
+	public static final char				DELIMITER		= '/';
 
 	public static final Map<String, String>	POST_PROPERTIES	= new HashMap<>();
 
@@ -68,6 +68,16 @@ public class URLLoader
 			this.requestProperties = new HashMap<>();
 	}
 
+	public URLLoader getParent()
+	{
+		return parent;
+	}
+
+	public String getUrl()
+	{
+		return url;
+	}
+
 	public void addRequestProperty(String key, String value)
 	{
 		this.requestProperties.put(key, value);
@@ -96,15 +106,15 @@ public class URLLoader
 		StringBuilder relURL = new StringBuilder(this.url);
 
 		int delims = 0;
-		if(path.charAt(0) == DELIMETER)
+		if(path.charAt(0) == DELIMITER)
 			delims++;
-		if(url.charAt(url.length() - 1) == DELIMETER)
+		if(url.charAt(url.length() - 1) == DELIMITER)
 			delims++;
 
 		switch(delims)
 		{
 			case 0:
-				relURL.append(DELIMETER);
+				relURL.append(DELIMITER);
 			case 1:
 				relURL.append(path);
 				break;
@@ -115,9 +125,19 @@ public class URLLoader
 		return new URLLoader(this, relURL.toString(), requestProperties);
 	}
 
+	public URLLoader replace(String target, Object replacement)
+	{
+		return replace(target, replacement, null);
+	}
+
 	public URLLoader replace(String target, String replacement)
 	{
 		return replace(target, replacement, null);
+	}
+
+	public URLLoader replace(String target, Object replacement, Map<String, String> requestProperties)
+	{
+		return replace(target, (replacement != null ? replacement.toString() : null));
 	}
 
 	public URLLoader replace(String target, String replacement, Map<String, String> requestProperties)
@@ -266,6 +286,31 @@ public class URLLoader
 				this.requestProperties.putAll(additionalRequestProperties);
 			this.output = output;
 			this.parser = parser;
+		}
+		
+		public String getUrl()
+		{
+			return url;
+		}
+
+		public String getMethod()
+		{
+			return method;
+		}
+
+		public Map<String, String> getRequestProperties()
+		{
+			return requestProperties;
+		}
+
+		public String getOutput()
+		{
+			return output;
+		}
+
+		public Parser<String, T> getParser()
+		{
+			return parser;
 		}
 
 		public void addRequestProperties(Map<String, String> additionalRequestProperties)
