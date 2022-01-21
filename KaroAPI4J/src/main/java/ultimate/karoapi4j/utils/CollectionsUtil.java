@@ -128,14 +128,25 @@ public abstract class CollectionsUtil
 		return count;
 	}
 
+	/**
+	 * transform a list of objects
+	 * <code>[{id:1,text:"a"},{id:2,text:"b"}, ...]</code> to a map where the ids are the keys and the texts are the values
+	 * <code>{1:"a",2:"b",...}</code>
+	 * 
+	 * @param <T>
+	 * @param idList - the original id list
+	 * @param idKey - the key for the ids
+	 * @param valueKey - the key for the values
+	 * @return the map of ids & values
+	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Map<Integer, T> convertIdListToMap(List<Map<String, Object>> idList, String idIdentifier, String valueIdentifier)
+	public static <T> Map<Integer, T> convertIdListToMap(List<Map<String, Object>> idList, String idKey, String valueKey)
 	{
 		HashMap<Integer, T> notesMap = new HashMap<>();
 		for(Map<String, Object> m : idList)
 		{
-			int key = (int) m.get(idIdentifier);
-			T value = (T) m.get(valueIdentifier);
+			int key = (int) m.get(idKey);
+			T value = (T) m.get(valueKey);
 			notesMap.put(key, value);
 		}
 		return notesMap;
