@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -390,6 +391,62 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_createGameAndMove()
 	{
 		fail("not implemented");
+	}
+	
+	@Test
+	public void test_favs() throws InterruptedException
+	{
+		int gameId = TEST_GAMES_IDS[0];
+		Predicate<Game> findFav = (game) -> { return game.getId() == gameId; };
+		
+		// get the initial list of favs
+		List<Game> favs = karoAPI.getFavs().doBlocking();
+		
+		// current list must not contain the  fav
+		assertEquals(0, CollectionsUtil.count(favs, findFav));
+		
+		List<Game> newFavs;
+		
+		// create a fav
+		karoAPI.addFav(gameId).doBlocking();
+		newFavs = karoAPI.getFavs().doBlocking();
+		assertEquals(favs.size() + 1, newFavs.size());
+		
+		// new list must contain the new fav
+		assertEquals(1, CollectionsUtil.count(newFavs, findFav));
+		
+		// delete the fav (reset)
+		karoAPI.removeFav(gameId).doBlocking();
+		newFavs = karoAPI.getFavs().doBlocking();
+		assertEquals(favs.size(), newFavs.size());
+	}
+	
+	@Test
+	public void test_notes() throws InterruptedException
+	{
+		int gameId = TEST_GAMES_IDS[0];
+		
+		// get the initial list of notes
+		HashMap<Integer, String> notes = (HashMap<Integer, String>) karoAPI.getNotes().doBlocking();
+		
+		// current list must not contain the  note
+		assertFalse(notes.containsKey(gameId));
+		
+		HashMap<Integer, String> newNotes;
+		
+		// create a note
+		karoAPI.addNote(gameId, "sample text").doBlocking();
+		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().doBlocking();
+		assertEquals(notes.size() + 1, newNotes.size());
+		// new list must contain the new note
+		assertTrue(newNotes.containsKey(gameId));
+		
+		// delete the note (reset)
+		karoAPI.removeNote(gameId).doBlocking();
+		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().doBlocking();
+		assertEquals(notes.size(), newNotes.size());
+		// new list must not contain the  note
+		assertFalse(newNotes.containsKey(gameId));
 	}
 
 	private <T> void compareList(List<T> expected, List<T> actual, Comparator<T> comparator)

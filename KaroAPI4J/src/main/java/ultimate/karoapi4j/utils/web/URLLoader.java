@@ -6,15 +6,16 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import ultimate.karoapi4j.enums.EnumContentType;
+import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.threads.QueuableThread;
 
 /**
@@ -102,7 +103,7 @@ public class URLLoader
 	public URLLoader parameterize(Map<String, String> parameters, Map<String, String> requestProperties)
 	{
 		if(parameters != null && parameters.size() > 0)
-			return parameterize(formatParameters(parameters), requestProperties);
+			return parameterize(formatParameters(parameters, EnumContentType.text), requestProperties);
 		else
 			return parameterize((String) null, requestProperties);
 	}
@@ -125,7 +126,7 @@ public class URLLoader
 
 		if(parameters.charAt(0) != PARAMETER)
 			parURL.append(PARAMETER);
-		
+
 		parURL.append(parameters);
 
 		return new URLLoader(this, parURL.toString(), requestProperties);
@@ -225,11 +226,25 @@ public class URLLoader
 	}
 
 	/**
+	 * Convenience for <code>doPost(null, parser);</code>
+	 *
+	 * @see URLLoader#doPost(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doPost(Parser<String, T> parser)
+	{
+		return doPost((String) null, parser);
+	}
+
+	/**
 	 * Create a {@link URLLoaderThread} for a post to the URL represented by this {@link URLLoader}.<br>
 	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
 	 * call.
 	 *
 	 * @param <T> - the type of content to load
+	 * @param output - the output to write
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link URLLoaderThread}
 	 */
@@ -244,22 +259,20 @@ public class URLLoader
 	 * 
 	 * @see URLLoader#doPost(String, Parser)
 	 * @param <T> - the type of content to load
-	 * @param parameters - the parameters to post
+	 * @param parameters - the parameters to write
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link URLLoaderThread}
 	 */
-	public <T> BackgroundLoader<T> doPost(Map<String, String> parameters, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPost(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
-			return doPost(formatParameters(parameters), parser);
+			return doPost(formatParameters(parameters, contentType), parser);
 		else
 			return doPost((String) null, parser);
 	}
 
 	/**
-	 * Create a {@link URLLoaderThread} for a post to the URL represented by this {@link URLLoader}.<br>
-	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
-	 * call.
+	 * Convenience for <code>doGet(null, parser);</code>
 	 *
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
@@ -304,6 +317,98 @@ public class URLLoader
 		if(parameters != null && parameters.size() > 0)
 			tmp = this.parameterize(parameters);
 		return tmp.new BackgroundLoader<>("GET", null, null, parser);
+	}
+
+	/**
+	 * Convenience for <code>doPut(null, parser);</code>
+	 *
+	 * @see URLLoader#doPut(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doPut(Parser<String, T> parser)
+	{
+		return doPut((String) null, parser);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a put to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
+	 * call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doPut(String output, Parser<String, T> parser)
+	{
+		return new BackgroundLoader<T>("PUT", null, output, parser);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doPut(URLLoader.formatParameters(parameters), parser);</code>
+	 * 
+	 * @see URLLoader#doPut(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doPut(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	{
+		if(parameters != null)
+			return doPut(formatParameters(parameters, contentType), parser);
+		else
+			return doPut((String) null, parser);
+	}
+
+	/**
+	 * Convenience for <code>doDelete(null, parser);</code>
+	 *
+	 * @see URLLoader#doDelete(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doDelete(Parser<String, T> parser)
+	{
+		return doDelete((String) null, parser);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a delete to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
+	 * call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doDelete(String output, Parser<String, T> parser)
+	{
+		return new BackgroundLoader<T>("DELETE", null, output, parser);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doDelete(URLLoader.formatParameters(parameters), parser);</code>
+	 * 
+	 * @see URLLoader#doDelete(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link URLLoaderThread}
+	 */
+	public <T> BackgroundLoader<T> doDelete(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	{
+		if(parameters != null)
+			return doDelete(formatParameters(parameters, contentType), parser);
+		else
+			return doDelete((String) null, parser);
 	}
 
 	public class BackgroundLoader<T> extends QueuableThread<T>
@@ -392,30 +497,39 @@ public class URLLoader
 
 	/**
 	 * Format a Map of parameters to a String in the format<br>
-	 * <code>
-	 * param1=value1&param2=value2&...
-	 * </code>
+	 * <ul>
+	 * <li>text: <code>param1=value1&param2=value2&...</code></li>
+	 * <li>or</li>
+	 * <li>json: <code>param1=value1&param2=value2&...</code></li>
+	 * </ul>
 	 * 
 	 * @param parameters - the Map of parameters
+	 * @param
 	 * @return the formatted String
 	 */
-	public static String formatParameters(Map<String, String> parameters)
+	public static String formatParameters(Map<String, String> parameters, EnumContentType contentType)
 	{
-		StringBuilder sb = new StringBuilder();
-
-		Entry<String, String> param;
-		Iterator<Entry<String, String>> paramIterator = parameters.entrySet().iterator();
-		while(paramIterator.hasNext())
+		if(contentType == EnumContentType.json)
 		{
-			param = paramIterator.next();
-			sb.append(param.getKey());
-			sb.append("=");
-			sb.append(encodeParameter(param.getValue()));
-			if(paramIterator.hasNext())
-				sb.append("&");
+			return JSONUtil.serialize(parameters);
+		}
+		else
+		{
+			StringBuilder sb = new StringBuilder();
+			Entry<String, String> param;
+			Iterator<Entry<String, String>> paramIterator = parameters.entrySet().iterator();
+			while(paramIterator.hasNext())
+			{
+				param = paramIterator.next();
+				sb.append(param.getKey());
+				sb.append("=");
+				sb.append(encodeParameter(param.getValue()));
+				if(paramIterator.hasNext())
+					sb.append("&");
+			}
+			return sb.toString();
 		}
 
-		return sb.toString();
 	}
 
 	/**

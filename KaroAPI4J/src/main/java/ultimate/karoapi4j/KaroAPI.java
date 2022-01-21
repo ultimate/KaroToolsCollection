@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
@@ -56,13 +57,13 @@ public class KaroAPI
 	protected transient final Logger	logger					= LoggerFactory.getLogger(getClass());
 
 	// config & constants
-	static final String					PLACEHOLDER				= "$";
-	static final BufferedImage			DEFAULT_IMAGE_WHITE;
-	static final BufferedImage			DEFAULT_IMAGE_GRAY;
-	static final BufferedImage			DEFAULT_IMAGE_BLACK;
-	static final int					DEFAULT_IMAGE_SIZE		= 100;
-	static final int					DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
-	static final int					DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
+	public static final String			PLACEHOLDER				= "$";
+	public static final BufferedImage	DEFAULT_IMAGE_WHITE;
+	public static final BufferedImage	DEFAULT_IMAGE_GRAY;
+	public static final BufferedImage	DEFAULT_IMAGE_BLACK;
+	public static final int				DEFAULT_IMAGE_SIZE		= 100;
+	public static final int				DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
+	public static final int				DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
 
 	static
 	{
@@ -83,49 +84,65 @@ public class KaroAPI
 	}
 
 	// api URLs
-	private static final URLLoader					KAROPAPIER			= new URLLoader("https://www.karopapier.de");
-	private static final URLLoader					API					= KAROPAPIER.relative("/api");
+	private static final URLLoader										KAROPAPIER			= new URLLoader("https://www.karopapier.de");
+	private static final URLLoader										API					= KAROPAPIER.relative("/api");
 	// users
-	private static final URLLoader					USERS				= API.relative("/users");
-	private static final URLLoader					USER				= USERS.relative("/" + PLACEHOLDER);
-	private static final URLLoader					USER_DRAN			= USER.relative("/dran");
-	private static final URLLoader					USER_BLOCKERS		= USER.relative("/blockers");
+	private static final URLLoader										USERS				= API.relative("/users");
+	private static final URLLoader										USER				= USERS.relative("/" + PLACEHOLDER);
+	private static final URLLoader										USER_DRAN			= USER.relative("/dran");
+	private static final URLLoader										USER_BLOCKERS		= USER.relative("/blockers");
 	// current user
-	private static final URLLoader					CURRENT_USER		= API.relative("/user");
-	private static final URLLoader					CHECK				= CURRENT_USER.relative("/check");
-	private static final URLLoader					FAVS				= CURRENT_USER.relative("/favs");
-	private static final URLLoader					BLOCKERS			= API.relative("/blockers");
-	private static final URLLoader					NOTES				= API.relative("/notes");
-	private static final URLLoader					PLANNED_MOVES		= API.relative("/planned-moves");
+	private static final URLLoader										CURRENT_USER		= API.relative("/user");
+	private static final URLLoader										CHECK				= CURRENT_USER.relative("/check");
+	private static final URLLoader										FAVS				= CURRENT_USER.relative("/favs");
+	private static final URLLoader										FAVS_EDIT			= FAVS.relative("/" + PLACEHOLDER);
+	private static final URLLoader										BLOCKERS			= API.relative("/blockers");
+	private static final URLLoader										NOTES				= API.relative("/notes");
+	private static final URLLoader										NOTES_EDIT			= NOTES.relative("/" + PLACEHOLDER);
+	private static final URLLoader										PLANNED_MOVES		= API.relative("/planned-moves");
 	// games
-	private static final URLLoader					GAMES				= API.relative("/games");
-	private static final URLLoader					GAMES3				= API.relative("/games3");
-	private static final URLLoader					GAME				= GAMES.relative("/" + PLACEHOLDER);
+	private static final URLLoader										GAMES				= API.relative("/games");
+	private static final URLLoader										GAMES3				= API.relative("/games3");
+	private static final URLLoader										GAME				= GAMES.relative("/" + PLACEHOLDER);
 	// maps
-	private static final URLLoader					MAPS				= API.relative("/maps");
-	private static final URLLoader					MAP					= MAPS.relative("/" + PLACEHOLDER);
+	private static final URLLoader										MAPS				= API.relative("/maps");
+	private static final URLLoader										MAP					= MAPS.relative("/" + PLACEHOLDER);
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
-	private static final URLLoader					MAP_IMAGE			= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	private static final URLLoader										MAP_IMAGE			= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
-	private static final URLLoader					CHAT				= API.relative("/chat");
-	private static final URLLoader					CHAT_LAST			= CHAT.relative("/last");
-	private static final URLLoader					CHAT_USERS			= CHAT.relative("/users");
+	private static final URLLoader										CHAT				= API.relative("/chat");
+	private static final URLLoader										CHAT_LAST			= CHAT.relative("/last");
+	private static final URLLoader										CHAT_USERS			= CHAT.relative("/users");
 	// messaging
-	private static final URLLoader					CONTACTS			= API.relative("/contacts");
-	private static final URLLoader					MESSAGES			= API.relative("/messages/" + PLACEHOLDER);
+	private static final URLLoader										CONTACTS			= API.relative("/contacts");
+	private static final URLLoader										MESSAGES			= API.relative("/messages/" + PLACEHOLDER);
 
 	// parsers needed
-	private static final Parser<String, String>		PARSER_RAW			= (result) -> { return result; };
-	private static final Parser<String, User>		PARSER_USER			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<User>() {}); };
-	private static final Parser<String, List<User>>	PARSER_USER_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<User>>() {}); };
-	private static final Parser<String, Game>		PARSER_GAME			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Game>() {}); };
-	private static final Parser<String, List<Game>>	PARSER_GAME_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Game>>() {}); };
-	private static final Parser<String, Map>		PARSER_MAP			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Map>() {}); };
-	private static final Parser<String, List<Map>>	PARSER_MAP_LIST		= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Map>>() {}); };
-	private static final Parser<String, ?>			PARSER_CHAT			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Object>() {}); };			// TODO
-	private static final Parser<String, List<?>>	PARSER_CHAT_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {}); };	// TODO
-	private static final Parser<String, List<?>>	PARSER_MESSAGE_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {}); };	// TODO
+	private static final Parser<String, Void>							PARSER_VOID			= (result) -> { return null; };
+	private static final Parser<String, String>							PARSER_RAW			= (result) -> { return result; };
+	private static final Parser<String, User>							PARSER_USER			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<User>() {}); };
+	private static final Parser<String, List<User>>						PARSER_USER_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<User>>() {}); };
+	private static final Parser<String, Game>							PARSER_GAME			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Game>() {}); };
+	private static final Parser<String, List<Game>>						PARSER_GAME_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Game>>() {}); };
+	private static final Parser<String, Map>							PARSER_MAP			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Map>() {}); };
+	private static final Parser<String, List<Map>>						PARSER_MAP_LIST		= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Map>>() {}); };
+	private static final Parser<String, ?>								PARSER_CHAT			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Object>() {}); };			// TODO
+	private static final Parser<String, List<?>>						PARSER_CHAT_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {}); };	// TODO
+	private static final Parser<String, List<?>>						PARSER_MESSAGE_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {}); };	// TODO
+	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
+	private static final Parser<String, java.util.Map<Integer, String>>	PARSER_NOTES		= (result) -> {
+																								List<java.util.Map<String, String>> notes = JSONUtil.deserialize(result,
+																										new TypeReference<List<java.util.Map<String, String>>>() {});
+																								HashMap<Integer, String> notesMap = new HashMap<>();
+																								for(java.util.Map<String, String> m : notes)
+																								{
+																									int key = Integer.parseInt(m.get("id"));
+																									String value = m.get("text");
+																									notesMap.put(key, value);
+																								}
+																								return notesMap;
+																							};
 
 	/**
 	 * Get an instance for the given user
@@ -219,6 +236,72 @@ public class KaroAPI
 	public BackgroundLoader<List<Game>> getUserDran(int userId)
 	{
 		return USER_DRAN.replace(PLACEHOLDER, userId).doGet(PARSER_GAME_LIST);
+	}
+
+	/**
+	 * Get the list of favorites
+	 * 
+	 * @return the list of games
+	 */
+	public BackgroundLoader<List<Game>> getFavs()
+	{
+		return FAVS.doGet(PARSER_GAME_LIST);
+	}
+
+	/**
+	 * Add a game to the list of favorites
+	 * 
+	 * @param gameId - the game to mark as favorite
+	 * @return void
+	 */
+	public BackgroundLoader<Void> addFav(int gameId)
+	{
+		return FAVS_EDIT.replace(PLACEHOLDER, gameId).doPut(PARSER_VOID);
+	}
+
+	/**
+	 * Remove a game to the list of favorites
+	 * 
+	 * @param gameId - the game to unmark as favorite
+	 * @return void
+	 */
+	public BackgroundLoader<Void> removeFav(int gameId)
+	{
+		return FAVS_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID);
+	}
+
+	/**
+	 * Get the list of favorites
+	 * 
+	 * @return the list of games
+	 */
+	public BackgroundLoader<java.util.Map<Integer, String>> getNotes()
+	{
+		return NOTES.doGet(PARSER_NOTES);
+	}
+
+	/**
+	 * Add a game to the list of favorites
+	 * 
+	 * @param gameId - the game to mark as favorite
+	 * @return void
+	 */
+	public BackgroundLoader<String> addNote(int gameId, String text)
+	{
+		HashMap<String, String> args = new HashMap<>();
+		args.put("text", text);
+		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_RAW);
+	}
+
+	/**
+	 * Remove a game to the list of favorites
+	 * 
+	 * @param gameId - the game to unmark as favorite
+	 * @return void
+	 */
+	public BackgroundLoader<String> removeNote(int gameId)
+	{
+		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_RAW);
 	}
 
 	/**
@@ -560,7 +643,7 @@ public class KaroAPI
 	 * @param image - the original image
 	 * @return the specialized image
 	 */
-	private static BufferedImage createSpecialImage(Image image)
+	public static BufferedImage createSpecialImage(Image image)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2d = image2.createGraphics();
