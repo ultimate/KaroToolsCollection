@@ -99,6 +99,7 @@ public class KaroAPI
 	private static final URLLoader					PLANNED_MOVES		= API.relative("/planned-moves");
 	// games
 	private static final URLLoader					GAMES				= API.relative("/games");
+	private static final URLLoader					GAMES3				= API.relative("/games3");
 	private static final URLLoader					GAME				= GAMES.relative("/" + PLACEHOLDER);
 	// maps
 	private static final URLLoader					MAPS				= API.relative("/maps");
@@ -296,7 +297,7 @@ public class KaroAPI
 		if(offset != null)
 			args.put("offset", offset.toString());
 
-		return GAMES.doGet(args, PARSER_GAME_LIST);
+		return GAMES3.doGet(args, PARSER_GAME_LIST);
 	}
 
 	/**
@@ -523,8 +524,6 @@ public class KaroAPI
 			// use the doGet mechanism to generate the URL and query the true image location
 			BackgroundLoader<String> tmp = MAP_IMAGE.replace(PLACEHOLDER, mapId).doGet(args, PARSER_RAW);
 			logger.debug("loading image information for map " + mapId + ": " + tmp.getUrl());
-			tmp.doBlocking();
-			logger.debug("location is: " + tmp.getConnection().getHeaderField("location"));
 			return ImageIO.read(new URL(tmp.getUrl()));
 		}
 		catch(Exception e)
