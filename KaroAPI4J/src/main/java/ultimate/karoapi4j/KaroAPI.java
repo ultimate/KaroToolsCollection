@@ -100,11 +100,13 @@ public class KaroAPI
 	private static final URLLoader										BLOCKERS			= API.relative("/blockers");
 	private static final URLLoader										NOTES				= API.relative("/notes");
 	private static final URLLoader										NOTES_EDIT			= NOTES.relative("/" + PLACEHOLDER);
-	private static final URLLoader										PLANNED_MOVES		= API.relative("/planned-moves");
+	private static final URLLoader										PLANNED_MOVES		= API.relative("/planned-moves");																// TODO
 	// games
 	private static final URLLoader										GAMES				= API.relative("/games");
 	private static final URLLoader										GAMES3				= API.relative("/games3");
 	private static final URLLoader										GAME				= GAMES.relative("/" + PLACEHOLDER);
+	private static final URLLoader										GAME_CREATE			= null;																							// TODO
+	private static final URLLoader										GAME_MOVE			= null;																							// TODO
 	// maps
 	private static final URLLoader										MAPS				= API.relative("/maps");
 	private static final URLLoader										MAP					= MAPS.relative("/" + PLACEHOLDER);
@@ -112,12 +114,12 @@ public class KaroAPI
 	// do not use API as the base here, since we do not need the authentication here
 	private static final URLLoader										MAP_IMAGE			= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
-	private static final URLLoader										CHAT				= API.relative("/chat");
-	private static final URLLoader										CHAT_LAST			= CHAT.relative("/last");
-	private static final URLLoader										CHAT_USERS			= CHAT.relative("/users");
+	private static final URLLoader										CHAT				= API.relative("/chat");																		// TODO
+	private static final URLLoader										CHAT_LAST			= CHAT.relative("/last");																		// TODO
+	private static final URLLoader										CHAT_USERS			= CHAT.relative("/users");																		// TODO
 	// messaging
-	private static final URLLoader										CONTACTS			= API.relative("/contacts");
-	private static final URLLoader										MESSAGES			= API.relative("/messages/" + PLACEHOLDER);
+	private static final URLLoader										CONTACTS			= API.relative("/contacts");																	// TODO
+	private static final URLLoader										MESSAGES			= API.relative("/messages/" + PLACEHOLDER);														// TODO
 
 	// parsers needed
 	private static final Parser<String, Void>							PARSER_VOID			= (result) -> { return null; };
