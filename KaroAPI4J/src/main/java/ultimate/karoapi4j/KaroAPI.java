@@ -85,52 +85,52 @@ public class KaroAPI
 	}
 
 	// api URLs
-	private static final URLLoader										KAROPAPIER		= new URLLoader("https://www.karopapier.de");
-	private static final URLLoader										API				= KAROPAPIER.relative("/api");
+	private static final URLLoader										KAROPAPIER			= new URLLoader("https://www.karopapier.de");
+	private static final URLLoader										API					= KAROPAPIER.relative("/api");
 	// users
-	private static final URLLoader										USERS			= API.relative("/users");
-	private static final URLLoader										USER			= USERS.relative("/" + PLACEHOLDER);
-	private static final URLLoader										USER_DRAN		= USER.relative("/dran");
-	private static final URLLoader										USER_BLOCKERS	= USER.relative("/blockers");
+	private static final URLLoader										USERS				= API.relative("/users");
+	private static final URLLoader										USER				= USERS.relative("/" + PLACEHOLDER);
+	private static final URLLoader										USER_DRAN			= USER.relative("/dran");
+	private static final URLLoader										USER_BLOCKERS		= USER.relative("/blockers");
 	// current user
-	private static final URLLoader										CURRENT_USER	= API.relative("/user");
-	private static final URLLoader										CHECK			= CURRENT_USER.relative("/check");
-	private static final URLLoader										FAVS			= CURRENT_USER.relative("/favs");
-	private static final URLLoader										FAVS_EDIT		= FAVS.relative("/" + PLACEHOLDER);
-	private static final URLLoader										BLOCKERS		= API.relative("/blockers");
-	private static final URLLoader										NOTES			= API.relative("/notes");
-	private static final URLLoader										NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
-	private static final URLLoader										PLANNED_MOVES	= API.relative("/planned-moves");
+	private static final URLLoader										CURRENT_USER		= API.relative("/user");
+	private static final URLLoader										CHECK				= CURRENT_USER.relative("/check");
+	private static final URLLoader										FAVS				= CURRENT_USER.relative("/favs");
+	private static final URLLoader										FAVS_EDIT			= FAVS.relative("/" + PLACEHOLDER);
+	private static final URLLoader										BLOCKERS			= API.relative("/blockers");
+	private static final URLLoader										NOTES				= API.relative("/notes");
+	private static final URLLoader										NOTES_EDIT			= NOTES.relative("/" + PLACEHOLDER);
+	private static final URLLoader										PLANNED_MOVES		= API.relative("/planned-moves");
 	// games
-	private static final URLLoader										GAMES			= API.relative("/games");
-	private static final URLLoader										GAMES3			= API.relative("/games3");
-	private static final URLLoader										GAME			= GAMES.relative("/" + PLACEHOLDER);
+	private static final URLLoader										GAMES				= API.relative("/games");
+	private static final URLLoader										GAMES3				= API.relative("/games3");
+	private static final URLLoader										GAME				= GAMES.relative("/" + PLACEHOLDER);
 	// maps
-	private static final URLLoader										MAPS			= API.relative("/maps");
-	private static final URLLoader										MAP				= MAPS.relative("/" + PLACEHOLDER);
+	private static final URLLoader										MAPS				= API.relative("/maps");
+	private static final URLLoader										MAP					= MAPS.relative("/" + PLACEHOLDER);
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
-	private static final URLLoader										MAP_IMAGE		= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	private static final URLLoader										MAP_IMAGE			= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
-	private static final URLLoader										CHAT			= API.relative("/chat");
-	private static final URLLoader										CHAT_LAST		= CHAT.relative("/last");
-	private static final URLLoader										CHAT_USERS		= CHAT.relative("/users");
+	private static final URLLoader										CHAT				= API.relative("/chat");
+	private static final URLLoader										CHAT_LAST			= CHAT.relative("/last");
+	private static final URLLoader										CHAT_USERS			= CHAT.relative("/users");
 	// messaging
-	private static final URLLoader										CONTACTS		= API.relative("/contacts");
-	private static final URLLoader										MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
+	private static final URLLoader										CONTACTS			= API.relative("/contacts");
+	private static final URLLoader										MESSAGES			= API.relative("/messages/" + PLACEHOLDER);
 
 	// parsers needed
-	private static final Parser<String, Void>							PARSER_VOID		= (result) -> { return null; };
-	private static final Parser<String, String>							PARSER_RAW		= (result) -> { return result; };
-	private static final Parser<String, User>							PARSER_USER			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<User>() {});};
-	private static final Parser<String, List<User>>						PARSER_USER_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<User>>() {});};
-	private static final Parser<String, Game>							PARSER_GAME			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Game>() {});};
-	private static final Parser<String, List<Game>>						PARSER_GAME_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Game>>() {});};
-	private static final Parser<String, Map>							PARSER_MAP			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Map>() {});};
-	private static final Parser<String, List<Map>>						PARSER_MAP_LIST		= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Map>>() {});};
-	private static final Parser<String, ?>								PARSER_CHAT			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Object>() {});};							// TODO
-	private static final Parser<String, List<?>>						PARSER_CHAT_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {});};				// TODO
-	private static final Parser<String, List<?>>						PARSER_MESSAGE_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {});};			// TODO
+	private static final Parser<String, Void>							PARSER_VOID			= (result) -> { return null; };
+	private static final Parser<String, String>							PARSER_RAW			= (result) -> { return result; };
+	private static final Parser<String, User>							PARSER_USER			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<User>() {}); };
+	private static final Parser<String, List<User>>						PARSER_USER_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<User>>() {}); };
+	private static final Parser<String, Game>							PARSER_GAME			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Game>() {}); };
+	private static final Parser<String, List<Game>>						PARSER_GAME_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Game>>() {}); };
+	private static final Parser<String, Map>							PARSER_MAP			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Map>() {}); };
+	private static final Parser<String, List<Map>>						PARSER_MAP_LIST		= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Map>>() {}); };
+	private static final Parser<String, ?>								PARSER_CHAT			= (result) -> { return JSONUtil.deserialize(result, new TypeReference<Object>() {}); };			// TODO
+	private static final Parser<String, List<?>>						PARSER_CHAT_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {}); };	// TODO
+	private static final Parser<String, List<?>>						PARSER_MESSAGE_LIST	= (result) -> { return JSONUtil.deserialize(result, new TypeReference<List<Object>>() {}); };	// TODO
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	private static final Parser<String, java.util.Map<Integer, String>>	PARSER_NOTES		= (result) -> {
 																								List<java.util.Map<String, Object>> notes = JSONUtil.deserialize(result,
