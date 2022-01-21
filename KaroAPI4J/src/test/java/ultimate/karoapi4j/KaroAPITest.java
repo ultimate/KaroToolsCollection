@@ -428,7 +428,6 @@ public class KaroAPITest extends KaroAPITestcase
 		
 		// get the initial list of notes
 		HashMap<Integer, String> notes = (HashMap<Integer, String>) karoAPI.getNotes().doBlocking();
-		
 		// current list must not contain the  note
 		assertFalse(notes.containsKey(gameId));
 		
@@ -437,14 +436,12 @@ public class KaroAPITest extends KaroAPITestcase
 		// create a note
 		karoAPI.addNote(gameId, "sample text").doBlocking();
 		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().doBlocking();
-		assertEquals(notes.size() + 1, newNotes.size());
 		// new list must contain the new note
 		assertTrue(newNotes.containsKey(gameId));
 		
 		// delete the note (reset)
 		karoAPI.removeNote(gameId).doBlocking();
 		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().doBlocking();
-		assertEquals(notes.size(), newNotes.size());
 		// new list must not contain the  note
 		assertFalse(newNotes.containsKey(gameId));
 	}
