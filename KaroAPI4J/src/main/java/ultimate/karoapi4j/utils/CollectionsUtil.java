@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ultimate.karoapi4j.model.base.Identifiable;
+
 /**
  * Util-Klasse zum sortieren von Listen anhand eines bestimmten Properties der enthaltenen Objekte.
  * Zum Vergleich der Objekte wird ein MethodComparator verwendet.
@@ -17,6 +22,10 @@ import java.util.function.Predicate;
  */
 public abstract class CollectionsUtil
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected static transient final Logger	logger					= LoggerFactory.getLogger(CollectionsUtil.class);
 	/**
 	 * Orientierung für aufsteigende Sortierung
 	 */
@@ -129,8 +138,9 @@ public abstract class CollectionsUtil
 	}
 
 	/**
-	 * transform a list of objects
-	 * <code>[{id:1,text:"a"},{id:2,text:"b"}, ...]</code> to a map where the ids are the keys and the texts are the values
+	 * transform a list of objects which are actually key value pairs
+	 * <code>[{id:1,text:"a"},{id:2,text:"b"}, ...]</code>
+	 * to a map where the ids are the keys and the texts are the values
 	 * <code>{1:"a",2:"b",...}</code>
 	 * 
 	 * @param <T>
@@ -140,15 +150,28 @@ public abstract class CollectionsUtil
 	 * @return the map of ids & values
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Map<Integer, T> convertIdListToMap(List<Map<String, Object>> idList, String idKey, String valueKey)
+	public static <T> Map<Integer, T> toMap(List<Map<String, Object>> idList, String idKey, String valueKey)
 	{
-		HashMap<Integer, T> notesMap = new HashMap<>();
+		HashMap<Integer, T> map = new HashMap<>();
 		for(Map<String, Object> m : idList)
 		{
 			int key = (int) m.get(idKey);
 			T value = (T) m.get(valueKey);
-			notesMap.put(key, value);
+			map.put(key, value);
 		}
-		return notesMap;
+		return map;
+	}
+	
+	public static <T extends Identifiable> Map<Integer, T> toMap(List<T> list)
+	{
+		HashMap<Integer, T> map = new HashMap<>();
+		for(T object : list)
+		{
+			Integer id = object.getId();
+			if(map.containsKey(id))
+				logger.warn("duplicate id: " + id);
+			map.put(id, object);
+		}
+		return map;
 	}
 }
