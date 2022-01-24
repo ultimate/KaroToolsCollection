@@ -2,10 +2,8 @@ package ultimate.karoapi4j.utils;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -15,7 +13,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -31,7 +28,6 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import ultimate.karoapi4j.exceptions.DeserializationException;
 import ultimate.karoapi4j.exceptions.SerializationException;
-import ultimate.karoapi4j.model.base.Identifiable;
 
 public abstract class JSONUtil
 {
@@ -44,7 +40,7 @@ public abstract class JSONUtil
 	static
 	{
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		mapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
 		mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -54,9 +50,6 @@ public abstract class JSONUtil
 		// color
 		module.addSerializer(Color.class, new ColorSerializer());
 		module.addDeserializer(Color.class, new ColorDeserializer());
-		// player
-//		module.addC
-//		module.addDeserializer(Color.class, new ColorDeserializer());
 
 		mapper.registerModule(module);
 
@@ -143,107 +136,107 @@ public abstract class JSONUtil
 			return new Color(Integer.parseUnsignedInt(p.getText(), 16));
 		}
 	}
-//
-//	public static class IDOnlySerializer<T extends Identifiable> extends JsonSerializer<T>
-//	{
-//		@Override
-//		public void serialize(T value, JsonGenerator gen, SerializerProvider serializers) throws IOException
-//		{
-//			if(value != null)
-//				gen.writeNumber(value.getId());
-//			else
-//				gen.writeNull();
-//		}
-//	}
-//
-//	public static class IDOnlyDeserializer<T extends Identifiable> extends JsonDeserializer<T>
-//	{
-//		private Constructor<T>	constructor;
-//
-//		public IDOnlyDeserializer(Class<T> cls) throws NoSuchMethodException, SecurityException
-//		{
-//			this.constructor = cls.getConstructor(Integer.class);
-//		}
-//
-//		@Override
-//		public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
-//		{
-//			T object = null;
-//			if(p.currentToken() == JsonToken.VALUE_NUMBER_INT)
-//			{
-//				try
-//				{
-//					object = constructor.newInstance(p.getIntValue());
-//				}
-//				catch(Exception e)
-//				{
-//					logger.error("unexpected exception", e);
-//					e.printStackTrace();
-//				}
-//			}
-//			else
-//			{
-//				// null
-//			}
-//			return object;
-//		}
-//	}
-//
-//	public static class IDListSerializer<T extends Identifiable> extends JsonSerializer<List<T>>
-//	{
-//		private IDOnlySerializer<T> objectSerializer = new IDOnlySerializer<>();
-//
-//		@Override
-//		public void serialize(List<T> list, JsonGenerator gen, SerializerProvider serializers) throws IOException
-//		{
-//			if(list != null)
-//			{
-//				gen.writeStartArray();
-//				for(T object : list)
-//					objectSerializer.serialize(object, gen, serializers);
-//				gen.writeEndArray();
-//			}
-//			else
-//			{
-//				gen.writeNull();
-//			}
-//		}
-//	}
-//
-//	public static class IDListDeserializer<T extends Identifiable> extends JsonDeserializer<List<T>>
-//	{
-//		private IDOnlyDeserializer<T>	objectDeserializer;
-//
-//		public IDListDeserializer(Class<T> cls) throws NoSuchMethodException, SecurityException
-//		{
-//			this.objectDeserializer = new IDOnlyDeserializer<>(cls);
-//		}
-//
-//		@Override
-//		public List<T> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
-//		{
-//			if(p.isExpectedStartArrayToken())
-//			{
-//				List<T> list = new ArrayList<>();
-//				
-//				JsonToken next = p.nextToken();
-//				while(next == JsonToken.VALUE_NUMBER_INT || next == JsonToken.VALUE_NULL)
-//				{
-//					next = p.nextToken();
-//					objectDeserializer.deserialize(p, ctxt);
-//				}				
-//				return list;
-//			}
-//			else if(p.currentToken() == JsonToken.VALUE_NULL)
-//			{
-//				return null;
-//			}
-//			else
-//			{
-//				throw new JsonMappingException(p, "unexpected token: " + p.currentToken());
-//			}
-//		}
-//	}
+	//
+	// public static class IDOnlySerializer<T extends Identifiable> extends JsonSerializer<T>
+	// {
+	// @Override
+	// public void serialize(T value, JsonGenerator gen, SerializerProvider serializers) throws IOException
+	// {
+	// if(value != null)
+	// gen.writeNumber(value.getId());
+	// else
+	// gen.writeNull();
+	// }
+	// }
+	//
+	// public static class IDOnlyDeserializer<T extends Identifiable> extends JsonDeserializer<T>
+	// {
+	// private Constructor<T> constructor;
+	//
+	// public IDOnlyDeserializer(Class<T> cls) throws NoSuchMethodException, SecurityException
+	// {
+	// this.constructor = cls.getConstructor(Integer.class);
+	// }
+	//
+	// @Override
+	// public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
+	// {
+	// T object = null;
+	// if(p.currentToken() == JsonToken.VALUE_NUMBER_INT)
+	// {
+	// try
+	// {
+	// object = constructor.newInstance(p.getIntValue());
+	// }
+	// catch(Exception e)
+	// {
+	// logger.error("unexpected exception", e);
+	// e.printStackTrace();
+	// }
+	// }
+	// else
+	// {
+	// // null
+	// }
+	// return object;
+	// }
+	// }
+	//
+	// public static class IDListSerializer<T extends Identifiable> extends JsonSerializer<List<T>>
+	// {
+	// private IDOnlySerializer<T> objectSerializer = new IDOnlySerializer<>();
+	//
+	// @Override
+	// public void serialize(List<T> list, JsonGenerator gen, SerializerProvider serializers) throws IOException
+	// {
+	// if(list != null)
+	// {
+	// gen.writeStartArray();
+	// for(T object : list)
+	// objectSerializer.serialize(object, gen, serializers);
+	// gen.writeEndArray();
+	// }
+	// else
+	// {
+	// gen.writeNull();
+	// }
+	// }
+	// }
+	//
+	// public static class IDListDeserializer<T extends Identifiable> extends JsonDeserializer<List<T>>
+	// {
+	// private IDOnlyDeserializer<T> objectDeserializer;
+	//
+	// public IDListDeserializer(Class<T> cls) throws NoSuchMethodException, SecurityException
+	// {
+	// this.objectDeserializer = new IDOnlyDeserializer<>(cls);
+	// }
+	//
+	// @Override
+	// public List<T> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
+	// {
+	// if(p.isExpectedStartArrayToken())
+	// {
+	// List<T> list = new ArrayList<>();
+	//
+	// JsonToken next = p.nextToken();
+	// while(next == JsonToken.VALUE_NUMBER_INT || next == JsonToken.VALUE_NULL)
+	// {
+	// next = p.nextToken();
+	// objectDeserializer.deserialize(p, ctxt);
+	// }
+	// return list;
+	// }
+	// else if(p.currentToken() == JsonToken.VALUE_NULL)
+	// {
+	// return null;
+	// }
+	// else
+	// {
+	// throw new JsonMappingException(p, "unexpected token: " + p.currentToken());
+	// }
+	// }
+	// }
 
 	public static class Parser<E> implements ultimate.karoapi4j.utils.web.Parser<String, E>
 	{
