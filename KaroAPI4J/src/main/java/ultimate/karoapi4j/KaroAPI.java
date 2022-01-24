@@ -137,7 +137,7 @@ public class KaroAPI
 	private static final Parser<String, java.util.Map<Integer, String>>	PARSER_NOTES		= (result) -> {
 																								List<java.util.Map<String, Object>> notes = JSONUtil.deserialize(result,
 																										new TypeReference<List<java.util.Map<String, Object>>>() {});
-																								return CollectionsUtil.convertIdListToMap(notes, "id", "text");
+																								return CollectionsUtil.toMap(notes, "id", "text");
 																							};
 
 	/**
