@@ -27,7 +27,7 @@ public class KaroAPITestcase
 	@BeforeAll
 	public void setUpOnce() throws IOException
 	{
-		properties = PropertiesUtil.loadProperties(new File("target/test-classes/test.properties"));
+		properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
 		logger.info("properties loaded: " + properties);
 		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
 		logger.info("KaroAPI initialized");
