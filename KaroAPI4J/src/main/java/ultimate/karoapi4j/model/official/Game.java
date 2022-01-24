@@ -3,11 +3,16 @@ package ultimate.karoapi4j.model.official;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.Rules;
 
-public class Game
+@JsonInclude()
+public class Game extends Identifiable
 {
 	/*
 	 * https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
@@ -26,7 +31,9 @@ public class Game
 	 * "blocked": 1,
 	 * "players": [ ] // see type Player
 	 */
-	private int					id;
+	// for id see super class
+	// private int		id;	// see super class
+	@JsonProperty
 	private String				name;
 	private Map					map;
 	private boolean				cps;
@@ -48,20 +55,9 @@ public class Game
 		super();
 	}
 
-	public Game(int id)
+	public Game(Integer id)
 	{
-		this();
-		this.id = id;
-	}
-
-	public int getId()
-	{
-		return id;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
+		super(id);
 	}
 
 	public String getName()
@@ -203,7 +199,30 @@ public class Game
 	{
 		this.creatorLeft = creatorLeft;
 	}
+	
+	// additional getters and settes
 
+	@Deprecated
+	public void setOptions(Options options)
+	{
+		this.zzz = options.getZzz();
+		this.cps = options.isCps();
+		this.startdirection = options.getStartdirection();
+		this.crashallowed = options.getCrashallowed();
+	}
+
+	@Deprecated
+	public Options getOptions()
+	{
+		Options options = new Options();
+		options.setZzz(zzz);
+		options.setCps(cps);
+		options.setStartdirection(startdirection);
+		options.setCrashallowed(crashallowed);
+		return options;
+	}
+
+	@Deprecated
 	public Game applyRules(Rules rules)
 	{
 		this.cps = rules.getCPs();

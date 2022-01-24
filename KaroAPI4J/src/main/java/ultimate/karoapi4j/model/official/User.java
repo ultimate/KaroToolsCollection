@@ -7,8 +7,9 @@ import java.util.List;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
+import ultimate.karoapi4j.model.base.Identifiable;
 
-public class User
+public class User extends Identifiable
 {
 	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
 	/*
@@ -40,7 +41,7 @@ public class User
 	 * "ts": "2022-01-14 12:20:55", // for contacts only
 	 */
 	// Standard JSON Fields
-	private int					id;
+	// private int		id;	// see super class
 	private String				login;
 	private Color				color;
 	private int					lastVisit;
@@ -74,26 +75,15 @@ public class User
 		super();
 	}
 
-	public User(int id)
+	public User(Integer id)
 	{
-		this();
-		this.id = id;
+		super(id);
 	}
 
 	public User(String login)
 	{
 		this();
 		this.login = login;
-	}
-
-	public int getId()
-	{
-		return id;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
 	}
 
 	public String getLogin()
