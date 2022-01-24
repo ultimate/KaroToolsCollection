@@ -2,6 +2,7 @@ package ultimate.karoapi4j.utils;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -218,5 +219,17 @@ public class JSONUtilTest
 		assertEquals(game.isCreated(), deserialized.isCreated());
 		assertEquals(game.isLeft(), deserialized.isLeft());
 		assertEquals(game.getId(), deserialized.getId());
+	}
+
+	@Test
+	public void test_serialize_deserialize_Rules()
+	{
+		fail("not implemented");
+	}
+
+	@Test
+	public void test_serialize_deserialize_GameSeries()
+	{
+		fail("not implemented");
 	}
 }
