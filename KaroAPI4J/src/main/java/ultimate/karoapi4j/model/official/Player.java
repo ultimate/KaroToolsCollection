@@ -4,8 +4,9 @@ import java.awt.Color;
 import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
+import ultimate.karoapi4j.model.base.Identifiable;
 
-public class Player
+public class Player extends Identifiable
 {
 	/*
 	 * https://www.karopapier.de/api/games/132000?mapcode=1&players=1&moves=1
@@ -23,7 +24,7 @@ public class Player
 	 * "missingCps": ["3", "4" ],
 	 * "possibles": [ ... ], // see type Move (just without t, msg and crash)
 	 */
-	private int					id;
+	// private int		id;	// see super class
 	private String				name;
 	private Color				color;
 	private EnumPlayerStatus	status;
@@ -42,14 +43,9 @@ public class Player
 		super();
 	}
 
-	public int getId()
+	public Player(Integer id)
 	{
-		return id;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
+		super(id);
 	}
 
 	public String getName()

@@ -6,6 +6,7 @@ import java.util.Random;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 
+@Deprecated
 public class Rules implements Cloneable, Serializable
 {
 	private static final long	serialVersionUID	= 1L;

@@ -2,7 +2,9 @@ package ultimate.karoapi4j.model.official;
 
 import java.awt.Image;
 
-public class Map
+import ultimate.karoapi4j.model.base.Identifiable;
+
+public class Map extends Identifiable
 {
 	public static final String ROW_DELIMITER = "\n";
 	/*
@@ -21,7 +23,7 @@ public class Map
 	 * "code": "PXXX...XXXXXXX"
 	 */
 	// Standard JSON Fields
-	private int		id;
+	// private int		id;	// see super class
 	private String	name;
 	private String	author;
 	private int		cols;
@@ -42,20 +44,9 @@ public class Map
 		super();
 	}
 
-	public Map(int id)
+	public Map(Integer id)
 	{
-		this();
-		this.id = id;
-	}
-
-	public int getId()
-	{
-		return id;
-	}
-
-	public void setId(int id)
-	{
-		this.id = id;
+		super(id);
 	}
 
 	public String getName()
@@ -190,13 +181,13 @@ public class Map
 
 	public String getLabel()
 	{
-		return this.name + " (#" + this.id + ")";
+		return this.name + " (#" + this.getId() + ")";
 	}
 
 	@Override
 	public String toString()
 	{
-		return "Karte " + this.id + ": " + this.name + " (" + this.players + " Spieler) von '" + author + "' " + (this.night ? "'Nacht'" : "'Tag'");
+		return "Karte " + this.getId() + ": " + this.name + " (" + this.players + " Spieler) von '" + author + "' " + (this.night ? "'Nacht'" : "'Tag'");
 	}
 
 	// TODO hasCP
