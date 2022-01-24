@@ -12,7 +12,7 @@ public class Demo
 	public static void main(String[] args) throws IOException, InterruptedException
 	{
 		// use some example properties here
-		Properties properties = PropertiesUtil.loadProperties(new File("target/test-classes/test.properties"));
+		Properties properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
 		
 		// define username and password (from properties)
 		String username = properties.getProperty("karoapi.user");
