@@ -25,15 +25,15 @@ public abstract class CollectionsUtil
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger					= LoggerFactory.getLogger(CollectionsUtil.class);
+	protected static transient final Logger	logger		= LoggerFactory.getLogger(CollectionsUtil.class);
 	/**
 	 * Orientierung für aufsteigende Sortierung
 	 */
-	public static final int	ASCENDING	= 1;
+	public static final int					ASCENDING	= 1;
 	/**
 	 * Orientierung für abfsteigende Sortierung
 	 */
-	public static final int	DESCENDING	= -1;
+	public static final int					DESCENDING	= -1;
 
 	/**
 	 * Sortiert eine Liste aufsteigend. Die übergebene Liste wird direkt sortiert und für die
@@ -84,11 +84,34 @@ public abstract class CollectionsUtil
 		return unsorted;
 	}
 
+	/**
+	 * Check whether to collections are equals in length and content. Therefore a {@link MethodComparator} is used to compare the entries of both
+	 * collections pairwise in the order they are contained in the collections.<br>
+	 * Short for <code>equals(c1, c2, new MethodComparator<T>(methodName, 1));</code>
+	 * 
+	 * @see MethodComparator
+	 * 
+	 * @param <T>
+	 * @param c1 - the first collection
+	 * @param c2 - the second collection
+	 * @param methodName - the method name to use to compare the entries
+	 * @return true or false
+	 */
 	public static <T> boolean equals(Collection<T> c1, Collection<T> c2, String methodName)
 	{
 		return equals(c1, c2, new MethodComparator<T>(methodName, 1));
 	}
 
+	/**
+	 * Check whether to collections are equals in length and content. Therefore the given comparator is used to compare the entries of both
+	 * collections pairwise in the order they are contained in the collections.
+	 * 
+	 * @param <T>
+	 * @param c1 - the first collection
+	 * @param c2 - the second collection
+	 * @param comparator - the comparator to use
+	 * @return true or false
+	 */
 	public static <T> boolean equals(Collection<T> c1, Collection<T> c2, Comparator<T> comparator)
 	{
 		if(c1.size() != c2.size())
@@ -112,6 +135,14 @@ public abstract class CollectionsUtil
 		return equals;
 	}
 
+	/**
+	 * Check whether a collection contains an object matching the given {@link Predicate}
+	 * 
+	 * @param <T>
+	 * @param collection - the collection to check
+	 * @param predicate - the predicate to apply
+	 * @return true or false
+	 */
 	public static <T> boolean contains(Collection<T> collection, Predicate<T> predicate)
 	{
 		boolean found = false;
@@ -126,6 +157,14 @@ public abstract class CollectionsUtil
 		return found;
 	}
 
+	/**
+	 * Cout the occurrences of entreis in a collection that match the given {@link Predicate}
+	 * 
+	 * @param <T>
+	 * @param collection - the collection to check
+	 * @param predicate - the predicate to apply
+	 * @return the entry count matching the predicate
+	 */
 	public static <T> int count(Collection<T> collection, Predicate<T> predicate)
 	{
 		int count = 0;
@@ -161,7 +200,14 @@ public abstract class CollectionsUtil
 		}
 		return map;
 	}
-	
+
+	/**
+	 * Transform a list of identifiable objects into a map where the identifier is used as the key.
+	 * 
+	 * @param <T>
+	 * @param list - the list to convert
+	 * @return the id-map
+	 */
 	public static <T extends Identifiable> Map<Integer, T> toMap(List<T> list)
 	{
 		HashMap<Integer, T> map = new HashMap<>();
