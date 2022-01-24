@@ -29,12 +29,12 @@ public class EnumFinderTest extends KaroAPITestcase
 	{
 		//@formatter:off
 	    return Stream.of(
-	        arguments("getUsers", EnumUserTheme.class, "theme"),
-	        arguments("getUsers", EnumUserGamesort.class, "gamesort"),
-	        arguments("getUsers", EnumUserState.class, "state"),
-	        arguments("getGames", EnumGameDirection.class, "startdirection"),
+	        arguments("getUsers", EnumUserTheme.class, 		"theme"),
+	        arguments("getUsers", EnumUserGamesort.class, 	"gamesort"),
+	        arguments("getUsers", EnumUserState.class, 		"state"),
+	        arguments("getGames", EnumGameDirection.class, 	"startdirection"),
 	        arguments("getGames", EnumGameTC.class, 		"crashallowed"),
-	        arguments("getGames", EnumPlayerStatus.class, "status")
+	        arguments("getGames", EnumPlayerStatus.class, 	"status")
 	    );
 	    //@formatter:on
 	}
