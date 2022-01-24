@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
-import ultimate.karoapi4j.model.extended.Rules;
 
 @JsonInclude()
 public class Game extends Identifiable
@@ -198,38 +197,6 @@ public class Game extends Identifiable
 	public void setCreatorLeft(boolean creatorLeft)
 	{
 		this.creatorLeft = creatorLeft;
-	}
-	
-	// additional getters and settes
-
-	@Deprecated
-	public void setOptions(Options options)
-	{
-		this.zzz = options.getZzz();
-		this.cps = options.isCps();
-		this.startdirection = options.getStartdirection();
-		this.crashallowed = options.getCrashallowed();
-	}
-
-	@Deprecated
-	public Options getOptions()
-	{
-		Options options = new Options();
-		options.setZzz(zzz);
-		options.setCps(cps);
-		options.setStartdirection(startdirection);
-		options.setCrashallowed(crashallowed);
-		return options;
-	}
-
-	@Deprecated
-	public Game applyRules(Rules rules)
-	{
-		this.cps = rules.getCPs();
-		this.startdirection = rules.getDirection();
-		this.crashallowed = rules.getTC();
-		this.zzz = rules.getZzz();
-		return this;
 	}
 
 	@Override
