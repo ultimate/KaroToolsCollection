@@ -1,6 +1,7 @@
 package ultimate.karoapi4j;
 
 import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.web.Parser;
-import ultimate.karoapi4j.utils.web.SimpleCookieHandler;
 import ultimate.karoapi4j.utils.web.URLLoader;
 
 public class KaroWikiAPI
@@ -67,7 +67,7 @@ public class KaroWikiAPI
 	public KaroWikiAPI()
 	{
 		if(CookieHandler.getDefault() == null)
-			CookieHandler.setDefault(new SimpleCookieHandler());
+			CookieHandler.setDefault(new CookieManager());
 	}
 
 	@SuppressWarnings("unchecked")
