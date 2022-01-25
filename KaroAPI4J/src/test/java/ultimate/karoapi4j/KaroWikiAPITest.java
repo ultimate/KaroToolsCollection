@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
-public class KaroWikiTest
+public class KaroWikiAPITest
 {
 	private static String		username;
 	private static String		password;
@@ -47,7 +47,7 @@ public class KaroWikiTest
 	@Test
 	public void test_login_logout() throws Exception
 	{
-		KaroWiki wl = new KaroWiki();
+		KaroWikiAPI wl = new KaroWikiAPI();
 		assertTrue(wl.login(username, password));
 		assertTrue(wl.logout());
 	}
@@ -56,7 +56,7 @@ public class KaroWikiTest
 	@SuppressWarnings("rawtypes")
 	public void test_queryRevisions() throws Exception
 	{
-		KaroWiki wl = new KaroWiki();
+		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -84,7 +84,7 @@ public class KaroWikiTest
 	@Test
 	public void test_getTimestamp() throws Exception
 	{
-		KaroWiki wl = new KaroWiki();
+		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -109,7 +109,7 @@ public class KaroWikiTest
 	@Test
 	public void test_getToken() throws Exception
 	{
-		KaroWiki wl = new KaroWiki();
+		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -134,7 +134,7 @@ public class KaroWikiTest
 	@Test
 	public void test_edit() throws Exception
 	{
-		KaroWiki wl = new KaroWiki();
+		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
 			assertTrue(wl.login(username, password));
