@@ -26,8 +26,8 @@ import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.util.Language;
+import ultimate.karoapi4j.KaroWiki;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karoapi4j.wiki.KaroWikiLoader;
 import ultimate.karopapier.eval.Eval;
 
 public class KaropapierCronTool
@@ -200,7 +200,7 @@ public class KaropapierCronTool
 			try
 			{
 				System.out.println("uploading wiki... ");
-				KaroWikiLoader wl = new KaroWikiLoader();
+				KaroWiki wl = new KaroWiki();
 				if(wl.login(wikiUsername, wikiPassword))
 				{
 					String summary = "Automatische Auswertung " + DATE_FORMAT.format(new Date());
