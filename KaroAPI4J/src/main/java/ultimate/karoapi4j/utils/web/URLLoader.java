@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -523,37 +525,12 @@ public class URLLoader
 				param = paramIterator.next();
 				sb.append(param.getKey());
 				sb.append("=");
-				sb.append(encodeParameter(param.getValue()));
+				sb.append(URLEncoder.encode(param.getValue(), StandardCharsets.UTF_8));
 				if(paramIterator.hasNext())
 					sb.append("&");
 			}
 			return sb.toString();
 		}
 
-	}
-
-	/**
-	 * Encode a parameter String for HTTP POSTs.<br>
-	 * Thanks to ulli <a href="https://play.google.com/store/apps/developer?id=Ulrich+Obst">(ulli @ google play)</a>
-	 * 
-	 * @param s - the parameter String to encode
-	 * @return the encoded parameters
-	 */
-	public static String encodeParameter(String s)
-	{
-		StringBuffer sb = new StringBuffer();
-
-		char c;
-		for(int i = 0; i < s.length(); i++)
-		{
-			c = s.charAt(i);
-			if(c < 0x10)
-				sb.append("%0").append(Integer.toHexString(c).toUpperCase());
-			else if(c < 0x30 || c > 0x7F)
-				sb.append('%').append(Integer.toHexString(c).toUpperCase());
-			else
-				sb.append(c);
-		}
-		return sb.toString();
 	}
 }
