@@ -1,4 +1,10 @@
-package ultimate.karoapi4j.wiki;
+package ultimate.karoapi4j;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,15 +15,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
-public class KaroWikiLoaderTest extends TestCase
+public class KaroWikiTest
 {
 	private static String		username;
 	private static String		password;
 
 	public static final String	PAGE_EXISTING	= "Test";
+	public static final String	PAGE_TEST_SECTION	= "== Ultimates Test Section ==";
+	public static final String	PAGE_NEXT_HEADLINE	= "==";
 	public static final String	PAGE_MISSING	= "Asdfasdfasdfasdf";
 	private static final int	EDIT_TESTS		= 1;
 
@@ -25,9 +34,9 @@ public class KaroWikiLoaderTest extends TestCase
 	{
 		try
 		{
-			Properties p = PropertiesUtil.loadProperties(new File("src/test/resources/wiki.properties"));
-			username = p.getProperty("username");
-			password = p.getProperty("password");
+			Properties p = PropertiesUtil.loadProperties(new File("src/test/resources/login.properties"));
+			username = p.getProperty("karowiki.user");
+			password = p.getProperty("karowiki.password");
 		}
 		catch(IOException e)
 		{
@@ -35,17 +44,19 @@ public class KaroWikiLoaderTest extends TestCase
 		}
 	}
 
-	public void testLoginAndLogout() throws Exception
+	@Test
+	public void test_login_logout() throws Exception
 	{
-		KaroWikiLoader wl = new KaroWikiLoader();
+		KaroWiki wl = new KaroWiki();
 		assertTrue(wl.login(username, password));
 		assertTrue(wl.logout());
 	}
 
+	@Test
 	@SuppressWarnings("rawtypes")
-	public void testQueryRevisions() throws Exception
+	public void test_queryRevisions() throws Exception
 	{
-		KaroWikiLoader wl = new KaroWikiLoader();
+		KaroWiki wl = new KaroWiki();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -70,9 +81,10 @@ public class KaroWikiLoaderTest extends TestCase
 		}
 	}
 
-	public void testGetTimestamp() throws Exception
+	@Test
+	public void test_getTimestamp() throws Exception
 	{
-		KaroWikiLoader wl = new KaroWikiLoader();
+		KaroWiki wl = new KaroWiki();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -94,9 +106,10 @@ public class KaroWikiLoaderTest extends TestCase
 		}
 	}
 
-	public void testGetToken() throws Exception
+	@Test
+	public void test_getToken() throws Exception
 	{
-		KaroWikiLoader wl = new KaroWikiLoader();
+		KaroWiki wl = new KaroWiki();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -118,9 +131,10 @@ public class KaroWikiLoaderTest extends TestCase
 		}
 	}
 
-	public void testEdit() throws Exception
+	@Test
+	public void test_edit() throws Exception
 	{
-		KaroWikiLoader wl = new KaroWikiLoader();
+		KaroWiki wl = new KaroWiki();
 		try
 		{
 			assertTrue(wl.login(username, password));
@@ -128,28 +142,34 @@ public class KaroWikiLoaderTest extends TestCase
 			{
 				String content = wl.getContent(PAGE_EXISTING);
 				assertNotNull(content);
-
-				String newContent = content + "\n\nsome new line --~~~~";
-
+				
+				String newContent;
+				
+				int index = content.indexOf(PAGE_TEST_SECTION);
+				if(index >= 0)
+				{
+					index = content.indexOf(PAGE_NEXT_HEADLINE, index + PAGE_TEST_SECTION.length());
+					newContent = content.substring(0, index) + "some new line --~~~~\n\n" + content.substring(index);
+				}
+				else
+				{	
+					newContent = content + "\n\nsome new line --~~~~";
+				}
+				
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false);
 				assertTrue(success);
 
 				Date date = new Date();
-				DateFormat df = new SimpleDateFormat("HH:mm, dd. MMM. YYYY");
-				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] " + df.format(date) + " (CET)");
+				DateFormat df = new SimpleDateFormat("HH:mm, dd. MMM YYYY");
+				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + df.format(date) + " (CET)");
 
 				String updatedContent = wl.getContent(PAGE_EXISTING);
 				assertEquals(expectedContent, updatedContent);
 			}
-
 		}
 		finally
 		{
 			assertTrue(wl.logout());
 		}
-	}
-
-	public void testSomething() throws Exception
-	{
 	}
 }

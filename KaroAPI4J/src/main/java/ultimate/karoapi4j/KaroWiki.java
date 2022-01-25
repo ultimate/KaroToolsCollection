@@ -1,8 +1,6 @@
-package ultimate.karoapi4j.wiki;
+package ultimate.karoapi4j;
 
-import java.io.IOException;
 import java.net.CookieHandler;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,57 +8,97 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ultimate.karoapi4j.KaroWikiURLs;
+import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.URLLoaderUtil;
+import ultimate.karoapi4j.utils.web.Parser;
 import ultimate.karoapi4j.utils.web.SimpleCookieHandler;
+import ultimate.karoapi4j.utils.web.URLLoader;
 
-public class KaroWikiLoader
+public class KaroWiki
 {
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LoggerFactory.getLogger(KaroWikiLoader.class);
+	protected transient final Logger							logger								= LoggerFactory.getLogger(KaroWiki.class);
 
-	public KaroWikiLoader()
+	// api URLs
+	private static final URLLoader								KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
+	private static final URLLoader								API									= KAROWIKI.relative("/api.php");
+
+	// parameters & actions
+	public static final String									PARAMETER_ACTION					= "action";
+	public static final String									PARAMETER_FORMAT					= "format";
+
+	public static final String									ACTION_LOGIN						= "login";
+	public static final String									PARAMETER_ACTION_LOGIN_USER			= "lgname";
+	public static final String									PARAMETER_ACTION_LOGIN_PASSWORD		= "lgpassword";
+	public static final String									PARAMETER_ACTION_LOGIN_TOKEN		= "lgtoken";
+
+	public static final String									ACTION_LOGOUT						= "logout";
+	public static final String									PARAMETER_ACTION_LOGOUT_TOKEN		= "token";
+
+	public static final String									ACTION_QUERY						= "query";
+	public static final String									PARAMETER_ACTION_QUERY_META			= "meta";
+	public static final String									PARAMETER_ACTION_QUERY_META_TOKENS	= "tokens";
+	public static final String									PARAMETER_ACTION_QUERY_PROP			= "prop";
+	public static final String									PARAMETER_ACTION_QUERY_PROP_RV		= "revisions";
+	public static final String									PARAMETER_ACTION_QUERY_PROP_IN		= "info";
+	public static final String									PARAMETER_ACTION_QUERY_TITLES		= "titles";
+	public static final String									PARAMETER_ACTION_QUERY_RVPROP		= "rvprop";
+	public static final String									PARAMETER_ACTION_QUERY_INPROP		= "inprop";
+	public static final String									PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
+
+	public static final String									ACTION_EDIT							= "edit";
+	public static final String									PARAMETER_ACTION_EDIT_TITLE			= "title";
+	public static final String									PARAMETER_ACTION_EDIT_TEXT			= "text";
+	public static final String									PARAMETER_ACTION_EDIT_TOKEN			= "token";
+	public static final String									PARAMETER_ACTION_EDIT_SUMMARY		= "summary";
+	public static final String									PARAMETER_ACTION_EDIT_BASETIMESTAMP	= "basetimestamp";
+	public static final String									PARAMETER_ACTION_EDIT_CAPTCHAID		= "captchaid";
+	public static final String									PARAMETER_ACTION_EDIT_CAPTCHAWORD	= "captchaword";
+	public static final String									PARAMETER_ACTION_EDIT_BOT			= "bot";
+
+	public static final String									FORMAT_JSON							= "json";
+
+	private static final Parser<String, String>					PARSER_RAW							= (result) -> { return result; };
+	@SuppressWarnings("unchecked")
+	private static final Parser<String, Map<String, Object>>	PARSER_JSON_OBJECT					= (result) -> { return (Map<String, Object>) JSONUtil.deserialize(result); };
+
+	public KaroWiki()
 	{
 		if(CookieHandler.getDefault() == null)
 			CookieHandler.setDefault(new SimpleCookieHandler());
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean login(String username, String password) throws IOException
+	public boolean login(String username, String password) throws InterruptedException
 	{
 		Map<String, String> parameters;
-		String json;
 		Map<String, Object> jsonObject;
-		
+
 		logger.debug("Performing login: \"" + username + "\"...");
 
 		logger.debug("  Obtaining token...");
 		parameters = new HashMap<String, String>();
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION, KaroWikiURLs.ACTION_LOGIN);
-		parameters.put(KaroWikiURLs.PARAMETER_FORMAT, KaroWikiURLs.FORMAT_JSON);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_LOGIN_USER, username);
+		parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
 
-		json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
-		// System.out.println(json);
-		jsonObject = (Map<String, Object>) JSONUtil.deserialize(json);
+		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
 
 		String token = (String) ((Map<String, Object>) jsonObject.get("login")).get("token");
 
 		logger.debug("  Performing login...");
 
 		parameters = new HashMap<String, String>();
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION, KaroWikiURLs.ACTION_LOGIN);
-		parameters.put(KaroWikiURLs.PARAMETER_FORMAT, KaroWikiURLs.FORMAT_JSON);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_LOGIN_USER, username);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_LOGIN_PASSWORD, password);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_LOGIN_TOKEN, token);
+		parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
+		parameters.put(PARAMETER_ACTION_LOGIN_PASSWORD, password);
+		parameters.put(PARAMETER_ACTION_LOGIN_TOKEN, token);
 
-		json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
-		// System.out.println(json);
-		jsonObject = (Map<String, Object>) JSONUtil.deserialize(json);
+		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+
 		String result = (String) ((Map<String, Object>) jsonObject.get("login")).get("result");
 		String resultUser = (String) ((Map<String, Object>) jsonObject.get("login")).get("lgusername");
 
@@ -71,31 +109,46 @@ public class KaroWikiLoader
 		return success;
 	}
 
-	public boolean logout() throws IOException
+	@SuppressWarnings("unchecked")
+	public boolean logout() throws InterruptedException
 	{
 		Map<String, String> parameters;
+		Map<String, Object> jsonObject;
 		String json;
 
 		logger.debug("Performing logout...");
+
+		logger.debug("  Obtaining token...");
 		parameters = new HashMap<String, String>();
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION, KaroWikiURLs.ACTION_LOGOUT);
-		parameters.put(KaroWikiURLs.PARAMETER_FORMAT, KaroWikiURLs.FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
+		parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 
-		json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
-		// System.out.println(json);
+		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
 
-		boolean success = "[]".equalsIgnoreCase(json);
+		logger.debug("  " + jsonObject);
+		String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
 
+		logger.debug("  Performing logout...");
+		parameters = new HashMap<String, String>();
+		parameters.put(PARAMETER_ACTION, ACTION_LOGOUT);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
+
+		json = API.doPost(parameters, EnumContentType.text, PARSER_RAW).doBlocking();
+
+		boolean success = "{}".equalsIgnoreCase(json);
+
+		logger.debug(json);
 		logger.debug("  " + (success ? "Successful!" : "Failed!"));
 
 		return success;
-	}	
+	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> query(String title, String prop, String propParam, String... propertiesList) throws IOException
+	public Map<String, Object> query(String title, String prop, String propParam, String... propertiesList) throws InterruptedException
 	{
 		Map<String, String> parameters;
-		String json;
 		Map<String, Object> jsonObject;
 
 		StringBuffer properties = new StringBuffer();
@@ -108,18 +161,16 @@ public class KaroWikiLoader
 
 		logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
 		parameters = new HashMap<String, String>();
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION, KaroWikiURLs.ACTION_QUERY);
-		parameters.put(KaroWikiURLs.PARAMETER_FORMAT, KaroWikiURLs.FORMAT_JSON);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_QUERY_PROP, prop);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_QUERY_TITLES, title);
+		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
+		parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
 		parameters.put(propParam, properties.toString());
 
-		json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
-		System.out.println(json);
-		jsonObject = (Map<String, Object>) JSONUtil.deserialize(json);
+		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
 
-		Map<String, Object> pages = (Map<String, Object>) ((Map<String, Object>)jsonObject.get("query")).get("pages");
-		
+		Map<String, Object> pages = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
+
 		if(pages.size() != 1)
 		{
 			logger.debug("  Wrong number of results!");
@@ -137,22 +188,21 @@ public class KaroWikiLoader
 			return (Map<String, Object>) pages.get(id);
 		}
 	}
-	
-	public Map<String, Object> queryRevisionProperties(String title, String... propertiesList) throws IOException
+
+	public Map<String, Object> queryRevisionProperties(String title, String... propertiesList) throws InterruptedException
 	{
-		return query(title, KaroWikiURLs.PARAMETER_ACTION_QUERY_PROP_RV, KaroWikiURLs.PARAMETER_ACTION_QUERY_RVPROP, propertiesList);
+		return query(title, PARAMETER_ACTION_QUERY_PROP_RV, PARAMETER_ACTION_QUERY_RVPROP, propertiesList);
 	}
-	
-	public Map<String, Object> queryInfoProperties(String title, String... propertiesList) throws IOException
+
+	public Map<String, Object> queryInfoProperties(String title, String... propertiesList) throws InterruptedException
 	{
-		return query(title, KaroWikiURLs.PARAMETER_ACTION_QUERY_PROP_IN, KaroWikiURLs.PARAMETER_ACTION_QUERY_INPROP, propertiesList);
+		return query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INPROP, propertiesList);
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot) throws IOException
+	public boolean edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot) throws InterruptedException
 	{
 		Map<String, String> parameters;
-		String json;
 		Map<String, Object> jsonObject;
 		boolean success;
 
@@ -163,24 +213,22 @@ public class KaroWikiLoader
 
 		logger.debug("  Performing edit...");
 		parameters = new HashMap<String, String>();
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION, KaroWikiURLs.ACTION_EDIT);
-		parameters.put(KaroWikiURLs.PARAMETER_FORMAT, KaroWikiURLs.FORMAT_JSON);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_TITLE, title);
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_TEXT, content);
+		parameters.put(PARAMETER_ACTION, ACTION_EDIT);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_EDIT_TITLE, title);
+		parameters.put(PARAMETER_ACTION_EDIT_TEXT, content);
 		if(summary != null)
-			parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_SUMMARY, summary);
+			parameters.put(PARAMETER_ACTION_EDIT_SUMMARY, summary);
 		if(bot)
-			parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_BOT, "true");
+			parameters.put(PARAMETER_ACTION_EDIT_BOT, "true");
 		if(!ignoreConflicts)
 		{
-			String baseTimestamp = getTimestamp(title); 
-			parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_BASETIMESTAMP, baseTimestamp);
+			String baseTimestamp = getTimestamp(title);
+			parameters.put(PARAMETER_ACTION_EDIT_BASETIMESTAMP, baseTimestamp);
 		}
-		parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_TOKEN, token);
+		parameters.put(PARAMETER_ACTION_EDIT_TOKEN, token);
 
-		json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
-		System.out.println(json);
-		jsonObject = (Map<String, Object>) JSONUtil.deserialize(json);
+		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
 
 		String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
 		success = "success".equalsIgnoreCase(result);
@@ -194,17 +242,15 @@ public class KaroWikiLoader
 				String question = (String) captcha.get("question");
 				String id = (String) captcha.get("id");
 				String answer = getCaptchaAnswer(question);
-				parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_CAPTCHAID, id);
-				parameters.put(KaroWikiURLs.PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
-				
+				parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAID, id);
+				parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
+
 				// try again
-				json = URLLoaderUtil.load(new URL(KaroWikiURLs.API_BASE), URLLoaderUtil.formatParameters(parameters));
-				System.out.println(json);
-				jsonObject = (Map<String, Object>) JSONUtil.deserialize(json);
-				
+				jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+
 				result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
 				success = "success".equalsIgnoreCase(result);
-				
+
 				tries++;
 			}
 		}
@@ -213,30 +259,30 @@ public class KaroWikiLoader
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String getContent(String title) throws IOException
+	public String getContent(String title) throws InterruptedException
 	{
 		Map<String, Object> properties = queryRevisionProperties(title, "content");
 		if(properties.containsKey("missing"))
 			return null;
-		
+
 		List<?> revisions = (List) properties.get("revisions");
-		return (String) ((Map<String, Object>) revisions.get(revisions.size()-1)).get("*");
+		return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("*");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String getTimestamp(String title) throws IOException
+	public String getTimestamp(String title) throws InterruptedException
 	{
 		Map<String, Object> properties = queryRevisionProperties(title, "timestamp");
 		if(properties.containsKey("missing"))
 			return null;
-		
+
 		List<?> revisions = (List) properties.get("revisions");
-		return (String) ((Map<String, Object>) revisions.get(revisions.size()-1)).get("timestamp");
+		return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("timestamp");
 	}
 
-	public String getToken(String title, String action) throws IOException
+	public String getToken(String title, String action) throws InterruptedException
 	{
-		Map<String, Object> properties = query(title, KaroWikiURLs.PARAMETER_ACTION_QUERY_PROP_IN, KaroWikiURLs.PARAMETER_ACTION_QUERY_INTOKEN, action);
+		Map<String, Object> properties = query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INTOKEN, action);
 		return (String) properties.get(action + "token");
 	}
 
