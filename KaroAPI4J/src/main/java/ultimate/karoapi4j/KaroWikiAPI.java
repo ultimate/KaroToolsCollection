@@ -14,12 +14,12 @@ import ultimate.karoapi4j.utils.web.Parser;
 import ultimate.karoapi4j.utils.web.SimpleCookieHandler;
 import ultimate.karoapi4j.utils.web.URLLoader;
 
-public class KaroWiki
+public class KaroWikiAPI
 {
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger							logger								= LoggerFactory.getLogger(KaroWiki.class);
+	protected transient final Logger							logger								= LoggerFactory.getLogger(KaroWikiAPI.class);
 
 	// api URLs
 	private static final URLLoader								KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
@@ -64,7 +64,7 @@ public class KaroWiki
 	@SuppressWarnings("unchecked")
 	private static final Parser<String, Map<String, Object>>	PARSER_JSON_OBJECT					= (result) -> { return (Map<String, Object>) JSONUtil.deserialize(result); };
 
-	public KaroWiki()
+	public KaroWikiAPI()
 	{
 		if(CookieHandler.getDefault() == null)
 			CookieHandler.setDefault(new SimpleCookieHandler());
