@@ -3,6 +3,7 @@ package ultimate.karoapi4j;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -12,6 +13,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -37,6 +41,33 @@ public class KaroAPITest extends KaroAPITestcase
 
 		assertNotNull(user);
 		assertEquals(properties.get("karoapi.user"), user.getLogin());
+	}
+	
+	@Test
+	public void test_check2() throws ExecutionException, InterruptedException
+	{
+		CompletableFuture<User> cf1 = karoAPI.check2();
+		logger.debug("start");
+		User user = cf1.get();
+		logger.debug("end");
+		cf1.join();
+		logger.debug("join");
+
+		assertNotNull(user);
+		assertEquals(properties.get("karoapi.user"), user.getLogin());
+		
+		
+
+		CompletableFuture<User> cf2 = karoAPI.check2();
+		logger.debug("start");
+		cf2.whenComplete((result, ex) -> {
+			assertNull(ex);
+			assertNotNull(user);
+			assertEquals(properties.get("karoapi.user"), user.getLogin());
+		});
+		logger.debug("end");
+		cf2.join();
+		logger.debug("join");
 	}
 
 	@Test

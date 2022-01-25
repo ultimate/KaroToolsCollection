@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.imageio.ImageIO;
 
@@ -170,6 +171,11 @@ public class KaroAPI
 	public BackgroundLoader<User> check()
 	{
 		return CHECK.doGet(PARSER_USER);
+	}
+	
+	public CompletableFuture<User> check2()
+	{
+		return CHECK.doGet2((String) null, PARSER_USER);
 	}
 
 	/**

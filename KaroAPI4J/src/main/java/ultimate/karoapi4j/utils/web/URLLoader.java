@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.FutureTask;
+import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -302,6 +306,14 @@ public class URLLoader
 			tmp = this.parameterize(parameters);
 		return tmp.new BackgroundLoader<>("GET", null, null, parser);
 	}
+	
+	public <T> CompletableFuture<T> doGet2(String parameters, Parser<String, T> parser)
+	{
+		URLLoader tmp = this;
+		if(parameters != null && parameters.length() > 0)
+			tmp = this.parameterize(parameters);
+		return CompletableFuture.supplyAsync(tmp.new BackgroundLoader2<>("GET", null, null, parser));
+	}
 
 	/**
 	 * Convenience for
@@ -494,6 +506,90 @@ public class URLLoader
 				return this.parser.parse(this.getRawResult());
 			else
 				return null;
+		}
+	}
+
+
+	public class BackgroundLoader2<T> implements Callable<T>, Supplier<T> // extends QueuableThread<T>
+	{
+		private String				method;
+		private Map<String, String>	requestProperties;
+		private String				output;
+		private Parser<String, T>	parser;
+		private String				rawResult;
+		private T					result;
+		private HttpURLConnection	connection;
+
+		public BackgroundLoader2(String method, Map<String, String> additionalRequestProperties, String output, Parser<String, T> parser)
+		{
+			super();
+			this.method = method;
+			this.requestProperties = new HashMap<>();
+			if(additionalRequestProperties != null)
+				this.requestProperties.putAll(additionalRequestProperties);
+			this.output = output;
+			this.parser = parser;
+		}
+
+		public String getUrl()
+		{
+			return url;
+		}
+
+		public String getMethod()
+		{
+			return method;
+		}
+
+		public Map<String, String> getRequestProperties()
+		{
+			return requestProperties;
+		}
+
+		public String getOutput()
+		{
+			return output;
+		}
+
+		public Parser<String, T> getParser()
+		{
+			return parser;
+		}
+
+		public void addRequestProperties(Map<String, String> additionalRequestProperties)
+		{
+			this.requestProperties.putAll(additionalRequestProperties);
+		}
+
+		@Override
+		public T call() throws IOException
+		{
+			this.connection = (HttpURLConnection) new URL(url).openConnection();
+			this.rawResult = doLoad(connection, this.method, this.requestProperties, this.output);
+			this.result = this.parser.parse(this.rawResult);
+			return this.result;
+		}
+
+		public HttpURLConnection getConnection()
+		{
+			return connection;
+		}
+
+		public String getRaw()
+		{
+			return this.rawResult;
+		}
+
+		public T get()
+		{
+			try
+			{
+				return call();
+			}
+			catch(IOException e)
+			{
+				return null;
+			}
 		}
 	}
 
