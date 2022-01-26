@@ -2,6 +2,11 @@ package ultimate.karoapi4j.model.official;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 public class Move
 {
 	/*
@@ -19,7 +24,9 @@ public class Move
 	private int		xv;
 	private int		yv;
 	private Date	t;
+	@JsonInclude(value = Include.NON_NULL)
 	private String	msg;
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private boolean	crash;
 
 	public Move()

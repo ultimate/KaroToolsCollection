@@ -2,6 +2,7 @@ package ultimate.karoapi4j.utils;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Color;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
@@ -231,5 +233,16 @@ public class JSONUtilTest
 	public void test_serialize_deserialize_GameSeries()
 	{
 		fail("not implemented");
+	}
+
+	@Test
+	public void test_serialize_deserialize_Game_withContainer()
+	{
+		String json = "{\"game\":{\"id\":132848,\"name\":\"Test\",\"map\":{\"id\":105,\"name\":\"XOSOFOX\",\"cps\":[]},\"cps\":false,\"zzz\":2,\"crashallowed\":\"forbidden\",\"startdirection\":\"classic\",\"started\":true,\"finished\":false,\"starteddate\":\"2022-01-26 17:49:38\",\"creator\":\"ultimate\",\"next\":{\"id\":1411,\"name\":\"ultimate\"},\"blocked\":0}}";
+
+		// via map
+		Game game = JSONUtil.deserializeContainer(json, new TypeReference<Game>() {}, "game");
+		assertNotNull(game);
+		assertEquals(132848, game.getId());
 	}
 }

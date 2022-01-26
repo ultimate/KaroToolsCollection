@@ -37,13 +37,13 @@ public abstract class JSONUtil
 	private static final Logger			logger		= LoggerFactory.getLogger(JSONUtil.class);
 	private static final ObjectWriter	writer;
 	private static final ObjectReader	reader;
-	
+
 	/**
 	 * prevent instantiation
 	 */
 	private JSONUtil()
 	{
-		
+
 	}
 
 	static
@@ -123,6 +123,29 @@ public abstract class JSONUtil
 		}
 	}
 
+	public static <T> T deserializeContainer(String serialization, TypeReference<T> typeReference, String key) throws DeserializationException
+	{
+		// if(!serialization.startsWith("{"))
+		// throw new DeserializationException("format mismatch");
+		// @SuppressWarnings("unchecked")
+		// Map<String, Object> container = (Map<String, Object>) JSONUtil.deserialize(serialization);
+		// Object entity = container.get(key);
+		// String entityReSerialized = JSONUtil.serialize(entity);
+		// return JSONUtil.deserialize(entityReSerialized, typeReference);
+
+		String start1 = "{" + key + ":";
+		String start2 = "{\"" + key + "\":";
+		String end = "}";
+		if(!(serialization.startsWith(start1) || serialization.startsWith(start2)) || !serialization.endsWith(end))
+			throw new DeserializationException("format mismatch");
+		String entity;
+		if(serialization.startsWith(start1))
+			entity = serialization.substring(start1.length(), serialization.length() - end.length());
+		else
+			entity = serialization.substring(start2.length(), serialization.length() - end.length());
+		return deserialize(entity, typeReference);
+	}
+
 	public static class ColorSerializer extends JsonSerializer<Color>
 	{
 		@Override
@@ -143,7 +166,7 @@ public abstract class JSONUtil
 			return new Color(Integer.parseUnsignedInt(p.getText(), 16));
 		}
 	}
-	
+
 	// TODO javadoc
 	public static class Parser<E> implements ultimate.karoapi4j.utils.Parser<String, E>
 	{
@@ -162,6 +185,23 @@ public abstract class JSONUtil
 		public E parse(String in)
 		{
 			return JSONUtil.deserialize(in, typeRef);
+		}
+	}
+
+	public static class ContainerParser<E> extends Parser<E>
+	{
+		protected String key;
+
+		public ContainerParser(TypeReference<E> typeRef, String key)
+		{
+			super(typeRef);
+			this.key = key;
+		}
+
+		@Override
+		public E parse(String in)
+		{
+			return JSONUtil.deserializeContainer(in, typeRef, key);
 		}
 	}
 }
