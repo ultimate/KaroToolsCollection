@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.FutureTask;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
@@ -23,9 +24,24 @@ import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
- * Extension of Loader for URLLoaders.<br>
- * URLLoaders usually load Strings from the given URL, so transforming this String to the required
- * loaded Type is necessary via {@link URLLoader#parse(String)}
+ * This class provides abstraction to load and parse urls synchronously or asynchronously. Instances of this class can be reused and they can be used
+ * to derive sub-loaders for sub-urls or passed parameters using <code>URLLoader#relative(...)</code> or <code>URLLoader#parameterize(...)</code>.
+ * When the desired URL has been constructed, a call to one of the do*-method is required to get a {@link BackgroundLoader}. This
+ * {@link BackgroundLoader} then can be used to either load the results blocking or asynchronously.<br>
+ * <br>
+ * For example:
+ * <ul>
+ * <li>blocking in the main thread by simply calling {@link Supplier#get()}:<br>
+ * <code>urlLoader.doGet(...).get();</code></li>
+ * <li>blocking in a separate thread by use of a {@link FutureTask}:<br>
+ * <code>FutureTask<?> ft = new FutureTask<?>(urlLoader.doGet(...));<br>
+ * executor.execute(ft);
+ * result = ft.get();</code></li>
+ * <li>async using a {@link CompletableFuture}:<br>
+ * <code>CompletableFuture<?> cf = CompletableFuture.supplyAsync(urlLoader.doGet(...), executor);<br>
+ * cf.whenComplete((result, ex) -> { &#47;* process result *&#47; });</code></li>
+ * <li></li>
+ * </ul>
  * 
  * @author ultimate
  */
@@ -237,7 +253,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doPost(Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPost(Parser<String, T> parser)
 	{
 		return doPost((String) null, parser);
 	}
@@ -252,9 +268,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doPost(String output, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPost(String output, Parser<String, T> parser)
 	{
-		return CompletableFuture.supplyAsync(new BackgroundLoader<T>("POST", POST_PROPERTIES, output, parser));
+		return new BackgroundLoader<T>("POST", POST_PROPERTIES, output, parser);
 	}
 
 	/**
@@ -267,7 +283,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doPost(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPost(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doPost(formatParameters(parameters, contentType), parser);
@@ -282,7 +298,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doGet(Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doGet(Parser<String, T> parser)
 	{
 		return doGet((String) null, parser);
 	}
@@ -297,9 +313,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doGet(String parameters, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doGet(String parameters, Parser<String, T> parser)
 	{
-		return CompletableFuture.supplyAsync(this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser));
+		return this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser);
 	}
 
 	/**
@@ -312,9 +328,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
 	{
-		return CompletableFuture.supplyAsync(this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser));
+		return this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser);
 	}
 
 	/**
@@ -325,7 +341,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doPut(Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPut(Parser<String, T> parser)
 	{
 		return doPut((String) null, parser);
 	}
@@ -340,9 +356,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doPut(String output, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPut(String output, Parser<String, T> parser)
 	{
-		return CompletableFuture.supplyAsync(new BackgroundLoader<T>("PUT", null, output, parser));
+		return new BackgroundLoader<T>("PUT", null, output, parser);
 	}
 
 	/**
@@ -355,7 +371,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doPut(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPut(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doPut(formatParameters(parameters, contentType), parser);
@@ -371,7 +387,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doDelete(Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doDelete(Parser<String, T> parser)
 	{
 		return doDelete((String) null, parser);
 	}
@@ -386,9 +402,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doDelete(String output, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doDelete(String output, Parser<String, T> parser)
 	{
-		return CompletableFuture.supplyAsync(new BackgroundLoader<T>("DELETE", null, output, parser));
+		return new BackgroundLoader<T>("DELETE", null, output, parser);
 	}
 
 	/**
@@ -401,7 +417,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> CompletableFuture<T> doDelete(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doDelete(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doDelete(formatParameters(parameters, contentType), parser);

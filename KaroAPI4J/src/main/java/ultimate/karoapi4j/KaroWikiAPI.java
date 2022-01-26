@@ -15,7 +15,7 @@ import ultimate.karoapi4j.utils.web.Parser;
 import ultimate.karoapi4j.utils.web.URLLoader;
 
 // TODO javadoc
-// note: blocking!!!
+// note: blocking in main Thread!!!
 public class KaroWikiAPI
 {
 	/**
