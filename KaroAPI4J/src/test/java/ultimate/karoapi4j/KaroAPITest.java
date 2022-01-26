@@ -415,9 +415,9 @@ public class KaroAPITest extends KaroAPITestcase
 
 		assertTrue(karoAPI.selectStartPosition(game.getId(), new Move(2, 1, null)).get());
 		// TODO check states
-		assertTrue(karoAPI.move(game.getId(), new Move(2, 1, 1, 0, null)).get());
+		assertTrue(karoAPI.move(game.getId(), new Move(3, 1, 1, 0, null)).get());
 		// TODO check states
-		assertTrue(karoAPI.move(game.getId(), new Move(3, 1, 2, 0, null)).get());
+		assertTrue(karoAPI.move(game.getId(), new Move(5, 1, 2, 0, null)).get());
 		// TODO check states
 	}
 
