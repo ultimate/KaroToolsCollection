@@ -21,7 +21,7 @@ import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
 import ultimate.karoapi4j.test.KaroAPITestcase;
-import ultimate.karoapi4j.utils.web.URLLoader.BackgroundLoader;
+import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
 
 public class EnumFinderTest extends KaroAPITestcase
 {

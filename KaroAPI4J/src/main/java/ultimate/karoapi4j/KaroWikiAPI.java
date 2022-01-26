@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.web.Parser;
-import ultimate.karoapi4j.utils.web.URLLoader;
+import ultimate.karoapi4j.utils.Parser;
+import ultimate.karoapi4j.utils.URLLoader;
 
 // TODO javadoc
 // note: blocking in main Thread!!!

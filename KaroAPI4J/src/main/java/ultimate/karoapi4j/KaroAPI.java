@@ -27,9 +27,9 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.web.Parser;
-import ultimate.karoapi4j.utils.web.URLLoader;
-import ultimate.karoapi4j.utils.web.URLLoader.BackgroundLoader;
+import ultimate.karoapi4j.utils.Parser;
+import ultimate.karoapi4j.utils.URLLoader;
+import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
 
 /**
  * This is the wrapper for accessing the Karo API.<br>

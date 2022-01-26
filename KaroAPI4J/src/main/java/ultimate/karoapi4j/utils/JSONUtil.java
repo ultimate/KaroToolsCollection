@@ -137,7 +137,7 @@ public abstract class JSONUtil
 	}
 	
 	// TODO javadoc
-	public static class Parser<E> implements ultimate.karoapi4j.utils.web.Parser<String, E>
+	public static class Parser<E> implements ultimate.karoapi4j.utils.Parser<String, E>
 	{
 		/**
 		 * A TypeReference for JSON-Deserialization

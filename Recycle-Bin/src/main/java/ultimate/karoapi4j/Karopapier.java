@@ -9,10 +9,10 @@ import ultimate.karoapi4j.core.KaropapierLoader;
 import ultimate.karoapi4j.enums.EnumRefreshMode;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.sync.BaseRefreshing;
 import ultimate.karoapi4j.utils.sync.GenericSynchronizedCollectionMap;
 import ultimate.karoapi4j.utils.sync.SynchronizedList;
-import ultimate.karoapi4j.utils.web.URLLoader;
 import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
 
 /**
