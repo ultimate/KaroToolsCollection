@@ -34,6 +34,14 @@ public abstract class CollectionsUtil
 	 * Orientierung für abfsteigende Sortierung
 	 */
 	public static final int					DESCENDING	= -1;
+	
+	/**
+	 * prevent instantiation
+	 */
+	private CollectionsUtil()
+	{
+		
+	}
 
 	/**
 	 * Sortiert eine Liste aufsteigend. Die übergebene Liste wird direkt sortiert und für die

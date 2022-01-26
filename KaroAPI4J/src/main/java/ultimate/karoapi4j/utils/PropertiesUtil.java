@@ -12,13 +12,21 @@ import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-public class PropertiesUtil
+public abstract class PropertiesUtil
 {
+	/**
+	 * prevent instantiation
+	 */
+	private PropertiesUtil()
+	{
+
+	}
+
 	public static Properties loadProperties(File file) throws IOException
 	{
 		return loadProperties(file, false);
 	}
-	
+
 	public static Properties loadProperties(File file, boolean zipped) throws IOException
 	{
 		InputStream is = new FileInputStream(file);
@@ -30,12 +38,12 @@ public class PropertiesUtil
 		is.close();
 		return properties;
 	}
-	
+
 	public static void storeProperties(File file, Properties properties, String comments) throws IOException
 	{
 		storeProperties(file, properties, comments, false);
 	}
-	
+
 	public static void storeProperties(File file, Properties properties, String comments, boolean zipped) throws IOException
 	{
 		OutputStream os = new FileOutputStream(file);

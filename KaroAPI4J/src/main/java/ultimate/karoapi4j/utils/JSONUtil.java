@@ -37,6 +37,14 @@ public abstract class JSONUtil
 	private static final Logger			logger		= LoggerFactory.getLogger(JSONUtil.class);
 	private static final ObjectWriter	writer;
 	private static final ObjectReader	reader;
+	
+	/**
+	 * prevent instantiation
+	 */
+	private JSONUtil()
+	{
+		
+	}
 
 	static
 	{
