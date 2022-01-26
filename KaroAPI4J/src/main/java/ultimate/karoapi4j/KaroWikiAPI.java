@@ -13,7 +13,9 @@ import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.web.Parser;
 import ultimate.karoapi4j.utils.web.URLLoader;
-//TODO javadoc
+
+// TODO javadoc
+// note: blocking!!!
 public class KaroWikiAPI
 {
 	/**
@@ -64,202 +66,255 @@ public class KaroWikiAPI
 	@SuppressWarnings("unchecked")
 	private static final Parser<String, Map<String, Object>>	PARSER_JSON_OBJECT					= (result) -> { return (Map<String, Object>) JSONUtil.deserialize(result); };
 
+	private Exception											lastException;
+
 	public KaroWikiAPI()
 	{
 		if(CookieHandler.getDefault() == null)
 			CookieHandler.setDefault(new CookieManager());
 	}
+	
+	public boolean hasException()
+	{
+		return this.lastException != null;
+	}
+
+	public Exception getLastException()
+	{
+		return this.lastException;
+	}
+	
+	public void clearLastException()
+	{
+		this.lastException = null;
+	}
 
 	@SuppressWarnings("unchecked")
-	public boolean login(String username, String password) throws InterruptedException
+	public boolean login(String username, String password)
 	{
-		Map<String, String> parameters;
-		Map<String, Object> jsonObject;
+		boolean success = false;
+		clearLastException();
+		try
+		{
+			Map<String, String> parameters;
+			Map<String, Object> jsonObject;
 
-		logger.debug("Performing login: \"" + username + "\"...");
+			logger.debug("Performing login: \"" + username + "\"...");
 
-		logger.debug("  Obtaining token...");
-		parameters = new HashMap<String, String>();
-		parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
-		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-		parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
+			logger.debug("  Obtaining token...");
+			parameters = new HashMap<String, String>();
+			parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
+			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
 
-		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
 
-		String token = (String) ((Map<String, Object>) jsonObject.get("login")).get("token");
+			String token = (String) ((Map<String, Object>) jsonObject.get("login")).get("token");
 
-		logger.debug("  Performing login...");
+			logger.debug("  Performing login...");
 
-		parameters = new HashMap<String, String>();
-		parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
-		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-		parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
-		parameters.put(PARAMETER_ACTION_LOGIN_PASSWORD, password);
-		parameters.put(PARAMETER_ACTION_LOGIN_TOKEN, token);
+			parameters = new HashMap<String, String>();
+			parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
+			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
+			parameters.put(PARAMETER_ACTION_LOGIN_PASSWORD, password);
+			parameters.put(PARAMETER_ACTION_LOGIN_TOKEN, token);
 
-		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
 
-		String result = (String) ((Map<String, Object>) jsonObject.get("login")).get("result");
-		String resultUser = (String) ((Map<String, Object>) jsonObject.get("login")).get("lgusername");
+			String result = (String) ((Map<String, Object>) jsonObject.get("login")).get("result");
+			String resultUser = (String) ((Map<String, Object>) jsonObject.get("login")).get("lgusername");
 
-		boolean success = "success".equalsIgnoreCase(result) && username.equalsIgnoreCase(resultUser);
-
-		logger.debug("  " + (success ? "Successful!" : "Failed!"));
+			success = "success".equalsIgnoreCase(result) && username.equalsIgnoreCase(resultUser);
+		}
+		catch(Exception e)
+		{
+			this.lastException = e;
+		}
+		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
 
 		return success;
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean logout() throws InterruptedException
+	public boolean logout()
 	{
-		Map<String, String> parameters;
-		Map<String, Object> jsonObject;
-		String json;
+		boolean success = false;
+		clearLastException();
+		try
+		{
+			Map<String, String> parameters;
+			Map<String, Object> jsonObject;
+			String json;
 
-		logger.debug("Performing logout...");
+			logger.debug("Performing logout...");
 
-		logger.debug("  Obtaining token...");
-		parameters = new HashMap<String, String>();
-		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
-		parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
-		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+			logger.debug("  Obtaining token...");
+			parameters = new HashMap<String, String>();
+			parameters.put(PARAMETER_ACTION, ACTION_QUERY);
+			parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
+			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 
-		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
 
-		logger.debug("  " + jsonObject);
-		String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
+			logger.debug("  " + jsonObject);
+			String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
 
-		logger.debug("  Performing logout...");
-		parameters = new HashMap<String, String>();
-		parameters.put(PARAMETER_ACTION, ACTION_LOGOUT);
-		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-		parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
+			logger.debug("  Performing logout...");
+			parameters = new HashMap<String, String>();
+			parameters.put(PARAMETER_ACTION, ACTION_LOGOUT);
+			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+			parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
 
-		json = API.doPost(parameters, EnumContentType.text, PARSER_RAW).doBlocking();
+			json = API.doPost(parameters, EnumContentType.text, PARSER_RAW).get();
 
-		boolean success = "{}".equalsIgnoreCase(json);
-
-		logger.debug(json);
-		logger.debug("  " + (success ? "Successful!" : "Failed!"));
+			success = "{}".equalsIgnoreCase(json);
+		}
+		catch(Exception e)
+		{
+			this.lastException = e;
+		}
+		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
 
 		return success;
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> query(String title, String prop, String propParam, String... propertiesList) throws InterruptedException
+	public Map<String, Object> query(String title, String prop, String propParam, String... propertiesList)
 	{
-		Map<String, String> parameters;
-		Map<String, Object> jsonObject;
-
-		StringBuffer properties = new StringBuffer();
-		for(String s : propertiesList)
+		boolean success = false;
+		clearLastException();
+		try
 		{
-			if(properties.length() > 0)
-				properties.append("|");
-			properties.append(s);
+			Map<String, String> parameters;
+			Map<String, Object> jsonObject;
+
+			StringBuffer properties = new StringBuffer();
+			for(String s : propertiesList)
+			{
+				if(properties.length() > 0)
+					properties.append("|");
+				properties.append(s);
+			}
+
+			logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
+			parameters = new HashMap<String, String>();
+			parameters.put(PARAMETER_ACTION, ACTION_QUERY);
+			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+			parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
+			parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
+			parameters.put(propParam, properties.toString());
+
+			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+
+			Map<String, Object> pages = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
+
+			if(pages.size() != 1)
+			{
+				logger.debug("  Wrong number of results!");
+				return null;
+			}
+			else if(pages.containsKey("-1"))
+			{
+				logger.debug("  Page not existing");
+				return (Map<String, Object>) pages.get("-1");
+			}
+			else
+			{
+				String id = pages.keySet().iterator().next();
+				logger.debug("  Page existing with id " + id);
+				return (Map<String, Object>) pages.get(id);
+			}
 		}
-
-		logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
-		parameters = new HashMap<String, String>();
-		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
-		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-		parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
-		parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
-		parameters.put(propParam, properties.toString());
-
-		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
-
-		Map<String, Object> pages = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
-
-		if(pages.size() != 1)
+		catch(Exception e)
 		{
-			logger.debug("  Wrong number of results!");
-			return null;
+			this.lastException = e;
 		}
-		else if(pages.containsKey("-1"))
-		{
-			logger.debug("  Page not existing");
-			return (Map<String, Object>) pages.get("-1");
-		}
-		else
-		{
-			String id = pages.keySet().iterator().next();
-			logger.debug("  Page existing with id " + id);
-			return (Map<String, Object>) pages.get(id);
-		}
+		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
+
+		return null;
 	}
 
-	public Map<String, Object> queryRevisionProperties(String title, String... propertiesList) throws InterruptedException
+	public Map<String, Object> queryRevisionProperties(String title, String... propertiesList)
 	{
 		return query(title, PARAMETER_ACTION_QUERY_PROP_RV, PARAMETER_ACTION_QUERY_RVPROP, propertiesList);
 	}
 
-	public Map<String, Object> queryInfoProperties(String title, String... propertiesList) throws InterruptedException
+	public Map<String, Object> queryInfoProperties(String title, String... propertiesList)
 	{
 		return query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INPROP, propertiesList);
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot) throws InterruptedException
+	public boolean edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot)
 	{
-		Map<String, String> parameters;
-		Map<String, Object> jsonObject;
-		boolean success;
-
-		logger.debug("Performing edit of page \"" + title + "\"...");
-
-		logger.debug("  Obtaining token...");
-		String token = getToken(title, "edit");
-
-		logger.debug("  Performing edit...");
-		parameters = new HashMap<String, String>();
-		parameters.put(PARAMETER_ACTION, ACTION_EDIT);
-		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-		parameters.put(PARAMETER_ACTION_EDIT_TITLE, title);
-		parameters.put(PARAMETER_ACTION_EDIT_TEXT, content);
-		if(summary != null)
-			parameters.put(PARAMETER_ACTION_EDIT_SUMMARY, summary);
-		if(bot)
-			parameters.put(PARAMETER_ACTION_EDIT_BOT, "true");
-		if(!ignoreConflicts)
+		boolean success = false;
+		clearLastException();
+		try
 		{
-			String baseTimestamp = getTimestamp(title);
-			parameters.put(PARAMETER_ACTION_EDIT_BASETIMESTAMP, baseTimestamp);
-		}
-		parameters.put(PARAMETER_ACTION_EDIT_TOKEN, token);
+			Map<String, String> parameters;
+			Map<String, Object> jsonObject;
 
-		jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+			logger.debug("Performing edit of page \"" + title + "\"...");
 
-		String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
-		success = "success".equalsIgnoreCase(result);
-		int tries = 0;
-		while(!success && tries < 5)
-		{
-			// handle captcha
-			Map<String, Object> captcha = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("edit")).get("captcha");
-			if(captcha != null)
+			logger.debug("  Obtaining token...");
+			String token = getToken(title, "edit");
+
+			logger.debug("  Performing edit...");
+			parameters = new HashMap<String, String>();
+			parameters.put(PARAMETER_ACTION, ACTION_EDIT);
+			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+			parameters.put(PARAMETER_ACTION_EDIT_TITLE, title);
+			parameters.put(PARAMETER_ACTION_EDIT_TEXT, content);
+			if(summary != null)
+				parameters.put(PARAMETER_ACTION_EDIT_SUMMARY, summary);
+			if(bot)
+				parameters.put(PARAMETER_ACTION_EDIT_BOT, "true");
+			if(!ignoreConflicts)
 			{
-				String question = (String) captcha.get("question");
-				String id = (String) captcha.get("id");
-				String answer = getCaptchaAnswer(question);
-				parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAID, id);
-				parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
+				String baseTimestamp = getTimestamp(title);
+				parameters.put(PARAMETER_ACTION_EDIT_BASETIMESTAMP, baseTimestamp);
+			}
+			parameters.put(PARAMETER_ACTION_EDIT_TOKEN, token);
 
-				// try again
-				jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).doBlocking();
+			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
 
-				result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
-				success = "success".equalsIgnoreCase(result);
+			String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
+			success = "success".equalsIgnoreCase(result);
+			int tries = 0;
+			while(!success && tries < 5)
+			{
+				// handle captcha
+				Map<String, Object> captcha = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("edit")).get("captcha");
+				if(captcha != null)
+				{
+					String question = (String) captcha.get("question");
+					String id = (String) captcha.get("id");
+					String answer = getCaptchaAnswer(question);
+					parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAID, id);
+					parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
 
-				tries++;
+					// try again
+					jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+
+					result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
+					success = "success".equalsIgnoreCase(result);
+
+					tries++;
+				}
 			}
 		}
-		logger.debug("  " + (success ? "Successful!" : "Failed!"));
+		catch(Exception e)
+		{
+			this.lastException = e;
+		}
+		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
+
 		return success;
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String getContent(String title) throws InterruptedException
+	public String getContent(String title)
 	{
 		Map<String, Object> properties = queryRevisionProperties(title, "content");
 		if(properties.containsKey("missing"))
@@ -270,7 +325,7 @@ public class KaroWikiAPI
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String getTimestamp(String title) throws InterruptedException
+	public String getTimestamp(String title)
 	{
 		Map<String, Object> properties = queryRevisionProperties(title, "timestamp");
 		if(properties.containsKey("missing"))
@@ -280,7 +335,7 @@ public class KaroWikiAPI
 		return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("timestamp");
 	}
 
-	public String getToken(String title, String action) throws InterruptedException
+	public String getToken(String title, String action)
 	{
 		Map<String, Object> properties = query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INTOKEN, action);
 		return (String) properties.get(action + "token");

@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.FutureTask;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.threads.QueuableThread;
 
 /**
  * Extension of Loader for URLLoaders.<br>
@@ -237,9 +235,9 @@ public class URLLoader
 	 * @see URLLoader#doPost(String, Parser)
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(Parser<String, T> parser)
+	public <T> CompletableFuture<T> doPost(Parser<String, T> parser)
 	{
 		return doPost((String) null, parser);
 	}
@@ -252,11 +250,11 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param output - the output to write
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(String output, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doPost(String output, Parser<String, T> parser)
 	{
-		return new BackgroundLoader<T>("POST", POST_PROPERTIES, output, parser);
+		return CompletableFuture.supplyAsync(new BackgroundLoader<T>("POST", POST_PROPERTIES, output, parser));
 	}
 
 	/**
@@ -267,9 +265,9 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param parameters - the parameters to write
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doPost(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doPost(formatParameters(parameters, contentType), parser);
@@ -282,9 +280,9 @@ public class URLLoader
 	 *
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(Parser<String, T> parser)
+	public <T> CompletableFuture<T> doGet(Parser<String, T> parser)
 	{
 		return doGet((String) null, parser);
 	}
@@ -297,22 +295,11 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param parameters - the arguments to append to the url
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(String parameters, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doGet(String parameters, Parser<String, T> parser)
 	{
-		URLLoader tmp = this;
-		if(parameters != null && parameters.length() > 0)
-			tmp = this.parameterize(parameters);
-		return tmp.new BackgroundLoader<>("GET", null, null, parser);
-	}
-	
-	public <T> CompletableFuture<T> doGet2(String parameters, Parser<String, T> parser)
-	{
-		URLLoader tmp = this;
-		if(parameters != null && parameters.length() > 0)
-			tmp = this.parameterize(parameters);
-		return CompletableFuture.supplyAsync(tmp.new BackgroundLoader2<>("GET", null, null, parser));
+		return CompletableFuture.supplyAsync(this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser));
 	}
 
 	/**
@@ -323,14 +310,11 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param parameters - the parameters to append to the url
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
 	{
-		URLLoader tmp = this;
-		if(parameters != null && parameters.size() > 0)
-			tmp = this.parameterize(parameters);
-		return tmp.new BackgroundLoader<>("GET", null, null, parser);
+		return CompletableFuture.supplyAsync(this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser));
 	}
 
 	/**
@@ -339,9 +323,9 @@ public class URLLoader
 	 * @see URLLoader#doPut(String, Parser)
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(Parser<String, T> parser)
+	public <T> CompletableFuture<T> doPut(Parser<String, T> parser)
 	{
 		return doPut((String) null, parser);
 	}
@@ -354,11 +338,11 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param output - the output to write
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(String output, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doPut(String output, Parser<String, T> parser)
 	{
-		return new BackgroundLoader<T>("PUT", null, output, parser);
+		return CompletableFuture.supplyAsync(new BackgroundLoader<T>("PUT", null, output, parser));
 	}
 
 	/**
@@ -369,9 +353,9 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param parameters - the parameters to write
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doPut(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doPut(formatParameters(parameters, contentType), parser);
@@ -385,9 +369,9 @@ public class URLLoader
 	 * @see URLLoader#doDelete(String, Parser)
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(Parser<String, T> parser)
+	public <T> CompletableFuture<T> doDelete(Parser<String, T> parser)
 	{
 		return doDelete((String) null, parser);
 	}
@@ -400,11 +384,11 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param output - the output to write
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(String output, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doDelete(String output, Parser<String, T> parser)
 	{
-		return new BackgroundLoader<T>("DELETE", null, output, parser);
+		return CompletableFuture.supplyAsync(new BackgroundLoader<T>("DELETE", null, output, parser));
 	}
 
 	/**
@@ -415,9 +399,9 @@ public class URLLoader
 	 * @param <T> - the type of content to load
 	 * @param parameters - the parameters to write
 	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link URLLoaderThread}
+	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> CompletableFuture<T> doDelete(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doDelete(formatParameters(parameters, contentType), parser);
@@ -425,92 +409,7 @@ public class URLLoader
 			return doDelete((String) null, parser);
 	}
 
-	public class BackgroundLoader<T> extends QueuableThread<T>
-	{
-		private String				method;
-		private Map<String, String>	requestProperties;
-		private String				output;
-		private Parser<String, T>	parser;
-		private String				result;
-		private HttpURLConnection	connection;
-
-		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output, Parser<String, T> parser)
-		{
-			super();
-			this.method = method;
-			this.requestProperties = new HashMap<>();
-			if(additionalRequestProperties != null)
-				this.requestProperties.putAll(additionalRequestProperties);
-			this.output = output;
-			this.parser = parser;
-		}
-
-		public String getUrl()
-		{
-			return url;
-		}
-
-		public String getMethod()
-		{
-			return method;
-		}
-
-		public Map<String, String> getRequestProperties()
-		{
-			return requestProperties;
-		}
-
-		public String getOutput()
-		{
-			return output;
-		}
-
-		public Parser<String, T> getParser()
-		{
-			return parser;
-		}
-
-		public void addRequestProperties(Map<String, String> additionalRequestProperties)
-		{
-			this.requestProperties.putAll(additionalRequestProperties);
-		}
-
-		@Override
-		public void innerRun()
-		{
-			try
-			{
-				this.connection = (HttpURLConnection) new URL(url).openConnection();
-				this.result = doLoad(connection, this.method, this.requestProperties, this.output);
-			}
-			catch(IOException e)
-			{
-				this.exception = e;
-			}
-		}
-
-		public HttpURLConnection getConnection()
-		{
-			return connection;
-		}
-
-		public String getRawResult()
-		{
-			return this.result;
-		}
-
-		@Override
-		public T getResult()
-		{
-			if(this.getRawResult() != null)
-				return this.parser.parse(this.getRawResult());
-			else
-				return null;
-		}
-	}
-
-
-	public class BackgroundLoader2<T> implements Callable<T>, Supplier<T> // extends QueuableThread<T>
+	public class BackgroundLoader<T> implements Callable<T>, Supplier<T>
 	{
 		private String				method;
 		private Map<String, String>	requestProperties;
@@ -520,7 +419,7 @@ public class URLLoader
 		private T					result;
 		private HttpURLConnection	connection;
 
-		public BackgroundLoader2(String method, Map<String, String> additionalRequestProperties, String output, Parser<String, T> parser)
+		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output, Parser<String, T> parser)
 		{
 			super();
 			this.method = method;
@@ -580,6 +479,7 @@ public class URLLoader
 			return this.rawResult;
 		}
 
+		@Override
 		public T get()
 		{
 			try
