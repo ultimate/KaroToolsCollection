@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.utils.web;
+package ultimate.karoapi4j.utils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumContentType;
-import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
  * This class provides abstraction to load and parse urls synchronously or asynchronously. Instances of this class can be reused and they can be used

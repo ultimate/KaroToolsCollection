@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.utils.web;
+package ultimate.karoapi4j.utils;
 
 import ultimate.karoapi4j.exceptions.ParsingException;
 //TODO javadoc

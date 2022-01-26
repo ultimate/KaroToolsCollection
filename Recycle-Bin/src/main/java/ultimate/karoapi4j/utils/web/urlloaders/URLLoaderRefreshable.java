@@ -3,8 +3,8 @@ package ultimate.karoapi4j.utils.web.urlloaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.sync.Refreshable;
-import ultimate.karoapi4j.utils.web.URLLoader;
 import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
 /**

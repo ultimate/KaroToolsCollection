@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import ultimate.karoapi4j.exceptions.ParsingException;
+import ultimate.karoapi4j.utils.Parser;
+import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.threads.QueuableThread;
 import ultimate.karoapi4j.utils.threads.ThreadQueue;
 

@@ -3,6 +3,7 @@ package ultimate.karoapi4j.utils.web;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.utils.JSONUtil;
+import ultimate.karoapi4j.utils.Parser;
 
 @Deprecated
 public class JSONParser<E> implements Parser<String, E>
