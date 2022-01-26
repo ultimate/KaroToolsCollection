@@ -165,14 +165,9 @@ public class KaroAPI
 	 * @see KaroAPI#CHECK
 	 * @return the currently logged in user
 	 */
-	public BackgroundLoader<User> check()
+	public CompletableFuture<User> check()
 	{
-		return CHECK.doGet(PARSER_USER);
-	}
-
-	public CompletableFuture<User> check2()
-	{
-		return CHECK.doGet2((String) null, PARSER_USER);
+		return CHECK.doGet((String) null, PARSER_USER);
 	}
 
 	/**
@@ -182,7 +177,7 @@ public class KaroAPI
 	 * @see KaroAPI#USERS
 	 * @return the list of all users
 	 */
-	public BackgroundLoader<List<User>> getUsers()
+	public CompletableFuture<List<User>> getUsers()
 	{
 		return getUsers(null, null, null);
 	}
@@ -198,7 +193,7 @@ public class KaroAPI
 	 * @param desperate - the desperate filter
 	 * @return the list of all users filtered by the given criteria
 	 */
-	public BackgroundLoader<List<User>> getUsers(String login, Boolean invitable, Boolean desperate)
+	public CompletableFuture<List<User>> getUsers(String login, Boolean invitable, Boolean desperate)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		if(login != null)
@@ -219,7 +214,7 @@ public class KaroAPI
 	 * @param userId - the user id
 	 * @return the user
 	 */
-	public BackgroundLoader<User> getUser(int userId)
+	public CompletableFuture<User> getUser(int userId)
 	{
 		return USER.replace(PLACEHOLDER, userId).doGet(PARSER_USER);
 	}
@@ -232,7 +227,7 @@ public class KaroAPI
 	 * @param userId - the user id
 	 * @return the list of games
 	 */
-	public BackgroundLoader<List<Game>> getUserDran(int userId)
+	public CompletableFuture<List<Game>> getUserDran(int userId)
 	{
 		return USER_DRAN.replace(PLACEHOLDER, userId).doGet(PARSER_GAME_LIST);
 	}
@@ -242,7 +237,7 @@ public class KaroAPI
 	 * 
 	 * @return the list of games
 	 */
-	public BackgroundLoader<List<Game>> getFavs()
+	public CompletableFuture<List<Game>> getFavs()
 	{
 		return FAVS.doGet(PARSER_GAME_LIST);
 	}
@@ -253,7 +248,7 @@ public class KaroAPI
 	 * @param gameId - the game to mark as favorite
 	 * @return void
 	 */
-	public BackgroundLoader<Void> addFav(int gameId)
+	public CompletableFuture<Void> addFav(int gameId)
 	{
 		return FAVS_EDIT.replace(PLACEHOLDER, gameId).doPut(PARSER_VOID);
 	}
@@ -264,7 +259,7 @@ public class KaroAPI
 	 * @param gameId - the game to unmark as favorite
 	 * @return void
 	 */
-	public BackgroundLoader<Void> removeFav(int gameId)
+	public CompletableFuture<Void> removeFav(int gameId)
 	{
 		return FAVS_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID);
 	}
@@ -274,7 +269,7 @@ public class KaroAPI
 	 * 
 	 * @return the list of games
 	 */
-	public BackgroundLoader<java.util.Map<Integer, String>> getNotes()
+	public CompletableFuture<java.util.Map<Integer, String>> getNotes()
 	{
 		return NOTES.doGet(PARSER_NOTES);
 	}
@@ -285,7 +280,7 @@ public class KaroAPI
 	 * @param gameId - the game to mark as favorite
 	 * @return void
 	 */
-	public BackgroundLoader<Void> addNote(int gameId, String text)
+	public CompletableFuture<Void> addNote(int gameId, String text)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		args.put("text", text);
@@ -298,7 +293,7 @@ public class KaroAPI
 	 * @param gameId - the game to unmark as favorite
 	 * @return void
 	 */
-	public BackgroundLoader<Void> removeNote(int gameId)
+	public CompletableFuture<Void> removeNote(int gameId)
 	{
 		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID);
 	}
@@ -310,7 +305,7 @@ public class KaroAPI
 	 * 
 	 * @return the list of users
 	 */
-	public BackgroundLoader<List<User>> getBlockers()
+	public CompletableFuture<List<User>> getBlockers()
 	{
 		return BLOCKERS.doGet(PARSER_USER_LIST);
 	}
@@ -322,7 +317,7 @@ public class KaroAPI
 	 * 
 	 * @return the list of users
 	 */
-	public BackgroundLoader<List<User>> getUserBlockers(int userId)
+	public CompletableFuture<List<User>> getUserBlockers(int userId)
 	{
 		return USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(PARSER_USER_LIST);
 	}
@@ -338,7 +333,7 @@ public class KaroAPI
 	 * @see KaroAPI#GAMES
 	 * @return the list of all games
 	 */
-	public BackgroundLoader<List<Game>> getGames()
+	public CompletableFuture<List<Game>> getGames()
 	{
 		return getGames(null, null, null, null, null, null, null, null);
 	}
@@ -359,7 +354,7 @@ public class KaroAPI
 	 * @param offset - the offset filter
 	 * @return the list of all games filtered by the given criteria
 	 */
-	public BackgroundLoader<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Integer nameStart, Integer limit, Integer offset)
+	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Integer nameStart, Integer limit, Integer offset)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		if(mine != null)
@@ -390,7 +385,7 @@ public class KaroAPI
 	 * @param gameId - the game id
 	 * @return the game
 	 */
-	public BackgroundLoader<Game> getGame(int gameId)
+	public CompletableFuture<Game> getGame(int gameId)
 	{
 		return getGame(gameId, null, null, null);
 	}
@@ -407,7 +402,7 @@ public class KaroAPI
 	 * @param mapcode - true or false or null
 	 * @return the map
 	 */
-	public BackgroundLoader<Game> getGame(int gameId, Boolean mapcode, Boolean players, Boolean moves)
+	public CompletableFuture<Game> getGame(int gameId, Boolean mapcode, Boolean players, Boolean moves)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		if(mapcode != null)
@@ -431,7 +426,7 @@ public class KaroAPI
 	 * @see KaroAPI#MAPS
 	 * @return the list of all maps
 	 */
-	public BackgroundLoader<List<Map>> getMaps()
+	public CompletableFuture<List<Map>> getMaps()
 	{
 		return getMaps(null);
 	}
@@ -445,7 +440,7 @@ public class KaroAPI
 	 * @param mapcode - true or false
 	 * @return the list of all maps with optional mapcode
 	 */
-	public BackgroundLoader<List<Map>> getMaps(Boolean mapcode)
+	public CompletableFuture<List<Map>> getMaps(Boolean mapcode)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		if(mapcode != null)
@@ -462,7 +457,7 @@ public class KaroAPI
 	 * @param mapId - the map id
 	 * @return the map
 	 */
-	public BackgroundLoader<Map> getMap(int mapId)
+	public CompletableFuture<Map> getMap(int mapId)
 	{
 		return getMap(mapId, null);
 	}
@@ -477,7 +472,7 @@ public class KaroAPI
 	 * @param mapcode - true or false or null
 	 * @return the map
 	 */
-	public BackgroundLoader<Map> getMap(int mapId, Boolean mapcode)
+	public CompletableFuture<Map> getMap(int mapId, Boolean mapcode)
 	{
 		HashMap<String, String> args = new HashMap<>();
 		if(mapcode != null)
@@ -494,7 +489,7 @@ public class KaroAPI
 	 * @param mapId - the map id
 	 * @return the map code
 	 */
-	public BackgroundLoader<String> getMapCode(int mapId)
+	public CompletableFuture<String> getMapCode(int mapId)
 	{
 		return MAP.replace(PLACEHOLDER, mapId + ".txt").doGet(PARSER_RAW);
 	}
@@ -604,7 +599,7 @@ public class KaroAPI
 		try
 		{
 			// use the doGet mechanism to generate the URL and query the true image location
-			BackgroundLoader<String> tmp = MAP_IMAGE.replace(PLACEHOLDER, mapId).doGet(args, PARSER_RAW);
+			URLLoader tmp = MAP_IMAGE.replace(PLACEHOLDER, mapId).parameterize(args);
 			logger.debug("loading image information for map " + mapId + ": " + tmp.getUrl());
 			return ImageIO.read(new URL(tmp.getUrl()));
 		}
@@ -616,10 +611,10 @@ public class KaroAPI
 			BufferedImage image = DEFAULT_IMAGE_GRAY;
 			try
 			{
-				boolean night = getMap(mapId).doBlocking().isNight();
+				boolean night = getMap(mapId).get().isNight();
 				image = (night ? DEFAULT_IMAGE_BLACK : DEFAULT_IMAGE_WHITE);
 			}
-			catch(InterruptedException e1)
+			catch(Exception e1)
 			{
 				logger.error("map does not seem to exist", e1);
 				e1.printStackTrace();

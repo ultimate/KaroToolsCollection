@@ -3,6 +3,7 @@ package ultimate.karoapi4j;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
@@ -10,7 +11,7 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
 // TODO javadoc
 public class Demo
 {
-	public static void main(String[] args) throws IOException, InterruptedException
+	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
 		// use some example properties here
 		Properties properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
@@ -23,7 +24,7 @@ public class Demo
 		KaroAPI api = new KaroAPI(username, password);
 
 		// check wether the login is successful?
-		User currentUser = api.check().doBlocking();
+		User currentUser = api.check().get();
 		if(currentUser != null && currentUser.isUc())
 			System.out.println("login successful");
 
