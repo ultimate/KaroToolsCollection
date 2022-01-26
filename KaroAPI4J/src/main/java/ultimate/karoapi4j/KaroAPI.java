@@ -155,12 +155,13 @@ public class KaroAPI
 
 	public static <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader)
 	{
+		// TODO add support for retries?
 		if(executor != null)
 			return CompletableFuture.supplyAsync(backgroundLoader, executor);
 		else
 			return CompletableFuture.supplyAsync(backgroundLoader);
 	}
-
+	
 	/**
 	 * Get an instance for the given user
 	 * 
