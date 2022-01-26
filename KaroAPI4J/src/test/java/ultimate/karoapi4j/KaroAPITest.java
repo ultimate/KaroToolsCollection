@@ -2,16 +2,19 @@ package ultimate.karoapi4j;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 
@@ -169,7 +172,7 @@ public class KaroAPITest extends KaroAPITestcase
 		List<User> blockers = karoAPI.getBlockers().get();
 		assertNotNull(blockers);
 		assertTrue(blockers.size() > 0);
-		
+
 		for(int i = 0; i < blockers.size() && i < VALIDATION_LIMIT; i++)
 		{
 			assertTrue(blockers.get(i).getDran() > 0);
@@ -183,7 +186,7 @@ public class KaroAPITest extends KaroAPITestcase
 		List<User> blockers = karoAPI.getUserBlockers(userId).get();
 		assertNotNull(blockers);
 		assertTrue(blockers.size() > 0);
-		
+
 		for(int i = 0; i < blockers.size() && i < VALIDATION_LIMIT; i++)
 		{
 			assertTrue(blockers.get(i).getBlocked() > 0);
@@ -241,7 +244,7 @@ public class KaroAPITest extends KaroAPITestcase
 		{
 			limited = karoAPI.getGames(null, EnumUserGamesort.name, null, true, TEST_GAMES_NAME, 0, 1, i).get();
 			assertNotNull(limited);
-//			assertEquals(1, limited.size()); // currently the limit is not working, but the offset does
+			// assertEquals(1, limited.size()); // currently the limit is not working, but the offset does
 			assertEquals(TEST_GAMES_NAME + (i + 1), limited.get(0).getName());
 		}
 	}
@@ -393,57 +396,57 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 		fail("not implemented");
 	}
-	
+
 	@Test
 	public void test_favs() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
 		Predicate<Game> findFav = (game) -> { return game.getId() == gameId; };
-		
+
 		// get the initial list of favs
 		List<Game> favs = karoAPI.getFavs().get();
-		
-		// current list must not contain the  fav
+
+		// current list must not contain the fav
 		assertEquals(0, CollectionsUtil.count(favs, findFav));
-		
+
 		List<Game> newFavs;
-		
+
 		// create a fav
 		karoAPI.addFav(gameId).get();
 		newFavs = karoAPI.getFavs().get();
 		assertEquals(favs.size() + 1, newFavs.size());
-		
+
 		// new list must contain the new fav
 		assertEquals(1, CollectionsUtil.count(newFavs, findFav));
-		
+
 		// delete the fav (reset)
 		karoAPI.removeFav(gameId).get();
 		newFavs = karoAPI.getFavs().get();
 		assertEquals(favs.size(), newFavs.size());
 	}
-	
+
 	@Test
 	public void test_notes() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
-		
+
 		// get the initial list of notes
 		HashMap<Integer, String> notes = (HashMap<Integer, String>) karoAPI.getNotes().get();
-		// current list must not contain the  note
+		// current list must not contain the note
 		assertFalse(notes.containsKey(gameId));
-		
+
 		HashMap<Integer, String> newNotes;
-		
+
 		// create a note
 		karoAPI.addNote(gameId, "sample text").get();
 		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().get();
 		// new list must contain the new note
 		assertTrue(newNotes.containsKey(gameId));
-		
+
 		// delete the note (reset)
 		karoAPI.removeNote(gameId).get();
 		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().get();
-		// new list must not contain the  note
+		// new list must not contain the note
 		assertFalse(newNotes.containsKey(gameId));
 	}
 
@@ -485,34 +488,56 @@ public class KaroAPITest extends KaroAPITestcase
 			assertEquals(map.getCols(), row.length());
 		}
 	}
-	
 
-	
+	@Test
+	public void test_errorHandling() throws InterruptedException, ExecutionException
+	{		
+		KaroAPI karoAPIwithFailingCall = new KaroAPI("a", "b");
+		CompletableFuture<User> completableFuture = karoAPIwithFailingCall.check();
+		
+		try
+		{
+			completableFuture.get();
+			fail("we shouldn't get here");
+		}
+		catch(Exception e)
+		{
+			logger.debug("error", e);
+			assertNotNull(e);
+			assertNotNull(e.getCause());
+			assertNotNull(e.getCause().getCause());
+			assertInstanceOf(IOException.class, e.getCause().getCause());	
+			assertTrue(e.getCause().getCause().getMessage().startsWith("Server returned HTTP response code: 401"));
+		}
+		assertTrue(completableFuture.isDone());
+		assertTrue(completableFuture.isCompletedExceptionally());
+	}
+
 	@Test
 	public void test_threading() throws InterruptedException, ExecutionException
 	{
 		// TODO
-//		CompletableFuture<User> cf1 = karoAPI.check2();
-//		logger.debug("start");
-//		User user = cf1.get();
-//		logger.debug("end");
-//		cf1.join();
-//		logger.debug("join");
-//
-//		assertNotNull(user);
-//		assertEquals(properties.get("karoapi.user"), user.getLogin());
-//		
-//		
-//
-//		CompletableFuture<User> cf2 = karoAPI.check2();
-//		logger.debug("start");
-//		cf2.whenComplete((result, ex) -> {
-//			assertNull(ex);
-//			assertNotNull(user);
-//			assertEquals(properties.get("karoapi.user"), user.getLogin());
-//		});
-//		logger.debug("end");
-//		cf2.join();
-//		logger.debug("join");
+		// CompletableFuture<User> cf1 = karoAPI.check2();
+		// logger.debug("start");
+		// User user = cf1.get();
+		// logger.debug("end");
+		// cf1.join();
+		// logger.debug("join");
+		//
+		// assertNotNull(user);
+		// assertEquals(properties.get("karoapi.user"), user.getLogin());
+		//
+		//
+		//
+		// CompletableFuture<User> cf2 = karoAPI.check2();
+		// logger.debug("start");
+		// cf2.whenComplete((result, ex) -> {
+		// assertNull(ex);
+		// assertNotNull(user);
+		// assertEquals(properties.get("karoapi.user"), user.getLogin());
+		// });
+		// logger.debug("end");
+		// cf2.join();
+		// logger.debug("join");
 	}
 }

@@ -5,13 +5,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Field;
 import java.net.URL;
+import java.nio.channels.AcceptPendingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
@@ -59,16 +63,17 @@ public class KaroAPI
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger					= LoggerFactory.getLogger(getClass());
+	protected static transient final Logger	logger					= LoggerFactory.getLogger(KaroAPI.class);
 
 	// config & constants
-	public static final String			PLACEHOLDER				= "$";
-	public static final BufferedImage	DEFAULT_IMAGE_WHITE;
-	public static final BufferedImage	DEFAULT_IMAGE_GRAY;
-	public static final BufferedImage	DEFAULT_IMAGE_BLACK;
-	public static final int				DEFAULT_IMAGE_SIZE		= 100;
-	public static final int				DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
-	public static final int				DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
+	public static final String				PLACEHOLDER				= "$";
+	public static final BufferedImage		DEFAULT_IMAGE_WHITE;
+	public static final BufferedImage		DEFAULT_IMAGE_GRAY;
+	public static final BufferedImage		DEFAULT_IMAGE_BLACK;
+	public static final int					DEFAULT_IMAGE_SIZE		= 100;
+	public static final int					DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
+	public static final int					DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
+	public static final int					MAX_RETRIES				= 10;
 
 	static
 	{
@@ -88,58 +93,41 @@ public class KaroAPI
 		g2db.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 	}
 
-	// api URLs
-	private static final URLLoader												KAROPAPIER			= new URLLoader("https://www.karopapier.de");
-	private static final URLLoader												API					= KAROPAPIER.relative("/api");
-	// users
-	private static final URLLoader												USERS				= API.relative("/users");
-	private static final URLLoader												USER				= USERS.relative("/" + PLACEHOLDER);
-	private static final URLLoader												USER_DRAN			= USER.relative("/dran");
-	private static final URLLoader												USER_BLOCKERS		= USER.relative("/blockers");
-	// current user
-	private static final URLLoader												CURRENT_USER		= API.relative("/user");
-	private static final URLLoader												CHECK				= CURRENT_USER.relative("/check");
-	private static final URLLoader												FAVS				= CURRENT_USER.relative("/favs");
-	private static final URLLoader												FAVS_EDIT			= FAVS.relative("/" + PLACEHOLDER);
-	private static final URLLoader												BLOCKERS			= API.relative("/blockers");
-	private static final URLLoader												NOTES				= API.relative("/notes");
-	private static final URLLoader												NOTES_EDIT			= NOTES.relative("/" + PLACEHOLDER);
-	private static final URLLoader												PLANNED_MOVES		= API.relative("/planned-moves");																	// TODO
-	// games
-	private static final URLLoader												GAMES				= API.relative("/games");
-	private static final URLLoader												GAMES3				= API.relative("/games3");
-	private static final URLLoader												GAME				= GAMES.relative("/" + PLACEHOLDER);
-	private static final URLLoader												GAME_CREATE			= null;																								// TODO
-	private static final URLLoader												GAME_MOVE			= null;																								// TODO
-	// maps
-	private static final URLLoader												MAPS				= API.relative("/maps");
-	private static final URLLoader												MAP					= MAPS.relative("/" + PLACEHOLDER);
-	// mapimages
-	// do not use API as the base here, since we do not need the authentication here
-	private static final URLLoader												MAP_IMAGE			= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
-	// chat
-	private static final URLLoader												CHAT				= API.relative("/chat");																			// TODO
-	private static final URLLoader												CHAT_LAST			= CHAT.relative("/last");																			// TODO
-	private static final URLLoader												CHAT_USERS			= CHAT.relative("/users");																			// TODO
-	// messaging
-	private static final URLLoader												CONTACTS			= API.relative("/contacts");																		// TODO
-	private static final URLLoader												MESSAGES			= API.relative("/messages/" + PLACEHOLDER);															// TODO
+	/**
+	 * Create a special image by drawing a "don't sign" on top of the given image...
+	 * 
+	 * @param image - the original image
+	 * @return the specialized image
+	 */
+	public static BufferedImage createSpecialImage(Image image)
+	{
+		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2d = image2.createGraphics();
+		g2d.drawImage(image, 0, 0, null);
+		g2d.setColor(Color.red);
+		int size = (int) Math.min(image2.getWidth() * 0.7F, image2.getHeight() * 0.7F);
+		g2d.setStroke(new BasicStroke(size / 7));
+		g2d.drawOval((image2.getWidth() - size) / 2, (image2.getHeight() - size) / 2, size, size);
+		int delta = (int) (size / 2 * 0.707F);
+		g2d.drawLine(image2.getWidth() / 2 - delta, image2.getHeight() / 2 + delta, image2.getWidth() / 2 + delta, image2.getHeight() / 2 - delta);
+		return image2;
+	}
 
 	// parsers needed
-	private static final Parser<String, Void>									PARSER_VOID			= (result) -> { return null; };
-	private static final Parser<String, String>									PARSER_RAW			= (result) -> { return result; };
-	private static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST	= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	private static final Parser<String, User>									PARSER_USER			= new JSONUtil.Parser<>(new TypeReference<User>() {});
-	private static final Parser<String, List<User>>								PARSER_USER_LIST	= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	private static final Parser<String, Game>									PARSER_GAME			= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	private static final Parser<String, List<Game>>								PARSER_GAME_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
-	private static final Parser<String, Map>									PARSER_MAP			= new JSONUtil.Parser<>(new TypeReference<Map>() {});
-	private static final Parser<String, List<Map>>								PARSER_MAP_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
-	private static final Parser<String, Object>									PARSER_CHAT			= new JSONUtil.Parser<>(new TypeReference<Object>() {});											// TODO
-	private static final Parser<String, List<Object>>							PARSER_CHAT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});										// TODO
-	private static final Parser<String, List<Object>>							PARSER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});										// TODO
+	protected static final Parser<String, Void>									PARSER_VOID			= (result) -> { return null; };
+	protected static final Parser<String, String>								PARSER_RAW			= (result) -> { return result; };
+	protected static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST	= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
+	protected static final Parser<String, User>									PARSER_USER			= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	protected static final Parser<String, List<User>>							PARSER_USER_LIST	= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
+	protected static final Parser<String, Game>									PARSER_GAME			= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	protected static final Parser<String, List<Game>>							PARSER_GAME_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	protected static final Parser<String, Map>									PARSER_MAP			= new JSONUtil.Parser<>(new TypeReference<Map>() {});
+	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	protected static final Parser<String, Object>								PARSER_CHAT			= new JSONUtil.Parser<>(new TypeReference<Object>() {});											// TODO
+	protected static final Parser<String, List<Object>>							PARSER_CHAT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});										// TODO
+	protected static final Parser<String, List<Object>>							PARSER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});										// TODO
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
-	private static final Parser<String, java.util.Map<Integer, String>>			PARSER_NOTES		= (result) -> { return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text"); };
+	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES		= (result) -> { return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text"); };
 
 	private static Executor														executor;
 
@@ -153,15 +141,69 @@ public class KaroAPI
 		return executor;
 	}
 
-	public static <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader)
+	private static <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader, int retries)
 	{
-		// TODO add support for retries?
+		CompletableFuture<T> cf;
 		if(executor != null)
-			return CompletableFuture.supplyAsync(backgroundLoader, executor);
+			cf = CompletableFuture.supplyAsync(backgroundLoader, executor);
 		else
-			return CompletableFuture.supplyAsync(backgroundLoader);
+			cf = CompletableFuture.supplyAsync(backgroundLoader);
+
+		if(retries > 0)
+		{
+			cf = cf.thenApply(CompletableFuture::completedFuture).exceptionally(new Function<Throwable, CompletableFuture<T>>() {
+				public CompletableFuture<T> apply(Throwable t)
+				{
+					logger.warn("an error occurred - retries remaining: " + retries, t);
+					if(retries > 0)
+						return loadAsync(backgroundLoader, retries - 1);
+					else
+						return CompletableFuture.failedFuture(t);
+				};
+			}).thenCompose(Function.identity());
+		}
+		return cf;
 	}
-	
+
+	// api URLs
+	private final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
+	private final URLLoader	API				= KAROPAPIER.relative("/api");
+	// users
+	private final URLLoader	USERS			= API.relative("/users");
+	private final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
+	private final URLLoader	USER_DRAN		= USER.relative("/dran");
+	private final URLLoader	USER_BLOCKERS	= USER.relative("/blockers");
+	// current user
+	private final URLLoader	CURRENT_USER	= API.relative("/user");
+	private final URLLoader	CHECK			= CURRENT_USER.relative("/check");
+	private final URLLoader	FAVS			= CURRENT_USER.relative("/favs");
+	private final URLLoader	FAVS_EDIT		= FAVS.relative("/" + PLACEHOLDER);
+	private final URLLoader	BLOCKERS		= API.relative("/blockers");
+	private final URLLoader	NOTES			= API.relative("/notes");
+	private final URLLoader	NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
+	private final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");						// TODO
+	// games
+	private final URLLoader	GAMES			= API.relative("/games");
+	private final URLLoader	GAMES3			= API.relative("/games3");
+	private final URLLoader	GAME			= GAMES.relative("/" + PLACEHOLDER);
+	private final URLLoader	GAME_CREATE		= null;													// TODO
+	private final URLLoader	GAME_MOVE		= null;													// TODO
+	// maps
+	private final URLLoader	MAPS			= API.relative("/maps");
+	private final URLLoader	MAP				= MAPS.relative("/" + PLACEHOLDER);
+	// mapimages
+	// do not use API as the base here, since we do not need the authentication here
+	private final URLLoader	MAP_IMAGE		= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	// chat
+	private final URLLoader	CHAT			= API.relative("/chat");								// TODO
+	private final URLLoader	CHAT_LAST		= CHAT.relative("/last");								// TODO
+	private final URLLoader	CHAT_USERS		= CHAT.relative("/users");								// TODO
+	// messaging
+	private final URLLoader	CONTACTS		= API.relative("/contacts");							// TODO
+	private final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);				// TODO
+
+	private int				performRetries	= 0;
+
 	/**
 	 * Get an instance for the given user
 	 * 
@@ -176,7 +218,24 @@ public class KaroAPI
 		API.addRequestProperty("X-Auth-Password", password);
 	}
 
-	// TODO add load balancing via ThreadQueue
+	public int getPerformRetries()
+	{
+		return performRetries;
+	}
+
+	public void setPerformRetries(int performRetries)
+	{
+		if(performRetries < 0)
+			throw new IllegalArgumentException("performRetries must be >= 0");
+		if(performRetries > MAX_RETRIES)
+			throw new IllegalArgumentException("performRetries must be <= " + MAX_RETRIES);
+		this.performRetries = performRetries;
+	}
+
+	private <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader)
+	{
+		return loadAsync(backgroundLoader, performRetries);
+	}
 
 	///////////////////////
 	// user
@@ -651,27 +710,5 @@ public class KaroAPI
 	{
 		// TODO
 		return null;
-	}
-
-	// helper methods
-
-	/**
-	 * Create a special image by drawing a "don't sign" on top of the given image...
-	 * 
-	 * @param image - the original image
-	 * @return the specialized image
-	 */
-	public static BufferedImage createSpecialImage(Image image)
-	{
-		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2d = image2.createGraphics();
-		g2d.drawImage(image, 0, 0, null);
-		g2d.setColor(Color.red);
-		int size = (int) Math.min(image2.getWidth() * 0.7F, image2.getHeight() * 0.7F);
-		g2d.setStroke(new BasicStroke(size / 7));
-		g2d.drawOval((image2.getWidth() - size) / 2, (image2.getHeight() - size) / 2, size, size);
-		int delta = (int) (size / 2 * 0.707F);
-		g2d.drawLine(image2.getWidth() / 2 - delta, image2.getHeight() / 2 + delta, image2.getWidth() / 2 + delta, image2.getHeight() / 2 - delta);
-		return image2;
 	}
 }

@@ -503,7 +503,7 @@ public class URLLoader
 			}
 			catch(IOException e)
 			{
-				return null;
+				throw new RuntimeException(e);
 			}
 		}
 	}
