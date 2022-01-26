@@ -219,8 +219,8 @@ public class KaroAPI
 	{
 		if(user == null || password == null)
 			throw new IllegalArgumentException("user and password must not be null!");
-		API.addRequestProperty("X-Auth-Login", user);
-		API.addRequestProperty("X-Auth-Password", password);
+		KAROPAPIER.addRequestProperty("X-Auth-Login", user);
+		KAROPAPIER.addRequestProperty("X-Auth-Password", password);
 	}
 
 	public int getPerformRetries()

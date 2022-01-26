@@ -22,6 +22,15 @@ public class Options
 
 	}
 
+	public Options(int zzz, boolean cps, EnumGameDirection startdirection, EnumGameTC crashallowed)
+	{
+		super();
+		this.zzz = zzz;
+		this.cps = cps;
+		this.startdirection = startdirection;
+		this.crashallowed = crashallowed;
+	}
+
 	public int getZzz()
 	{
 		return zzz;

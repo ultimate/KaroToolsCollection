@@ -34,6 +34,24 @@ public class Move
 		super();
 	}
 
+	public Move(int x, int y, String msg)
+	{
+		super();
+		this.x = x;
+		this.y = y;
+		this.msg = msg;
+	}
+
+	public Move(int x, int y, int xv, int yv, String msg)
+	{
+		super();
+		this.x = x;
+		this.y = y;
+		this.xv = xv;
+		this.yv = yv;
+		this.msg = msg;
+	}
+
 	public int getX()
 	{
 		return x;
