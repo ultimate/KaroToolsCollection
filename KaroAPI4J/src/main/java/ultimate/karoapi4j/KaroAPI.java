@@ -515,7 +515,8 @@ public class KaroAPI
 		args.put("GID", "" + gameId);
 		args.put("startx", "" + move.getX());
 		args.put("starty", "" + move.getY());
-		args.put("movemessage", move.getMsg());
+		if(move.getMsg() != null)
+			args.put("movemessage", move.getMsg());
 		return loadAsync(GAME_MOVE.doGet(args, (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); }));
 	}
 
@@ -527,7 +528,8 @@ public class KaroAPI
 		args.put("ypos", "" + move.getY());
 		args.put("xvec", "" + move.getXv());
 		args.put("yvec", "" + move.getYv());
-		args.put("movemessage", move.getMsg());
+		if(move.getMsg() != null)
+			args.put("movemessage", move.getMsg());
 		return loadAsync(GAME_MOVE.doGet(args, (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); }));
 	}
 

@@ -399,22 +399,25 @@ public class KaroAPITest extends KaroAPITestcase
 	@Test
 	public void test_createGameAndMove() throws InterruptedException, ExecutionException
 	{
+		User user = karoAPI.check().get();
+
 		PlannedGame plannedGame = new PlannedGame();
 		plannedGame.setMap(105);
+		plannedGame.setPlayers(new int[] { user.getId() });
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
-		
+
 		Game game = karoAPI.createGame(plannedGame).get();
 		assertNotNull(game);
 		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
 		assertNotNull(game.getId());
 		assertEquals(plannedGame.getName(), game.getName());
-		
-		assertTrue(karoAPI.move(game.getId(), new Move(2,1, null)).get());
+
+		assertTrue(karoAPI.selectStartPosition(game.getId(), new Move(2, 1, null)).get());
 		// TODO check states
-		assertTrue(karoAPI.move(game.getId(), new Move(2,1,1,0, null)).get());
+		assertTrue(karoAPI.move(game.getId(), new Move(2, 1, 1, 0, null)).get());
 		// TODO check states
-		assertTrue(karoAPI.move(game.getId(), new Move(3,1,2,0, null)).get());
+		assertTrue(karoAPI.move(game.getId(), new Move(3, 1, 2, 0, null)).get());
 		// TODO check states
 	}
 
@@ -512,10 +515,10 @@ public class KaroAPITest extends KaroAPITestcase
 
 	@Test
 	public void test_errorHandling() throws InterruptedException, ExecutionException
-	{		
+	{
 		KaroAPI karoAPIwithFailingCall = new KaroAPI("a", "b");
 		CompletableFuture<User> completableFuture = karoAPIwithFailingCall.check();
-		
+
 		try
 		{
 			completableFuture.get();
@@ -527,7 +530,7 @@ public class KaroAPITest extends KaroAPITestcase
 			assertNotNull(e);
 			assertNotNull(e.getCause());
 			assertNotNull(e.getCause().getCause());
-			assertInstanceOf(IOException.class, e.getCause().getCause());	
+			assertInstanceOf(IOException.class, e.getCause().getCause());
 			assertTrue(e.getCause().getCause().getMessage().startsWith("Server returned HTTP response code: 401"));
 		}
 		assertTrue(completableFuture.isDone());
