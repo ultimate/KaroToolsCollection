@@ -28,6 +28,8 @@ import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Move;
+import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
@@ -114,20 +116,23 @@ public class KaroAPI
 	}
 
 	// parsers needed
-	protected static final Parser<String, Void>									PARSER_VOID			= (result) -> { return null; };
-	protected static final Parser<String, String>								PARSER_RAW			= (result) -> { return result; };
-	protected static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST	= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	protected static final Parser<String, User>									PARSER_USER			= new JSONUtil.Parser<>(new TypeReference<User>() {});
-	protected static final Parser<String, List<User>>							PARSER_USER_LIST	= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	protected static final Parser<String, Game>									PARSER_GAME			= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	protected static final Parser<String, List<Game>>							PARSER_GAME_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
-	protected static final Parser<String, Map>									PARSER_MAP			= new JSONUtil.Parser<>(new TypeReference<Map>() {});
-	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
-	protected static final Parser<String, Object>								PARSER_CHAT			= new JSONUtil.Parser<>(new TypeReference<Object>() {});											// TODO
-	protected static final Parser<String, List<Object>>							PARSER_CHAT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});										// TODO
-	protected static final Parser<String, List<Object>>							PARSER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});										// TODO
+	protected static final Parser<String, Void>									PARSER_VOID				= (result) -> { return null; };
+	protected static final Parser<String, String>								PARSER_RAW				= (result) -> { return result; };
+	protected static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST		= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
+	protected static final Parser<String, User>									PARSER_USER				= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	protected static final Parser<String, List<User>>							PARSER_USER_LIST		= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
+	protected static final Parser<String, Game>									PARSER_GAME				= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	protected static final Parser<String, Game>									PARSER_GAME_CONTAINER	= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
+	protected static final Parser<String, List<Game>>							PARSER_GAME_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	protected static final Parser<String, Map>									PARSER_MAP				= new JSONUtil.Parser<>(new TypeReference<Map>() {});
+	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	protected static final Parser<String, Object>								PARSER_CHAT				= new JSONUtil.Parser<>(new TypeReference<Object>() {});								// TODO
+	protected static final Parser<String, List<Object>>							PARSER_CHAT_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});							// TODO
+	protected static final Parser<String, List<Object>>							PARSER_MESSAGE_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});							// TODO
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
-	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES		= (result) -> { return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text"); };
+	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES			= (result) -> {
+		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text");
+	};
 
 	private static Executor														executor;
 
@@ -186,8 +191,8 @@ public class KaroAPI
 	private final URLLoader	GAMES			= API.relative("/games");
 	private final URLLoader	GAMES3			= API.relative("/games3");
 	private final URLLoader	GAME			= GAMES.relative("/" + PLACEHOLDER);
-	private final URLLoader	GAME_CREATE		= null;													// TODO
-	private final URLLoader	GAME_MOVE		= null;													// TODO
+	private final URLLoader	GAME_CREATE		= API.relative("/game");
+	private final URLLoader	GAME_MOVE		= KAROPAPIER.relative("/move.php");
 	// maps
 	private final URLLoader	MAPS			= API.relative("/maps");
 	private final URLLoader	MAP				= MAPS.relative("/" + PLACEHOLDER);
@@ -496,6 +501,34 @@ public class KaroAPI
 			args.put("moves", (moves ? "1" : "0"));
 
 		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doGet(args, PARSER_GAME));
+	}
+
+	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
+	{
+		String json = JSONUtil.serialize(plannedGame);
+		return loadAsync(GAME_CREATE.doPost(json, PARSER_GAME_CONTAINER));
+	}
+
+	public CompletableFuture<Boolean> selectStartPosition(int gameId, Move move)
+	{
+		HashMap<String, String> args = new HashMap<>();
+		args.put("GID", "" + gameId);
+		args.put("startx", "" + move.getX());
+		args.put("starty", "" + move.getY());
+		args.put("movemessage", move.getMsg());
+		return loadAsync(GAME_MOVE.doGet(args, (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); }));
+	}
+
+	public CompletableFuture<Boolean> move(int gameId, Move move)
+	{
+		HashMap<String, String> args = new HashMap<>();
+		args.put("GID", "" + gameId);
+		args.put("xpos", "" + move.getX());
+		args.put("ypos", "" + move.getY());
+		args.put("xvec", "" + move.getXv());
+		args.put("yvec", "" + move.getYv());
+		args.put("movemessage", move.getMsg());
+		return loadAsync(GAME_MOVE.doGet(args, (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); }));
 	}
 
 	///////////////////////
