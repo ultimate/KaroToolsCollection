@@ -50,5 +50,8 @@ public class PropertiesUtilTest
 			assertEquals(p.get(key), p1.get(key));
 			assertEquals(p.get(key), p2.get(key));
 		}
+		
+		normal.delete();
+		zipped.delete();
 	}
 }
