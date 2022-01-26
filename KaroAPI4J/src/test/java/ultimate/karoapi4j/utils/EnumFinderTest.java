@@ -47,9 +47,8 @@ public class EnumFinderTest extends KaroAPITestcase
 	{
 		Method method = karoAPI.getClass().getMethod(apiCall);
 		BackgroundLoader<List<?>> loader = (BackgroundLoader<List<?>>) method.invoke(karoAPI);
-		loader.doBlocking();
 
-		Set<String> enumValuesFound = EnumFinder.findEnums(loader.getRawResult(), key);
+		Set<String> enumValuesFound = EnumFinder.findEnums(loader.getRaw(), key);
 
 		logger.info("checking " + cls.getName());
 		Enum<E> enumValue;

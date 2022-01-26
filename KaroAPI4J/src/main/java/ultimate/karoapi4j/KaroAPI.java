@@ -8,7 +8,10 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 
@@ -34,8 +37,8 @@ import ultimate.karoapi4j.utils.web.URLLoader.BackgroundLoader;
  * Note: Accessing the API requires a user and password for www.karopapier.de which can be passed with the constructor. Afterwards it is
  * recommended to check the successful login using {@link KaroAPI#check()}.<br>
  * <br>
- * Each API call will return a {@link BackgroundLoader} which can then be used to either load the results via
- * {@link BackgroundLoader#doAsync(java.util.function.Consumer)} or {@link BackgroundLoader#doBlocking()}.<br>
+ * Each API call will return a {@link BackgroundLoader} inherting {@link Callable} which can then be used to either load the results either blocking
+ * or asynchronously (see {@link URLLoader}).<br>
  * <br>
  * For calls with filter arguments, each argument is applied only if it is set to a non null value. If the argument is null, it will be ignored.
  *
@@ -138,6 +141,26 @@ public class KaroAPI
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	private static final Parser<String, java.util.Map<Integer, String>>			PARSER_NOTES		= (result) -> { return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text"); };
 
+	private static Executor														executor;
+
+	public static void setExecutor(Executor e)
+	{
+		executor = e;
+	}
+
+	public static Executor getExecutor()
+	{
+		return executor;
+	}
+
+	public static <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader)
+	{
+		if(executor != null)
+			return CompletableFuture.supplyAsync(backgroundLoader, executor);
+		else
+			return CompletableFuture.supplyAsync(backgroundLoader);
+	}
+
 	/**
 	 * Get an instance for the given user
 	 * 
@@ -167,7 +190,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<User> check()
 	{
-		return CHECK.doGet((String) null, PARSER_USER);
+		return loadAsync(CHECK.doGet((String) null, PARSER_USER));
 	}
 
 	/**
@@ -203,7 +226,7 @@ public class KaroAPI
 		if(desperate != null)
 			args.put("desperate", desperate ? "1" : "0");
 
-		return USERS.doGet(args, PARSER_USER_LIST);
+		return loadAsync(USERS.doGet(args, PARSER_USER_LIST));
 	}
 
 	/**
@@ -216,7 +239,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<User> getUser(int userId)
 	{
-		return USER.replace(PLACEHOLDER, userId).doGet(PARSER_USER);
+		return loadAsync(USER.replace(PLACEHOLDER, userId).doGet(PARSER_USER));
 	}
 
 	/**
@@ -229,7 +252,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<Game>> getUserDran(int userId)
 	{
-		return USER_DRAN.replace(PLACEHOLDER, userId).doGet(PARSER_GAME_LIST);
+		return loadAsync(USER_DRAN.replace(PLACEHOLDER, userId).doGet(PARSER_GAME_LIST));
 	}
 
 	/**
@@ -239,7 +262,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<Game>> getFavs()
 	{
-		return FAVS.doGet(PARSER_GAME_LIST);
+		return loadAsync(FAVS.doGet(PARSER_GAME_LIST));
 	}
 
 	/**
@@ -250,7 +273,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> addFav(int gameId)
 	{
-		return FAVS_EDIT.replace(PLACEHOLDER, gameId).doPut(PARSER_VOID);
+		return loadAsync(FAVS_EDIT.replace(PLACEHOLDER, gameId).doPut(PARSER_VOID));
 	}
 
 	/**
@@ -261,7 +284,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> removeFav(int gameId)
 	{
-		return FAVS_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID);
+		return loadAsync(FAVS_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID));
 	}
 
 	/**
@@ -271,7 +294,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<java.util.Map<Integer, String>> getNotes()
 	{
-		return NOTES.doGet(PARSER_NOTES);
+		return loadAsync(NOTES.doGet(PARSER_NOTES));
 	}
 
 	/**
@@ -284,7 +307,7 @@ public class KaroAPI
 	{
 		HashMap<String, String> args = new HashMap<>();
 		args.put("text", text);
-		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_VOID);
+		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_VOID));
 	}
 
 	/**
@@ -295,7 +318,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> removeNote(int gameId)
 	{
-		return NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID);
+		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID));
 	}
 
 	/**
@@ -307,7 +330,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<User>> getBlockers()
 	{
-		return BLOCKERS.doGet(PARSER_USER_LIST);
+		return loadAsync(BLOCKERS.doGet(PARSER_USER_LIST));
 	}
 
 	/**
@@ -319,7 +342,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<User>> getUserBlockers(int userId)
 	{
-		return USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(PARSER_USER_LIST);
+		return loadAsync(USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(PARSER_USER_LIST));
 	}
 
 	///////////////////////
@@ -374,7 +397,7 @@ public class KaroAPI
 		if(offset != null)
 			args.put("offset", offset.toString());
 
-		return GAMES3.doGet(args, PARSER_GAME_LIST);
+		return loadAsync(GAMES3.doGet(args, PARSER_GAME_LIST));
 	}
 
 	/**
@@ -412,7 +435,7 @@ public class KaroAPI
 		if(moves != null)
 			args.put("moves", (moves ? "1" : "0"));
 
-		return GAME.replace(PLACEHOLDER, gameId).doGet(args, PARSER_GAME);
+		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doGet(args, PARSER_GAME));
 	}
 
 	///////////////////////
@@ -446,7 +469,7 @@ public class KaroAPI
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 
-		return MAPS.doGet(args, PARSER_MAP_LIST);
+		return loadAsync(MAPS.doGet(args, PARSER_MAP_LIST));
 	}
 
 	/**
@@ -478,7 +501,7 @@ public class KaroAPI
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 
-		return MAP.replace(PLACEHOLDER, mapId).doGet(args, PARSER_MAP);
+		return loadAsync(MAP.replace(PLACEHOLDER, mapId).doGet(args, PARSER_MAP));
 	}
 
 	/**
@@ -491,7 +514,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<String> getMapCode(int mapId)
 	{
-		return MAP.replace(PLACEHOLDER, mapId + ".txt").doGet(PARSER_RAW);
+		return loadAsync(MAP.replace(PLACEHOLDER, mapId + ".txt").doGet(PARSER_RAW));
 	}
 
 	///////////////////////
