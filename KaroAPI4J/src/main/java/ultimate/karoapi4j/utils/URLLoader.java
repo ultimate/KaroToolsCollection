@@ -438,8 +438,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPatch(Parser<String, T> parser)
+	<T> BackgroundLoader<T> doPatch(Parser<String, T> parser)
 	{
+		// TODO currently PATCH is not supported
 		return doPatch((String) null, parser);
 	}
 
@@ -453,8 +454,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPatch(String output, Parser<String, T> parser)
+	<T> BackgroundLoader<T> doPatch(String output, Parser<String, T> parser)
 	{
+		// TODO currently PATCH is not supported
 		return new BackgroundLoader<T>("PATCH", null, output, parser);
 	}
 
@@ -468,8 +470,9 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPatch(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	<T> BackgroundLoader<T> doPatch(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
+		// TODO currently PATCH is not supported
 		if(parameters != null)
 			return doPatch(formatParameters(parameters, contentType), parser);
 		else

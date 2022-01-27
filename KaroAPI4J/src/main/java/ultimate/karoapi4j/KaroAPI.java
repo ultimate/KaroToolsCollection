@@ -753,17 +753,17 @@ public class KaroAPI
 		args.put("ts", 0);
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json, PARSER_MESSAGE));
 	}
-	
+
 	public CompletableFuture<List<Message>> getMessage(int userId)
 	{
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(PARSER_MESSAGE_LIST));
 	}
 
-	@SuppressWarnings("unused")
-	private CompletableFuture<String> readMessage(int userId)
+	CompletableFuture<String> readMessage(int userId)
 	{
 		// TODO currently PATCH is not supported
-		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
+		return null;
+		// return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
 	}
 
 	///////////////////////
