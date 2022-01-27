@@ -203,7 +203,7 @@ public class KaroAPI
 	private final URLLoader	CHAT_USERS		= CHAT.relative("/users");								// TODO
 	// messaging
 	private final URLLoader	CONTACTS		= API.relative("/contacts");							// TODO
-	private final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);				// TODO
+	private final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
 
 	private int				performRetries	= 0;
 
@@ -759,8 +759,10 @@ public class KaroAPI
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(PARSER_MESSAGE_LIST));
 	}
 
-	public CompletableFuture<String> readMessage(int userId)
+	@SuppressWarnings("unused")
+	private CompletableFuture<String> readMessage(int userId)
 	{
+		// TODO currently PATCH is not supported
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
 	}
 
