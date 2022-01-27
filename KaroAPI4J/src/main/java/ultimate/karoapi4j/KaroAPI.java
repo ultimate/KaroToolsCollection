@@ -5,16 +5,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.nio.channels.AcceptPendingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
@@ -28,6 +24,7 @@ import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Message;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
@@ -128,7 +125,8 @@ public class KaroAPI
 	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
 	protected static final Parser<String, Object>								PARSER_CHAT				= new JSONUtil.Parser<>(new TypeReference<Object>() {});								// TODO
 	protected static final Parser<String, List<Object>>							PARSER_CHAT_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});							// TODO
-	protected static final Parser<String, List<Object>>							PARSER_MESSAGE_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});							// TODO
+	protected static final Parser<String, Message>								PARSER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<Message>() {});								// TODO
+	protected static final Parser<String, List<Message>>						PARSER_MESSAGE_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Message>>() {});							// TODO
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES			= (result) -> {
 		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text");
@@ -283,7 +281,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<User>> getUsers(String login, Boolean invitable, Boolean desperate)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		if(login != null)
 			args.put("login", login);
 		if(invitable != null)
@@ -370,7 +368,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> addNote(int gameId, String text)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		args.put("text", text);
 		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_VOID));
 	}
@@ -444,7 +442,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Integer nameStart, Integer limit, Integer offset)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		if(mine != null)
 			args.put("mine", mine ? "1" : "0");
 		if(sort != null)
@@ -492,7 +490,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Game> getGame(int gameId, Boolean mapcode, Boolean players, Boolean moves)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 		if(players != null)
@@ -506,12 +504,12 @@ public class KaroAPI
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
 		String json = JSONUtil.serialize(plannedGame);
-		return loadAsync(GAME_CREATE.doPost(json, PARSER_GAME_CONTAINER));
+		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json, PARSER_GAME_CONTAINER));
 	}
 
 	public CompletableFuture<Boolean> selectStartPosition(int gameId, Move move)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		args.put("GID", "" + gameId);
 		args.put("startx", "" + move.getX());
 		args.put("starty", "" + move.getY());
@@ -522,7 +520,7 @@ public class KaroAPI
 
 	public CompletableFuture<Boolean> move(int gameId, Move move)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		args.put("GID", "" + gameId);
 		args.put("xpos", "" + move.getX());
 		args.put("ypos", "" + move.getY());
@@ -560,7 +558,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<Map>> getMaps(Boolean mapcode)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 
@@ -592,7 +590,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Map> getMap(int mapId, Boolean mapcode)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 
@@ -642,7 +640,7 @@ public class KaroAPI
 	 */
 	public BufferedImage getMapThumb(int mapId, Boolean cps)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		args.put("thumb", "1");
 		if(cps != null)
 			args.put("cps", (cps ? "1" : "0"));
@@ -664,7 +662,7 @@ public class KaroAPI
 	 */
 	public BufferedImage getMapImageByPixelSize(int mapId, int size, Integer border, Boolean cps)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		args.put("size", Integer.toString(size));
 		if(border != null)
 			args.put("border", border.toString());
@@ -688,7 +686,7 @@ public class KaroAPI
 	 */
 	public BufferedImage getMapImageByDimension(int mapId, Integer width, Integer height, Boolean cps)
 	{
-		HashMap<String, String> args = new HashMap<>();
+		HashMap<String, Object> args = new HashMap<>();
 		if(width != null)
 			args.put("width", width.toString());
 		if(height != null)
@@ -712,7 +710,7 @@ public class KaroAPI
 	 * @param cps - true or false or null (optional)
 	 * @return the map
 	 */
-	protected BufferedImage getMapImage(int mapId, HashMap<String, String> args)
+	protected BufferedImage getMapImage(int mapId, HashMap<String, Object> args)
 	{
 		try
 		{
@@ -740,6 +738,35 @@ public class KaroAPI
 			return createSpecialImage(image);
 		}
 	}
+
+	///////////////////////
+	// messaging
+	///////////////////////
+
+	public CompletableFuture<Message> sendMessage(int userId, String message)
+	{
+		HashMap<String, Object> args = new HashMap<>();
+		args.put("userId", userId);
+		args.put("text", message);
+		args.put("dateSeparator", false);
+		args.put("rxtx", "");
+		args.put("ts", 0);
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json, PARSER_MESSAGE));
+	}
+	
+	public CompletableFuture<List<Message>> getMessage(int userId)
+	{
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(PARSER_MESSAGE_LIST));
+	}
+
+	public CompletableFuture<String> readMessage(int userId)
+	{
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
+	}
+
+	///////////////////////
+	// TODO
+	///////////////////////
 
 	public <T> BackgroundLoader<T> refresh(T object)
 	{

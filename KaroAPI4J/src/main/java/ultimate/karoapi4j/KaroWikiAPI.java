@@ -96,13 +96,13 @@ public class KaroWikiAPI
 		clearLastException();
 		try
 		{
-			Map<String, String> parameters;
+			Map<String, Object> parameters;
 			Map<String, Object> jsonObject;
 
 			logger.debug("Performing login: \"" + username + "\"...");
 
 			logger.debug("  Obtaining token...");
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<String, Object>();
 			parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
@@ -113,7 +113,7 @@ public class KaroWikiAPI
 
 			logger.debug("  Performing login...");
 
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<String, Object>();
 			parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
@@ -143,14 +143,14 @@ public class KaroWikiAPI
 		clearLastException();
 		try
 		{
-			Map<String, String> parameters;
+			Map<String, Object> parameters;
 			Map<String, Object> jsonObject;
 			String json;
 
 			logger.debug("Performing logout...");
 
 			logger.debug("  Obtaining token...");
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<String, Object>();
 			parameters.put(PARAMETER_ACTION, ACTION_QUERY);
 			parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
@@ -161,7 +161,7 @@ public class KaroWikiAPI
 			String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
 
 			logger.debug("  Performing logout...");
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<String, Object>();
 			parameters.put(PARAMETER_ACTION, ACTION_LOGOUT);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
@@ -186,7 +186,7 @@ public class KaroWikiAPI
 		clearLastException();
 		try
 		{
-			Map<String, String> parameters;
+			Map<String, Object> parameters;
 			Map<String, Object> jsonObject;
 
 			StringBuffer properties = new StringBuffer();
@@ -198,7 +198,7 @@ public class KaroWikiAPI
 			}
 
 			logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<String, Object>();
 			parameters.put(PARAMETER_ACTION, ACTION_QUERY);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
@@ -252,7 +252,7 @@ public class KaroWikiAPI
 		clearLastException();
 		try
 		{
-			Map<String, String> parameters;
+			Map<String, Object> parameters;
 			Map<String, Object> jsonObject;
 
 			logger.debug("Performing edit of page \"" + title + "\"...");
@@ -261,7 +261,7 @@ public class KaroWikiAPI
 			String token = getToken(title, "edit");
 
 			logger.debug("  Performing edit...");
-			parameters = new HashMap<String, String>();
+			parameters = new HashMap<String, Object>();
 			parameters.put(PARAMETER_ACTION, ACTION_EDIT);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_EDIT_TITLE, title);

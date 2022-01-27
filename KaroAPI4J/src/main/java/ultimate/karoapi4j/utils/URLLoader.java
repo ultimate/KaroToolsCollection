@@ -49,16 +49,18 @@ public class URLLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger		logger			= LoggerFactory.getLogger(getClass());
+	protected transient static final Logger	logger						= LoggerFactory.getLogger(URLLoader.class);
 
-	public static final char				DELIMITER		= '/';
-	public static final char				PARAMETER		= '?';
+	public static final char				DELIMITER					= '/';
+	public static final char				PARAMETER					= '?';
 
-	public static final Map<String, String>	POST_PROPERTIES	= new HashMap<>();
+	public static final Map<String, String>	POST_PROPERTIES_URL_ENCODED	= new HashMap<>();
+	public static final Map<String, String>	POST_PROPERTIES_JSON		= new HashMap<>();
 
 	static
 	{
-		POST_PROPERTIES.put("Content-Type", "application/x-www-form-urlencoded");
+		POST_PROPERTIES_URL_ENCODED.put("Content-Type", "application/x-www-form-urlencoded");
+		POST_PROPERTIES_JSON.put("Content-Type", "application/json");
 	}
 
 	protected URLLoader				parent;
@@ -114,12 +116,12 @@ public class URLLoader
 		return properties;
 	}
 
-	public URLLoader parameterize(Map<String, String> parameters)
+	public URLLoader parameterize(Map<String, Object> parameters)
 	{
 		return parameterize(parameters, null);
 	}
 
-	public URLLoader parameterize(Map<String, String> parameters, Map<String, String> requestProperties)
+	public URLLoader parameterize(Map<String, Object> parameters, Map<String, String> requestProperties)
 	{
 		if(parameters != null && parameters.size() > 0)
 			return parameterize(formatParameters(parameters, EnumContentType.text), requestProperties);
@@ -254,7 +256,7 @@ public class URLLoader
 	 */
 	public <T> BackgroundLoader<T> doPost(Parser<String, T> parser)
 	{
-		return doPost((String) null, parser);
+		return doPost((String) null, EnumContentType.text, parser);
 	}
 
 	/**
@@ -267,9 +269,13 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(String output, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPost(String output, EnumContentType contentType, Parser<String, T> parser)
 	{
-		return new BackgroundLoader<T>("POST", POST_PROPERTIES, output, parser);
+		if(contentType == EnumContentType.json)
+			return new BackgroundLoader<T>("POST", POST_PROPERTIES_JSON, output, parser);
+		else
+			return new BackgroundLoader<T>("POST", POST_PROPERTIES_URL_ENCODED, output, parser);
+			
 	}
 
 	/**
@@ -282,12 +288,12 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPost(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
-			return doPost(formatParameters(parameters, contentType), parser);
+			return doPost(formatParameters(parameters, contentType), contentType, parser);
 		else
-			return doPost((String) null, parser);
+			return doPost((String) null, contentType, parser);
 	}
 
 	/**
@@ -327,7 +333,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(Map<String, String> parameters, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doGet(Map<String, Object> parameters, Parser<String, T> parser)
 	{
 		return this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser);
 	}
@@ -370,7 +376,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doPut(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doPut(formatParameters(parameters, contentType), parser);
@@ -416,12 +422,58 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(Map<String, String> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public <T> BackgroundLoader<T> doDelete(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		if(parameters != null)
 			return doDelete(formatParameters(parameters, contentType), parser);
 		else
 			return doDelete((String) null, parser);
+	}
+
+	/**
+	 * Convenience for <code>doPatch(null, parser);</code>
+	 *
+	 * @see URLLoader#doPatch(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link CompletableFuture} that can be used to load the content
+	 */
+	public <T> BackgroundLoader<T> doPatch(Parser<String, T> parser)
+	{
+		return doPatch((String) null, parser);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a patch to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
+	 * call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link CompletableFuture} that can be used to load the content
+	 */
+	public <T> BackgroundLoader<T> doPatch(String output, Parser<String, T> parser)
+	{
+		return new BackgroundLoader<T>("PATCH", null, output, parser);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doPatch(URLLoader.formatParameters(parameters), parser);</code>
+	 * 
+	 * @see URLLoader#doPatch(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link CompletableFuture} that can be used to load the content
+	 */
+	public <T> BackgroundLoader<T> doPatch(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	{
+		if(parameters != null)
+			return doPatch(formatParameters(parameters, contentType), parser);
+		else
+			return doPatch((String) null, parser);
 	}
 
 	public class BackgroundLoader<T> implements Callable<T>, Supplier<T>
@@ -520,7 +572,7 @@ public class URLLoader
 	 * @param
 	 * @return the formatted String
 	 */
-	public static String formatParameters(Map<String, String> parameters, EnumContentType contentType)
+	public static String formatParameters(Map<String, Object> parameters, EnumContentType contentType)
 	{
 		if(contentType == EnumContentType.json)
 		{
@@ -529,14 +581,14 @@ public class URLLoader
 		else
 		{
 			StringBuilder sb = new StringBuilder();
-			Entry<String, String> param;
-			Iterator<Entry<String, String>> paramIterator = parameters.entrySet().iterator();
+			Entry<String, Object> param;
+			Iterator<Entry<String, Object>> paramIterator = parameters.entrySet().iterator();
 			while(paramIterator.hasNext())
 			{
 				param = paramIterator.next();
 				sb.append(param.getKey());
 				sb.append("=");
-				sb.append(URLEncoder.encode(param.getValue(), StandardCharsets.UTF_8));
+				sb.append(URLEncoder.encode("" + param.getValue(), StandardCharsets.UTF_8));
 				if(paramIterator.hasNext())
 					sb.append("&");
 			}
