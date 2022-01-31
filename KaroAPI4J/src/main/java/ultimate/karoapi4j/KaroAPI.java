@@ -761,7 +761,6 @@ public class KaroAPI
 
 	public CompletableFuture<ChatMessage> sendChatMessage(String message)
 	{
-		// TODO there is a unicode problem...
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("msg", message);
 		return loadAsync(CHAT.doPost(args, EnumContentType.json, PARSER_CHAT_MESSAGE));
@@ -783,13 +782,8 @@ public class KaroAPI
 
 	public CompletableFuture<UserMessage> sendUserMessage(int userId, String message)
 	{
-		// TODO there is a unicode problem...
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("text", message);
-		// args.put("userId", userId);
-		// args.put("dateSeparator", false);
-		// args.put("rxtx", "");
-		// args.put("ts", 0);
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json, PARSER_USER_MESSAGE));
 	}
 
