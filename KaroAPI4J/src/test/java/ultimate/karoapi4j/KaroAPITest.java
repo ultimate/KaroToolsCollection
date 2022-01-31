@@ -655,10 +655,12 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(properties.getProperty("karoapi.user"), user1.getLogin());
 
 		String str1 = "Hallo " + user2.getLogin() + ", das ist ein API-Test!";
-		String str2 = "Danke"; // TODO unicode: "und Gruß zurück!";
+		String str2 = "Danke und Gruß zurück!";
 
 		UserMessage msg, lastMsg;
 		List<UserMessage> messages;
+		Date now = new Date();
+		long timediff;
 
 		// check received user1
 		messages = karoAPI2.getUserMessage(user1.getId()).get();
@@ -685,6 +687,9 @@ public class KaroAPITest extends KaroAPITestcase
 		lastMsg = messages.get(messages.size() - 1);
 		assertEquals(str1, lastMsg.getText());
 		assertFalse(lastMsg.isR());
+		timediff = lastMsg.getTs().getTime() - now.getTime();
+		logger.debug("ts = " + lastMsg.getTs() + ", timediff = " + timediff);
+		assertTrue(Math.abs(timediff) < 10000); // time diff should not be more than 10 seconds...
 
 		// TODO mark read
 		// String tmp = karoAPI2.readMessage(user1.getId()).get(); // PATCH currently not supported
@@ -702,6 +707,9 @@ public class KaroAPITest extends KaroAPITestcase
 		lastMsg = messages.get(messages.size() - 1);
 		assertEquals(str2, lastMsg.getText());
 		assertFalse(lastMsg.isR());
+		timediff = lastMsg.getTs().getTime() - now.getTime();
+		logger.debug("ts = " + lastMsg.getTs() + ", timediff = " + timediff);
+		assertTrue(Math.abs(timediff) < 10000); // time diff should not be more than 10 seconds...
 
 		// TODO mark read
 		// String tmp = karoAPI.readMessage(user2.getId()).get(); // PATCH currently not supported
