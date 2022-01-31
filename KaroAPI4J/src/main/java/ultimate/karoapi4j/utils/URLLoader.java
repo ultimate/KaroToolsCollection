@@ -7,9 +7,12 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -59,8 +62,8 @@ public class URLLoader
 
 	static
 	{
-		POST_PROPERTIES_URL_ENCODED.put("Content-Type", "application/x-www-form-urlencoded");
-		POST_PROPERTIES_JSON.put("Content-Type", "application/json");
+		POST_PROPERTIES_URL_ENCODED.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		POST_PROPERTIES_JSON.put("Content-Type", "application/json; charset=utf-8");
 	}
 
 	protected URLLoader				parent;
@@ -221,14 +224,22 @@ public class URLLoader
 			connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
 
 		if(logger.isDebugEnabled())
+		{
 			logger.debug(method + " " + url + " -> " + output);
+			for(Entry<String, List<String>> rqp: connection.getRequestProperties().entrySet())
+				logger.trace(" - " + rqp.getKey() + " = " + rqp.getValue());
+		}
 
 		if(output != null)
 		{
 			connection.setDoOutput(true);
-			PrintWriter out = new PrintWriter(connection.getOutputStream());
-			out.print(output);
-			out.close();
+//			PrintWriter out = new PrintWriter(connection.getOutputStream());
+//			out.print(output);
+//			out.close();
+			byte[] bytes = output.getBytes(Charset.forName("UTF-8"));
+			connection.getOutputStream().write(bytes);
+			connection.getOutputStream().flush();
+			connection.getOutputStream().close();
 		}
 
 		connection.connect();
@@ -242,6 +253,14 @@ public class URLLoader
 		}
 		bis.close();
 		is.close();
+		
+		if(logger.isDebugEnabled())
+		{
+			logger.debug(method + " " + url + " = " + connection.getResponseCode() + " " + connection.getResponseMessage());
+			for(Entry<String, List<String>> hf: connection.getHeaderFields().entrySet())
+				logger.trace(" - " + hf.getKey() + " = " + hf.getValue());
+			logger.trace(" = " +  result.toString());
+		}
 
 		return result.toString();
 	}
