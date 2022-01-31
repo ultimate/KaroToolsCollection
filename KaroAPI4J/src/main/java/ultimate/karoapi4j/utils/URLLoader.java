@@ -3,6 +3,7 @@ package ultimate.karoapi4j.utils;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -59,6 +60,8 @@ public class URLLoader
 
 	public static final Map<String, String>	POST_PROPERTIES_URL_ENCODED	= new HashMap<>();
 	public static final Map<String, String>	POST_PROPERTIES_JSON		= new HashMap<>();
+	
+	public static final String				CHARSET = "UTF-8";
 
 	static
 	{
@@ -233,10 +236,10 @@ public class URLLoader
 		if(output != null)
 		{
 			connection.setDoOutput(true);
-			byte[] bytes = output.getBytes(Charset.forName("UTF-8"));
-			connection.getOutputStream().write(bytes);
-			connection.getOutputStream().flush();
-			connection.getOutputStream().close();
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET));
+			out.print(output);
+			out.flush();
+			out.close();
 		}
 
 		connection.connect();
