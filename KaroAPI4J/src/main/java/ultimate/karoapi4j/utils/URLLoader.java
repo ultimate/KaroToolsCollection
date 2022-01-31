@@ -233,9 +233,6 @@ public class URLLoader
 		if(output != null)
 		{
 			connection.setDoOutput(true);
-//			PrintWriter out = new PrintWriter(connection.getOutputStream());
-//			out.print(output);
-//			out.close();
 			byte[] bytes = output.getBytes(Charset.forName("UTF-8"));
 			connection.getOutputStream().write(bytes);
 			connection.getOutputStream().flush();
