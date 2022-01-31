@@ -33,6 +33,7 @@ import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.Parser;
+import ultimate.karoapi4j.utils.ReflectionsUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
 
@@ -807,16 +808,17 @@ public class KaroAPI
 	// TODO
 	///////////////////////
 
+	@SuppressWarnings("unchecked")
 	public <T extends Identifiable> CompletableFuture<T> load(T object)
 	{
 		if(object == null)
 			throw new IllegalArgumentException("object must not be null");
 		if(object.getId() == null)
 			throw new IllegalArgumentException("object id must not be null");
-		
-		int id = object.getId();		
+
+		int id = object.getId();
 		CompletableFuture<T> loader;
-		
+
 		if(object instanceof User)
 			loader = (CompletableFuture<T>) getUser(id);
 		else if(object instanceof Game)
@@ -825,9 +827,7 @@ public class KaroAPI
 			loader = (CompletableFuture<T>) getMap(id);
 		else
 			throw new IllegalArgumentException("unsupported type: " + object.getClass());
-		
-		return loader.whenComplete((result, th) -> {
-//			copyProperties(result, object);
-		});
+
+		return loader.whenComplete((result, th) -> { ReflectionsUtil.copyFields(result, object, false); });
 	}
 }
