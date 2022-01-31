@@ -116,13 +116,13 @@ public class KaroAPI
 	}
 
 	// parsers needed
-	public static final Parser<String, Void>									PARSER_VOID					= (result) -> { return null; };
+	public static final Parser<String, Void>								PARSER_VOID					= (result) -> { return null; };
 	public static final Parser<String, String>								PARSER_RAW					= (result) -> { return result; };
 	public static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	public static final Parser<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	public static final Parser<String, User>								PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
 	public static final Parser<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	public static final Parser<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	public static final Parser<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
+	public static final Parser<String, Game>								PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	public static final Parser<String, Game>								PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
 	public static final Parser<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
 	public static final Parser<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
 	public static final Parser<String, List<Map>>							PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
@@ -135,7 +135,7 @@ public class KaroAPI
 		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text");
 	};
 
-	private static Executor														executor;
+	private static Executor													executor;
 
 	public static void setExecutor(Executor e)
 	{
@@ -208,7 +208,7 @@ public class KaroAPI
 	protected final URLLoader	CONTACTS		= API.relative("/contacts");
 	protected final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
 
-	private int				performRetries	= 0;
+	private int					performRetries	= 0;
 
 	/**
 	 * Get an instance for the given user
