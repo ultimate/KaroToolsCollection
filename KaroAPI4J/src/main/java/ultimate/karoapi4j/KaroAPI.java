@@ -22,12 +22,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
+import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
-import ultimate.karoapi4j.model.official.Message;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.Parser;
@@ -113,22 +115,22 @@ public class KaroAPI
 	}
 
 	// parsers needed
-	protected static final Parser<String, Void>									PARSER_VOID				= (result) -> { return null; };
-	protected static final Parser<String, String>								PARSER_RAW				= (result) -> { return result; };
-	protected static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST		= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	protected static final Parser<String, User>									PARSER_USER				= new JSONUtil.Parser<>(new TypeReference<User>() {});
-	protected static final Parser<String, List<User>>							PARSER_USER_LIST		= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	protected static final Parser<String, Game>									PARSER_GAME				= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	protected static final Parser<String, Game>									PARSER_GAME_CONTAINER	= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
-	protected static final Parser<String, List<Game>>							PARSER_GAME_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
-	protected static final Parser<String, Map>									PARSER_MAP				= new JSONUtil.Parser<>(new TypeReference<Map>() {});
-	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
-	protected static final Parser<String, Object>								PARSER_CHAT				= new JSONUtil.Parser<>(new TypeReference<Object>() {});								// TODO
-	protected static final Parser<String, List<Object>>							PARSER_CHAT_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Object>>() {});							// TODO
-	protected static final Parser<String, Message>								PARSER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<Message>() {});								// TODO
-	protected static final Parser<String, List<Message>>						PARSER_MESSAGE_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Message>>() {});							// TODO
+	protected static final Parser<String, Void>									PARSER_VOID					= (result) -> { return null; };
+	protected static final Parser<String, String>								PARSER_RAW					= (result) -> { return result; };
+	protected static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
+	protected static final Parser<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	protected static final Parser<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
+	protected static final Parser<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	protected static final Parser<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
+	protected static final Parser<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	protected static final Parser<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
+	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	protected static final Parser<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
+	protected static final Parser<String, List<ChatMessage>>					PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
+	protected static final Parser<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
+	protected static final Parser<String, List<UserMessage>>					PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
-	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES			= (result) -> {
+	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
 		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text");
 	};
 
@@ -198,11 +200,11 @@ public class KaroAPI
 	// do not use API as the base here, since we do not need the authentication here
 	private final URLLoader	MAP_IMAGE		= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
-	private final URLLoader	CHAT			= API.relative("/chat");								// TODO
-	private final URLLoader	CHAT_LAST		= CHAT.relative("/last");								// TODO
-	private final URLLoader	CHAT_USERS		= CHAT.relative("/users");								// TODO
+	private final URLLoader	CHAT			= API.relative("/chat");
+	private final URLLoader	CHAT_LAST		= CHAT.relative("/last");
+	private final URLLoader	CHAT_USERS		= CHAT.relative("/users");
 	// messaging
-	private final URLLoader	CONTACTS		= API.relative("/contacts");							// TODO
+	private final URLLoader	CONTACTS		= API.relative("/contacts");
 	private final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
 
 	private int				performRetries	= 0;
@@ -740,39 +742,92 @@ public class KaroAPI
 	}
 
 	///////////////////////
+	// chat
+	///////////////////////
+
+	public CompletableFuture<List<ChatMessage>> getChatMessages(int start, int limit)
+	{
+		HashMap<String, Object> args = new HashMap<>();
+		args.put("start", start);
+		args.put("limit", limit);
+		return loadAsync(CHAT.parameterize(args).doGet(PARSER_CHAT_LIST));
+	}
+
+	public CompletableFuture<ChatMessage> getChatLastMessage()
+	{
+		return loadAsync(CHAT_LAST.doGet(PARSER_CHAT_MESSAGE));
+	}
+
+	public CompletableFuture<ChatMessage> sendChatMessage(String message)
+	{
+		// TODO there is a unicode problem...
+		HashMap<String, Object> args = new HashMap<>();
+		args.put("msg", message);
+		return loadAsync(CHAT.doPost(args, EnumContentType.json, PARSER_CHAT_MESSAGE));
+	}
+
+	public CompletableFuture<List<User>> getChatUsers()
+	{
+		return loadAsync(CHAT_USERS.doGet(PARSER_USER_LIST));
+	}
+
+	///////////////////////
 	// messaging
 	///////////////////////
 
-	public CompletableFuture<Message> sendMessage(int userId, String message)
+	public CompletableFuture<List<User>> getContacts()
 	{
+		return loadAsync(CONTACTS.doGet(PARSER_USER_LIST));
+	}
+
+	public CompletableFuture<UserMessage> sendUserMessage(int userId, String message)
+	{
+		// TODO there is a unicode problem...
 		HashMap<String, Object> args = new HashMap<>();
-		args.put("userId", userId);
 		args.put("text", message);
-		args.put("dateSeparator", false);
-		args.put("rxtx", "");
-		args.put("ts", 0);
-		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json, PARSER_MESSAGE));
+		// args.put("userId", userId);
+		// args.put("dateSeparator", false);
+		// args.put("rxtx", "");
+		// args.put("ts", 0);
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json, PARSER_USER_MESSAGE));
 	}
 
-	public CompletableFuture<List<Message>> getMessage(int userId)
+	public CompletableFuture<List<UserMessage>> getUserMessage(int userId)
 	{
-		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(PARSER_MESSAGE_LIST));
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(PARSER_USER_MESSAGE_LIST));
 	}
 
-	CompletableFuture<String> readMessage(int userId)
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	CompletableFuture<String> readUserMessage(int userId)
 	{
-		// TODO currently PATCH is not supported
-		return null;
-		// return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
 	}
 
 	///////////////////////
 	// TODO
 	///////////////////////
 
-	public <T> BackgroundLoader<T> refresh(T object)
+	public <T extends Identifiable> CompletableFuture<T> load(T object)
 	{
-		// TODO
-		return null;
+		if(object == null)
+			throw new IllegalArgumentException("object must not be null");
+		if(object.getId() == null)
+			throw new IllegalArgumentException("object id must not be null");
+		
+		int id = object.getId();		
+		CompletableFuture<T> loader;
+		
+		if(object instanceof User)
+			loader = (CompletableFuture<T>) getUser(id);
+		else if(object instanceof Game)
+			loader = (CompletableFuture<T>) getGame(id);
+		else if(object instanceof Map)
+			loader = (CompletableFuture<T>) getMap(id);
+		else
+			throw new IllegalArgumentException("unsupported type: " + object.getClass());
+		
+		return loader.whenComplete((result, th) -> {
+//			copyProperties(result, object);
+		});
 	}
 }

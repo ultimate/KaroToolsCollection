@@ -5,7 +5,7 @@ import java.util.Date;
 import ultimate.karoapi4j.enums.EnumMessageType;
 import ultimate.karoapi4j.model.base.Identifiable;
 
-public class Message extends Identifiable
+public class UserMessage extends Identifiable
 {
 	/*
 	 * "id": 2111,

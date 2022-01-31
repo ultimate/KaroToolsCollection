@@ -206,7 +206,7 @@ public class URLLoader
 		return new URLLoader(this.parent, newURL, requestProperties);
 	}
 
-	final String doLoad(HttpURLConnection connection, String method, Map<String, String> additionalRequestProperties, String output) throws IOException
+	String doLoad(HttpURLConnection connection, String method, Map<String, String> additionalRequestProperties, String output) throws IOException
 	{
 		StringBuilder result = new StringBuilder();
 		connection.setDoInput(true);
@@ -275,7 +275,7 @@ public class URLLoader
 			return new BackgroundLoader<T>("POST", POST_PROPERTIES_JSON, output, parser);
 		else
 			return new BackgroundLoader<T>("POST", POST_PROPERTIES_URL_ENCODED, output, parser);
-			
+
 	}
 
 	/**
@@ -438,7 +438,8 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	<T> BackgroundLoader<T> doPatch(Parser<String, T> parser)
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	public <T> BackgroundLoader<T> doPatch(Parser<String, T> parser)
 	{
 		// TODO currently PATCH is not supported
 		return doPatch((String) null, parser);
@@ -454,7 +455,8 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	<T> BackgroundLoader<T> doPatch(String output, Parser<String, T> parser)
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	public <T> BackgroundLoader<T> doPatch(String output, Parser<String, T> parser)
 	{
 		// TODO currently PATCH is not supported
 		return new BackgroundLoader<T>("PATCH", null, output, parser);
@@ -470,7 +472,8 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	<T> BackgroundLoader<T> doPatch(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	public <T> BackgroundLoader<T> doPatch(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
 	{
 		// TODO currently PATCH is not supported
 		if(parameters != null)
