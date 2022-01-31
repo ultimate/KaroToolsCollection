@@ -4,16 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
@@ -29,12 +32,12 @@ public class EnumFinderTest extends KaroAPITestcase
 	{
 		//@formatter:off
 	    return Stream.of(
-	        arguments("getUsers", EnumUserTheme.class, 		"theme"),
-	        arguments("getUsers", EnumUserGamesort.class, 	"gamesort"),
-	        arguments("getUsers", EnumUserState.class, 		"state"),
-	        arguments("getGames", EnumGameDirection.class, 	"startdirection"),
-	        arguments("getGames", EnumGameTC.class, 		"crashallowed"),
-	        arguments("getGames", EnumPlayerStatus.class, 	"status")
+	        arguments("USERS", EnumUserTheme.class, 	"theme"),
+	        arguments("USERS", EnumUserGamesort.class, 	"gamesort"),
+	        arguments("USERS", EnumUserState.class, 	"state"),
+	        arguments("GAMES", EnumGameDirection.class, "startdirection"),
+	        arguments("GAMES", EnumGameTC.class, 		"crashallowed"),
+	        arguments("GAMES", EnumPlayerStatus.class, 	"status")
 	    );
 	    //@formatter:on
 	}
@@ -42,13 +45,22 @@ public class EnumFinderTest extends KaroAPITestcase
 	@ParameterizedTest
 	@MethodSource("provideEnums")
 	@SuppressWarnings("unchecked")
-	public <E extends Enum<E>> void test_findEnums(String apiCall, Class<E> cls, String key)
-			throws InterruptedException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	public <E extends Enum<E>> void test_findEnums(String apiField, Class<E> cls, String key)
+			throws InterruptedException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException, ExecutionException
 	{
-		Method method = karoAPI.getClass().getMethod(apiCall);
-		BackgroundLoader<List<?>> loader = (BackgroundLoader<List<?>>) method.invoke(karoAPI);
-
-		Set<String> enumValuesFound = EnumFinder.findEnums(loader.getRaw(), key);
+		// use reflections to access the protected content of the API to get the RAW result
+		Field field = karoAPI.getClass().getDeclaredField(apiField);
+		field.setAccessible(true);
+		URLLoader urlLoader = (URLLoader) field.get(karoAPI);	
+		
+		Method loadMethod = karoAPI.getClass().getDeclaredMethod("loadAsync", BackgroundLoader.class);
+		loadMethod.setAccessible(true);
+		
+		CompletableFuture<String> cf = (CompletableFuture<String>) loadMethod.invoke(karoAPI, urlLoader.doGet(KaroAPI.PARSER_RAW));
+		String rawResult = cf.get();
+		
+		// now we can scan the RAW JSON
+		Set<String> enumValuesFound = EnumFinder.findEnums(rawResult, key);
 
 		logger.info("checking " + cls.getName());
 		Enum<E> enumValue;

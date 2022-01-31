@@ -116,22 +116,22 @@ public class KaroAPI
 	}
 
 	// parsers needed
-	protected static final Parser<String, Void>									PARSER_VOID					= (result) -> { return null; };
-	protected static final Parser<String, String>								PARSER_RAW					= (result) -> { return result; };
-	protected static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	protected static final Parser<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
-	protected static final Parser<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	protected static final Parser<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	protected static final Parser<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
-	protected static final Parser<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
-	protected static final Parser<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
-	protected static final Parser<String, List<Map>>							PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
-	protected static final Parser<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
-	protected static final Parser<String, List<ChatMessage>>					PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
-	protected static final Parser<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
-	protected static final Parser<String, List<UserMessage>>					PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
+	public static final Parser<String, Void>									PARSER_VOID					= (result) -> { return null; };
+	public static final Parser<String, String>								PARSER_RAW					= (result) -> { return result; };
+	public static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
+	public static final Parser<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	public static final Parser<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
+	public static final Parser<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	public static final Parser<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
+	public static final Parser<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	public static final Parser<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
+	public static final Parser<String, List<Map>>							PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	public static final Parser<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
+	public static final Parser<String, List<ChatMessage>>					PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
+	public static final Parser<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
+	public static final Parser<String, List<UserMessage>>					PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
-	protected static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
+	public static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
 		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text");
 	};
 
@@ -172,41 +172,41 @@ public class KaroAPI
 	}
 
 	// api URLs
-	private final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
-	private final URLLoader	API				= KAROPAPIER.relative("/api");
+	protected final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
+	protected final URLLoader	API				= KAROPAPIER.relative("/api");
 	// users
-	private final URLLoader	USERS			= API.relative("/users");
-	private final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
-	private final URLLoader	USER_DRAN		= USER.relative("/dran");
-	private final URLLoader	USER_BLOCKERS	= USER.relative("/blockers");
+	protected final URLLoader	USERS			= API.relative("/users");
+	protected final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
+	protected final URLLoader	USER_DRAN		= USER.relative("/dran");
+	protected final URLLoader	USER_BLOCKERS	= USER.relative("/blockers");
 	// current user
-	private final URLLoader	CURRENT_USER	= API.relative("/user");
-	private final URLLoader	CHECK			= CURRENT_USER.relative("/check");
-	private final URLLoader	FAVS			= CURRENT_USER.relative("/favs");
-	private final URLLoader	FAVS_EDIT		= FAVS.relative("/" + PLACEHOLDER);
-	private final URLLoader	BLOCKERS		= API.relative("/blockers");
-	private final URLLoader	NOTES			= API.relative("/notes");
-	private final URLLoader	NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
-	private final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");						// TODO
+	protected final URLLoader	CURRENT_USER	= API.relative("/user");
+	protected final URLLoader	CHECK			= CURRENT_USER.relative("/check");
+	protected final URLLoader	FAVS			= CURRENT_USER.relative("/favs");
+	protected final URLLoader	FAVS_EDIT		= FAVS.relative("/" + PLACEHOLDER);
+	protected final URLLoader	BLOCKERS		= API.relative("/blockers");
+	protected final URLLoader	NOTES			= API.relative("/notes");
+	protected final URLLoader	NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
+	protected final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");						// TODO
 	// games
-	private final URLLoader	GAMES			= API.relative("/games");
-	private final URLLoader	GAMES3			= API.relative("/games3");
-	private final URLLoader	GAME			= GAMES.relative("/" + PLACEHOLDER);
-	private final URLLoader	GAME_CREATE		= API.relative("/game");
-	private final URLLoader	GAME_MOVE		= KAROPAPIER.relative("/move.php");
+	protected final URLLoader	GAMES			= API.relative("/games");
+	protected final URLLoader	GAMES3			= API.relative("/games3");
+	protected final URLLoader	GAME			= GAMES.relative("/" + PLACEHOLDER);
+	protected final URLLoader	GAME_CREATE		= API.relative("/game");
+	protected final URLLoader	GAME_MOVE		= KAROPAPIER.relative("/move.php");
 	// maps
-	private final URLLoader	MAPS			= API.relative("/maps");
-	private final URLLoader	MAP				= MAPS.relative("/" + PLACEHOLDER);
+	protected final URLLoader	MAPS			= API.relative("/maps");
+	protected final URLLoader	MAP				= MAPS.relative("/" + PLACEHOLDER);
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
-	private final URLLoader	MAP_IMAGE		= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	protected final URLLoader	MAP_IMAGE		= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
-	private final URLLoader	CHAT			= API.relative("/chat");
-	private final URLLoader	CHAT_LAST		= CHAT.relative("/last");
-	private final URLLoader	CHAT_USERS		= CHAT.relative("/users");
+	protected final URLLoader	CHAT			= API.relative("/chat");
+	protected final URLLoader	CHAT_LAST		= CHAT.relative("/last");
+	protected final URLLoader	CHAT_USERS		= CHAT.relative("/users");
 	// messaging
-	private final URLLoader	CONTACTS		= API.relative("/contacts");
-	private final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
+	protected final URLLoader	CONTACTS		= API.relative("/contacts");
+	protected final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
 
 	private int				performRetries	= 0;
 
