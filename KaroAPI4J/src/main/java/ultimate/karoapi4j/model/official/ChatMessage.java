@@ -8,31 +8,11 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.Converter;
 
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
 
 public class ChatMessage extends Identifiable
 {
-	public static final int DATE_FACTOR = 1000;
-
-	public static class TimestampConverter implements Converter<Long, Date>
-	{
-		@Override
-		public Date convert(Long value)
-		{
-			return new Date(value * DATE_FACTOR);
-		}
-
-		@Override
-		public JavaType getInputType(TypeFactory typeFactory)
-		{
-			return typeFactory.constructType(Long.class);
-		}
-
-		@Override
-		public JavaType getOutputType(TypeFactory typeFactory)
-		{
-			return typeFactory.constructType(Date.class);
-		}
-	}
+	
 
 	/*
 	 * chat/list.json

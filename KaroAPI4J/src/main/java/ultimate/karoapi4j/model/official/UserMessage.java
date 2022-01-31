@@ -2,8 +2,11 @@ package ultimate.karoapi4j.model.official;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import ultimate.karoapi4j.enums.EnumMessageType;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
 
 public class UserMessage extends Identifiable
 {
@@ -22,6 +25,7 @@ public class UserMessage extends Identifiable
 	private String			user_name;
 	private int				contact_id;
 	private String			contact_name;
+	@JsonDeserialize(converter = TimestampConverter.class)
 	private Date			ts;
 	private boolean			r;
 	private String			text;
