@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
-import ultimate.karoapi4j.model.official.ChatEntry;
+import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.web.urlloaders.JSONURLLoaderThread;
@@ -32,8 +32,8 @@ public class SyncTest
 		URLLoader<String> stringLoader = new StringURLLoaderThread(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
 		stringLoader.load(new JsonRefreshable());
 		
-		URLLoader<List<ChatEntry>> listLoader = new JSONURLLoaderThread<List<ChatEntry>>(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
-		final SynchronizedList<ChatEntry> list = new SynchronizedList<ChatEntry>(listLoader, EnumRefreshMode.interval_1, false);
+		URLLoader<List<ChatMessage>> listLoader = new JSONURLLoaderThread<List<ChatMessage>>(new URL("http://reloaded.karopapier.de/api/chat/list.json"));
+		final SynchronizedList<ChatMessage> list = new SynchronizedList<ChatMessage>(listLoader, EnumRefreshMode.interval_1, false);
 		
 		Thread t = new Thread()
 		{

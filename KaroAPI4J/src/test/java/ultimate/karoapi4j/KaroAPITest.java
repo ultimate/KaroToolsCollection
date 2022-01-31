@@ -12,6 +12,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,13 +26,14 @@ import org.junit.jupiter.api.Test;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
+import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
-import ultimate.karoapi4j.model.official.Message;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.test.KaroAPITestcase;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.MethodComparator;
@@ -40,6 +43,9 @@ public class KaroAPITest extends KaroAPITestcase
 	private static final int	VALIDATION_LIMIT	= 10;
 	private static final String	TEST_GAMES_NAME		= "KaroAPI4J-Testspiel#";
 	private static final int[]	TEST_GAMES_IDS		= new int[] { 132803, 132804, 132805, 132806, 132807 };
+	private static final String	TEST_CHAT_MESSAGE	= "Hey Leute, sorry fuer den Spam, aber ich muss mal was ausprobieren...";
+	private static final int	TEST_CHAT_ID_MIN	= 462585;
+	private static final int	TEST_CHAT_ID_MAX	= 462589;
 
 	@Test
 	public void test_check() throws InterruptedException, ExecutionException
@@ -413,10 +419,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game);
 		assertNotNull(game.getId());
 		assertEquals(plannedGame.getName(), game.getName());
-		
+
 		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
 		int gameId = game.getId();
-		
+
 		// load full game -> check players and moves
 		game = karoAPI.getGame(gameId, false, true, true).get();
 		assertNotNull(game);
@@ -443,7 +449,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(1, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
-		
+
 		// move 1
 		assertTrue(karoAPI.move(game.getId(), new Move(3, 1, 1, 0, null)).get());
 
@@ -458,7 +464,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(2, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
-		
+
 		// move 2
 		assertTrue(karoAPI.move(game.getId(), new Move(5, 1, 2, 0, null)).get());
 
@@ -502,6 +508,96 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(favs.size(), newFavs.size());
 	}
 
+	//@Test // Only run if changes have been made
+	public void test_chat() throws InterruptedException, ExecutionException
+	{
+		ChatMessage oldMessage, newMessage;
+		List<ChatMessage> chat;
+
+		oldMessage = karoAPI.getChatLastMessage().get();
+		assertNotNull(oldMessage);
+		assertNotNull(oldMessage.getId());
+
+		Date now = new Date();
+		newMessage = karoAPI.sendChatMessage(TEST_CHAT_MESSAGE).get();
+		assertNotNull(newMessage);
+		assertNotNull(newMessage.getId());
+		assertEquals(oldMessage.getId() + 1, newMessage.getId());
+		assertEquals(TEST_CHAT_MESSAGE, newMessage.getText());
+		assertEquals(properties.getProperty("karoapi.user"), newMessage.getUser());
+		assertNotNull(newMessage.getTs());
+		long timediff = newMessage.getTs().getTime() - now.getTime();
+		logger.debug("ts = " + newMessage.getTs() + ", timediff = " + timediff);
+		assertTrue(Math.abs(timediff) < 10000); // time diff should not be more than 10 seconds...
+
+		int limit = 10;
+
+		chat = karoAPI.getChatMessages(newMessage.getId() - limit + 1, limit).get();
+		assertNotNull(chat);
+		assertEquals(limit, chat.size());
+
+		CollectionsUtil.contains(chat, (m) -> { return m.getId() == oldMessage.getId(); });
+		CollectionsUtil.contains(chat, (m) -> { return m.getId() == newMessage.getId(); });
+	}
+
+	@Test
+	public void test_getChatMessages() throws InterruptedException, ExecutionException
+	{
+		int firstId = TEST_CHAT_ID_MIN;
+		int lastId = TEST_CHAT_ID_MAX;
+		Date firstDate = new GregorianCalendar(2022, 0, 31, 9, 45, 0).getTime();
+		Date lastDate = new GregorianCalendar(2022, 0, 31, 9, 52, 0).getTime();
+
+		// dedicated entry
+
+		int id = (int) (Math.random() * (TEST_CHAT_ID_MAX - TEST_CHAT_ID_MIN + 1) + TEST_CHAT_ID_MIN);
+		int limit = 1;
+
+		List<ChatMessage> chat = karoAPI.getChatMessages(id, 1).get();
+		assertNotNull(chat);
+		assertEquals(limit, chat.size());
+
+		assertEquals(id, chat.get(0).getId());
+		assertEquals("CraZZZy", chat.get(0).getUser());
+		assertEquals(TEST_CHAT_MESSAGE, chat.get(0).getText());
+		assertTrue(chat.get(0).getTs().after(firstDate));
+		assertTrue(chat.get(0).getTs().before(lastDate));
+
+		// offset & limit
+
+		limit = lastId - firstId + 1;
+
+		chat = karoAPI.getChatMessages(firstId, limit).get();
+		assertNotNull(chat);
+		assertEquals(limit, chat.size());
+
+		for(int i = 0; i < chat.size(); i++)
+		{
+			ChatMessage m = chat.get(i);
+			assertEquals(firstId + i, m.getId());
+			assertTrue(m.getTs().after(firstDate));
+			assertTrue(m.getTs().before(lastDate));
+		}
+	}
+
+	public void test_getChatUsers() throws InterruptedException, ExecutionException
+	{
+		List<User> users = karoAPI.getChatUsers().get();
+		assertNotNull(users);
+		assertTrue(users.size() > 0);
+
+		boolean botrixFound = false;
+		for(User user : users)
+		{
+			assertNotNull(user.getId());
+			assertNotNull(user.getLogin());
+			if(user.getLogin().equalsIgnoreCase("Botrix"))
+				botrixFound = true;
+		}
+
+		assertTrue(botrixFound);
+	}
+
 	@Test
 	public void test_notes() throws InterruptedException, ExecutionException
 	{
@@ -526,72 +622,87 @@ public class KaroAPITest extends KaroAPITestcase
 		// new list must not contain the note
 		assertFalse(newNotes.containsKey(gameId));
 	}
-	
+
+	@Test
+	public void test_getContacts() throws InterruptedException, ExecutionException
+	{
+		List<User> contacts = karoAPI.getContacts().get();
+		assertNotNull(contacts);
+		assertTrue(contacts.size() > 0);
+
+		for(User contact : contacts)
+		{
+			assertNotNull(contact.getId());
+			assertNotNull(contact.getLogin());
+			assertNotNull(contact.getTs());
+		}
+	}
+
 	@Test
 	public void test_multiInstanceAndMessaging() throws InterruptedException, ExecutionException
 	{
 		// check the login
 		assertEquals(properties.getProperty("karoapi.user"), karoAPI.check().get().getLogin());
-		
+
 		// create a second instance
 		KaroAPI karoAPI2 = new KaroAPI(properties.getProperty("karoapi.user2"), properties.getProperty("karoapi.password2"));
 		// check the login there
 		User user2 = karoAPI2.check().get();
 		assertEquals(properties.getProperty("karoapi.user2"), user2.getLogin());
-		
+
 		// check if the other API is still valid
 		User user1 = karoAPI.check().get();
 		assertEquals(properties.getProperty("karoapi.user"), user1.getLogin());
-		
+
 		String str1 = "Hallo " + user2.getLogin() + ", das ist ein API-Test!";
 		String str2 = "Danke"; // TODO unicode: "und Gruß zurück!";
-		
-		Message msg, lastMsg;
-		List<Message> messages;
-		
+
+		UserMessage msg, lastMsg;
+		List<UserMessage> messages;
+
 		// check received user1
-		messages = karoAPI2.getMessage(user1.getId()).get();
+		messages = karoAPI2.getUserMessage(user1.getId()).get();
 		assertNotNull(messages);
 		int count1 = messages.size();
-		
+
 		// check received user2
-		messages = karoAPI2.getMessage(user1.getId()).get();
+		messages = karoAPI2.getUserMessage(user1.getId()).get();
 		assertNotNull(messages);
 		int count2 = messages.size();
-		
+
 		assertEquals(count1, count2);
-		
+
 		// send 1
-		msg = karoAPI.sendMessage(user2.getId(), str1).get();
+		msg = karoAPI.sendUserMessage(user2.getId(), str1).get();
 		assertNotNull(msg);
 		assertEquals(user1.getId(), msg.getUser_id());
 		assertEquals(user2.getId(), msg.getContact_id());
 		assertEquals(str1, msg.getText());
-		
+
 		// check received
-		messages = karoAPI2.getMessage(user1.getId()).get();
+		messages = karoAPI2.getUserMessage(user1.getId()).get();
 		assertEquals(count2 + 1, messages.size());
-		lastMsg = messages.get(messages.size() -1);
+		lastMsg = messages.get(messages.size() - 1);
 		assertEquals(str1, lastMsg.getText());
 		assertFalse(lastMsg.isR());
-		
+
 		// TODO mark read
 		// String tmp = karoAPI2.readMessage(user1.getId()).get(); // PATCH currently not supported
-		
+
 		// send 2
-		msg = karoAPI2.sendMessage(user1.getId(), str2).get();
+		msg = karoAPI2.sendUserMessage(user1.getId(), str2).get();
 		assertNotNull(msg);
 		assertEquals(user2.getId(), msg.getUser_id());
 		assertEquals(user1.getId(), msg.getContact_id());
 		assertEquals(str2, msg.getText());
-		
+
 		// check received
-		messages = karoAPI.getMessage(user2.getId()).get();
+		messages = karoAPI.getUserMessage(user2.getId()).get();
 		assertEquals(count1 + 2, messages.size());
-		lastMsg = messages.get(messages.size() -1);
+		lastMsg = messages.get(messages.size() - 1);
 		assertEquals(str2, lastMsg.getText());
 		assertFalse(lastMsg.isR());
-		
+
 		// TODO mark read
 		// String tmp = karoAPI.readMessage(user2.getId()).get(); // PATCH currently not supported
 	}

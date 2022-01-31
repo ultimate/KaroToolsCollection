@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.List;
 
 import ultimate.karoapi4j.enums.EnumRefreshMode;
-import ultimate.karoapi4j.model.official.ChatEntry;
+import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.sync.BaseRefreshing;
@@ -26,11 +26,11 @@ public class Chat extends BaseRefreshing<Chat>
 	/**
 	 * The URLLoader used to load the history of ChatEntries
 	 */
-	private URLLoader<List<ChatEntry>>	entryLoader;
+	private URLLoader<List<ChatMessage>>	entryLoader;
 	/**
 	 * The list/history of ChatEntries
 	 */
-	private SynchronizedList<ChatEntry>	entries;
+	private SynchronizedList<ChatMessage>	entries;
 	/**
 	 * The URLLoader used to load the currently active chat users
 	 */
@@ -73,9 +73,9 @@ public class Chat extends BaseRefreshing<Chat>
 
 		try
 		{
-			entryLoader = new JSONURLLoaderThread<List<ChatEntry>>(new URL(KaroURLs.CHAT_LIST), KaroURLs.PARAMETER_LIMIT + "="
+			entryLoader = new JSONURLLoaderThread<List<ChatMessage>>(new URL(KaroURLs.CHAT_LIST), KaroURLs.PARAMETER_LIMIT + "="
 					+ entryUpdateLimit);
-			entries = new SynchronizedList<ChatEntry>(entryLoader, entryRefreshMode, false);
+			entries = new SynchronizedList<ChatMessage>(entryLoader, entryRefreshMode, false);
 
 			userLoader = new JSONURLLoaderThread<List<User>>(new URL(KaroURLs.CHAT_USERS));
 			users = new SynchronizedList<User>(userLoader, userRefreshMode, true);
@@ -91,7 +91,7 @@ public class Chat extends BaseRefreshing<Chat>
 	 * 
 	 * @return the ChatEntries
 	 */
-	public SynchronizedList<ChatEntry> getEntries()
+	public SynchronizedList<ChatMessage> getEntries()
 	{
 		return entries;
 	}
