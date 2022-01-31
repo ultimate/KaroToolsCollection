@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -25,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.databind.util.Converter;
 
 import ultimate.karoapi4j.exceptions.DeserializationException;
 import ultimate.karoapi4j.exceptions.SerializationException;
@@ -202,6 +206,29 @@ public abstract class JSONUtil
 		public E parse(String in)
 		{
 			return JSONUtil.deserializeContainer(in, typeRef, key);
+		}
+	}
+
+	public static final int DATE_FACTOR = 1000;
+
+	public static class TimestampConverter implements Converter<Long, Date>
+	{
+		@Override
+		public Date convert(Long value)
+		{
+			return new Date(value * DATE_FACTOR);
+		}
+
+		@Override
+		public JavaType getInputType(TypeFactory typeFactory)
+		{
+			return typeFactory.constructType(Long.class);
+		}
+
+		@Override
+		public JavaType getOutputType(TypeFactory typeFactory)
+		{
+			return typeFactory.constructType(Date.class);
 		}
 	}
 }
