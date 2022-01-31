@@ -745,6 +745,35 @@ public class KaroAPITest extends KaroAPITestcase
 			assertEquals(map.getCols(), row.length());
 		}
 	}
+	
+	@Test
+	public void test_load() throws InterruptedException, ExecutionException
+	{
+		int id = TEST_GAMES_IDS[0];
+		
+		Game loaded = new Game(id);
+		Game expected = karoAPI.getGame(id).get();
+		
+		assertNull(loaded.getName());
+		
+		karoAPI.load(loaded).get();
+		
+		assertEquals(id, loaded.getId());
+		assertTrue(loaded.getName().startsWith(TEST_GAMES_NAME));
+		
+		assertEquals(expected.getMap().getId(), loaded.getMap().getId()); // compare IDs only
+		assertEquals(expected.isCps(), loaded.isCps());
+		assertEquals(expected.getZzz(), loaded.getZzz());
+		assertEquals(expected.getCrashallowed(), loaded.getCrashallowed());
+		assertEquals(expected.getStartdirection(), loaded.getStartdirection());
+		assertEquals(expected.isStarted(), loaded.isStarted());
+		assertEquals(expected.isFinished(), loaded.isFinished());
+		assertEquals(expected.getStarteddate(), loaded.getStarteddate());
+		assertEquals(expected.getCreator(), loaded.getCreator());
+		assertEquals(expected.getNext(), loaded.getNext());
+		assertEquals(expected.getBlocked(), loaded.getBlocked());
+		assertEquals(expected.getPlayers(), loaded.getPlayers());
+	}
 
 	@Test
 	public void test_errorHandling() throws InterruptedException, ExecutionException
