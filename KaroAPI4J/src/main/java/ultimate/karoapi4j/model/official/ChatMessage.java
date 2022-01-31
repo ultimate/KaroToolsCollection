@@ -2,10 +2,7 @@ package ultimate.karoapi4j.model.official;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.databind.util.Converter;
 
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
