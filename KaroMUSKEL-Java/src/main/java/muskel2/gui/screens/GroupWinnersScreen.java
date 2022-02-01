@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
@@ -28,6 +27,7 @@ import muskel2.model.Player;
 import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class GroupWinnersScreen extends Screen implements ActionListener
 {

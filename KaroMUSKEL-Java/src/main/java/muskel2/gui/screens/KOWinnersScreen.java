@@ -18,7 +18,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
@@ -28,6 +27,7 @@ import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class KOWinnersScreen extends Screen implements ActionListener
 {

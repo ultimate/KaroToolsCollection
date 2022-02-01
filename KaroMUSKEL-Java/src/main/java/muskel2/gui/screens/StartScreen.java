@@ -16,11 +16,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.util.Language;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class StartScreen extends Screen implements ActionListener
 {

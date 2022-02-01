@@ -7,9 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public abstract class Screen extends JPanel
 {

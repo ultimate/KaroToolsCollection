@@ -16,7 +16,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
@@ -33,6 +32,7 @@ import muskel2.model.series.SimpleGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
 import muskel2.util.LeaguePlanner;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class SettingsScreen extends Screen implements ChangeListener
 {
