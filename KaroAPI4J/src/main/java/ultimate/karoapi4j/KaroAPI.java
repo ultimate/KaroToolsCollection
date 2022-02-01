@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.enums.EnumContentType;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.ChatMessage;
