@@ -6,10 +6,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
 
+/**
+ * POJO Game as defined by the {@link KaroAPI}
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 @JsonInclude()
 public class Game extends Identifiable
 {
@@ -46,8 +53,6 @@ public class Game extends Identifiable
 	private User				next;
 	private int					blocked;
 	private List<Player>		players;
-	// additional Fields
-	private boolean				creatorLeft;
 
 	public Game()
 	{
@@ -187,16 +192,6 @@ public class Game extends Identifiable
 	public void setPlayers(List<Player> players)
 	{
 		this.players = players;
-	}
-
-	public boolean isCreatorLeft()
-	{
-		return creatorLeft;
-	}
-
-	public void setCreatorLeft(boolean creatorLeft)
-	{
-		this.creatorLeft = creatorLeft;
 	}
 
 	@Override

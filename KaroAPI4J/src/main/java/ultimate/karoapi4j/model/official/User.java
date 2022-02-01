@@ -4,11 +4,18 @@ import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
 import ultimate.karoapi4j.model.base.Identifiable;
 
+/**
+ * POJO User as defined by the {@link KaroAPI}
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 public class User extends Identifiable
 {
 	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
@@ -66,7 +73,7 @@ public class User extends Identifiable
 	private Date				ts;
 	private boolean				uc;
 	private int					blocked;
-	// additional Fields
+	// additional Fields (internally used)
 	private int					plannedGames;
 	private List<Game>			games;
 
@@ -325,6 +332,8 @@ public class User extends Identifiable
 	{
 		this.blocked = blocked;
 	}
+	
+	// additional information
 
 	public int getPlannedGames()
 	{
@@ -356,23 +365,4 @@ public class User extends Identifiable
 	{
 		return acceptsNightGames && (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
 	}
-
-	// @Override
-	// public int hashCode()
-	// {
-	// return Objects.hash(id);
-	// }
-	//
-	// @Override
-	// public boolean equals(Object obj)
-	// {
-	// if(this == obj)
-	// return true;
-	// if(obj == null)
-	// return false;
-	// if(getClass() != obj.getClass())
-	// return false;
-	// User other = (User) obj;
-	// return id == other.id;
-	// }
 }

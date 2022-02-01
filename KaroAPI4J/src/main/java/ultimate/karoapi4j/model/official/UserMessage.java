@@ -4,10 +4,17 @@ import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumUserMessageType;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
 
+/**
+ * POJO UserMessage as defined by the {@link KaroAPI}
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 public class UserMessage extends Identifiable
 {
 	/*
@@ -110,5 +117,4 @@ public class UserMessage extends Identifiable
 	{
 		this.rxtx = rxtx;
 	}
-
 }
