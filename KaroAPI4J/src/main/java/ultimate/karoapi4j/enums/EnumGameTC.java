@@ -42,7 +42,6 @@ public enum EnumGameTC
 		}
 	}
 
-
 	/**
 	 * Get the enum from the int value (used in the classic php pages)
 	 * 
