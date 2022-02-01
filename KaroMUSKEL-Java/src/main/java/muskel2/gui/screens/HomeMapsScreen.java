@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.gui.help.MapRenderer;
 import muskel2.model.GameSeries;
@@ -25,6 +24,7 @@ import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class HomeMapsScreen extends Screen
 {

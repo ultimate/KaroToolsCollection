@@ -20,12 +20,12 @@ import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 
 import muskel2.Main;
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.screens.StartScreen;
 import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.util.Language;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {

@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import muskel2.core.exceptions.GameSeriesException;
 import muskel2.gui.Screen;
 import muskel2.gui.help.MapRenderer;
 import muskel2.model.Direction;
@@ -32,6 +31,7 @@ import muskel2.model.help.DirectionModel;
 import muskel2.model.help.Label;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.util.Language;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener
 {
