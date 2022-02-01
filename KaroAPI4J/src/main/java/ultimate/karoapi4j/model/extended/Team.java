@@ -1,6 +1,5 @@
 package ultimate.karoapi4j.model.extended;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,13 +17,8 @@ import ultimate.karoapi4j.model.official.User;
  * 
  * @author ultimate
  */
-public class Team implements Serializable
+public class Team
 {
-	/**
-	 * Default serialVersionUID
-	 */
-	private static final long	serialVersionUID	= 1L;
-
 	/**
 	 * the team name
 	 */
