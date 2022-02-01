@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This is a helper class that scans the raw content from the karo API for enum values. The output can then be used to add new values to the enum
- * definitions.<br>
+ * definitions in ultimate.karoapi4j.enums.<br>
  * Note: see EnumFinderTest for the list of enums and for checking their completeness
  * 
  * @see EnumFinder#findEnums(String, String)
