@@ -158,11 +158,11 @@ public class Rules implements Cloneable, Serializable
 	{
 		if(zzz == null)
 			zzz = random.nextInt(maxZzz - minZzz + 1) + minZzz;
-		if(tc == null || tc == EnumGameTC.random)
+		if(tc == null)
 			tc = EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1));
 		if(cps == null)
 			cps = random.nextBoolean();
-		if(direction == null || direction == EnumGameDirection.random)
+		if(direction == null)
 			direction = EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1));
 		return this;
 	}
