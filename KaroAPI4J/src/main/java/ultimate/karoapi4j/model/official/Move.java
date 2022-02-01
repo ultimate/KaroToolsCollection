@@ -7,6 +7,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import ultimate.karoapi4j.KaroAPI;
+
+/**
+ * POJO Move as defined by the {@link KaroAPI}
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 public class Move
 {
 	/*

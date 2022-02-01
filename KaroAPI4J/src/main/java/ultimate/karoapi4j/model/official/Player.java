@@ -3,9 +3,16 @@ package ultimate.karoapi4j.model.official;
 import java.awt.Color;
 import java.util.List;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.base.Identifiable;
 
+/**
+ * POJO Player as defined by the {@link KaroAPI}
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 public class Player extends Identifiable
 {
 	/*

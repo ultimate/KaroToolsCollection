@@ -2,10 +2,20 @@ package ultimate.karoapi4j.model.official;
 
 import java.awt.Image;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.base.Identifiable;
 
+/**
+ * POJO Map as defined by the {@link KaroAPI}
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 public class Map extends Identifiable
 {
+	/**
+	 * the row delimeter used in the map code
+	 */
 	public static final String ROW_DELIMITER = "\n";
 	/*
 	 * https://www.karopapier.de/api/maps/1?mapcode=true
@@ -35,7 +45,7 @@ public class Map extends Identifiable
 	private boolean	night;
 	private int		record;
 	private String	code;
-	// additional Fields
+	// additional Fields (internally used)
 	private Image	image;
 	private Image	preview;
 
@@ -159,6 +169,8 @@ public class Map extends Identifiable
 		this.code = code;
 	}
 
+	// additional information
+
 	public Image getImage()
 	{
 		return image;
@@ -189,7 +201,4 @@ public class Map extends Identifiable
 	{
 		return "Karte " + this.getId() + ": " + this.name + " (" + this.players + " Spieler) von '" + author + "' " + (this.night ? "'Nacht'" : "'Tag'");
 	}
-
-	// TODO hasCP
-	// TODO CPs as int[]
 }
