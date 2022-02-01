@@ -6,11 +6,12 @@ import java.util.Random;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 
-@Deprecated
+//TODO
 public class Rules implements Cloneable, Serializable
 {
 	private static final long	serialVersionUID	= 1L;
 
+	// TODO check what is necessary and what can be moved to settings
 	private int					minZzz;
 	private int					maxZzz;
 	private Integer				zzz;
@@ -176,8 +177,15 @@ public class Rules implements Cloneable, Serializable
 	@Override
 	public String toString()
 	{
-		return "Regeln:\n" + " -> zzz                  = [" + minZzz + "," + maxZzz + "]\n" + " -> tc                   = " + tc + "\n" + " -> cps                  = " + cps + "\n"
-				+ " -> direction            = " + direction + "\n" + " -> creatorGiveUp        = " + creatorGiveUp + "\n" + " -> ignoreInvitable      = " + ignoreInvitable;
+		//@formatter:off
+		return "Regeln:\n" +
+				" -> zzz                  = [" + minZzz + "," + maxZzz + "]\n" + 
+				" -> tc                   = " + tc + "\n" + 
+				" -> cps                  = " + cps + "\n" +
+				" -> direction            = " + direction + "\n" + 
+				" -> creatorGiveUp        = " + creatorGiveUp + "\n" + 
+				" -> ignoreInvitable      = " + ignoreInvitable;
+		//@formatter:on
 	}
 
 	@Override
