@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -172,7 +173,7 @@ public abstract class JSONUtil
 	}
 
 	// TODO javadoc
-	public static class Parser<E> implements ultimate.karoapi4j.utils.Parser<String, E>
+	public static class Parser<E> implements Function<String, E>
 	{
 		/**
 		 * A TypeReference for JSON-Deserialization
@@ -186,7 +187,7 @@ public abstract class JSONUtil
 		}
 
 		@Override
-		public E parse(String in)
+		public E apply(String in)
 		{
 			return JSONUtil.deserialize(in, typeRef);
 		}
@@ -203,7 +204,7 @@ public abstract class JSONUtil
 		}
 
 		@Override
-		public E parse(String in)
+		public E apply(String in)
 		{
 			return JSONUtil.deserializeContainer(in, typeRef, key);
 		}

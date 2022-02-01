@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -53,10 +54,10 @@ public class EnumFinderTest extends KaroAPITestcase
 		field.setAccessible(true);
 		URLLoader urlLoader = (URLLoader) field.get(karoAPI);	
 		
-		Method loadMethod = karoAPI.getClass().getDeclaredMethod("loadAsync", BackgroundLoader.class);
+		Method loadMethod = karoAPI.getClass().getDeclaredMethod("loadAsync", BackgroundLoader.class, Function.class);
 		loadMethod.setAccessible(true);
 		
-		CompletableFuture<String> cf = (CompletableFuture<String>) loadMethod.invoke(karoAPI, urlLoader.doGet(KaroAPI.PARSER_RAW));
+		CompletableFuture<String> cf = (CompletableFuture<String>) loadMethod.invoke(karoAPI, urlLoader.doGet(), KaroAPI.PARSER_RAW);
 		String rawResult = cf.get();
 		
 		// now we can scan the RAW JSON

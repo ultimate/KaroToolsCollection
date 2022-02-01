@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.enums.EnumContentType;
-import ultimate.karoapi4j.enums.EnumGameDirection;
-import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.ChatMessage;
@@ -34,7 +32,6 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.Parser;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
@@ -118,26 +115,26 @@ public class KaroAPI
 	}
 
 	// parsers needed
-	public static final Parser<String, Void>								PARSER_VOID					= (result) -> { return null; };
-	public static final Parser<String, String>								PARSER_RAW					= (result) -> { return result; };
-	public static final Parser<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	public static final Parser<String, User>								PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
-	public static final Parser<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	public static final Parser<String, Game>								PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	public static final Parser<String, Game>								PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
-	public static final Parser<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
-	public static final Parser<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
-	public static final Parser<String, List<Map>>							PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
-	public static final Parser<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
-	public static final Parser<String, List<ChatMessage>>					PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
-	public static final Parser<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
-	public static final Parser<String, List<UserMessage>>					PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
+	public static final Function<String, Void>									PARSER_VOID					= (result) -> { return null; };
+	public static final Function<String, String>								PARSER_RAW					= Function.identity();
+	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
+	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	public static final Function<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
+	public static final Function<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
+	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
+	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
+	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
+	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
+	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
-	public static final Parser<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
-		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.parse(result), "id", "text");
+	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
+		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
 	};
 
-	private static Executor													executor;
+	private static Executor														executor;
 
 	public static void setExecutor(Executor e)
 	{
@@ -149,13 +146,13 @@ public class KaroAPI
 		return executor;
 	}
 
-	private static <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader, int retries)
+	private static <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
 	{
 		CompletableFuture<T> cf;
 		if(executor != null)
-			cf = CompletableFuture.supplyAsync(backgroundLoader, executor);
+			cf = CompletableFuture.supplyAsync(backgroundLoader, executor).thenApply(parser);
 		else
-			cf = CompletableFuture.supplyAsync(backgroundLoader);
+			cf = CompletableFuture.supplyAsync(backgroundLoader).thenApply(parser);
 
 		if(retries > 0)
 		{
@@ -164,7 +161,7 @@ public class KaroAPI
 				{
 					logger.warn("an error occurred - retries remaining: " + retries, t);
 					if(retries > 0)
-						return loadAsync(backgroundLoader, retries - 1);
+						return loadAsync(backgroundLoader, parser, retries - 1);
 					else
 						return CompletableFuture.failedFuture(t);
 				};
@@ -240,9 +237,9 @@ public class KaroAPI
 		this.performRetries = performRetries;
 	}
 
-	private <T> CompletableFuture<T> loadAsync(BackgroundLoader<T> backgroundLoader)
+	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser)
 	{
-		return loadAsync(backgroundLoader, performRetries);
+		return loadAsync(backgroundLoader, parser, performRetries);
 	}
 
 	///////////////////////
@@ -258,7 +255,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<User> check()
 	{
-		return loadAsync(CHECK.doGet((String) null, PARSER_USER));
+		return loadAsync(CHECK.doGet((String) null), PARSER_USER);
 	}
 
 	/**
@@ -294,7 +291,7 @@ public class KaroAPI
 		if(desperate != null)
 			args.put("desperate", desperate ? "1" : "0");
 
-		return loadAsync(USERS.doGet(args, PARSER_USER_LIST));
+		return loadAsync(USERS.doGet(args), PARSER_USER_LIST);
 	}
 
 	/**
@@ -307,7 +304,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<User> getUser(int userId)
 	{
-		return loadAsync(USER.replace(PLACEHOLDER, userId).doGet(PARSER_USER));
+		return loadAsync(USER.replace(PLACEHOLDER, userId).doGet(), PARSER_USER);
 	}
 
 	/**
@@ -320,7 +317,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<Game>> getUserDran(int userId)
 	{
-		return loadAsync(USER_DRAN.replace(PLACEHOLDER, userId).doGet(PARSER_GAME_LIST));
+		return loadAsync(USER_DRAN.replace(PLACEHOLDER, userId).doGet(), PARSER_GAME_LIST);
 	}
 
 	/**
@@ -330,7 +327,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<Game>> getFavs()
 	{
-		return loadAsync(FAVS.doGet(PARSER_GAME_LIST));
+		return loadAsync(FAVS.doGet(), PARSER_GAME_LIST);
 	}
 
 	/**
@@ -341,7 +338,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> addFav(int gameId)
 	{
-		return loadAsync(FAVS_EDIT.replace(PLACEHOLDER, gameId).doPut(PARSER_VOID));
+		return loadAsync(FAVS_EDIT.replace(PLACEHOLDER, gameId).doPut(), PARSER_VOID);
 	}
 
 	/**
@@ -352,7 +349,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> removeFav(int gameId)
 	{
-		return loadAsync(FAVS_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID));
+		return loadAsync(FAVS_EDIT.replace(PLACEHOLDER, gameId).doDelete(), PARSER_VOID);
 	}
 
 	/**
@@ -362,7 +359,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<java.util.Map<Integer, String>> getNotes()
 	{
-		return loadAsync(NOTES.doGet(PARSER_NOTES));
+		return loadAsync(NOTES.doGet(), PARSER_NOTES);
 	}
 
 	/**
@@ -375,7 +372,7 @@ public class KaroAPI
 	{
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("text", text);
-		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json, PARSER_VOID));
+		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json), PARSER_VOID);
 	}
 
 	/**
@@ -386,7 +383,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<Void> removeNote(int gameId)
 	{
-		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(PARSER_VOID));
+		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(), PARSER_VOID);
 	}
 
 	/**
@@ -398,7 +395,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<User>> getBlockers()
 	{
-		return loadAsync(BLOCKERS.doGet(PARSER_USER_LIST));
+		return loadAsync(BLOCKERS.doGet(), PARSER_USER_LIST);
 	}
 
 	/**
@@ -410,7 +407,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<List<User>> getUserBlockers(int userId)
 	{
-		return loadAsync(USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(PARSER_USER_LIST));
+		return loadAsync(USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(), PARSER_USER_LIST);
 	}
 
 	///////////////////////
@@ -465,7 +462,7 @@ public class KaroAPI
 		if(offset != null)
 			args.put("offset", offset.toString());
 
-		return loadAsync(GAMES3.doGet(args, PARSER_GAME_LIST));
+		return loadAsync(GAMES3.doGet(args), PARSER_GAME_LIST);
 	}
 
 	/**
@@ -503,13 +500,13 @@ public class KaroAPI
 		if(moves != null)
 			args.put("moves", (moves ? "1" : "0"));
 
-		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doGet(args, PARSER_GAME));
+		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doGet(args), PARSER_GAME);
 	}
 
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
 		String json = JSONUtil.serialize(plannedGame);
-		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json, PARSER_GAME_CONTAINER));
+		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
 	}
 
 	public CompletableFuture<Boolean> selectStartPosition(int gameId, Move move)
@@ -520,7 +517,7 @@ public class KaroAPI
 		args.put("starty", "" + move.getY());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args, (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); }));
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
 	}
 
 	public CompletableFuture<Boolean> move(int gameId, Move move)
@@ -533,7 +530,7 @@ public class KaroAPI
 		args.put("yvec", "" + move.getYv());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args, (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); }));
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
 	}
 
 	///////////////////////
@@ -567,7 +564,7 @@ public class KaroAPI
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 
-		return loadAsync(MAPS.doGet(args, PARSER_MAP_LIST));
+		return loadAsync(MAPS.doGet(args), PARSER_MAP_LIST);
 	}
 
 	/**
@@ -599,7 +596,7 @@ public class KaroAPI
 		if(mapcode != null)
 			args.put("mapcode", (mapcode ? "1" : "0"));
 
-		return loadAsync(MAP.replace(PLACEHOLDER, mapId).doGet(args, PARSER_MAP));
+		return loadAsync(MAP.replace(PLACEHOLDER, mapId).doGet(args), PARSER_MAP);
 	}
 
 	/**
@@ -612,7 +609,7 @@ public class KaroAPI
 	 */
 	public CompletableFuture<String> getMapCode(int mapId)
 	{
-		return loadAsync(MAP.replace(PLACEHOLDER, mapId + ".txt").doGet(PARSER_RAW));
+		return loadAsync(MAP.replace(PLACEHOLDER, mapId + ".txt").doGet(), PARSER_RAW);
 	}
 
 	///////////////////////
@@ -753,24 +750,24 @@ public class KaroAPI
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("start", start);
 		args.put("limit", limit);
-		return loadAsync(CHAT.parameterize(args).doGet(PARSER_CHAT_LIST));
+		return loadAsync(CHAT.parameterize(args).doGet(), PARSER_CHAT_LIST);
 	}
 
 	public CompletableFuture<ChatMessage> getChatLastMessage()
 	{
-		return loadAsync(CHAT_LAST.doGet(PARSER_CHAT_MESSAGE));
+		return loadAsync(CHAT_LAST.doGet(), PARSER_CHAT_MESSAGE);
 	}
 
 	public CompletableFuture<ChatMessage> sendChatMessage(String message)
 	{
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("msg", message);
-		return loadAsync(CHAT.doPost(args, EnumContentType.json, PARSER_CHAT_MESSAGE));
+		return loadAsync(CHAT.doPost(args, EnumContentType.json), PARSER_CHAT_MESSAGE);
 	}
 
 	public CompletableFuture<List<User>> getChatUsers()
 	{
-		return loadAsync(CHAT_USERS.doGet(PARSER_USER_LIST));
+		return loadAsync(CHAT_USERS.doGet(), PARSER_USER_LIST);
 	}
 
 	///////////////////////
@@ -779,25 +776,25 @@ public class KaroAPI
 
 	public CompletableFuture<List<User>> getContacts()
 	{
-		return loadAsync(CONTACTS.doGet(PARSER_USER_LIST));
+		return loadAsync(CONTACTS.doGet(), PARSER_USER_LIST);
 	}
 
 	public CompletableFuture<UserMessage> sendUserMessage(int userId, String message)
 	{
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("text", message);
-		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json, PARSER_USER_MESSAGE));
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json), PARSER_USER_MESSAGE);
 	}
 
 	public CompletableFuture<List<UserMessage>> getUserMessage(int userId)
 	{
-		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(PARSER_USER_MESSAGE_LIST));
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(), PARSER_USER_MESSAGE_LIST);
 	}
 
 	@Deprecated(since = "PATCH IS NOT SUPPORTED")
 	CompletableFuture<String> readUserMessage(int userId)
 	{
-		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(PARSER_RAW));
+		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(), PARSER_RAW);
 	}
 
 	///////////////////////
