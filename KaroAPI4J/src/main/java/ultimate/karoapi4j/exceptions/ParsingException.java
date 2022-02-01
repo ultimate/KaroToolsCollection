@@ -1,5 +1,10 @@
 package ultimate.karoapi4j.exceptions;
 
+/**
+ * Exception to be thrown when parsing fails.
+ * 
+ * @author ultimate
+ */
 public class ParsingException extends RuntimeException
 {
 	/**
