@@ -4,7 +4,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import ultimate.karoapi4j.enums.EnumMessageType;
+import ultimate.karoapi4j.enums.EnumUserMessageType;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
 
@@ -29,7 +29,7 @@ public class UserMessage extends Identifiable
 	private Date			ts;
 	private boolean			r;
 	private String			text;
-	private EnumMessageType	rxtx;
+	private EnumUserMessageType	rxtx;
 
 	public int getUser_id()
 	{
@@ -101,12 +101,12 @@ public class UserMessage extends Identifiable
 		this.text = text;
 	}
 
-	public EnumMessageType getRxtx()
+	public EnumUserMessageType getRxtx()
 	{
 		return rxtx;
 	}
 
-	public void setRxtx(EnumMessageType rxtx)
+	public void setRxtx(EnumUserMessageType rxtx)
 	{
 		this.rxtx = rxtx;
 	}
