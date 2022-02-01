@@ -1,16 +1,13 @@
 package ultimate.karoapi4j.model.extended;
 
-import java.io.Serializable;
 import java.util.Random;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 
 //TODO
-public class Rules implements Cloneable, Serializable
+public class Rules implements Cloneable
 {
-	private static final long	serialVersionUID	= 1L;
-
 	// TODO check what is necessary and what can be moved to settings
 	private int					minZzz;
 	private int					maxZzz;

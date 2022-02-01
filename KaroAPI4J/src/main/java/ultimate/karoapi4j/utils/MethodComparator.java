@@ -1,6 +1,5 @@
 package ultimate.karoapi4j.utils;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Comparator;
@@ -13,30 +12,25 @@ import java.util.Comparator;
  * @author ultimate
  * @param <T>
  */
-public class MethodComparator<T> implements Comparator<T>, Serializable
+public class MethodComparator<T> implements Comparator<T>
 {
 	/**
 	 * Orientierung für aufsteigende Sortierung
 	 * 
 	 * @see CollectionsUtil#ASCENDING
 	 */
-	public static final int		ASCENDING			= CollectionsUtil.ASCENDING;
+	public static final int	ASCENDING	= CollectionsUtil.ASCENDING;
 	/**
 	 * Orientierung für absteigende Sortierung
 	 * 
 	 * @see CollectionsUtil#DESCENDING
 	 */
-	public static final int		DESCENDING			= CollectionsUtil.DESCENDING;
-
-	/**
-	 * Default serialVersionUID
-	 */
-	private static final long	serialVersionUID	= 1L;
+	public static final int	DESCENDING	= CollectionsUtil.DESCENDING;
 
 	/**
 	 * Name der Methode für den Vergleich
 	 */
-	private String				methodName;
+	private String			methodName;
 	/**
 	 * Die Orientierung.
 	 * Es sind ASCENDING und DESCENDING empfehlenswert, es sind jedoch auch
@@ -46,7 +40,7 @@ public class MethodComparator<T> implements Comparator<T>, Serializable
 	 * @see CollectionsUtil#ASCENDING
 	 * @see CollectionsUtil#DESCENDING
 	 */
-	private int					orientation;
+	private int				orientation;
 
 	/**
 	 * Erstellt einen neuen Comparator mit Methodenname und Orientierung
@@ -56,7 +50,8 @@ public class MethodComparator<T> implements Comparator<T>, Serializable
 	 */
 	public MethodComparator(String methodName, int orientation)
 	{
-		if(orientation == 0) throw new IllegalArgumentException("orientation must not be 0");
+		if(orientation == 0)
+			throw new IllegalArgumentException("orientation must not be 0");
 		this.methodName = methodName;
 		this.orientation = orientation;
 	}
@@ -69,8 +64,10 @@ public class MethodComparator<T> implements Comparator<T>, Serializable
 	@SuppressWarnings("unchecked")
 	public int compare(T o1, T o2)
 	{
-		if(o1 == null) throw new IllegalArgumentException("o1 must not be null");
-		if(o2 == null) throw new IllegalArgumentException("o2 must not be null");
+		if(o1 == null)
+			throw new IllegalArgumentException("o1 must not be null");
+		if(o2 == null)
+			throw new IllegalArgumentException("o2 must not be null");
 		try
 		{
 			Method m1 = o1.getClass().getMethod(this.methodName);
@@ -91,16 +88,7 @@ public class MethodComparator<T> implements Comparator<T>, Serializable
 			}
 			return orientation * key1.compareTo(key2);
 		}
-		catch(IllegalAccessException e)
-		{
-		}
-		catch(InvocationTargetException e)
-		{
-		}
-		catch(SecurityException e)
-		{
-		}
-		catch(NoSuchMethodException e)
+		catch(IllegalAccessException | InvocationTargetException | SecurityException | NoSuchMethodException e)
 		{
 		}
 		return 0;

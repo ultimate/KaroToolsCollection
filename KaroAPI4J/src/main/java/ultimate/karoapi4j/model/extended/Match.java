@@ -1,19 +1,12 @@
 package ultimate.karoapi4j.model.extended;
 
-import java.io.Serializable;
-
 /**
  * Simple POJO that represents a match between 2 {@link Team}s
  * 
  * @author ultimate
  */
-public class Match implements Serializable
+public class Match
 {
-	/**
-	 * Default serialVersionUID
-	 */
-	private static final long	serialVersionUID	= 1L;
-
 	/**
 	 * Team 1
 	 */

@@ -1,6 +1,5 @@
 package ultimate.karoapi4j.model.extended;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -11,10 +10,8 @@ import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 
 // TODO
-public abstract class GameSeries implements Serializable
+public abstract class GameSeries
 {
-	private static final long	serialVersionUID	= 1L;
-
 	protected String			title;
 	protected User				creator;
 	protected Rules				rules;
