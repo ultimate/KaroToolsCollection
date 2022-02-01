@@ -2,15 +2,15 @@ package ultimate.karoapi4j.exceptions;
 
 /**
  * Exception to be thrown when serialization fails.
+ * 
  * @author ultimate
- *
  */
 public class DeserializationException extends ParsingException
 {
 	/**
 	 * Default serialVersionUID
 	 */
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see Exception#Exception()
