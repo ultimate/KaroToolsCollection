@@ -2,7 +2,6 @@ package ultimate.karoapi4j.model.official;
 
 import java.awt.Color;
 import java.util.Date;
-import java.util.List;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
@@ -75,7 +74,6 @@ public class User extends Identifiable
 	private int					blocked;
 	// additional Fields (internally used)
 	private int					plannedGames;
-	private List<Game>			games;
 
 	public User()
 	{
@@ -343,16 +341,6 @@ public class User extends Identifiable
 	public void setPlannedGames(int plannedGames)
 	{
 		this.plannedGames = plannedGames;
-	}
-
-	public List<Game> getGames()
-	{
-		return games;
-	}
-
-	public void setGames(List<Game> games)
-	{
-		this.games = games;
 	}
 
 	// derived from other information
