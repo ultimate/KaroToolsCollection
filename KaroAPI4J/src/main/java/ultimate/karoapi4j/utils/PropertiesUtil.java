@@ -12,6 +12,11 @@ import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+/**
+ * Util class for storing and loading {@link Properties}
+ * 
+ * @author ultimate
+ */
 public abstract class PropertiesUtil
 {
 	/**
@@ -22,11 +27,28 @@ public abstract class PropertiesUtil
 
 	}
 
+	/**
+	 * Load {@link Properties} from the given {@link File}.<br>
+	 * Convenience for <code>PropertiesUtil.loadProperties(file, false)</code>
+	 * 
+	 * @see PropertiesUtil#loadProperties(File, boolean)
+	 * @param file - the {@link File}
+	 * @return the {@link Properties}
+	 * @throws IOException - if loading fails
+	 */
 	public static Properties loadProperties(File file) throws IOException
 	{
 		return loadProperties(file, false);
 	}
 
+	/**
+	 * Load {@link Properties} from the given {@link File}
+	 * 
+	 * @param file - the {@link File}
+	 * @param zipped - use zip-format?
+	 * @return the {@link Properties}
+	 * @throws IOException - if loading fails
+	 */
 	public static Properties loadProperties(File file, boolean zipped) throws IOException
 	{
 		InputStream is = new FileInputStream(file);
@@ -39,11 +61,30 @@ public abstract class PropertiesUtil
 		return properties;
 	}
 
+	/**
+	 * Store {@link Properties} to the given {@link File}.<br>
+	 * Convenience for <code>PropertiesUtil.storeProperties(file, properties, false)</code>
+	 * 
+	 * @see PropertiesUtil#storeProperties(File, boolean)
+	 * @param file - the {@link File}
+	 * @param properties - the {@link Properties} to store
+	 * @param comments - optional comments to write
+	 * @throws IOException - if storing fails
+	 */
 	public static void storeProperties(File file, Properties properties, String comments) throws IOException
 	{
 		storeProperties(file, properties, comments, false);
 	}
 
+	/**
+	 * Store {@link Properties} to the given {@link File}.<br>
+	 * 
+	 * @param file - the {@link File}
+	 * @param properties - the {@link Properties} to store
+	 * @param comments - optional comments to write
+	 * @param zipped - use zip-format?
+	 * @throws IOException - if storing fails
+	 */
 	public static void storeProperties(File file, Properties properties, String comments, boolean zipped) throws IOException
 	{
 		OutputStream os = new FileOutputStream(file);
