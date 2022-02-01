@@ -264,16 +264,16 @@ public class URLLoader
 	}
 
 	/**
-	 * Convenience for <code>doPost(null, parser);</code>
+	 * Convenience for <code>doPost(null);</code>
 	 *
 	 * @see URLLoader#doPost(String, Parser)
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(Parser<String, T> parser)
+	public BackgroundLoader doPost()
 	{
-		return doPost((String) null, EnumContentType.text, parser);
+		return doPost((String) null, EnumContentType.text);
 	}
 
 	/**
@@ -286,18 +286,18 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(String output, EnumContentType contentType, Parser<String, T> parser)
+	public BackgroundLoader doPost(String output, EnumContentType contentType)
 	{
 		if(contentType == EnumContentType.json)
-			return new BackgroundLoader<T>("POST", POST_PROPERTIES_JSON, output, parser);
+			return new BackgroundLoader("POST", POST_PROPERTIES_JSON, output);
 		else
-			return new BackgroundLoader<T>("POST", POST_PROPERTIES_URL_ENCODED, output, parser);
+			return new BackgroundLoader("POST", POST_PROPERTIES_URL_ENCODED, output);
 
 	}
 
 	/**
 	 * Convenience for
-	 * <code>doPost(URLLoader.formatParameters(parameters), parser);</code>
+	 * <code>doPost(URLLoader.formatParameters(parameters));</code>
 	 * 
 	 * @see URLLoader#doPost(String, Parser)
 	 * @param <T> - the type of content to load
@@ -305,24 +305,24 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPost(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public BackgroundLoader doPost(Map<String, Object> parameters, EnumContentType contentType)
 	{
 		if(parameters != null)
-			return doPost(formatParameters(parameters, contentType), contentType, parser);
+			return doPost(formatParameters(parameters, contentType), contentType);
 		else
-			return doPost((String) null, contentType, parser);
+			return doPost((String) null, contentType);
 	}
 
 	/**
-	 * Convenience for <code>doGet(null, parser);</code>
+	 * Convenience for <code>doGet(null);</code>
 	 *
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(Parser<String, T> parser)
+	public BackgroundLoader doGet()
 	{
-		return doGet((String) null, parser);
+		return doGet((String) null);
 	}
 
 	/**
@@ -335,14 +335,14 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(String parameters, Parser<String, T> parser)
+	public BackgroundLoader doGet(String parameters)
 	{
-		return this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser);
+		return this.parameterize(parameters).new BackgroundLoader("GET", null, null);
 	}
 
 	/**
 	 * Convenience for
-	 * <code>doGet(URLLoader.formatParameters(parameters), parser);</code>
+	 * <code>doGet(URLLoader.formatParameters(parameters));</code>
 	 * 
 	 * @see URLLoader#doGet(String, Parser)
 	 * @param <T> - the type of content to load
@@ -350,22 +350,22 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doGet(Map<String, Object> parameters, Parser<String, T> parser)
+	public BackgroundLoader doGet(Map<String, Object> parameters)
 	{
-		return this.parameterize(parameters).new BackgroundLoader<>("GET", null, null, parser);
+		return this.parameterize(parameters).new BackgroundLoader("GET", null, null);
 	}
 
 	/**
-	 * Convenience for <code>doPut(null, parser);</code>
+	 * Convenience for <code>doPut(null);</code>
 	 *
 	 * @see URLLoader#doPut(String, Parser)
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(Parser<String, T> parser)
+	public BackgroundLoader doPut()
 	{
-		return doPut((String) null, parser);
+		return doPut((String) null);
 	}
 
 	/**
@@ -378,14 +378,14 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(String output, Parser<String, T> parser)
+	public BackgroundLoader doPut(String output)
 	{
-		return new BackgroundLoader<T>("PUT", null, output, parser);
+		return new BackgroundLoader("PUT", null, output);
 	}
 
 	/**
 	 * Convenience for
-	 * <code>doPut(URLLoader.formatParameters(parameters), parser);</code>
+	 * <code>doPut(URLLoader.formatParameters(parameters));</code>
 	 * 
 	 * @see URLLoader#doPut(String, Parser)
 	 * @param <T> - the type of content to load
@@ -393,25 +393,25 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doPut(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public BackgroundLoader doPut(Map<String, Object> parameters, EnumContentType contentType)
 	{
 		if(parameters != null)
-			return doPut(formatParameters(parameters, contentType), parser);
+			return doPut(formatParameters(parameters, contentType));
 		else
-			return doPut((String) null, parser);
+			return doPut((String) null);
 	}
 
 	/**
-	 * Convenience for <code>doDelete(null, parser);</code>
+	 * Convenience for <code>doDelete(null);</code>
 	 *
 	 * @see URLLoader#doDelete(String, Parser)
 	 * @param <T> - the type of content to load
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(Parser<String, T> parser)
+	public BackgroundLoader doDelete()
 	{
-		return doDelete((String) null, parser);
+		return doDelete((String) null);
 	}
 
 	/**
@@ -424,14 +424,14 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(String output, Parser<String, T> parser)
+	public BackgroundLoader doDelete(String output)
 	{
-		return new BackgroundLoader<T>("DELETE", null, output, parser);
+		return new BackgroundLoader("DELETE", null, output);
 	}
 
 	/**
 	 * Convenience for
-	 * <code>doDelete(URLLoader.formatParameters(parameters), parser);</code>
+	 * <code>doDelete(URLLoader.formatParameters(parameters));</code>
 	 * 
 	 * @see URLLoader#doDelete(String, Parser)
 	 * @param <T> - the type of content to load
@@ -439,16 +439,16 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
-	public <T> BackgroundLoader<T> doDelete(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public BackgroundLoader doDelete(Map<String, Object> parameters, EnumContentType contentType)
 	{
 		if(parameters != null)
-			return doDelete(formatParameters(parameters, contentType), parser);
+			return doDelete(formatParameters(parameters, contentType));
 		else
-			return doDelete((String) null, parser);
+			return doDelete((String) null);
 	}
 
 	/**
-	 * Convenience for <code>doPatch(null, parser);</code>
+	 * Convenience for <code>doPatch(null);</code>
 	 *
 	 * @see URLLoader#doPatch(String, Parser)
 	 * @param <T> - the type of content to load
@@ -456,10 +456,10 @@ public class URLLoader
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
 	@Deprecated(since = "PATCH IS NOT SUPPORTED")
-	public <T> BackgroundLoader<T> doPatch(Parser<String, T> parser)
+	public BackgroundLoader doPatch()
 	{
 		// TODO currently PATCH is not supported
-		return doPatch((String) null, parser);
+		return doPatch((String) null);
 	}
 
 	/**
@@ -473,15 +473,15 @@ public class URLLoader
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
 	@Deprecated(since = "PATCH IS NOT SUPPORTED")
-	public <T> BackgroundLoader<T> doPatch(String output, Parser<String, T> parser)
+	public BackgroundLoader doPatch(String output)
 	{
 		// TODO currently PATCH is not supported
-		return new BackgroundLoader<T>("PATCH", null, output, parser);
+		return new BackgroundLoader("PATCH", null, output);
 	}
 
 	/**
 	 * Convenience for
-	 * <code>doPatch(URLLoader.formatParameters(parameters), parser);</code>
+	 * <code>doPatch(URLLoader.formatParameters(parameters));</code>
 	 * 
 	 * @see URLLoader#doPatch(String, Parser)
 	 * @param <T> - the type of content to load
@@ -490,26 +490,24 @@ public class URLLoader
 	 * @return the {@link CompletableFuture} that can be used to load the content
 	 */
 	@Deprecated(since = "PATCH IS NOT SUPPORTED")
-	public <T> BackgroundLoader<T> doPatch(Map<String, Object> parameters, EnumContentType contentType, Parser<String, T> parser)
+	public BackgroundLoader doPatch(Map<String, Object> parameters, EnumContentType contentType)
 	{
 		// TODO currently PATCH is not supported
 		if(parameters != null)
-			return doPatch(formatParameters(parameters, contentType), parser);
+			return doPatch(formatParameters(parameters, contentType));
 		else
-			return doPatch((String) null, parser);
+			return doPatch((String) null);
 	}
 
-	public class BackgroundLoader<T> implements Callable<T>, Supplier<T>
+	public class BackgroundLoader implements Callable<String>, Supplier<String>
 	{
 		private String				method;
 		private Map<String, String>	requestProperties;
 		private String				output;
-		private Parser<String, T>	parser;
-		private String				rawResult;
-		private T					result;
+		private String				result;
 		private HttpURLConnection	connection;
 
-		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output, Parser<String, T> parser)
+		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output)
 		{
 			super();
 			this.method = method;
@@ -517,7 +515,6 @@ public class URLLoader
 			if(additionalRequestProperties != null)
 				this.requestProperties.putAll(additionalRequestProperties);
 			this.output = output;
-			this.parser = parser;
 		}
 
 		public String getUrl()
@@ -540,22 +537,16 @@ public class URLLoader
 			return output;
 		}
 
-		public Parser<String, T> getParser()
-		{
-			return parser;
-		}
-
 		public void addRequestProperties(Map<String, String> additionalRequestProperties)
 		{
 			this.requestProperties.putAll(additionalRequestProperties);
 		}
 
 		@Override
-		public T call() throws IOException
+		public String call() throws IOException
 		{
 			this.connection = (HttpURLConnection) new URL(url).openConnection();
-			this.rawResult = doLoad(connection, this.method, this.requestProperties, this.output);
-			this.result = this.parser.parse(this.rawResult);
+			this.result = doLoad(connection, this.method, this.requestProperties, this.output);
 			return this.result;
 		}
 
@@ -564,13 +555,13 @@ public class URLLoader
 			return connection;
 		}
 
-		public String getRaw()
+		public String getResult()
 		{
-			return this.rawResult;
+			return this.result;
 		}
 
 		@Override
-		public T get()
+		public String get()
 		{
 			try
 			{

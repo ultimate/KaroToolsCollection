@@ -5,13 +5,15 @@ import java.net.CookieManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.Parser;
 import ultimate.karoapi4j.utils.URLLoader;
 
 // TODO javadoc
@@ -21,52 +23,51 @@ public class KaroWikiAPI
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger						logger								= LoggerFactory.getLogger(KaroWikiAPI.class);
+	protected transient final Logger							logger								= LoggerFactory.getLogger(KaroWikiAPI.class);
 
 	// api URLs
-	protected static final URLLoader						KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
-	protected static final URLLoader						API									= KAROWIKI.relative("/api.php");
+	protected static final URLLoader							KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
+	protected static final URLLoader							API									= KAROWIKI.relative("/api.php");
 
 	// parameters & actions
-	public static final String								PARAMETER_ACTION					= "action";
-	public static final String								PARAMETER_FORMAT					= "format";
+	public static final String									PARAMETER_ACTION					= "action";
+	public static final String									PARAMETER_FORMAT					= "format";
 
-	public static final String								ACTION_LOGIN						= "login";
-	public static final String								PARAMETER_ACTION_LOGIN_USER			= "lgname";
-	public static final String								PARAMETER_ACTION_LOGIN_PASSWORD		= "lgpassword";
-	public static final String								PARAMETER_ACTION_LOGIN_TOKEN		= "lgtoken";
+	public static final String									ACTION_LOGIN						= "login";
+	public static final String									PARAMETER_ACTION_LOGIN_USER			= "lgname";
+	public static final String									PARAMETER_ACTION_LOGIN_PASSWORD		= "lgpassword";
+	public static final String									PARAMETER_ACTION_LOGIN_TOKEN		= "lgtoken";
 
-	public static final String								ACTION_LOGOUT						= "logout";
-	public static final String								PARAMETER_ACTION_LOGOUT_TOKEN		= "token";
+	public static final String									ACTION_LOGOUT						= "logout";
+	public static final String									PARAMETER_ACTION_LOGOUT_TOKEN		= "token";
 
-	public static final String								ACTION_QUERY						= "query";
-	public static final String								PARAMETER_ACTION_QUERY_META			= "meta";
-	public static final String								PARAMETER_ACTION_QUERY_META_TOKENS	= "tokens";
-	public static final String								PARAMETER_ACTION_QUERY_PROP			= "prop";
-	public static final String								PARAMETER_ACTION_QUERY_PROP_RV		= "revisions";
-	public static final String								PARAMETER_ACTION_QUERY_PROP_IN		= "info";
-	public static final String								PARAMETER_ACTION_QUERY_TITLES		= "titles";
-	public static final String								PARAMETER_ACTION_QUERY_RVPROP		= "rvprop";
-	public static final String								PARAMETER_ACTION_QUERY_INPROP		= "inprop";
-	public static final String								PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
+	public static final String									ACTION_QUERY						= "query";
+	public static final String									PARAMETER_ACTION_QUERY_META			= "meta";
+	public static final String									PARAMETER_ACTION_QUERY_META_TOKENS	= "tokens";
+	public static final String									PARAMETER_ACTION_QUERY_PROP			= "prop";
+	public static final String									PARAMETER_ACTION_QUERY_PROP_RV		= "revisions";
+	public static final String									PARAMETER_ACTION_QUERY_PROP_IN		= "info";
+	public static final String									PARAMETER_ACTION_QUERY_TITLES		= "titles";
+	public static final String									PARAMETER_ACTION_QUERY_RVPROP		= "rvprop";
+	public static final String									PARAMETER_ACTION_QUERY_INPROP		= "inprop";
+	public static final String									PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
 
-	public static final String								ACTION_EDIT							= "edit";
-	public static final String								PARAMETER_ACTION_EDIT_TITLE			= "title";
-	public static final String								PARAMETER_ACTION_EDIT_TEXT			= "text";
-	public static final String								PARAMETER_ACTION_EDIT_TOKEN			= "token";
-	public static final String								PARAMETER_ACTION_EDIT_SUMMARY		= "summary";
-	public static final String								PARAMETER_ACTION_EDIT_BASETIMESTAMP	= "basetimestamp";
-	public static final String								PARAMETER_ACTION_EDIT_CAPTCHAID		= "captchaid";
-	public static final String								PARAMETER_ACTION_EDIT_CAPTCHAWORD	= "captchaword";
-	public static final String								PARAMETER_ACTION_EDIT_BOT			= "bot";
+	public static final String									ACTION_EDIT							= "edit";
+	public static final String									PARAMETER_ACTION_EDIT_TITLE			= "title";
+	public static final String									PARAMETER_ACTION_EDIT_TEXT			= "text";
+	public static final String									PARAMETER_ACTION_EDIT_TOKEN			= "token";
+	public static final String									PARAMETER_ACTION_EDIT_SUMMARY		= "summary";
+	public static final String									PARAMETER_ACTION_EDIT_BASETIMESTAMP	= "basetimestamp";
+	public static final String									PARAMETER_ACTION_EDIT_CAPTCHAID		= "captchaid";
+	public static final String									PARAMETER_ACTION_EDIT_CAPTCHAWORD	= "captchaword";
+	public static final String									PARAMETER_ACTION_EDIT_BOT			= "bot";
 
-	public static final String								FORMAT_JSON							= "json";
+	public static final String									FORMAT_JSON							= "json";
 
-	public static final Parser<String, String>				PARSER_RAW							= (result) -> { return result; };
-	@SuppressWarnings("unchecked")
-	public static final Parser<String, Map<String, Object>>	PARSER_JSON_OBJECT					= (result) -> { return (Map<String, Object>) JSONUtil.deserialize(result); };
+	public static final Function<String, String>				PARSER_RAW							= Function.identity();
+	public static final Function<String, Map<String, Object>>	PARSER_JSON_OBJECT					= new JSONUtil.Parser<>(new TypeReference<Map<String, Object>>() {});
 
-	private Exception										lastException;
+	private Exception											lastException;
 
 	public KaroWikiAPI()
 	{
@@ -107,7 +108,7 @@ public class KaroWikiAPI
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
 
-			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
 
 			String token = (String) ((Map<String, Object>) jsonObject.get("login")).get("token");
 
@@ -120,7 +121,7 @@ public class KaroWikiAPI
 			parameters.put(PARAMETER_ACTION_LOGIN_PASSWORD, password);
 			parameters.put(PARAMETER_ACTION_LOGIN_TOKEN, token);
 
-			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
 
 			String result = (String) ((Map<String, Object>) jsonObject.get("login")).get("result");
 			String resultUser = (String) ((Map<String, Object>) jsonObject.get("login")).get("lgusername");
@@ -155,7 +156,7 @@ public class KaroWikiAPI
 			parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 
-			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
 
 			logger.debug("  " + jsonObject);
 			String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
@@ -166,7 +167,7 @@ public class KaroWikiAPI
 			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 			parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
 
-			json = API.doPost(parameters, EnumContentType.text, PARSER_RAW).get();
+			json = API.doPost(parameters, EnumContentType.text).get();
 
 			success = "{}".equalsIgnoreCase(json);
 		}
@@ -205,7 +206,7 @@ public class KaroWikiAPI
 			parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
 			parameters.put(propParam, properties.toString());
 
-			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
 
 			Map<String, Object> pages = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
 
@@ -277,7 +278,7 @@ public class KaroWikiAPI
 			}
 			parameters.put(PARAMETER_ACTION_EDIT_TOKEN, token);
 
-			jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
 
 			String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
 			success = "success".equalsIgnoreCase(result);
@@ -295,7 +296,7 @@ public class KaroWikiAPI
 					parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
 
 					// try again
-					jsonObject = API.doPost(parameters, EnumContentType.text, PARSER_JSON_OBJECT).get();
+					jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
 
 					result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
 					success = "success".equalsIgnoreCase(result);

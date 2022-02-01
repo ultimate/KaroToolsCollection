@@ -23,7 +23,7 @@ public class URLLoaderTest
 	@Test
 	public void test_blocking_get()
 	{
-		BackgroundLoader<String> l = new URLLoader("http://www.karopapier.de").doGet(result -> { return result; });
+		BackgroundLoader l = new URLLoader("http://www.karopapier.de").doGet();
 		String result = l.get();
 		logger.debug(result);
 		assertNotNull(result);
@@ -32,7 +32,7 @@ public class URLLoaderTest
 	@Test
 	public void test_async_FutureTask() throws InterruptedException, ExecutionException
 	{
-		BackgroundLoader<String> l = new URLLoader("http://www.karopapier.de").doGet(result -> { return result; });
+		BackgroundLoader l = new URLLoader("http://www.karopapier.de").doGet();
 		FutureTask<String> ft = new FutureTask<>(l);
 		ExecutorService executor = Executors.newFixedThreadPool(1);
 		executor.execute(ft);

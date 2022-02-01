@@ -160,7 +160,7 @@ public class KaroWikiAPITest
 				assertTrue(success);
 
 				Date date = new Date();
-				DateFormat df = new SimpleDateFormat("HH:mm, dd. MMM YYYY");
+				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY");
 				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + df.format(date) + " (CET)");
 
 				String updatedContent = wl.getContent(PAGE_EXISTING);
