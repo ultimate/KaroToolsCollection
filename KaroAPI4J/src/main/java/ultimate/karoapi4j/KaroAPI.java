@@ -1,9 +1,5 @@
 package ultimate.karoapi4j;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.HashMap;
@@ -64,57 +60,25 @@ public class KaroAPI
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger					= LoggerFactory.getLogger(KaroAPI.class);
+	protected static transient final Logger										logger						= LoggerFactory.getLogger(KaroAPI.class);
 
-	// config & constants
-	public static final String				PLACEHOLDER				= "$";
-	public static final int					MAX_RETRIES				= 10;
-	public static final int					DEFAULT_IMAGE_SIZE		= 100;
-	public static final int					DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
-	public static final int					DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
-	public static final BufferedImage		DEFAULT_IMAGE_WHITE;
-	public static final BufferedImage		DEFAULT_IMAGE_GRAY;
-	public static final BufferedImage		DEFAULT_IMAGE_BLACK;
-
-	static
-	{
-		DEFAULT_IMAGE_WHITE = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2dw = DEFAULT_IMAGE_WHITE.createGraphics();
-		g2dw.setColor(Color.white);
-		g2dw.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
-
-		DEFAULT_IMAGE_GRAY = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2dg = DEFAULT_IMAGE_GRAY.createGraphics();
-		g2dg.setColor(Color.gray);
-		g2dg.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
-
-		DEFAULT_IMAGE_BLACK = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2db = DEFAULT_IMAGE_BLACK.createGraphics();
-		g2db.setColor(Color.black);
-		g2db.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
-	}
+	////////////////////////
+	// config & constants //
+	////////////////////////
 
 	/**
-	 * Create a special image by drawing a "don't sign" on top of the given image...
-	 * 
-	 * @param image - the original image
-	 * @return the specialized image
+	 * The default placeholder for API urls
 	 */
-	public static BufferedImage createSpecialImage(Image image)
-	{
-		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2d = image2.createGraphics();
-		g2d.drawImage(image, 0, 0, null);
-		g2d.setColor(Color.red);
-		int size = (int) Math.min(image2.getWidth() * 0.7F, image2.getHeight() * 0.7F);
-		g2d.setStroke(new BasicStroke(size / 7));
-		g2d.drawOval((image2.getWidth() - size) / 2, (image2.getHeight() - size) / 2, size, size);
-		int delta = (int) (size / 2 * 0.707F);
-		g2d.drawLine(image2.getWidth() / 2 - delta, image2.getHeight() / 2 + delta, image2.getWidth() / 2 + delta, image2.getHeight() / 2 - delta);
-		return image2;
-	}
+	public static final String													PLACEHOLDER					= "$";
+	/**
+	 * The maximum number of allowed retries
+	 */
+	public static final int														MAX_RETRIES					= 10;
 
-	// parsers needed
+	////////////////////
+	// parsers needed //
+	////////////////////
+
 	public static final Function<String, Void>									PARSER_VOID					= (result) -> { return null; };
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
 	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
@@ -134,21 +98,55 @@ public class KaroAPI
 		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
 	};
 
+	//////////////////
+	// static logic //
+	//////////////////
+
+	/**
+	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * instances of the {@link KaroAPI}.
+	 */
 	private static Executor														executor;
 
+	/**
+	 * Set a new {@link Executor}:<br>
+	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * instances of the {@link KaroAPI}.
+	 * 
+	 * @param e - the new {@link Executor}
+	 */
 	public static void setExecutor(Executor e)
 	{
 		executor = e;
 	}
 
+	/**
+	 * Get the current {@link Executor}:<br>
+	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * instances of the {@link KaroAPI}.
+	 * 
+	 * @return the {@link Executor}
+	 */
 	public static Executor getExecutor()
 	{
 		return executor;
 	}
 
+	/**
+	 * Asynchronously schedule and execute a {@link BackgroundLoader}.<br>
+	 * This method will create {@link CompletableFuture} that is passed to the set {@link KaroAPI#executor} for asynchronous execution.<br>
+	 * It is further capable of appending retries to the {@link CompletableFuture} optionally.
+	 * 
+	 * @param <T> - the type that the parser will return
+	 * @param backgroundLoader - the {@link BackgroundLoader} to execute
+	 * @param parser - the parser that shall be used to parse the loaded content
+	 * @param retries - the number of <b>additional</b> retries to perform if the first execution fails.
+	 * @return the {@link CompletableFuture}
+	 */
 	private static <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
 	{
 		CompletableFuture<T> cf;
+		// check whether an Executor is set. If not use the default.
 		if(executor != null)
 			cf = CompletableFuture.supplyAsync(backgroundLoader, executor).thenApply(parser);
 		else
@@ -156,12 +154,16 @@ public class KaroAPI
 
 		if(retries > 0)
 		{
+			// check for MAX_RETRIES
+			final int remainingTries = (retries > MAX_RETRIES ? MAX_RETRIES : retries);
+			// add a completion stage for the retry handling
+			// if the loading fails, this will call loadAsync again with a reduced retry-counter
 			cf = cf.thenApply(CompletableFuture::completedFuture).exceptionally(new Function<Throwable, CompletableFuture<T>>() {
 				public CompletableFuture<T> apply(Throwable t)
 				{
-					logger.warn("an error occurred - retries remaining: " + retries, t);
-					if(retries > 0)
-						return loadAsync(backgroundLoader, parser, retries - 1);
+					logger.warn("an error occurred - tries remaining: " + remainingTries, t);
+					if(remainingTries > 0)
+						return loadAsync(backgroundLoader, parser, remainingTries - 1);
 					else
 						return CompletableFuture.failedFuture(t);
 				};
@@ -170,7 +172,11 @@ public class KaroAPI
 		return cf;
 	}
 
-	// api URLs
+	//////////////
+	// api URLs //
+	//////////////
+
+	// base
 	protected final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
 	protected final URLLoader	API				= KAROPAPIER.relative("/api");
 	// users
@@ -207,6 +213,12 @@ public class KaroAPI
 	protected final URLLoader	CONTACTS		= API.relative("/contacts");
 	protected final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
 
+	/**
+	 * The number of retries to perform.<br>
+	 * Default = 0
+	 * 
+	 * @see KaroAPI#loadAsync(BackgroundLoader, Function, int)
+	 */
 	private int					performRetries	= 0;
 
 	/**
@@ -223,11 +235,26 @@ public class KaroAPI
 		KAROPAPIER.addRequestProperty("X-Auth-Password", password);
 	}
 
+	/**
+	 * 
+	 * The number of retries to perform.<br>
+	 * Default = 0
+	 * 
+	 * @see KaroAPI#loadAsync(BackgroundLoader, Function, int)
+	 * @return the number of retries set
+	 */
 	public int getPerformRetries()
 	{
 		return performRetries;
 	}
 
+	/**
+	 * Set the number of retries to perform.<br>
+	 * Note: the method checks againt {@link KaroAPI#MAX_RETRIES}
+	 * 
+	 * @see KaroAPI#loadAsync(BackgroundLoader, Function, int)
+	 * @param performRetries - the new value to set
+	 */
 	public void setPerformRetries(int performRetries)
 	{
 		if(performRetries < 0)
@@ -237,6 +264,17 @@ public class KaroAPI
 		this.performRetries = performRetries;
 	}
 
+	/**
+	 * Non-static wrappeer for calling {@link KaroAPI#loadAsync(BackgroundLoader, Function, int)} that passes the currently set number of retries for
+	 * this instance.
+	 *
+	 * @see KaroAPI#loadAsync(BackgroundLoader, Function, int)
+	 * @see KaroAPI#getPerformRetries()
+	 * @param <T> - the type that the parser will return
+	 * @param backgroundLoader - the {@link BackgroundLoader} to execute
+	 * @param parser - the parser that shall be used to parse the loaded content
+	 * @return the {@link CompletableFuture}
+	 */
 	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser)
 	{
 		return loadAsync(backgroundLoader, parser, performRetries);
@@ -723,21 +761,9 @@ public class KaroAPI
 		}
 		catch(Exception e)
 		{
-			logger.error("unexpected error", e);
+			logger.error("could not load image", e);
 			e.printStackTrace();
-			// DO NOT use queue here
-			BufferedImage image = DEFAULT_IMAGE_GRAY;
-			try
-			{
-				boolean night = getMap(mapId).get().isNight();
-				image = (night ? DEFAULT_IMAGE_BLACK : DEFAULT_IMAGE_WHITE);
-			}
-			catch(Exception e1)
-			{
-				logger.error("map does not seem to exist", e1);
-				e1.printStackTrace();
-			}
-			return createSpecialImage(image);
+			return null;
 		}
 	}
 
