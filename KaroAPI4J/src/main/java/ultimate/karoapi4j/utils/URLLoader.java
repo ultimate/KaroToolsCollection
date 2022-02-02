@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumContentType;
+import ultimate.karoapi4j.utils.JSONUtil.Parser;
 
 /**
  * This class provides abstraction to load and parse urls synchronously or asynchronously. Instances of this class can be reused and they can be used
@@ -38,540 +40,51 @@ import ultimate.karoapi4j.enums.EnumContentType;
  * <code>FutureTask<?> ft = new FutureTask<?>(urlLoader.doGet(...));<br>
  * executor.execute(ft);
  * result = ft.get();</code></li>
- * <li>async using a {@link CompletableFuture}:<br>
- * <code>CompletableFuture<?> cf = CompletableFuture.supplyAsync(urlLoader.doGet(...), executor);<br>
+ * <li>async using a {@link BackgroundLoader}:<br>
+ * <code>BackgroundLoader<?> cf = BackgroundLoader.supplyAsync(urlLoader.doGet(...), executor);<br>
  * cf.whenComplete((result, ex) -> { &#47;* process result *&#47; });</code></li>
- * <li></li>
  * </ul>
  * 
  * @author ultimate
  */
 public class URLLoader
 {
+	/////////////////
+	// static part //
+	/////////////////
 	/**
 	 * Logger-Instance
 	 */
 	protected transient static final Logger	logger						= LoggerFactory.getLogger(URLLoader.class);
 
+	/**
+	 * Constant for use in {@link URLLoader#relative(String)}
+	 */
 	public static final char				DELIMITER					= '/';
+	/**
+	 * Constant for use in {@link URLLoader#parameterize(String)}
+	 */
 	public static final char				PARAMETER					= '?';
-
+	/**
+	 * Encoding charset used: UTF-8
+	 */
+	public static final String				CHARSET						= "UTF-8";
+	/**
+	 * The request properties that need to be passed for URL-encoded posts
+	 */
 	public static final Map<String, String>	POST_PROPERTIES_URL_ENCODED	= new HashMap<>();
+	/**
+	 * The request properties that need to be passed for JSON-encoded posts
+	 */
 	public static final Map<String, String>	POST_PROPERTIES_JSON		= new HashMap<>();
-	
-	public static final String				CHARSET = "UTF-8";
 
+	/**
+	 * init some constants
+	 */
 	static
 	{
 		POST_PROPERTIES_URL_ENCODED.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		POST_PROPERTIES_JSON.put("Content-Type", "application/json; charset=utf-8");
-	}
-
-	protected URLLoader				parent;
-	/**
-	 * The URL to load
-	 */
-	protected String				url;
-	protected Map<String, String>	requestProperties;
-
-	public URLLoader(String url)
-	{
-		this(null, url, null);
-	}
-
-	protected URLLoader(String url, Map<String, String> requestProperties)
-	{
-		this(null, url, requestProperties);
-	}
-
-	protected URLLoader(URLLoader parent, String url, Map<String, String> requestProperties)
-	{
-		super();
-		this.parent = parent;
-		this.url = url;
-		if(requestProperties != null)
-			this.requestProperties = requestProperties;
-		else
-			this.requestProperties = new HashMap<>();
-	}
-
-	public URLLoader getParent()
-	{
-		return parent;
-	}
-
-	public String getUrl()
-	{
-		return url;
-	}
-
-	public void addRequestProperty(String key, String value)
-	{
-		this.requestProperties.put(key, value);
-	}
-
-	public Map<String, String> getRequestProperties()
-	{
-		Map<String, String> properties = new HashMap<>();
-		if(this.parent != null)
-			properties.putAll(this.parent.getRequestProperties());
-		if(this.requestProperties != null)
-			properties.putAll(this.requestProperties);
-		return properties;
-	}
-
-	public URLLoader parameterize(Map<String, Object> parameters)
-	{
-		return parameterize(parameters, null);
-	}
-
-	public URLLoader parameterize(Map<String, Object> parameters, Map<String, String> requestProperties)
-	{
-		if(parameters != null && parameters.size() > 0)
-			return parameterize(formatParameters(parameters, EnumContentType.text), requestProperties);
-		else
-			return parameterize((String) null, requestProperties);
-	}
-
-	public URLLoader parameterize(String parameters)
-	{
-		return parameterize(parameters, null);
-	}
-
-	public URLLoader parameterize(String parameters, Map<String, String> requestProperties)
-	{
-		if(parameters == null || parameters.length() == 0)
-			return this;
-
-		StringBuilder parURL = new StringBuilder();
-		if(this.url.charAt(this.url.length() - 1) == DELIMITER)
-			parURL.append(this.url.substring(0, this.url.length() - 1));
-		else
-			parURL.append(this.url);
-
-		if(parameters.charAt(0) != PARAMETER)
-			parURL.append(PARAMETER);
-
-		parURL.append(parameters);
-
-		return new URLLoader(this, parURL.toString(), requestProperties);
-	}
-
-	public URLLoader relative(String path)
-	{
-		return relative(path, null);
-	}
-
-	public URLLoader relative(String path, Map<String, String> requestProperties)
-	{
-		if(path == null || path.length() == 0)
-			return this;
-
-		StringBuilder relURL = new StringBuilder(this.url);
-
-		int delims = 0;
-		if(path.charAt(0) == DELIMITER)
-			delims++;
-		if(url.charAt(url.length() - 1) == DELIMITER)
-			delims++;
-
-		switch(delims)
-		{
-			case 0:
-				relURL.append(DELIMITER);
-			case 1:
-				relURL.append(path);
-				break;
-			case 2:
-				relURL.append(path.substring(1));
-		}
-
-		return new URLLoader(this, relURL.toString(), requestProperties);
-	}
-
-	public URLLoader replace(String target, Object replacement)
-	{
-		return replace(target, replacement, null);
-	}
-
-	public URLLoader replace(String target, String replacement)
-	{
-		return replace(target, replacement, null);
-	}
-
-	public URLLoader replace(String target, Object replacement, Map<String, String> requestProperties)
-	{
-		return replace(target, (replacement != null ? replacement.toString() : null));
-	}
-
-	public URLLoader replace(String target, String replacement, Map<String, String> requestProperties)
-	{
-		String newURL = this.url.replace(target, replacement);
-		return new URLLoader(this.parent, newURL, requestProperties);
-	}
-
-	String doLoad(HttpURLConnection connection, String method, Map<String, String> additionalRequestProperties, String output) throws IOException
-	{
-		StringBuilder result = new StringBuilder();
-		connection.setDoInput(true);
-		connection.setUseCaches(false);
-		connection.setAllowUserInteraction(false);
-		connection.setRequestMethod(method);
-
-		Map<String, String> prop = getRequestProperties();
-		if(additionalRequestProperties != null)
-			prop.putAll(additionalRequestProperties);
-		for(Entry<String, String> reqProp : prop.entrySet())
-			connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
-
-		if(logger.isDebugEnabled())
-		{
-			logger.debug(method + " " + url + " -> " + output);
-			for(Entry<String, List<String>> rqp: connection.getRequestProperties().entrySet())
-				logger.trace(" - " + rqp.getKey() + " = " + rqp.getValue());
-		}
-
-		if(output != null)
-		{
-			connection.setDoOutput(true);
-			PrintWriter out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET));
-			out.print(output);
-			out.flush();
-			out.close();
-		}
-
-		connection.connect();
-		InputStream is = connection.getInputStream();
-		BufferedInputStream bis = new BufferedInputStream(is);
-		int curr = bis.read();
-		while(curr != -1)
-		{
-			result.append((char) curr);
-			curr = bis.read();
-		}
-		bis.close();
-		is.close();
-		
-		if(logger.isDebugEnabled())
-		{
-			logger.debug(method + " " + url + " = " + connection.getResponseCode() + " " + connection.getResponseMessage());
-			for(Entry<String, List<String>> hf: connection.getHeaderFields().entrySet())
-				logger.trace(" - " + hf.getKey() + " = " + hf.getValue());
-			logger.trace(" = " +  result.toString());
-		}
-
-		return result.toString();
-	}
-
-	/**
-	 * Convenience for <code>doPost(null);</code>
-	 *
-	 * @see URLLoader#doPost(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doPost()
-	{
-		return doPost((String) null, EnumContentType.text);
-	}
-
-	/**
-	 * Create a {@link URLLoaderThread} for a post to the URL represented by this {@link URLLoader}.<br>
-	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
-	 * call.
-	 *
-	 * @param <T> - the type of content to load
-	 * @param output - the output to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doPost(String output, EnumContentType contentType)
-	{
-		if(contentType == EnumContentType.json)
-			return new BackgroundLoader("POST", POST_PROPERTIES_JSON, output);
-		else
-			return new BackgroundLoader("POST", POST_PROPERTIES_URL_ENCODED, output);
-
-	}
-
-	/**
-	 * Convenience for
-	 * <code>doPost(URLLoader.formatParameters(parameters));</code>
-	 * 
-	 * @see URLLoader#doPost(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parameters - the parameters to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doPost(Map<String, Object> parameters, EnumContentType contentType)
-	{
-		if(parameters != null)
-			return doPost(formatParameters(parameters, contentType), contentType);
-		else
-			return doPost((String) null, contentType);
-	}
-
-	/**
-	 * Convenience for <code>doGet(null);</code>
-	 *
-	 * @param <T> - the type of content to load
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doGet()
-	{
-		return doGet((String) null);
-	}
-
-	/**
-	 * Create a {@link URLLoaderThread} for a post to the URL represented by this {@link URLLoader}.<br>
-	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
-	 * call.
-	 *
-	 * @param <T> - the type of content to load
-	 * @param parameters - the arguments to append to the url
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doGet(String parameters)
-	{
-		return this.parameterize(parameters).new BackgroundLoader("GET", null, null);
-	}
-
-	/**
-	 * Convenience for
-	 * <code>doGet(URLLoader.formatParameters(parameters));</code>
-	 * 
-	 * @see URLLoader#doGet(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parameters - the parameters to append to the url
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doGet(Map<String, Object> parameters)
-	{
-		return this.parameterize(parameters).new BackgroundLoader("GET", null, null);
-	}
-
-	/**
-	 * Convenience for <code>doPut(null);</code>
-	 *
-	 * @see URLLoader#doPut(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doPut()
-	{
-		return doPut((String) null);
-	}
-
-	/**
-	 * Create a {@link URLLoaderThread} for a put to the URL represented by this {@link URLLoader}.<br>
-	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
-	 * call.
-	 *
-	 * @param <T> - the type of content to load
-	 * @param output - the output to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doPut(String output)
-	{
-		return new BackgroundLoader("PUT", null, output);
-	}
-
-	/**
-	 * Convenience for
-	 * <code>doPut(URLLoader.formatParameters(parameters));</code>
-	 * 
-	 * @see URLLoader#doPut(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parameters - the parameters to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doPut(Map<String, Object> parameters, EnumContentType contentType)
-	{
-		if(parameters != null)
-			return doPut(formatParameters(parameters, contentType));
-		else
-			return doPut((String) null);
-	}
-
-	/**
-	 * Convenience for <code>doDelete(null);</code>
-	 *
-	 * @see URLLoader#doDelete(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doDelete()
-	{
-		return doDelete((String) null);
-	}
-
-	/**
-	 * Create a {@link URLLoaderThread} for a delete to the URL represented by this {@link URLLoader}.<br>
-	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
-	 * call.
-	 *
-	 * @param <T> - the type of content to load
-	 * @param output - the output to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doDelete(String output)
-	{
-		return new BackgroundLoader("DELETE", null, output);
-	}
-
-	/**
-	 * Convenience for
-	 * <code>doDelete(URLLoader.formatParameters(parameters));</code>
-	 * 
-	 * @see URLLoader#doDelete(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parameters - the parameters to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	public BackgroundLoader doDelete(Map<String, Object> parameters, EnumContentType contentType)
-	{
-		if(parameters != null)
-			return doDelete(formatParameters(parameters, contentType));
-		else
-			return doDelete((String) null);
-	}
-
-	/**
-	 * Convenience for <code>doPatch(null);</code>
-	 *
-	 * @see URLLoader#doPatch(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
-	public BackgroundLoader doPatch()
-	{
-		// TODO currently PATCH is not supported
-		return doPatch((String) null);
-	}
-
-	/**
-	 * Create a {@link URLLoaderThread} for a patch to the URL represented by this {@link URLLoader}.<br>
-	 * Use {@link URLLoaderThread#doBlocking()} or {@link URLLoaderThread#doAsync(java.util.function.Consumer)} to execute the
-	 * call.
-	 *
-	 * @param <T> - the type of content to load
-	 * @param output - the output to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
-	public BackgroundLoader doPatch(String output)
-	{
-		// TODO currently PATCH is not supported
-		return new BackgroundLoader("PATCH", null, output);
-	}
-
-	/**
-	 * Convenience for
-	 * <code>doPatch(URLLoader.formatParameters(parameters));</code>
-	 * 
-	 * @see URLLoader#doPatch(String, Parser)
-	 * @param <T> - the type of content to load
-	 * @param parameters - the parameters to write
-	 * @param parser - the {@link Parser} for the result
-	 * @return the {@link CompletableFuture} that can be used to load the content
-	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
-	public BackgroundLoader doPatch(Map<String, Object> parameters, EnumContentType contentType)
-	{
-		// TODO currently PATCH is not supported
-		if(parameters != null)
-			return doPatch(formatParameters(parameters, contentType));
-		else
-			return doPatch((String) null);
-	}
-
-	public class BackgroundLoader implements Callable<String>, Supplier<String>
-	{
-		private String				method;
-		private Map<String, String>	requestProperties;
-		private String				output;
-		private String				result;
-		private HttpURLConnection	connection;
-
-		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output)
-		{
-			super();
-			this.method = method;
-			this.requestProperties = new HashMap<>();
-			if(additionalRequestProperties != null)
-				this.requestProperties.putAll(additionalRequestProperties);
-			this.output = output;
-		}
-
-		public String getUrl()
-		{
-			return url;
-		}
-
-		public String getMethod()
-		{
-			return method;
-		}
-
-		public Map<String, String> getRequestProperties()
-		{
-			return requestProperties;
-		}
-
-		public String getOutput()
-		{
-			return output;
-		}
-
-		public void addRequestProperties(Map<String, String> additionalRequestProperties)
-		{
-			this.requestProperties.putAll(additionalRequestProperties);
-		}
-
-		@Override
-		public String call() throws IOException
-		{
-			this.connection = (HttpURLConnection) new URL(url).openConnection();
-			this.result = doLoad(connection, this.method, this.requestProperties, this.output);
-			return this.result;
-		}
-
-		public HttpURLConnection getConnection()
-		{
-			return connection;
-		}
-
-		public String getResult()
-		{
-			return this.result;
-		}
-
-		@Override
-		public String get()
-		{
-			try
-			{
-				return call();
-			}
-			catch(IOException e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
 	}
 
 	/**
@@ -579,7 +92,7 @@ public class URLLoader
 	 * <ul>
 	 * <li>text: <code>param1=value1&param2=value2&...</code></li>
 	 * <li>or</li>
-	 * <li>json: <code>param1=value1&param2=value2&...</code></li>
+	 * <li>json: <code>{"param1":"value1","param2":"value2",...}</code></li>
 	 * </ul>
 	 * 
 	 * @param parameters - the Map of parameters
@@ -609,5 +122,750 @@ public class URLLoader
 			return sb.toString();
 		}
 
+	}
+
+	/////////////////
+	// member part //
+	/////////////////
+
+	/**
+	 * The parent URL loader
+	 */
+	protected URLLoader				parent;
+	/**
+	 * The URL to load
+	 */
+	protected String				url;
+	/**
+	 * The optional request properties to use
+	 * 
+	 * @see URLConnection#setRequestProperty(String, String)
+	 */
+	protected Map<String, String>	requestProperties;
+
+	/**
+	 * Create a new {@link URLLoader} for the given URL
+	 * 
+	 * @param url - the URL
+	 */
+	public URLLoader(String url)
+	{
+		this(null, url, null);
+	}
+
+	/**
+	 * Create a new {@link URLLoader} for the given URL and the given request properties
+	 * 
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param url - the URL
+	 * @param requestProperties - the optional request properties to use
+	 */
+	protected URLLoader(String url, Map<String, String> requestProperties)
+	{
+		this(null, url, requestProperties);
+	}
+
+	/**
+	 * Create a new {@link URLLoader} for the given parent, the given URL and the given request properties
+	 * 
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param parent - the parent URL loader
+	 * @param url - the URL
+	 * @param requestProperties - the optional request properties to use
+	 */
+	protected URLLoader(URLLoader parent, String url, Map<String, String> requestProperties)
+	{
+		super();
+		this.parent = parent;
+		this.url = url;
+		if(requestProperties != null)
+			this.requestProperties = requestProperties;
+		else
+			this.requestProperties = new HashMap<>();
+	}
+
+	/**
+	 * The parent URL loader
+	 * 
+	 * @return the parent
+	 */
+	public URLLoader getParent()
+	{
+		return parent;
+	}
+
+	/**
+	 * The URL to load
+	 * 
+	 * @return the url
+	 */
+	public String getUrl()
+	{
+		return url;
+	}
+
+	/**
+	 * Add a request properties to use
+	 * 
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param key - the key
+	 * @param value - the value
+	 */
+	public void addRequestProperty(String key, String value)
+	{
+		this.requestProperties.put(key, value);
+	}
+
+	/**
+	 * Get all request properties set
+	 * 
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @return the map of request properties
+	 */
+	public Map<String, String> getRequestProperties()
+	{
+		Map<String, String> properties = new HashMap<>();
+		if(this.parent != null)
+			properties.putAll(this.parent.getRequestProperties());
+		if(this.requestProperties != null)
+			properties.putAll(this.requestProperties);
+		return properties;
+	}
+
+	///////////////////////////////////////////////
+	// functions for creating derived URLLoaders //
+	///////////////////////////////////////////////
+
+	/**
+	 * Create a new URLLoader by parameterizing the current URLLoader with the given parameters
+	 * 
+	 * @param parameters - the parameter map to use
+	 * @return the new URLLoader
+	 */
+	public URLLoader parameterize(Map<String, Object> parameters)
+	{
+		return parameterize(parameters, null);
+	}
+
+	/**
+	 * Create a new URLLoader by parameterizing the current URLLoader with the given parameters and optional request properties
+	 * 
+	 * @see URLLoader#getRequestProperties()
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param parameters - the parameter map to use
+	 * @param requestProperties - the optional request properties
+	 * @return the new URLLoader
+	 */
+	public URLLoader parameterize(Map<String, Object> parameters, Map<String, String> requestProperties)
+	{
+		if(parameters != null && parameters.size() > 0)
+			return parameterize(formatParameters(parameters, EnumContentType.text), requestProperties);
+		else
+			return parameterize((String) null, requestProperties);
+	}
+
+	/**
+	 * Create a new URLLoader by parameterizing the current URLLoader with the given parameters
+	 * 
+	 * @param parameters - the parameter string to use
+	 * @return the new URLLoader
+	 */
+	public URLLoader parameterize(String parameters)
+	{
+		return parameterize(parameters, null);
+	}
+
+	/**
+	 * Create a new URLLoader by parameterizing the current URLLoader with the given parameters and optional request properties
+	 * 
+	 * @see URLLoader#getRequestProperties()
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param parameters - the parameter string to use
+	 * @param requestProperties - the optional request properties
+	 * @return the new URLLoader
+	 */
+	public URLLoader parameterize(String parameters, Map<String, String> requestProperties)
+	{
+		// TODO we could check here if this URLLoader was already parameterized, so another parameterization does not make sense
+		// --> either deny or add parameters without another "?"
+		if(parameters == null || parameters.length() == 0)
+			return this;
+
+		StringBuilder parURL = new StringBuilder();
+		if(this.url.charAt(this.url.length() - 1) == DELIMITER)
+			parURL.append(this.url.substring(0, this.url.length() - 1));
+		else
+			parURL.append(this.url);
+
+		if(parameters.charAt(0) != PARAMETER)
+			parURL.append(PARAMETER);
+
+		parURL.append(parameters);
+
+		return new URLLoader(this, parURL.toString(), requestProperties);
+	}
+
+	/**
+	 * Create a new URLLoader with a relative path to current URLLoader
+	 * 
+	 * @param path - the relative path
+	 * @return the new URLLoader
+	 */
+	public URLLoader relative(String path)
+	{
+		return relative(path, null);
+	}
+
+	/**
+	 * Create a new URLLoader with a relative path to current URLLoader and optional request properties
+	 * 
+	 * @see URLLoader#getRequestProperties()
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param path - the relative path
+	 * @param requestProperties - the optional request properties
+	 * @return the new URLLoader
+	 */
+	public URLLoader relative(String path, Map<String, String> requestProperties)
+	{
+		if(path == null || path.length() == 0)
+			return this;
+
+		StringBuilder relURL = new StringBuilder(this.url);
+
+		int delims = 0;
+		if(path.charAt(0) == DELIMITER)
+			delims++;
+		if(url.charAt(url.length() - 1) == DELIMITER)
+			delims++;
+
+		switch(delims)
+		{
+			case 0:
+				relURL.append(DELIMITER);
+			case 1:
+				relURL.append(path);
+				break;
+			case 2:
+				relURL.append(path.substring(1));
+		}
+
+		return new URLLoader(this, relURL.toString(), requestProperties);
+	}
+
+	/**
+	 * Create a new URLLoader by replacing parts of the URL
+	 * 
+	 * @param target - the string part to replace
+	 * @param replacement - the replacement
+	 * @return the new URLLoader
+	 */
+	public URLLoader replace(String target, Object replacement)
+	{
+		return replace(target, replacement, null);
+	}
+
+	/**
+	 * Create a new URLLoader by replacing parts of the URL
+	 * 
+	 * @param target - the string part to replace
+	 * @param replacement - the replacement
+	 * @return the new URLLoader
+	 */
+	public URLLoader replace(String target, String replacement)
+	{
+		return replace(target, replacement, null);
+	}
+
+	/**
+	 * Create a new URLLoader by replacing parts of the URL and optional request properties
+	 * 
+	 * @see URLLoader#getRequestProperties()
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param target - the string part to replace
+	 * @param replacement - the replacement
+	 * @param requestProperties - the optional request properties
+	 * @return the new URLLoader
+	 */
+	public URLLoader replace(String target, Object replacement, Map<String, String> requestProperties)
+	{
+		return replace(target, (replacement != null ? replacement.toString() : null));
+	}
+
+	/**
+	 * Create a new URLLoader by replacing parts of the URL and optional request properties
+	 * 
+	 * @see URLLoader#getRequestProperties()
+	 * @see URLConnection#setRequestProperty(String, String)
+	 * @param target - the string part to replace
+	 * @param replacement - the replacement
+	 * @param requestProperties - the optional request properties
+	 * @return the new URLLoader
+	 */
+	public URLLoader replace(String target, String replacement, Map<String, String> requestProperties)
+	{
+		String newURL = this.url.replace(target, replacement);
+		return new URLLoader(this.parent, newURL, requestProperties);
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	// functions performing operations on the URL (get, post, put, delete, ...) //
+	//////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Generic method that is used by all following operations to load the URL when {@link BackgroundLoader#call()} or {@link BackgroundLoader#get()}
+	 * is called.
+	 * 
+	 * @param connection - the HttpURLConnection to use
+	 * @param method - the HTTP method to use
+	 * @param additionalRequestProperties - the optional additional request properties to pass to the connection<br>
+	 *            (Note: request properties already set for this {@link URLLoader} will be overwritten if keys collide)
+	 * @param output - the optional output to post to the connection
+	 * @return the String loaded from the connection
+	 * @throws IOException
+	 */
+	String doLoad(HttpURLConnection connection, String method, Map<String, String> additionalRequestProperties, String output) throws IOException
+	{
+		StringBuilder result = new StringBuilder();
+		connection.setDoInput(true);
+		connection.setUseCaches(false);
+		connection.setAllowUserInteraction(false);
+		connection.setRequestMethod(method);
+
+		Map<String, String> prop = this.getRequestProperties();
+		if(additionalRequestProperties != null)
+			prop.putAll(additionalRequestProperties);
+		for(Entry<String, String> reqProp : prop.entrySet())
+			connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
+
+		if(logger.isDebugEnabled())
+		{
+			logger.debug(method + " " + url + " -> " + output);
+			for(Entry<String, List<String>> rqp : connection.getRequestProperties().entrySet())
+				logger.trace(" - " + rqp.getKey() + " = " + rqp.getValue());
+		}
+
+		if(output != null)
+		{
+			connection.setDoOutput(true);
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET));
+			out.print(output);
+			out.flush();
+			out.close();
+		}
+
+		connection.connect();
+		InputStream is = connection.getInputStream();
+		BufferedInputStream bis = new BufferedInputStream(is);
+		int curr = bis.read();
+		while(curr != -1)
+		{
+			result.append((char) curr);
+			curr = bis.read();
+		}
+		bis.close();
+		is.close();
+
+		if(logger.isDebugEnabled())
+		{
+			logger.debug(method + " " + url + " = " + connection.getResponseCode() + " " + connection.getResponseMessage());
+			for(Entry<String, List<String>> hf : connection.getHeaderFields().entrySet())
+				logger.trace(" - " + hf.getKey() + " = " + hf.getValue());
+			logger.trace(" = " + result.toString());
+		}
+
+		return result.toString();
+	}
+
+	/**
+	 * Convenience for <code>doPost(null);</code>
+	 *
+	 * @see URLLoader#doPost(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPost()
+	{
+		return doPost((String) null, EnumContentType.text);
+	}
+
+	/**
+	 * Create a {@link BackgroundLoader} for a post to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPost(String output, EnumContentType contentType)
+	{
+		if(contentType == EnumContentType.json)
+			return new BackgroundLoader("POST", POST_PROPERTIES_JSON, output);
+		else
+			return new BackgroundLoader("POST", POST_PROPERTIES_URL_ENCODED, output);
+
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doPost(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doPost(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPost(Map<String, Object> parameters, EnumContentType contentType)
+	{
+		if(parameters != null)
+			return doPost(formatParameters(parameters, contentType), contentType);
+		else
+			return doPost((String) null, contentType);
+	}
+
+	/**
+	 * Convenience for <code>doGet(null);</code>
+	 *
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doGet()
+	{
+		return doGet((String) null);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a post to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param parameters - the arguments to append to the url
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doGet(String parameters)
+	{
+		return this.parameterize(parameters).new BackgroundLoader("GET", null, null);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doGet(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doGet(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to append to the url
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doGet(Map<String, Object> parameters)
+	{
+		return this.parameterize(parameters).new BackgroundLoader("GET", null, null);
+	}
+
+	/**
+	 * Convenience for <code>doPut(null);</code>
+	 *
+	 * @see URLLoader#doPut(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPut()
+	{
+		return doPut((String) null);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a put to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPut(String output)
+	{
+		return new BackgroundLoader("PUT", null, output);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doPut(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doPut(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPut(Map<String, Object> parameters, EnumContentType contentType)
+	{
+		if(parameters != null)
+			return doPut(formatParameters(parameters, contentType));
+		else
+			return doPut((String) null);
+	}
+
+	/**
+	 * Convenience for <code>doDelete(null);</code>
+	 *
+	 * @see URLLoader#doDelete(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doDelete()
+	{
+		return doDelete((String) null);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a delete to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doDelete(String output)
+	{
+		return new BackgroundLoader("DELETE", null, output);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doDelete(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doDelete(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doDelete(Map<String, Object> parameters, EnumContentType contentType)
+	{
+		if(parameters != null)
+			return doDelete(formatParameters(parameters, contentType));
+		else
+			return doDelete((String) null);
+	}
+
+	/**
+	 * Convenience for <code>doPatch(null);</code>
+	 *
+	 * @see URLLoader#doPatch(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	public BackgroundLoader doPatch()
+	{
+		// TODO currently PATCH is not supported
+		return doPatch((String) null);
+	}
+
+	/**
+	 * Create a {@link URLLoaderThread} for a patch to the URL represented by this {@link URLLoader}.<br>
+	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
+	 *
+	 * @param <T> - the type of content to load
+	 * @param output - the output to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	public BackgroundLoader doPatch(String output)
+	{
+		// TODO currently PATCH is not supported
+		return new BackgroundLoader("PATCH", null, output);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doPatch(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doPatch(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	public BackgroundLoader doPatch(Map<String, Object> parameters, EnumContentType contentType)
+	{
+		// TODO currently PATCH is not supported
+		if(parameters != null)
+			return doPatch(formatParameters(parameters, contentType));
+		else
+			return doPatch((String) null);
+	}
+
+	/**
+	 * This class is a wrapper for the HTTP operation to perform. It is instantiated and returned by the various do* methods:
+	 * <ul>
+	 * <li>doPost(...)</li>
+	 * <li>doGet(...)</li>
+	 * <li>doPut(...)</li>
+	 * <li>doDelete(...)</li>
+	 * <li>doPatch(...)</li>
+	 * </ul>
+	 * {@link BackgroundLoader} implements {@link Callable} and {@link Supplier} in order to be easily usable
+	 * <ul>
+	 * <li>blocking,</li>
+	 * <li>in {@link Thread}s,</li>
+	 * <li>in {@link FutureTask}, or</li>
+	 * <li>in {@link CompletableFuture}</li>
+	 * </ul>
+	 * (See {@link URLLoader} class description for details)
+	 * 
+	 * @author ultimate
+	 */
+	public class BackgroundLoader implements Callable<String>, Supplier<String>
+	{
+		/**
+		 * the HTTP method to use
+		 */
+		private String				method;
+		/**
+		 * the optional additional request properties to pass to the connection
+		 */
+		private Map<String, String>	requestProperties;
+		/**
+		 * the optional output to post to the connection
+		 */
+		private String				output;
+		/**
+		 * the result loaded
+		 */
+		private String				result;
+		/**
+		 * the {@link HttpURLConnection} used
+		 */
+		private HttpURLConnection	connection;
+
+		/**
+		 * Create a new BackgroundLoader
+		 * 
+		 * @param method - the HTTP method to use
+		 * @param additionalRequestProperties - the optional additional request properties to pass to the connection<br>
+		 *            (Note: request properties already set for the wrapping {@link URLLoader} will be overwritten if keys collide)
+		 * @param output - the optional output to post to the connection
+		 */
+		public BackgroundLoader(String method, Map<String, String> additionalRequestProperties, String output)
+		{
+			super();
+			this.method = method;
+			this.requestProperties = new HashMap<>();
+			if(additionalRequestProperties != null)
+				this.requestProperties.putAll(additionalRequestProperties);
+			this.output = output;
+		}
+
+		/**
+		 * The URL represented by the wrapping {@link URLLoader}
+		 * 
+		 * @return the url
+		 */
+		public String getUrl()
+		{
+			return url;
+		}
+
+		/**
+		 * the HTTP method to use
+		 * 
+		 * @return the method
+		 */
+		public String getMethod()
+		{
+			return method;
+		}
+
+		/**
+		 * the optional additional request properties to pass to the connection
+		 * 
+		 * @return the request properties map
+		 */
+		public Map<String, String> getRequestProperties()
+		{
+			return requestProperties;
+		}
+
+		/**
+		 * the optional output to post to the connection
+		 * 
+		 * @return the output
+		 */
+		public String getOutput()
+		{
+			return output;
+		}
+
+		/**
+		 * add more optional request property to this {@link BackgroundLoader}
+		 * 
+		 * @param additionalRequestProperties - additional request properties
+		 */
+		public void addRequestProperties(Map<String, String> additionalRequestProperties)
+		{
+			this.requestProperties.putAll(additionalRequestProperties);
+		}
+
+		/**
+		 * Initiate the {@link HttpURLConnection} and load the content using {@link URLLoader#doLoad(HttpURLConnection, String, Map, String)}
+		 */
+		@Override
+		public String call() throws IOException
+		{
+			this.connection = (HttpURLConnection) new URL(url).openConnection();
+			this.result = doLoad(connection, this.method, this.requestProperties, this.output);
+			return this.result;
+		}
+
+		/**
+		 * the {@link HttpURLConnection} used.<br>
+		 * Note: the connection is null until {@link BackgroundLoader#call()} is called.
+		 * 
+		 * @return the connection
+		 */
+		public HttpURLConnection getConnection()
+		{
+			return connection;
+		}
+
+		/**
+		 * the result loaded from the URL<br>
+		 * Note: the result is null until {@link BackgroundLoader#call()} is called.
+		 * 
+		 * @return the result
+		 */
+		public String getResult()
+		{
+			return this.result;
+		}
+
+		/**
+		 * Implementation of {@link Supplier}. Will simply forward to {@link BackgroundLoader#call()} and wraps occurring exception into a
+		 * {@link RuntimeException} to match the Exception-less method signature
+		 */
+		@Override
+		public String get()
+		{
+			try
+			{
+				return call();
+			}
+			catch(IOException e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
 	}
 }
