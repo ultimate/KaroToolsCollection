@@ -68,13 +68,13 @@ public class KaroAPI
 
 	// config & constants
 	public static final String				PLACEHOLDER				= "$";
-	public static final BufferedImage		DEFAULT_IMAGE_WHITE;
-	public static final BufferedImage		DEFAULT_IMAGE_GRAY;
-	public static final BufferedImage		DEFAULT_IMAGE_BLACK;
+	public static final int					MAX_RETRIES				= 10;
 	public static final int					DEFAULT_IMAGE_SIZE		= 100;
 	public static final int					DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
 	public static final int					DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
-	public static final int					MAX_RETRIES				= 10;
+	public static final BufferedImage		DEFAULT_IMAGE_WHITE;
+	public static final BufferedImage		DEFAULT_IMAGE_GRAY;
+	public static final BufferedImage		DEFAULT_IMAGE_BLACK;
 
 	static
 	{
