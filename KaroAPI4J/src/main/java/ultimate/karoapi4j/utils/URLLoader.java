@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,6 +45,7 @@ import ultimate.karoapi4j.utils.JSONUtil.Parser;
  * <code>BackgroundLoader<?> cf = BackgroundLoader.supplyAsync(urlLoader.doGet(...), executor);<br>
  * cf.whenComplete((result, ex) -> { &#47;* process result *&#47; });</code></li>
  * </ul>
+ * Note: alternatively {@link URLLoader#doLoad(HttpURLConnection, String, Map, String)} can be used statically
  * 
  * @author ultimate
  */
@@ -68,7 +70,7 @@ public class URLLoader
 	/**
 	 * Encoding charset used: UTF-8
 	 */
-	public static final String				CHARSET						= "UTF-8";
+	public static final String				DEFAULT_CHARSET				= "UTF-8";
 	/**
 	 * The request properties that need to be passed for URL-encoded posts
 	 */
@@ -124,6 +126,61 @@ public class URLLoader
 
 	}
 
+	/**
+	 * Generic method that is used by all following operations to load the URL when {@link BackgroundLoader#call()} or {@link BackgroundLoader#get()}
+	 * is called. Can also be used statically.
+	 * 
+	 * @param connection - the HttpURLConnection to use
+	 * @param method - the HTTP method to use
+	 * @param requestProperties - the optional request properties to pass to the connection
+	 * @param output - the optional output to post to the connection
+	 * @param charset - the charset to use
+	 * @return the String loaded from the connection
+	 * @throws IOException
+	 */
+	public static String doLoad(HttpURLConnection connection, String method, Map<String, String> requestProperties, String output, String charset) throws IOException
+	{
+		connection.setDoInput(true);
+		connection.setUseCaches(false);
+		connection.setAllowUserInteraction(false);
+		connection.setRequestMethod(method);
+
+		if(requestProperties != null)
+			for(Entry<String, String> reqProp : requestProperties.entrySet())
+				connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
+
+		if(logger.isDebugEnabled())
+		{
+			logger.debug(method + " " + connection.getURL() + " -> " + output);
+			for(Entry<String, List<String>> rqp : connection.getRequestProperties().entrySet())
+				logger.trace(" - " + rqp.getKey() + " = " + rqp.getValue());
+		}
+
+		if(output != null)
+		{
+			connection.setDoOutput(true);
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), charset));
+			out.print(output);
+			out.flush();
+			out.close();
+		}
+
+		connection.connect();
+		InputStream is = connection.getInputStream();
+		BufferedInputStream bis = new BufferedInputStream(is);
+		String result = new String(bis.readAllBytes(), charset);
+
+		if(logger.isDebugEnabled())
+		{
+			logger.debug(method + " " + connection.getURL() + " = " + connection.getResponseCode() + " " + connection.getResponseMessage());
+			for(Entry<String, List<String>> hf : connection.getHeaderFields().entrySet())
+				logger.trace(" - " + hf.getKey() + " = " + hf.getValue());
+			logger.trace(" = " + result);
+		}
+
+		return result;
+	}
+
 	/////////////////
 	// member part //
 	/////////////////
@@ -142,42 +199,60 @@ public class URLLoader
 	 * @see URLConnection#setRequestProperty(String, String)
 	 */
 	protected Map<String, String>	requestProperties;
+	/**
+	 * The charset to use
+	 */
+	protected String				charset;
 
 	/**
-	 * Create a new {@link URLLoader} for the given URL
+	 * Create a new {@link URLLoader} for the given URL with the {@link URLLoader#DEFAULT_CHARSET}
 	 * 
 	 * @param url - the URL
 	 */
 	public URLLoader(String url)
 	{
-		this(null, url, null);
+		this(null, url, null, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Create a new {@link URLLoader} for the given URL and the given request properties
+	 * Create a new {@link URLLoader} for the given URL and the given {@link Charset}
+	 * 
+	 * @param url - the URL
+	 * @param charset - the charset name
+	 */
+	public URLLoader(String url, String charset)
+	{
+		this(null, url, null, charset);
+	}
+
+	/**
+	 * Create a new {@link URLLoader} for the given URL and the given request properties and the given {@link Charset}
 	 * 
 	 * @see URLConnection#setRequestProperty(String, String)
 	 * @param url - the URL
 	 * @param requestProperties - the optional request properties to use
+	 * @param charset - the charset name
 	 */
-	protected URLLoader(String url, Map<String, String> requestProperties)
+	protected URLLoader(String url, Map<String, String> requestProperties, String charset)
 	{
-		this(null, url, requestProperties);
+		this(null, url, requestProperties, charset);
 	}
 
 	/**
-	 * Create a new {@link URLLoader} for the given parent, the given URL and the given request properties
+	 * Create a new {@link URLLoader} for the given parent, the given URL and the given request properties and the given {@link Charset}
 	 * 
 	 * @see URLConnection#setRequestProperty(String, String)
 	 * @param parent - the parent URL loader
 	 * @param url - the URL
 	 * @param requestProperties - the optional request properties to use
+	 * @param charset - the charset name
 	 */
-	protected URLLoader(URLLoader parent, String url, Map<String, String> requestProperties)
+	protected URLLoader(URLLoader parent, String url, Map<String, String> requestProperties, String charset)
 	{
 		super();
 		this.parent = parent;
 		this.url = url;
+		this.charset = charset;
 		if(requestProperties != null)
 			this.requestProperties = requestProperties;
 		else
@@ -235,6 +310,16 @@ public class URLLoader
 	///////////////////////////////////////////////
 	// functions for creating derived URLLoaders //
 	///////////////////////////////////////////////
+
+	/**
+	 * The charset to use
+	 * 
+	 * @return the charset name
+	 */
+	public String getCharset()
+	{
+		return charset;
+	}
 
 	/**
 	 * Create a new URLLoader by parameterizing the current URLLoader with the given parameters
@@ -302,7 +387,7 @@ public class URLLoader
 
 		parURL.append(parameters);
 
-		return new URLLoader(this, parURL.toString(), requestProperties);
+		return new URLLoader(this, parURL.toString(), requestProperties, this.charset);
 	}
 
 	/**
@@ -349,7 +434,7 @@ public class URLLoader
 				relURL.append(path.substring(1));
 		}
 
-		return new URLLoader(this, relURL.toString(), requestProperties);
+		return new URLLoader(this, relURL.toString(), requestProperties, this.charset);
 	}
 
 	/**
@@ -404,77 +489,12 @@ public class URLLoader
 	public URLLoader replace(String target, String replacement, Map<String, String> requestProperties)
 	{
 		String newURL = this.url.replace(target, replacement);
-		return new URLLoader(this.parent, newURL, requestProperties);
+		return new URLLoader(this.parent, newURL, requestProperties, this.charset);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////
 	// functions performing operations on the URL (get, post, put, delete, ...) //
 	//////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Generic method that is used by all following operations to load the URL when {@link BackgroundLoader#call()} or {@link BackgroundLoader#get()}
-	 * is called.
-	 * 
-	 * @param connection - the HttpURLConnection to use
-	 * @param method - the HTTP method to use
-	 * @param additionalRequestProperties - the optional additional request properties to pass to the connection<br>
-	 *            (Note: request properties already set for this {@link URLLoader} will be overwritten if keys collide)
-	 * @param output - the optional output to post to the connection
-	 * @return the String loaded from the connection
-	 * @throws IOException
-	 */
-	String doLoad(HttpURLConnection connection, String method, Map<String, String> additionalRequestProperties, String output) throws IOException
-	{
-		StringBuilder result = new StringBuilder();
-		connection.setDoInput(true);
-		connection.setUseCaches(false);
-		connection.setAllowUserInteraction(false);
-		connection.setRequestMethod(method);
-
-		Map<String, String> prop = this.getRequestProperties();
-		if(additionalRequestProperties != null)
-			prop.putAll(additionalRequestProperties);
-		for(Entry<String, String> reqProp : prop.entrySet())
-			connection.setRequestProperty(reqProp.getKey(), reqProp.getValue());
-
-		if(logger.isDebugEnabled())
-		{
-			logger.debug(method + " " + url + " -> " + output);
-			for(Entry<String, List<String>> rqp : connection.getRequestProperties().entrySet())
-				logger.trace(" - " + rqp.getKey() + " = " + rqp.getValue());
-		}
-
-		if(output != null)
-		{
-			connection.setDoOutput(true);
-			PrintWriter out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), CHARSET));
-			out.print(output);
-			out.flush();
-			out.close();
-		}
-
-		connection.connect();
-		InputStream is = connection.getInputStream();
-		BufferedInputStream bis = new BufferedInputStream(is);
-		int curr = bis.read();
-		while(curr != -1)
-		{
-			result.append((char) curr);
-			curr = bis.read();
-		}
-		bis.close();
-		is.close();
-
-		if(logger.isDebugEnabled())
-		{
-			logger.debug(method + " " + url + " = " + connection.getResponseCode() + " " + connection.getResponseMessage());
-			for(Entry<String, List<String>> hf : connection.getHeaderFields().entrySet())
-				logger.trace(" - " + hf.getKey() + " = " + hf.getValue());
-			logger.trace(" = " + result.toString());
-		}
-
-		return result.toString();
-	}
 
 	/**
 	 * Convenience for <code>doPost(null);</code>
@@ -736,7 +756,7 @@ public class URLLoader
 		/**
 		 * the optional additional request properties to pass to the connection
 		 */
-		private Map<String, String>	requestProperties;
+		private Map<String, String>	additionalRequestProperties;
 		/**
 		 * the optional output to post to the connection
 		 */
@@ -762,9 +782,9 @@ public class URLLoader
 		{
 			super();
 			this.method = method;
-			this.requestProperties = new HashMap<>();
+			this.additionalRequestProperties = new HashMap<>();
 			if(additionalRequestProperties != null)
-				this.requestProperties.putAll(additionalRequestProperties);
+				this.additionalRequestProperties.putAll(additionalRequestProperties);
 			this.output = output;
 		}
 
@@ -785,7 +805,7 @@ public class URLLoader
 		 */
 		public String getMethod()
 		{
-			return method;
+			return this.method;
 		}
 
 		/**
@@ -793,9 +813,22 @@ public class URLLoader
 		 * 
 		 * @return the request properties map
 		 */
-		public Map<String, String> getRequestProperties()
+		public Map<String, String> getAdditionalRequestProperties()
 		{
-			return requestProperties;
+			return this.additionalRequestProperties;
+		}
+
+		/**
+		 * the all request properties to pass to the connection (including those from the wrapping URLLoader)
+		 * 
+		 * @return the request properties map
+		 */
+		public Map<String, String> getAllRequestProperties()
+		{
+			Map<String, String> prop = getRequestProperties();
+			if(this.additionalRequestProperties != null)
+				prop.putAll(this.additionalRequestProperties);
+			return prop;
 		}
 
 		/**
@@ -805,7 +838,7 @@ public class URLLoader
 		 */
 		public String getOutput()
 		{
-			return output;
+			return this.output;
 		}
 
 		/**
@@ -815,7 +848,7 @@ public class URLLoader
 		 */
 		public void addRequestProperties(Map<String, String> additionalRequestProperties)
 		{
-			this.requestProperties.putAll(additionalRequestProperties);
+			this.additionalRequestProperties.putAll(additionalRequestProperties);
 		}
 
 		/**
@@ -825,7 +858,7 @@ public class URLLoader
 		public String call() throws IOException
 		{
 			this.connection = (HttpURLConnection) new URL(url).openConnection();
-			this.result = doLoad(connection, this.method, this.requestProperties, this.output);
+			this.result = doLoad(this.connection, this.method, this.getAllRequestProperties(), this.output, charset);
 			return this.result;
 		}
 
@@ -837,7 +870,7 @@ public class URLLoader
 		 */
 		public HttpURLConnection getConnection()
 		{
-			return connection;
+			return this.connection;
 		}
 
 		/**
