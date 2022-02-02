@@ -224,14 +224,9 @@ public class JSONUtilTest
 	}
 
 	@Test
-	public void test_serialize_deserialize_Rules()
-	{
-		fail("not implemented");
-	}
-
-	@Test
 	public void test_serialize_deserialize_GameSeries()
 	{
+		// TODO implement test #99
 		fail("not implemented");
 	}
 
