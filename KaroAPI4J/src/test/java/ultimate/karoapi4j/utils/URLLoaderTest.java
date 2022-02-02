@@ -1,7 +1,9 @@
 package ultimate.karoapi4j.utils;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
 
 public class URLLoaderTest
@@ -21,6 +24,78 @@ public class URLLoaderTest
 	protected transient final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Test
+	public void test_formatParameters()
+	{
+		HashMap<String,Object> parameters = new HashMap<>();
+		parameters.put("key1", "1");
+		parameters.put("key2", 2);
+		
+		String json = URLLoader.formatParameters(parameters, EnumContentType.json);
+		
+		assertEquals("{\"key1\":\"1\",\"key2\":2}", json);
+		
+		String text = URLLoader.formatParameters(parameters, EnumContentType.text);
+		
+		assertEquals("key1=1&key2=2", text);
+	}
+
+	@Test
+	public void test_parameterize()
+	{
+		String url = "http://www.karopapier.de/api/users";
+		
+		HashMap<String,Object> paramMap = new HashMap<>();
+		paramMap.put("key1", "1");
+		paramMap.put("key2", 2);
+		
+		String paramString = "key1=1&key2=2";
+		
+		String expected = url + "?" + paramString;
+		
+		// with map
+		assertEquals(expected, new URLLoader(url).parameterize(paramMap).getUrl());
+		assertEquals(expected, new URLLoader(url + "/").parameterize(paramMap).getUrl());
+		
+		// with string
+		assertEquals(expected, new URLLoader(url).parameterize(paramString).getUrl());
+		assertEquals(expected, new URLLoader(url + "/").parameterize(paramString).getUrl());
+		assertEquals(expected, new URLLoader(url + "/").parameterize("?" + paramString).getUrl());
+	}
+
+	@Test
+	public void test_relative()
+	{
+		String url = "http://www.karopapier.de";
+		String path = "api";
+		String expected = url + "/" + path;
+		
+		// standard case
+		assertEquals(expected, new URLLoader(url).relative("/" + path).getUrl());
+		
+		// test without /
+		assertEquals(expected, new URLLoader(url).relative(path).getUrl());
+		
+		// test with double /
+		assertEquals(expected, new URLLoader(url + "/").relative("/" + path).getUrl());
+		
+		// test with base / only
+		assertEquals(expected, new URLLoader(url + "/").relative(path).getUrl());
+	}
+
+	@Test
+	public void test_replace()
+	{
+		String url = "http://www.karopapier.de/api/users";
+		String placeholder = "$";
+		String replacement = "foo";
+		
+		String original = url + "/" + placeholder;
+		String replaced = url + "/" + replacement;
+		
+		assertEquals(replaced, new URLLoader(original).replace(placeholder, replacement).getUrl());
+	}
+
+	@Test
 	public void test_blocking_get()
 	{
 		BackgroundLoader l = new URLLoader("http://www.karopapier.de").doGet();
@@ -28,7 +103,7 @@ public class URLLoaderTest
 		logger.debug(result);
 		assertNotNull(result);
 	}
-	
+
 	@Test
 	public void test_async_FutureTask() throws InterruptedException, ExecutionException
 	{
