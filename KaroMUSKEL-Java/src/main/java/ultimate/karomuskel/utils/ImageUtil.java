@@ -8,6 +8,37 @@ import java.awt.image.BufferedImage;
 
 public abstract class ImageUtil
 {
+	public static final int				DEFAULT_IMAGE_SIZE		= 100;
+	public static final int				DEFAULT_IMAGE_WIDTH		= DEFAULT_IMAGE_SIZE;
+	public static final int				DEFAULT_IMAGE_HEIGHT	= DEFAULT_IMAGE_SIZE / 2;
+	public static final BufferedImage	DEFAULT_IMAGE_WHITE;
+	public static final BufferedImage	DEFAULT_IMAGE_GRAY;
+	public static final BufferedImage	DEFAULT_IMAGE_BLACK;
+
+	static
+	{
+		DEFAULT_IMAGE_WHITE = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2dw = DEFAULT_IMAGE_WHITE.createGraphics();
+		g2dw.setColor(Color.white);
+		g2dw.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+
+		DEFAULT_IMAGE_GRAY = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2dg = DEFAULT_IMAGE_GRAY.createGraphics();
+		g2dg.setColor(Color.gray);
+		g2dg.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+
+		DEFAULT_IMAGE_BLACK = new BufferedImage(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g2db = DEFAULT_IMAGE_BLACK.createGraphics();
+		g2db.setColor(Color.black);
+		g2db.fillRect(0, 0, DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+	}
+
+	/**
+	 * Create a special image by drawing a "don't sign" on top of the given image...
+	 * 
+	 * @param image - the original image
+	 * @return the specialized image
+	 */
 	public static Image transformToSpecialImage(Image image)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
