@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -31,16 +32,32 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.Converter;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.exceptions.DeserializationException;
 import ultimate.karoapi4j.exceptions.SerializationException;
 
-// TODO javadoc
+/**
+ * Util class for abstracting JSON serialization and deserialization using Jackson
+ * 
+ * @author ultimate
+ */
 public abstract class JSONUtil
 {
+	/**
+	 * The date format used
+	 */
 	public static final String			DATE_FORMAT	= "yyyy-MM-dd HH:mm:ss";
-
+	/**
+	 * Logger instance
+	 */
 	private static final Logger			logger		= LoggerFactory.getLogger(JSONUtil.class);
+	/**
+	 * the Jackson {@link ObjectWriter}
+	 */
 	private static final ObjectWriter	writer;
+	/**
+	 * the Jackson {@link ObjectReader}
+	 */
 	private static final ObjectReader	reader;
 
 	/**
@@ -51,25 +68,41 @@ public abstract class JSONUtil
 
 	}
 
+	/**
+	 * Instantiate and configure the static {@link JSONUtil#writer} and {@link JSONUtil#reader}
+	 */
 	static
 	{
 		ObjectMapper mapper = new ObjectMapper();
 
+		// set the date format
 		mapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
+		// set the sort order for maps
 		mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
+		// if there are unknown properties in the JSON -> don't fail (they will be ignored)
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
+		// create a module for additional configuration
 		SimpleModule module = new SimpleModule();
-		// add serializers and deserializers
+		// add custom serializers and deserializers
+		// we need a custom (de)-serializer for Color, since the color is sent as a hex-String
 		module.addSerializer(Color.class, new ColorSerializer());
 		module.addDeserializer(Color.class, new ColorDeserializer());
-
+		// register the module
 		mapper.registerModule(module);
 
+		// now create writer and reader
 		writer = mapper.writer();
 		reader = mapper.reader();
 	}
 
+	/**
+	 * Serialize any given Object to JSON
+	 * 
+	 * @param o - the object to serialize
+	 * @return the json string
+	 * @throws SerializationException - if an Exception occurs, wrapping the original Exception
+	 */
 	public static String serialize(Object o) throws SerializationException
 	{
 		try
@@ -90,6 +123,19 @@ public abstract class JSONUtil
 		}
 	}
 
+	/**
+	 * Deserialize a JSON string to a generic object:<br>
+	 * <ul>
+	 * <li>If the JSON is a Object in the form <code>{...}</code> this method will produce a <code>Map&lt;String,Object&gt;</code></li>
+	 * <li>If the JSON is an Array in the form <code>[...]</code> this method will produce a <code>List&lt;Object&gt;</code></li>
+	 * </ul>
+	 * Note: if you know the object type to deserialize consider using {@link JSONUtil#deserialize(String, TypeReference)} instead.
+	 * 
+	 * @see JSONUtil#deserialize(String, TypeReference)
+	 * @param serialization - the JSON string
+	 * @return the deserialized object or list
+	 * @throws DeserializationException - if an Exception occurs, wrapping the original Exception
+	 */
 	public static Object deserialize(String serialization) throws DeserializationException
 	{
 		if(serialization.startsWith("{"))
@@ -103,11 +149,19 @@ public abstract class JSONUtil
 		else
 		{
 			logger.error("Could not determine type of serialization");
-			System.out.println("oops");
 			return null;
 		}
 	}
 
+	/**
+	 * Deserialize a JSON string to a given Type
+	 * 
+	 * @param <T> - the object type
+	 * @param serialization - the JSON string
+	 * @param typeReference - the {@link TypeReference} to set the type
+	 * @return the deserialized object in the desired type
+	 * @throws DeserializationException
+	 */
 	public static <T> T deserialize(String serialization, TypeReference<T> typeReference) throws DeserializationException
 	{
 		try
@@ -128,16 +182,19 @@ public abstract class JSONUtil
 		}
 	}
 
+	/**
+	 * Deserialize a JSON string to a given Type when the desired Object is wrapped into a container in the form
+	 * <code>{"key":{ .. actual object .. }}
+	 * 
+	 * @param <T> - the object type
+	 * @param serialization - the JSON string
+	 * @param typeReference - the {@link TypeReference} to set the type
+	 * @param key - the key that is containing the object
+	 * @return the deserialized object in the desired type
+	 * @throws DeserializationException
+	 */
 	public static <T> T deserializeContainer(String serialization, TypeReference<T> typeReference, String key) throws DeserializationException
 	{
-		// if(!serialization.startsWith("{"))
-		// throw new DeserializationException("format mismatch");
-		// @SuppressWarnings("unchecked")
-		// Map<String, Object> container = (Map<String, Object>) JSONUtil.deserialize(serialization);
-		// Object entity = container.get(key);
-		// String entityReSerialized = JSONUtil.serialize(entity);
-		// return JSONUtil.deserialize(entityReSerialized, typeReference);
-
 		String start1 = "{" + key + ":";
 		String start2 = "{\"" + key + "\":";
 		String end = "}";
@@ -151,6 +208,11 @@ public abstract class JSONUtil
 		return deserialize(entity, typeReference);
 	}
 
+	/**
+	 * A custom {@link JsonSerializer} for {@link Color} writing the color to a hex String
+	 * 
+	 * @author ultimate
+	 */
 	public static class ColorSerializer extends JsonSerializer<Color>
 	{
 		@Override
@@ -163,6 +225,11 @@ public abstract class JSONUtil
 		}
 	}
 
+	/**
+	 * A custom {@link JsonDeserializer} for {@link Color} reading the color from a hex String
+	 * 
+	 * @author ultimate
+	 */
 	public static class ColorDeserializer extends JsonDeserializer<Color>
 	{
 		@Override
@@ -172,7 +239,14 @@ public abstract class JSONUtil
 		}
 	}
 
-	// TODO javadoc
+	/**
+	 * Simple Parser that uses {@link JSONUtil#deserialize(String, TypeReference)} to process JSON strings.<br>
+	 * The Parser implements {@link Function} in order to be usable for example for {@link CompletableFuture} as produced by the {@link KaroAPI}
+	 * 
+	 * @author ultimate
+	 *
+	 * @param <E> - the Type
+	 */
 	public static class Parser<E> implements Function<String, E>
 	{
 		/**
@@ -180,12 +254,20 @@ public abstract class JSONUtil
 		 */
 		protected TypeReference<E> typeRef = new TypeReference<E>() {};
 
+		/**
+		 * Create a new Parser for the given {@link TypeReference}
+		 * 
+		 * @param typeRef - the {@link TypeReference}
+		 */
 		public Parser(TypeReference<E> typeRef)
 		{
 			super();
 			this.typeRef = typeRef;
 		}
 
+		/**
+		 * @see JSONUtil#deserialize(String, TypeReference)
+		 */
 		@Override
 		public E apply(String in)
 		{
@@ -193,16 +275,32 @@ public abstract class JSONUtil
 		}
 	}
 
+	/**
+	 * Simple Parser that uses {@link JSONUtil#deserializeContainer(String, TypeReference, String)} to process JSON strings.<br>
+	 * The Parser implements {@link Function} in order to be usable for example for {@link CompletableFuture} as produced by the {@link KaroAPI}
+	 * 
+	 * @author ultimate
+	 *
+	 * @param <E> - the Type
+	 */
 	public static class ContainerParser<E> extends Parser<E>
 	{
 		protected String key;
 
+		/**
+		 * Create a new Parser for the given {@link TypeReference} and the container key
+		 * 
+		 * @param typeRef - the {@link TypeReference}
+		 */
 		public ContainerParser(TypeReference<E> typeRef, String key)
 		{
 			super(typeRef);
 			this.key = key;
 		}
 
+		/**
+		 * @see JSONUtil#deserializeContainer(String, TypeReference, String)
+		 */
 		@Override
 		public E apply(String in)
 		{
@@ -210,8 +308,17 @@ public abstract class JSONUtil
 		}
 	}
 
+	/**
+	 * Constant for Time-Stamp Conversion as required for the {@link KaroAPI}
+	 */
 	public static final int DATE_FACTOR = 1000;
 
+	/**
+	 * Custom converter that can be used to convert timestamps to {@link Date}.<br>
+	 * Uses {@link JSONUtil#DATE_FACTOR} for the conversion
+	 * 
+	 * @author ultimate
+	 */
 	public static class TimestampConverter implements Converter<Long, Date>
 	{
 		@Override
