@@ -45,7 +45,7 @@ import ultimate.karoapi4j.utils.JSONUtil.Parser;
  * <code>BackgroundLoader<?> cf = BackgroundLoader.supplyAsync(urlLoader.doGet(...), executor);<br>
  * cf.whenComplete((result, ex) -> { &#47;* process result *&#47; });</code></li>
  * </ul>
- * Note: alternatively {@link URLLoader#doLoad(HttpURLConnection, String, Map, String)} can be used statically
+ * Note: alternatively {@link URLLoader#doLoad(HttpURLConnection, String, Map, String, String)} can also be used statically
  * 
  * @author ultimate
  */
@@ -852,7 +852,7 @@ public class URLLoader
 		}
 
 		/**
-		 * Initiate the {@link HttpURLConnection} and load the content using {@link URLLoader#doLoad(HttpURLConnection, String, Map, String)}
+		 * Initiate the {@link HttpURLConnection} and load the content using {@link URLLoader#doLoad(HttpURLConnection, String, Map, String, String)}
 		 */
 		@Override
 		public String call() throws IOException
