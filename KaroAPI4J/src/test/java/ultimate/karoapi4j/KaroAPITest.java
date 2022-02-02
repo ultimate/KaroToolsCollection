@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -508,7 +509,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(favs.size(), newFavs.size());
 	}
 
-	//@Test // Only run if changes have been made
+	// @Test // Only run if changes have been made
 	public void test_chat() throws InterruptedException, ExecutionException
 	{
 		ChatMessage oldMessage, newMessage;
@@ -753,22 +754,22 @@ public class KaroAPITest extends KaroAPITestcase
 			assertEquals(map.getCols(), row.length());
 		}
 	}
-	
+
 	@Test
 	public void test_load() throws InterruptedException, ExecutionException
 	{
 		int id = TEST_GAMES_IDS[0];
-		
+
 		Game loaded = new Game(id);
 		Game expected = karoAPI.getGame(id).get();
-		
+
 		assertNull(loaded.getName());
-		
+
 		karoAPI.load(loaded).get();
-		
+
 		assertEquals(id, loaded.getId());
 		assertTrue(loaded.getName().startsWith(TEST_GAMES_NAME));
-		
+
 		assertEquals(expected.getMap().getId(), loaded.getMap().getId()); // compare IDs only
 		assertEquals(expected.isCps(), loaded.isCps());
 		assertEquals(expected.getZzz(), loaded.getZzz());
@@ -810,28 +811,31 @@ public class KaroAPITest extends KaroAPITestcase
 	@Test
 	public void test_threading() throws InterruptedException, ExecutionException
 	{
-		// TODO
-		// CompletableFuture<User> cf1 = karoAPI.check2();
-		// logger.debug("start");
-		// User user = cf1.get();
-		// logger.debug("end");
-		// cf1.join();
-		// logger.debug("join");
-		//
-		// assertNotNull(user);
-		// assertEquals(properties.get("karoapi.user"), user.getLogin());
-		//
-		//
-		//
-		// CompletableFuture<User> cf2 = karoAPI.check2();
-		// logger.debug("start");
-		// cf2.whenComplete((result, ex) -> {
-		// assertNull(ex);
-		// assertNotNull(user);
-		// assertEquals(properties.get("karoapi.user"), user.getLogin());
-		// });
-		// logger.debug("end");
-		// cf2.join();
-		// logger.debug("join");
+		List<String> executionOrder = new ArrayList<>();
+
+		// immediately blocking
+		// -> output "cf" should come after "2"
+		CompletableFuture<User> cf1 = karoAPI.check();
+		cf1.whenComplete((result, th) -> { executionOrder.add("cf"); });
+		executionOrder.add("1");
+		executionOrder.add("2");
+		cf1.join();
+
+		logger.debug("" + executionOrder);
+		assertEquals(Arrays.asList("1", "2", "cf"), executionOrder);
+
+		executionOrder.clear();
+
+		// in parallel
+		// -> output "cf" should come before "2" because of sleep
+		CompletableFuture<User> cf2 = karoAPI.check();
+		cf2.whenComplete((result, th) -> { executionOrder.add("cf"); });
+		executionOrder.add("1");
+		Thread.sleep(1000);
+		executionOrder.add("2");
+		cf2.join();
+
+		logger.debug("" + executionOrder);
+		assertEquals(Arrays.asList("1", "cf", "2"), executionOrder);
 	}
 }
