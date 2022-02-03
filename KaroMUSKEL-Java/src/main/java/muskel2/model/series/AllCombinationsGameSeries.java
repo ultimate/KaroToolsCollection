@@ -11,7 +11,7 @@ import muskel2.model.help.Match;
 import muskel2.model.help.Team;
 import muskel2.util.LeaguePlanner;
 import muskel2.util.PlaceholderFactory;
-
+@Deprecated
 public class AllCombinationsGameSeries extends TeamBasedGameSeries
 {
 	private static final long	serialVersionUID	= 1L;

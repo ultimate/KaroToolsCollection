@@ -16,11 +16,11 @@ import muskel2.model.Karopapier;
 import muskel2.model.Rules;
 import muskel2.model.help.DirectionModel;
 import muskel2.model.series.BalancedGameSeries;
-import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.Label;
+import ultimate.karomuskel.utils.Language;
 
 public class RulesScreen extends Screen
 {

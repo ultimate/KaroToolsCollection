@@ -26,7 +26,7 @@ import ultimate.karomuskel.ui.screens.PlayersScreen;
 import ultimate.karomuskel.ui.screens.RulesScreen;
 import ultimate.karomuskel.ui.screens.SettingsScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
-
+@Deprecated
 public class KLCGameSeries extends GameSeries
 {
 	private static final long			serialVersionUID	= 1L;

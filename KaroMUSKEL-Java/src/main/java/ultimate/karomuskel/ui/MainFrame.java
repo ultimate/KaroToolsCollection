@@ -21,11 +21,11 @@ import javax.swing.border.Border;
 
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
-import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.StartScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
+import ultimate.karomuskel.utils.Language;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {

@@ -24,10 +24,10 @@ import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
-import muskel2.util.Language;
 import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.Launcher;
+import ultimate.karomuskel.utils.Language;
 import ultimate.karopapier.eval.Eval;
 
 public class KaropapierCronTool

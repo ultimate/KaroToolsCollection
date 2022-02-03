@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
-
+@Deprecated
 public abstract class GameSeries implements Serializable
 {
 	private static final long		serialVersionUID	= 2L;

@@ -16,9 +16,9 @@ import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
-import muskel2.util.Language;
 import muskel2.util.RequestLogger;
 import ultimate.karomuskel.ui.MainFrame;
+import ultimate.karomuskel.utils.Language;
 
 public class Launcher
 {

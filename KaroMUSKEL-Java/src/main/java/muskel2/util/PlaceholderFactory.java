@@ -10,6 +10,7 @@ import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.Rules;
 import muskel2.model.help.Team;
+import ultimate.karomuskel.utils.Language;
 
 public abstract class PlaceholderFactory
 {

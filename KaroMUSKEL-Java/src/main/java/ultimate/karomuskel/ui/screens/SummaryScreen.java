@@ -51,11 +51,11 @@ import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.help.DirectionModel;
 import muskel2.util.JSONUtil;
-import muskel2.util.Language;
 import muskel2.util.PlaceholderFactory;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.help.PlayerCellEditor;
 import ultimate.karomuskel.ui.help.SpinnerCellEditor;
+import ultimate.karomuskel.utils.Language;
 
 public class SummaryScreen extends Screen implements ActionListener
 {
