@@ -21,10 +21,10 @@ import javax.swing.ListSelectionModel;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
-import muskel2.model.help.GenericListModel;
 import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.help.MapRenderer;
 
 public class MapsScreen extends Screen implements ActionListener
