@@ -5,6 +5,7 @@ import java.net.CookieManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -67,282 +68,284 @@ public class KaroWikiAPI
 	public static final Function<String, String>				PARSER_RAW							= Function.identity();
 	public static final Function<String, Map<String, Object>>	PARSER_JSON_OBJECT					= new JSONUtil.Parser<>(new TypeReference<Map<String, Object>>() {});
 
-	private Exception											lastException;
-
 	public KaroWikiAPI()
 	{
 		if(CookieHandler.getDefault() == null)
 			CookieHandler.setDefault(new CookieManager());
 	}
 
-	public boolean hasException()
+	@SuppressWarnings("unchecked")
+	public CompletableFuture<Boolean> login(String username, String password)
 	{
-		return this.lastException != null;
-	}
+		logger.debug("Performing login: \"" + username + "\"...");
+		logger.debug("  Obtaining token...");
 
-	public Exception getLastException()
-	{
-		return this.lastException;
-	}
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
 
-	public void clearLastException()
-	{
-		this.lastException = null;
+		//@formatter:off
+		return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text))
+				.thenApply(PARSER_JSON_OBJECT)
+				.thenCompose(jsonObject -> {
+
+					String token = (String) ((Map<String, Object>) jsonObject.get("login")).get("token");
+		
+					logger.debug("  Performing login...");
+		
+					parameters.put(PARAMETER_ACTION_LOGIN_PASSWORD, password);
+					parameters.put(PARAMETER_ACTION_LOGIN_TOKEN, token);
+		
+					return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text));
+					
+				})
+				.thenApply(PARSER_JSON_OBJECT)
+				.thenApply(jsonObject -> {
+		
+					String result = (String) ((Map<String, Object>) jsonObject.get("login")).get("result");
+					String resultUser = (String) ((Map<String, Object>) jsonObject.get("login")).get("lgusername");
+		
+					boolean success = "success".equalsIgnoreCase(result) && username.equalsIgnoreCase(resultUser);
+					logger.debug("  " + (success ? "Successful!" : "Failed"));
+					return success;
+					
+				})
+				.exceptionally((ex) -> {
+					
+					logger.debug("  " + "Failed (" + ex + ")");
+					return false;
+					
+				});
+		//@formatter:on
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean login(String username, String password)
+	public CompletableFuture<Boolean> logout()
 	{
-		boolean success = false;
-		clearLastException();
-		try
-		{
-			Map<String, Object> parameters;
-			Map<String, Object> jsonObject;
+		logger.debug("Performing logout...");
+		logger.debug("  Obtaining token...");
 
-			logger.debug("Performing login: \"" + username + "\"...");
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
+		parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 
-			logger.debug("  Obtaining token...");
-			parameters = new HashMap<String, Object>();
-			parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
-			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
+		//@formatter:off
+		return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text))
+				.thenApply(PARSER_JSON_OBJECT)
+				.thenCompose(jsonObject -> {
 
-			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
+					String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
 
-			String token = (String) ((Map<String, Object>) jsonObject.get("login")).get("token");
-
-			logger.debug("  Performing login...");
-
-			parameters = new HashMap<String, Object>();
-			parameters.put(PARAMETER_ACTION, ACTION_LOGIN);
-			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-			parameters.put(PARAMETER_ACTION_LOGIN_USER, username);
-			parameters.put(PARAMETER_ACTION_LOGIN_PASSWORD, password);
-			parameters.put(PARAMETER_ACTION_LOGIN_TOKEN, token);
-
-			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
-
-			String result = (String) ((Map<String, Object>) jsonObject.get("login")).get("result");
-			String resultUser = (String) ((Map<String, Object>) jsonObject.get("login")).get("lgusername");
-
-			success = "success".equalsIgnoreCase(result) && username.equalsIgnoreCase(resultUser);
-		}
-		catch(Exception e)
-		{
-			this.lastException = e;
-		}
-		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
-
-		return success;
+					logger.debug("  Performing logout...");
+					
+					parameters.clear();
+					parameters.put(PARAMETER_ACTION, ACTION_LOGOUT);
+					parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+					parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
+		
+					return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text));
+					
+				})
+				.thenApply(json -> {
+		
+					boolean success = "{}".equalsIgnoreCase(json);
+					logger.debug("  " + (success ? "Successful!" : "Failed"));
+					return success;
+					
+				})
+				.exceptionally((ex) -> {
+					
+					logger.debug("  " + "Failed (" + ex + ")");
+					return false;
+					
+				});
+		//@formatter:on
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean logout()
+	public CompletableFuture<Map<String, Object>> query(String title, String prop, String propParam, String... propertiesList)
 	{
-		boolean success = false;
-		clearLastException();
-		try
-		{
-			Map<String, Object> parameters;
-			Map<String, Object> jsonObject;
-			String json;
+		String properties = String.join("|", propertiesList);
 
-			logger.debug("Performing logout...");
+		logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
 
-			logger.debug("  Obtaining token...");
-			parameters = new HashMap<String, Object>();
-			parameters.put(PARAMETER_ACTION, ACTION_QUERY);
-			parameters.put(PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS);
-			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
+		parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
+		parameters.put(propParam, properties);
 
-			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
-
-			logger.debug("  " + jsonObject);
-			String token = (String) ((Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("tokens")).get("csrftoken");
-
-			logger.debug("  Performing logout...");
-			parameters = new HashMap<String, Object>();
-			parameters.put(PARAMETER_ACTION, ACTION_LOGOUT);
-			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-			parameters.put(PARAMETER_ACTION_LOGOUT_TOKEN, token);
-
-			json = API.doPost(parameters, EnumContentType.text).get();
-
-			success = "{}".equalsIgnoreCase(json);
-		}
-		catch(Exception e)
-		{
-			this.lastException = e;
-		}
-		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
-
-		return success;
+		//@formatter:off
+		return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text))
+				.thenApply(PARSER_JSON_OBJECT)
+				.thenApply(jsonObject -> {
+					
+					return (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
+					
+				})
+				.thenApply(pages -> {
+					
+					if(pages.size() != 1)
+					{
+						logger.debug("  Wrong number of results!");
+						return null;
+					}
+					else if(pages.containsKey("-1"))
+					{
+						logger.debug("  Page not existing");
+						return (Map<String, Object>) pages.get("-1");
+					}
+					else
+					{
+						String id = pages.keySet().iterator().next();
+						logger.debug("  Page existing with id " + id);
+						return (Map<String, Object>) pages.get(id);
+					}
+					
+				})
+				.exceptionally((ex) -> {
+					
+					logger.debug("  " + "Failed (" + ex + ")");
+					return null;
+					
+				});
+		//@formatter:on
 	}
 
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> query(String title, String prop, String propParam, String... propertiesList)
-	{
-		boolean success = false;
-		clearLastException();
-		try
-		{
-			Map<String, Object> parameters;
-			Map<String, Object> jsonObject;
-
-			StringBuffer properties = new StringBuffer();
-			for(String s : propertiesList)
-			{
-				if(properties.length() > 0)
-					properties.append("|");
-				properties.append(s);
-			}
-
-			logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
-			parameters = new HashMap<String, Object>();
-			parameters.put(PARAMETER_ACTION, ACTION_QUERY);
-			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-			parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
-			parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
-			parameters.put(propParam, properties.toString());
-
-			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
-
-			Map<String, Object> pages = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
-
-			if(pages.size() != 1)
-			{
-				logger.debug("  Wrong number of results!");
-				return null;
-			}
-			else if(pages.containsKey("-1"))
-			{
-				logger.debug("  Page not existing");
-				return (Map<String, Object>) pages.get("-1");
-			}
-			else
-			{
-				String id = pages.keySet().iterator().next();
-				logger.debug("  Page existing with id " + id);
-				return (Map<String, Object>) pages.get(id);
-			}
-		}
-		catch(Exception e)
-		{
-			this.lastException = e;
-		}
-		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
-
-		return null;
-	}
-
-	public Map<String, Object> queryRevisionProperties(String title, String... propertiesList)
+	public CompletableFuture<Map<String, Object>> queryRevisionProperties(String title, String... propertiesList)
 	{
 		return query(title, PARAMETER_ACTION_QUERY_PROP_RV, PARAMETER_ACTION_QUERY_RVPROP, propertiesList);
 	}
 
-	public Map<String, Object> queryInfoProperties(String title, String... propertiesList)
+	public CompletableFuture<Map<String, Object>> queryInfoProperties(String title, String... propertiesList)
 	{
 		return query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INPROP, propertiesList);
 	}
 
+	public CompletableFuture<Boolean> edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot)
+	{
+		logger.debug("Performing edit of page \"" + title + "\"...");
+
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(PARAMETER_ACTION, ACTION_EDIT);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_EDIT_TITLE, title);
+		parameters.put(PARAMETER_ACTION_EDIT_TEXT, content);
+		if(summary != null)
+			parameters.put(PARAMETER_ACTION_EDIT_SUMMARY, summary);
+		if(bot)
+			parameters.put(PARAMETER_ACTION_EDIT_BOT, "true");
+
+		//@formatter:off
+		logger.debug("  Obtaining token...");
+		CompletableFuture<Void> cf = getToken(title, "edit")
+				.thenAccept(token -> {
+					
+					parameters.put(PARAMETER_ACTION_EDIT_TOKEN, token);
+					
+				});
+		
+		if(!ignoreConflicts)
+		{
+			cf = cf.thenComposeAsync(result -> {
+				
+					logger.debug("  Obtaining Timestamp...");
+					return getTimestamp(title);
+					
+				})
+				.thenAccept(baseTimestamp -> {
+					
+					parameters.put(PARAMETER_ACTION_EDIT_BASETIMESTAMP, baseTimestamp);
+					
+				});					
+		}
+		
+		return cf.thenComposeAsync(no_value -> {
+					return tryEdit(parameters, 5);
+				});
+		//@formatter:on
+	}
+	
 	@SuppressWarnings("unchecked")
-	public boolean edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot)
+	private CompletableFuture<Boolean> tryEdit(Map<String, Object> parameters, int retries)
 	{
-		boolean success = false;
-		clearLastException();
-		try
-		{
-			Map<String, Object> parameters;
-			Map<String, Object> jsonObject;
+		logger.debug("  Performing edit... retries=" + retries);
+		//@formatter:off
+		return CompletableFuture
+				.supplyAsync(API.doPost(parameters, EnumContentType.text))
+				.thenApply(PARSER_JSON_OBJECT)
+				.thenComposeAsync(jsonObject -> {
+					
+					String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
+					
+					boolean success = "success".equalsIgnoreCase(result);
+					logger.debug("  " + (success ? "Successful!" : "Failed"));
+					
+					if(!success && retries > 0)
+					{
+						// handle captcha
+						Map<String, Object> captcha = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("edit")).get("captcha");
+						if(captcha != null)
+						{
+							String question = (String) captcha.get("question");
+							String id = (String) captcha.get("id");
+							String answer = getCaptchaAnswer(question);
+							parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAID, id);
+							parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
 
-			logger.debug("Performing edit of page \"" + title + "\"...");
-
-			logger.debug("  Obtaining token...");
-			String token = getToken(title, "edit");
-
-			logger.debug("  Performing edit...");
-			parameters = new HashMap<String, Object>();
-			parameters.put(PARAMETER_ACTION, ACTION_EDIT);
-			parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-			parameters.put(PARAMETER_ACTION_EDIT_TITLE, title);
-			parameters.put(PARAMETER_ACTION_EDIT_TEXT, content);
-			if(summary != null)
-				parameters.put(PARAMETER_ACTION_EDIT_SUMMARY, summary);
-			if(bot)
-				parameters.put(PARAMETER_ACTION_EDIT_BOT, "true");
-			if(!ignoreConflicts)
-			{
-				String baseTimestamp = getTimestamp(title);
-				parameters.put(PARAMETER_ACTION_EDIT_BASETIMESTAMP, baseTimestamp);
-			}
-			parameters.put(PARAMETER_ACTION_EDIT_TOKEN, token);
-
-			jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
-
-			String result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
-			success = "success".equalsIgnoreCase(result);
-			int tries = 0;
-			while(!success && tries < 5)
-			{
-				// handle captcha
-				Map<String, Object> captcha = (Map<String, Object>) ((Map<String, Object>) jsonObject.get("edit")).get("captcha");
-				if(captcha != null)
-				{
-					String question = (String) captcha.get("question");
-					String id = (String) captcha.get("id");
-					String answer = getCaptchaAnswer(question);
-					parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAID, id);
-					parameters.put(PARAMETER_ACTION_EDIT_CAPTCHAWORD, answer);
-
-					// try again
-					jsonObject = PARSER_JSON_OBJECT.apply(API.doPost(parameters, EnumContentType.text).get());
-
-					result = (String) ((Map<String, Object>) jsonObject.get("edit")).get("result");
-					success = "success".equalsIgnoreCase(result);
-
-					tries++;
-				}
-			}
-		}
-		catch(Exception e)
-		{
-			this.lastException = e;
-		}
-		logger.debug("  " + (success ? "Successful!" : "Failed (" + (hasException() ? this.lastException.getMessage() : null) + ")"));
-
-		return success;
+							logger.debug("  Answering captcha: " + question + " -> " + answer);
+							// try again
+							return tryEdit(parameters, retries-1);
+						}
+					}
+					return CompletableFuture.completedFuture(success);
+					
+				});
+		//@formatter:on
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String getContent(String title)
+	public CompletableFuture<String> getContent(String title)
 	{
-		Map<String, Object> properties = queryRevisionProperties(title, "content");
-		if(properties.containsKey("missing"))
-			return null;
-
-		List<?> revisions = (List) properties.get("revisions");
-		return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("*");
+		//@formatter:off
+		return queryRevisionProperties(title, "content")
+				.thenApply(properties -> {
+					if(properties.containsKey("missing"))
+						return null;
+					List<?> revisions = (List) properties.get("revisions");
+					return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("*");
+				});
+		//@formatter:on
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public String getTimestamp(String title)
+	public CompletableFuture<String> getTimestamp(String title)
 	{
-		Map<String, Object> properties = queryRevisionProperties(title, "timestamp");
-		if(properties.containsKey("missing"))
-			return null;
-
-		List<?> revisions = (List) properties.get("revisions");
-		return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("timestamp");
+		//@formatter:off
+		return queryRevisionProperties(title, "timestamp")
+				.thenApply(properties -> {
+					if(properties.containsKey("missing"))
+						return null;
+					List<?> revisions = (List) properties.get("revisions");
+					return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("timestamp");
+				});
+		//@formatter:on
 	}
 
-	public String getToken(String title, String action)
+	public CompletableFuture<String> getToken(String title, String action)
 	{
-		Map<String, Object> properties = query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INTOKEN, action);
-		return (String) properties.get(action + "token");
+		//@formatter:off
+		return query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INTOKEN, action)
+				.thenApply(properties -> {
+					return (String) properties.get(action + "token");
+				});
+		//@formatter:on
 	}
 
-	private String getCaptchaAnswer(String question)
+	private static String getCaptchaAnswer(String question)
 	{
 		if("Was steht im Forum hinter uralten Threads?".equals(question))
 			return "saualt";
