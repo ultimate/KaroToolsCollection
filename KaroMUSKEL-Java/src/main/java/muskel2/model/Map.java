@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.io.Serializable;
 
-import muskel2.Main;
+import ultimate.karomuskel.Main;
 
 public class Map implements Serializable
 {

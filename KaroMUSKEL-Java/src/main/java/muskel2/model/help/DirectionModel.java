@@ -4,6 +4,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import muskel2.model.Direction;
 import muskel2.util.Language;
+import ultimate.karomuskel.ui.components.Label;
 
 public class DirectionModel extends DefaultComboBoxModel
 {

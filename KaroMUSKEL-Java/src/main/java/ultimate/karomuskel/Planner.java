@@ -1,4 +1,4 @@
-package ultimate.karomuskel.logic;
+package ultimate.karomuskel;
 
 import java.util.LinkedList;
 import java.util.List;

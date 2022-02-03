@@ -16,12 +16,12 @@ import java.util.Properties;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import muskel2.Main;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Rules;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karomuskel.Main;
 
 public class GameSeriesEditorForCCC4
 {

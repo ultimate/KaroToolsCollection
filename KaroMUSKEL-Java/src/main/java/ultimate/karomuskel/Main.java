@@ -1,4 +1,4 @@
-package muskel2;
+package ultimate.karomuskel;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -13,12 +13,12 @@ import javax.swing.event.AncestorListener;
 
 import muskel2.core.karoaccess.GameCreator;
 import muskel2.core.karoaccess.KaropapierLoader;
-import muskel2.gui.MainFrame;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.Language;
 import muskel2.util.RequestLogger;
+import ultimate.karomuskel.ui.MainFrame;
 
 public class Main
 {

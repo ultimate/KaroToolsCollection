@@ -1,4 +1,4 @@
-package muskel2.gui.help;
+package ultimate.karomuskel.ui.help;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -29,14 +29,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import muskel2.Main;
-import muskel2.gui.screens.SummaryScreen.SummaryModel;
 import muskel2.model.Game;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.Language;
 import muskel2.util.SortUtil;
+import ultimate.karomuskel.Main;
+import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 
 // TODO Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die
 // auch für die Serie ausgewählt wurden

@@ -24,13 +24,13 @@ import java.util.TreeMap;
 import javax.imageio.ImageIO;
 
 import muskel2.core.web.SimpleCookieHandler;
-import muskel2.gui.help.MapRenderer;
 import muskel2.model.Game;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.HtmlUtil;
 import muskel2.util.Language;
+import ultimate.karomuskel.ui.help.MapRenderer;
 
 public class KaropapierLoader
 {

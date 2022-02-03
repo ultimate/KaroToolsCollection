@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map.Entry;
 
-import muskel2.Main;
+import ultimate.karomuskel.Main;
 
 public class Player implements Serializable
 {

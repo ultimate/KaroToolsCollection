@@ -4,15 +4,15 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import muskel2.gui.Screen;
-import muskel2.gui.screens.HomeMapsScreen;
-import muskel2.gui.screens.MapsScreen;
-import muskel2.gui.screens.PlayersScreen;
-import muskel2.gui.screens.RulesScreen;
-import muskel2.gui.screens.SettingsScreen;
-import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.GameSeries;
 import muskel2.model.help.Team;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.screens.HomeMapsScreen;
+import ultimate.karomuskel.ui.screens.MapsScreen;
+import ultimate.karomuskel.ui.screens.PlayersScreen;
+import ultimate.karomuskel.ui.screens.RulesScreen;
+import ultimate.karomuskel.ui.screens.SettingsScreen;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public abstract class TeamBasedGameSeries extends GameSeries
 {

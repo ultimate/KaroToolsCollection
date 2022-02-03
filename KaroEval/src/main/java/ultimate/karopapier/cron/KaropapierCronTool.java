@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import muskel2.Main;
 import muskel2.core.karoaccess.GameCreator;
 import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.Game;
@@ -28,6 +27,7 @@ import muskel2.model.Karopapier;
 import muskel2.util.Language;
 import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karomuskel.Main;
 import ultimate.karopapier.eval.Eval;
 
 public class KaropapierCronTool

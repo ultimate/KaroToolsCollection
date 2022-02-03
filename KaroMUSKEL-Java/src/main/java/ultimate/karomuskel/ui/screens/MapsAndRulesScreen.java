@@ -1,4 +1,4 @@
-package muskel2.gui.screens;
+package ultimate.karomuskel.ui.screens;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,8 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import muskel2.gui.Screen;
-import muskel2.gui.help.MapRenderer;
 import muskel2.model.Direction;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
@@ -28,10 +26,12 @@ import muskel2.model.Map;
 import muskel2.model.Rules;
 import muskel2.model.help.BooleanModel;
 import muskel2.model.help.DirectionModel;
-import muskel2.model.help.Label;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.Label;
+import ultimate.karomuskel.ui.help.MapRenderer;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener
 {
