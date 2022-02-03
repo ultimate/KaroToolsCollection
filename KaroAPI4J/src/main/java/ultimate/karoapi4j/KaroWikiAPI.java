@@ -17,8 +17,37 @@ import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 
-// TODO javadoc
-// note: blocking in main Thread!!!
+/**
+ * This is the wrapper for accessing the Karo Wiki API. It provides the basic functionality such as:
+ * <ul>
+ * <li>{@link KaroWikiAPI#login(String, String)}</li>
+ * <li>{@link KaroWikiAPI#logout()}</li>
+ * <li>{@link KaroWikiAPI#edit(String, String, String, boolean, boolean)}</li>
+ * <li>{@link KaroWikiAPI#getContent(String)}</li>
+ * </ul>
+ * and other operations, that are necessary for editing
+ * <ul>
+ * <li>{@link KaroWikiAPI#query(String, String, String, String...)}</li>
+ * <li>{@link KaroWikiAPI#queryRevisionProperties(String, String...)}</li>
+ * <li>{@link KaroWikiAPI#queryInfoProperties(String, String...)}</li>
+ * <li>{@link KaroWikiAPI#getTimestamp(String)}</li>
+ * <li>{@link KaroWikiAPI#getToken(String, String)}</li>
+ * <li>inlcuding automated captcha answering</li>
+ * </ul>
+ * Note: the Wiki API itself provides much more operations and informations, but those haven't been implemented here. If you have a feature request,
+ * visit https://github.com/ultimate/KaroToolsCollection/issues and create an issue :)
+ * <br>
+ * Note: Accessing the Wiki API requires a user and password for wiki.karopapier.de. Other than the {@link KaroAPI} this API is cookie based and hence
+ * does not support multiple instances, since cookies are handled globally during program execution. So once a
+ * {@link KaroWikiAPI#login(String, String)} is performed the user is set for all subsequent operations. If it is required to perform actions for
+ * different users, dedicated {@link KaroWikiAPI#logout()} and {@link KaroWikiAPI#login(String, String)} need to be used.
+ * <br>
+ * Each API call will return a {@link CompletableFuture} which wraps the underlying API call and which then can be used to either load the results
+ * either blocking or asynchronously (see {@link URLLoader}).
+ * 
+ * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+ * @author ultimate
+ */
 public class KaroWikiAPI
 {
 	/**
@@ -26,11 +55,17 @@ public class KaroWikiAPI
 	 */
 	protected transient final Logger							logger								= LoggerFactory.getLogger(KaroWikiAPI.class);
 
-	// api URLs
+	//////////////
+	// api URLs //
+	//////////////
+
 	protected static final URLLoader							KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
 	protected static final URLLoader							API									= KAROWIKI.relative("/api.php");
 
-	// parameters & actions
+	//////////////////////////
+	// parameters & actions //
+	//////////////////////////
+
 	public static final String									PARAMETER_ACTION					= "action";
 	public static final String									PARAMETER_FORMAT					= "format";
 
@@ -65,15 +100,30 @@ public class KaroWikiAPI
 
 	public static final String									FORMAT_JSON							= "json";
 
-	public static final Function<String, String>				PARSER_RAW							= Function.identity();
+	////////////////////
+	// parsers needed //
+	////////////////////
+
 	public static final Function<String, Map<String, Object>>	PARSER_JSON_OBJECT					= new JSONUtil.Parser<>(new TypeReference<Map<String, Object>>() {});
 
+	/**
+	 * Default Constructor.<br>
+	 * Initializes the {@link CookieHandler}
+	 */
 	public KaroWikiAPI()
 	{
 		if(CookieHandler.getDefault() == null)
 			CookieHandler.setDefault(new CookieManager());
 	}
 
+	/**
+	 * Login with username and password
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param username
+	 * @param password
+	 * @return true, if the operation was successful, false otherwise
+	 */
 	@SuppressWarnings("unchecked")
 	public CompletableFuture<Boolean> login(String username, String password)
 	{
@@ -120,6 +170,12 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Logout from the current session
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @return true, if the operation was successful, false otherwise
+	 */
 	@SuppressWarnings("unchecked")
 	public CompletableFuture<Boolean> logout()
 	{
@@ -164,6 +220,16 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Query properties from a given page
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @param prop
+	 * @param propParam
+	 * @param propertiesList
+	 * @return the map with the queried properties
+	 */
 	@SuppressWarnings("unchecked")
 	public CompletableFuture<Map<String, Object>> query(String title, String prop, String propParam, String... propertiesList)
 	{
@@ -215,16 +281,43 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Query the revision properties for the given page
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @param propertiesList
+	 * @return the map with the queried properties
+	 */
 	public CompletableFuture<Map<String, Object>> queryRevisionProperties(String title, String... propertiesList)
 	{
 		return query(title, PARAMETER_ACTION_QUERY_PROP_RV, PARAMETER_ACTION_QUERY_RVPROP, propertiesList);
 	}
 
+	/**
+	 * Query the info properties for the given page
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @param propertiesList
+	 * @return the map with the queried properties
+	 */
 	public CompletableFuture<Map<String, Object>> queryInfoProperties(String title, String... propertiesList)
 	{
 		return query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INPROP, propertiesList);
 	}
 
+	/**
+	 * Edit the page with the given title
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @param content - the updated content of the page
+	 * @param summary - an optional edit summary
+	 * @param ignoreConflicts - ignore conflicts? if true, the page will be overwritten regardless of the differences
+	 * @param bot - is this a bot?
+	 * @return true, if the operation was successful, false otherwise
+	 */
 	public CompletableFuture<Boolean> edit(String title, String content, String summary, boolean ignoreConflicts, boolean bot)
 	{
 		logger.debug("Performing edit of page \"" + title + "\"...");
@@ -268,7 +361,14 @@ public class KaroWikiAPI
 				});
 		//@formatter:on
 	}
-	
+
+	/**
+	 * Internal operation that is used to handle edit retries (required if a captcha needs to be solved).
+	 * 
+	 * @param parameters - the parameters to post to the edit page
+	 * @param retries - the number of remaining retries
+	 * @return true, if the operation was successful, false otherwise
+	 */
 	@SuppressWarnings("unchecked")
 	private CompletableFuture<Boolean> tryEdit(Map<String, Object> parameters, int retries)
 	{
@@ -307,6 +407,13 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Get the content of the page with the given title
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @return the content
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CompletableFuture<String> getContent(String title)
 	{
@@ -321,6 +428,13 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Get the timestamp of the page with the given title
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @return the timestamp
+	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CompletableFuture<String> getTimestamp(String title)
 	{
@@ -335,6 +449,13 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Get a token for the page with the given title
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @return the token
+	 */
 	public CompletableFuture<String> getToken(String title, String action)
 	{
 		//@formatter:off
@@ -345,6 +466,13 @@ public class KaroWikiAPI
 		//@formatter:on
 	}
 
+	/**
+	 * Provide the answer to the given captcha question.<br>
+	 * Currently 4 captcha questions are known, which are hardcoded here.
+	 * 
+	 * @param question - the question
+	 * @return the answer
+	 */
 	private static String getCaptchaAnswer(String question)
 	{
 		if("Was steht im Forum hinter uralten Threads?".equals(question))
