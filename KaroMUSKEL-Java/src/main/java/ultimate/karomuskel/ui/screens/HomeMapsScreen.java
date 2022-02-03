@@ -1,4 +1,4 @@
-package muskel2.gui.screens;
+package ultimate.karomuskel.ui.screens;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,8 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import muskel2.gui.Screen;
-import muskel2.gui.help.MapRenderer;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.Map;
@@ -25,6 +23,8 @@ import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.help.MapRenderer;
 
 public class HomeMapsScreen extends Screen
 {

@@ -1,4 +1,4 @@
-package muskel2.gui.screens;
+package ultimate.karomuskel.ui.screens;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -21,7 +21,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.Player;
@@ -35,6 +34,7 @@ import muskel2.model.series.SimpleGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.ui.Screen;
 
 public class PlayersScreen extends Screen implements ActionListener
 {

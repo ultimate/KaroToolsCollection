@@ -1,4 +1,4 @@
-package muskel2.gui.help;
+package ultimate.karomuskel.ui.help;
 
 import java.awt.Component;
 

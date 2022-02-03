@@ -3,18 +3,18 @@ package muskel2.model.series;
 import java.util.LinkedList;
 import java.util.List;
 
-import muskel2.gui.Screen;
-import muskel2.gui.screens.MapsScreen;
-import muskel2.gui.screens.PlayersScreen;
-import muskel2.gui.screens.RulesScreen;
-import muskel2.gui.screens.SettingsScreen;
-import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.Rules;
 import muskel2.util.PlaceholderFactory;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.screens.MapsScreen;
+import ultimate.karomuskel.ui.screens.PlayersScreen;
+import ultimate.karomuskel.ui.screens.RulesScreen;
+import ultimate.karomuskel.ui.screens.SettingsScreen;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public class SimpleGameSeries extends GameSeries
 {

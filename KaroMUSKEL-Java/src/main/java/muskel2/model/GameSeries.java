@@ -7,8 +7,8 @@ import java.util.Random;
 
 import javax.swing.JButton;
 
-import muskel2.gui.Screen;
-import muskel2.gui.screens.SummaryScreen;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public abstract class GameSeries implements Serializable
 {

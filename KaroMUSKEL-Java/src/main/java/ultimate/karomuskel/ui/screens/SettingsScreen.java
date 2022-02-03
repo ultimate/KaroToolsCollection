@@ -1,4 +1,4 @@
-package muskel2.gui.screens;
+package ultimate.karomuskel.ui.screens;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,13 +16,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.help.AllCombinationsNumberModel;
 import muskel2.model.help.BooleanModel;
 import muskel2.model.help.KORoundNumberModel;
-import muskel2.model.help.Label;
 import muskel2.model.series.AllCombinationsGameSeries;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.model.series.KLCGameSeries;
@@ -33,6 +31,8 @@ import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
 import muskel2.util.LeaguePlanner;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.Label;
 
 public class SettingsScreen extends Screen implements ChangeListener
 {

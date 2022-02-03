@@ -1,4 +1,4 @@
-package muskel2.model.help;
+package ultimate.karomuskel.ui.components;
 
 public class Label<V>
 {

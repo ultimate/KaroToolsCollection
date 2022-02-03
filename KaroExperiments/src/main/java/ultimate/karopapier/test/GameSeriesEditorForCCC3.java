@@ -14,12 +14,12 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import muskel2.Main;
 import muskel2.core.karoaccess.GameCreator;
 import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Player;
+import ultimate.karomuskel.Main;
 
 public class GameSeriesEditorForCCC3
 {

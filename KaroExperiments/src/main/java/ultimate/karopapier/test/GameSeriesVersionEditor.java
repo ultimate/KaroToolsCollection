@@ -15,8 +15,8 @@ import java.security.PrivilegedAction;
 
 import javax.swing.JFileChooser;
 
-import muskel2.Main;
 import muskel2.model.GameSeries;
+import ultimate.karomuskel.Main;
 
 public class GameSeriesVersionEditor
 {

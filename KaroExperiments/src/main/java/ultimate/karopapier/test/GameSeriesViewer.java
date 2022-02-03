@@ -8,8 +8,8 @@ import java.io.ObjectInputStream;
 
 import javax.swing.JFileChooser;
 
-import muskel2.Main;
 import muskel2.model.GameSeries;
+import ultimate.karomuskel.Main;
 
 public class GameSeriesViewer
 {

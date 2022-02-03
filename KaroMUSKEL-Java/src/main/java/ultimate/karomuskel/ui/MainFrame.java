@@ -1,4 +1,4 @@
-package muskel2.gui;
+package ultimate.karomuskel.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,13 +19,13 @@ import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 
-import muskel2.Main;
-import muskel2.gui.screens.StartScreen;
-import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.Main;
+import ultimate.karomuskel.ui.screens.StartScreen;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {

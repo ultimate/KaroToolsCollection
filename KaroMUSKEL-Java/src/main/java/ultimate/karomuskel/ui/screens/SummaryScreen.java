@@ -1,4 +1,4 @@
-package muskel2.gui.screens;
+package ultimate.karomuskel.ui.screens;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -43,9 +43,6 @@ import javax.swing.table.TableModel;
 import org.json.JSONObject;
 
 import muskel2.core.karoaccess.GameCreator;
-import muskel2.gui.Screen;
-import muskel2.gui.help.PlayerCellEditor;
-import muskel2.gui.help.SpinnerCellEditor;
 import muskel2.model.Direction;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
@@ -56,6 +53,9 @@ import muskel2.model.help.DirectionModel;
 import muskel2.util.JSONUtil;
 import muskel2.util.Language;
 import muskel2.util.PlaceholderFactory;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.help.PlayerCellEditor;
+import ultimate.karomuskel.ui.help.SpinnerCellEditor;
 
 public class SummaryScreen extends Screen implements ActionListener
 {

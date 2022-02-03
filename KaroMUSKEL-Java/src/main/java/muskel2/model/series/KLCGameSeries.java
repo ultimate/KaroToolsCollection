@@ -8,14 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import muskel2.gui.Screen;
-import muskel2.gui.screens.GroupWinnersScreen;
-import muskel2.gui.screens.HomeMapsScreen;
-import muskel2.gui.screens.KOWinnersScreen;
-import muskel2.gui.screens.PlayersScreen;
-import muskel2.gui.screens.RulesScreen;
-import muskel2.gui.screens.SettingsScreen;
-import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
@@ -26,6 +18,14 @@ import muskel2.model.help.Match;
 import muskel2.model.help.Team;
 import muskel2.util.LeaguePlanner;
 import muskel2.util.PlaceholderFactory;
+import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.screens.GroupWinnersScreen;
+import ultimate.karomuskel.ui.screens.HomeMapsScreen;
+import ultimate.karomuskel.ui.screens.KOWinnersScreen;
+import ultimate.karomuskel.ui.screens.PlayersScreen;
+import ultimate.karomuskel.ui.screens.RulesScreen;
+import ultimate.karomuskel.ui.screens.SettingsScreen;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public class KLCGameSeries extends GameSeries
 {

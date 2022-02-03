@@ -1,4 +1,4 @@
-package muskel2.gui.screens;
+package ultimate.karomuskel.ui.screens;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,11 +16,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-import muskel2.gui.Screen;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.ui.Screen;
 
 public class StartScreen extends Screen implements ActionListener
 {

@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import muskel2.gui.screens.SummaryScreen;
 import muskel2.model.Direction;
 import muskel2.model.Game;
 import muskel2.model.Karopapier;
@@ -20,6 +19,7 @@ import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.Rules;
 import muskel2.util.RequestLogger;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public class GameCreator
 {
