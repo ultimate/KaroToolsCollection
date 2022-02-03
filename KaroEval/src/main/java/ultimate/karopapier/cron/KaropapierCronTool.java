@@ -27,7 +27,7 @@ import muskel2.model.Karopapier;
 import muskel2.util.Language;
 import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 import ultimate.karopapier.eval.Eval;
 
 public class KaropapierCronTool
@@ -263,7 +263,7 @@ public class KaropapierCronTool
 	{
 		Karopapier karopapier = KaropapierLoader.initiateKaropapier();
 
-		Main.setKaropapier(karopapier);
+		Launcher.setKaropapier(karopapier);
 
 		return karopapier;
 	}

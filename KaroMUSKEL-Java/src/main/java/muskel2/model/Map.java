@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.io.IOException;
 import java.io.Serializable;
 
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 
 public class Map implements Serializable
 {
@@ -113,7 +113,7 @@ public class Map implements Serializable
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		this.id = in.readInt();
-		Map original = Main.getKaropapier().getMaps().get(this.id);
+		Map original = Launcher.getKaropapier().getMaps().get(this.id);
 		if(original == null)
 		{
 			original = new Map(this.id, "<deleted>", "unknown", false, 0, null);
@@ -125,6 +125,6 @@ public class Map implements Serializable
 		this.night = original.night;
 		this.maxPlayers = original.maxPlayers;
 		this.image = original.image;
-		Main.getKaropapier().getMaps().put(this.id, this);
+		Launcher.getKaropapier().getMaps().put(this.id, this);
 	}
 }

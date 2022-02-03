@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Map.Entry;
 
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 
 public class Player implements Serializable
 {
@@ -212,14 +212,14 @@ public class Player implements Serializable
 		this.id = in.readInt();
 		Player original = null;
 		String key = null;
-		if(Main.getKaropapier().getCurrentPlayer().getId() == this.id)
+		if(Launcher.getKaropapier().getCurrentPlayer().getId() == this.id)
 		{
-			original = Main.getKaropapier().getCurrentPlayer();
-			Main.getKaropapier().setCurrentPlayer(this);
+			original = Launcher.getKaropapier().getCurrentPlayer();
+			Launcher.getKaropapier().setCurrentPlayer(this);
 		}
 		else
 		{
-			for(Entry<String, Player> player : Main.getKaropapier().getPlayers().entrySet())
+			for(Entry<String, Player> player : Launcher.getKaropapier().getPlayers().entrySet())
 			{
 				if(player.getValue().getId() == this.id)
 				{
@@ -236,7 +236,7 @@ public class Player implements Serializable
 				// this.id);
 				System.err.println("could not deserialize player with id: " + this.id);
 			}
-			Main.getKaropapier().getPlayers().put(key, this);
+			Launcher.getKaropapier().getPlayers().put(key, this);
 		}
 		this.name = original.name;
 		this.invitableNormal = original.invitableNormal;
