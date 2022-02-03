@@ -24,7 +24,6 @@ import javax.swing.ListSelectionModel;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.Player;
-import muskel2.model.help.GenericListModel;
 import muskel2.model.help.Team;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.model.series.KLCGameSeries;
@@ -35,6 +34,7 @@ import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.Language;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.GenericListModel;
 
 public class PlayersScreen extends Screen implements ActionListener
 {

@@ -19,8 +19,6 @@ import javax.swing.event.ChangeListener;
 import muskel2.model.GameSeries;
 import muskel2.model.Karopapier;
 import muskel2.model.help.AllCombinationsNumberModel;
-import muskel2.model.help.BooleanModel;
-import muskel2.model.help.KORoundNumberModel;
 import muskel2.model.series.AllCombinationsGameSeries;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.model.series.KLCGameSeries;
@@ -32,6 +30,8 @@ import muskel2.util.Language;
 import muskel2.util.LeaguePlanner;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.BooleanModel;
+import ultimate.karomuskel.ui.components.KORoundNumberModel;
 import ultimate.karomuskel.ui.components.Label;
 
 public class SettingsScreen extends Screen implements ChangeListener
