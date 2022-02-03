@@ -19,7 +19,7 @@ import muskel2.model.GameSeries;
 import muskel2.model.Rules;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 
 public class GameSeriesEditorForCCC5
 {	
@@ -31,8 +31,8 @@ public class GameSeriesEditorForCCC5
 			return;
 		File file = fileChooser.getSelectedFile();
 
-		Main.main(new String[] { "-l=debug" });
-		Main.getGui().setVisible(false);
+		Launcher.main(new String[] { "-l=debug" });
+		Launcher.getGui().setVisible(false);
 		
 		Properties gids = PropertiesUtil.loadProperties(new File(file.getParentFile().getAbsolutePath() + "/czzzcc5-gid.properties"));
 

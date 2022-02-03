@@ -9,7 +9,7 @@ import java.io.ObjectInputStream;
 import javax.swing.JFileChooser;
 
 import muskel2.model.GameSeries;
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 
 public class GameSeriesViewer
 {
@@ -21,8 +21,8 @@ public class GameSeriesViewer
 			return;
 		File file = fileChooser.getSelectedFile();
 
-		Main.main(new String[] { "-l=debug" });
-		Main.getGui().setVisible(false);
+		Launcher.main(new String[] { "-l=debug" });
+		Launcher.getGui().setVisible(false);
 
 		GameSeries gs = loadGameseries(file);
 		

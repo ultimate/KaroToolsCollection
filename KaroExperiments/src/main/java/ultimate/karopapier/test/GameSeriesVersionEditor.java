@@ -16,7 +16,7 @@ import java.security.PrivilegedAction;
 import javax.swing.JFileChooser;
 
 import muskel2.model.GameSeries;
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 
 public class GameSeriesVersionEditor
 {
@@ -29,8 +29,8 @@ public class GameSeriesVersionEditor
 			return;
 		File file = fileChooser.getSelectedFile();
 
-		Main.main(new String[] { "-l=debug" });
-		Main.getGui().setVisible(false);
+		Launcher.main(new String[] { "-l=debug" });
+		Launcher.getGui().setVisible(false);
 
 		GameSeries gs = loadGameseries(file);		
 

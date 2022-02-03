@@ -19,7 +19,7 @@ import muskel2.core.karoaccess.KaropapierLoader;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.Player;
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 
 public class GameSeriesEditorForCCC3
 {
@@ -31,8 +31,8 @@ public class GameSeriesEditorForCCC3
 			return;
 		File file = fileChooser.getSelectedFile();
 
-		Main.main(new String[] { "-l=debug" });
-		Main.getGui().setVisible(false);
+		Launcher.main(new String[] { "-l=debug" });
+		Launcher.getGui().setVisible(false);
 
 		GameSeries gs = loadGameseries(file);
 
@@ -44,7 +44,7 @@ public class GameSeriesEditorForCCC3
 
 		Player newPlayer = null;
 		Player oldPlayer = null;
-		for(Player p : Main.getKaropapier().getPlayers().values())
+		for(Player p : Launcher.getKaropapier().getPlayers().values())
 		{
 			if(p.getName().equalsIgnoreCase("sash1501"))
 			{
@@ -97,7 +97,7 @@ public class GameSeriesEditorForCCC3
 			result = JOptionPane.showConfirmDialog(null, "Fuer bereits erstellte Spiele Ersatzspiele erstellen? " + replacementGames.size());
 			if(result == JOptionPane.OK_OPTION)
 			{
-				GameCreator gc = new GameCreator(Main.getKaropapier(), null);
+				GameCreator gc = new GameCreator(Launcher.getKaropapier(), null);
 				gc.createGames(replacementGames);
 				gc.waitForFinished();
 				System.out.println("OK");

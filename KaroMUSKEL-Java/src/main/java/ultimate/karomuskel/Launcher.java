@@ -20,7 +20,7 @@ import muskel2.util.Language;
 import muskel2.util.RequestLogger;
 import ultimate.karomuskel.ui.MainFrame;
 
-public class Main
+public class Launcher
 {
 	private static MainFrame	gui;
 
@@ -213,7 +213,7 @@ public class Main
 
 	public static void setKaropapier(Karopapier karopapier)
 	{
-		Main.karopapier = karopapier;
+		Launcher.karopapier = karopapier;
 	}
 	
 	public static void cleanUpLoggers()

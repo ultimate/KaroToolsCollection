@@ -35,7 +35,7 @@ import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.Language;
 import muskel2.util.SortUtil;
-import ultimate.karomuskel.Main;
+import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 
 // TODO Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die
@@ -74,7 +74,7 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 
 		this.allPlayers = new LinkedList<Player>(karopapier.getPlayers().values());
 
-		this.chooser = new PlayerChooser(Main.getGui());
+		this.chooser = new PlayerChooser(Launcher.getGui());
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 			{
 				if(this.chooser.players.size() >= map.getMaxPlayers())
 				{
-					JOptionPane.showMessageDialog(Main.getGui(), Language.getString("screen.summary.playeredit.maplimit").replace("%N",
+					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.playeredit.maplimit").replace("%N",
 							"" + map.getMaxPlayers()), Language.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					break;
 				}
@@ -141,7 +141,7 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 			{
 				if(o.equals(karopapier.getCurrentPlayer()))
 				{
-					JOptionPane.showMessageDialog(Main.getGui(), Language.getString("screen.summary.playeredit.creatorremove"), Language
+					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.playeredit.creatorremove"), Language
 							.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
