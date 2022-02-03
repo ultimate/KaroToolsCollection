@@ -199,6 +199,7 @@ public class KaroAPI
 	protected final URLLoader	GAME			= GAMES.relative("/" + PLACEHOLDER);
 	protected final URLLoader	GAME_CREATE		= API.relative("/game");
 	protected final URLLoader	GAME_MOVE		= KAROPAPIER.relative("/move.php");
+	protected final URLLoader	GAME_KICK		= KAROPAPIER.relative("/kickplayer.php");
 	// maps
 	protected final URLLoader	MAPS			= API.relative("/maps");
 	protected final URLLoader	MAP				= MAPS.relative("/" + PLACEHOLDER);
@@ -541,12 +542,25 @@ public class KaroAPI
 		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doGet(args), PARSER_GAME);
 	}
 
+	/**
+	 * Create a new game
+	 * 
+	 * @param plannedGame - the {@link PlannedGame} to create
+	 * @return the created {@link Game}
+	 */
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
 		String json = JSONUtil.serialize(plannedGame);
 		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
 	}
 
+	/**
+	 * Select a start position
+	 * 
+	 * @param gameId - the game
+	 * @param move - the position to select
+	 * @return true if the operation was successful, false otherwise
+	 */
 	public CompletableFuture<Boolean> selectStartPosition(int gameId, Move move)
 	{
 		HashMap<String, Object> args = new HashMap<>();
@@ -558,6 +572,13 @@ public class KaroAPI
 		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
 	}
 
+	/**
+	 * Make a move
+	 * 
+	 * @param gameId - the game
+	 * @param move - the move to make
+	 * @return true if the operation was successful, false otherwise
+	 */
 	public CompletableFuture<Boolean> move(int gameId, Move move)
 	{
 		HashMap<String, Object> args = new HashMap<>();
@@ -569,6 +590,23 @@ public class KaroAPI
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
 		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
+	}
+
+	/**
+	 * Kick a player.<br>
+	 * Note: kicking foreign players will fail if you are not Didi ;-)
+	 * 
+	 * @param gameId - the game
+	 * @param move - the move to make
+	 * @return true if the operation was successful, false otherwise
+	 */
+	public CompletableFuture<Boolean> kick(int gameId, int userId)
+	{
+		HashMap<String, Object> args = new HashMap<>();
+		args.put("GID", "" + gameId);
+		args.put("UID", "" + userId);
+		args.put("sicher", "1");
+		return loadAsync(GAME_KICK.doGet(args), (result) -> { return result != null && result.contains("Fertig, Du bist draussen..."); });
 	}
 
 	///////////////////////
