@@ -1,6 +1,7 @@
 package ultimate.karoapi4j;
 
 import java.awt.image.BufferedImage;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -771,6 +772,15 @@ public class KaroAPI
 	// chat
 	///////////////////////
 
+	/**
+	 * Get the chat messages in the specified range
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHAT
+	 * @param start - the id of the first message to get
+	 * @param limit - the number of messages
+	 * @return the list of chat messages
+	 */
 	public CompletableFuture<List<ChatMessage>> getChatMessages(int start, int limit)
 	{
 		HashMap<String, Object> args = new HashMap<>();
@@ -779,11 +789,26 @@ public class KaroAPI
 		return loadAsync(CHAT.parameterize(args).doGet(), PARSER_CHAT_LIST);
 	}
 
+	/**
+	 * Get the last chat message
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHAT_LAST
+	 * @return the chat message
+	 */
 	public CompletableFuture<ChatMessage> getChatLastMessage()
 	{
 		return loadAsync(CHAT_LAST.doGet(), PARSER_CHAT_MESSAGE);
 	}
 
+	/**
+	 * Send a new message to the chat
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHAT
+	 * @param message - the message to send
+	 * @return the sent message confirmed by the server
+	 */
 	public CompletableFuture<ChatMessage> sendChatMessage(String message)
 	{
 		HashMap<String, Object> args = new HashMap<>();
@@ -791,6 +816,13 @@ public class KaroAPI
 		return loadAsync(CHAT.doPost(args, EnumContentType.json), PARSER_CHAT_MESSAGE);
 	}
 
+	/**
+	 * Get the active chat users
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHAT_USERS
+	 * @return the list of users
+	 */
 	public CompletableFuture<List<User>> getChatUsers()
 	{
 		return loadAsync(CHAT_USERS.doGet(), PARSER_USER_LIST);
@@ -800,11 +832,27 @@ public class KaroAPI
 	// messaging
 	///////////////////////
 
+	/**
+	 * Get the users the current user is/was in contact with via the in game messaging system.
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CONTACTS
+	 * @return the list of contact users
+	 */
 	public CompletableFuture<List<User>> getContacts()
 	{
 		return loadAsync(CONTACTS.doGet(), PARSER_USER_LIST);
 	}
 
+	/**
+	 * Send a message using the in game messaging system to another user
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#MESSAGES
+	 * @param userId - the user to send the message to
+	 * @param message - the message to send
+	 * @return the sent message confirmed by the server
+	 */
 	public CompletableFuture<UserMessage> sendUserMessage(int userId, String message)
 	{
 		HashMap<String, Object> args = new HashMap<>();
@@ -812,11 +860,27 @@ public class KaroAPI
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPost(args, EnumContentType.json), PARSER_USER_MESSAGE);
 	}
 
+	/**
+	 * Get all messages that have been sent to or received from another user using the in game messaging system.
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#MESSAGES
+	 * @param userId - the other user
+	 * @return the list of messages
+	 */
 	public CompletableFuture<List<UserMessage>> getUserMessage(int userId)
 	{
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doGet(), PARSER_USER_MESSAGE_LIST);
 	}
 
+	/**
+	 * Mark all messages from a given user as read. (Set uc-flag to 0.)
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#MESSAGES
+	 * @param userId - the other user
+	 * @return TODO currently PATCH is not supported by {@link HttpURLConnection}
+	 */
 	@Deprecated(since = "PATCH IS NOT SUPPORTED")
 	CompletableFuture<String> readUserMessage(int userId)
 	{
@@ -827,6 +891,42 @@ public class KaroAPI
 	// load logic
 	///////////////////////
 
+	/**
+	 * (Re)-Load a given object from the API:<br>
+	 * <br>
+	 * The object passed must have an ID set (see {@link Identifiable#getId()}. This method then performs a get for the given object type and ID at
+	 * the KaroAPI. When the request is finished, the content of the newly loaded object will be copied to the original object to updated it.<br>
+	 * <br>
+	 * Currently supported types are:
+	 * <ul>
+	 * <li>{@link User}</li>
+	 * <li>{@link Game}</li>
+	 * <li>{@link Map}</li>
+	 * </ul>
+	 * Example:
+	 * <ol>
+	 * <li>you load a user from the backend, say user {"id":9999, "login":"foo","activeGames":10, ...}</li>
+	 * <li>now you create 5 games with that user -&gt; activeGames should increase</li>
+	 * <li>by use of {@link KaroAPI#load(Identifiable)} you can update the existing object:
+	 * 
+	 * <pre>
+	 * updated  {"id":9999, "login":"foo","activeGames":15, ...}
+	 *                 |              |                  |
+	 *                 | unchanged    | unchanged        | original object is updated by copying the value (15)
+	 *                 V              V                  V 
+	 * original {"id":9999, "login":"foo","activeGames":10, ...}
+	 * </pre>
+	 * 
+	 * </li>
+	 * <li>you can continue using the original object where it is already in use (no need to replace it in arrays, lists or references)</li>
+	 * </ol>
+	 *
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see Identifiable
+	 * @param <T>
+	 * @param object
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Identifiable> CompletableFuture<T> load(T object)
 	{
