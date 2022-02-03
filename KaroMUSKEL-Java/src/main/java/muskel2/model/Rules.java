@@ -2,7 +2,7 @@ package muskel2.model;
 
 import java.io.Serializable;
 import java.util.Random;
-
+@Deprecated
 public class Rules implements Cloneable, Serializable
 {
 	private static final long	serialVersionUID	= 1L;

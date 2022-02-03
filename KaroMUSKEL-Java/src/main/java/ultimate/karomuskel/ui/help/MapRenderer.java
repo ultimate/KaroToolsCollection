@@ -12,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import muskel2.model.Map;
-import muskel2.util.Language;
+import ultimate.karomuskel.utils.Language;
 
 public class MapRenderer extends JLabel implements ListCellRenderer
 {

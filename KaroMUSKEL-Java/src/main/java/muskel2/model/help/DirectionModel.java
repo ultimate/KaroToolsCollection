@@ -3,8 +3,8 @@ package muskel2.model.help;
 import javax.swing.DefaultComboBoxModel;
 
 import muskel2.model.Direction;
-import muskel2.util.Language;
 import ultimate.karomuskel.ui.components.Label;
+import ultimate.karomuskel.utils.Language;
 
 public class DirectionModel extends DefaultComboBoxModel
 {

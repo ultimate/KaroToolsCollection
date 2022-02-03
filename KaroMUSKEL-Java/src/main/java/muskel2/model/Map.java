@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import ultimate.karomuskel.Launcher;
-
+@Deprecated
 public class Map implements Serializable
 {
 	private static final long	serialVersionUID	= 1L;

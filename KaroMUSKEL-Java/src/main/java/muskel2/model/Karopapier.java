@@ -1,7 +1,7 @@
 package muskel2.model;
 
 import java.util.TreeMap;
-
+@Deprecated
 public class Karopapier
 {
 	private TreeMap<Integer, Map>	maps;

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 
 import ultimate.karomuskel.Launcher;
-
+@Deprecated
 public class Player implements Serializable
 {
 	private static final long	serialVersionUID	= 1L;

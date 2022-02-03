@@ -12,7 +12,7 @@ import muskel2.util.PlaceholderFactory;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.screens.KOWinnersScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
-
+@Deprecated
 public class KOGameSeries extends TeamBasedGameSeries
 {
 	private static final long	serialVersionUID	= 1L;

@@ -6,7 +6,7 @@ import java.util.List;
 
 import muskel2.model.Map;
 import muskel2.model.Player;
-
+@Deprecated
 public class Team implements Serializable
 {
 	private static final long	serialVersionUID	= 1L;
