@@ -48,8 +48,8 @@ public class KaroWikiAPITest
 	public void test_login_logout() throws Exception
 	{
 		KaroWikiAPI wl = new KaroWikiAPI();
-		assertTrue(wl.login(username, password));
-		assertTrue(wl.logout());
+		assertTrue(wl.login(username, password).get());
+		assertTrue(wl.logout().get());
 	}
 
 	@Test
@@ -59,9 +59,9 @@ public class KaroWikiAPITest
 		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
-			assertTrue(wl.login(username, password));
+			assertTrue(wl.login(username, password).get());
 
-			Map<String, Object> propertiesValid = wl.queryRevisionProperties(PAGE_EXISTING, "timestamp");
+			Map<String, Object> propertiesValid = wl.queryRevisionProperties(PAGE_EXISTING, "timestamp").get();
 			System.out.println(propertiesValid);
 			assertEquals(PAGE_EXISTING, propertiesValid.get("title"));
 			assertFalse(propertiesValid.containsKey("missing"));
@@ -70,14 +70,14 @@ public class KaroWikiAPITest
 			assertTrue(propertiesValid.get("revisions") instanceof List);
 			assertTrue(((List) propertiesValid.get("revisions")).size() > 0);
 
-			Map<String, Object> propertiesInvalid = wl.queryRevisionProperties(PAGE_MISSING, "timestamp");
+			Map<String, Object> propertiesInvalid = wl.queryRevisionProperties(PAGE_MISSING, "timestamp").get();
 			System.out.println(propertiesInvalid);
 			assertEquals(PAGE_MISSING, propertiesInvalid.get("title"));
 			assertTrue(propertiesInvalid.containsKey("missing"));
 		}
 		finally
 		{
-			assertTrue(wl.logout());
+			assertTrue(wl.logout().get());
 		}
 	}
 
@@ -87,22 +87,22 @@ public class KaroWikiAPITest
 		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
-			assertTrue(wl.login(username, password));
+			assertTrue(wl.login(username, password).get());
 
 			String timestamp;
 
-			timestamp = wl.getTimestamp(PAGE_EXISTING);
+			timestamp = wl.getTimestamp(PAGE_EXISTING).get();
 			System.out.println(timestamp);
 			assertNotNull(timestamp);
 
-			timestamp = wl.getTimestamp(PAGE_MISSING);
+			timestamp = wl.getTimestamp(PAGE_MISSING).get();
 			System.out.println(timestamp);
 			assertNull(timestamp);
 
 		}
 		finally
 		{
-			assertTrue(wl.logout());
+			assertTrue(wl.logout().get());
 		}
 	}
 
@@ -112,22 +112,22 @@ public class KaroWikiAPITest
 		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
-			assertTrue(wl.login(username, password));
+			assertTrue(wl.login(username, password).get());
 
 			String token;
 
-			token = wl.getToken(PAGE_EXISTING, "edit");
+			token = wl.getToken(PAGE_EXISTING, "edit").get();
 			System.out.println(token);
 			assertNotNull(token);
 
-			token = wl.getToken(PAGE_MISSING, "edit");
+			token = wl.getToken(PAGE_MISSING, "edit").get();
 			System.out.println(token);
 			assertNotNull(token);
 
 		}
 		finally
 		{
-			assertTrue(wl.logout());
+			assertTrue(wl.logout().get());
 		}
 	}
 
@@ -137,10 +137,10 @@ public class KaroWikiAPITest
 		KaroWikiAPI wl = new KaroWikiAPI();
 		try
 		{
-			assertTrue(wl.login(username, password));
+			assertTrue(wl.login(username, password).get());
 			for(int i = 0; i < EDIT_TESTS; i++)
 			{
-				String content = wl.getContent(PAGE_EXISTING);
+				String content = wl.getContent(PAGE_EXISTING).get();
 				assertNotNull(content);
 				
 				String newContent;
@@ -156,20 +156,20 @@ public class KaroWikiAPITest
 					newContent = content + "\n\nsome new line --~~~~";
 				}
 				
-				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false);
+				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
 
 				Date date = new Date();
 				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY");
 				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + df.format(date) + " (CET)");
 
-				String updatedContent = wl.getContent(PAGE_EXISTING);
+				String updatedContent = wl.getContent(PAGE_EXISTING).get();
 				assertEquals(expectedContent, updatedContent);
 			}
 		}
 		finally
 		{
-			assertTrue(wl.logout());
+			assertTrue(wl.logout().get());
 		}
 	}
 }
