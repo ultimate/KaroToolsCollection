@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
@@ -39,8 +38,8 @@ import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
  * Note: Accessing the API requires a user and password for www.karopapier.de which can be passed with the constructor. Afterwards it is
  * recommended to check the successful login using {@link KaroAPI#check()}.<br>
  * <br>
- * Each API call will return a {@link BackgroundLoader} inherting {@link Callable} which can then be used to either load the results either blocking
- * or asynchronously (see {@link URLLoader}).<br>
+ * Each API call will return a {@link CompletableFuture} which wraps the underlying API call and which then can be used to either load the results
+ * either blocking or asynchronously (see {@link URLLoader}).<br>
  * <br>
  * For calls with filter arguments, each argument is applied only if it is set to a non null value. If the argument is null, it will be ignored.
  *
