@@ -1,7 +1,5 @@
 package muskel2.model;
 
-import ultimate.karomuskel.utils.Language;
-
 @Deprecated
 public enum Direction
 {
@@ -14,21 +12,5 @@ public enum Direction
 		if(this.equals(Formula_1))
 			return 2;
 		return 0;
-	}
-
-	public String toString()
-	{
-		switch(this)
-		{
-			case klassisch:
-				return Language.getString("option.direction.klassisch");
-			case egal:
-				return Language.getString("option.direction.egal");
-			case Formula_1:
-				return Language.getString("option.direction.formula1");
-			case random:
-				return Language.getString("option.direction.random");
-		}
-		return null;
 	}
 }
