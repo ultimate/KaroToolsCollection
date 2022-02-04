@@ -19,8 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 
-import muskel2.model.GameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.StartScreen;
