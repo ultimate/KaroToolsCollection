@@ -3,7 +3,7 @@ package ultimate.karomuskel.ui.components;
 import javax.swing.DefaultComboBoxModel;
 
 import ultimate.karomuskel.utils.Language;
-import ultimate.karomuskel.utils.lang.Label;
+import ultimate.karomuskel.utils.Language.Label;
 
 public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel
 {
