@@ -1,24 +1,14 @@
 package ultimate.karomuskel;
 
-import java.awt.Color;
-import java.io.IOException;
-import java.util.TreeMap;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.utils.Language;
@@ -51,14 +41,12 @@ public class Launcher
 	public static void main(String[] args)
 	{
 		logger.info("------------------------------------------------------------------------");
-		logger.info("------------------------------------------------------------------------");
 		logger.info("                               KaroMUSKEL                               ");
 		logger.info("  Maschinelle-Ultimative-Spielserien-für-Karopapier-Erstellungs-Lösung  ");
 		logger.info("------------------------------------------------------------------------");
 		logger.info("------------------------------------------------------------------------");
 
 		boolean debug = false;
-		boolean unlock = false;
 
 		String language = Language.getDefault();
 		if(args.length > 0)
