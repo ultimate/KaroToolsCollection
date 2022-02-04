@@ -5,11 +5,10 @@ import javax.swing.DefaultComboBoxModel;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 
-public class BooleanModel extends DefaultComboBoxModel
+public class BooleanModel extends DefaultComboBoxModel<Label<Boolean>>
 {
 	private static final long	serialVersionUID	= 1L;
 
-	@SuppressWarnings("unchecked")
 	public BooleanModel(Boolean value, boolean randomEnabled)
 	{
 		super();

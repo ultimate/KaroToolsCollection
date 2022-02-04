@@ -54,7 +54,7 @@ import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.help.PlayerCellEditor;
+import ultimate.karomuskel.ui.components.PlayerCellEditor;
 import ultimate.karomuskel.ui.help.SpinnerCellEditor;
 
 public class SummaryScreen extends Screen implements ActionListener

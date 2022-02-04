@@ -4,6 +4,7 @@ import javax.swing.AbstractSpinnerModel;
 
 public class KORoundNumberModel extends AbstractSpinnerModel
 {
+	private static final long serialVersionUID = 1L;
 	private int value;
 	private int min = 2;
 	private int max;
