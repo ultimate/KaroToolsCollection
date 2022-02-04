@@ -17,7 +17,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.help.AllCombinationsNumberModel;
 import muskel2.model.series.AllCombinationsGameSeries;
 import muskel2.model.series.BalancedGameSeries;
@@ -28,6 +27,7 @@ import muskel2.model.series.SimpleGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.LeaguePlanner;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.KORoundNumberModel;
@@ -94,9 +94,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private Screen				mapsScreen;
 	private Screen				mapsScreenNext;
 
-	public SettingsScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public SettingsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.settings.header", "screen.settings.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.settings.header", "screen.settings.next");
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);

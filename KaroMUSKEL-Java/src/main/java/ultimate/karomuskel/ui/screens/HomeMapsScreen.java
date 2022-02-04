@@ -16,13 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.help.MapRenderer;
 
@@ -39,9 +39,9 @@ public class HomeMapsScreen extends Screen
 	private TreeMap<Integer, Map>	maps;
 	private boolean					firstCall			= true;
 
-	public HomeMapsScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public HomeMapsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.homemaps.header", "screen.homemaps.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.homemaps.header", "screen.homemaps.next");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 
@@ -141,7 +141,7 @@ public class HomeMapsScreen extends Screen
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
-			this.maps = karopapier.getMaps();
+			this.maps = karoAPICache.getMaps();
 
 			List<Integer> removeList = new LinkedList<Integer>();
 			Map map;

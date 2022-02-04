@@ -19,13 +19,13 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Player;
 import muskel2.model.help.Team;
 import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.utils.Language;
 
@@ -37,9 +37,9 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 	private boolean				firstCall			= true;
 
-	public KOWinnersScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public KOWinnersScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.kowinners.header", "screen.kowinners.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header", "screen.kowinners.next");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 

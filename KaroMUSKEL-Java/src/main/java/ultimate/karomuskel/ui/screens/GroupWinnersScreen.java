@@ -21,11 +21,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Player;
 import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.utils.Language;
 
@@ -38,9 +38,9 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 	private boolean				firstCall			= true;
 
-	public GroupWinnersScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public GroupWinnersScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.groupwinners.header", "screen.groupwinners.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header", "screen.groupwinners.next");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 

@@ -22,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Player;
 import muskel2.model.help.Team;
 import muskel2.model.series.BalancedGameSeries;
@@ -32,6 +31,7 @@ import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.SimpleGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.utils.Language;
@@ -58,9 +58,9 @@ public class PlayersScreen extends Screen implements ActionListener
 	private boolean					autoNameTeams		= false;
 	private boolean					multipleTeams		= false;
 
-	public PlayersScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public PlayersScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.players.header", "screen.players.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.players.header", "screen.players.next");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
@@ -370,7 +370,7 @@ public class PlayersScreen extends Screen implements ActionListener
 			changed = true;
 			this.ignoreInvitable = ignoreInvitableTmp;
 			this.multipleTeams = multipleTeamsTmp;
-			this.allPlayers = new TreeMap<String, Player>(gameSeries.getKaropapier().getPlayers());
+			this.allPlayers = new TreeMap<String, Player>(gameSeries.getKaroAPICache().getPlayers());
 
 			if(!this.ignoreInvitable)
 			{
