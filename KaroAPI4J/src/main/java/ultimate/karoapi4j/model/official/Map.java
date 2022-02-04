@@ -16,7 +16,7 @@ public class Map extends Identifiable
 	/**
 	 * the row delimeter used in the map code
 	 */
-	public static final String ROW_DELIMITER = "\n";
+	public static final String	ROW_DELIMITER	= "\n";
 	/*
 	 * https://www.karopapier.de/api/maps/1?mapcode=true
 	 * "id": 1,
@@ -33,21 +33,21 @@ public class Map extends Identifiable
 	 * "code": "PXXX...XXXXXXX"
 	 */
 	// Standard JSON Fields
-	// private int		id;	// see super class
-	private String	name;
-	private String	author;
-	private int		cols;
-	private int		rows;
-	private double	rating;
-	private int		players;
-	private int[]	cps;
-	private boolean	active;
-	private boolean	night;
-	private int		record;
-	private String	code;
+	// private int id; // see super class
+	private String				name;
+	private String				author;
+	private int					cols;
+	private int					rows;
+	private double				rating;
+	private int					players;
+	private int[]				cps;
+	private boolean				active;
+	private boolean				night;
+	private int					record;
+	private String				code;
 	// additional Fields (internally used)
-	private Image	image;
-	private Image	preview;
+	private Image				image;
+	private Image				thumb;
 
 	public Map()
 	{
@@ -181,14 +181,14 @@ public class Map extends Identifiable
 		this.image = image;
 	}
 
-	public Image getPreview()
+	public Image getThumb()
 	{
-		return preview;
+		return thumb;
 	}
 
-	public void setPreview(Image preview)
+	public void setThumb(Image thumb)
 	{
-		this.preview = preview;
+		this.thumb = thumb;
 	}
 
 	public String getLabel()
