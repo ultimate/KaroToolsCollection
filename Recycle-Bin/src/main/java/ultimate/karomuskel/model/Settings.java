@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Properties;
 
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karomuskel.utils.Language;
+import ultimate.karomuskel.ui.Language;
 
 public class Settings
 {

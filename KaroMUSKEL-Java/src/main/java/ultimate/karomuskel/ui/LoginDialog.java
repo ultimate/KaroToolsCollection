@@ -7,8 +7,6 @@ import javax.swing.JTextField;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import ultimate.karomuskel.utils.Language;
-
 public class LoginDialog
 {
 	private String					user;

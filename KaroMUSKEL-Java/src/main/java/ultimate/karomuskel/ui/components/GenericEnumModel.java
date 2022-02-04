@@ -2,8 +2,8 @@ package ultimate.karomuskel.ui.components;
 
 import javax.swing.DefaultComboBoxModel;
 
-import ultimate.karomuskel.utils.Language;
-import ultimate.karomuskel.utils.Language.Label;
+import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.Language.Label;
 
 public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel
 {

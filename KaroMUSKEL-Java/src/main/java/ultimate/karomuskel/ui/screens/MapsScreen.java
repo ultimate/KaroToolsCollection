@@ -22,10 +22,10 @@ import muskel2.model.GameSeries;
 import muskel2.model.Map;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.KaroAPICache;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.help.MapRenderer;
-import ultimate.karomuskel.utils.Language;
 
 public class MapsScreen extends Screen implements ActionListener
 {

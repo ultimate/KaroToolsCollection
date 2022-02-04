@@ -9,9 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
-import ultimate.karomuskel.utils.Language;
 
 public class Launcher
 {

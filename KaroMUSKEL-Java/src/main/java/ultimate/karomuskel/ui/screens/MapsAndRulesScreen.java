@@ -27,11 +27,11 @@ import muskel2.model.help.DirectionModel;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.KaroAPICache;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.Label;
 import ultimate.karomuskel.ui.help.MapRenderer;
-import ultimate.karomuskel.utils.Language;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener
 {

@@ -27,7 +27,7 @@ import muskel2.model.Karopapier;
 import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.Launcher;
-import ultimate.karomuskel.utils.Language;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karopapier.eval.Eval;
 
 public class KaropapierCronTool
