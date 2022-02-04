@@ -8,23 +8,30 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public abstract class Language
 {
-	private static final String	folder		= "lang";
-	private static final String	defaultLang	= "de";
-	
-	private static final String VERSION_HISTORY_INFO_PREFIX = "version.";
-	private static final String VERSION_HISTORY_INFO_SUFFIX = ".about";
-	private static final String PLACEHOLDER_VERSION = "%%VERSION%%";
-	private static final String PLACEHOLDER_HISTORY = "%%HISTORY%%";
+	/**
+	 * Logger-Instance
+	 */
+	protected transient static final Logger	logger						= LoggerFactory.getLogger(Language.class);
+	private static final String				folder						= "lang";
+	private static final String				defaultLang					= "de";
 
-	private static Properties	lang;
+	private static final String				VERSION_HISTORY_INFO_PREFIX	= "version.";
+	private static final String				VERSION_HISTORY_INFO_SUFFIX	= ".about";
+	private static final String				PLACEHOLDER_VERSION			= "%%VERSION%%";
+	private static final String				PLACEHOLDER_HISTORY			= "%%HISTORY%%";
 
-	private static boolean		debug		= false;
+	private static Properties				lang;
 
-	private static String		about		= null;
+	private static boolean					debug						= false;
+
+	private static String					about						= null;
 
 	public static boolean load(String language)
 	{
@@ -35,15 +42,14 @@ public abstract class Language
 		}
 		try
 		{
-			System.out.print("Loading language '" + language + "'... ");
+			logger.info("Loading language '" + language + "'... ");
 			lang = PropertiesUtil.loadProperties(new File(folder + "/lang_" + language + ".properties"));
-			System.out.println("OK");
+			logger.info("language '" + language + "' loaded");
 			return true;
 		}
 		catch(IOException e)
 		{
-			System.out.println("ERROR");
-			System.out.println("Could not language '" + language + "': " + e.getMessage());
+			logger.error("could not language '" + language + "'", e);
 			return false;
 		}
 	}
@@ -70,7 +76,7 @@ public abstract class Language
 			throw new RuntimeException("No language loaded!");
 		return lang.getProperty(key, arg);
 	}
-	
+
 	public static String getVersion()
 	{
 		return getString("version");
@@ -84,25 +90,25 @@ public abstract class Language
 			about = Language.getString("mainframe.about").replace(PLACEHOLDER_VERSION, currentVersion.toString());
 
 			StringBuilder history = new StringBuilder();
-			
+
 			@SuppressWarnings("unchecked")
 			Set<String> keys = (Set<String>) (Set<?>) lang.keySet();
 			List<Version> versions = new ArrayList<Version>();
-			for(String key: keys)
+			for(String key : keys)
 			{
 				if(key.startsWith(VERSION_HISTORY_INFO_PREFIX))
 				{
-					Version version = new Version(key.substring(VERSION_HISTORY_INFO_PREFIX.length(), key.indexOf(VERSION_HISTORY_INFO_SUFFIX))); 
+					Version version = new Version(key.substring(VERSION_HISTORY_INFO_PREFIX.length(), key.indexOf(VERSION_HISTORY_INFO_SUFFIX)));
 					if(version.compareTo(currentVersion) <= 0)
 					{
 						versions.add(version);
 					}
 				}
 			}
-			Collections.sort(versions, Collections.reverseOrder());			
-			System.out.println("Versions = " + versions);
-			
-			for(Version v: versions)
+			Collections.sort(versions, Collections.reverseOrder());
+			logger.info("Versions = " + versions);
+
+			for(Version v : versions)
 			{
 				history.append(getString(VERSION_HISTORY_INFO_PREFIX + v.toString() + VERSION_HISTORY_INFO_SUFFIX));
 			}
@@ -111,12 +117,12 @@ public abstract class Language
 		}
 		return about;
 	}
-	
+
 	private static class Version implements Comparable<Version>
 	{
-		private int major;
-		private int minor;
-		
+		private int	major;
+		private int	minor;
+
 		public Version(String version)
 		{
 			major = Integer.parseInt(version.substring(0, version.indexOf('.')));
@@ -135,6 +141,6 @@ public abstract class Language
 			if(this.major == o.major)
 				return this.minor - o.minor;
 			return this.major - o.major;
-		}		
+		}
 	}
 }
