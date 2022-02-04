@@ -3,6 +3,9 @@ package ultimate.karomuskel;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.TreeMap;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -11,31 +14,48 @@ import javax.swing.JTextField;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import muskel2.core.karoaccess.GameCreator;
-import muskel2.core.karoaccess.KaropapierLoader;
-import muskel2.model.Karopapier;
-import muskel2.model.Map;
-import muskel2.model.Player;
-import muskel2.util.RequestLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.official.Map;
+import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.utils.Language;
 
 public class Launcher
 {
-	private static MainFrame	gui;
+	/**
+	 * Logger-Instance
+	 */
+	protected static transient final Logger	logger	= LoggerFactory.getLogger(Launcher.class);
+	/**
+	 * The UI instance
+	 */
+	private static MainFrame				gui;
 
-	private static Karopapier	karopapier;
+	private static KaroAPI					api;
+	private static KaroAPICache				cache;
 
+	/**
+	 * The main to start the KaroMUSKEL.<br>
+	 * Supported args:
+	 * <ul>
+	 * <li>-d = debug-mode (= API mock)</li>
+	 * <li>-l=?? = the language to use</li>
+	 * <li>-t=xx = the max number of threads to use for the {@link KaroAPI}</li>
+	 * </ul>
+	 * 
+	 * @param args - see above
+	 */
 	public static void main(String[] args)
 	{
-		System.out.println("------------------------------------------------------------------------");
-		System.out.println("------------------------------------------------------------------------");
-		System.out.println("                               KaroMUSKEL                               ");
-		System.out.println("  Maschinelle-Ultimative-Spielserien-für-Karopapier-Erstellungs-Lösung  ");
-		System.out.println("------------------------------------------------------------------------");
-		System.out.println("------------------------------------------------------------------------");
-
-		karopapier = null;
+		logger.info("------------------------------------------------------------------------");
+		logger.info("------------------------------------------------------------------------");
+		logger.info("                               KaroMUSKEL                               ");
+		logger.info("  Maschinelle-Ultimative-Spielserien-für-Karopapier-Erstellungs-Lösung  ");
+		logger.info("------------------------------------------------------------------------");
+		logger.info("------------------------------------------------------------------------");
 
 		boolean debug = false;
 		boolean unlock = false;
@@ -58,187 +78,106 @@ public class Launcher
 						int maxThreads = Integer.parseInt(maxThreadsS);
 						if(maxThreads > 0)
 						{
-							System.out.println("Setze GameCreator.MAX_LOAD_THREADS = " + maxThreads);
-							GameCreator.MAX_LOAD_THREADS = maxThreads;
+							logger.info("Setting KaroAPI thread pool size = " + maxThreads);
+							KaroAPI.setExecutor(Executors.newFixedThreadPool(maxThreads));
 						}
 						else
 						{
-							System.out.println("Ungültiger Wert für GameCreator.MAX_LOAD_THREADS: " + maxThreads);
+							logger.error("Invalid value for KaroAPI thread pool size = " + maxThreads);
 						}
 					}
 					catch(NumberFormatException e)
 					{
-						System.out.println("Ungültiger Wert für GameCreator.MAX_LOAD_THREADS: " + maxThreadsS);
+						logger.error("Invalid value for KaroAPI thread pool size = " + maxThreadsS);
 					}
 				}
-				else if(arg.toLowerCase().equalsIgnoreCase("-unlock"))
-					unlock = true;
 			}
 		}
 
 		Language.load(language);
 
-		if(unlock)
+		if(debug)
 		{
-			String userToUnlock = JOptionPane.showInputDialog(null, Language.getString("unlock.message"), Language.getString("unlock.title"),
-					JOptionPane.QUESTION_MESSAGE);
+			logger.info("                              DEBUG - MODE                              ");
+			logger.info("------------------------------------------------------------------------");
+			logger.info("------------------------------------------------------------------------");
 
-			System.out.println("Benutzer zum freischalten: " + userToUnlock);
-			if(userToUnlock != null && !KaropapierLoader.checkUnlockFile(userToUnlock))
-			{
-				try
-				{
-					KaropapierLoader.createUnlockFile(userToUnlock);
-					System.out.println("Benutzer freigeschaltet!");
-				}
-				catch(IOException e)
-				{
-					System.out.println("Konnte benutzer nicht freischalten:");
-					e.printStackTrace();
-				}
-			}
-			exit();
-		}
-		else if(debug)
-		{
-			System.out.println("                              DEBUG - MODE                              ");
-			System.out.println("------------------------------------------------------------------------");
-			System.out.println("------------------------------------------------------------------------");
-
-			TreeMap<Integer, Map> maps = new TreeMap<Integer, Map>();
-			for(int i = 0; i < 100; i++)
-			{
-				maps.put(i, new Map(i, "map" + i, "by anybody" + i, false, i % 20 + 2, null));
-			}
-			TreeMap<String, Player> players = new TreeMap<String, Player>();
-			for(int i = 0; i < 100; i++)
-			{
-				players.put("p" + i, new Player(i, "p" + i, true, true, i, 100 - i, 0, 0, Color.black, 0, null));
-			}
-
-			karopapier = new Karopapier(maps, players, "p0", false);
-			karopapier.setInDebugMode(true);
-
-			System.out.println("Initialisiere ..");
-			gui = new MainFrame("mainframe.debugtitle", karopapier);
-			gui.requestFocus();
+			api = null; // this will trigger the KaroAPI cache to create dummy instances
 		}
 		else
 		{
-			String user, password;
-
-			String logintitle = Language.getString("login.title");
-
-			final JLabel label = new JLabel(Language.getString("login.description"));
-			final JLabel tfL = new JLabel(Language.getString("login.username"));
-			final JTextField tf = new JTextField();
-			final JLabel pwL = new JLabel(Language.getString("login.password"));
-			final JPasswordField pw = new JPasswordField();
-
-			// request Focus on username-TF when dialog is shown
-			tfL.addAncestorListener(new AncestorListener() {
-				@Override
-				public void ancestorAdded(AncestorEvent arg0)
-				{
-					tf.requestFocusInWindow();
-				}
-
-				@Override
-				public void ancestorMoved(AncestorEvent arg0)
-				{
-				}
-
-				@Override
-				public void ancestorRemoved(AncestorEvent arg0)
-				{
-				}
-			});
+			LoginDialog loginDialog = new LoginDialog();
 
 			while(true)
 			{
-				int result = JOptionPane.showConfirmDialog(gui, new Object[] { label, tfL, tf, pwL, pw }, logintitle, JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
+				int result = loginDialog.show();
 				if(result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
 				{
-					System.out.println("Anmeldung abgebrochen");
+					logger.info("login canceled");
 					return;
 				}
 
-				user = tf.getText();
-				password = new String(pw.getPassword());
-				System.out.print("Melde user an: \"" + user + "\" ... ");
+				logger.info("creating KaroAPI instance: \"" + loginDialog.getUser() + "\" ... ");
 
+				api = new KaroAPI(loginDialog.getUser(), loginDialog.getPassword());
 				try
 				{
-					if(!KaropapierLoader.login(user, password))
+					if(api.check().get() != null)
 					{
-						System.out.println(" Fehlgeschlagen!");
+						logger.info("login successful!");
 						continue;
 					}
-					System.out.println(" Erfolgreich!");
-					System.out.println("-------------------------------------------------------------------------");
-					System.out.println("Initialisiere...");
-					karopapier = KaropapierLoader.initiateKaropapier();
-					break;
+					else
+					{
+						logger.warn("login failed!");
+					}
 				}
-				catch(IOException e)
+				catch(InterruptedException | ExecutionException e)
 				{
-					System.out.println("Konnte Karopapier nicht initialisieren...:\n" + e.toString());
+					logger.error("login failed!", e);
 				}
 			}
-			gui = new MainFrame("mainframe.title", karopapier);
-			gui.requestFocus();
 		}
+
+		cache = new KaroAPICache(api);
+
+		logger.info("-------------------------------------------------------------------------");
+		logger.info("initializing cache...");
+		cache.refresh().join();
+		logger.info("cache initialized");
+
+		logger.info("launching user interface");
+		gui = new MainFrame("mainframe.title", cache);
+		gui.requestFocus();
 
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run()
 			{
-				cleanUpLoggers();
+				// TODO needed?
 			}
 		});
 
-		System.out.println("Initialisierung abgeschlossen!");
-		System.out.println("-------------------------------------------------------------------------");
-	}
-
-	public static MainFrame getGui()
-	{
-		return gui;
-	}
-
-	public static Karopapier getKaropapier()
-	{
-		return karopapier;
-	}
-
-	public static void setKaropapier(Karopapier karopapier)
-	{
-		Launcher.karopapier = karopapier;
-	}
-	
-	public static void cleanUpLoggers()
-	{
-		System.out.println("Beende Logging...");
-		RequestLogger.cleanUp();
-		System.out.println("Logging beendet!");
+		logger.info("initialization complete!");
+		logger.info("-------------------------------------------------------------------------");
 	}
 
 	public static void exit()
 	{
-		System.out.println("-------------------------------------------------------------------------");
-		System.out.println("Beende Programm...");
-
-		// TODO store settings
+		logger.info("-------------------------------------------------------------------------");
+		logger.info("terminating program");
 
 		if(gui != null)
 		{
 			gui.setVisible(false);
 			gui.dispose();
-		}		
+			gui = null;
+			api = null;
+			cache = null;
+		}
 
-		System.out.println("Programm beendet!");
-		System.out.println("-------------------------------------------------------------------------");
-		System.out.println("-------------------------------------------------------------------------");
+		logger.info("program terminated");
+		logger.info("-------------------------------------------------------------------------");
+		logger.info("-------------------------------------------------------------------------");
 
 		System.exit(0);
 	}
