@@ -11,6 +11,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public abstract class Language
@@ -75,6 +76,21 @@ public abstract class Language
 		if(lang == null)
 			throw new RuntimeException("No language loaded!");
 		return lang.getProperty(key, arg);
+	}
+	
+	public static String getString(EnumGameDirection direction)
+	{
+		switch(direction)
+		{
+			case classic:
+				return getString("option.direction.klassisch");
+			case free:
+				return getString("option.direction.egal");
+			case formula1:
+				return getString("option.direction.formula1");
+			default:
+				return getString("option.direction.random");
+		}
 	}
 
 	public static String getVersion()
