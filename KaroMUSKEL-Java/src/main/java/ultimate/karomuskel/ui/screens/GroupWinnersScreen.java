@@ -26,8 +26,8 @@ import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.KaroAPICache;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.utils.Language;
 
 public class GroupWinnersScreen extends Screen implements ActionListener
 {

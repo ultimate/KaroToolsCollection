@@ -32,9 +32,9 @@ import muskel2.model.series.SimpleGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.KaroAPICache;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
-import ultimate.karomuskel.utils.Language;
 
 public class PlayersScreen extends Screen implements ActionListener
 {

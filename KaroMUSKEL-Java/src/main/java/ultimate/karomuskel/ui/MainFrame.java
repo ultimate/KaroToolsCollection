@@ -25,7 +25,6 @@ import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.StartScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
-import ultimate.karomuskel.utils.Language;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {

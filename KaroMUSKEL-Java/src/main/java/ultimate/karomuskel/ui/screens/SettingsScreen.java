@@ -28,11 +28,11 @@ import muskel2.model.series.TeamBasedGameSeries;
 import muskel2.util.LeaguePlanner;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.KaroAPICache;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.KORoundNumberModel;
 import ultimate.karomuskel.ui.components.Label;
-import ultimate.karomuskel.utils.Language;
 
 public class SettingsScreen extends Screen implements ChangeListener
 {

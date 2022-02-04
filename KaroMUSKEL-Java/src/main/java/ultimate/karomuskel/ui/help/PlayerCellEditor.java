@@ -35,8 +35,8 @@ import muskel2.model.Player;
 import muskel2.util.SortUtil;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.Launcher;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
-import ultimate.karomuskel.utils.Language;
 
 // TODO Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die
 // auch für die Serie ausgewählt wurden

@@ -19,8 +19,8 @@ import javax.swing.JRadioButton;
 import muskel2.model.GameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.KaroAPICache;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.utils.Language;
 
 public class StartScreen extends Screen implements ActionListener
 {

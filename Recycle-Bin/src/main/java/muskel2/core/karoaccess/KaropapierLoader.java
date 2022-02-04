@@ -29,8 +29,8 @@ import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.HtmlUtil;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.help.MapRenderer;
-import ultimate.karomuskel.utils.Language;
 
 @Deprecated
 public class KaropapierLoader
