@@ -54,7 +54,7 @@ import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.components.PlayerCellEditor;
+import ultimate.karomuskel.ui.components.UserCellEditor;
 import ultimate.karomuskel.ui.help.SpinnerCellEditor;
 
 public class SummaryScreen extends Screen implements ActionListener
@@ -467,7 +467,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(Player.class))
 			{
-				PlayerCellEditor editor = new PlayerCellEditor(this.model, karoAPICache);
+				UserCellEditor editor = new UserCellEditor(this.model, karoAPICache);
 				col.setCellEditor(editor);
 				col.setCellRenderer(editor);
 			}

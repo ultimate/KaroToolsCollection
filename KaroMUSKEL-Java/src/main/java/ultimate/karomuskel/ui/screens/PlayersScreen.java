@@ -218,7 +218,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				gbc.gridy = 1;
 				buttonPanel.add(removeButton, gbc);
 
-				teamPlayersLI = new JList(new GenericListModel<String, Player>(new HashMap<String, Player>()));
+				teamPlayersLI = new JList(new GenericListModel<String, Player>(Player.class, new HashMap<String, Player>()));
 				teamPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 				this.allPlayersLI.setFixedCellWidth(1500);
 				teamPlayersLI.setFixedCellWidth(1500);
@@ -294,7 +294,7 @@ public class PlayersScreen extends Screen implements ActionListener
 						teamNameTF.setText("Liga " + (i + 1));
 					teamNameTF.setEnabled(enabled);
 
-					teamPlayersLI = new JList(new GenericListModel<String, Player>(new HashMap<String, Player>()));
+					teamPlayersLI = new JList(new GenericListModel<String, Player>(Player.class, new HashMap<String, Player>()));
 					teamPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 					teamPlayersLI.setFixedCellWidth(listFixedCellWidth);
 					teamPlayersLI.setVisibleRowCount(Math.max(3, this.maxPlayersPerTeam));
@@ -450,7 +450,7 @@ public class PlayersScreen extends Screen implements ActionListener
 					}
 				}
 			}
-			this.allPlayersLI.setModel(new GenericListModel<String, Player>(allPlayersTmp));
+			this.allPlayersLI.setModel(new GenericListModel<String, Player>(Player.class, allPlayersTmp));
 		}
 	}
 
