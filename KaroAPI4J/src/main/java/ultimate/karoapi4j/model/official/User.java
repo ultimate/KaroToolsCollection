@@ -47,7 +47,7 @@ public class User extends Identifiable
 	 * "ts": "2022-01-14 12:20:55", // for contacts only
 	 */
 	// Standard JSON Fields
-	// private int		id;	// see super class
+	// private int id; // see super class
 	private String				login;
 	private Color				color;
 	private int					lastVisit;
@@ -330,7 +330,7 @@ public class User extends Identifiable
 	{
 		this.blocked = blocked;
 	}
-	
+
 	// additional information
 
 	public int getPlannedGames()
