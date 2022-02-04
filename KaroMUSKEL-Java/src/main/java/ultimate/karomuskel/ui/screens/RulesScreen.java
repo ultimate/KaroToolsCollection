@@ -12,11 +12,11 @@ import javax.swing.SpinnerNumberModel;
 
 import muskel2.model.Direction;
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Rules;
 import muskel2.model.help.DirectionModel;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.Label;
@@ -36,9 +36,9 @@ public class RulesScreen extends Screen
 	private JComboBox creatorGiveUpCB;	
 	private JComboBox ignoreInvitableCB;
 	
-	public RulesScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public RulesScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.rules.header", "screen.rules.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.rules.header", "screen.rules.next");
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
@@ -53,9 +53,9 @@ public class RulesScreen extends Screen
 		this.checkpointsActivatedCB = new JComboBox(new BooleanModel(true, true));
 		this.directionCB = new JComboBox(new DirectionModel(Direction.klassisch, true));
 		this.creatorGiveUpCB = new JComboBox(new BooleanModel(false, false));
-		this.creatorGiveUpCB.setEnabled(this.karopapier.isUnlocked());
+		this.creatorGiveUpCB.setEnabled(this.karoAPICache.isUnlocked());
 		this.ignoreInvitableCB = new JComboBox(new BooleanModel(false, false));
-		this.ignoreInvitableCB.setEnabled(this.karopapier.isUnlocked());
+		this.ignoreInvitableCB.setEnabled(this.karoAPICache.isUnlocked());
 
 	}
 

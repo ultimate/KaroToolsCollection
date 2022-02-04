@@ -46,12 +46,12 @@ import muskel2.core.karoaccess.GameCreator;
 import muskel2.model.Direction;
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.model.help.DirectionModel;
-import muskel2.util.JSONUtil;
 import muskel2.util.PlaceholderFactory;
+import ultimate.karoapi4j.utils.JSONUtil;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.help.PlayerCellEditor;
 import ultimate.karomuskel.ui.help.SpinnerCellEditor;
@@ -91,9 +91,9 @@ public class SummaryScreen extends Screen implements ActionListener
 	private static final int	LEAVING				= 3;
 	private static final int	LEFT				= 4;
 
-	public SummaryScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public SummaryScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.summary.header", "screen.summary.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.summary.header", "screen.summary.next");
 		this.startScreen = this;
 		while(startScreen.getPrevious() != null)
 		{
@@ -198,7 +198,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 
 		this.inProgress = true;
-		GameCreator gc = new GameCreator(karopapier, this);
+		GameCreator gc = new GameCreator(karoAPICache, this);
 		for(Game game : this.gamesToCreate)
 		{
 			this.model.setStatus(game, CREATING);
@@ -234,7 +234,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 
 		this.inProgress = true;
-		GameCreator gc = new GameCreator(karopapier, this);
+		GameCreator gc = new GameCreator(karoAPICache, this);
 		for(Game game : this.gamesToLeaveTmp)
 		{
 			this.model.setStatus(game, LEAVING);
@@ -462,12 +462,12 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(Map.class))
 			{
-				Map[] maps = karopapier.getMaps().values().toArray(new Map[0]);
+				Map[] maps = karoAPICache.getMaps().values().toArray(new Map[0]);
 				col.setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(maps))));
 			}
 			else if(table.getColumnClass(i).equals(Player.class))
 			{
-				PlayerCellEditor editor = new PlayerCellEditor(this.model, karopapier);
+				PlayerCellEditor editor = new PlayerCellEditor(this.model, karoAPICache);
 				col.setCellEditor(editor);
 				col.setCellRenderer(editor);
 			}
@@ -484,7 +484,7 @@ public class SummaryScreen extends Screen implements ActionListener
 							Language.getString("screen.summary.batchUpdate.note.name"));
 				else if(col == 1) // Map
 					batchUpdateEnum(col, Language.getString("screen.summary.table.map"),
-							new DefaultComboBoxModel(karopapier.getMaps().values().toArray(new Map[0])));
+							new DefaultComboBoxModel(karoAPICache.getMaps().values().toArray(new Map[0])));
 				else if(col == 2) // Players
 					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
 				else if(col == 3) // ZZZ
@@ -565,7 +565,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			System.out.println("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				String updateValue = PlaceholderFactory.applyPlaceholders(this.karopapier, value, model.getRow(row), row);
+				String updateValue = PlaceholderFactory.applyPlaceholders(this.karoAPICache, value, model.getRow(row), row);
 				if(model.isCellEditable(row, column))
 					model.setValueAt(updateValue, row, column);
 			}
@@ -592,7 +592,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private void batchUpdatePlayers(int column, String label)
 	{
-		Collection<Player> players = karopapier.getPlayers().values();
+		Collection<Player> players = karoAPICache.getPlayers().values();
 		players.remove(gameSeries.getCreator());
 		JComboBox combobox = new JComboBox(new DefaultComboBoxModel(players.toArray(new Player[0])));
 
@@ -760,7 +760,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				return false;
 
 			if(columnIndex == getColumnCount() - 2)
-				return karopapier.isUnlocked();
+				return karoAPICache.isUnlocked();
 
 			return true;
 		}

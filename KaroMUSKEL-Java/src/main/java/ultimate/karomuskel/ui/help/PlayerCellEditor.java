@@ -30,10 +30,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import muskel2.model.Game;
-import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Player;
 import muskel2.util.SortUtil;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 import ultimate.karomuskel.utils.Language;
@@ -52,13 +52,13 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 	private List<Player>		players;
 	private List<Player>		allPlayers;
 
-	private Karopapier			karopapier;
+	private KaroAPICache			karoAPICache;
 	private SummaryModel		model;
 	private Game				game;
 
-	public PlayerCellEditor(SummaryModel model, Karopapier karopapier)
+	public PlayerCellEditor(SummaryModel model, KaroAPICache karoAPICache)
 	{
-		this.karopapier = karopapier;
+		this.karoAPICache = karoAPICache;
 		this.model = model;
 
 		this.button = new JButton();
@@ -72,7 +72,7 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 		this.label.setHorizontalAlignment(JLabel.LEFT);
 		this.label.setVerticalAlignment(JLabel.CENTER);
 
-		this.allPlayers = new LinkedList<Player>(karopapier.getPlayers().values());
+		this.allPlayers = new LinkedList<Player>(karoAPICache.getPlayers().values());
 
 		this.chooser = new PlayerChooser(Launcher.getGui());
 	}
@@ -139,7 +139,7 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 			this.chooser.playersLI.clearSelection();
 			for(Object o : tmpPlayers)
 			{
-				if(o.equals(karopapier.getCurrentPlayer()))
+				if(o.equals(karoAPICache.getCurrentPlayer()))
 				{
 					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.playeredit.creatorremove"), Language
 							.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);

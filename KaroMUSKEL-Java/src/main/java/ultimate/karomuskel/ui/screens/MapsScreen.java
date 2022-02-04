@@ -19,9 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.help.MapRenderer;
@@ -40,9 +40,9 @@ public class MapsScreen extends Screen implements ActionListener
 
 	private TreeMap<Integer, Map>	maps;
 
-	public MapsScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public MapsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.maps.header", "screen.maps.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.maps.header", "screen.maps.next");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
@@ -122,7 +122,7 @@ public class MapsScreen extends Screen implements ActionListener
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
-			this.maps = new TreeMap<Integer, Map>(karopapier.getMaps());
+			this.maps = new TreeMap<Integer, Map>(karoAPICache.getMaps());
 
 			List<Integer> removeList = new LinkedList<Integer>();
 			Map map;

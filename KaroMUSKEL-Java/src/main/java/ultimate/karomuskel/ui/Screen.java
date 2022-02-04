@@ -8,8 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 
 public abstract class Screen extends JPanel
 {
@@ -21,7 +21,7 @@ public abstract class Screen extends JPanel
 	protected static final int	columnWidth			= 350;
 	protected static final int	totalHeight			= 450;
 
-	protected Karopapier		karopapier;
+	protected KaroAPICache		karoAPICache;
 
 	protected JButton			previousButton;
 	protected JButton			nextButton;
@@ -33,13 +33,13 @@ public abstract class Screen extends JPanel
 
 	protected String			headerKey;
 
-	public Screen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
+	public Screen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
 	{
 		super();
 		this.previous = previous;
 		if(previous != null)
 			previous.next = this;
-		this.karopapier = karopapier;
+		this.karoAPICache = karoAPICache;
 		this.previousButton = previousButton;
 		this.nextButton = nextButton;
 		if(nextKey == null)

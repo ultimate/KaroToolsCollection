@@ -20,8 +20,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.StartScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
@@ -29,32 +29,32 @@ import ultimate.karomuskel.utils.Language;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {
-	private static final long	serialVersionUID	= 1L;
-	
-	private static final Dimension size = new Dimension(1200, 900);
-	private static final Dimension aboutSize = new Dimension(700, 500);
+	private static final long		serialVersionUID	= 1L;
 
-	private Karopapier			karopapier;
+	private static final Dimension	size				= new Dimension(1200, 900);
+	private static final Dimension	aboutSize			= new Dimension(700, 500);
 
-	private BorderLayout		layout;
+	private KaroAPICache			karoAPICache;
 
-	private JLabel				descriptionLabel;
-	private JPanel				screenPanel;
-	private JPanel				navigationPanel;
+	private BorderLayout			layout;
 
-	private Screen				currentScreen;
-	private Screen				startScreen;
-	
-	private JButton				previousButton;
-	private JButton				nextButton;
-	private JButton				aboutButton;
-	
-	private GameSeries			gameSeries;
+	private JLabel					descriptionLabel;
+	private JPanel					screenPanel;
+	private JPanel					navigationPanel;
 
-	public MainFrame(String titleKey, Karopapier karopapier)
-	{        
-		super(Language.getString(titleKey));        
-		this.karopapier = karopapier;
+	private Screen					currentScreen;
+	private Screen					startScreen;
+
+	private JButton					previousButton;
+	private JButton					nextButton;
+	private JButton					aboutButton;
+
+	private GameSeries				gameSeries;
+
+	public MainFrame(String titleKey, KaroAPICache karoAPICache)
+	{
+		super(Language.getString(titleKey));
+		this.karoAPICache = karoAPICache;
 
 		this.layout = new BorderLayout();
 		this.getContentPane().setLayout(this.layout);
@@ -64,7 +64,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		this.getContentPane().add(this.descriptionLabel, BorderLayout.NORTH);
 
 		this.screenPanel = new JPanel();
-		this.screenPanel.setLayout(new GridLayout(1,1));
+		this.screenPanel.setLayout(new GridLayout(1, 1));
 		addTitle(this.screenPanel, "mainframe.descriptionTitle", 5, 5);
 		this.getContentPane().add(this.screenPanel, BorderLayout.CENTER);
 
@@ -72,7 +72,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		this.navigationPanel.setLayout(new GridLayout(1, 5));
 		addTitle(this.navigationPanel, "mainframe.descriptionTitle", 5, 5);
 		this.getContentPane().add(this.navigationPanel, BorderLayout.SOUTH);
-		
+
 		this.previousButton = new JButton();
 		this.previousButton.addActionListener(this);
 		this.aboutButton = new JButton(Language.getString("mainframe.aboutbutton"));
@@ -95,16 +95,16 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		this.setPreferredSize(size);
 		this.setVisible(true);
 		this.addWindowListener(this);
-		
+
 		// ToolTipManager konfigurieren
-        ToolTipManager.sharedInstance().setInitialDelay(0);
-        ToolTipManager.sharedInstance().setReshowDelay(100);
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		ToolTipManager.sharedInstance().setReshowDelay(100);
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 	}
 
 	private void initializeStartScreen()
 	{
-		this.startScreen = new StartScreen(this.karopapier, this.previousButton, this.nextButton);
+		this.startScreen = new StartScreen(this.karoAPICache, this.previousButton, this.nextButton);
 	}
 
 	private void setStart()
@@ -114,7 +114,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	public void setScreen(Screen screen)
 	{
-		screen.updateBeforeShow(this.gameSeries);		
+		screen.updateBeforeShow(this.gameSeries);
 		this.currentScreen = screen;
 		this.screenPanel.removeAll();
 		this.screenPanel.add(screen);
@@ -129,7 +129,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 	{
 		if(this.currentScreen instanceof SummaryScreen)
 		{
-			int result = JOptionPane.showConfirmDialog(this, Language.getString("navigation.summaryprevious"), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int result = JOptionPane.showConfirmDialog(this, Language.getString("navigation.summaryprevious"), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE);
 			if(result != JOptionPane.OK_OPTION)
 				return;
 		}
@@ -149,7 +150,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		{
 			if(((SummaryScreen) this.currentScreen).gamesToCreate())
 			{
-				int result = JOptionPane.showConfirmDialog(this, Language.getString("navigation.summarynext"), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				int result = JOptionPane.showConfirmDialog(this, Language.getString("navigation.summarynext"), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
 				if(result != JOptionPane.OK_OPTION)
 					return;
 			}
@@ -163,16 +165,17 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 			showError(e);
 			return;
 		}
-		
+
 		if(this.currentScreen.getNext() != null)
 		{
 			setScreen(this.currentScreen.getNext());
 		}
 	}
-	
+
 	private void showError(GameSeriesException e)
 	{
-		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString("error.title"),
+				JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**
@@ -187,9 +190,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 	 */
 	private void addTitle(JComponent component, String titleKey, int outersize, int innersize)
 	{
-		Border b = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(outersize, outersize, outersize, outersize), BorderFactory
-				.createCompoundBorder(BorderFactory.createTitledBorder(Language.getString(titleKey)), BorderFactory.createEmptyBorder(innersize,
-						innersize, innersize, innersize)));
+		Border b = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(outersize, outersize, outersize, outersize),
+				BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(Language.getString(titleKey)), BorderFactory.createEmptyBorder(innersize, innersize, innersize, innersize)));
 		component.setBorder(b);
 	}
 
@@ -246,7 +248,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 			JScrollPane aboutSP = new JScrollPane(aboutLabel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			aboutSP.setPreferredSize(aboutSize);
 			aboutSP.setSize(aboutSize);
-			aboutSP.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+			aboutSP.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 			JOptionPane.showMessageDialog(this, aboutSP, Language.getString("mainframe.aboutbutton"), JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

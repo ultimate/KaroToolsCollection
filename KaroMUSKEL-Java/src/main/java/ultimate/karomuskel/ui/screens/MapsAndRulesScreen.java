@@ -21,12 +21,12 @@ import javax.swing.SpinnerNumberModel;
 
 import muskel2.model.Direction;
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import muskel2.model.Map;
 import muskel2.model.Rules;
 import muskel2.model.help.DirectionModel;
 import muskel2.model.series.BalancedGameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.Label;
@@ -53,9 +53,9 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 
 	private GameSeries			gameSeries;
 
-	public MapsAndRulesScreen(Screen previous, Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public MapsAndRulesScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karopapier, previousButton, nextButton, "screen.mapsAndRules.header", "screen.mapsAndRules.next");
+		super(previous, karoAPICache, previousButton, nextButton, "screen.mapsAndRules.header", "screen.mapsAndRules.next");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
@@ -128,7 +128,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 			for(int i = 0; i < this.numberOfMaps; i++)
 			{				
 				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
-				LinkedList<Map> maps = new LinkedList<Map>(karopapier.getMaps().values());
+				LinkedList<Map> maps = new LinkedList<Map>(karoAPICache.getMaps().values());
 				maps.removeIf(new Predicate<Map>() { @Override
 				public boolean test(Map t)
 				{

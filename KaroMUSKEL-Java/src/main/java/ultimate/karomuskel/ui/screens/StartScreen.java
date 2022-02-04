@@ -17,8 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 import muskel2.model.GameSeries;
-import muskel2.model.Karopapier;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.utils.Language;
 
@@ -32,9 +32,9 @@ public class StartScreen extends Screen implements ActionListener
 	
 	private GameSeries 			gameSeries;
 
-	public StartScreen(Karopapier karopapier, JButton previousButton, JButton nextButton)
+	public StartScreen(KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(null, karopapier, previousButton, nextButton, "screen.start.header", "screen.start.next");
+		super(null, karoAPICache, previousButton, nextButton, "screen.start.header", "screen.start.next");
 
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -148,7 +148,7 @@ public class StartScreen extends Screen implements ActionListener
 					
 					this.gameSeries = (GameSeries) ois.readObject();
 					this.gameSeries.setLoaded(true);
-					Screen last = this.gameSeries.initOnLoad(this, karopapier, previousButton, nextButton);
+					Screen last = this.gameSeries.initOnLoad(this, karoAPICache, previousButton, nextButton);
 					while(last.getNext() != null)
 					{
 						last = last.getNext();
@@ -185,7 +185,7 @@ public class StartScreen extends Screen implements ActionListener
 			try
 			{
 				this.gameSeries = (GameSeries) Class.forName(e.getActionCommand()).newInstance();
-				this.setNext(this.gameSeries.init(this, karopapier, previousButton, nextButton));
+				this.setNext(this.gameSeries.init(this, karoAPICache, previousButton, nextButton));
 				Screen last = this;
 				while(last.getNext() != null)
 				{
