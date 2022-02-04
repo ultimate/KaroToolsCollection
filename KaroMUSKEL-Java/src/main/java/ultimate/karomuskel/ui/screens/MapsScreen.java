@@ -139,8 +139,8 @@ public class MapsScreen extends Screen implements ActionListener
 				this.maps.remove(key);
 			}
 
-			this.allMapsLI.setModel(new GenericListModel<Integer, Map>(this.maps));
-			this.selectedMapsLI.setModel(new GenericListModel<Integer, Map>(new TreeMap<Integer, Map>()));
+			this.allMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, this.maps));
+			this.selectedMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, new TreeMap<Integer, Map>()));
 		}
 	}
 

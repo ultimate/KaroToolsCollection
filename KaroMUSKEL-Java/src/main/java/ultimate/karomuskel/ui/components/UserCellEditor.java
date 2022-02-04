@@ -29,10 +29,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import muskel2.model.Game;
-import muskel2.model.Map;
-import muskel2.model.Player;
-import muskel2.util.SortUtil;
+import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.Language;
@@ -40,23 +40,23 @@ import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 
 // TODO Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die
 // auch für die Serie ausgewählt wurden
-public class PlayerCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener, TableCellRenderer
+public class UserCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener, TableCellRenderer
 {
 	private static final long	serialVersionUID	= 1L;
 
 	private JButton				button;
 	private JLabel				label;
 
-	private PlayerChooser		chooser;
+	private UserChooser			chooser;
 
-	private List<Player>		players;
-	private List<Player>		allPlayers;
+	private List<User>			users;
+	private List<User>			allUsers;
 
-	private KaroAPICache			karoAPICache;
+	private KaroAPICache		karoAPICache;
 	private SummaryModel		model;
-	private Game				game;
+	private PlannedGame			game;
 
-	public PlayerCellEditor(SummaryModel model, KaroAPICache karoAPICache)
+	public UserCellEditor(SummaryModel model, KaroAPICache karoAPICache)
 	{
 		this.karoAPICache = karoAPICache;
 		this.model = model;
@@ -72,35 +72,35 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 		this.label.setHorizontalAlignment(JLabel.LEFT);
 		this.label.setVerticalAlignment(JLabel.CENTER);
 
-		this.allPlayers = new LinkedList<Player>(karoAPICache.getPlayers().values());
+		this.allUsers = new LinkedList<User>(karoAPICache.getUsers());
 
-		this.chooser = new PlayerChooser(Launcher.getGui());
+		this.chooser = new UserChooser(Launcher.getGui());
 	}
 
 	@Override
-	public List<Player> getCellEditorValue()
+	public List<User> getCellEditorValue()
 	{
-		return this.players;
+		return this.users;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 	{
-		this.players = (List<Player>) value;
+		this.users = (List<User>) value;
 		this.game = model.getRow(row);
-		this.button.setText(playerListToString((List<Player>) value));
+		this.button.setText(userListToString((List<User>) value));
 		return this.button;
 	}
 
-	private String playerListToString(List<Player> players)
+	private String userListToString(List<User> users)
 	{
 		StringBuilder sb = new StringBuilder();
-		for(Player player : players)
+		for(User user : users)
 		{
 			if(!sb.toString().isEmpty())
 				sb.append(", ");
-			sb.append(player.getName());
+			sb.append(user.getLogin());
 		}
 		return sb.toString();
 	}
@@ -110,55 +110,55 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 	{
 		if(e.getActionCommand().equalsIgnoreCase("edit"))
 		{
-			this.chooser.setPlayers(this.game, this.players);
+			this.chooser.setUsers(this.game, this.users);
 			this.chooser.setVisible(true);
 			fireEditingStopped();
 		}
 		else if(e.getActionCommand().equalsIgnoreCase("add"))
 		{
-			Object[] tmpPlayers = this.chooser.notSelectedPlayersLI.getSelectedValues();
-			this.chooser.notSelectedPlayersLI.clearSelection();
+			Object[] tmpUsers = this.chooser.notSelectedUsersLI.getSelectedValues();
+			this.chooser.notSelectedUsersLI.clearSelection();
 			Map map = this.chooser.game.getMap();
-			for(Object o : tmpPlayers)
+			for(Object o : tmpUsers)
 			{
-				if(this.chooser.players.size() >= map.getMaxPlayers())
+				if(this.chooser.users.size() >= map.getPlayers())
 				{
-					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.playeredit.maplimit").replace("%N",
-							"" + map.getMaxPlayers()), Language.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getMaxUsers()),
+							Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					break;
 				}
-				this.chooser.notSelectedPlayers.remove((Player) o);
-				this.chooser.players.add((Player) o);
-				SortUtil.sortListAscending(this.chooser.players, "getNameLowerCase");
+				this.chooser.notSelectedUsers.remove((User) o);
+				this.chooser.users.add((User) o);
+				SortUtil.sortListAscending(this.chooser.users, "getNameLowerCase");
 			}
 			this.chooser.fireContentChanged();
 		}
 		else if(e.getActionCommand().equalsIgnoreCase("remove"))
 		{
-			Object[] tmpPlayers = this.chooser.playersLI.getSelectedValues();
-			this.chooser.playersLI.clearSelection();
-			for(Object o : tmpPlayers)
+			Object[] tmpUsers = this.chooser.usersLI.getSelectedValues();
+			this.chooser.usersLI.clearSelection();
+			for(Object o : tmpUsers)
 			{
-				if(o.equals(karoAPICache.getCurrentPlayer()))
+				if(o.equals(karoAPICache.getCurrentUser()))
 				{
-					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.playeredit.creatorremove"), Language
-							.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.useredit.creatorremove"), Language.getString("screen.summary.useredit.errortitle"),
+							JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
-				this.chooser.players.remove((Player) o);
-				this.chooser.notSelectedPlayers.add((Player) o);
-				SortUtil.sortListAscending(this.chooser.notSelectedPlayers, "getNameLowerCase");
+				this.chooser.users.remove((User) o);
+				this.chooser.notSelectedUsers.add((User) o);
+				SortUtil.sortListAscending(this.chooser.notSelectedUsers, "getNameLowerCase");
 			}
 			this.chooser.fireContentChanged();
 		}
 		else if(e.getActionCommand().equalsIgnoreCase("ok"))
 		{
-			this.players = new LinkedList<Player>(this.chooser.getPlayers());
+			this.users = new LinkedList<User>(this.chooser.getUsers());
 			this.chooser.setVisible(false);
 		}
 		else if(e.getActionCommand().equalsIgnoreCase("cancel"))
 		{
-			this.players = new LinkedList<Player>(this.chooser.getPlayersBackup());
+			this.users = new LinkedList<User>(this.chooser.getUsersBackup());
 			this.chooser.setVisible(false);
 		}
 	}
@@ -177,37 +177,37 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 			this.label.setBackground(table.getBackground());
 			this.label.setForeground(table.getForeground());
 		}
-		this.label.setText(playerListToString((List<Player>) value));
+		this.label.setText(userListToString((List<User>) value));
 		return this.label;
 	}
 
-	private class PlayerChooser extends JDialog implements WindowListener
+	private class UserChooser extends JDialog implements WindowListener
 	{
-		private static final long				serialVersionUID		= 1L;
+		private static final long			serialVersionUID		= 1L;
 
-		private static final int				listFixedCellWidth		= 250;
+		private static final int			listFixedCellWidth		= 250;
 
-		private static final int				width					= 700;
-		private static final int				height					= 400;
+		private static final int			width					= 700;
+		private static final int			height					= 400;
 
-		private JList							notSelectedPlayersLI;
-		private JList							playersLI;
+		private JList						notSelectedUsersLI;
+		private JList						usersLI;
 
-		private JButton							okButton;
-		private JButton							cancelButton;
-		private JButton							addButton;
-		private JButton							removeButton;
+		private JButton						okButton;
+		private JButton						cancelButton;
+		private JButton						addButton;
+		private JButton						removeButton;
 
-		private Game							game;
+		private Game						game;
 
-		private final List<Player>				players					= new LinkedList<Player>();
-		private final List<Player>				notSelectedPlayers		= new LinkedList<Player>();
-		private final List<Player>				playersBackup			= new LinkedList<Player>();
+		private final List<User>			users					= new LinkedList<User>();
+		private final List<User>			notSelectedUsers		= new LinkedList<User>();
+		private final List<User>			usersBackup			= new LinkedList<User>();
 
-		private final PlayersModel				playersModel			= new PlayersModel();
-		private final NotSelectedPlayersModel	notSelectedPlayersModel	= new NotSelectedPlayersModel();
+		private final UsersModel			usersModel			= new UsersModel();
+		private final NotSelectedUsersModel	notSelectedUsersModel	= new NotSelectedUsersModel();
 
-		public PlayerChooser(JFrame frame)
+		public UserChooser(JFrame frame)
 		{
 			super(frame);
 
@@ -229,14 +229,14 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 
 			okButton = new JButton(Language.getString("option.ok"));
 			okButton.setActionCommand("ok");
-			okButton.addActionListener(PlayerCellEditor.this);
+			okButton.addActionListener(UserCellEditor.this);
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			buttonPanel.add(okButton, gbc);
 
 			cancelButton = new JButton(Language.getString("option.cancel"));
 			cancelButton.setActionCommand("cancel");
-			cancelButton.addActionListener(PlayerCellEditor.this);
+			cancelButton.addActionListener(UserCellEditor.this);
 			gbc.gridx = 1;
 			gbc.gridy = 0;
 			buttonPanel.add(cancelButton, gbc);
@@ -247,18 +247,17 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 			this.add(contentPanel, BorderLayout.CENTER);
 			contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
 
-			JPanel allPlayersPanel = new JPanel();
-			allPlayersPanel.setLayout(new BorderLayout(5, 5));
-			contentPanel.add(allPlayersPanel);
+			JPanel allUsersPanel = new JPanel();
+			allUsersPanel.setLayout(new BorderLayout(5, 5));
+			contentPanel.add(allUsersPanel);
 
-			this.notSelectedPlayersLI = new JList(this.notSelectedPlayersModel);
-			this.notSelectedPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			this.notSelectedPlayersLI.setFixedCellWidth(listFixedCellWidth);
-			JScrollPane notSelectedPlayersSP = new JScrollPane(this.notSelectedPlayersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			this.notSelectedUsersLI = new JList(this.notSelectedUsersModel);
+			this.notSelectedUsersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			this.notSelectedUsersLI.setFixedCellWidth(listFixedCellWidth);
+			JScrollPane notSelectedUsersSP = new JScrollPane(this.notSelectedUsersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-			allPlayersPanel.add(new JLabel(Language.getString("screen.players.allplayers")), BorderLayout.NORTH);
-			allPlayersPanel.add(notSelectedPlayersSP, BorderLayout.CENTER);
+			allUsersPanel.add(new JLabel(Language.getString("screen.users.allusers")), BorderLayout.NORTH);
+			allUsersPanel.add(notSelectedUsersSP, BorderLayout.CENTER);
 
 			buttonPanel = new JPanel();
 			buttonPanel.setLayout(new GridBagLayout());
@@ -268,105 +267,105 @@ public class PlayerCellEditor extends AbstractCellEditor implements TableCellEdi
 
 			addButton = new JButton(Language.getString("option.add"));
 			addButton.setActionCommand("add");
-			addButton.addActionListener(PlayerCellEditor.this);
+			addButton.addActionListener(UserCellEditor.this);
 			gbc.gridx = 0;
 			gbc.gridy = 0;
 			buttonPanel.add(addButton, gbc);
 
 			removeButton = new JButton(Language.getString("option.remove"));
 			removeButton.setActionCommand("remove");
-			removeButton.addActionListener(PlayerCellEditor.this);
+			removeButton.addActionListener(UserCellEditor.this);
 			gbc.gridx = 0;
 			gbc.gridy = 1;
 			buttonPanel.add(removeButton, gbc);
 
-			JPanel gamePlayersPanel = new JPanel();
-			gamePlayersPanel.setLayout(new BorderLayout(5, 5));
-			contentPanel.add(gamePlayersPanel);
+			JPanel gameUsersPanel = new JPanel();
+			gameUsersPanel.setLayout(new BorderLayout(5, 5));
+			contentPanel.add(gameUsersPanel);
 
-			this.playersLI = new JList(this.playersModel);
-			this.playersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-			this.playersLI.setFixedCellWidth(listFixedCellWidth);
-			JScrollPane playersSP = new JScrollPane(this.playersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			this.usersLI = new JList(this.usersModel);
+			this.usersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+			this.usersLI.setFixedCellWidth(listFixedCellWidth);
+			JScrollPane usersSP = new JScrollPane(this.usersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-			gamePlayersPanel.add(new JLabel(Language.getString("screen.players.selectedplayers")), BorderLayout.NORTH);
-			gamePlayersPanel.add(playersSP, BorderLayout.CENTER);
+			gameUsersPanel.add(new JLabel(Language.getString("screen.users.selectedusers")), BorderLayout.NORTH);
+			gameUsersPanel.add(usersSP, BorderLayout.CENTER);
 		}
 
 		public void fireContentChanged()
 		{
-			this.playersModel.fireContentChanged();
-			this.notSelectedPlayersModel.fireContentChanged();
+			this.usersModel.fireContentChanged();
+			this.notSelectedUsersModel.fireContentChanged();
 		}
 
-		public void setPlayers(Game game, List<Player> players)
+		public void setUsers(Game game, List<User> users)
 		{
 			this.game = game;
 
-			this.players.clear();
-			this.players.addAll(players);
+			this.users.clear();
+			this.users.addAll(users);
 
-			this.playersBackup.clear();
-			this.playersBackup.addAll(players);
+			this.usersBackup.clear();
+			this.usersBackup.addAll(users);
 
-			this.notSelectedPlayers.clear();
-			this.notSelectedPlayers.addAll(allPlayers);
-			this.notSelectedPlayers.removeAll(this.players);
+			this.notSelectedUsers.clear();
+			this.notSelectedUsers.addAll(allUsers);
+			this.notSelectedUsers.removeAll(this.users);
 
 			this.fireContentChanged();
 		}
 
-		public List<Player> getPlayers()
+		public List<User> getUsers()
 		{
-			return players;
+			return users;
 		}
 
-		public List<Player> getPlayersBackup()
+		public List<User> getUsersBackup()
 		{
-			return playersBackup;
+			return usersBackup;
 		}
 
-		private class PlayersModel extends AbstractListModel
+		private class UsersModel extends AbstractListModel
 		{
-			private static final long	serialVersionUID	= 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public int getSize()
 			{
-				return players.size();
+				return users.size();
 			}
 
 			@Override
 			public Object getElementAt(int index)
 			{
-				return players.get(index);
+				return users.get(index);
 			}
 
 			public void fireContentChanged()
 			{
-				fireContentsChanged(this, 0, players.size() - 1);
+				fireContentsChanged(this, 0, users.size() - 1);
 			}
 		}
 
-		private class NotSelectedPlayersModel extends AbstractListModel
+		private class NotSelectedUsersModel extends AbstractListModel
 		{
-			private static final long	serialVersionUID	= 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public int getSize()
 			{
-				return notSelectedPlayers.size();
+				return notSelectedUsers.size();
 			}
 
 			@Override
 			public Object getElementAt(int index)
 			{
-				return notSelectedPlayers.get(index);
+				return notSelectedUsers.get(index);
 			}
 
 			public void fireContentChanged()
 			{
-				fireContentsChanged(this, 0, notSelectedPlayers.size() - 1);
+				fireContentsChanged(this, 0, notSelectedUsers.size() - 1);
 			}
 		}
 

@@ -14,7 +14,7 @@ import javax.swing.ListCellRenderer;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.ui.Language;
 
-public class MapRenderer extends JLabel implements ListCellRenderer
+public class MapRenderer extends JLabel implements ListCellRenderer<Map>
 {
 	private static final long						serialVersionUID	= 1L;
 
@@ -31,7 +31,7 @@ public class MapRenderer extends JLabel implements ListCellRenderer
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+	public Component getListCellRendererComponent(JList<? extends Map> list, Map value, int index, boolean isSelected, boolean cellHasFocus)
 	{
 		if(isSelected)
 		{
@@ -45,10 +45,10 @@ public class MapRenderer extends JLabel implements ListCellRenderer
 		}
 
 		// Set the icon and text. If icon was null, say so.
-		String name = ((Map) value).toString();
-		if(!images.containsKey((Map) value) && (((Map) value).getImage() != null))
+		String name = value.toString();
+		if(!images.containsKey(value) && (value.getImage() != null))
 		{
-			Image image = ((Map) value).getImage();
+			Image image = value.getImage();
 			BufferedImage bi = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_4BYTE_ABGR);
 			Graphics2D g2d = bi.createGraphics();
 
@@ -68,9 +68,9 @@ public class MapRenderer extends JLabel implements ListCellRenderer
 					g2d.drawImage(image, 0, (int) (imageHeight - dW * hOrg) / 2, (int) (dW * wOrg), (int) (dW * hOrg), null);
 				}
 			}
-			images.put((Map) value, new ImageIcon(bi));
+			images.put(value, new ImageIcon(bi));
 		}
-		ImageIcon icon = images.get((Map) value);
+		ImageIcon icon = images.get(value);
 		if(icon == null)
 			name = "[" + Language.getString("image.notavailable") + "] " + name;
 		setIcon(icon);
