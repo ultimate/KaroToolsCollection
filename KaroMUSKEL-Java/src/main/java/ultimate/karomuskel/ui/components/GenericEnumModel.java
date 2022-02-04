@@ -5,7 +5,7 @@ import javax.swing.DefaultComboBoxModel;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 
-public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel
+public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel<Label<E>>
 {
 	private static final long	serialVersionUID	= 1L;
 

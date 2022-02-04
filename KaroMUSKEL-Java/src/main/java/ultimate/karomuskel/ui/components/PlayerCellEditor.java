@@ -1,4 +1,4 @@
-package ultimate.karomuskel.ui.help;
+package ultimate.karomuskel.ui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
