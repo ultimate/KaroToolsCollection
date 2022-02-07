@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -12,25 +13,39 @@ import ultimate.karoapi4j.model.official.User;
 // TODO
 public abstract class GameSeries
 {
-	protected String			title;
-	protected User				creator;
-	protected Rules				rules;
-	protected Object			settings;
-	protected List<PlannedGame>	plannedGames;
-	protected List<Game>		createdGames;
-	protected List<User>		players;
-	protected List<Map>			maps;
+	protected EnumGameSeriesType			type;
+	protected boolean						teamBased;
+	protected String						title;
+	protected User							creator;
+	protected Rules							rules;
+	protected java.util.Map<String, Object>	settings;
+	protected List<PlannedGame>				plannedGames;
+	protected List<Game>					createdGames;
+	protected List<User>					players;
+	protected List<Map>						maps;
 
-	protected transient boolean	loaded;
+	protected transient boolean				loaded;
 
-	protected static Random		random				= new Random();
+	protected static Random					random	= new Random();
 
-	public GameSeries()
+	public GameSeries(EnumGameSeriesType type, boolean teamBased)
 	{
+		this.type = type;
+		this.teamBased = teamBased;
 		this.plannedGames = new LinkedList<PlannedGame>();
 		this.createdGames = new LinkedList<Game>();
 		this.players = new LinkedList<User>();
 		this.maps = new LinkedList<Map>();
+	}
+
+	public EnumGameSeriesType getType()
+	{
+		return type;
+	}
+
+	public boolean isTeamBased()
+	{
+		return teamBased;
 	}
 
 	public String getTitle()
@@ -63,12 +78,12 @@ public abstract class GameSeries
 		this.rules = rules;
 	}
 
-	public Object getSettings()
+	public java.util.Map<String, Object> getSettings()
 	{
 		return settings;
 	}
 
-	public void setSettings(Object settings)
+	public void setSettings(java.util.Map<String, Object> settings)
 	{
 		this.settings = settings;
 	}
