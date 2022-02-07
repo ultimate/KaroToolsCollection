@@ -4,11 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,8 +13,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
-import muskel2.model.GameSeries;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
@@ -141,35 +139,20 @@ public class StartScreen extends Screen implements ActionListener
 				if(action == JFileChooser.APPROVE_OPTION)
 				{
 					File file = fc.getSelectedFile();
-					
-					FileInputStream fis = new FileInputStream(file);
-					BufferedInputStream bis = new BufferedInputStream(fis);
-					ObjectInputStream ois = new ObjectInputStream(bis);
-					
-					this.gameSeries = (GameSeries) ois.readObject();
-					this.gameSeries.setLoaded(true);
-					Screen last = this.gameSeries.initOnLoad(this, karoAPICache, previousButton, nextButton);
+					this.gameSeries = GameSeriesManager.load(file);
+					Screen last = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton, true);
 					while(last.getNext() != null)
 					{
 						last = last.getNext();
 					}
 					last.setNext(this);
-					
-					ois.close();
-					bis.close();
-					fis.close();
 				}
 				else if(action == JFileChooser.ERROR_OPTION)
 				{
 					throw new IOException("unknown");
 				}
 			}
-			catch(ClassNotFoundException ex)
-			{
-				JOptionPane.showMessageDialog(this, Language.getString("error.loadcast"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
-				ex.printStackTrace();
-			}
-			catch(ClassCastException ex)
+			catch(ClassNotFoundException | ClassCastException ex)
 			{
 				JOptionPane.showMessageDialog(this, Language.getString("error.loadcast"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
@@ -184,8 +167,8 @@ public class StartScreen extends Screen implements ActionListener
 		{
 			try
 			{
-				this.gameSeries = (GameSeries) Class.forName(e.getActionCommand()).newInstance();
-				this.setNext(this.gameSeries.init(this, karoAPICache, previousButton, nextButton));
+				this.gameSeries = GameSeriesManager.create(e.getActionCommand());
+				this.setNext(GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton, false));
 				Screen last = this;
 				while(last.getNext() != null)
 				{
