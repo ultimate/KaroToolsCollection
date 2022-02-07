@@ -8,52 +8,51 @@ package ultimate.karoapi4j.model.extended;
 public class Match
 {
 	/**
-	 * Team 1
+	 * the teams
 	 */
-	private Team				team1;
-	/**
-	 * Team 2
-	 */
-	private Team				team2;
+	private Team[] teams;
 
 	/**
-	 * Create a new match betwenn 2 {@link Team}s
+	 * Create a new match betwenn n {@link Team}s
 	 * 
-	 * @param team1 - Team 1
-	 * @param team2 - Team 2
+	 * @param teams
 	 */
-	public Match(Team team1, Team team2)
+	public Match(Team... teams)
 	{
 		super();
-		this.team1 = team1;
-		this.team2 = team2;
+		this.teams = teams;
 	}
 
 	/**
-	 * Get Team 1
-	 * @return Team 1
+	 * Get all teams
+	 * 
+	 * @return teams
 	 */
-	public Team getTeam1()
+	public Team[] getTeams()
 	{
-		return team1;
+		return teams;
 	}
 
 	/**
-	 * Get Team 2
-	 * @return Team 2
+	 * Get a teams
+	 * 
+	 * @param index
+	 * @return team
 	 */
-	public Team getTeam2()
+	public Team getTeam(int index)
 	{
-		return team2;
+		return teams[index];
 	}
 
 	/**
-	 * Helper method that swaps both teams.
+	 * Helper method that rotates the teams.<br>
+	 * (Each team is moved one index forward and the first team is put to the end.)
 	 */
-	public void swapTeams()
+	public void rotateTeams()
 	{
-		Team tmp = team1;
-		team1 = team2;
-		team2 = tmp;
+		Team tmp = teams[0];
+		for(int i = 1; i < teams.length; i++)
+			teams[i - 1] = teams[i];
+		teams[teams.length - 1] = tmp;
 	}
 }
