@@ -6,7 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -18,21 +17,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-import muskel2.model.GameSeries;
-import muskel2.model.Map;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
-import ultimate.karomuskel.ui.help.MapRenderer;
+import ultimate.karomuskel.ui.components.MapRenderer;
 
 public class MapsScreen extends Screen implements ActionListener
 {
 	private static final long		serialVersionUID	= 1L;
 
-	private JList					allMapsLI;
-	private JList					selectedMapsLI;
+	private JList<Map>				allMapsLI;
+	private JList<Map>				selectedMapsLI;
 	private JButton					addButton;
 	private JButton					removeButton;
 
@@ -85,7 +84,7 @@ public class MapsScreen extends Screen implements ActionListener
 			selectedMapsPanel.setLayout(new BorderLayout(5, 5));
 			this.add(selectedMapsPanel);
 
-			this.allMapsLI = new JList();
+			this.allMapsLI = new JList<>();
 			this.allMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.allMapsLI.setFixedCellWidth(1500);
 			this.allMapsLI.setCellRenderer(new MapRenderer());
@@ -112,32 +111,17 @@ public class MapsScreen extends Screen implements ActionListener
 			gbc.gridy = 1;
 			buttonPanel.add(removeButton, gbc);
 
-			this.selectedMapsLI = new JList();
+			this.selectedMapsLI = new JList<>();
 			this.selectedMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.selectedMapsLI.setFixedCellWidth(1500);
 			this.selectedMapsLI.setCellRenderer(new MapRenderer());
-			JScrollPane selectedMapsSP = new JScrollPane(this.selectedMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			JScrollPane selectedMapsSP = new JScrollPane(this.selectedMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
-			this.maps = new TreeMap<Integer, Map>(karoAPICache.getMaps());
-
-			List<Integer> removeList = new LinkedList<Integer>();
-			Map map;
-			for(Integer key : this.maps.keySet())
-			{
-				map = this.maps.get(key);
-				if(map.getMaxPlayers() < this.minSupportedPlayersPerMap)
-				{
-					removeList.add(key);
-				}
-			}
-			for(Integer key : removeList)
-			{
-				this.maps.remove(key);
-			}
+			this.maps = new TreeMap<Integer, Map>(karoAPICache.getMapsById());
+			this.maps.values().removeIf(map -> { return map.getPlayers() < this.minSupportedPlayersPerMap; });
 
 			this.allMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, this.maps));
 			this.selectedMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, new TreeMap<Integer, Map>()));
@@ -152,7 +136,7 @@ public class MapsScreen extends Screen implements ActionListener
 		{
 			boolean add = e.getActionCommand().startsWith("add");
 
-			JList addLI, remLI;
+			JList<Map> addLI, remLI;
 			if(add)
 			{
 				addLI = selectedMapsLI;
@@ -163,15 +147,13 @@ public class MapsScreen extends Screen implements ActionListener
 				addLI = allMapsLI;
 				remLI = selectedMapsLI;
 			}
-			Object[] maps = remLI.getSelectedValues();
-			Map map;
+			List<Map> maps = remLI.getSelectedValuesList();
 			Integer key;
-			for(Object o : maps)
+			for(Map m : maps)
 			{
-				map = (Map) o;
-				key = map.getId();
+				key = m.getId();
 				((GenericListModel<Integer, Map>) remLI.getModel()).removeElement(key);
-				((GenericListModel<Integer, Map>) addLI.getModel()).addElement(key, map);
+				((GenericListModel<Integer, Map>) addLI.getModel()).addElement(key, m);
 			}
 			repaint();
 		}
