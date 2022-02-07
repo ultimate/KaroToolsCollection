@@ -26,11 +26,18 @@
 		<dependency>
 		    <groupId>org.json</groupId>
 		    <artifactId>json</artifactId>
-		    <version>${org.json.version}</version>
+		    <version>${json.version}</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.junit.jupiter</groupId>
+    		<artifactId>junit-jupiter</artifactId>
+    		<version>${junit.version}</version>
+    		<scope>test</scope>
 		</dependency>
 	</dependencies>
 
 	<properties>
-		<org.json.version>20211205</org.json.version>
+		<json.version>20211205</json.version>
+		<junit.version>5.8.2</junit.version>
 	</properties>
 </project>
