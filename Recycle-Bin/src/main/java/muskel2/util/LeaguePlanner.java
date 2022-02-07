@@ -6,13 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import muskel2.model.Player;
-import muskel2.model.help.Match;
-import muskel2.model.help.Team;
+import ultimate.karoapi4j.model.extended.Match;
+import ultimate.karoapi4j.model.extended.Team;
 
 public abstract class LeaguePlanner
 {
-	public static List<List<Match>> createMatches(List<Team> teams)
+	public static List<List<Match>> league(List<Team> teams)
 	{
 		if(teams.size() % 2 == 1)
 			throw new IllegalArgumentException("equal number of teams required");

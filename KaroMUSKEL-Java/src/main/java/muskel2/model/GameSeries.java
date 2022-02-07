@@ -139,7 +139,7 @@ public abstract class GameSeries implements Serializable
 		return firstScreen;
 	}
 
-	protected abstract void initSubType();
+//	protected abstract void initSubType();
 
 	public final Screen initOnLoad(Screen startScreen, Karopapier karopapier, JButton previousButton, JButton nextButton)
 	{
@@ -172,7 +172,7 @@ public abstract class GameSeries implements Serializable
 		System.out.println("Spiele geplant: " + this.games.size());
 	}
 
-	protected abstract void planGames0();
+//	protected abstract void planGames0();
 
 	public abstract int getMinSupportedPlayersPerMap();
 

@@ -36,6 +36,8 @@ public class KaroAPICache
 	private java.util.Map<String, User>		usersByLogin;
 	private java.util.Map<Integer, Map>		mapsById;
 
+	private Planner							planner; // TODO
+
 	public KaroAPICache(KaroAPI karoAPI)
 	{
 		if(karoAPI == null)
@@ -165,7 +167,7 @@ public class KaroAPICache
 					m = createDummyMap(i);
 					mapsById.put(m.getId(), m);
 				}
-				
+
 				currentUser = usersById.get(1);
 			}).thenAccept(v -> { logger.info("refresh complete"); });
 		}
@@ -204,12 +206,12 @@ public class KaroAPICache
 	{
 		return Collections.unmodifiableCollection(this.usersById.values());
 	}
-	
+
 	public java.util.Map<Integer, User> getUsersById()
 	{
 		return Collections.unmodifiableMap(this.usersById);
 	}
-	
+
 	public java.util.Map<String, User> getUsersByLogin()
 	{
 		return Collections.unmodifiableMap(this.usersByLogin);
@@ -233,7 +235,7 @@ public class KaroAPICache
 	{
 		return Collections.unmodifiableCollection(this.mapsById.values());
 	}
-	
+
 	public java.util.Map<Integer, Map> getMapsById()
 	{
 		return Collections.unmodifiableMap(this.mapsById);
@@ -251,6 +253,11 @@ public class KaroAPICache
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
 		return image;
+	}
+
+	public Planner getPlanner()
+	{
+		return planner;
 	}
 
 	/**
