@@ -1,5 +1,6 @@
 package ultimate.karomuskel;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -22,7 +23,7 @@ public class Planner
 {
 	private static Random	random	= new Random();
 
-	private KaroAPICache			karoAPICache;
+	private KaroAPICache	karoAPICache;
 
 	public Planner(KaroAPICache karoAPICache)
 	{
@@ -35,7 +36,7 @@ public class Planner
 		List<Team> tmp = new LinkedList<>(teams);
 		Collections.shuffle(tmp, random);
 
-		List<Match> matches = createMatchesSpecial(tmp, numberOfTeamsPerMatch);
+		List<Match> matches = leagueSpecial(tmp, numberOfTeamsPerMatch);
 		List<PlannedGame> games = new LinkedList<>();
 
 		PlannedGame game;
@@ -72,272 +73,13 @@ public class Planner
 				count++;
 			}
 		}
-		
+
 		return games;
-	}
-
-	public static List<Match> createMatchesSpecial(List<Team> teams, int numberOfTeamsPerMatch)
-	{
-		List<Match> matches = new ArrayList<Match>();
-
-		int[] selectors = new int[numberOfTeamsPerMatch];
-		for(int i = 0; i < numberOfTeamsPerMatch; i++)
-			selectors[i] = i;
-
-		Team[] matchTeams;
-		do
-		{
-			matchTeams = new Team[numberOfTeamsPerMatch];
-			for(int i = 0; i < numberOfTeamsPerMatch; i++)
-				matchTeams[i] = teams.get(selectors[i]);
-			matches.add(new Match(matchTeams));
-		} while(incrementSelectors(selectors, teams.size()));
-
-		return matches;
-	}
-
-	private static boolean incrementSelectors(int[] s, int max)
-	{
-		int pointer = s.length - 1;
-
-		boolean success = false;
-		while(pointer >= 0)
-		{
-			if(s[pointer] < max - (s.length - pointer))
-			{
-				s[pointer]++;
-				for(int p = pointer + 1; p < s.length; p++)
-				{
-					s[p] = s[p - 1] + 1;
-					if(s[p] > max - (s.length - p))
-						return false;
-				}
-				success = true;
-				break;
-			}
-			else
-			{
-				pointer--;
-			}
-		}
-		return success;
-	}
-
-	protected static void resetPlannedGames(List<User> users)
-	{
-		for(User user : users)
-			user.setPlannedGames(0);
-	}
-
-	protected static void increasePlannedGames(List<User> users)
-	{
-		for(User user : users)
-			user.setPlannedGames(user.getPlannedGames() + 1);
-	}
-	
-
-	public String applyPlaceholders(String title, Map map, List<User> players, Options options, int count, int day, int dayCount, Team[] teams, int round, int group)
-	{
-		String name = title;
-		StringBuilder tmp;
-
-		// zaehlung
-		name = name.replace("${i}", "" + (count + 1));
-		name = name.replace("${ii}", toString(count + 1, 2));
-		name = name.replace("${iii}", toString(count + 1, 3));
-		name = name.replace("${iiii}", toString(count + 1, 4));
-		if(day >= 0)
-		{
-			name = name.replace("${spieltag}", "" + (day + 1));
-			name = name.replace("${spieltag.i}", "" + (dayCount + 1));
-		}
-		else
-		{
-			name = name.replace("${spieltag}", "");
-			name = name.replace("${spieltag.i}", "");
-		}
-			
-		
-		// karte
-		name = name.replace("${karte.id}", "" + map.getId());
-		name = name.replace("${karte.name}", map.getName());
-		
-		// spieler
-		name = name.replace("${spieler.ersteller}", karoAPICache.getCurrentUser().getLogin());
-		name = name.replace("${spieler.anzahl}", "" + players.size());
-		name = name.replace("${spieler.anzahl.x}", "" + (players.size()-1));
-		if(name.contains("${spieler.namen}"))
-		{
-			tmp = new StringBuilder();
-			for(int p = 0; p < players.size(); p++)
-			{
-				if((p != 0) && (p != players.size() - 1))
-					tmp.append(", ");
-				else if((p != 0) && (p == players.size() - 1))
-					tmp.append(" " + Language.getString("titlepatterns.and") + " ");
-				tmp.append(players.get(p).getLogin());
-			}
-			name = name.replace("${spieler.namen}", tmp.toString());
-		}
-		if(name.contains("${spieler.namen.x}"))
-		{
-			tmp = new StringBuilder();
-			List<User> tmpList = new LinkedList<User>(players);
-			tmpList.remove(karoAPICache.getCurrentUser());
-			for(int p = 0; p < tmpList.size(); p++)
-			{
-				if((p != 0) && (p != tmpList.size() - 1))
-					tmp.append(", ");
-				else if((p != 0) && (p == tmpList.size() - 1))
-					tmp.append(" " + Language.getString("titlepatterns.and") + " ");
-				tmp.append(tmpList.get(p).getLogin());
-			}
-			name = name.replace("${spieler.namen.x}", tmp.toString());
-		}
-		
-		// teams
-		if(teams != null)
-		{
-			tmp = new StringBuilder();
-			
-			for(int i = 0; i < teams.length; i++)
-			{
-				if(i > 0)
-					tmp.append(" vs. ");
-				tmp.append(teams[i].getName());
-			}
-			
-			name = name.replace("${teams}", tmp.toString());
-		}
-		
-		// runde
-		if(round > 0)
-		{
-			if(name.contains("${runde}"))
-			{
-				if(round == 2)
-					name = name.replace("${runde}", Language.getString("titlepatterns.final"));
-				else if(round == 4)
-					name = name.replace("${runde}", Language.getString("titlepatterns.semifinal"));
-				else if(round == 8)
-					name = name.replace("${runde}", Language.getString("titlepatterns.quarterfinal"));
-				else if(group <= 0)
-					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round/2)).replace("${i}", "" + (round)));
-				else 
-					name = name.replace("${runde}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
-			}
-			if(name.contains("${runde.x}"))
-			{
-				if(round == 2)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.final") + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else if(round == 4)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.semifinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else if(round == 8)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.quarterfinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else if(group <= 0)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round/2)).replace("${i}", "" + (round)) + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else 
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)) + ", " + Language.getString("titlepatterns.day") + " " + (day+1) );
-			}
-		}
-		
-		// regeln
-		if(name.contains("${regeln}"))
-		{
-			tmp = new StringBuilder();
-			tmp.append(Language.getString("titlepatterns.zzz"));
-			tmp.append(options.getZzz());
-			tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-			tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
-			tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.direction"));
-			tmp.append(options.getStartdirection());
-			name = name.replace("${regeln}", tmp);
-		}
-		if(name.contains("${regeln.x}"))
-		{
-			tmp = new StringBuilder();
-			if(options.getZzz() != 2)
-			{
-				tmp.append(Language.getString("titlepatterns.zzz"));
-				tmp.append(options.getZzz());
-			}
-			if(options.getCrashallowed() != EnumGameTC.forbidden)
-			{
-				if(!tmp.toString().isEmpty())
-					tmp.append(", ");
-				tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-			}
-			if(!options.isCps())
-			{
-				if(!tmp.toString().isEmpty())
-					tmp.append(", ");
-				tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
-			}
-			if(options.getStartdirection() != EnumGameDirection.classic)
-			{
-				if(!tmp.toString().isEmpty())
-					tmp.append(", ");
-				tmp.append(Language.getString("titlepatterns.direction"));
-				tmp.append(options.getStartdirection());
-			}
-			name = name.replace("${regeln.x}", tmp);
-		}
-		name = name.replace("${regeln.zzz}", Language.getString("titlepatterns.zzz") + options.getZzz());
-		name = name.replace("${regeln.tc}",  Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-		name = name.replace("${regeln.cps}", Language.getString("titlepatterns.cps." + options.isCps()));
-		name = name.replace("${regeln.richtung}", Language.getString("titlepatterns.direction") + options.getStartdirection());
-
-		name = name.replace("  ", "");
-		name = name.trim();
-		if(name.endsWith(","))
-			name = name.substring(0, name.length() -1);
-		
-		return name;
-	}
-	
-	/**
-	 * Shortcut for {@link PlaceholderFactory#applyPlaceholders(karoAPICache, String, Map, List, Rules, int, int, int, Team, Team, int)}
-	 * Note: some Placeholders might not work here!
-	 * @param karoAPICache
-	 * @param title
-	 * @param game
-	 * @param count
-	 * @return
-	 */
-	public String applyPlaceholders(String title, PlannedGame game, int count)
-	{
-		Map map = this.karoAPICache.getMap(game.getMap());
-		List<User> players = new ArrayList<>(game.getPlayers().length);
-		for(int pid: game.getPlayers())
-			players.add(this.karoAPICache.getUser(pid));
-		return applyPlaceholders(title, map, players, game.getOptions(), count, 0, 0, null, 0, 0);
-	}
-	
-	// helpers
-	
-	private static String toString(int x, int digits)
-	{
-		String s = "" + x;
-		while(s.length() < digits)
-			s = "0" + s;
-		return s;
-	}
-	
-	private static int[] toIntArray(List<? extends Identifiable> list)
-	{
-		int[] array = new int[list.size()];
-		int cursor = 0;
-		for(Identifiable i: list)
-			array[cursor++] = i.getId();
-		return array;
 	}
 
 	// OLD
 
-	public static List<List<Match>> planLeagueMatches(List<Team> teams)
+	public static List<List<Match>> league(List<Team> teams)
 	{
 		if(teams.size() % 2 == 1)
 			throw new IllegalArgumentException("equal number of teams required");
@@ -433,7 +175,7 @@ public class Planner
 					{
 						for(Match m : ms)
 						{
-							if(m.getTeam1().equals(t) && minHomeTeams.contains(m.getTeam2()))
+							if(m.getTeam(0).equals(t) && minHomeTeams.contains(m.getTeam(1)))
 								swappable++;
 						}
 					}
@@ -451,7 +193,7 @@ public class Planner
 					{
 						for(Match m : ms)
 						{
-							if(m.getTeam2().equals(t) && maxHomeTeams.contains(m.getTeam1()))
+							if(m.getTeam(1).equals(t) && maxHomeTeams.contains(m.getTeam(0)))
 								swappable++;
 						}
 					}
@@ -481,9 +223,9 @@ public class Planner
 				{
 					for(Match m : ms)
 					{
-						if(m.getTeam1().equals(t1) && m.getTeam2().equals(t2))
+						if(m.getTeam(0).equals(t1) && m.getTeam(1).equals(t2))
 						{
-							m.swapTeams();
+							m.rotateTeams();
 							swapped = true;
 							maxHomeTeams.remove(t1);
 							minHomeTeams.remove(t2);
@@ -505,279 +247,279 @@ public class Planner
 		{
 			for(Match m : ms)
 			{
-				if(m.getTeam1().equals(t))
+				if(m.getTeam(0).equals(t))
 					home++;
 			}
 		}
 		return home;
 	}
 
-	public static void main(String[] args)
+	public static int calculateNumberOfMatches(int teams, int teamsPerMatch)
 	{
-		for(int i = 0; i < 1; i++)
+		BigInteger ret = BigInteger.ONE;
+		for(int k = 0; k < teamsPerMatch; k++)
 		{
-			List<User> list = new LinkedList<User>();
-			List<Team> teams = new LinkedList<Team>();
-			List<List<Match>> matches;
-			boolean[][] check;
-			int home;
-
-			Team team0 = new Team("T0", list);
-			Team team1 = new Team("T1", list);
-			Team team2 = new Team("T2", list);
-			Team team3 = new Team("T3", list);
-			Team team4 = new Team("T4", list);
-			Team team5 = new Team("T5", list);
-			Team team6 = new Team("T6", list);
-			Team team7 = new Team("T7", list);
-			Team team8 = new Team("T8", list);
-			Team team9 = new Team("T9", list);
-			Team team10 = new Team("T10", list);
-			Team team11 = new Team("T11", list);
-			Team team12 = new Team("T12", list);
-			Team team13 = new Team("T13", list);
-			Team team14 = new Team("T14", list);
-			Team team15 = new Team("T15", list);
-
-			teams.add(team0);
-			teams.add(team1);
-			teams.add(team2);
-			teams.add(team3);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[4][4];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team4);
-			teams.add(team5);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[6][6];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team6);
-			teams.add(team7);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[8][8];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team8);
-			teams.add(team9);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[10][10];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team10);
-			teams.add(team11);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[12][12];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team12);
-			teams.add(team13);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[14][14];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team14);
-			teams.add(team15);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[16][16];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
+			ret = ret.multiply(BigInteger.valueOf(teams - k)).divide(BigInteger.valueOf(k + 1));
 		}
+		return ret.intValue();
+	}
+
+	public static List<Match> leagueSpecial(List<Team> teams, int numberOfTeamsPerMatch)
+	{
+		List<Match> matches = new ArrayList<Match>();
+
+		int[] selectors = new int[numberOfTeamsPerMatch];
+		for(int i = 0; i < numberOfTeamsPerMatch; i++)
+			selectors[i] = i;
+
+		Team[] matchTeams;
+		do
+		{
+			matchTeams = new Team[numberOfTeamsPerMatch];
+			for(int i = 0; i < numberOfTeamsPerMatch; i++)
+				matchTeams[i] = teams.get(selectors[i]);
+			matches.add(new Match(matchTeams));
+		} while(incrementSelectors(selectors, teams.size()));
+
+		return matches;
+	}
+
+	private static boolean incrementSelectors(int[] s, int max)
+	{
+		int pointer = s.length - 1;
+
+		boolean success = false;
+		while(pointer >= 0)
+		{
+			if(s[pointer] < max - (s.length - pointer))
+			{
+				s[pointer]++;
+				for(int p = pointer + 1; p < s.length; p++)
+				{
+					s[p] = s[p - 1] + 1;
+					if(s[p] > max - (s.length - p))
+						return false;
+				}
+				success = true;
+				break;
+			}
+			else
+			{
+				pointer--;
+			}
+		}
+		return success;
+	}
+
+	protected static void resetPlannedGames(List<User> users)
+	{
+		for(User user : users)
+			user.setPlannedGames(0);
+	}
+
+	protected static void increasePlannedGames(List<User> users)
+	{
+		for(User user : users)
+			user.setPlannedGames(user.getPlannedGames() + 1);
+	}
+
+	public String applyPlaceholders(String title, Map map, List<User> players, Options options, int count, int day, int dayCount, Team[] teams, int round, int group)
+	{
+		String name = title;
+		StringBuilder tmp;
+
+		// zaehlung
+		name = name.replace("${i}", "" + (count + 1));
+		name = name.replace("${ii}", toString(count + 1, 2));
+		name = name.replace("${iii}", toString(count + 1, 3));
+		name = name.replace("${iiii}", toString(count + 1, 4));
+		if(day >= 0)
+		{
+			name = name.replace("${spieltag}", "" + (day + 1));
+			name = name.replace("${spieltag.i}", "" + (dayCount + 1));
+		}
+		else
+		{
+			name = name.replace("${spieltag}", "");
+			name = name.replace("${spieltag.i}", "");
+		}
+
+		// karte
+		name = name.replace("${karte.id}", "" + map.getId());
+		name = name.replace("${karte.name}", map.getName());
+
+		// spieler
+		name = name.replace("${spieler.ersteller}", karoAPICache.getCurrentUser().getLogin());
+		name = name.replace("${spieler.anzahl}", "" + players.size());
+		name = name.replace("${spieler.anzahl.x}", "" + (players.size() - 1));
+		if(name.contains("${spieler.namen}"))
+		{
+			tmp = new StringBuilder();
+			for(int p = 0; p < players.size(); p++)
+			{
+				if((p != 0) && (p != players.size() - 1))
+					tmp.append(", ");
+				else if((p != 0) && (p == players.size() - 1))
+					tmp.append(" " + Language.getString("titlepatterns.and") + " ");
+				tmp.append(players.get(p).getLogin());
+			}
+			name = name.replace("${spieler.namen}", tmp.toString());
+		}
+		if(name.contains("${spieler.namen.x}"))
+		{
+			tmp = new StringBuilder();
+			List<User> tmpList = new LinkedList<User>(players);
+			tmpList.remove(karoAPICache.getCurrentUser());
+			for(int p = 0; p < tmpList.size(); p++)
+			{
+				if((p != 0) && (p != tmpList.size() - 1))
+					tmp.append(", ");
+				else if((p != 0) && (p == tmpList.size() - 1))
+					tmp.append(" " + Language.getString("titlepatterns.and") + " ");
+				tmp.append(tmpList.get(p).getLogin());
+			}
+			name = name.replace("${spieler.namen.x}", tmp.toString());
+		}
+
+		// teams
+		if(teams != null)
+		{
+			tmp = new StringBuilder();
+
+			for(int i = 0; i < teams.length; i++)
+			{
+				if(i > 0)
+					tmp.append(" vs. ");
+				tmp.append(teams[i].getName());
+			}
+
+			name = name.replace("${teams}", tmp.toString());
+		}
+
+		// runde
+		if(round > 0)
+		{
+			if(name.contains("${runde}"))
+			{
+				if(round == 2)
+					name = name.replace("${runde}", Language.getString("titlepatterns.final"));
+				else if(round == 4)
+					name = name.replace("${runde}", Language.getString("titlepatterns.semifinal"));
+				else if(round == 8)
+					name = name.replace("${runde}", Language.getString("titlepatterns.quarterfinal"));
+				else if(group <= 0)
+					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)));
+				else
+					name = name.replace("${runde}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
+			}
+			if(name.contains("${runde.x}"))
+			{
+				if(round == 2)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.final") + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else if(round == 4)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.semifinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else if(round == 8)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.quarterfinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
+				else if(group <= 0)
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)) + ", "
+							+ Language.getString("titlepatterns.match") + " " + count);
+				else
+					name = name.replace("${runde.x}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)) + ", " + Language.getString("titlepatterns.day") + " " + (day + 1));
+			}
+		}
+
+		// regeln
+		if(name.contains("${regeln}"))
+		{
+			tmp = new StringBuilder();
+			tmp.append(Language.getString("titlepatterns.zzz"));
+			tmp.append(options.getZzz());
+			tmp.append(", ");
+			tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+			tmp.append(", ");
+			tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
+			tmp.append(", ");
+			tmp.append(Language.getString("titlepatterns.direction"));
+			tmp.append(options.getStartdirection());
+			name = name.replace("${regeln}", tmp);
+		}
+		if(name.contains("${regeln.x}"))
+		{
+			tmp = new StringBuilder();
+			if(options.getZzz() != 2)
+			{
+				tmp.append(Language.getString("titlepatterns.zzz"));
+				tmp.append(options.getZzz());
+			}
+			if(options.getCrashallowed() != EnumGameTC.forbidden)
+			{
+				if(!tmp.toString().isEmpty())
+					tmp.append(", ");
+				tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+			}
+			if(!options.isCps())
+			{
+				if(!tmp.toString().isEmpty())
+					tmp.append(", ");
+				tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
+			}
+			if(options.getStartdirection() != EnumGameDirection.classic)
+			{
+				if(!tmp.toString().isEmpty())
+					tmp.append(", ");
+				tmp.append(Language.getString("titlepatterns.direction"));
+				tmp.append(options.getStartdirection());
+			}
+			name = name.replace("${regeln.x}", tmp);
+		}
+		name = name.replace("${regeln.zzz}", Language.getString("titlepatterns.zzz") + options.getZzz());
+		name = name.replace("${regeln.tc}", Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+		name = name.replace("${regeln.cps}", Language.getString("titlepatterns.cps." + options.isCps()));
+		name = name.replace("${regeln.richtung}", Language.getString("titlepatterns.direction") + options.getStartdirection());
+
+		name = name.replace("  ", "");
+		name = name.trim();
+		if(name.endsWith(","))
+			name = name.substring(0, name.length() - 1);
+
+		return name;
+	}
+
+	/**
+	 * Shortcut for {@link PlaceholderFactory#applyPlaceholders(karoAPICache, String, Map, List, Rules, int, int, int, Team, Team, int)}
+	 * Note: some Placeholders might not work here!
+	 * 
+	 * @param karoAPICache
+	 * @param title
+	 * @param game
+	 * @param count
+	 * @return
+	 */
+	public String applyPlaceholders(String title, PlannedGame game, int count)
+	{
+		Map map = this.karoAPICache.getMap(game.getMap());
+		List<User> players = new ArrayList<>(game.getPlayers().length);
+		for(int pid : game.getPlayers())
+			players.add(this.karoAPICache.getUser(pid));
+		return applyPlaceholders(title, map, players, game.getOptions(), count, 0, 0, null, 0, 0);
+	}
+
+	// helpers
+
+	private static String toString(int x, int digits)
+	{
+		String s = "" + x;
+		while(s.length() < digits)
+			s = "0" + s;
+		return s;
+	}
+
+	private static int[] toIntArray(List<? extends Identifiable> list)
+	{
+		int[] array = new int[list.size()];
+		int cursor = 0;
+		for(Identifiable i : list)
+			array[cursor++] = i.getId();
+		return array;
 	}
 }

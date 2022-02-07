@@ -42,20 +42,22 @@ import javax.swing.table.TableModel;
 
 import org.json.JSONObject;
 
-import muskel2.core.karoaccess.GameCreator;
 import muskel2.model.Direction;
-import muskel2.model.Game;
-import muskel2.model.GameSeries;
-import muskel2.model.Map;
-import muskel2.model.Player;
 import muskel2.model.help.DirectionModel;
 import muskel2.util.PlaceholderFactory;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.GenericEnumModel;
+import ultimate.karomuskel.ui.components.SpinnerCellEditor;
 import ultimate.karomuskel.ui.components.UserCellEditor;
-import ultimate.karomuskel.ui.help.SpinnerCellEditor;
 
 public class SummaryScreen extends Screen implements ActionListener
 {
@@ -66,12 +68,12 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private boolean				skipPlan;
 
-	private List<Game>			gamesCreated;
-	private List<Game>			gamesLeft;
+	private List<PlannedGame>			gamesCreated;
+	private List<PlannedGame>			gamesLeft;
 
-	private List<Game>			gamesToCreate;
-	private List<Game>			gamesToLeave;
-	private List<Game>			gamesToLeaveTmp;
+	private List<PlannedGame>			gamesToCreate;
+	private List<PlannedGame>			gamesToLeave;
+	private List<PlannedGame>			gamesToLeaveTmp;
 
 	private JTable				table;
 	private JScrollPane			tableSP;
@@ -100,11 +102,11 @@ public class SummaryScreen extends Screen implements ActionListener
 			startScreen = startScreen.getPrevious();
 		}
 
-		this.gamesCreated = new LinkedList<Game>();
-		this.gamesLeft = new LinkedList<Game>();
+		this.gamesCreated = new LinkedList<PlannedGame>();
+		this.gamesLeft = new LinkedList<PlannedGame>();
 
-		this.gamesToCreate = new LinkedList<Game>();
-		this.gamesToLeave = new LinkedList<Game>();
+		this.gamesToCreate = new LinkedList<PlannedGame>();
+		this.gamesToLeave = new LinkedList<PlannedGame>();
 
 		this.skipPlan = false;
 	}
@@ -133,7 +135,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else
 		{
-			for(Game game : gameSeries.getGames())
+			for(PlannedGame game : gameSeries.getPlannedGames())
 			{
 				if(game.isCreated())
 					this.gamesCreated.add(game);
@@ -199,7 +201,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.inProgress = true;
 		GameCreator gc = new GameCreator(karoAPICache, this);
-		for(Game game : this.gamesToCreate)
+		for(PlannedGame game : this.gamesToCreate)
 		{
 			this.model.setStatus(game, CREATING);
 		}
@@ -216,8 +218,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void leaveGames()
 	{
-		this.gamesToLeaveTmp = new LinkedList<Game>();
-		for(Game game : this.gamesToLeave)
+		this.gamesToLeaveTmp = new LinkedList<PlannedGame>();
+		for(PlannedGame game : this.gamesToLeave)
 		{
 			if(game.isCreated())
 				this.gamesToLeaveTmp.add(game);
@@ -235,7 +237,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.inProgress = true;
 		GameCreator gc = new GameCreator(karoAPICache, this);
-		for(Game game : this.gamesToLeaveTmp)
+		for(PlannedGame game : this.gamesToLeaveTmp)
 		{
 			this.model.setStatus(game, LEAVING);
 		}
@@ -250,7 +252,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 	}
 
-	public synchronized void notifyGameCreated(Game game)
+	public synchronized void notifyGameCreated(PlannedGame game)
 	{
 		if(game != null)
 		{
@@ -266,7 +268,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 	}
 
-	public synchronized void notifyGameLeft(Game game)
+	public synchronized void notifyGameLeft(PlannedGame game)
 	{
 		if(game != null)
 		{
@@ -377,7 +379,8 @@ public class SummaryScreen extends Screen implements ActionListener
 					FileWriter fw = new FileWriter(file);
 					BufferedWriter bw = new BufferedWriter(fw);
 
-					JSONObject json = JSONUtil.toJSON(gameSeries);
+					// TODO use storage util
+					JSONObject json = JSONUtil.serialize(gameSeries);
 					bw.write(json.toString(4));
 					// json.write(bw);
 
@@ -456,16 +459,16 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				col.setCellEditor(new SpinnerCellEditor(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1)));
 			}
-			else if(table.getColumnClass(i).equals(Direction.class))
+			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
-				col.setCellEditor(new DefaultCellEditor(new JComboBox(new DirectionModel(Direction.egal, false))));
+				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false))));
 			}
 			else if(table.getColumnClass(i).equals(Map.class))
 			{
-				Map[] maps = karoAPICache.getMaps().values().toArray(new Map[0]);
-				col.setCellEditor(new DefaultCellEditor(new JComboBox(new DefaultComboBoxModel(maps))));
+				Map[] maps = karoAPICache.getMaps().toArray(new Map[0]);
+				col.setCellEditor(new DefaultCellEditor(new JComboBox<Map>(new DefaultComboBoxModel<Map>(maps))));
 			}
-			else if(table.getColumnClass(i).equals(Player.class))
+			else if(table.getColumnClass(i).equals(User.class))
 			{
 				UserCellEditor editor = new UserCellEditor(this.model, karoAPICache);
 				col.setCellEditor(editor);
@@ -502,7 +505,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 		});
 
-		for(Game game : this.gameSeries.getGames())
+		for(PlannedGame game : this.gameSeries.getGames())
 		{
 			this.model.addRow(game);
 		}
@@ -592,9 +595,9 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private void batchUpdatePlayers(int column, String label)
 	{
-		Collection<Player> players = karoAPICache.getPlayers().values();
+		Collection<User> players = karoAPICache.getUsers();
 		players.remove(gameSeries.getCreator());
-		JComboBox combobox = new JComboBox(new DefaultComboBoxModel(players.toArray(new Player[0])));
+		JComboBox combobox = new JComboBox(new DefaultComboBoxModel(players.toArray(new User[0])));
 
 		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"),
 				Language.getString("screen.summary.batchUpdate.players.remove"), Language.getString("option.cancel") };
@@ -639,7 +642,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		private List<Object[]>		rows;
 
-		private List<Game>			games;
+		private List<PlannedGame>			games;
 
 		public SummaryModel()
 		{
@@ -647,7 +650,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.columnClasses = new ArrayList<Class<?>>();
 			this.columnWidths = new ArrayList<Integer>();
 
-			this.games = new ArrayList<Game>(gameSeries.getGames().size());
+			this.games = new ArrayList<PlannedGame>(gameSeries.getGames().size());
 			this.rows = new ArrayList<Object[]>(gameSeries.getGames().size());
 
 			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 150);
@@ -662,7 +665,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 70);
 		}
 
-		public void addRow(Game game)
+		public void addRow(PlannedGame game)
 		{
 			Object[] row = new Object[getColumnCount()];
 
@@ -692,12 +695,12 @@ public class SummaryScreen extends Screen implements ActionListener
 			setStatus(game, status);
 		}
 
-		public Game getRow(int rowIndex)
+		public PlannedGame getRow(int rowIndex)
 		{
 			return this.games.get(rowIndex);
 		}
 
-		public int getRowIndex(Game game)
+		public int getRowIndex(PlannedGame game)
 		{
 			return this.games.indexOf(game);
 		}
@@ -772,7 +775,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(inProgress && columnIndex != 9)
 				return;
 
-			Game game = getRow(rowIndex);
+			PlannedGame game = getRow(rowIndex);
 			switch(columnIndex)
 			{
 				case 0:
@@ -837,7 +840,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 		}
 
-		public void setStatus(Game game, int status)
+		public void setStatus(PlannedGame game, int status)
 		{
 			int rowIndex = this.getRowIndex(game);
 			int columnIndex = 9;
