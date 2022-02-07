@@ -4,8 +4,9 @@ import java.util.Random;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.model.official.Options;
 
-//TODO
+// TODO
 public class Rules implements Cloneable
 {
 	// TODO check what is necessary and what can be moved to settings
@@ -152,17 +153,16 @@ public class Rules implements Cloneable
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	public Rules createRandomValues()
+	public Options createOptions()
 	{
-		if(zzz == null)
-			zzz = random.nextInt(maxZzz - minZzz + 1) + minZzz;
-		if(tc == null)
-			tc = EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1));
-		if(cps == null)
-			cps = random.nextBoolean();
-		if(direction == null)
-			direction = EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1));
-		return this;
+		Options options = new Options();
+		
+		options.setZzz(zzz == null ? random.nextInt(maxZzz - minZzz + 1) + minZzz : zzz);
+		options.setCps(cps == null ? random.nextBoolean() : cps);
+		options.setCrashallowed(EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)));
+		options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)));
+		
+		return options;
 	}
 
 	@Override
