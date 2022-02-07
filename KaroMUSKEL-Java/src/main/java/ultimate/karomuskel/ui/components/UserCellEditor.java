@@ -29,12 +29,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karomuskel.KaroAPICache;
-import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 
@@ -52,14 +51,17 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 	private List<User>			users;
 	private List<User>			allUsers;
 
-	private KaroAPICache		karoAPICache;
+	private JFrame				gui;
 	private SummaryModel		model;
+	private KaroAPICache		karoAPICache;
+
 	private PlannedGame			game;
 
-	public UserCellEditor(SummaryModel model, KaroAPICache karoAPICache)
+	public UserCellEditor(JFrame gui, SummaryModel model, KaroAPICache karoAPICache)
 	{
-		this.karoAPICache = karoAPICache;
+		this.gui = gui;
 		this.model = model;
+		this.karoAPICache = karoAPICache;
 
 		this.button = new JButton();
 		this.button.setHorizontalAlignment(JButton.LEFT);
@@ -74,7 +76,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 
 		this.allUsers = new LinkedList<User>(karoAPICache.getUsers());
 
-		this.chooser = new UserChooser(Launcher.getGui());
+		this.chooser = new UserChooser(this.gui);
 	}
 
 	@Override
@@ -116,38 +118,38 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		}
 		else if(e.getActionCommand().equalsIgnoreCase("add"))
 		{
-			Object[] tmpUsers = this.chooser.notSelectedUsersLI.getSelectedValues();
+			List<User> tmpUsers = this.chooser.notSelectedUsersLI.getSelectedValuesList();
 			this.chooser.notSelectedUsersLI.clearSelection();
-			Map map = this.chooser.game.getMap();
-			for(Object o : tmpUsers)
+			Map map = karoAPICache.getMap(this.chooser.game.getMap());
+			for(User u : tmpUsers)
 			{
 				if(this.chooser.users.size() >= map.getPlayers())
 				{
-					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getMaxUsers()),
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getPlayers()),
 							Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					break;
 				}
-				this.chooser.notSelectedUsers.remove((User) o);
-				this.chooser.users.add((User) o);
-				SortUtil.sortListAscending(this.chooser.users, "getNameLowerCase");
+				this.chooser.notSelectedUsers.remove(u);
+				this.chooser.users.add(u);
+				CollectionsUtil.sortAscending(this.chooser.users, "getNameLowerCase");
 			}
 			this.chooser.fireContentChanged();
 		}
 		else if(e.getActionCommand().equalsIgnoreCase("remove"))
 		{
-			Object[] tmpUsers = this.chooser.usersLI.getSelectedValues();
+			List<User> tmpUsers = this.chooser.usersLI.getSelectedValuesList();
 			this.chooser.usersLI.clearSelection();
-			for(Object o : tmpUsers)
+			for(User u  : tmpUsers)
 			{
-				if(o.equals(karoAPICache.getCurrentUser()))
+				if(u.equals(karoAPICache.getCurrentUser()))
 				{
-					JOptionPane.showMessageDialog(Launcher.getGui(), Language.getString("screen.summary.useredit.creatorremove"), Language.getString("screen.summary.useredit.errortitle"),
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.creatorremove"), Language.getString("screen.summary.useredit.errortitle"),
 							JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
-				this.chooser.users.remove((User) o);
-				this.chooser.notSelectedUsers.add((User) o);
-				SortUtil.sortListAscending(this.chooser.notSelectedUsers, "getNameLowerCase");
+				this.chooser.users.remove(u);
+				this.chooser.notSelectedUsers.add(u);
+				CollectionsUtil.sortAscending(this.chooser.notSelectedUsers, "getNameLowerCase");
 			}
 			this.chooser.fireContentChanged();
 		}
@@ -183,29 +185,29 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 
 	private class UserChooser extends JDialog implements WindowListener
 	{
-		private static final long			serialVersionUID		= 1L;
+		private static final long	serialVersionUID		= 1L;
 
-		private static final int			listFixedCellWidth		= 250;
+		private static final int	listFixedCellWidth		= 250;
 
-		private static final int			width					= 700;
-		private static final int			height					= 400;
+		private static final int	width					= 700;
+		private static final int	height					= 400;
 
-		private JList						notSelectedUsersLI;
-		private JList						usersLI;
+		private JList<User>			notSelectedUsersLI;
+		private JList<User>			usersLI;
 
-		private JButton						okButton;
-		private JButton						cancelButton;
-		private JButton						addButton;
-		private JButton						removeButton;
+		private JButton				okButton;
+		private JButton				cancelButton;
+		private JButton				addButton;
+		private JButton				removeButton;
 
-		private Game						game;
+		private PlannedGame			game;
 
-		private final List<User>			users					= new LinkedList<User>();
-		private final List<User>			notSelectedUsers		= new LinkedList<User>();
-		private final List<User>			usersBackup			= new LinkedList<User>();
+		private final List<User>	users					= new LinkedList<User>();
+		private final List<User>	notSelectedUsers		= new LinkedList<User>();
+		private final List<User>	usersBackup				= new LinkedList<User>();
 
-		private final UsersModel			usersModel			= new UsersModel();
-		private final NotSelectedUsersModel	notSelectedUsersModel	= new NotSelectedUsersModel();
+		private final UserModel		usersModel				= new UserModel(users);
+		private final UserModel		notSelectedUsersModel	= new UserModel(notSelectedUsers);
 
 		public UserChooser(JFrame frame)
 		{
@@ -251,7 +253,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			allUsersPanel.setLayout(new BorderLayout(5, 5));
 			contentPanel.add(allUsersPanel);
 
-			this.notSelectedUsersLI = new JList(this.notSelectedUsersModel);
+			this.notSelectedUsersLI = new JList<>(this.notSelectedUsersModel);
 			this.notSelectedUsersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.notSelectedUsersLI.setFixedCellWidth(listFixedCellWidth);
 			JScrollPane notSelectedUsersSP = new JScrollPane(this.notSelectedUsersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -283,7 +285,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			gameUsersPanel.setLayout(new BorderLayout(5, 5));
 			contentPanel.add(gameUsersPanel);
 
-			this.usersLI = new JList(this.usersModel);
+			this.usersLI = new JList<>(this.usersModel);
 			this.usersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.usersLI.setFixedCellWidth(listFixedCellWidth);
 			JScrollPane usersSP = new JScrollPane(this.usersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -298,7 +300,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			this.notSelectedUsersModel.fireContentChanged();
 		}
 
-		public void setUsers(Game game, List<User> users)
+		public void setUsers(PlannedGame game, List<User> users)
 		{
 			this.game = game;
 
@@ -325,47 +327,32 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			return usersBackup;
 		}
 
-		private class UsersModel extends AbstractListModel
+		private class UserModel extends AbstractListModel<User>
 		{
-			private static final long serialVersionUID = 1L;
+			private static final long	serialVersionUID	= 1L;
+
+			private List<User>			userList;
+
+			public UserModel(List<User> userList)
+			{
+				this.userList = userList;
+			}
 
 			@Override
 			public int getSize()
 			{
-				return users.size();
+				return this.userList.size();
 			}
 
 			@Override
-			public Object getElementAt(int index)
+			public User getElementAt(int index)
 			{
-				return users.get(index);
+				return this.userList.get(index);
 			}
 
 			public void fireContentChanged()
 			{
-				fireContentsChanged(this, 0, users.size() - 1);
-			}
-		}
-
-		private class NotSelectedUsersModel extends AbstractListModel
-		{
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public int getSize()
-			{
-				return notSelectedUsers.size();
-			}
-
-			@Override
-			public Object getElementAt(int index)
-			{
-				return notSelectedUsers.get(index);
-			}
-
-			public void fireContentChanged()
-			{
-				fireContentsChanged(this, 0, notSelectedUsers.size() - 1);
+				fireContentsChanged(this, 0, this.userList.size() - 1);
 			}
 		}
 
