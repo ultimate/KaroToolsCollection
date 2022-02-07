@@ -158,16 +158,16 @@ public class Planner
 		return games;
 	}
 
-	public List<PlannedGame> planKLC(String title, int round, int groups, int leagues)
+	public List<PlannedGame> planKLC(String title, java.util.Map<Integer, List<User>> leaguePlayers, java.util.Map<Integer, List<User>> groupPlayers, java.util.Map<Integer, List<User>> roundPlayers, int round)
 	{	
 		// HomeMaps für Serialization sichern
 //		homeMaps.clear();
 //		for(Player p : allPlayers)
 //			homeMaps.put(p.getId(), p.getHomeMap().getId());
 
-		int players = groups * leagues;
+		int totalPlayers = groupPlayers.size() * leaguePlayers.size();
 		
-		if(round == players)
+		if(round == totalPlayers)
 			return planKLCGroupphase(title, round);
 		else
 			return planKLCKOPhase(title, round);
