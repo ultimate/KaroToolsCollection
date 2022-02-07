@@ -34,9 +34,19 @@ public class PlannedGame extends Identifiable
 
 	public PlannedGame()
 	{
-
+		this.created = false;
+		this.left = false;
 	}
 	
+	public PlannedGame(String name, int map, int[] players, Options options)
+	{
+		this();
+		this.name = name;
+		this.map = map;
+		this.players = players;
+		this.options = options;
+	}
+
 	public String getName()
 	{
 		return name;
