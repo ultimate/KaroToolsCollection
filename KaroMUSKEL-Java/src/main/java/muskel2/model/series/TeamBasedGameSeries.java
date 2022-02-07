@@ -31,11 +31,11 @@ public abstract class TeamBasedGameSeries extends GameSeries
 	protected List<Team>		teams;
 	protected List<Team>		shuffledTeams;
 
-	public TeamBasedGameSeries(String defaultTitleKey)
-	{
-		super(defaultTitleKey);
-		this.teams = new LinkedList<Team>();
-	}
+//	public TeamBasedGameSeries(String defaultTitleKey)
+//	{
+//		super(defaultTitleKey);
+//		this.teams = new LinkedList<Team>();
+//	}
 
 	public int getNumberOfTeams()
 	{

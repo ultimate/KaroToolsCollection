@@ -1,5 +1,6 @@
 package ultimate.karoapi4j.model.extended;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -13,16 +14,29 @@ import ultimate.karoapi4j.model.official.User;
 // TODO
 public abstract class GameSeries
 {
+	// universal settings
 	protected EnumGameSeriesType			type;
 	protected boolean						teamBased;
 	protected String						title;
 	protected User							creator;
-	protected Rules							rules;
-	protected java.util.Map<String, Object>	settings;
+
+	// games (planned & created)
 	protected List<PlannedGame>				plannedGames;
 	protected List<Game>					createdGames;
+
+	// players or teams
 	protected List<User>					players;
+	protected List<Team>					teams;
+
+	// type specific settings
+	protected java.util.Map<String, Object>	settings;
+
+	// default map & rules
 	protected List<Map>						maps;
+	protected Rules							rules;
+
+	protected HashMap<Integer, List<Map>>	gameDayMaps;
+	protected HashMap<Integer, Rules>		gameDayRules;
 
 	protected transient boolean				loaded;
 
@@ -32,9 +46,13 @@ public abstract class GameSeries
 	{
 		this.type = type;
 		this.teamBased = teamBased;
+
 		this.plannedGames = new LinkedList<PlannedGame>();
 		this.createdGames = new LinkedList<Game>();
+
 		this.players = new LinkedList<User>();
+		this.teams = new LinkedList<Team>();
+
 		this.maps = new LinkedList<Map>();
 	}
 
@@ -68,26 +86,6 @@ public abstract class GameSeries
 		this.creator = creator;
 	}
 
-	public Rules getRules()
-	{
-		return rules;
-	}
-
-	public void setRules(Rules rules)
-	{
-		this.rules = rules;
-	}
-
-	public java.util.Map<String, Object> getSettings()
-	{
-		return settings;
-	}
-
-	public void setSettings(java.util.Map<String, Object> settings)
-	{
-		this.settings = settings;
-	}
-
 	public List<PlannedGame> getPlannedGames()
 	{
 		return plannedGames;
@@ -118,6 +116,26 @@ public abstract class GameSeries
 		this.players = players;
 	}
 
+	public List<Team> getTeams()
+	{
+		return teams;
+	}
+
+	public void setTeams(List<Team> teams)
+	{
+		this.teams = teams;
+	}
+
+	public java.util.Map<String, Object> getSettings()
+	{
+		return settings;
+	}
+
+	public void setSettings(java.util.Map<String, Object> settings)
+	{
+		this.settings = settings;
+	}
+
 	public List<Map> getMaps()
 	{
 		return maps;
@@ -126,6 +144,36 @@ public abstract class GameSeries
 	public void setMaps(List<Map> maps)
 	{
 		this.maps = maps;
+	}
+
+	public Rules getRules()
+	{
+		return rules;
+	}
+
+	public void setRules(Rules rules)
+	{
+		this.rules = rules;
+	}
+
+	public HashMap<Integer, List<Map>> getGameDayMaps()
+	{
+		return gameDayMaps;
+	}
+
+	public void setGameDayMaps(HashMap<Integer, List<Map>> gameDayMaps)
+	{
+		this.gameDayMaps = gameDayMaps;
+	}
+
+	public HashMap<Integer, Rules> getGameDayRules()
+	{
+		return gameDayRules;
+	}
+
+	public void setGameDayRules(HashMap<Integer, Rules> gameDayRules)
+	{
+		this.gameDayRules = gameDayRules;
 	}
 
 	public boolean isLoaded()

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,8 +19,16 @@ import org.slf4j.LoggerFactory;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.screens.GroupWinnersScreen;
+import ultimate.karomuskel.ui.screens.HomeMapsScreen;
+import ultimate.karomuskel.ui.screens.KOWinnersScreen;
+import ultimate.karomuskel.ui.screens.MapsAndRulesScreen;
+import ultimate.karomuskel.ui.screens.MapsScreen;
+import ultimate.karomuskel.ui.screens.PlayersScreen;
+import ultimate.karomuskel.ui.screens.RulesScreen;
+import ultimate.karomuskel.ui.screens.SettingsScreen;
+import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public abstract class GameSeriesManager
 {
@@ -43,6 +52,11 @@ public abstract class GameSeriesManager
 	{
 		SETTINGS = new HashMap<>();
 		addSetting(new Setting<>("numberOfTeamsPerMatch", int.class, EnumGameSeriesType.AllCombinations));
+		addSetting(new Setting<>("numberOfMaps", int.class, EnumGameSeriesType.Balanced));
+		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC));
 
 		try
 		{
@@ -94,7 +108,7 @@ public abstract class GameSeriesManager
 	{
 		if(gsType == null)
 			throw new IllegalArgumentException("invalid GameSeries type");
-		return getStringConfig("gameseries." + gsType.toString().toLowerCase() + "."  + key);
+		return getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);
 	}
 
 	public static int getIntConfig(EnumGameSeriesType gsType, String key)
@@ -188,9 +202,86 @@ public abstract class GameSeriesManager
 		return false;
 	}
 
-	public static Screen initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
+	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
 	{
-		// TODO
-		return null;
+		LinkedList<Screen> screens = new LinkedList<>();
+		if(loaded)
+		{
+			SummaryScreen s = new SummaryScreen(startScreen, karoAPICache, previousButton, nextButton);
+			s.setSkipPlan(true);
+			screens.add(s);
+
+			if(gs.getType() == EnumGameSeriesType.KLC)
+			{
+				int groups = get(gs, "groups");
+				int leagues = get(gs, "leagues");
+				int players = groups * leagues;
+
+				int round = get(gs, "round");
+				screens.getLast().setNextKey("screen.summary.nextko");
+				if(round == players)
+				{
+					screens.add(new GroupWinnersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+				}
+				else if(round > 2)
+				{
+					screens.add(new KOWinnersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+				}
+				round = round / 2;
+				set(gs, "round", round);
+
+				// Restore HomeMaps // not needed, stored in gs
+//				System.out.println("restoring homemaps");
+//				for(Entry<Integer, Integer> e : this.homeMaps.entrySet())
+//				{
+//					for(Player p : this.getKaropapier().getPlayers().values())
+//					{
+//						if(p.getId() == e.getKey())
+//							p.setHomeMap(this.getKaropapier().getMaps().get(e.getValue()));
+//					}
+//				}
+			}
+		}
+		else
+		{
+			switch(gs.getType())
+			{
+				case AllCombinations:
+					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new HomeMapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new MapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					break;
+				case Balanced:
+					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new MapsAndRulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					break;
+				case KLC:
+					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new HomeMapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.getLast().setNextKey("screen.homemaps.nextskip");
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					break;
+				case KO:
+					// TODO
+					break;
+				case League:
+					// TODO
+					break;
+				case Simple:
+					// TODO
+					break;
+			}
+		}
+		return screens;
 	}
 }
