@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import javax.swing.JButton;
 
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 
 public abstract class GameSeriesManager
@@ -66,15 +67,21 @@ public abstract class GameSeriesManager
 		return null;
 	}
 
-	public static boolean store(GameSeries gameSeries, File file)
+	public static boolean store(GameSeries gs, File file)
 	{
 		// TODO
 		return false;
 	}
 
-	public static Screen initScreens(GameSeries gameSeries, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
+	public static Screen initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
 	{
 		// TODO
 		return null;
+	}
+	
+	public static String getDefaultTitle(GameSeries gs)
+	{
+		// TODO
+		return Language.getString((String) null);
 	}
 }
