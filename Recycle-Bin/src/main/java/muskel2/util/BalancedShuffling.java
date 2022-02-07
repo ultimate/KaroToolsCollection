@@ -12,70 +12,7 @@ import muskel2.model.Rules;
 
 public class BalancedShuffling
 {
-	public static void main(String[] args)
-	{
-		int totalPlayers = 30;
-		int numberOfMaps = 20;
-		int gamesPerPlayer = 6;
-
-		List<Player> players = new LinkedList<Player>();
-		for(char c = 65; c < 65 + totalPlayers; c++)
-		{
-			players.add(new Player((int) c, "" + c, true, true, 9999, 0, 0, 999, new Color(c, c, c), 0, null));
-		}
-
-		List<Rules> rules = new LinkedList<Rules>();
-		for(int i = 0; i < numberOfMaps; i++)
-		{
-//			int numberOfPlayers = (i < 6 ? 5 : (i < 12 ? 7 : 10));
-			int numberOfPlayers = (i < 6 ? 3 : (i < 12 ? 4 : 5));
-			rules.add(new Rules(0, 0, true, true, Direction.egal, false, false, gamesPerPlayer, numberOfPlayers));
-		}
-
-		Player[][][] shuffledPlayers = shufflePlayers(players, rules);
-
-		// print games
-		for(int m = 0; m < numberOfMaps; m++)
-		{
-			System.out.println(m);
-			for(int g = 0; g < shuffledPlayers[m].length; g++)
-			{
-				System.out.print((g > 9 ? "" : " ") + g + ": ");
-				for(int p = 0; p < rules.get(m).getNumberOfPlayers(); p++)
-				{
-					if(p >= 0)
-					{
-						if(shuffledPlayers[m][g][p] != null)
-							System.out.print(shuffledPlayers[m][g][p].getName() + " ");
-					}
-					else
-						System.out.println(" ");
-				}
-				System.out.println("");
-			}
-		}
-
-		// print playersGames
-		System.out.println("playersGames");
-		for(int pl = 0; pl < totalPlayers; pl++)
-		{
-			for(int m = 0; m < numberOfMaps; m++)
-			{
-				int count = 0;
-				for(int g = 0; g < shuffledPlayers[m].length; g++)
-				{
-					for(int p = 0; p < rules.get(m).getNumberOfPlayers(); p++)
-					{
-						if(shuffledPlayers[m][g][p] == players.get(pl))
-							count++;
-					}
-				}
-				System.out.print(count + " ");
-			}
-			System.out.println("");
-		}
-
-	}
+	
 
 	public static Player[][][] shufflePlayers(List<Player> players, List<Rules> rules)
 	{

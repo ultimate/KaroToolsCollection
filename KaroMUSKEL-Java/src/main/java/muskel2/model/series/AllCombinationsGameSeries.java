@@ -5,25 +5,25 @@ public class AllCombinationsGameSeries extends TeamBasedGameSeries
 {
 	private static final long	serialVersionUID	= 1L;
 
-	// public static int MAX_TEAMS = 8;
-	// public static int MAX_ROUNDS = 8;
+	public static int			MAX_TEAMS			= 8;
+	public static int MAX_ROUNDS = 8;
 
-	protected int				numberOfTeamsPerMatch;
+	public int					numberOfTeamsPerMatch;
 
-	public AllCombinationsGameSeries()
-	{
-		super("gameseries.allcombinations.defaultTitle");
-	}
-
-	public int getNumberOfTeamsPerMatch()
-	{
-		return numberOfTeamsPerMatch;
-	}
-
-	public void setNumberOfTeamsPerMatch(int numberOfTeamsPerMatch)
-	{
-		this.numberOfTeamsPerMatch = numberOfTeamsPerMatch;
-	}
+	// public AllCombinationsGameSeries()
+	// {
+	// super("gameseries.allcombinations.defaultTitle");
+	// }
+	//
+	// public int getNumberOfTeamsPerMatch()
+	// {
+	// return numberOfTeamsPerMatch;
+	// }
+	//
+	// public void setNumberOfTeamsPerMatch(int numberOfTeamsPerMatch)
+	// {
+	// this.numberOfTeamsPerMatch = numberOfTeamsPerMatch;
+	// }
 
 	// @Override
 	// protected void initSubType()

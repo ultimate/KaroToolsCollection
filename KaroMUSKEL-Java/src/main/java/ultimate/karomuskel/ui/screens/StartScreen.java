@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -130,6 +131,7 @@ public class StartScreen extends Screen implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		boolean loaded = false;
 		if(e.getActionCommand().equals("load"))
 		{
 			JFileChooser fc = new JFileChooser();
@@ -140,12 +142,7 @@ public class StartScreen extends Screen implements ActionListener
 				{
 					File file = fc.getSelectedFile();
 					this.gameSeries = GameSeriesManager.load(file);
-					Screen last = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton, true);
-					while(last.getNext() != null)
-					{
-						last = last.getNext();
-					}
-					last.setNext(this);
+					loaded = true;
 				}
 				else if(action == JFileChooser.ERROR_OPTION)
 				{
@@ -168,18 +165,14 @@ public class StartScreen extends Screen implements ActionListener
 			try
 			{
 				this.gameSeries = GameSeriesManager.create(e.getActionCommand());
-				this.setNext(GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton, false));
-				Screen last = this;
-				while(last.getNext() != null)
-				{
-					last = last.getNext();
-				}
-				last.setNext(this);
 			}
 			catch(Exception ex)
 			{
 				ex.printStackTrace();
 			}
 		}
+		LinkedList<Screen> screens = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton, loaded);
+		// this.setNext(screens.getFirst()); // already set in initScreens
+		screens.getLast().setNext(this);
 	}
 }

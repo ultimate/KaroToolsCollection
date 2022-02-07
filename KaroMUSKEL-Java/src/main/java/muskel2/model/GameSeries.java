@@ -33,13 +33,13 @@ public abstract class GameSeries implements Serializable
 
 	protected static Random			random				= new Random();
 
-	public GameSeries(String defaultTitleKey)
-	{
-		this.games = new LinkedList<Game>();
-		this.players = new LinkedList<Player>();
-		this.maps = new LinkedList<Map>();
-		this.defaultTitleKey = defaultTitleKey;
-	}
+//	public GameSeries(String defaultTitleKey)
+//	{
+//		this.games = new LinkedList<Game>();
+//		this.players = new LinkedList<Player>();
+//		this.maps = new LinkedList<Map>();
+//		this.defaultTitleKey = defaultTitleKey;
+//	}
 
 	public String getTitle()
 	{
@@ -154,7 +154,7 @@ public abstract class GameSeries implements Serializable
 		return firstScreen;
 	}
 
-	protected abstract Screen createScreens();
+//	protected abstract Screen createScreens();
 
 	protected Screen createScreensOnLoad()
 	{
@@ -174,7 +174,7 @@ public abstract class GameSeries implements Serializable
 
 //	protected abstract void planGames0();
 
-	public abstract int getMinSupportedPlayersPerMap();
+//	public abstract int getMinSupportedPlayersPerMap();
 
 	protected void resetPlannedGames(List<Player> players)
 	{
