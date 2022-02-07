@@ -204,6 +204,16 @@ public class KaroAPICache
 	{
 		return Collections.unmodifiableCollection(this.usersById.values());
 	}
+	
+	public java.util.Map<Integer, User> getUsersById()
+	{
+		return Collections.unmodifiableMap(this.usersById);
+	}
+	
+	public java.util.Map<String, User> getUsersByLogin()
+	{
+		return Collections.unmodifiableMap(this.usersByLogin);
+	}
 
 	public Map getMap(int id)
 	{
@@ -222,6 +232,11 @@ public class KaroAPICache
 	public Collection<Map> getMaps()
 	{
 		return Collections.unmodifiableCollection(this.mapsById.values());
+	}
+	
+	public java.util.Map<Integer, Map> getMapsById()
+	{
+		return Collections.unmodifiableMap(this.mapsById);
 	}
 
 	protected CompletableFuture<BufferedImage> loadMapImage(Map map, boolean thumb)
