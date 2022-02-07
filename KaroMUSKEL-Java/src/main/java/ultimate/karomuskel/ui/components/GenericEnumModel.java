@@ -26,7 +26,7 @@ public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel<La
 				this.setSelectedItem(this.getElementAt(i));
 				break;				
 			}
-			if(this.getElementAt(i).equals(value))
+			if(this.getElementAt(i).getValue().equals(value))
 			{
 				this.setSelectedItem(this.getElementAt(i));
 				break;
