@@ -56,6 +56,9 @@ public abstract class GameSeriesManager
 		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("leaguePlayers", java.util.Map.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("groupPlayers", java.util.Map.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("roundPlayers", java.util.Map.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC));
 
 		try
