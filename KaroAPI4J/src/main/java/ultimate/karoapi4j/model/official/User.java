@@ -344,13 +344,10 @@ public class User extends Identifiable
 	}
 
 	// derived from other information
-	public boolean isInvitable()
+	
+	public boolean isInvitable(boolean night)
 	{
-		return acceptsDayGames && (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
-	}
-
-	public boolean isInvitableNight()
-	{
-		return acceptsNightGames && (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
+		boolean withinLimit = (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
+		return (night ? acceptsNightGames : acceptsDayGames) && withinLimit;
 	}
 }

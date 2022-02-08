@@ -51,17 +51,16 @@ public abstract class GameSeriesManager
 	static
 	{
 		SETTINGS = new HashMap<>();
-		addSetting(new Setting<>("numberOfGamesPerPair", int.class, EnumGameSeriesType.AllCombinations,EnumGameSeriesType.League));
+		addSetting(new Setting<>("numberOfGamesPerPair", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.League));
 		addSetting(new Setting<>("numberOfTeamsPerMatch", int.class, EnumGameSeriesType.AllCombinations));
 		addSetting(new Setting<>("numberOfMaps", int.class, EnumGameSeriesType.Balanced));
 		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO));
 		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
-//		addSetting(new Setting<>("leaguePlayers", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Player>
-//		addSetting(new Setting<>("groupPlayers", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Player>
-//		addSetting(new Setting<>("roundPlayers", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Player>
-//		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Map>
-		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.League)); 
+		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.League));
+		addSetting(new Setting<>("numberOfGames", int.class, EnumGameSeriesType.Simple));
+		addSetting(new Setting<>("minPlayersPerGame", int.class, EnumGameSeriesType.Simple));
+		addSetting(new Setting<>("maxPlayersPerGame", int.class, EnumGameSeriesType.Simple));
 
 		try
 		{
@@ -241,7 +240,7 @@ public abstract class GameSeriesManager
 			else if(gs.getType() == EnumGameSeriesType.KO)
 			{
 				int round = get(gs, "round");
-				
+
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round > 2)
 				{
@@ -255,6 +254,8 @@ public abstract class GameSeriesManager
 			switch(gs.getType())
 			{
 				case AllCombinations:
+				case KO:
+				case League:
 					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
 					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
 					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
@@ -277,14 +278,12 @@ public abstract class GameSeriesManager
 					screens.getLast().setNextKey("screen.homemaps.nextskip");
 					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
 					break;
-				case KO:
-					// TODO
-					break;
-				case League:
-					// TODO
-					break;
 				case Simple:
-					// TODO
+					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new MapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
 					break;
 			}
 		}

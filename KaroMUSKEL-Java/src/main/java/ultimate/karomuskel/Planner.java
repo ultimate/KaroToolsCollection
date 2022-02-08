@@ -47,7 +47,7 @@ public class Planner
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("gameseries & type must not be null!");
 
-		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues;
+		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, numberOfGames, maxPlayersPerGame;
 		boolean useHomeMaps;
 
 		switch(gs.getType())
@@ -70,7 +70,9 @@ public class Planner
 				useHomeMaps = GameSeriesManager.get(gs, "useHomeMaps");
 				return planSeriesLeague(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, numberOfGamesPerPair);
 			case Simple:
-				return planSeriesSimple(gs.getTitle()); // TODO
+				numberOfGames = GameSeriesManager.get(gs, "numberOfGames");
+				maxPlayersPerGame = GameSeriesManager.get(gs, "maxPlayersPerGame");
+				return planSeriesSimple(gs.getTitle(), gs.getPlayers(), gs.getMaps(), gs.getRules(), numberOfGames, maxPlayersPerGame);
 			default:
 				return null;
 		}
@@ -321,6 +323,7 @@ public class Planner
 		PlannedGame game;
 		Team ti, ti1;
 		HashMap<String, String> placeholderValues = new HashMap<>();
+		
 		for(int i = 0; i < tmp.size(); i = i + 2)
 		{
 			ti = tmp.get(i);
@@ -357,6 +360,7 @@ public class Planner
 		int count = 0;
 		int dayCount;
 		HashMap<String, String> placeholderValues = new HashMap<>();
+		
 		for(int round = 1; round <= numberOfGamesPerPair; round++)
 		{
 			for(List<Match> matchesForDay : matches)
@@ -390,10 +394,44 @@ public class Planner
 		return games;
 	}
 
-	public List<PlannedGame> planSeriesSimple(String title)
+	public List<PlannedGame> planSeriesSimple(String title, List<User> players, List<Map> maps, Rules rules, int numberOfGames, int maxPlayersPerGame)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
+		PlannedGame game;
+		List<User> gamePlayers;
+		List<User> allPlayers;
+		User player;
+		Map map;
+		int count = 0;
+		HashMap<String, String> placeholderValues = new HashMap<>();
+		
+		for(int i = 0; i < numberOfGames; i++)
+		{
+			map = maps.get(random.nextInt(maps.size()));
+
+			gamePlayers = new LinkedList<User>();
+			gamePlayers.add(karoAPICache.getCurrentUser());
+
+			allPlayers = new LinkedList<User>(players);
+
+			while(gamePlayers.size() < Math.min(maxPlayersPerGame, map.getPlayers()))
+			{
+				if(allPlayers.size() == 0)
+					break;
+				player = allPlayers.remove(random.nextInt(allPlayers.size()));
+				if(player.isInvitable(map.isNight()))
+					gamePlayers.add(player);
+			}
+
+			placeholderValues.put("i", toString(count + 1, 1));
+			
+			game = planGame(title, map, gamePlayers, rules, placeholderValues);
+			
+			games.add(game);
+			count++;
+		}
+		
 		return games;
 	}
 
