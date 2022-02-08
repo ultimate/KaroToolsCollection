@@ -206,7 +206,7 @@ public abstract class GameSeriesManager
 
 		return gs2;
 	}
-
+	
 	@SuppressWarnings("deprecation")
 	public static GameSeries convert(muskel2.model.GameSeries gs2)
 	{
