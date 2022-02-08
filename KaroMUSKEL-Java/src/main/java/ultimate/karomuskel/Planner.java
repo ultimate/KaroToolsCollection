@@ -64,7 +64,8 @@ public class Planner
 				leagues = GameSeriesManager.get(gs, "leagues");
 				return planSeriesKLC(gs.getTitle(), gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
 			case KO:
-				return planSeriesKO(gs.getTitle(), gs.getTeams(), null, gs.getRules(), true);
+				useHomeMaps = GameSeriesManager.get(gs, "useHomeMaps");
+				return planSeriesKO(gs.getTitle(), gs.getTeams(), gs.getMaps(), null, gs.getRules(), useHomeMaps, true);
 			case League:
 				numberOfGamesPerPair = GameSeriesManager.get(gs, "numberOfGamesPerPair");
 				useHomeMaps = GameSeriesManager.get(gs, "useHomeMaps");
@@ -133,28 +134,28 @@ public class Planner
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
-
+	
 		List<PlannedGame> games = new LinkedList<>();
-
+	
 		PlannedGame game;
 		List<User> gamePlayers;
 		Map map;
 		int count = 0;
 		int dayCount;
 		HashMap<String, String> placeholderValues = new HashMap<>();
-
+	
 		User[][][] shuffledPlayers = shufflePlayers(players, new ArrayList<>(gameDayRules.values()));
-
+	
 		for(int day = 0; day < gameDayMaps.size(); day++)
 		{
 			dayCount = 0;
-
+	
 			int gamesBefore = games.size();
-
+	
 			for(int g = 0; g < shuffledPlayers[day].length; g++)
 			{
 				gamePlayers = new LinkedList<User>();
-
+	
 				for(int p = 0; p < shuffledPlayers[day][g].length; p++)
 				{
 					if(shuffledPlayers[day][g][p] == null)
@@ -162,20 +163,20 @@ public class Planner
 					gamePlayers.add(shuffledPlayers[day][g][p]);
 				}
 				gamePlayers.add(karoAPICache.getCurrentUser());
-
+	
 				map = gameDayMaps.get(day).get(random.nextInt(gameDayMaps.get(day).size()));
-
+	
 				placeholderValues.put("i", toString(count + 1, 1));
 				placeholderValues.put("spieltag", toString(day + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
-
+	
 				game = planGame(title, map, gamePlayers, gameDayRules.get(day), placeholderValues);
-
+	
 				games.add(game);
 				count++;
 				dayCount++;
 			}
-
+	
 			int gamesAfter = games.size();
 			logger.info("map #" + day + " games planned:   " + (gamesAfter - gamesBefore));
 		}
@@ -216,7 +217,7 @@ public class Planner
 			for(User user : playersByKey.get("round_" + round))
 				teams.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
 
-			return planSeriesKO(title, teams, whoIsHome, rules, true);
+			return planSeriesKO(title, teams, null, whoIsHome, rules, true, true);
 		}
 	}
 
@@ -310,7 +311,7 @@ public class Planner
 		return planGame(title, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
 	}
 
-	public List<PlannedGame> planSeriesKO(String title, List<Team> teams, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean shuffle)
+	public List<PlannedGame> planSeriesKO(String title, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -322,6 +323,7 @@ public class Planner
 		int count = 1;
 		PlannedGame game;
 		Team ti, ti1;
+		Map overwriteMap = null;
 		HashMap<String, String> placeholderValues = new HashMap<>();
 		
 		for(int i = 0; i < tmp.size(); i = i + 2)
@@ -334,8 +336,11 @@ public class Planner
 			// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
 			placeholderValues.put("runde", toPlaceholderString(tmp.size(), -1, -1, -1));
 			placeholderValues.put("runde.x", toPlaceholderString(tmp.size(), -1, -1, count));
+			
+			if(!useHomeMaps)
+				overwriteMap = maps.get(random.nextInt(maps.size())); 
 
-			game = planTeamGame(title, ti, ti1, whoIsHome, null, rules, placeholderValues);
+			game = planTeamGame(title, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
 
 			games.add(game);
 			count++;

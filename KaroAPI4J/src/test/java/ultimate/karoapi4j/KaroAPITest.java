@@ -78,7 +78,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded invitable: " + invitables.size());
 		assertNotNull(invitables);
 		// all users in this list should be invitable
-		Predicate<User> findInvitable = (user) -> { return user.isInvitable(); };
+		Predicate<User> findInvitable = (user) -> { return user.isInvitable(false); };
 		assertEquals(invitables.size(), CollectionsUtil.count(invitables, findInvitable));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToInvitables = new ArrayList<User>(users);
