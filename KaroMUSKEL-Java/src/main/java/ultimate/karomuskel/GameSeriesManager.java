@@ -51,16 +51,17 @@ public abstract class GameSeriesManager
 	static
 	{
 		SETTINGS = new HashMap<>();
+		addSetting(new Setting<>("numberOfGamesPerPair", int.class, EnumGameSeriesType.AllCombinations,EnumGameSeriesType.League));
 		addSetting(new Setting<>("numberOfTeamsPerMatch", int.class, EnumGameSeriesType.AllCombinations));
 		addSetting(new Setting<>("numberOfMaps", int.class, EnumGameSeriesType.Balanced));
 		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO));
 		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("leaguePlayers", java.util.Map.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("groupPlayers", java.util.Map.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("roundPlayers", java.util.Map.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC)); // TODO how to make sure, that deserialization uses java.util.Map<Integer, Map>
-		addSetting(new Setting<>("teams", List.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO)); // TODO how to make sure, that deserialization uses List<Team>
+//		addSetting(new Setting<>("leaguePlayers", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Player>
+//		addSetting(new Setting<>("groupPlayers", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Player>
+//		addSetting(new Setting<>("roundPlayers", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Player>
+//		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC));// TODO how to make sure, that deserialization uses java.util.Map<Integer, Map>
+		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.League)); 
 
 		try
 		{
