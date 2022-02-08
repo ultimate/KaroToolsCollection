@@ -16,7 +16,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import muskel2.model.help.AllCombinationsNumberModel;
 import muskel2.model.series.AllCombinationsGameSeries;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.model.series.KOGameSeries;
@@ -31,6 +30,7 @@ import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.AllCombinationsNumberModel;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.KORoundNumberModel;
 
