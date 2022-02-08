@@ -24,19 +24,20 @@ public abstract class GameSeries
 	protected List<PlannedGame>				plannedGames;
 	protected List<Game>					createdGames;
 
-	// players or teams
+	// default lists
 	protected List<User>					players;
 	protected List<Team>					teams;
-
-	// type specific settings
-	protected java.util.Map<String, Object>	settings;
-
-	// default map & rules
 	protected List<Map>						maps;
 	protected Rules							rules;
 
-	protected HashMap<Integer, List<Map>>	gameDayMaps;
-	protected HashMap<Integer, Rules>		gameDayRules;
+	// parameterized lists
+	protected HashMap<String, List<User>>	playersByKey;
+	protected HashMap<String, List<Team>>	teamsByKey;
+	protected HashMap<String, List<Map>>	mapsByKey;
+	protected HashMap<String, Rules>		rulesByKey;
+
+	// type specific settings
+	protected java.util.Map<String, Object>	settings;
 
 	protected transient boolean				loaded;
 
@@ -126,16 +127,6 @@ public abstract class GameSeries
 		this.teams = teams;
 	}
 
-	public java.util.Map<String, Object> getSettings()
-	{
-		return settings;
-	}
-
-	public void setSettings(java.util.Map<String, Object> settings)
-	{
-		this.settings = settings;
-	}
-
 	public List<Map> getMaps()
 	{
 		return maps;
@@ -156,24 +147,54 @@ public abstract class GameSeries
 		this.rules = rules;
 	}
 
-	public HashMap<Integer, List<Map>> getGameDayMaps()
+	public HashMap<String, List<User>> getPlayersByKey()
 	{
-		return gameDayMaps;
+		return playersByKey;
 	}
 
-	public void setGameDayMaps(HashMap<Integer, List<Map>> gameDayMaps)
+	public void setPlayersByKey(HashMap<String, List<User>> playersByKey)
 	{
-		this.gameDayMaps = gameDayMaps;
+		this.playersByKey = playersByKey;
 	}
 
-	public HashMap<Integer, Rules> getGameDayRules()
+	public HashMap<String, List<Team>> getTeamsByKey()
 	{
-		return gameDayRules;
+		return teamsByKey;
 	}
 
-	public void setGameDayRules(HashMap<Integer, Rules> gameDayRules)
+	public void setTeamsByKey(HashMap<String, List<Team>> teamsByKey)
 	{
-		this.gameDayRules = gameDayRules;
+		this.teamsByKey = teamsByKey;
+	}
+
+	public HashMap<String, List<Map>> getMapsByKey()
+	{
+		return mapsByKey;
+	}
+
+	public void setMapsByKey(HashMap<String, List<Map>> mapsByKey)
+	{
+		this.mapsByKey = mapsByKey;
+	}
+
+	public HashMap<String, Rules> getRulesByKey()
+	{
+		return rulesByKey;
+	}
+
+	public void setRulesByKey(HashMap<String, Rules> rulesByKey)
+	{
+		this.rulesByKey = rulesByKey;
+	}
+
+	public java.util.Map<String, Object> getSettings()
+	{
+		return settings;
+	}
+
+	public void setSettings(java.util.Map<String, Object> settings)
+	{
+		this.settings = settings;
 	}
 
 	public boolean isLoaded()
