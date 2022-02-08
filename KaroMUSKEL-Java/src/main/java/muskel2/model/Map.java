@@ -3,8 +3,6 @@ package muskel2.model;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.Serializable;
-
-import ultimate.karomuskel.Launcher;
 @Deprecated
 public class Map implements Serializable
 {
@@ -113,18 +111,18 @@ public class Map implements Serializable
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		this.id = in.readInt();
-		Map original = Launcher.getKaropapier().getMaps().get(this.id);
-		if(original == null)
-		{
-			original = new Map(this.id, "<deleted>", "unknown", false, 0, null);
-			// throw new NotSerializableException("could not deserialize map with id: " + this.id);
-			System.err.println("could not deserialize map with id: " + this.id);
-		}
-		this.name = original.name;
-		this.creator = original.creator;
-		this.night = original.night;
-		this.maxPlayers = original.maxPlayers;
-		this.image = original.image;
-		Launcher.getKaropapier().getMaps().put(this.id, this);
+//		Map original = Launcher.getKaropapier().getMaps().get(this.id);
+//		if(original == null)
+//		{
+//			original = new Map(this.id, "<deleted>", "unknown", false, 0, null);
+//			// throw new NotSerializableException("could not deserialize map with id: " + this.id);
+//			System.err.println("could not deserialize map with id: " + this.id);
+//		}
+//		this.name = original.name;
+//		this.creator = original.creator;
+//		this.night = original.night;
+//		this.maxPlayers = original.maxPlayers;
+//		this.image = original.image;
+//		Launcher.getKaropapier().getMaps().put(this.id, this);
 	}
 }

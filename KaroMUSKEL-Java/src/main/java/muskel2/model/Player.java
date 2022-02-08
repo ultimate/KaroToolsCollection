@@ -3,9 +3,6 @@ package muskel2.model;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Map.Entry;
-
-import ultimate.karomuskel.Launcher;
 @Deprecated
 public class Player implements Serializable
 {
@@ -210,44 +207,44 @@ public class Player implements Serializable
 	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException
 	{
 		this.id = in.readInt();
-		Player original = null;
-		String key = null;
-		if(Launcher.getKaropapier().getCurrentPlayer().getId() == this.id)
-		{
-			original = Launcher.getKaropapier().getCurrentPlayer();
-			Launcher.getKaropapier().setCurrentPlayer(this);
-		}
-		else
-		{
-			for(Entry<String, Player> player : Launcher.getKaropapier().getPlayers().entrySet())
-			{
-				if(player.getValue().getId() == this.id)
-				{
-					key = player.getKey();
-					original = player.getValue();
-					break;
-				}
-			}
-			if(original == null)
-			{
-				key = "<deleted>";
-				original = new Player(this.id, key, false, false, 0, 0, -1, -1, new Color(255, 0, 0), 0, null);
-				// throw new NotSerializableException("could not deserialize player with id: " +
-				// this.id);
-				System.err.println("could not deserialize player with id: " + this.id);
-			}
-			Launcher.getKaropapier().getPlayers().put(key, this);
-		}
-		this.name = original.name;
-		this.invitableNormal = original.invitableNormal;
-		this.invitableNight = original.invitableNight;
-		this.gamesMax = original.gamesMax;
-		this.gamesAct = original.gamesAct;
-		this.gamesActOrPlanned = original.gamesActOrPlanned;
-		this.lastVisited = original.lastVisited;
-		this.activeSince = original.activeSince;
-		this.color = original.color;
-		this.league = original.league;
-		this.homeMap = original.homeMap;
+//		Player original = null;
+//		String key = null;
+//		if(Launcher.getKaropapier().getCurrentPlayer().getId() == this.id)
+//		{
+//			original = Launcher.getKaropapier().getCurrentPlayer();
+//			Launcher.getKaropapier().setCurrentPlayer(this);
+//		}
+//		else
+//		{
+//			for(Entry<String, Player> player : Launcher.getKaropapier().getPlayers().entrySet())
+//			{
+//				if(player.getValue().getId() == this.id)
+//				{
+//					key = player.getKey();
+//					original = player.getValue();
+//					break;
+//				}
+//			}
+//			if(original == null)
+//			{
+//				key = "<deleted>";
+//				original = new Player(this.id, key, false, false, 0, 0, -1, -1, new Color(255, 0, 0), 0, null);
+//				// throw new NotSerializableException("could not deserialize player with id: " +
+//				// this.id);
+//				System.err.println("could not deserialize player with id: " + this.id);
+//			}
+//			Launcher.getKaropapier().getPlayers().put(key, this);
+//		}
+//		this.name = original.name;
+//		this.invitableNormal = original.invitableNormal;
+//		this.invitableNight = original.invitableNight;
+//		this.gamesMax = original.gamesMax;
+//		this.gamesAct = original.gamesAct;
+//		this.gamesActOrPlanned = original.gamesActOrPlanned;
+//		this.lastVisited = original.lastVisited;
+//		this.activeSince = original.activeSince;
+//		this.color = original.color;
+//		this.league = original.league;
+//		this.homeMap = original.homeMap;
 	}
 }
