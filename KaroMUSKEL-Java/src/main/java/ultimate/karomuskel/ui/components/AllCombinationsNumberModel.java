@@ -1,10 +1,11 @@
-package muskel2.model.help;
+package ultimate.karomuskel.ui.components;
 
 import javax.swing.AbstractSpinnerModel;
 import javax.swing.JSpinner;
 
 public class AllCombinationsNumberModel extends AbstractSpinnerModel
 {
+	private static final long serialVersionUID = 1L;
 	private int value;
 	private int min = 2;
 	private JSpinner numberOfTeamsSpinner;
