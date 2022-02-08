@@ -21,18 +21,18 @@ public class GameSeries
 
 	// games (planned & created)
 	protected List<PlannedGame>				plannedGames;
-	protected List<Game>					createdGames;
+	protected List<Game>					createdGames; // TODO IDs only
 
 	// default lists
-	protected List<User>					players;
-	protected List<Team>					teams;
-	protected List<Map>						maps;
+	protected List<User>					players; // TODO IDs only
+	protected List<Team>					teams; // TODO IDs only
+	protected List<Map>						maps; // TODO IDs only
 	protected Rules							rules;
 
 	// parameterized lists
-	protected HashMap<String, List<User>>	playersByKey;
-	protected HashMap<String, List<Team>>	teamsByKey;
-	protected HashMap<String, List<Map>>	mapsByKey;
+	protected HashMap<String, List<User>>	playersByKey; // TODO IDs only
+	protected HashMap<String, List<Team>>	teamsByKey; // TODO IDs only
+	protected HashMap<String, List<Map>>	mapsByKey; // TODO IDs only
 	protected HashMap<String, Rules>		rulesByKey;
 
 	// type specific settings
