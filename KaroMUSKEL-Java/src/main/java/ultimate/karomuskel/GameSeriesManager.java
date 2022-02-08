@@ -53,16 +53,18 @@ public abstract class GameSeriesManager
 		SETTINGS = new HashMap<>();
 		addSetting(new Setting<>("numberOfTeamsPerMatch", int.class, EnumGameSeriesType.AllCombinations));
 		addSetting(new Setting<>("numberOfMaps", int.class, EnumGameSeriesType.Balanced));
-		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO));
 		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("leaguePlayers", java.util.Map.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("groupPlayers", java.util.Map.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("roundPlayers", java.util.Map.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC));
+		addSetting(new Setting<>("homeMaps", java.util.Map.class, EnumGameSeriesType.KLC)); // TODO how to make sure, that deserialization uses java.util.Map<Integer, Map>
+		addSetting(new Setting<>("teams", List.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO)); // TODO how to make sure, that deserialization uses List<Team>
 
 		try
 		{
+			logger.info("loading configuration...");
 			config = PropertiesUtil.loadProperties(new File("config.properties"));
 		}
 		catch(IOException e)
@@ -234,17 +236,17 @@ public abstract class GameSeriesManager
 				}
 				round = round / 2;
 				set(gs, "round", round);
-
-				// Restore HomeMaps // not needed, stored in gs
-//				System.out.println("restoring homemaps");
-//				for(Entry<Integer, Integer> e : this.homeMaps.entrySet())
-//				{
-//					for(Player p : this.getKaropapier().getPlayers().values())
-//					{
-//						if(p.getId() == e.getKey())
-//							p.setHomeMap(this.getKaropapier().getMaps().get(e.getValue()));
-//					}
-//				}
+			}
+			else if(gs.getType() == EnumGameSeriesType.KO)
+			{
+				int round = get(gs, "round");
+				
+				screens.getLast().setNextKey("screen.summary.nextko");
+				if(round > 2)
+				{
+					screens.add(new KOWinnersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+				}
 			}
 		}
 		else
