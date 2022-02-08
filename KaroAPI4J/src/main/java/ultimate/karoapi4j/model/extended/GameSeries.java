@@ -1,7 +1,6 @@
 package ultimate.karoapi4j.model.extended;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +11,7 @@ import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 
 // TODO
-public abstract class GameSeries
+public class GameSeries
 {
 	// universal settings
 	protected EnumGameSeriesType			type;
@@ -43,18 +42,15 @@ public abstract class GameSeries
 
 	protected static Random					random	= new Random();
 
+	public GameSeries()
+	{
+	}
+	
 	public GameSeries(EnumGameSeriesType type, boolean teamBased)
 	{
+		this();
 		this.type = type;
 		this.teamBased = teamBased;
-
-		this.plannedGames = new LinkedList<PlannedGame>();
-		this.createdGames = new LinkedList<Game>();
-
-		this.players = new LinkedList<User>();
-		this.teams = new LinkedList<Team>();
-
-		this.maps = new LinkedList<Map>();
 	}
 
 	public EnumGameSeriesType getType()
@@ -210,35 +206,5 @@ public abstract class GameSeries
 	protected void planGame(PlannedGame game)
 	{
 		this.plannedGames.add(game);
-	}
-
-	public final void planGames()
-	{
-		// TODO spieltagbasiert?!
-		System.out.println("Plane Spiele...");
-		this.plannedGames.clear();
-		this.resetPlannedGames(this.players);
-		this.planGames0();
-		System.out.println("Spiele geplant: " + this.plannedGames.size());
-	}
-
-	protected abstract void planGames0();
-
-	public abstract int getMinSupportedPlayersPerMap();
-
-	protected void resetPlannedGames(List<User> players)
-	{
-		for(User player : players)
-		{
-			player.setPlannedGames(0);
-		}
-	}
-
-	protected void increasePlannedGames(List<User> players)
-	{
-		for(User player : players)
-		{
-			player.setPlannedGames(player.getPlannedGames() + 1);
-		}
 	}
 }

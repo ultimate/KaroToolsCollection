@@ -1,8 +1,10 @@
 package ultimate.karomuskel;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Arrays;
@@ -16,8 +18,11 @@ import javax.swing.JButton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.screens.GroupWinnersScreen;
@@ -46,7 +51,38 @@ public abstract class GameSeriesManager
 
 	}
 
-	public static final HashMap<String, Setting<?>> SETTINGS;
+	public static final String						CHARSET	= "UTF-8";
+	public static final HashMap<String, Setting<?>>	SETTINGS;
+
+	private static class Setting<T>
+	{
+		private String						key;
+		private Class<T>					valueType;
+		private List<EnumGameSeriesType>	applicableGamesSeriesType;
+
+		public Setting(String key, Class<T> valueType, EnumGameSeriesType... applicableGamesSeriesType)
+		{
+			super();
+			this.key = key;
+			this.valueType = valueType;
+			this.applicableGamesSeriesType = Arrays.asList(applicableGamesSeriesType);
+		}
+
+		public String getKey()
+		{
+			return key;
+		}
+
+		public Class<T> getValueType()
+		{
+			return valueType;
+		}
+
+		public boolean isApplicable(GameSeries gs)
+		{
+			return applicableGamesSeriesType.contains(gs.getType());
+		}
+	}
 
 	static
 	{
@@ -133,54 +169,25 @@ public abstract class GameSeriesManager
 		return getStringConfig(gsType, "defaultTitle");
 	}
 
-	private static class Setting<T>
-	{
-		private String						key;
-		private Class<T>					valueType;
-		private List<EnumGameSeriesType>	applicableGamesSeriesType;
-
-		public Setting(String key, Class<T> valueType, EnumGameSeriesType... applicableGamesSeriesType)
-		{
-			super();
-			this.key = key;
-			this.valueType = valueType;
-			this.applicableGamesSeriesType = Arrays.asList(applicableGamesSeriesType);
-		}
-
-		public String getKey()
-		{
-			return key;
-		}
-
-		public Class<T> getValueType()
-		{
-			return valueType;
-		}
-
-		public boolean isApplicable(GameSeries gs)
-		{
-			return applicableGamesSeriesType.contains(gs.getType());
-		}
-	}
-
-	public static GameSeries create(String type)
-	{
-		// TODO
-		return null;
-	}
-
 	public static GameSeries load(File file) throws IOException, ClassNotFoundException, ClassCastException
 	{
-		// TODO check for json vs. old
-		boolean v2 = true;
+		FileInputStream fis = new FileInputStream(file);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		byte[] bytes = bis.readAllBytes();
+		bis.close();
+		fis.close();
+
+		boolean v2 = (bytes[0] != '}');
 		if(v2)
 		{
 			return convert(loadV2(file));
 		}
 		else
 		{
-			// setLoaded(true);
-			return null;
+			String content = new String(bytes, CHARSET);
+			GameSeries gs = JSONUtil.deserialize(content, new TypeReference<GameSeries>() {});
+			gs.setLoaded(true);
+			return gs;
 		}
 	}
 
@@ -192,7 +199,6 @@ public abstract class GameSeriesManager
 		ObjectInputStream ois = new ObjectInputStream(bis);
 
 		muskel2.model.GameSeries gs2 = (muskel2.model.GameSeries) ois.readObject();
-		gs2.setLoaded(true);
 
 		ois.close();
 		bis.close();
@@ -208,10 +214,18 @@ public abstract class GameSeriesManager
 		return null;
 	}
 
-	public static boolean store(GameSeries gs, File file)
+	public static void store(GameSeries gs, File file) throws IOException
 	{
-		// TODO
-		return false;
+		String json = JSONUtil.serialize(gs);
+		
+		FileOutputStream fos = new FileOutputStream(file);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+		
+		bos.write(json.getBytes(CHARSET));
+		
+		bos.flush();
+		bos.close();
+		fos.close();
 	}
 
 	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
