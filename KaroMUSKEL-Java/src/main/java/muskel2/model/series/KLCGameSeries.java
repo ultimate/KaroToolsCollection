@@ -1,24 +1,11 @@
 package muskel2.model.series;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 
-import muskel2.model.Game;
 import muskel2.model.GameSeries;
-import muskel2.model.Map;
 import muskel2.model.Player;
-import muskel2.model.Rules;
-import muskel2.model.help.Match;
-import muskel2.model.help.Team;
-import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.screens.GroupWinnersScreen;
-import ultimate.karomuskel.ui.screens.KOWinnersScreen;
-import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 @Deprecated
 public class KLCGameSeries extends GameSeries
@@ -113,168 +100,168 @@ public class KLCGameSeries extends GameSeries
 //
 //		return s01;
 //	}
-
-	@Override
-	protected void planGames0()
-	{
-		// HomeMaps für Serialization sichern
-		this.homeMaps.clear();
-		for(Player p : this.allPlayers)
-			this.homeMaps.put(p.getId(), p.getHomeMap().getId());
-
-		if(this.round == PLAYERS)
-		{
-			// Liegen durchmischen
-			for(int l = 1; l <= LEAGUES; l++)
-				Collections.shuffle(this.getPlayersLeagueX(l));
-
-			// Gruppenphase
-			for(int g = 1; g <= GROUPS; g++)
-			{
-				// Bilde Gruppe aus je 1 Spieler pro Liga
-				// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
-				// X jeweils den X-ten Spieler pro Gruppe nehmen
-				this.getPlayersGroupX(g).clear();
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(1).get(g - 1));
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(2).get(g - 1));
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(3).get(g - 1));
-				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(4).get(g - 1));
-				Collections.shuffle(this.getPlayersGroupX(g), random);
-
-				// create a temporarily list of teams to be able to use the LeaguePlanner
-				List<Team> teamsTmp = new ArrayList<Team>(this.getPlayersGroupX(g).size());
-				for(Player p : this.getPlayersGroupX(g))
-				{
-					teamsTmp.add(new Team(p.getName(), Arrays.asList(p)));
-				}
-				List<List<Match>> matches = LeaguePlanner.createMatches(teamsTmp);
-
-				int day = 0;
-				Game game;
-				String name;
-				Map map;
-				Player home, guest;
-				List<Player> gamePlayers;
-				int count = 0;
-				int dayCount;
-				Rules tmpRules;
-				for(List<Match> matchesForDay : matches)
-				{
-					dayCount = 0;
-					for(Match match : matchesForDay)
-					{
-						if(match.getTeam(0).getPlayers().get(0).getLeague() > match.getTeam(1).getPlayers().get(0).getLeague())
-						{
-							// Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
-							home = match.getTeam(0).getPlayers().get(0);
-							guest = match.getTeam(1).getPlayers().get(0);
-						}
-						else if(match.getTeam(0).getPlayers().get(0).getLeague() < match.getTeam(1).getPlayers().get(0).getLeague())
-						{
-							// Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
-							guest = match.getTeam(0).getPlayers().get(0);
-							home = match.getTeam(1).getPlayers().get(0);
-						}
-						else
-						{
-							// Spieler 0 und 1 sind in der gleichen Liga
-							if(random.nextBoolean())
-							{
-								home = match.getTeam(0).getPlayers().get(0);
-								guest = match.getTeam(1).getPlayers().get(0);
-							}
-							else
-							{
-								guest = match.getTeam(0).getPlayers().get(0);
-								home = match.getTeam(1).getPlayers().get(0);
-							}
-						}
-
-						map = home.getHomeMap();
-
-						gamePlayers = new LinkedList<Player>();
-						gamePlayers.add(this.creator);
-						gamePlayers.add(home);
-						gamePlayers.add(guest);
-
-						increasePlannedGames(gamePlayers);
-
-						tmpRules = rules.clone().createRandomValues();
-						name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, match.getTeams(), this.round, g);
-
-						game = new Game(name, map, gamePlayers, tmpRules);
-
-						this.games.add(game);
-						count++;
-						dayCount++;
-					}
-					day++;
-				}
-			}
-		}
-		else
-		{
-			// KO-Phase
-			Collections.shuffle(this.getPlayersRoundOfX(this.round), random);
-
-			int count = 1;
-			Game game;
-			String name;
-			Map map;
-			Player home, guest;
-			List<Player> gamePlayers;
-			Rules tmpRules;
-			Team tmpTeamHome, tmpTeamGuest;
-			for(int i = 0; i < this.round; i = i + 2)
-			{
-				if(this.getPlayersRoundOfX(this.round).get(i).getLeague() > this.getPlayersRoundOfX(this.round).get(i + 1).getLeague())
-				{
-					// Spieler i ist in der niedrigeren Liga (= höhere Liga Nummer)
-					home = this.getPlayersRoundOfX(this.round).get(i);
-					guest = this.getPlayersRoundOfX(this.round).get(i + 1);
-				}
-				else if(this.getPlayersRoundOfX(this.round).get(i).getLeague() < this.getPlayersRoundOfX(this.round).get(i + 1).getLeague())
-				{
-					// Spieler i+1 ist in der niedrigeren Liga (= höhere Liga Nummer)
-					guest = this.getPlayersRoundOfX(this.round).get(i);
-					home = this.getPlayersRoundOfX(this.round).get(i + 1);
-				}
-				else
-				{
-					// Spieler i und i+1 sind in der gleichen Liga
-					if(random.nextBoolean())
-					{
-						home = this.getPlayersRoundOfX(this.round).get(i);
-						guest = this.getPlayersRoundOfX(this.round).get(i + 1);
-					}
-					else
-					{
-						guest = this.getPlayersRoundOfX(this.round).get(i);
-						home = this.getPlayersRoundOfX(this.round).get(i + 1);
-					}
-				}
-
-				map = home.getHomeMap();
-
-				gamePlayers = new LinkedList<Player>();
-				gamePlayers.add(this.creator);
-				gamePlayers.add(home);
-				gamePlayers.add(guest);
-
-				increasePlannedGames(gamePlayers);
-
-				tmpRules = rules.clone().createRandomValues();
-				tmpTeamHome = new Team(home.getName(), Arrays.asList(home));
-				tmpTeamGuest = new Team(guest.getName(), Arrays.asList(guest));
-				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, new Team[] { tmpTeamHome, tmpTeamGuest }, this.round, -1);
-
-				game = new Game(name, map, gamePlayers, tmpRules);
-
-				this.games.add(game);
-				count++;
-			}
-		}
-	}
+//
+//	@Override
+//	protected void planGames0()
+//	{
+//		// HomeMaps für Serialization sichern
+//		this.homeMaps.clear();
+//		for(Player p : this.allPlayers)
+//			this.homeMaps.put(p.getId(), p.getHomeMap().getId());
+//
+//		if(this.round == PLAYERS)
+//		{
+//			// Liegen durchmischen
+//			for(int l = 1; l <= LEAGUES; l++)
+//				Collections.shuffle(this.getPlayersLeagueX(l));
+//
+//			// Gruppenphase
+//			for(int g = 1; g <= GROUPS; g++)
+//			{
+//				// Bilde Gruppe aus je 1 Spieler pro Liga
+//				// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
+//				// X jeweils den X-ten Spieler pro Gruppe nehmen
+//				this.getPlayersGroupX(g).clear();
+//				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(1).get(g - 1));
+//				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(2).get(g - 1));
+//				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(3).get(g - 1));
+//				this.getPlayersGroupX(g).add(this.getPlayersLeagueX(4).get(g - 1));
+//				Collections.shuffle(this.getPlayersGroupX(g), random);
+//
+//				// create a temporarily list of teams to be able to use the LeaguePlanner
+//				List<Team> teamsTmp = new ArrayList<Team>(this.getPlayersGroupX(g).size());
+//				for(Player p : this.getPlayersGroupX(g))
+//				{
+//					teamsTmp.add(new Team(p.getName(), Arrays.asList(p)));
+//				}
+//				List<List<Match>> matches = LeaguePlanner.createMatches(teamsTmp);
+//
+//				int day = 0;
+//				Game game;
+//				String name;
+//				Map map;
+//				Player home, guest;
+//				List<Player> gamePlayers;
+//				int count = 0;
+//				int dayCount;
+//				Rules tmpRules;
+//				for(List<Match> matchesForDay : matches)
+//				{
+//					dayCount = 0;
+//					for(Match match : matchesForDay)
+//					{
+//						if(match.getTeam(0).getPlayers().get(0).getLeague() > match.getTeam(1).getPlayers().get(0).getLeague())
+//						{
+//							// Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
+//							home = match.getTeam(0).getPlayers().get(0);
+//							guest = match.getTeam(1).getPlayers().get(0);
+//						}
+//						else if(match.getTeam(0).getPlayers().get(0).getLeague() < match.getTeam(1).getPlayers().get(0).getLeague())
+//						{
+//							// Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
+//							guest = match.getTeam(0).getPlayers().get(0);
+//							home = match.getTeam(1).getPlayers().get(0);
+//						}
+//						else
+//						{
+//							// Spieler 0 und 1 sind in der gleichen Liga
+//							if(random.nextBoolean())
+//							{
+//								home = match.getTeam(0).getPlayers().get(0);
+//								guest = match.getTeam(1).getPlayers().get(0);
+//							}
+//							else
+//							{
+//								guest = match.getTeam(0).getPlayers().get(0);
+//								home = match.getTeam(1).getPlayers().get(0);
+//							}
+//						}
+//
+//						map = home.getHomeMap();
+//
+//						gamePlayers = new LinkedList<Player>();
+//						gamePlayers.add(this.creator);
+//						gamePlayers.add(home);
+//						gamePlayers.add(guest);
+//
+//						increasePlannedGames(gamePlayers);
+//
+//						tmpRules = rules.clone().createRandomValues();
+//						name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, match.getTeams(), this.round, g);
+//
+//						game = new Game(name, map, gamePlayers, tmpRules);
+//
+//						this.games.add(game);
+//						count++;
+//						dayCount++;
+//					}
+//					day++;
+//				}
+//			}
+//		}
+//		else
+//		{
+//			// KO-Phase
+//			Collections.shuffle(this.getPlayersRoundOfX(this.round), random);
+//
+//			int count = 1;
+//			Game game;
+//			String name;
+//			Map map;
+//			Player home, guest;
+//			List<Player> gamePlayers;
+//			Rules tmpRules;
+//			Team tmpTeamHome, tmpTeamGuest;
+//			for(int i = 0; i < this.round; i = i + 2)
+//			{
+//				if(this.getPlayersRoundOfX(this.round).get(i).getLeague() > this.getPlayersRoundOfX(this.round).get(i + 1).getLeague())
+//				{
+//					// Spieler i ist in der niedrigeren Liga (= höhere Liga Nummer)
+//					home = this.getPlayersRoundOfX(this.round).get(i);
+//					guest = this.getPlayersRoundOfX(this.round).get(i + 1);
+//				}
+//				else if(this.getPlayersRoundOfX(this.round).get(i).getLeague() < this.getPlayersRoundOfX(this.round).get(i + 1).getLeague())
+//				{
+//					// Spieler i+1 ist in der niedrigeren Liga (= höhere Liga Nummer)
+//					guest = this.getPlayersRoundOfX(this.round).get(i);
+//					home = this.getPlayersRoundOfX(this.round).get(i + 1);
+//				}
+//				else
+//				{
+//					// Spieler i und i+1 sind in der gleichen Liga
+//					if(random.nextBoolean())
+//					{
+//						home = this.getPlayersRoundOfX(this.round).get(i);
+//						guest = this.getPlayersRoundOfX(this.round).get(i + 1);
+//					}
+//					else
+//					{
+//						guest = this.getPlayersRoundOfX(this.round).get(i);
+//						home = this.getPlayersRoundOfX(this.round).get(i + 1);
+//					}
+//				}
+//
+//				map = home.getHomeMap();
+//
+//				gamePlayers = new LinkedList<Player>();
+//				gamePlayers.add(this.creator);
+//				gamePlayers.add(home);
+//				gamePlayers.add(guest);
+//
+//				increasePlannedGames(gamePlayers);
+//
+//				tmpRules = rules.clone().createRandomValues();
+//				tmpTeamHome = new Team(home.getName(), Arrays.asList(home));
+//				tmpTeamGuest = new Team(guest.getName(), Arrays.asList(guest));
+//				name = PlaceholderFactory.applyPlaceholders(this.karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, new Team[] { tmpTeamHome, tmpTeamGuest }, this.round, -1);
+//
+//				game = new Game(name, map, gamePlayers, tmpRules);
+//
+//				this.games.add(game);
+//				count++;
+//			}
+//		}
+//	}
 
 //	public List<Player> getPlayersLeagueX(int league)
 //	{

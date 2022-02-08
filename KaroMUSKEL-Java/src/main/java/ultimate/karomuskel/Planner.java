@@ -4,12 +4,15 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
-import muskel2.model.Game;
-import muskel2.model.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
@@ -25,16 +28,20 @@ import ultimate.karomuskel.ui.Language;
 
 public class Planner
 {
-	private static Random	random	= new Random();
+	/**
+	 * Logger-Instance
+	 */
+	private static final Logger	logger	= LoggerFactory.getLogger(Planner.class);
+	private static Random		random	= new Random();
 
-	private KaroAPICache	karoAPICache;
+	private KaroAPICache		karoAPICache;
 
 	public Planner(KaroAPICache karoAPICache)
 	{
 		this.karoAPICache = karoAPICache;
 	}
 
-	public List<PlannedGame> plan(GameSeries gs)
+	public List<PlannedGame> planSeries(GameSeries gs)
 	{
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("gameseries & type must not be null!");
@@ -42,23 +49,28 @@ public class Planner
 		switch(gs.getType())
 		{
 			case AllCombinations:
-				return planAllCombinations(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), 0, 0);
+				return planSeriesAllCombinations(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), 0, 0);
 			case Balanced:
-				return planBalanced(gs.getTitle(), null, null, null);
+				return planSeriesBalanced(gs.getTitle(), null, null, null);
 			case KLC:
-				return planKLC(gs.getTitle());
+				java.util.Map<Integer, List<User>> leaguePlayers = GameSeriesManager.get(gs, "leaguePlayers");
+				java.util.Map<Integer, List<User>> groupPlayers = GameSeriesManager.get(gs, "groupPlayers");
+				java.util.Map<Integer, List<User>> roundPlayers = GameSeriesManager.get(gs, "roundPlayers");
+				java.util.Map<Integer, Map> homeMaps = GameSeriesManager.get(gs, "homeMaps");
+				int round = GameSeriesManager.get(gs, "round");
+				return planSeriesKLC(gs.getTitle(), leaguePlayers, groupPlayers, roundPlayers, homeMaps, gs.getRules(), round);
 			case KO:
-				return planKO(gs.getTitle());
+				return planSeriesKO(gs.getTitle());
 			case League:
-				return planLeague(gs.getTitle());
+				return planSeriesLeague(gs.getTitle());
 			case Simple:
-				return planSimple(gs.getTitle());
+				return planSeriesSimple(gs.getTitle());
 			default:
 				return null;
 		}
 	}
 
-	public List<PlannedGame> planAllCombinations(String title, List<Team> teams, List<Map> maps, Rules rules, int numberOfGamesPerPair, int numberOfTeamsPerMatch)
+	public List<PlannedGame> planSeriesAllCombinations(String title, List<Team> teams, List<Map> maps, Rules rules, int numberOfGamesPerPair, int numberOfTeamsPerMatch)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -69,13 +81,16 @@ public class Planner
 		List<Match> matches = leagueSpecial(tmp, numberOfTeamsPerMatch);
 
 		PlannedGame game;
-		String name;
 		Map map;
 		List<User> gamePlayers;
 		int count = 0;
-		Options options;
-		for(int round = 1; round <= numberOfGamesPerPair; round++)
+		int dayCount;
+		HashMap<String, String> placeholderValues = new HashMap<>();
+		
+		for(int round = 0; round < numberOfGamesPerPair; round++)
 		{
+			dayCount = 0;
+			
 			for(Match match : matches)
 			{
 				map = maps.get(random.nextInt(maps.size()));
@@ -91,21 +106,22 @@ public class Planner
 					}
 				}
 
-				// TODO separate
-				increasePlannedGames(gamePlayers);
-				options = rules.createOptions();
-				name = applyPlaceholders(title, map, gamePlayers, options, count, 0, 0, match.getTeams(), -1, -1);
-				game = new PlannedGame(name, map.getId(), toIntArray(gamePlayers), options);
+				placeholderValues.put("i", toString(count + 1, 1));
+				placeholderValues.put("spieltag", toString(round + 1, 1));
+				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+				
+				game = planGame(title, map, gamePlayers, rules, null);
 
 				games.add(game);
 				count++;
+				dayCount++;
 			}
 		}
 
 		return games;
 	}
 
-	public List<PlannedGame> planBalanced(String title, List<User> players, java.util.Map<Integer, List<Map>> gameDayMaps, java.util.Map<Integer, Rules> gameDayRules)
+	public List<PlannedGame> planSeriesBalanced(String title, List<User> players, java.util.Map<Integer, List<Map>> gameDayMaps, java.util.Map<Integer, Rules> gameDayRules)
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
@@ -115,37 +131,37 @@ public class Planner
 		PlannedGame game;
 		List<User> gamePlayers;
 		Map map;
-		Options options;
-		String name;
 		int count = 0;
 		int dayCount;
+		HashMap<String, String> placeholderValues = new HashMap<>();
 
 		User[][][] shuffledPlayers = shufflePlayers(players, new ArrayList<>(gameDayRules.values()));
 
-		for(int i = 0; i < gameDayMaps.size(); i++)
+		for(int day = 0; day < gameDayMaps.size(); day++)
 		{
 			dayCount = 0;
 
 			int gamesBefore = games.size();
 
-			for(int g = 0; g < shuffledPlayers[i].length; g++)
+			for(int g = 0; g < shuffledPlayers[day].length; g++)
 			{
 				gamePlayers = new LinkedList<User>();
 
-				for(int p = 0; p < shuffledPlayers[i][g].length; p++)
+				for(int p = 0; p < shuffledPlayers[day][g].length; p++)
 				{
-					if(shuffledPlayers[i][g][p] == null)
+					if(shuffledPlayers[day][g][p] == null)
 						continue;
-					gamePlayers.add(shuffledPlayers[i][g][p]);
+					gamePlayers.add(shuffledPlayers[day][g][p]);
 				}
 				gamePlayers.add(karoAPICache.getCurrentUser());
 
-				// TODO separate
-				increasePlannedGames(gamePlayers);
-				options = gameDayRules.get(i).createOptions();
-				map = gameDayMaps.get(i).get(random.nextInt(gameDayMaps.get(i).size()));
-				name = applyPlaceholders(title, map, gamePlayers, options, count, i, dayCount, null, -1, -1);
-				game = new PlannedGame(name, map.getId(), toIntArray(gamePlayers), options);
+				map = gameDayMaps.get(day).get(random.nextInt(gameDayMaps.get(day).size()));
+
+				placeholderValues.put("i", toString(count + 1, 1));
+				placeholderValues.put("spieltag", toString(day + 1, 1));
+				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+				
+				game = planGame(title, map, gamePlayers, gameDayRules.get(day), placeholderValues);
 				
 				games.add(game);
 				count++;
@@ -153,108 +169,76 @@ public class Planner
 			}
 
 			int gamesAfter = games.size();
-			System.out.println("map #" + i + " games planned:   " + (gamesAfter - gamesBefore));
+			logger.info("map #" + day + " games planned:   " + (gamesAfter - gamesBefore));
 		}
 		return games;
 	}
 
-	public List<PlannedGame> planKLC(String title, java.util.Map<Integer, List<User>> leaguePlayers, java.util.Map<Integer, List<User>> groupPlayers, java.util.Map<Integer, List<User>> roundPlayers, int round)
-	{	
+	// note: lists are modified
+	public List<PlannedGame> planSeriesKLC(String title, java.util.Map<Integer, List<User>> leaguePlayers, java.util.Map<Integer, List<User>> groupPlayers,
+			java.util.Map<Integer, List<User>> roundPlayers, java.util.Map<Integer, Map> homeMaps, Rules rules, int round)
+	{
 		// HomeMaps für Serialization sichern
-//		homeMaps.clear();
-//		for(Player p : allPlayers)
-//			homeMaps.put(p.getId(), p.getHomeMap().getId());
+		// homeMaps.clear();
+		// for(Player p : allPlayers)
+		// homeMaps.put(p.getId(), p.getHomeMap().getId());
 
 		int totalPlayers = groupPlayers.size() * leaguePlayers.size();
-		
+
 		if(round == totalPlayers)
-			return planKLCGroupphase(title, round);
+			return planSeriesKLC_Groupphase(title, leaguePlayers, groupPlayers, homeMaps, rules, round);
 		else
-			return planKLCKOPhase(title, round);
+			return planSeriesKLC_KOPhase(title, leaguePlayers, roundPlayers, homeMaps, rules, round);
 	}
 
-	public List<PlannedGame> planKLCGroupphase(String title, int round)
+	private List<PlannedGame> planSeriesKLC_Groupphase(String title, java.util.Map<Integer, List<User>> leaguePlayers, java.util.Map<Integer, List<User>> groupPlayers,
+			java.util.Map<Integer, Map> homeMaps, Rules rules, int round)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		// Liegen durchmischen
-		for(int l = 1; l <= LEAGUES; l++)
-			Collections.shuffle(getPlayersLeagueX(l));
+		for(Integer l : leaguePlayers.keySet())
+			Collections.shuffle(leaguePlayers.get(l));
 
 		// Gruppenphase
-		for(int g = 1; g <= GROUPS; g++)
+		int gi = 0;
+		for(Integer g : groupPlayers.keySet())
 		{
 			// Bilde Gruppe aus je 1 Spieler pro Liga
 			// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
 			// X jeweils den X-ten Spieler pro Gruppe nehmen
-			getPlayersGroupX(g).clear();
-			getPlayersGroupX(g).add(getPlayersLeagueX(1).get(g - 1));
-			getPlayersGroupX(g).add(getPlayersLeagueX(2).get(g - 1));
-			getPlayersGroupX(g).add(getPlayersLeagueX(3).get(g - 1));
-			getPlayersGroupX(g).add(getPlayersLeagueX(4).get(g - 1));
-			Collections.shuffle(getPlayersGroupX(g), random);
+			groupPlayers.get(g).clear();
+			for(Integer l : leaguePlayers.keySet())
+				groupPlayers.get(g).add(leaguePlayers.get(l).get(gi));
+			Collections.shuffle(groupPlayers.get(g), random);
 
-			// create a temporarily list of teams to be able to use the LeaguePlanner
-			List<Team> teamsTmp = new ArrayList<Team>(getPlayersGroupX(g).size());
-			for(Player p : getPlayersGroupX(g))
-			{
-				teamsTmp.add(new Team(p.getName(), Arrays.asList(p)));
-			}
-			List<List<Match>> matches = LeaguePlanner.createMatches(teamsTmp);
+			// create a temporarily list of single player teams to be able to use the LeaguePlanner
+			List<Team> teamsTmp = new ArrayList<Team>(groupPlayers.get(g).size());
+			for(User p : groupPlayers.get(g))
+				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p)));
+
+			List<List<Match>> matches = planLeague(teamsTmp);
 
 			int day = 0;
-			Game game;
-			String name;
-			Map map;
-			Player home, guest;
-			List<Player> gamePlayers;
+			PlannedGame game;
+			User u0, u1;
 			int count = 0;
 			int dayCount;
-			Rules tmpRules;
+			HashMap<String, String> placeholderValues = new HashMap<>();
 			for(List<Match> matchesForDay : matches)
 			{
 				dayCount = 0;
 				for(Match match : matchesForDay)
 				{
-					if(match.getTeam(0).getPlayers().get(0).getLeague() > match.getTeam(1).getPlayers().get(0).getLeague())
-					{
-						// Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
-						home = match.getTeam(0).getPlayers().get(0);
-						guest = match.getTeam(1).getPlayers().get(0);
-					}
-					else if(match.getTeam(0).getPlayers().get(0).getLeague() < match.getTeam(1).getPlayers().get(0).getLeague())
-					{
-						// Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
-						guest = match.getTeam(0).getPlayers().get(0);
-						home = match.getTeam(1).getPlayers().get(0);
-					}
-					else
-					{
-						// Spieler 0 und 1 sind in der gleichen Liga
-						if(random.nextBoolean())
-						{
-							home = match.getTeam(0).getPlayers().get(0);
-							guest = match.getTeam(1).getPlayers().get(0);
-						}
-						else
-						{
-							guest = match.getTeam(0).getPlayers().get(0);
-							home = match.getTeam(1).getPlayers().get(0);
-						}
-					}
+					u0 = match.getTeam(0).getMembers().get(0);
+					u1 = match.getTeam(1).getMembers().get(0);
 
-					map = home.getHomeMap();
-
-					gamePlayers = new LinkedList<Player>();
-					gamePlayers.add(creator);
-					gamePlayers.add(home);
-					gamePlayers.add(guest);
-
-					// TODO separate
-					increasePlannedGames(gamePlayers);
-					tmpRules = rules.clone().createRandomValues();
-					name = PlaceholderFactory.applyPlaceholders(karopapier, title, map, gamePlayers, tmpRules, count, day, dayCount, match.getTeams(), round, g);
-					game = new Game(name, map, gamePlayers, tmpRules);
+					placeholderValues.put("i", toString(count + 1, 1));
+					placeholderValues.put("spieltag", toString(day + 1, 1));
+					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1));
+					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count));
+					game = planGameKLC(title, u0, u1, leaguePlayers, homeMaps, rules, placeholderValues);
 
 					games.add(game);
 					count++;
@@ -267,65 +251,30 @@ public class Planner
 		return games;
 	}
 
-	public List<PlannedGame> planKLCKOPhase(String title, int round)
+	private List<PlannedGame> planSeriesKLC_KOPhase(String title, java.util.Map<Integer, List<User>> leaguePlayers, java.util.Map<Integer, List<User>> roundPlayers, java.util.Map<Integer, Map> homeMaps,
+			Rules rules, int round)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		// KO-Phase
-		Collections.shuffle(getPlayersRoundOfX(round), random);
+		Collections.shuffle(roundPlayers.get(round), random);
 
 		int count = 1;
-		Game game;
-		String name;
-		Map map;
-		Player home, guest;
-		List<Player> gamePlayers;
-		Rules tmpRules;
-		Team tmpTeamHome, tmpTeamGuest;
+		PlannedGame game;
+		User ui, ui1;
+		HashMap<String, String> placeholderValues = new HashMap<>();
 		for(int i = 0; i < round; i = i + 2)
 		{
-			if(getPlayersRoundOfX(round).get(i).getLeague() > getPlayersRoundOfX(round).get(i + 1).getLeague())
-			{
-				// Spieler i ist in der niedrigeren Liga (= höhere Liga Nummer)
-				home = getPlayersRoundOfX(round).get(i);
-				guest = getPlayersRoundOfX(round).get(i + 1);
-			}
-			else if(getPlayersRoundOfX(round).get(i).getLeague() < getPlayersRoundOfX(round).get(i + 1).getLeague())
-			{
-				// Spieler i+1 ist in der niedrigeren Liga (= höhere Liga Nummer)
-				guest = getPlayersRoundOfX(round).get(i);
-				home = getPlayersRoundOfX(round).get(i + 1);
-			}
-			else
-			{
-				// Spieler i und i+1 sind in der gleichen Liga
-				if(random.nextBoolean())
-				{
-					home = getPlayersRoundOfX(round).get(i);
-					guest = getPlayersRoundOfX(round).get(i + 1);
-				}
-				else
-				{
-					guest = getPlayersRoundOfX(round).get(i);
-					home = getPlayersRoundOfX(round).get(i + 1);
-				}
-			}
+			ui = roundPlayers.get(round).get(i);
+			ui1 = roundPlayers.get(round).get(i + 1);
 
-			map = home.getHomeMap();
-
-			gamePlayers = new LinkedList<Player>();
-			gamePlayers.add(creator);
-			gamePlayers.add(home);
-			gamePlayers.add(guest);
-
-			increasePlannedGames(gamePlayers);
-
-			tmpRules = rules.clone().createRandomValues();
-			tmpTeamHome = new Team(home.getName(), Arrays.asList(home));
-			tmpTeamGuest = new Team(guest.getName(), Arrays.asList(guest));
-			name = PlaceholderFactory.applyPlaceholders(karopapier, title, map, gamePlayers, tmpRules, count, -1, -1, new Team[] { tmpTeamHome, tmpTeamGuest }, round, -1);
-
-			game = new Game(name, map, gamePlayers, tmpRules);
+			placeholderValues.put("i", toString(count + 1, 1));
+//			placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
+//			placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
+			placeholderValues.put("runde", toPlaceholderString(round, -1, -1, -1));
+			placeholderValues.put("runde.x", toPlaceholderString(round, -1, -1, count));
+			
+			game = planGameKLC(title, ui, ui1, leaguePlayers, homeMaps, rules, placeholderValues);
 
 			games.add(game);
 			count++;
@@ -334,28 +283,138 @@ public class Planner
 		return games;
 	}
 
-	public List<PlannedGame> planKO(String title)
+	private PlannedGame planGameKLC(String title, User user1, User user2, java.util.Map<Integer, List<User>> leaguePlayers, java.util.Map<Integer, Map> homeMaps, Rules rules,
+			java.util.Map<String, String> placeholderValues)
+	{
+		int league1 = -1;
+		int league2 = -1;
+		for(Entry<Integer, List<User>> league : leaguePlayers.entrySet())
+		{
+			if(league.getValue().contains(user1))
+				league1 = league.getKey();
+			if(league.getValue().contains(user2))
+				league2 = league.getKey();
+		}
+		if(league1 == -1 || league2 == -1)
+			logger.error("should not happen!");
+
+		User home, guest;
+
+		if(league1 > league2)
+		{
+			// Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
+			home = user1;
+			guest = user2;
+		}
+		else if(league1 < league2)
+		{
+			// Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
+			guest = user1;
+			home = user2;
+		}
+		else
+		{
+			// Spieler 0 und 1 sind in der gleichen Liga
+			if(random.nextBoolean())
+			{
+				home = user1;
+				guest = user2;
+			}
+			else
+			{
+				guest = user1;
+				home = user2;
+			}
+		}
+
+		Map map = homeMaps.get(home.getId());
+
+		List<User> gamePlayers = new LinkedList<User>();
+		gamePlayers.add(karoAPICache.getCurrentUser());
+		gamePlayers.add(home);
+		gamePlayers.add(guest);
+		
+		Team tmpTeamHome = new Team(home.getLogin(), Arrays.asList(home));
+		Team tmpTeamGuest = new Team(guest.getLogin(), Arrays.asList(guest));
+		
+		placeholderValues.put("teams", toPlaceholderString(tmpTeamHome, tmpTeamGuest));
+
+		return planGame(title, map, gamePlayers, rules, placeholderValues);
+	}
+
+	public List<PlannedGame> planSeriesKO(String title)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		return games;
 	}
 
-	public List<PlannedGame> planLeague(String title)
+	public List<PlannedGame> planSeriesLeague(String title)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		return games;
 	}
 
-	public List<PlannedGame> planSimple(String title)
+	public List<PlannedGame> planSeriesSimple(String title)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		return games;
 	}
 
-	public static List<List<Match>> planLeague(List<Team> teams)
+	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
+	{
+		return planGame(title, map, gamePlayers, rules.createOptions(), placeholderValues);
+	}
+
+	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
+	{
+		increasePlannedGames(gamePlayers);
+
+		// add default placeholder values
+		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(map, gamePlayers, options);
+		for(Entry<String, String> pv : defaultPlaceholderValues.entrySet())
+			placeholderValues.putIfAbsent(pv.getKey(), pv.getValue());
+
+		String name = applyPlaceholders(title, placeholderValues);
+
+		return new PlannedGame(name, map.getId(), toIntArray(gamePlayers), options);
+	}
+
+	public java.util.Map<String, String> getDefaultPlaceholderValues(Map map, List<User> gamePlayers, Options options)
+	{
+		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
+
+		// karte
+		defaultPlaceholderValues.put("karte.id", toString(map.getId(), 1));
+		defaultPlaceholderValues.put("karte.name", map.getName());
+		defaultPlaceholderValues.put("karte.author", map.getAuthor());
+
+		// spieler
+		defaultPlaceholderValues.put("spieler.ersteller", karoAPICache.getCurrentUser().getLogin());
+		defaultPlaceholderValues.put("spieler.anzahl", toString(gamePlayers.size(), 1));
+		defaultPlaceholderValues.put("spieler.anzahl.x", toString(gamePlayers.size() - 1, 1));
+		defaultPlaceholderValues.put("spieler.namen", toPlaceholderString(gamePlayers));
+		List<User> playersWithoutCreator = new LinkedList<User>(gamePlayers);
+		playersWithoutCreator.remove(karoAPICache.getCurrentUser());
+		defaultPlaceholderValues.put("spieler.namen.x", toPlaceholderString(playersWithoutCreator));
+
+		// teams --> set individually
+		// runde --> set individually
+
+		// regeln
+		defaultPlaceholderValues.put("regeln", toPlaceholderString(options, false));
+		defaultPlaceholderValues.put("regeln.x", toPlaceholderString(options, true));
+		defaultPlaceholderValues.put("regeln.zzz", Language.getString("titlepatterns.zzz") + options.getZzz());
+		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+		defaultPlaceholderValues.put("regeln.cps", Language.getString("titlepatterns.cps." + options.isCps()));
+		defaultPlaceholderValues.put("regeln.richtung", Language.getString("titlepatterns.direction") + options.getStartdirection());
+		
+		return defaultPlaceholderValues;
+	}
+
+	private static List<List<Match>> planLeague(List<Team> teams)
 	{
 		if(teams.size() % 2 == 1)
 			throw new IllegalArgumentException("equal number of teams required");
@@ -530,17 +589,7 @@ public class Planner
 		return home;
 	}
 
-	public static int calculateNumberOfMatches(int teams, int teamsPerMatch)
-	{
-		BigInteger ret = BigInteger.ONE;
-		for(int k = 0; k < teamsPerMatch; k++)
-		{
-			ret = ret.multiply(BigInteger.valueOf(teams - k)).divide(BigInteger.valueOf(k + 1));
-		}
-		return ret.intValue();
-	}
-
-	public static List<Match> leagueSpecial(List<Team> teams, int numberOfTeamsPerMatch)
+	private static List<Match> leagueSpecial(List<Team> teams, int numberOfTeamsPerMatch)
 	{
 		List<Match> matches = new ArrayList<Match>();
 
@@ -587,7 +636,7 @@ public class Planner
 		return success;
 	}
 
-	public static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
+	private static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
 	{
 		List<User> tmp = new LinkedList<User>(players);
 		Collections.shuffle(tmp);
@@ -609,7 +658,7 @@ public class Planner
 		}
 	}
 
-	protected static ShuffleResult shufflePlayers0(List<User> players, List<Rules> rules)
+	private static ShuffleResult shufflePlayers0(List<User> players, List<Rules> rules)
 	{
 		Random rand = new Random();
 		int[] playersGames;
@@ -848,207 +897,138 @@ public class Planner
 
 	// HELPERS
 
-	protected static void resetPlannedGames(List<User> users)
+	public static void resetPlannedGames(List<User> users)
 	{
 		for(User user : users)
 			user.setPlannedGames(0);
 	}
 
-	protected static void increasePlannedGames(List<User> users)
+	public static void increasePlannedGames(List<User> users)
 	{
 		for(User user : users)
 			user.setPlannedGames(user.getPlannedGames() + 1);
 	}
 
-	public String applyPlaceholders(String title, Map map, List<User> players, Options options, int count, int day, int dayCount, Team[] teams, int round, int group)
+	public static int calculateNumberOfMatches(int teams, int teamsPerMatch)
 	{
+		BigInteger ret = BigInteger.ONE;
+		for(int k = 0; k < teamsPerMatch; k++)
+		{
+			ret = ret.multiply(BigInteger.valueOf(teams - k)).divide(BigInteger.valueOf(k + 1));
+		}
+		return ret.intValue();
+	}
+
+	public static String applyPlaceholders(String title, java.util.Map<String, String> placeholderValues)
+	{
+		// preparation
+		if(placeholderValues.containsKey("i"))
+		{
+			placeholderValues.putIfAbsent("ii", "0" + placeholderValues.get("i"));
+			placeholderValues.putIfAbsent("iii", "00" + placeholderValues.get("i"));
+			placeholderValues.putIfAbsent("iiii", "000" + placeholderValues.get("i"));
+		}
+
 		String name = title;
-		StringBuilder tmp;
+		for(Entry<String, String> pv : placeholderValues.entrySet())
+			name = name.replace("${" + pv.getKey() + "}", pv.getValue());
 
-		// zaehlung
-		name = name.replace("${i}", "" + (count + 1));
-		name = name.replace("${ii}", toString(count + 1, 2));
-		name = name.replace("${iii}", toString(count + 1, 3));
-		name = name.replace("${iiii}", toString(count + 1, 4));
-		if(day >= 0)
-		{
-			name = name.replace("${spieltag}", "" + (day + 1));
-			name = name.replace("${spieltag.i}", "" + (dayCount + 1));
-		}
-		else
-		{
-			name = name.replace("${spieltag}", "");
-			name = name.replace("${spieltag.i}", "");
-		}
-
-		// karte
-		name = name.replace("${karte.id}", "" + map.getId());
-		name = name.replace("${karte.name}", map.getName());
-
-		// spieler
-		name = name.replace("${spieler.ersteller}", karoAPICache.getCurrentUser().getLogin());
-		name = name.replace("${spieler.anzahl}", "" + players.size());
-		name = name.replace("${spieler.anzahl.x}", "" + (players.size() - 1));
-		if(name.contains("${spieler.namen}"))
-		{
-			tmp = new StringBuilder();
-			for(int p = 0; p < players.size(); p++)
-			{
-				if((p != 0) && (p != players.size() - 1))
-					tmp.append(", ");
-				else if((p != 0) && (p == players.size() - 1))
-					tmp.append(" " + Language.getString("titlepatterns.and") + " ");
-				tmp.append(players.get(p).getLogin());
-			}
-			name = name.replace("${spieler.namen}", tmp.toString());
-		}
-		if(name.contains("${spieler.namen.x}"))
-		{
-			tmp = new StringBuilder();
-			List<User> tmpList = new LinkedList<User>(players);
-			tmpList.remove(karoAPICache.getCurrentUser());
-			for(int p = 0; p < tmpList.size(); p++)
-			{
-				if((p != 0) && (p != tmpList.size() - 1))
-					tmp.append(", ");
-				else if((p != 0) && (p == tmpList.size() - 1))
-					tmp.append(" " + Language.getString("titlepatterns.and") + " ");
-				tmp.append(tmpList.get(p).getLogin());
-			}
-			name = name.replace("${spieler.namen.x}", tmp.toString());
-		}
-
-		// teams
-		if(teams != null)
-		{
-			tmp = new StringBuilder();
-
-			for(int i = 0; i < teams.length; i++)
-			{
-				if(i > 0)
-					tmp.append(" vs. ");
-				tmp.append(teams[i].getName());
-			}
-
-			name = name.replace("${teams}", tmp.toString());
-		}
-
-		// runde
-		if(round > 0)
-		{
-			if(name.contains("${runde}"))
-			{
-				if(round == 2)
-					name = name.replace("${runde}", Language.getString("titlepatterns.final"));
-				else if(round == 4)
-					name = name.replace("${runde}", Language.getString("titlepatterns.semifinal"));
-				else if(round == 8)
-					name = name.replace("${runde}", Language.getString("titlepatterns.quarterfinal"));
-				else if(group <= 0)
-					name = name.replace("${runde}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)));
-				else
-					name = name.replace("${runde}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
-			}
-			if(name.contains("${runde.x}"))
-			{
-				if(round == 2)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.final") + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else if(round == 4)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.semifinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else if(round == 8)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.quarterfinal") + ", " + Language.getString("titlepatterns.match") + " " + count);
-				else if(group <= 0)
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)) + ", "
-							+ Language.getString("titlepatterns.match") + " " + count);
-				else
-					name = name.replace("${runde.x}", Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)) + ", " + Language.getString("titlepatterns.day") + " " + (day + 1));
-			}
-		}
-
-		// regeln
-		if(name.contains("${regeln}"))
-		{
-			tmp = new StringBuilder();
-			tmp.append(Language.getString("titlepatterns.zzz"));
-			tmp.append(options.getZzz());
-			tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-			tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
-			tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.direction"));
-			tmp.append(options.getStartdirection());
-			name = name.replace("${regeln}", tmp);
-		}
-		if(name.contains("${regeln.x}"))
-		{
-			tmp = new StringBuilder();
-			if(options.getZzz() != 2)
-			{
-				tmp.append(Language.getString("titlepatterns.zzz"));
-				tmp.append(options.getZzz());
-			}
-			if(options.getCrashallowed() != EnumGameTC.forbidden)
-			{
-				if(!tmp.toString().isEmpty())
-					tmp.append(", ");
-				tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-			}
-			if(!options.isCps())
-			{
-				if(!tmp.toString().isEmpty())
-					tmp.append(", ");
-				tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
-			}
-			if(options.getStartdirection() != EnumGameDirection.classic)
-			{
-				if(!tmp.toString().isEmpty())
-					tmp.append(", ");
-				tmp.append(Language.getString("titlepatterns.direction"));
-				tmp.append(options.getStartdirection());
-			}
-			name = name.replace("${regeln.x}", tmp);
-		}
-		name = name.replace("${regeln.zzz}", Language.getString("titlepatterns.zzz") + options.getZzz());
-		name = name.replace("${regeln.tc}", Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-		name = name.replace("${regeln.cps}", Language.getString("titlepatterns.cps." + options.isCps()));
-		name = name.replace("${regeln.richtung}", Language.getString("titlepatterns.direction") + options.getStartdirection());
-
-		name = name.replace("  ", "");
+		name = name.replace("  ", " ");
 		name = name.trim();
+
 		if(name.endsWith(","))
 			name = name.substring(0, name.length() - 1);
 
 		return name;
 	}
 
-	/**
-	 * Shortcut for {@link PlaceholderFactory#applyPlaceholders(karoAPICache, String, Map, List, Rules, int, int, int, Team, Team, int)}
-	 * Note: some Placeholders might not work here!
-	 * 
-	 * @param karoAPICache
-	 * @param title
-	 * @param game
-	 * @param count
-	 * @return
-	 */
-	public String applyPlaceholders(String title, PlannedGame game, int count)
-	{
-		Map map = this.karoAPICache.getMap(game.getMap());
-		List<User> players = new ArrayList<>(game.getPlayers().length);
-		for(int pid : game.getPlayers())
-			players.add(this.karoAPICache.getUser(pid));
-		return applyPlaceholders(title, map, players, game.getOptions(), count, 0, 0, null, 0, 0);
-	}
-
-	// helpers
-
-	private static String toString(int x, int digits)
+	private static String toString(int x, int minDigits)
 	{
 		String s = "" + x;
-		while(s.length() < digits)
+		while(s.length() < minDigits)
 			s = "0" + s;
 		return s;
+	}
+
+	private static String toPlaceholderString(List<User> players)
+	{
+		StringBuilder tmp = new StringBuilder();
+		for(int p = 0; p < players.size(); p++)
+		{
+			if((p != 0) && (p != players.size() - 1))
+				tmp.append(", ");
+			else if((p != 0) && (p == players.size() - 1))
+				tmp.append(" " + Language.getString("titlepatterns.and") + " ");
+			tmp.append(players.get(p).getLogin());
+		}
+		return tmp.toString();
+	}
+
+	private static String toPlaceholderString(Team... teams)
+	{
+		StringBuilder tmp = new StringBuilder();
+		for(int i = 0; i < teams.length; i++)
+		{
+			if(i > 0)
+				tmp.append(" vs. ");
+			tmp.append(teams[i].getName());
+		}
+		return tmp.toString();
+	}
+
+	private static String toPlaceholderString(int round, int group, int day, int count)
+	{
+		StringBuilder tmp = new StringBuilder();
+		if(round == 2)
+			tmp.append(Language.getString("titlepatterns.final"));
+		else if(round == 4)
+			tmp.append(Language.getString("titlepatterns.semifinal"));
+		else if(round == 8)
+			tmp.append(Language.getString("titlepatterns.quarterfinal"));
+		else if(group <= 0)
+			tmp.append(Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)));
+		else
+			tmp.append(Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
+
+		if(count >= 0)
+		{
+			tmp.append(",");
+			if(round == 2 || round == 4 || round == 8 || group <= 0)
+				tmp.append(Language.getString("titlepatterns.match") + " " + count);
+			else
+				tmp.append(Language.getString("titlepatterns.day") + " " + (day + 1));
+		}
+		return tmp.toString();
+	}
+
+	private static String toPlaceholderString(Options options, boolean nonStandardOnly)
+	{
+		StringBuilder tmp = new StringBuilder();
+		if(!nonStandardOnly || options.getZzz() != 2)
+		{
+			tmp.append(Language.getString("titlepatterns.zzz"));
+			tmp.append(options.getZzz());
+		}
+		if(!nonStandardOnly || options.getCrashallowed() != EnumGameTC.forbidden)
+		{
+			if(!tmp.toString().isEmpty())
+				tmp.append(", ");
+			tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+		}
+		if(!nonStandardOnly || !options.isCps())
+		{
+			if(!tmp.toString().isEmpty())
+				tmp.append(", ");
+			tmp.append(Language.getString("titlepatterns.cps." + options.isCps()));
+		}
+		if(!nonStandardOnly || options.getStartdirection() != EnumGameDirection.classic)
+		{
+			if(!tmp.toString().isEmpty())
+				tmp.append(", ");
+			tmp.append(Language.getString("titlepatterns.direction"));
+			tmp.append(options.getStartdirection());
+		}
+		return tmp.toString();
 	}
 
 	private static int[] toIntArray(List<? extends Identifiable> list)
