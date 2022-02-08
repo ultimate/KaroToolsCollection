@@ -51,16 +51,23 @@ public abstract class GameSeriesManager
 	static
 	{
 		SETTINGS = new HashMap<>();
-		addSetting(new Setting<>("numberOfGamesPerPair", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.League));
 		addSetting(new Setting<>("numberOfTeamsPerMatch", int.class, EnumGameSeriesType.AllCombinations));
 		addSetting(new Setting<>("numberOfMaps", int.class, EnumGameSeriesType.Balanced));
 		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO));
 		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
 		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.League));
-		addSetting(new Setting<>("numberOfGames", int.class, EnumGameSeriesType.Simple));
 		addSetting(new Setting<>("minPlayersPerGame", int.class, EnumGameSeriesType.Simple));
 		addSetting(new Setting<>("maxPlayersPerGame", int.class, EnumGameSeriesType.Simple));
+		addSetting(new Setting<>("numberOfGamesPerPair", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("numberOfTeams", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("minPlayersPerTeam", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("maxPlayersPerTeam", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("shuffleTeams", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("autoNameTeams", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("multipleTeams", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
+		addSetting(new Setting<>("creatorTeam", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
 
 		try
 		{
