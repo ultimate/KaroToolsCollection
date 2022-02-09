@@ -406,6 +406,8 @@ public abstract class JSONUtil
 			return null;
 		}
 	}
+	
+	// TODO ID-List-Map converter (and vice versa)
 
 	/**
 	 * Custom converter that can be used to convert IDs back to {@link Identifiable}
