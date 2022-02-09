@@ -120,7 +120,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		{
 			List<User> tmpUsers = this.chooser.notSelectedUsersLI.getSelectedValuesList();
 			this.chooser.notSelectedUsersLI.clearSelection();
-			Map map = karoAPICache.getMap(this.chooser.game.getMap());
+			Map map = this.chooser.game.getMap();
 			for(User u : tmpUsers)
 			{
 				if(this.chooser.users.size() >= map.getPlayers())
