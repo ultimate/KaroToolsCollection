@@ -4,35 +4,95 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.JSONUtil.IDDeserializer;
+import ultimate.karoapi4j.utils.JSONUtil.IDListDeserializer;
+import ultimate.karoapi4j.utils.JSONUtil.IDListSerializer;
+import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
 
 // TODO
 public class GameSeries
 {
+	//@formatter:off
+	public static class UserSerializer extends IDSerializer<User> {};
+	public static class UserDeserializer extends IDDeserializer<User> {public UserDeserializer() {super(User.class); }};
+	public static class GameListSerializer extends IDListSerializer<Game> {};
+	public static class GameListDeserializer extends IDListDeserializer<Game> { public GameListDeserializer() {super(Game.class); }};
+	public static class MapListSerializer extends IDListSerializer<Map> {};
+	public static class MapListDeserializer extends IDListDeserializer<Map> { public MapListDeserializer() {super(Map.class); }};
+	public static class UserListSerializer extends IDListSerializer<User> {};
+	public static class UserListDeserializer extends IDListDeserializer<User> { public UserListDeserializer() {super(User.class); }};
+	//@formatter:on
+
+	// type specific settings
+	// relevant game series types ______________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// int
+	public static final String				NUMBER_OF_MAPS				= "maps";				// ______X__________________
+	public static final String				NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
+	public static final String				NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
+	public static final String				NUMBER_OF_ROUND				= "round";				// __________X___X__________
+	public static final String				NUMBER_OF_GROUPS			= "groups";				// ______________X__________
+	public static final String				NUMBER_OF_LEAGUES			= "leagues";			// ______________X__________
+	public static final String				NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
+	public static final String				MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
+	public static final String				MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
+	public static final String				MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
+	public static final String				MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
+	// boolean
+	public static final String				USE_HOME_MAPS				= "useHomeMaps";		// __X_______X_______X______
+	public static final String				USE_CREATOR_TEAM			= "useCreatorTeam";		// __X_______X_______X______
+	public static final String				SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
+	public static final String				AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
+	public static final String				ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
+
 	// universal settings
 	protected EnumGameSeriesType			type;
+	@JsonInclude(value = Include.NON_DEFAULT)
 	protected boolean						teamBased;
 	protected String						title;
+	@JsonSerialize(using = UserSerializer.class)
+	@JsonDeserialize(using = UserDeserializer.class)
 	protected User							creator;
 
 	// games (planned & created)
+	@JsonInclude(value = Include.NON_EMPTY)
 	protected List<PlannedGame>				plannedGames;
-	protected List<Game>					createdGames; // TODO IDs only
+	@JsonInclude(value = Include.NON_EMPTY)
+	@JsonSerialize(using = GameListSerializer.class)
+	@JsonDeserialize(using = GameListDeserializer.class)
+	protected List<Game>					createdGames;
 
 	// default lists
-	protected List<User>					players; // TODO IDs only
-	protected List<Team>					teams; // TODO IDs only
-	protected List<Map>						maps; // TODO IDs only
+	@JsonInclude(value = Include.NON_EMPTY)
+	@JsonSerialize(using = UserListSerializer.class)
+	@JsonDeserialize(using = UserListDeserializer.class)
+	protected List<User>					players;
+	@JsonInclude(value = Include.NON_EMPTY)
+	protected List<Team>					teams;
+	@JsonInclude(value = Include.NON_EMPTY)
+	@JsonSerialize(using = MapListSerializer.class)
+	@JsonDeserialize(using = MapListDeserializer.class)
+	protected List<Map>						maps;
+	@JsonInclude(value = Include.NON_NULL)
 	protected Rules							rules;
 
 	// parameterized lists
-	protected HashMap<String, List<User>>	playersByKey; // TODO IDs only
-	protected HashMap<String, List<Team>>	teamsByKey; // TODO IDs only
-	protected HashMap<String, List<Map>>	mapsByKey; // TODO IDs only
+	@JsonInclude(value = Include.NON_EMPTY)
+	protected HashMap<String, List<User>>	playersByKey;										// TODO IDs only
+	@JsonInclude(value = Include.NON_EMPTY)
+	protected HashMap<String, List<Team>>	teamsByKey;
+	@JsonInclude(value = Include.NON_EMPTY)
+	protected HashMap<String, List<Map>>	mapsByKey;											// TODO IDs only
+	@JsonInclude(value = Include.NON_EMPTY)
 	protected HashMap<String, Rules>		rulesByKey;
 
 	// type specific settings
@@ -40,12 +100,13 @@ public class GameSeries
 
 	protected transient boolean				loaded;
 
-	protected static Random					random	= new Random();
+	protected static Random					random						= new Random();
 
 	public GameSeries()
 	{
+		this.settings = new HashMap<>();
 	}
-	
+
 	public GameSeries(EnumGameSeriesType type, boolean teamBased)
 	{
 		this();
@@ -191,6 +252,21 @@ public class GameSeries
 	public void setSettings(java.util.Map<String, Object> settings)
 	{
 		this.settings = settings;
+	}
+
+	public Object get(String key)
+	{
+		return settings.get(key);
+	}
+
+	public void set(String key, Object value)
+	{
+		settings.put(key, value);
+	}
+
+	public void clear(String key)
+	{
+		settings.remove(key);
 	}
 
 	public boolean isLoaded()

@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
 
@@ -28,6 +29,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
+import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
@@ -55,7 +57,7 @@ import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
-public class KaroAPI
+public class KaroAPI implements IDLookUp
 {
 	/**
 	 * Logger-Instance
@@ -985,5 +987,25 @@ public class KaroAPI
 			throw new IllegalArgumentException("unsupported type: " + object.getClass());
 
 		return loader.whenComplete((result, th) -> { ReflectionsUtil.copyFields(result, object, false); });
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T get(Class<T> cls, int id)
+	{
+		try
+		{
+			if(cls.equals(User.class))
+				return (T) getUser(id).get();
+			else if(cls.equals(Map.class))
+				return (T) getMap(id).get();
+			else if(cls.equals(Game.class))
+				return (T) getGame(id).get();
+		}
+		catch(ExecutionException | InterruptedException e)
+		{
+			logger.error("could not look up " + cls.getName() + " with id " + id, e);
+		}
+		return null;
 	}
 }

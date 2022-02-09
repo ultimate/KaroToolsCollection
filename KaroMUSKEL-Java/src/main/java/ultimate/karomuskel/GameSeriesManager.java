@@ -7,10 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -23,7 +20,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.utils.JSONUtil;
-import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.screens.GroupWinnersScreen;
 import ultimate.karomuskel.ui.screens.HomeMapsScreen;
@@ -41,6 +37,7 @@ public abstract class GameSeriesManager
 	 * Logger-Instance
 	 */
 	private static final Logger	logger	= LoggerFactory.getLogger(GameSeriesManager.class);
+	public static final String	CHARSET	= "UTF-8";
 	private static Properties	config;
 
 	/**
@@ -49,97 +46,6 @@ public abstract class GameSeriesManager
 	private GameSeriesManager()
 	{
 
-	}
-
-	public static final String						CHARSET	= "UTF-8";
-	public static final HashMap<String, Setting<?>>	SETTINGS;
-
-	private static class Setting<T>
-	{
-		private String						key;
-		private Class<T>					valueType;
-		private List<EnumGameSeriesType>	applicableGamesSeriesType;
-
-		public Setting(String key, Class<T> valueType, EnumGameSeriesType... applicableGamesSeriesType)
-		{
-			super();
-			this.key = key;
-			this.valueType = valueType;
-			this.applicableGamesSeriesType = Arrays.asList(applicableGamesSeriesType);
-		}
-
-		public String getKey()
-		{
-			return key;
-		}
-
-		public Class<T> getValueType()
-		{
-			return valueType;
-		}
-
-		public boolean isApplicable(GameSeries gs)
-		{
-			return applicableGamesSeriesType.contains(gs.getType());
-		}
-	}
-
-	static
-	{
-		SETTINGS = new HashMap<>();
-		addSetting(new Setting<>("numberOfTeamsPerMatch", int.class, EnumGameSeriesType.AllCombinations));
-		addSetting(new Setting<>("numberOfMaps", int.class, EnumGameSeriesType.Balanced));
-		addSetting(new Setting<>("round", int.class, EnumGameSeriesType.KLC, EnumGameSeriesType.KO));
-		addSetting(new Setting<>("groups", int.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("leagues", int.class, EnumGameSeriesType.KLC));
-		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.League));
-		addSetting(new Setting<>("minPlayersPerGame", int.class, EnumGameSeriesType.Simple));
-		addSetting(new Setting<>("maxPlayersPerGame", int.class, EnumGameSeriesType.Simple));
-		addSetting(new Setting<>("numberOfGamesPerPair", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("numberOfTeams", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("minPlayersPerTeam", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("maxPlayersPerTeam", int.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("useHomeMaps", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("shuffleTeams", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("autoNameTeams", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("multipleTeams", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-		addSetting(new Setting<>("creatorTeam", boolean.class, EnumGameSeriesType.AllCombinations, EnumGameSeriesType.KO, EnumGameSeriesType.League));
-
-		try
-		{
-			logger.info("loading configuration...");
-			config = PropertiesUtil.loadProperties(new File("config.properties"));
-		}
-		catch(IOException e)
-		{
-			logger.error("error loading config.properties", e);
-			config = null;
-		}
-	}
-
-	private static void addSetting(Setting<?> s)
-	{
-		SETTINGS.put(s.getKey(), s);
-	}
-
-	public static <T> void set(GameSeries gs, String key, T value)
-	{
-		Setting<?> s = SETTINGS.get(key);
-		if(s == null || !s.isApplicable(gs))
-			throw new IllegalArgumentException("invalid key '" + key + "' for GameSeries type " + gs.getType());
-		if(value != null && !s.getValueType().isAssignableFrom(value.getClass()))
-			throw new IllegalArgumentException("invalid value '" + value + "' for key '" + key + "'");
-		gs.getSettings().put(key, value);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T> T get(GameSeries gs, String key)
-	{
-		Setting<T> s = (Setting<T>) SETTINGS.get(key);
-		if(s == null || !s.isApplicable(gs))
-			throw new IllegalArgumentException("invalid key '" + key + "' for GameSeries type " + gs.getType());
-
-		return (T) gs.getSettings().get(key);
 	}
 
 	public static String getStringConfig(String key)
@@ -206,10 +112,12 @@ public abstract class GameSeriesManager
 
 		return gs2;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static GameSeries convert(muskel2.model.GameSeries gs2)
 	{
+		GameSeries gs = new GameSeries();
+//		gs.setCreator(gs2.creator.id); // TODO
 		// TODO
 		return null;
 	}
@@ -217,12 +125,12 @@ public abstract class GameSeriesManager
 	public static void store(GameSeries gs, File file) throws IOException
 	{
 		String json = JSONUtil.serialize(gs);
-		
+
 		FileOutputStream fos = new FileOutputStream(file);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
-		
+
 		bos.write(json.getBytes(CHARSET));
-		
+
 		bos.flush();
 		bos.close();
 		fos.close();
@@ -239,11 +147,11 @@ public abstract class GameSeriesManager
 
 			if(gs.getType() == EnumGameSeriesType.KLC)
 			{
-				int groups = get(gs, "groups");
-				int leagues = get(gs, "leagues");
-				int players = groups * leagues;
+				int groups = (int) gs.get("groups");
+				int leagues = (int) gs.get("leagues");
+				int players = (int) groups * leagues;
 
-				int round = get(gs, "round");
+				int round = (int) gs.get("round");
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round == players)
 				{
@@ -256,11 +164,11 @@ public abstract class GameSeriesManager
 					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
 				}
 				round = round / 2;
-				set(gs, "round", round);
+				gs.set("round", round);
 			}
 			else if(gs.getType() == EnumGameSeriesType.KO)
 			{
-				int round = get(gs, "round");
+				int round = (int) gs.get("round");
 
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round > 2)
