@@ -8,10 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
-import ultimate.karoapi4j.utils.JSONUtil.IDDeserializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDListDeserializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDListSerializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 
 /**
  * Simple POJO that defines a team.<br>
@@ -25,14 +23,7 @@ import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
  * @author ultimate
  */
 public class Team
-{
-	//@formatter:off
-	public static class MapSerializer extends IDSerializer<Map> {};
-	public static class MapDeserializer extends IDDeserializer<Map> {public MapDeserializer() {super(Map.class); }};
-	public static class UserListSerializer extends IDListSerializer<User> {};
-	public static class UserListDeserializer extends IDListDeserializer<User> { public UserListDeserializer() {super(User.class); }};
-	//@formatter:on
-	
+{	
 	/**
 	 * the team name
 	 */
@@ -42,14 +33,14 @@ public class Team
 	 * 
 	 * @see User
 	 */
-	@JsonSerialize(using = UserListSerializer.class)
-	@JsonDeserialize(using = UserListDeserializer.class)
+	@JsonSerialize(converter = ToIDListConverter.class)
+	@JsonDeserialize(converter = User.FromIDListConverter.class)
 	private List<User>			members;
 	/**
 	 * the (optional) home {@link Map}
 	 */
-	@JsonSerialize(using = MapSerializer.class)
-	@JsonDeserialize(using = MapDeserializer.class)
+	@JsonSerialize(converter = ToIDConverter.class)
+	@JsonDeserialize(converter = Map.FromIDConverter.class)
 	private Map					homeMap;
 
 	/**

@@ -14,25 +14,12 @@ import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
-import ultimate.karoapi4j.utils.JSONUtil.IDDeserializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDListDeserializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDListSerializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 
 // TODO
 public class GameSeries
 {
-	//@formatter:off
-	public static class UserSerializer extends IDSerializer<User> {};
-	public static class UserDeserializer extends IDDeserializer<User> {public UserDeserializer() {super(User.class); }};
-	public static class GameListSerializer extends IDListSerializer<Game> {};
-	public static class GameListDeserializer extends IDListDeserializer<Game> { public GameListDeserializer() {super(Game.class); }};
-	public static class MapListSerializer extends IDListSerializer<Map> {};
-	public static class MapListDeserializer extends IDListDeserializer<Map> { public MapListDeserializer() {super(Map.class); }};
-	public static class UserListSerializer extends IDListSerializer<User> {};
-	public static class UserListDeserializer extends IDListDeserializer<User> { public UserListDeserializer() {super(User.class); }};
-	//@formatter:on
-
 	// type specific settings
 	// relevant game series types ______________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
@@ -59,28 +46,28 @@ public class GameSeries
 	@JsonInclude(value = Include.NON_DEFAULT)
 	protected boolean						teamBased;
 	protected String						title;
-	@JsonSerialize(using = UserSerializer.class)
-	@JsonDeserialize(using = UserDeserializer.class)
+	@JsonSerialize(converter = ToIDConverter.class)
+	@JsonDeserialize(converter = User.FromIDConverter.class)
 	protected User							creator;
 
 	// games (planned & created)
 	@JsonInclude(value = Include.NON_EMPTY)
 	protected List<PlannedGame>				plannedGames;
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(using = GameListSerializer.class)
-	@JsonDeserialize(using = GameListDeserializer.class)
+	@JsonSerialize(converter = ToIDListConverter.class)
+	@JsonDeserialize(converter = Game.FromIDListConverter.class)
 	protected List<Game>					createdGames;
 
 	// default lists
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(using = UserListSerializer.class)
-	@JsonDeserialize(using = UserListDeserializer.class)
+	@JsonSerialize(converter = ToIDListConverter.class)
+	@JsonDeserialize(converter = User.FromIDListConverter.class)
 	protected List<User>					players;
 	@JsonInclude(value = Include.NON_EMPTY)
 	protected List<Team>					teams;
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(using = MapListSerializer.class)
-	@JsonDeserialize(using = MapListDeserializer.class)
+	@JsonSerialize(converter = ToIDListConverter.class)
+	@JsonDeserialize(converter = Map.FromIDListConverter.class)
 	protected List<Map>						maps;
 	@JsonInclude(value = Include.NON_NULL)
 	protected Rules							rules;

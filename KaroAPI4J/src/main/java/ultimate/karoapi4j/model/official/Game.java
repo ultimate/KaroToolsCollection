@@ -10,6 +10,7 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
  * POJO Game as defined by the {@link KaroAPI}
@@ -20,6 +21,11 @@ import ultimate.karoapi4j.model.base.Identifiable;
 @JsonInclude()
 public class Game extends Identifiable
 {
+	//@formatter:off
+	public static class FromIDConverter extends JSONUtil.FromIDConverter<Game> { public FromIDConverter() { super(Game.class); } };
+	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<Game> { public FromIDListConverter() { super(Game.class); } };
+	//@formatter:on
+	
 	/*
 	 * https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
 	 * "id": 132000,

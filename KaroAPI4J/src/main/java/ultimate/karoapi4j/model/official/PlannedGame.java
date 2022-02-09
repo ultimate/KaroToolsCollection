@@ -10,10 +10,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.base.Identifiable;
-import ultimate.karoapi4j.utils.JSONUtil.IDDeserializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDListDeserializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDListSerializer;
-import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 
 /**
  * POJO PlannedGame (or game that shall be created) as defined by the {@link KaroAPI}
@@ -23,13 +21,6 @@ import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
  */
 public class PlannedGame extends Identifiable
 {
-	//@formatter:off
-	public static class MapSerializer extends IDSerializer<Map> {};
-	public static class MapDeserializer extends IDDeserializer<Map> {public MapDeserializer() {super(Map.class); }};
-	public static class UserListSerializer extends IDListSerializer<User> {};
-	public static class UserListDeserializer extends IDListDeserializer<User> { public UserListDeserializer() {super(User.class); }};
-	//@formatter:on
-
 	/*
 	 * from https://www.karopapier.de/api/example/game/new
 	 * "name": "Neues Spiel",
@@ -38,11 +29,11 @@ public class PlannedGame extends Identifiable
 	 * "options": { .. } // see options
 	 */
 	private String		name;
-	@JsonSerialize(using = MapSerializer.class)
-	@JsonDeserialize(using = MapDeserializer.class)
+	@JsonSerialize(converter = ToIDConverter.class)
+	@JsonDeserialize(converter = Map.FromIDConverter.class)
 	private Map			map;
-	@JsonSerialize(using = UserListSerializer.class)
-	@JsonDeserialize(using = UserListDeserializer.class)
+	@JsonSerialize(converter = ToIDListConverter.class)
+	@JsonDeserialize(converter = User.FromIDListConverter.class)
 	private List<User>	players = new LinkedList<>();
 	private Options		options;
 
