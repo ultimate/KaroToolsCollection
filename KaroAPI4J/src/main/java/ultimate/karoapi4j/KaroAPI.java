@@ -989,6 +989,10 @@ public class KaroAPI implements IDLookUp
 		return loader.whenComplete((result, th) -> { ReflectionsUtil.copyFields(result, object, false); });
 	}
 
+	///////////////////////
+	// LOOK UP FUNCTIONALITY
+	///////////////////////
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get(Class<T> cls, int id)

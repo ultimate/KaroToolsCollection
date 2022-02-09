@@ -18,11 +18,13 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 
-public class KaroAPICache
+public class KaroAPICache implements IDLookUp
 {
 	/**
 	 * Logger-Instance
@@ -278,6 +280,30 @@ public class KaroAPICache
 		int delta = (int) (size / 2 * 0.707F);
 		g2d.drawLine(image2.getWidth() / 2 - delta, image2.getHeight() / 2 + delta, image2.getWidth() / 2 + delta, image2.getHeight() / 2 - delta);
 		return image2;
+	}
+
+	///////////////////////
+	// LOOK UP FUNCTIONALITY
+	///////////////////////
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> T get(Class<T> cls, int id)
+	{
+		try
+		{
+			if(cls.equals(User.class))
+				return (T) getUser(id);
+			else if(cls.equals(Map.class))
+				return (T) getMap(id);
+			else if(cls.equals(Game.class))
+				return (T) getGame(id);
+		}
+		catch(ExecutionException | InterruptedException e)
+		{
+			logger.error("could not look up " + cls.getName() + " with id " + id, e);
+		}
+		return null;
 	}
 
 	////////////////////////////////////////
