@@ -8,6 +8,7 @@ import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
  * POJO User as defined by the {@link KaroAPI}
@@ -17,6 +18,11 @@ import ultimate.karoapi4j.model.base.Identifiable;
  */
 public class User extends Identifiable
 {
+	//@formatter:off
+	public static class FromIDConverter extends JSONUtil.FromIDConverter<User> { public FromIDConverter() { super(User.class); } };
+	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<User> { public FromIDListConverter() { super(User.class); } };
+	//@formatter:on
+
 	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
 	/*
 	 * https://www.karopapier.de/api/users/1
@@ -344,7 +350,7 @@ public class User extends Identifiable
 	}
 
 	// derived from other information
-	
+
 	public boolean isInvitable(boolean night)
 	{
 		boolean withinLimit = (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;

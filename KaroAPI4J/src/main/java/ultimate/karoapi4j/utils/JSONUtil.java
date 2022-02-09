@@ -21,7 +21,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -31,8 +30,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.fasterxml.jackson.databind.util.Converter;
 import com.fasterxml.jackson.databind.util.StdConverter;
 
 import ultimate.karoapi4j.KaroAPI;
@@ -244,126 +241,6 @@ public abstract class JSONUtil
 		}
 	}
 
-	public static interface IDLookUp
-	{
-		public <T> T get(Class<T> cls, int id);
-	}
-
-	private static IDLookUp lookUp;
-
-	public static IDLookUp getLookUp()
-	{
-		return lookUp;
-	}
-
-	public static void setLookUp(IDLookUp lookUp)
-	{
-		JSONUtil.lookUp = lookUp;
-	}
-
-	/**
-	 * A custom {@link JsonSerializer} for {@link List}s containing {@link Identifiable} pojos writing only the IDs
-	 * 
-	 * @author ultimate
-	 */
-	public static class IDSerializer<T extends Identifiable> extends JsonSerializer<T>
-	{
-		@Override
-		public void serialize(T value, JsonGenerator gen, SerializerProvider serializers) throws IOException
-		{
-			if(value != null && value.getId() != null)
-				gen.writeNumber(value.getId());
-			else
-				gen.writeNull();
-		}
-	}
-
-	/**
-	 * A custom {@link JsonDeserializer} for {@link List}s containing {@link Identifiable} pojos reading the objects from IDs only
-	 * 
-	 * @author ultimate
-	 */
-	public static class IDDeserializer<T extends Identifiable> extends JsonDeserializer<T>
-	{
-		private Class<T> classRef;
-
-		public IDDeserializer(Class<T> classRef)
-		{
-			super();
-			this.classRef = classRef;
-		}
-
-		@Override
-		public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
-		{
-			int id = p.getNumberValue().intValue();
-			return get(id);
-		}
-
-		public T get(int id)
-		{
-			try
-			{
-				if(lookUp != null)
-				{
-					return lookUp.get(classRef, id);
-				}
-				else
-				{
-					T t = classRef.getDeclaredConstructor().newInstance();
-					t.setId(id);
-					return t;
-				}
-			}
-			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
-			{
-				logger.error("could instantiate Identifiable", e);
-			}
-			return null;
-		}
-	}
-
-	/**
-	 * A custom {@link JsonSerializer} for {@link List}s containing {@link Identifiable} pojos writing only the IDs
-	 * 
-	 * @author ultimate
-	 */
-	public static class IDListSerializer<T extends Identifiable> extends JsonSerializer<List<T>>
-	{
-		@Override
-		public void serialize(List<T> value, JsonGenerator gen, SerializerProvider serializers) throws IOException
-		{
-			int[] idArray = CollectionsUtil.toIDArray(value);
-			gen.writeArray(idArray, 0, idArray.length);
-		}
-	}
-
-	/**
-	 * A custom {@link JsonDeserializer} for {@link List}s containing {@link Identifiable} pojos reading the objects from IDs only
-	 * 
-	 * @author ultimate
-	 */
-	public static class IDListDeserializer<T extends Identifiable> extends JsonDeserializer<List<T>>
-	{
-		private IDDeserializer<T> idDeserializer;
-
-		public IDListDeserializer(Class<T> classRef)
-		{
-			super();
-			this.idDeserializer = new IDDeserializer<>(classRef);
-		}
-
-		@Override
-		public List<T> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
-		{
-			int[] array = p.readValueAs(int[].class);
-			ArrayList<T> list = new ArrayList<>(array.length);
-			for(int id : array)
-				list.add(idDeserializer.get(id));
-			return list;
-		}
-	}
-
 	/**
 	 * Simple Parser that uses {@link JSONUtil#deserialize(String, TypeReference)} to process JSON strings.<br>
 	 * The Parser implements {@link Function} in order to be usable for example for {@link CompletableFuture} as produced by the {@link KaroAPI}
@@ -454,6 +331,51 @@ public abstract class JSONUtil
 	}
 
 	/**
+	 * Simple interface for a look up entity that can be used to look up objects by their ID and type
+	 * 
+	 * @author ultimate
+	 */
+	public static interface IDLookUp
+	{
+		/**
+		 * Get the object of the given type with the given id
+		 * 
+		 * @param <T> - the type
+		 * @param cls - the type class
+		 * @param id - the id
+		 * @return the object
+		 */
+		public <T> T get(Class<T> cls, int id);
+	}
+
+	/**
+	 * The look up entity
+	 */
+	private static IDLookUp lookUp;
+
+	/**
+	 * Get the {@link IDLookUp} entity.<br>
+	 * This entity is used to look up entity by their during deserialization.
+	 * 
+	 * @return The look up entity
+	 */
+	public static IDLookUp getLookUp()
+	{
+		return lookUp;
+	}
+
+	/**
+	 * Set the {@link IDLookUp} entity.<br>
+	 * This entity is used to look up entity by their during deserialization.
+	 * 
+	 * @param lookUp - The look up entity
+	 */
+	public static void setLookUp(IDLookUp lookUp)
+	{
+		JSONUtil.lookUp = lookUp;
+	}
+
+	/**
 	 * Custom converter that can be used to convert {@link Identifiable} to IDs only
 	 * 
 	 * @author ultimate
@@ -465,6 +387,22 @@ public abstract class JSONUtil
 		{
 			if(value != null)
 				return value.getId();
+			return null;
+		}
+	}
+
+	/**
+	 * Custom converter that can be used to convert {@link List} of {@link Identifiable} to IDs only
+	 * 
+	 * @author ultimate
+	 */
+	public static class ToIDListConverter<T extends Identifiable> extends StdConverter<List<T>, int[]>
+	{
+		@Override
+		public int[] convert(List<T> value)
+		{
+			if(value != null)
+				return CollectionsUtil.toIDArray(value);
 			return null;
 		}
 	}
@@ -483,7 +421,7 @@ public abstract class JSONUtil
 			super();
 			this.classRef = classRef;
 		}
-		
+
 		@Override
 		public T convert(Integer id)
 		{
@@ -505,6 +443,31 @@ public abstract class JSONUtil
 				logger.error("could instantiate Identifiable", e);
 			}
 			return null;
+		}
+	}
+
+	/**
+	 * Custom converter that can be used to convert IDs back to a {@link List} of {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static class FromIDListConverter<T extends Identifiable> extends StdConverter<int[], List<T>>
+	{
+		private FromIDConverter<T> fromIDConverter;
+
+		public FromIDListConverter(Class<T> classRef)
+		{
+			super();
+			this.fromIDConverter = new FromIDConverter<>(classRef);
+		}
+
+		@Override
+		public List<T> convert(int[] array)
+		{
+			ArrayList<T> list = new ArrayList<>(array.length);
+			for(int id : array)
+				list.add(fromIDConverter.convert(id));
+			return list;
 		}
 	}
 }

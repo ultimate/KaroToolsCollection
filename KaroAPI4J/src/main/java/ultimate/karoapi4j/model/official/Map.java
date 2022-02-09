@@ -4,6 +4,7 @@ import java.awt.Image;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
  * POJO Map as defined by the {@link KaroAPI}
@@ -13,6 +14,10 @@ import ultimate.karoapi4j.model.base.Identifiable;
  */
 public class Map extends Identifiable
 {
+	//@formatter:off
+	public static class FromIDConverter extends JSONUtil.FromIDConverter<Map> { public FromIDConverter() { super(Map.class); } };
+	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<Map> { public FromIDListConverter() { super(Map.class); } };
+	//@formatter:on
 	/**
 	 * the row delimeter used in the map code
 	 */
