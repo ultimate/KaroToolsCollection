@@ -411,8 +411,8 @@ public class KaroAPITest extends KaroAPITestcase
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
-		plannedGame.setMap(105);
-		plannedGame.setPlayers(new int[] { user.getId() });
+		plannedGame.setMap(new Map(105));
+		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
 

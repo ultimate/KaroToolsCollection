@@ -92,8 +92,8 @@ public class Demo
 				PlannedGame game = new PlannedGame();
 
 				Random r = new Random();
-				game.setPlayers(new int[] { currentUser.getId() }); // only select current player
-				game.setMap(result.get(r.nextInt(result.size())).getId()); // choose a random map
+				game.getPlayers().add(currentUser); // only select current player
+				game.setMap(result.get(r.nextInt(result.size()))); // choose a random map
 				game.setName("Test game"); // set name
 				game.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free)); // set options
 

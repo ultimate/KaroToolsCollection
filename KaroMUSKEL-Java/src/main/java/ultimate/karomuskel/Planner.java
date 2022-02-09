@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
-import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Match;
 import ultimate.karoapi4j.model.extended.Rules;
@@ -53,26 +52,26 @@ public class Planner
 		switch(gs.getType())
 		{
 			case AllCombinations:
-				numberOfGamesPerPair = GameSeriesManager.get(gs, "numberOfGamesPerPair");
-				numberOfTeamsPerMatch = GameSeriesManager.get(gs, "numberOfTeamsPerMatch");
+				numberOfGamesPerPair = (int) gs.get("numberOfGamesPerPair");
+				numberOfTeamsPerMatch = (int) gs.get("numberOfTeamsPerMatch");
 				return planSeriesAllCombinations(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), numberOfGamesPerPair, numberOfTeamsPerMatch);
 			case Balanced:
 				return planSeriesBalanced(gs.getTitle(), null, null, null);
 			case KLC:
-				round = GameSeriesManager.get(gs, "round");
-				groups = GameSeriesManager.get(gs, "groups");
-				leagues = GameSeriesManager.get(gs, "leagues");
+				round = (int) gs.get("round");
+				groups = (int) gs.get("groups");
+				leagues = (int) gs.get("leagues");
 				return planSeriesKLC(gs.getTitle(), gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
 			case KO:
-				useHomeMaps = GameSeriesManager.get(gs, "useHomeMaps");
+				useHomeMaps = (boolean) gs.get("useHomeMaps");
 				return planSeriesKO(gs.getTitle(), gs.getTeams(), gs.getMaps(), null, gs.getRules(), useHomeMaps, true);
 			case League:
-				numberOfGamesPerPair = GameSeriesManager.get(gs, "numberOfGamesPerPair");
-				useHomeMaps = GameSeriesManager.get(gs, "useHomeMaps");
+				numberOfGamesPerPair = (int) gs.get("numberOfGamesPerPair");
+				useHomeMaps = (boolean) gs.get("useHomeMaps");
 				return planSeriesLeague(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, numberOfGamesPerPair);
 			case Simple:
-				numberOfGames = GameSeriesManager.get(gs, "numberOfGames");
-				maxPlayersPerGame = GameSeriesManager.get(gs, "maxPlayersPerGame");
+				numberOfGames = (int) gs.get("numberOfGames");
+				maxPlayersPerGame = (int) gs.get("maxPlayersPerGame");
 				return planSeriesSimple(gs.getTitle(), gs.getPlayers(), gs.getMaps(), gs.getRules(), numberOfGames, maxPlayersPerGame);
 			default:
 				return null;
@@ -87,7 +86,7 @@ public class Planner
 		List<Team> tmp = new LinkedList<>(teams);
 		Collections.shuffle(tmp, random);
 
-		List<Match> matches = leagueSpecial(tmp, numberOfTeamsPerMatch);
+		List<Match> matches = planMatchesAllCombinations(tmp, numberOfTeamsPerMatch);
 
 		PlannedGame game;
 		Map map;
@@ -134,28 +133,28 @@ public class Planner
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
-	
+
 		List<PlannedGame> games = new LinkedList<>();
-	
+
 		PlannedGame game;
 		List<User> gamePlayers;
 		Map map;
 		int count = 0;
 		int dayCount;
 		HashMap<String, String> placeholderValues = new HashMap<>();
-	
+
 		User[][][] shuffledPlayers = shufflePlayers(players, new ArrayList<>(gameDayRules.values()));
-	
+
 		for(int day = 0; day < gameDayMaps.size(); day++)
 		{
 			dayCount = 0;
-	
+
 			int gamesBefore = games.size();
-	
+
 			for(int g = 0; g < shuffledPlayers[day].length; g++)
 			{
 				gamePlayers = new LinkedList<User>();
-	
+
 				for(int p = 0; p < shuffledPlayers[day][g].length; p++)
 				{
 					if(shuffledPlayers[day][g][p] == null)
@@ -163,554 +162,24 @@ public class Planner
 					gamePlayers.add(shuffledPlayers[day][g][p]);
 				}
 				gamePlayers.add(karoAPICache.getCurrentUser());
-	
+
 				map = gameDayMaps.get(day).get(random.nextInt(gameDayMaps.get(day).size()));
-	
+
 				placeholderValues.put("i", toString(count + 1, 1));
 				placeholderValues.put("spieltag", toString(day + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
-	
+
 				game = planGame(title, map, gamePlayers, gameDayRules.get(day), placeholderValues);
-	
+
 				games.add(game);
 				count++;
 				dayCount++;
 			}
-	
+
 			int gamesAfter = games.size();
 			logger.info("map #" + day + " games planned:   " + (gamesAfter - gamesBefore));
 		}
 		return games;
-	}
-
-	// note: lists are modified
-	public List<PlannedGame> planSeriesKLC(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, Rules rules, int round)
-	{
-		int totalPlayers = groups * leagues;
-
-		BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
-			int league1 = -1;
-			int league2 = -1;
-			for(int l = 1; l <= leagues; l++)
-			{
-				if(playersByKey.get("league_" + l).contains(team1.getMembers().get(0)))
-					league1 = l;
-				if(playersByKey.get("league_" + l).contains(team2.getMembers().get(0)))
-					league2 = l;
-			}
-			if(league1 == -1 || league2 == -1)
-				logger.error("should not happen!");
-
-			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
-				return team1;
-			else if(league1 < league2) // Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
-				return team2;
-			return (random.nextBoolean() ? team1 : team2); // beide sind in der gleichen Liga -> zufall
-		};
-
-		if(round == totalPlayers)
-			return planGroupphase(title, playersByKey, homeMaps, leagues, groups, whoIsHome, rules, round);
-		else
-		{
-			// create tmp list of teams so we can use planTeamGame
-			List<Team> teams = new ArrayList<>(playersByKey.get("round_" + round).size());
-			for(User user : playersByKey.get("round_" + round))
-				teams.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
-
-			return planSeriesKO(title, teams, null, whoIsHome, rules, true, true);
-		}
-	}
-
-	// original listen werden gemischt
-	private List<PlannedGame> planGroupphase(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
-			BiFunction<Team, Team, Team> whoIsHome, Rules rules, int round)
-	{
-		List<PlannedGame> games = new LinkedList<>();
-
-		// Liegen durchmischen
-		for(int l = 1; l <= leagues; l++)
-			Collections.shuffle(playersByKey.get("league_" + l));
-
-		// Gruppenphase
-		for(int g = 1; g <= groups; g++)
-		{
-			// Bilde Gruppe aus je 1 Spieler pro Liga
-			// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
-			// X jeweils den X-ten Spieler pro Gruppe nehmen
-			playersByKey.get("group_" + g).clear();
-			for(int l = 1; l <= leagues; l++)
-				playersByKey.get("group_" + g).add(playersByKey.get("league_" + l).get(g-1));
-			Collections.shuffle(playersByKey.get("group_" + g), random);
-
-			// create a temporarily list of single player teams to be able to use the LeaguePlanner
-			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get("group_" + g).size());
-			for(User p : playersByKey.get("group_" + g))
-				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p)));
-
-			List<List<Match>> matches = planLeague(teamsTmp);
-
-			int day = 0;
-			PlannedGame game;
-			int count = 0;
-			int dayCount;
-			HashMap<String, String> placeholderValues = new HashMap<>();
-			for(List<Match> matchesForDay : matches)
-			{
-				dayCount = 0;
-				for(Match match : matchesForDay)
-				{
-					placeholderValues.put("i", toString(count + 1, 1));
-					placeholderValues.put("spieltag", toString(day + 1, 1));
-					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
-					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1));
-					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count));
-
-					game = planTeamGame(title, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, placeholderValues);
-
-					games.add(game);
-					count++;
-					dayCount++;
-				}
-				day++;
-			}
-		}
-
-		return games;
-	}
-
-	private PlannedGame planTeamGame(String title, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, java.util.Map<String, String> placeholderValues)
-	{
-		Team home, guest;
-
-		if(whoIsHome != null)
-		{
-			home = whoIsHome.apply(team1, team2);
-			guest = (home == team1 ? team2 : team1);
-		}
-		else
-		{
-			home = team1;
-			guest = team2;
-		}
-
-		List<User> gamePlayers = new LinkedList<User>();
-		gamePlayers.add(karoAPICache.getCurrentUser());
-		for(User player : home.getMembers())
-		{
-			if(!gamePlayers.contains(player))
-				gamePlayers.add(player);
-		}
-		for(User player : guest.getMembers())
-		{
-			if(!gamePlayers.contains(player))
-				gamePlayers.add(player);
-		}
-
-		placeholderValues.put("teams", toPlaceholderString(home, guest));
-
-		return planGame(title, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
-	}
-
-	public List<PlannedGame> planSeriesKO(String title, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
-	{
-		List<PlannedGame> games = new LinkedList<>();
-
-		// create local copy of the input list
-		List<Team> tmp = new ArrayList<>(teams);
-		if(shuffle)
-			Collections.shuffle(tmp, random);
-
-		int count = 1;
-		PlannedGame game;
-		Team ti, ti1;
-		Map overwriteMap = null;
-		HashMap<String, String> placeholderValues = new HashMap<>();
-		
-		for(int i = 0; i < tmp.size(); i = i + 2)
-		{
-			ti = tmp.get(i);
-			ti1 = tmp.get(i + 1);
-
-			placeholderValues.put("i", toString(count + 1, 1));
-			// placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
-			// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
-			placeholderValues.put("runde", toPlaceholderString(tmp.size(), -1, -1, -1));
-			placeholderValues.put("runde.x", toPlaceholderString(tmp.size(), -1, -1, count));
-			
-			if(!useHomeMaps)
-				overwriteMap = maps.get(random.nextInt(maps.size())); 
-
-			game = planTeamGame(title, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
-
-			games.add(game);
-			count++;
-		}
-
-		return games;
-	}
-
-	public List<PlannedGame> planSeriesLeague(String title, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, int numberOfGamesPerPair)
-	{
-		List<PlannedGame> games = new LinkedList<>();
-
-		// create local copy of the input list
-		List<Team> tmp = new ArrayList<>(teams);
-		Collections.shuffle(tmp, random);
-
-		List<List<Match>> matches = planLeague(tmp);
-
-		int day = 0;
-		PlannedGame game;
-		Map overwriteMap;
-		int count = 0;
-		int dayCount;
-		HashMap<String, String> placeholderValues = new HashMap<>();
-		
-		for(int round = 1; round <= numberOfGamesPerPair; round++)
-		{
-			for(List<Match> matchesForDay : matches)
-			{
-				dayCount = 0;
-				for(Match match : matchesForDay)
-				{
-					final int r = round;
-					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> { return (r % 2 == 0 ? team1 : team2); };
-
-					// use a neutral map if the number of rounds is uneven
-					if(useHomeMaps && !((round % 2 == 1) && (round == numberOfGamesPerPair)) && maps != null)
-						overwriteMap = maps.get(random.nextInt(maps.size()));
-					else
-						overwriteMap = null;
-
-					placeholderValues.put("i", toString(count + 1, 1));
-					placeholderValues.put("spieltag", toString(day + 1, 1));
-					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
-
-					game = planTeamGame(title, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, placeholderValues);
-
-					games.add(game);
-					count++;
-					dayCount++;
-				}
-				day++;
-			}
-		}
-
-		return games;
-	}
-
-	public List<PlannedGame> planSeriesSimple(String title, List<User> players, List<Map> maps, Rules rules, int numberOfGames, int maxPlayersPerGame)
-	{
-		List<PlannedGame> games = new LinkedList<>();
-
-		PlannedGame game;
-		List<User> gamePlayers;
-		List<User> allPlayers;
-		User player;
-		Map map;
-		int count = 0;
-		HashMap<String, String> placeholderValues = new HashMap<>();
-		
-		for(int i = 0; i < numberOfGames; i++)
-		{
-			map = maps.get(random.nextInt(maps.size()));
-
-			gamePlayers = new LinkedList<User>();
-			gamePlayers.add(karoAPICache.getCurrentUser());
-
-			allPlayers = new LinkedList<User>(players);
-
-			while(gamePlayers.size() < Math.min(maxPlayersPerGame, map.getPlayers()))
-			{
-				if(allPlayers.size() == 0)
-					break;
-				player = allPlayers.remove(random.nextInt(allPlayers.size()));
-				if(player.isInvitable(map.isNight()))
-					gamePlayers.add(player);
-			}
-
-			placeholderValues.put("i", toString(count + 1, 1));
-			
-			game = planGame(title, map, gamePlayers, rules, placeholderValues);
-			
-			games.add(game);
-			count++;
-		}
-		
-		return games;
-	}
-
-	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
-	{
-		return planGame(title, map, gamePlayers, rules.createOptions(), placeholderValues);
-	}
-
-	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
-	{
-		increasePlannedGames(gamePlayers);
-
-		// add default placeholder values
-		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(map, gamePlayers, options);
-		for(Entry<String, String> pv : defaultPlaceholderValues.entrySet())
-			placeholderValues.putIfAbsent(pv.getKey(), pv.getValue());
-
-		String name = applyPlaceholders(title, placeholderValues);
-
-		return new PlannedGame(name, map.getId(), toIntArray(gamePlayers), options);
-	}
-
-	public java.util.Map<String, String> getDefaultPlaceholderValues(Map map, List<User> gamePlayers, Options options)
-	{
-		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
-
-		// karte
-		defaultPlaceholderValues.put("karte.id", toString(map.getId(), 1));
-		defaultPlaceholderValues.put("karte.name", map.getName());
-		defaultPlaceholderValues.put("karte.author", map.getAuthor());
-
-		// spieler
-		defaultPlaceholderValues.put("spieler.ersteller", karoAPICache.getCurrentUser().getLogin());
-		defaultPlaceholderValues.put("spieler.anzahl", toString(gamePlayers.size(), 1));
-		defaultPlaceholderValues.put("spieler.anzahl.x", toString(gamePlayers.size() - 1, 1));
-		defaultPlaceholderValues.put("spieler.namen", toPlaceholderString(gamePlayers));
-		List<User> playersWithoutCreator = new LinkedList<User>(gamePlayers);
-		playersWithoutCreator.remove(karoAPICache.getCurrentUser());
-		defaultPlaceholderValues.put("spieler.namen.x", toPlaceholderString(playersWithoutCreator));
-
-		// teams --> set individually
-		// runde --> set individually
-
-		// regeln
-		defaultPlaceholderValues.put("regeln", toPlaceholderString(options, false));
-		defaultPlaceholderValues.put("regeln.x", toPlaceholderString(options, true));
-		defaultPlaceholderValues.put("regeln.zzz", Language.getString("titlepatterns.zzz") + options.getZzz());
-		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc." + options.getCrashallowed()));
-		defaultPlaceholderValues.put("regeln.cps", Language.getString("titlepatterns.cps." + options.isCps()));
-		defaultPlaceholderValues.put("regeln.richtung", Language.getString("titlepatterns.direction") + options.getStartdirection());
-
-		return defaultPlaceholderValues;
-	}
-
-	private static List<List<Match>> planLeague(List<Team> teams)
-	{
-		if(teams.size() % 2 == 1)
-			throw new IllegalArgumentException("equal number of teams required");
-		// oder Team "frei" hinzufügen
-
-		int teamcount = teams.size(); // Anzahl der Teams
-		int matchcount = teamcount / 2; // Anzahl der möglichen Spielpaare
-		int days = teamcount - 1; // Anzahl der Spieltage pro Runde
-		List<List<Match>> matches = new LinkedList<List<Match>>(); // Spielplan
-		int gamenr = 0; // Zähler für Spielnummer
-
-		Team team1, team2;
-		List<Match> dayList;
-		for(int day = 0; day < days; day++)
-		{
-			dayList = new LinkedList<Match>();
-			teams.add(1, teams.remove(teamcount - 1)); // letztes Team an stelle 1
-			for(int matchnr = 0; matchnr < matchcount; matchnr++)
-			{
-				gamenr++;
-				if((gamenr % teamcount != 1) && (gamenr % 2 == 0))
-				{
-					team1 = teams.get(matchnr);
-					team2 = teams.get(teamcount - 1 - matchnr);
-				}
-				else
-				{
-					team2 = teams.get(matchnr);
-					team1 = teams.get(teamcount - 1 - matchnr);
-				}
-				dayList.add(new Match(team1, team2));
-			}
-			matches.add(dayList);
-		}
-
-		int maxHomeMatches;
-		List<Team> maxHomeTeams;
-		int minHomeMatches;
-		List<Team> minHomeTeams;
-		int homeMatches;
-		boolean swapped;
-		Team t1, t2;
-		Random r = new Random();
-		int minSwappable;
-		Team minSwappableTeam;
-		List<Team> minSwappableList;
-		int swappable;
-		while(true)
-		{
-			maxHomeMatches = 0;
-			maxHomeTeams = new LinkedList<Team>();
-			minHomeMatches = teamcount - 1;
-			minHomeTeams = new LinkedList<Team>();
-			swapped = false;
-
-			for(Team t : teams)
-			{
-				homeMatches = countHomeMatches(matches, t);
-				if(homeMatches > maxHomeMatches)
-				{
-					maxHomeMatches = homeMatches;
-					maxHomeTeams = new LinkedList<Team>();
-					maxHomeTeams.add(t);
-				}
-				else if(homeMatches == maxHomeMatches)
-				{
-					maxHomeTeams.add(t);
-				}
-				if(homeMatches < minHomeMatches)
-				{
-					minHomeMatches = homeMatches;
-					minHomeTeams = new LinkedList<Team>();
-					minHomeTeams.add(t);
-				}
-				else if(homeMatches == minHomeMatches)
-				{
-					minHomeTeams.add(t);
-				}
-			}
-
-			if(maxHomeMatches - minHomeMatches < 2)
-				break;
-
-			while(maxHomeTeams.size() > 0 && minHomeTeams.size() > 0)
-			{
-				minSwappable = Math.min(minHomeTeams.size(), maxHomeTeams.size()) + 1;
-				minSwappableTeam = null;
-				minSwappableList = null;
-				for(Team t : maxHomeTeams)
-				{
-					swappable = 0;
-					for(List<Match> ms : matches)
-					{
-						for(Match m : ms)
-						{
-							if(m.getTeam(0).equals(t) && minHomeTeams.contains(m.getTeam(1)))
-								swappable++;
-						}
-					}
-					if(swappable < minSwappable)
-					{
-						minSwappable = swappable;
-						minSwappableTeam = t;
-						minSwappableList = maxHomeTeams;
-					}
-				}
-				for(Team t : minHomeTeams)
-				{
-					swappable = 0;
-					for(List<Match> ms : matches)
-					{
-						for(Match m : ms)
-						{
-							if(m.getTeam(1).equals(t) && maxHomeTeams.contains(m.getTeam(0)))
-								swappable++;
-						}
-					}
-					if(swappable < minSwappable)
-					{
-						minSwappable = swappable;
-						minSwappableTeam = t;
-						minSwappableList = minHomeTeams;
-					}
-				}
-				if(minSwappable == 0)
-				{
-					minSwappableList.remove(minSwappableTeam);
-					continue;
-				}
-				if(maxHomeTeams.contains(minSwappableTeam))
-				{
-					t1 = minSwappableTeam;
-					t2 = minHomeTeams.get(r.nextInt(minHomeTeams.size()));
-				}
-				else
-				{
-					t1 = maxHomeTeams.get(r.nextInt(maxHomeTeams.size()));
-					t2 = minSwappableTeam;
-				}
-				for(List<Match> ms : matches)
-				{
-					for(Match m : ms)
-					{
-						if(m.getTeam(0).equals(t1) && m.getTeam(1).equals(t2))
-						{
-							m.rotateTeams();
-							swapped = true;
-							maxHomeTeams.remove(t1);
-							minHomeTeams.remove(t2);
-						}
-					}
-				}
-				if(!swapped && maxHomeTeams.size() == 1 && minHomeTeams.size() == 1)
-					break;
-			}
-		}
-
-		return matches;
-	}
-
-	private static int countHomeMatches(List<List<Match>> matches, Team t)
-	{
-		int home = 0;
-		for(List<Match> ms : matches)
-		{
-			for(Match m : ms)
-			{
-				if(m.getTeam(0).equals(t))
-					home++;
-			}
-		}
-		return home;
-	}
-
-	private static List<Match> leagueSpecial(List<Team> teams, int numberOfTeamsPerMatch)
-	{
-		List<Match> matches = new ArrayList<Match>();
-
-		int[] selectors = new int[numberOfTeamsPerMatch];
-		for(int i = 0; i < numberOfTeamsPerMatch; i++)
-			selectors[i] = i;
-
-		Team[] matchTeams;
-		do
-		{
-			matchTeams = new Team[numberOfTeamsPerMatch];
-			for(int i = 0; i < numberOfTeamsPerMatch; i++)
-				matchTeams[i] = teams.get(selectors[i]);
-			matches.add(new Match(matchTeams));
-		} while(incrementSelectors(selectors, teams.size()));
-
-		return matches;
-	}
-
-	private static boolean incrementSelectors(int[] s, int max)
-	{
-		int pointer = s.length - 1;
-
-		boolean success = false;
-		while(pointer >= 0)
-		{
-			if(s[pointer] < max - (s.length - pointer))
-			{
-				s[pointer]++;
-				for(int p = pointer + 1; p < s.length; p++)
-				{
-					s[p] = s[p - 1] + 1;
-					if(s[p] > max - (s.length - p))
-						return false;
-				}
-				success = true;
-				break;
-			}
-			else
-			{
-				pointer--;
-			}
-		}
-		return success;
 	}
 
 	private static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
@@ -972,6 +441,504 @@ public class Planner
 		}
 	}
 
+	// note: lists are modified
+	public List<PlannedGame> planSeriesKLC(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, Rules rules, int round)
+	{
+		int totalPlayers = groups * leagues;
+
+		BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
+			int league1 = -1;
+			int league2 = -1;
+			for(int l = 1; l <= leagues; l++)
+			{
+				if(playersByKey.get("league_" + l).contains(team1.getMembers().get(0)))
+					league1 = l;
+				if(playersByKey.get("league_" + l).contains(team2.getMembers().get(0)))
+					league2 = l;
+			}
+			if(league1 == -1 || league2 == -1)
+				logger.error("should not happen!");
+
+			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
+				return team1;
+			else if(league1 < league2) // Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
+				return team2;
+			return (random.nextBoolean() ? team1 : team2); // beide sind in der gleichen Liga -> zufall
+		};
+
+		if(round == totalPlayers)
+			return planGroupphase(title, playersByKey, homeMaps, leagues, groups, whoIsHome, rules, round);
+		else
+		{
+			// create tmp list of teams so we can use planTeamGame
+			List<Team> teams = new ArrayList<>(playersByKey.get("round_" + round).size());
+			for(User user : playersByKey.get("round_" + round))
+				teams.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
+
+			return planSeriesKO(title, teams, null, whoIsHome, rules, true, true);
+		}
+	}
+
+	// original listen werden gemischt
+	private List<PlannedGame> planGroupphase(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
+			BiFunction<Team, Team, Team> whoIsHome, Rules rules, int round)
+	{
+		List<PlannedGame> games = new LinkedList<>();
+
+		// Liegen durchmischen
+		for(int l = 1; l <= leagues; l++)
+			Collections.shuffle(playersByKey.get("league_" + l));
+
+		// Gruppenphase
+		for(int g = 1; g <= groups; g++)
+		{
+			// Bilde Gruppe aus je 1 Spieler pro Liga
+			// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
+			// X jeweils den X-ten Spieler pro Gruppe nehmen
+			playersByKey.get("group_" + g).clear();
+			for(int l = 1; l <= leagues; l++)
+				playersByKey.get("group_" + g).add(playersByKey.get("league_" + l).get(g - 1));
+			Collections.shuffle(playersByKey.get("group_" + g), random);
+
+			// create a temporarily list of single player teams to be able to use the LeaguePlanner
+			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get("group_" + g).size());
+			for(User p : playersByKey.get("group_" + g))
+				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p)));
+
+			List<List<Match>> matches = planMatchesLeague(teamsTmp);
+
+			int day = 0;
+			PlannedGame game;
+			int count = 0;
+			int dayCount;
+			HashMap<String, String> placeholderValues = new HashMap<>();
+			for(List<Match> matchesForDay : matches)
+			{
+				dayCount = 0;
+				for(Match match : matchesForDay)
+				{
+					placeholderValues.put("i", toString(count + 1, 1));
+					placeholderValues.put("spieltag", toString(day + 1, 1));
+					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1));
+					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count));
+
+					game = planTeamGame(title, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, placeholderValues);
+
+					games.add(game);
+					count++;
+					dayCount++;
+				}
+				day++;
+			}
+		}
+
+		return games;
+	}
+
+	public List<PlannedGame> planSeriesKO(String title, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
+	{
+		List<PlannedGame> games = new LinkedList<>();
+
+		// create local copy of the input list
+		List<Team> tmp = new ArrayList<>(teams);
+		if(shuffle)
+			Collections.shuffle(tmp, random);
+
+		int count = 1;
+		PlannedGame game;
+		Team ti, ti1;
+		Map overwriteMap = null;
+		HashMap<String, String> placeholderValues = new HashMap<>();
+
+		for(int i = 0; i < tmp.size(); i = i + 2)
+		{
+			ti = tmp.get(i);
+			ti1 = tmp.get(i + 1);
+
+			placeholderValues.put("i", toString(count + 1, 1));
+			// placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
+			// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
+			placeholderValues.put("runde", toPlaceholderString(tmp.size(), -1, -1, -1));
+			placeholderValues.put("runde.x", toPlaceholderString(tmp.size(), -1, -1, count));
+
+			if(!useHomeMaps)
+				overwriteMap = maps.get(random.nextInt(maps.size()));
+
+			game = planTeamGame(title, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
+
+			games.add(game);
+			count++;
+		}
+
+		return games;
+	}
+
+	public List<PlannedGame> planSeriesLeague(String title, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, int numberOfGamesPerPair)
+	{
+		List<PlannedGame> games = new LinkedList<>();
+
+		// create local copy of the input list
+		List<Team> tmp = new ArrayList<>(teams);
+		Collections.shuffle(tmp, random);
+
+		List<List<Match>> matches = planMatchesLeague(tmp);
+
+		int day = 0;
+		PlannedGame game;
+		Map overwriteMap;
+		int count = 0;
+		int dayCount;
+		HashMap<String, String> placeholderValues = new HashMap<>();
+
+		for(int round = 1; round <= numberOfGamesPerPair; round++)
+		{
+			for(List<Match> matchesForDay : matches)
+			{
+				dayCount = 0;
+				for(Match match : matchesForDay)
+				{
+					final int r = round;
+					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> { return (r % 2 == 0 ? team1 : team2); };
+
+					// use a neutral map if the number of rounds is uneven
+					if(useHomeMaps && !((round % 2 == 1) && (round == numberOfGamesPerPair)) && maps != null)
+						overwriteMap = maps.get(random.nextInt(maps.size()));
+					else
+						overwriteMap = null;
+
+					placeholderValues.put("i", toString(count + 1, 1));
+					placeholderValues.put("spieltag", toString(day + 1, 1));
+					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+
+					game = planTeamGame(title, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, placeholderValues);
+
+					games.add(game);
+					count++;
+					dayCount++;
+				}
+				day++;
+			}
+		}
+
+		return games;
+	}
+
+	public List<PlannedGame> planSeriesSimple(String title, List<User> players, List<Map> maps, Rules rules, int numberOfGames, int maxPlayersPerGame)
+	{
+		List<PlannedGame> games = new LinkedList<>();
+
+		PlannedGame game;
+		List<User> gamePlayers;
+		List<User> allPlayers;
+		User player;
+		Map map;
+		int count = 0;
+		HashMap<String, String> placeholderValues = new HashMap<>();
+
+		for(int i = 0; i < numberOfGames; i++)
+		{
+			map = maps.get(random.nextInt(maps.size()));
+
+			gamePlayers = new LinkedList<User>();
+			gamePlayers.add(karoAPICache.getCurrentUser());
+
+			allPlayers = new LinkedList<User>(players);
+
+			while(gamePlayers.size() < Math.min(maxPlayersPerGame, map.getPlayers()))
+			{
+				if(allPlayers.size() == 0)
+					break;
+				player = allPlayers.remove(random.nextInt(allPlayers.size()));
+				if(player.isInvitable(map.isNight()))
+					gamePlayers.add(player);
+			}
+
+			placeholderValues.put("i", toString(count + 1, 1));
+
+			game = planGame(title, map, gamePlayers, rules, placeholderValues);
+
+			games.add(game);
+			count++;
+		}
+
+		return games;
+	}
+
+	public PlannedGame planTeamGame(String title, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, java.util.Map<String, String> placeholderValues)
+	{
+		Team home, guest;
+
+		if(whoIsHome != null)
+		{
+			home = whoIsHome.apply(team1, team2);
+			guest = (home == team1 ? team2 : team1);
+		}
+		else
+		{
+			home = team1;
+			guest = team2;
+		}
+
+		List<User> gamePlayers = new LinkedList<User>();
+		gamePlayers.add(karoAPICache.getCurrentUser());
+		for(User player : home.getMembers())
+		{
+			if(!gamePlayers.contains(player))
+				gamePlayers.add(player);
+		}
+		for(User player : guest.getMembers())
+		{
+			if(!gamePlayers.contains(player))
+				gamePlayers.add(player);
+		}
+
+		placeholderValues.put("teams", toPlaceholderString(home, guest));
+
+		return planGame(title, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
+	}
+
+	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
+	{
+		return planGame(title, map, gamePlayers, rules.createOptions(), placeholderValues);
+	}
+
+	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
+	{
+		increasePlannedGames(gamePlayers);
+
+		// add default placeholder values
+		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(map, gamePlayers, options);
+		for(Entry<String, String> pv : defaultPlaceholderValues.entrySet())
+			placeholderValues.putIfAbsent(pv.getKey(), pv.getValue());
+
+		String name = applyPlaceholders(title, placeholderValues);
+
+		return new PlannedGame(name, map, gamePlayers, options);
+	}
+
+	public List<Match> planMatchesAllCombinations(List<Team> teams, int numberOfTeamsPerMatch)
+	{
+		List<Match> matches = new ArrayList<Match>();
+
+		int[] selectors = new int[numberOfTeamsPerMatch];
+		for(int i = 0; i < numberOfTeamsPerMatch; i++)
+			selectors[i] = i;
+
+		Team[] matchTeams;
+		do
+		{
+			matchTeams = new Team[numberOfTeamsPerMatch];
+			for(int i = 0; i < numberOfTeamsPerMatch; i++)
+				matchTeams[i] = teams.get(selectors[i]);
+			matches.add(new Match(matchTeams));
+		} while(incrementSelectors(selectors, teams.size()));
+
+		return matches;
+	}
+
+	private static boolean incrementSelectors(int[] s, int max)
+	{
+		int pointer = s.length - 1;
+
+		boolean success = false;
+		while(pointer >= 0)
+		{
+			if(s[pointer] < max - (s.length - pointer))
+			{
+				s[pointer]++;
+				for(int p = pointer + 1; p < s.length; p++)
+				{
+					s[p] = s[p - 1] + 1;
+					if(s[p] > max - (s.length - p))
+						return false;
+				}
+				success = true;
+				break;
+			}
+			else
+			{
+				pointer--;
+			}
+		}
+		return success;
+	}
+
+	public List<List<Match>> planMatchesLeague(List<Team> teams)
+	{
+		if(teams.size() % 2 == 1)
+			throw new IllegalArgumentException("equal number of teams required");
+		// oder Team "frei" hinzufügen
+
+		int teamcount = teams.size(); // Anzahl der Teams
+		int matchcount = teamcount / 2; // Anzahl der möglichen Spielpaare
+		int days = teamcount - 1; // Anzahl der Spieltage pro Runde
+		List<List<Match>> matches = new LinkedList<List<Match>>(); // Spielplan
+		int gamenr = 0; // Zähler für Spielnummer
+
+		Team team1, team2;
+		List<Match> dayList;
+		for(int day = 0; day < days; day++)
+		{
+			dayList = new LinkedList<Match>();
+			teams.add(1, teams.remove(teamcount - 1)); // letztes Team an stelle 1
+			for(int matchnr = 0; matchnr < matchcount; matchnr++)
+			{
+				gamenr++;
+				if((gamenr % teamcount != 1) && (gamenr % 2 == 0))
+				{
+					team1 = teams.get(matchnr);
+					team2 = teams.get(teamcount - 1 - matchnr);
+				}
+				else
+				{
+					team2 = teams.get(matchnr);
+					team1 = teams.get(teamcount - 1 - matchnr);
+				}
+				dayList.add(new Match(team1, team2));
+			}
+			matches.add(dayList);
+		}
+
+		int maxHomeMatches;
+		List<Team> maxHomeTeams;
+		int minHomeMatches;
+		List<Team> minHomeTeams;
+		int homeMatches;
+		boolean swapped;
+		Team t1, t2;
+		Random r = new Random();
+		int minSwappable;
+		Team minSwappableTeam;
+		List<Team> minSwappableList;
+		int swappable;
+		while(true)
+		{
+			maxHomeMatches = 0;
+			maxHomeTeams = new LinkedList<Team>();
+			minHomeMatches = teamcount - 1;
+			minHomeTeams = new LinkedList<Team>();
+			swapped = false;
+
+			for(Team t : teams)
+			{
+				homeMatches = countHomeMatches(matches, t);
+				if(homeMatches > maxHomeMatches)
+				{
+					maxHomeMatches = homeMatches;
+					maxHomeTeams = new LinkedList<Team>();
+					maxHomeTeams.add(t);
+				}
+				else if(homeMatches == maxHomeMatches)
+				{
+					maxHomeTeams.add(t);
+				}
+				if(homeMatches < minHomeMatches)
+				{
+					minHomeMatches = homeMatches;
+					minHomeTeams = new LinkedList<Team>();
+					minHomeTeams.add(t);
+				}
+				else if(homeMatches == minHomeMatches)
+				{
+					minHomeTeams.add(t);
+				}
+			}
+
+			if(maxHomeMatches - minHomeMatches < 2)
+				break;
+
+			while(maxHomeTeams.size() > 0 && minHomeTeams.size() > 0)
+			{
+				minSwappable = Math.min(minHomeTeams.size(), maxHomeTeams.size()) + 1;
+				minSwappableTeam = null;
+				minSwappableList = null;
+				for(Team t : maxHomeTeams)
+				{
+					swappable = 0;
+					for(List<Match> ms : matches)
+					{
+						for(Match m : ms)
+						{
+							if(m.getTeam(0).equals(t) && minHomeTeams.contains(m.getTeam(1)))
+								swappable++;
+						}
+					}
+					if(swappable < minSwappable)
+					{
+						minSwappable = swappable;
+						minSwappableTeam = t;
+						minSwappableList = maxHomeTeams;
+					}
+				}
+				for(Team t : minHomeTeams)
+				{
+					swappable = 0;
+					for(List<Match> ms : matches)
+					{
+						for(Match m : ms)
+						{
+							if(m.getTeam(1).equals(t) && maxHomeTeams.contains(m.getTeam(0)))
+								swappable++;
+						}
+					}
+					if(swappable < minSwappable)
+					{
+						minSwappable = swappable;
+						minSwappableTeam = t;
+						minSwappableList = minHomeTeams;
+					}
+				}
+				if(minSwappable == 0)
+				{
+					minSwappableList.remove(minSwappableTeam);
+					continue;
+				}
+				if(maxHomeTeams.contains(minSwappableTeam))
+				{
+					t1 = minSwappableTeam;
+					t2 = minHomeTeams.get(r.nextInt(minHomeTeams.size()));
+				}
+				else
+				{
+					t1 = maxHomeTeams.get(r.nextInt(maxHomeTeams.size()));
+					t2 = minSwappableTeam;
+				}
+				for(List<Match> ms : matches)
+				{
+					for(Match m : ms)
+					{
+						if(m.getTeam(0).equals(t1) && m.getTeam(1).equals(t2))
+						{
+							m.rotateTeams();
+							swapped = true;
+							maxHomeTeams.remove(t1);
+							minHomeTeams.remove(t2);
+						}
+					}
+				}
+				if(!swapped && maxHomeTeams.size() == 1 && minHomeTeams.size() == 1)
+					break;
+			}
+		}
+
+		return matches;
+	}
+
+	private static int countHomeMatches(List<List<Match>> matches, Team t)
+	{
+		int home = 0;
+		for(List<Match> ms : matches)
+		{
+			for(Match m : ms)
+			{
+				if(m.getTeam(0).equals(t))
+					home++;
+			}
+		}
+		return home;
+	}
+
 	// HELPERS
 
 	public static void resetPlannedGames(List<User> users)
@@ -994,6 +961,38 @@ public class Planner
 			ret = ret.multiply(BigInteger.valueOf(teams - k)).divide(BigInteger.valueOf(k + 1));
 		}
 		return ret.intValue();
+	}
+
+	public java.util.Map<String, String> getDefaultPlaceholderValues(Map map, List<User> gamePlayers, Options options)
+	{
+		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
+
+		// karte
+		defaultPlaceholderValues.put("karte.id", toString(map.getId(), 1));
+		defaultPlaceholderValues.put("karte.name", map.getName());
+		defaultPlaceholderValues.put("karte.author", map.getAuthor());
+
+		// spieler
+		defaultPlaceholderValues.put("spieler.ersteller", karoAPICache.getCurrentUser().getLogin());
+		defaultPlaceholderValues.put("spieler.anzahl", toString(gamePlayers.size(), 1));
+		defaultPlaceholderValues.put("spieler.anzahl.x", toString(gamePlayers.size() - 1, 1));
+		defaultPlaceholderValues.put("spieler.namen", toPlaceholderString(gamePlayers));
+		List<User> playersWithoutCreator = new LinkedList<User>(gamePlayers);
+		playersWithoutCreator.remove(karoAPICache.getCurrentUser());
+		defaultPlaceholderValues.put("spieler.namen.x", toPlaceholderString(playersWithoutCreator));
+
+		// teams --> set individually
+		// runde --> set individually
+
+		// regeln
+		defaultPlaceholderValues.put("regeln", toPlaceholderString(options, false));
+		defaultPlaceholderValues.put("regeln.x", toPlaceholderString(options, true));
+		defaultPlaceholderValues.put("regeln.zzz", Language.getString("titlepatterns.zzz") + options.getZzz());
+		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+		defaultPlaceholderValues.put("regeln.cps", Language.getString("titlepatterns.cps." + options.isCps()));
+		defaultPlaceholderValues.put("regeln.richtung", Language.getString("titlepatterns.direction") + options.getStartdirection());
+
+		return defaultPlaceholderValues;
 	}
 
 	public static String applyPlaceholders(String title, java.util.Map<String, String> placeholderValues)
@@ -1106,15 +1105,6 @@ public class Planner
 			tmp.append(options.getStartdirection());
 		}
 		return tmp.toString();
-	}
-
-	private static int[] toIntArray(List<? extends Identifiable> list)
-	{
-		int[] array = new int[list.size()];
-		int cursor = 0;
-		for(Identifiable i : list)
-			array[cursor++] = i.getId();
-		return array;
 	}
 
 	private static <K> boolean checkKeys(java.util.Map<K, ?> map1, java.util.Map<K, ?> map2)

@@ -2,9 +2,11 @@ package ultimate.karoapi4j.utils;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -31,10 +33,12 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.Converter;
+import com.fasterxml.jackson.databind.util.StdConverter;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.exceptions.DeserializationException;
 import ultimate.karoapi4j.exceptions.SerializationException;
+import ultimate.karoapi4j.model.base.Identifiable;
 
 /**
  * Util class for abstracting JSON serialization and deserialization using Jackson
@@ -147,6 +151,7 @@ public abstract class JSONUtil
 			return deserialize(serialization, new TypeReference<ArrayList<Object>>() {});
 		}
 		else
+
 		{
 			logger.error("Could not determine type of serialization");
 			return null;
@@ -239,6 +244,126 @@ public abstract class JSONUtil
 		}
 	}
 
+	public static interface IDLookUp
+	{
+		public <T> T get(Class<T> cls, int id);
+	}
+
+	private static IDLookUp lookUp;
+
+	public static IDLookUp getLookUp()
+	{
+		return lookUp;
+	}
+
+	public static void setLookUp(IDLookUp lookUp)
+	{
+		JSONUtil.lookUp = lookUp;
+	}
+
+	/**
+	 * A custom {@link JsonSerializer} for {@link List}s containing {@link Identifiable} pojos writing only the IDs
+	 * 
+	 * @author ultimate
+	 */
+	public static class IDSerializer<T extends Identifiable> extends JsonSerializer<T>
+	{
+		@Override
+		public void serialize(T value, JsonGenerator gen, SerializerProvider serializers) throws IOException
+		{
+			if(value != null && value.getId() != null)
+				gen.writeNumber(value.getId());
+			else
+				gen.writeNull();
+		}
+	}
+
+	/**
+	 * A custom {@link JsonDeserializer} for {@link List}s containing {@link Identifiable} pojos reading the objects from IDs only
+	 * 
+	 * @author ultimate
+	 */
+	public static class IDDeserializer<T extends Identifiable> extends JsonDeserializer<T>
+	{
+		private Class<T> classRef;
+
+		public IDDeserializer(Class<T> classRef)
+		{
+			super();
+			this.classRef = classRef;
+		}
+
+		@Override
+		public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
+		{
+			int id = p.getNumberValue().intValue();
+			return get(id);
+		}
+
+		public T get(int id)
+		{
+			try
+			{
+				if(lookUp != null)
+				{
+					return lookUp.get(classRef, id);
+				}
+				else
+				{
+					T t = classRef.getDeclaredConstructor().newInstance();
+					t.setId(id);
+					return t;
+				}
+			}
+			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
+			{
+				logger.error("could instantiate Identifiable", e);
+			}
+			return null;
+		}
+	}
+
+	/**
+	 * A custom {@link JsonSerializer} for {@link List}s containing {@link Identifiable} pojos writing only the IDs
+	 * 
+	 * @author ultimate
+	 */
+	public static class IDListSerializer<T extends Identifiable> extends JsonSerializer<List<T>>
+	{
+		@Override
+		public void serialize(List<T> value, JsonGenerator gen, SerializerProvider serializers) throws IOException
+		{
+			int[] idArray = CollectionsUtil.toIDArray(value);
+			gen.writeArray(idArray, 0, idArray.length);
+		}
+	}
+
+	/**
+	 * A custom {@link JsonDeserializer} for {@link List}s containing {@link Identifiable} pojos reading the objects from IDs only
+	 * 
+	 * @author ultimate
+	 */
+	public static class IDListDeserializer<T extends Identifiable> extends JsonDeserializer<List<T>>
+	{
+		private IDDeserializer<T> idDeserializer;
+
+		public IDListDeserializer(Class<T> classRef)
+		{
+			super();
+			this.idDeserializer = new IDDeserializer<>(classRef);
+		}
+
+		@Override
+		public List<T> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
+		{
+			int[] array = p.readValueAs(int[].class);
+			ArrayList<T> list = new ArrayList<>(array.length);
+			for(int id : array)
+				list.add(idDeserializer.get(id));
+			return list;
+		}
+	}
+
 	/**
 	 * Simple Parser that uses {@link JSONUtil#deserialize(String, TypeReference)} to process JSON strings.<br>
 	 * The Parser implements {@link Function} in order to be usable for example for {@link CompletableFuture} as produced by the {@link KaroAPI}
@@ -319,24 +444,67 @@ public abstract class JSONUtil
 	 * 
 	 * @author ultimate
 	 */
-	public static class TimestampConverter implements Converter<Long, Date>
+	public static class TimestampConverter extends StdConverter<Long, Date>
 	{
 		@Override
 		public Date convert(Long value)
 		{
 			return new Date(value * DATE_FACTOR);
 		}
+	}
 
+	/**
+	 * Custom converter that can be used to convert {@link Identifiable} to IDs only
+	 * 
+	 * @author ultimate
+	 */
+	public static class ToIDConverter<T extends Identifiable> extends StdConverter<T, Integer>
+	{
 		@Override
-		public JavaType getInputType(TypeFactory typeFactory)
+		public Integer convert(T value)
 		{
-			return typeFactory.constructType(Long.class);
+			if(value != null)
+				return value.getId();
+			return null;
 		}
+	}
 
-		@Override
-		public JavaType getOutputType(TypeFactory typeFactory)
+	/**
+	 * Custom converter that can be used to convert IDs back to {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static class FromIDConverter<T extends Identifiable> extends StdConverter<Integer, T>
+	{
+		private Class<T> classRef;
+
+		public FromIDConverter(Class<T> classRef)
 		{
-			return typeFactory.constructType(Date.class);
+			super();
+			this.classRef = classRef;
+		}
+		
+		@Override
+		public T convert(Integer id)
+		{
+			try
+			{
+				if(lookUp != null)
+				{
+					return lookUp.get(classRef, id);
+				}
+				else
+				{
+					T t = classRef.getDeclaredConstructor().newInstance();
+					t.setId(id);
+					return t;
+				}
+			}
+			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
+			{
+				logger.error("could instantiate Identifiable", e);
+			}
+			return null;
 		}
 	}
 }

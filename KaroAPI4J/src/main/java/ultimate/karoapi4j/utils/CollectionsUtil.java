@@ -228,4 +228,13 @@ public abstract class CollectionsUtil
 		}
 		return map;
 	}
+	
+	public static int[] toIDArray(List<? extends Identifiable> list)
+	{
+		int[] array = new int[list.size()];
+		int cursor = 0;
+		for(Identifiable i : list)
+			array[cursor++] = i.getId();
+		return array;
+	}
 }

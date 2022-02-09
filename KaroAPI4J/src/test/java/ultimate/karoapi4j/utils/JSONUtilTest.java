@@ -3,10 +3,13 @@ package ultimate.karoapi4j.utils;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -17,10 +20,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
+import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.model.official.User;
 
 public class JSONUtilTest
 {
@@ -73,12 +80,26 @@ public class JSONUtilTest
 		return sb.toString();
 	}
 
+	private String toJson(List<? extends Identifiable> list)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		for(int i = 0; i < list.size(); i++)
+		{
+			if(i > 0)
+				sb.append(',');
+			sb.append(list.get(i).getId());
+		}
+		sb.append(']');
+		return sb.toString();
+	}
+
 	private String toJson(PlannedGame game)
 	{
 		//@formatter:off
 		return "{" + (game.getId() != null ? "\"id\":" + game.getId() + "," : "") 
 				+ "\"name\":\"" + game.getName() + "\","
-				+ "\"map\":" + game.getMap() + ","
+				+ "\"map\":" + game.getMap().getId() + ","
 				+ "\"players\":" + toJson(game.getPlayers()) + ","
 				+ "\"options\":" + toJson(game.getOptions())
 				+ (game.isCreated() ? ",\"created\":true" : "")
@@ -103,9 +124,9 @@ public class JSONUtilTest
 		logger.debug("expected = " + expected);
 		logger.debug("actual   = " + serialized);
 		assertEquals(expected, serialized);
-		
+
 		Options deserialized = JSONUtil.deserialize(serialized, new TypeReference<Options>() {});
-		
+
 		// check each property here, don't rely on equals
 		assertEquals(options.getZzz(), deserialized.getZzz());
 		assertEquals(options.isCps(), deserialized.isCps());
@@ -137,9 +158,9 @@ public class JSONUtilTest
 		logger.debug("expected = " + expected);
 		logger.debug("actual   = " + serialized);
 		assertEquals(expected, serialized);
-		
+
 		Player deserialized = JSONUtil.deserialize(serialized, new TypeReference<Player>() {});
-		
+
 		// check each property here, don't rely on equals
 		assertEquals(player.getId(), deserialized.getId());
 		assertEquals(player.getName(), deserialized.getName());
@@ -165,11 +186,11 @@ public class JSONUtilTest
 		options.setCps(false);
 		options.setStartdirection(EnumGameDirection.formula1);
 		options.setCrashallowed(EnumGameTC.free);
-		
+
 		PlannedGame game = new PlannedGame();
 		game.setName("Neues Spiel");
-		game.setMap(105);
-		game.setPlayers(new int[] { 12, 34, 56 });
+		game.setMap(new Map(105));
+		game.setPlayers(Arrays.asList(new User(12), new User(34), new User(56)));
 		game.setOptions(options);
 
 		String expected = toJson(game);
@@ -178,40 +199,41 @@ public class JSONUtilTest
 
 		logger.debug("expected = " + expected);
 		logger.debug("actual   = " + serialized);
+
 		assertEquals(expected, serialized);
-		
+
 		PlannedGame deserialized = JSONUtil.deserialize(serialized, new TypeReference<PlannedGame>() {});
-		
+
 		// check each property here, don't rely on equals
 		assertEquals(game.getName(), deserialized.getName());
-		assertEquals(game.getMap(), deserialized.getMap());
-		assertArrayEquals(game.getPlayers(), deserialized.getPlayers());
+		assertEquals(game.getMap().getId(), deserialized.getMap().getId());
+		assertTrue(CollectionsUtil.equals(game.getPlayers(), deserialized.getPlayers(), "getId"));
 		// and the options
 		assertEquals(options.getZzz(), deserialized.getOptions().getZzz());
 		assertEquals(options.isCps(), deserialized.getOptions().isCps());
 		assertEquals(options.getStartdirection(), deserialized.getOptions().getStartdirection());
 		assertEquals(options.getCrashallowed(), deserialized.getOptions().getCrashallowed());
-		
+
 		// now check if additional properties are serialized, too
-		
+
 		game.setCreated(true);
 		game.setLeft(true);
 		game.setId(1234);
-		
+
 		expected = toJson(game);
-		
+
 		serialized = JSONUtil.serialize(game);
 
 		logger.debug("expected = " + expected);
 		logger.debug("actual   = " + serialized);
 		assertEquals(expected, serialized);
-		
+
 		deserialized = JSONUtil.deserialize(serialized, new TypeReference<PlannedGame>() {});
-		
+
 		// check each property here, don't rely on equals
 		assertEquals(game.getName(), deserialized.getName());
-		assertEquals(game.getMap(), deserialized.getMap());
-		assertArrayEquals(game.getPlayers(), deserialized.getPlayers());
+		assertEquals(game.getMap().getId(), deserialized.getMap().getId());
+		assertTrue(CollectionsUtil.equals(game.getPlayers(), deserialized.getPlayers(), "getId"));
 		// and the options
 		assertEquals(options.getZzz(), deserialized.getOptions().getZzz());
 		assertEquals(options.isCps(), deserialized.getOptions().isCps());
@@ -224,8 +246,38 @@ public class JSONUtilTest
 	}
 
 	@Test
+	public void test_serialize_deserialize_ids_only()
+	{
+		String json;
+
+		int uid = 5;
+		int mid0 = 8;
+		int mid1 = 12;
+		GameSeries gs = new GameSeries();
+		gs.setCreator(new User(uid));
+		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
+
+		json = JSONUtil.serialize(gs);
+		logger.debug("gameSeries = " + json);
+		// check the creator is only included as an id
+		assertTrue(json.contains("\"creator\":" + uid));
+		assertTrue(json.contains("\"maps\":[" + mid0 + "," + mid1 + "]"));
+
+		GameSeries deserialized = JSONUtil.deserialize(json, new TypeReference<GameSeries>() {});
+		assertNotNull(deserialized.getCreator());
+		assertEquals(uid, deserialized.getCreator().getId());
+		assertNotNull(deserialized.getMaps());
+		assertEquals(2, deserialized.getMaps().size());
+		assertEquals(mid0, deserialized.getMaps().get(0).getId());
+		assertEquals(mid1, deserialized.getMaps().get(1).getId());
+	}
+
+	@Test
 	public void test_serialize_deserialize_GameSeries()
 	{
+		int id = 5;
+		GameSeries gs = new GameSeries();
+		gs.setCreator(new User(5));
 		// TODO implement test #99
 		fail("not implemented");
 	}

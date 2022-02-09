@@ -1,10 +1,19 @@
 package ultimate.karoapi4j.model.official;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.utils.JSONUtil.IDDeserializer;
+import ultimate.karoapi4j.utils.JSONUtil.IDListDeserializer;
+import ultimate.karoapi4j.utils.JSONUtil.IDListSerializer;
+import ultimate.karoapi4j.utils.JSONUtil.IDSerializer;
 
 /**
  * POJO PlannedGame (or game that shall be created) as defined by the {@link KaroAPI}
@@ -14,6 +23,13 @@ import ultimate.karoapi4j.model.base.Identifiable;
  */
 public class PlannedGame extends Identifiable
 {
+	//@formatter:off
+	public static class MapSerializer extends IDSerializer<Map> {};
+	public static class MapDeserializer extends IDDeserializer<Map> {public MapDeserializer() {super(Map.class); }};
+	public static class UserListSerializer extends IDListSerializer<User> {};
+	public static class UserListDeserializer extends IDListDeserializer<User> { public UserListDeserializer() {super(User.class); }};
+	//@formatter:on
+
 	/*
 	 * from https://www.karopapier.de/api/example/game/new
 	 * "name": "Neues Spiel",
@@ -21,24 +37,28 @@ public class PlannedGame extends Identifiable
 	 * "players": [ 2241 ],
 	 * "options": { .. } // see options
 	 */
-	private String	name;
-	private int		map;
-	private int[]	players;
-	private Options	options;
+	private String		name;
+	@JsonSerialize(using = MapSerializer.class)
+	@JsonDeserialize(using = MapDeserializer.class)
+	private Map			map;
+	@JsonSerialize(using = UserListSerializer.class)
+	@JsonDeserialize(using = UserListDeserializer.class)
+	private List<User>	players = new LinkedList<>();
+	private Options		options;
 
 	// additional properties
 	@JsonInclude(value = Include.NON_DEFAULT)
-	private boolean	created;
+	private boolean		created;
 	@JsonInclude(value = Include.NON_DEFAULT)
-	private boolean	left;
+	private boolean		left;
 
 	public PlannedGame()
 	{
 		this.created = false;
 		this.left = false;
 	}
-	
-	public PlannedGame(String name, int map, int[] players, Options options)
+
+	public PlannedGame(String name, Map map, List<User> players, Options options)
 	{
 		this();
 		this.name = name;
@@ -57,22 +77,22 @@ public class PlannedGame extends Identifiable
 		this.name = name;
 	}
 
-	public int getMap()
+	public Map getMap()
 	{
 		return map;
 	}
 
-	public void setMap(int map)
+	public void setMap(Map map)
 	{
 		this.map = map;
 	}
 
-	public int[] getPlayers()
+	public List<User> getPlayers()
 	{
 		return players;
 	}
 
-	public void setPlayers(int[] players)
+	public void setPlayers(List<User> players)
 	{
 		this.players = players;
 	}
