@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
-import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
@@ -50,13 +49,13 @@ public class GameSeries
 	@JsonDeserialize(converter = User.FromIDConverter.class)
 	protected User							creator;
 
-	// games (planned & created)
+	// TODO
+	protected boolean						creatorGiveUp;
+	protected boolean						ignoreInvitable;
+
+	// games (planned & created in one list)
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected List<PlannedGame>				plannedGames;
-	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDListConverter.class)
-	@JsonDeserialize(converter = Game.FromIDListConverter.class)
-	protected List<Game>					createdGames;
+	protected List<PlannedGame>				games;
 
 	// default lists
 	@JsonInclude(value = Include.NON_EMPTY)
@@ -131,24 +130,34 @@ public class GameSeries
 		this.creator = creator;
 	}
 
-	public List<PlannedGame> getPlannedGames()
+	public boolean isCreatorGiveUp()
 	{
-		return plannedGames;
+		return creatorGiveUp;
 	}
 
-	public void setPlannedGames(List<PlannedGame> plannedGames)
+	public void setCreatorGiveUp(boolean creatorGiveUp)
 	{
-		this.plannedGames = plannedGames;
+		this.creatorGiveUp = creatorGiveUp;
 	}
 
-	public List<Game> getCreatedGames()
+	public boolean isIgnoreInvitable()
 	{
-		return createdGames;
+		return ignoreInvitable;
 	}
 
-	public void setCreatedGames(List<Game> createdGames)
+	public void setIgnoreInvitable(boolean ignoreInvitable)
 	{
-		this.createdGames = createdGames;
+		this.ignoreInvitable = ignoreInvitable;
+	}
+
+	public List<PlannedGame> getGames()
+	{
+		return games;
+	}
+
+	public void setGames(List<PlannedGame> games)
+	{
+		this.games = games;
 	}
 
 	public List<User> getPlayers()
@@ -268,6 +277,6 @@ public class GameSeries
 
 	protected void planGame(PlannedGame game)
 	{
-		this.plannedGames.add(game);
+		this.games.add(game);
 	}
 }

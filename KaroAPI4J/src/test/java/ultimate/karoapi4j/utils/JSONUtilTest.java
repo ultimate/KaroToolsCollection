@@ -97,11 +97,11 @@ public class JSONUtilTest
 	private String toJson(PlannedGame game)
 	{
 		//@formatter:off
-		return "{" + (game.getId() != null ? "\"id\":" + game.getId() + "," : "") 
-				+ "\"name\":\"" + game.getName() + "\","
+		return "{" + "\"name\":\"" + game.getName() + "\","
 				+ "\"map\":" + game.getMap().getId() + ","
 				+ "\"players\":" + toJson(game.getPlayers()) + ","
-				+ "\"options\":" + toJson(game.getOptions())
+				+ "\"options\":" + toJson(game.getOptions()) 
+				+ (game.getGame() != null ? "\"game\":" + game.getGame().getId() + ",": "")
 				+ (game.isCreated() ? ",\"created\":true" : "")
 				+ (game.isLeft() ? ",\"left\":true" : "")
 				+ "}";
@@ -218,7 +218,7 @@ public class JSONUtilTest
 
 		game.setCreated(true);
 		game.setLeft(true);
-		game.setId(1234);
+		game.setGame(new Game(1234));
 
 		expected = toJson(game);
 
@@ -242,7 +242,7 @@ public class JSONUtilTest
 		// additional properties
 		assertEquals(game.isCreated(), deserialized.isCreated());
 		assertEquals(game.isLeft(), deserialized.isLeft());
-		assertEquals(game.getId(), deserialized.getId());
+		assertEquals(game.getGame().getId(), deserialized.getGame().getId());
 	}
 
 	@Test

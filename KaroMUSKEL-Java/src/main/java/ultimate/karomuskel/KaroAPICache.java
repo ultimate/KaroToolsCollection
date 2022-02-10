@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -36,9 +37,10 @@ public class KaroAPICache implements IDLookUp
 	private User							currentUser;
 	private java.util.Map<Integer, User>	usersById;
 	private java.util.Map<String, User>		usersByLogin;
+	private java.util.Map<Integer, Game>	gamesById;
 	private java.util.Map<Integer, Map>		mapsById;
 
-	private Planner							planner; // TODO
+	private Planner							planner;										// TODO
 
 	public KaroAPICache(KaroAPI karoAPI)
 	{
@@ -47,6 +49,7 @@ public class KaroAPICache implements IDLookUp
 		this.karoAPI = karoAPI;
 		this.usersById = new TreeMap<>();
 		this.usersByLogin = new TreeMap<>();
+		this.gamesById = new TreeMap<>();
 		this.mapsById = new TreeMap<>();
 		// this.refresh().join();
 	}
@@ -187,11 +190,37 @@ public class KaroAPICache implements IDLookUp
 
 	public User getUser(int id)
 	{
+		if(!this.usersById.containsKey(id))
+		{
+			try
+			{
+				User u = karoAPI.getUser(id).get();
+				this.usersById.put(id, u);
+				this.usersByLogin.put(u.getLogin(), u);
+			}
+			catch(InterruptedException | ExecutionException e)
+			{
+				logger.error("could not get user: " + id);
+			}
+		}
 		return this.usersById.get(id);
 	}
 
 	public User getUser(String login)
 	{
+		if(!this.usersByLogin.containsKey(login))
+		{
+			try
+			{
+				List<User> users = karoAPI.getUsers(login, null, null).get();
+				for(User u : users)
+					updateUser(u);
+			}
+			catch(InterruptedException | ExecutionException e)
+			{
+				logger.error("could not get user: " + login);
+			}
+		}
 		return this.usersByLogin.get(login);
 	}
 
@@ -219,8 +248,56 @@ public class KaroAPICache implements IDLookUp
 		return Collections.unmodifiableMap(this.usersByLogin);
 	}
 
+	public Game getGame(int id)
+	{
+		if(!this.gamesById.containsKey(id))
+		{
+			try
+			{
+				Game g = karoAPI.getGame(id).get();
+				updateGame(g);
+			}
+			catch(InterruptedException | ExecutionException e)
+			{
+				logger.error("could not get game: " + id);
+			}
+		}
+		return this.gamesById.get(id);
+	}
+
+	protected Game updateGame(Game game)
+	{
+		if(this.gamesById.containsKey(game.getId()))
+			ReflectionsUtil.copyFields(game, this.gamesById.get(game.getId()), false);
+		else
+			this.gamesById.put(game.getId(), game);
+		return this.gamesById.get(game.getId());
+	}
+
+	public Collection<Game> getGames()
+	{
+		return Collections.unmodifiableCollection(this.gamesById.values());
+	}
+
+	public java.util.Map<Integer, Game> getGamesById()
+	{
+		return Collections.unmodifiableMap(this.gamesById);
+	}
+
 	public Map getMap(int id)
 	{
+		if(!this.mapsById.containsKey(id))
+		{
+			try
+			{
+				Map m = karoAPI.getMap(id).get();
+				updateMap(m);
+			}
+			catch(InterruptedException | ExecutionException e)
+			{
+				logger.error("could not get map: " + id);
+			}
+		}
 		return this.mapsById.get(id);
 	}
 
@@ -290,19 +367,14 @@ public class KaroAPICache implements IDLookUp
 	@Override
 	public <T> T get(Class<T> cls, int id)
 	{
-		try
-		{
-			if(cls.equals(User.class))
-				return (T) getUser(id);
-			else if(cls.equals(Map.class))
-				return (T) getMap(id);
-			else if(cls.equals(Game.class))
-				return (T) getGame(id);
-		}
-		catch(ExecutionException | InterruptedException e)
-		{
-			logger.error("could not look up " + cls.getName() + " with id " + id, e);
-		}
+		if(cls.equals(User.class))
+			return (T) getUser(id);
+		else if(cls.equals(Map.class))
+			return (T) getMap(id);
+		else if(cls.equals(Game.class))
+			return (T) getGame(id);
+		else
+			logger.error("unsupported lookup type: " + cls.getName());
 		return null;
 	}
 
