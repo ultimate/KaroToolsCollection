@@ -28,7 +28,6 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
-import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil;
