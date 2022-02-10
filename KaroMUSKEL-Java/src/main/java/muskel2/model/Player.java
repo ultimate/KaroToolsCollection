@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
 
+import muskel2.model.help.Identifiable;
+
 @Deprecated
-public class Player implements Serializable
+public class Player implements Serializable, Identifiable
 {
 	private static final long	serialVersionUID	= 1L;
 
@@ -22,6 +24,12 @@ public class Player implements Serializable
 
 	public int					league;
 	public Map					homeMap;
+
+	@Override
+	public int getId()
+	{
+		return id;
+	}
 
 	private void writeObject(java.io.ObjectOutputStream out) throws IOException
 	{

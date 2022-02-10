@@ -51,6 +51,7 @@ public class Launcher
 		String language = Language.getDefault();
 		if(args.length > 0)
 		{
+			// TODO allow only one arg for selecting the config file
 			for(String arg : args)
 			{
 				if(arg.equalsIgnoreCase("-d"))

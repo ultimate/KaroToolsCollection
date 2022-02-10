@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 
@@ -19,7 +18,7 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
-public class PlannedGame extends Identifiable
+public class PlannedGame
 {
 	/*
 	 * from https://www.karopapier.de/api/example/game/new
@@ -34,8 +33,12 @@ public class PlannedGame extends Identifiable
 	private Map			map;
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = User.FromIDListConverter.class)
-	private List<User>	players = new LinkedList<>();
+	private List<User>	players	= new LinkedList<>();
 	private Options		options;
+	@JsonInclude(value = Include.NON_NULL)
+	@JsonSerialize(converter = ToIDConverter.class)
+	@JsonDeserialize(converter = Game.FromIDConverter.class)
+	private Game		game;
 
 	// additional properties
 	@JsonInclude(value = Include.NON_DEFAULT)
@@ -96,6 +99,16 @@ public class PlannedGame extends Identifiable
 	public void setOptions(Options options)
 	{
 		this.options = options;
+	}
+
+	public Game getGame()
+	{
+		return game;
+	}
+
+	public void setGame(Game game)
+	{
+		this.game = game;
 	}
 
 	public boolean isCreated()

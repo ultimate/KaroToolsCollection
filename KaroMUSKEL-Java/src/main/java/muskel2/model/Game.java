@@ -3,8 +3,10 @@ package muskel2.model;
 import java.io.Serializable;
 import java.util.List;
 
+import muskel2.model.help.Identifiable;
+
 @Deprecated
-public class Game implements Serializable
+public class Game implements Serializable, Identifiable
 {
 	private static final long	serialVersionUID	= 1L;
 
@@ -16,4 +18,10 @@ public class Game implements Serializable
 
 	public boolean				created;
 	public boolean				left;
+
+	@Override
+	public int getId()
+	{
+		return id;
+	}
 }

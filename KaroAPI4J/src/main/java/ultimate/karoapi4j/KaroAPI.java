@@ -1005,6 +1005,8 @@ public class KaroAPI implements IDLookUp
 				return (T) getMap(id).get();
 			else if(cls.equals(Game.class))
 				return (T) getGame(id).get();
+			else
+				logger.error("unsupported lookup type");
 		}
 		catch(ExecutionException | InterruptedException e)
 		{

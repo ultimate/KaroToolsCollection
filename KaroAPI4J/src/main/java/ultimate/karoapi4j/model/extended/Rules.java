@@ -16,40 +16,32 @@ public class Rules implements Cloneable
 	private EnumGameTC			tc;
 	private Boolean				cps;
 	private EnumGameDirection	direction;
-	private boolean				creatorGiveUp;
-	private boolean				ignoreInvitable;
 	private int					gamesPerPlayer;
 	private int					numberOfPlayers;
 
 	private Random				random;
 
-	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction, boolean creatorGiveUp, boolean ignoreInvitable)
+	public Rules()
 	{
-		super();
+		this.random = new Random();
+	}
+
+	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction)
+	{
+		this();
 		this.minZzz = minZzz;
 		this.maxZzz = maxZzz;
 		this.zzz = null;
 		this.tc = tc;
 		this.cps = cps;
 		this.direction = direction;
-		this.creatorGiveUp = creatorGiveUp;
-		this.ignoreInvitable = ignoreInvitable;
-		this.random = new Random();
 	}
 
-	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction, boolean creatorGiveUp, boolean ignoreInvitable, int gamesPerPlayer, int numberOfPlayers)
+	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction, int gamesPerPlayer, int numberOfPlayers)
 	{
-		super();
-		this.minZzz = minZzz;
-		this.maxZzz = maxZzz;
-		this.tc = tc;
-		this.cps = cps;
-		this.direction = direction;
-		this.creatorGiveUp = creatorGiveUp;
-		this.ignoreInvitable = ignoreInvitable;
+		this(minZzz, maxZzz, tc, cps, direction);
 		this.gamesPerPlayer = gamesPerPlayer;
 		this.numberOfPlayers = numberOfPlayers;
-		this.random = new Random();
 	}
 
 	public int getZzz()
@@ -80,16 +72,6 @@ public class Rules implements Cloneable
 	public EnumGameDirection getDirection()
 	{
 		return direction;
-	}
-
-	public boolean isCreatorGiveUp()
-	{
-		return creatorGiveUp;
-	}
-
-	public boolean isIgnoreInvitable()
-	{
-		return ignoreInvitable;
 	}
 
 	public int getGamesPerPlayer()
@@ -133,16 +115,6 @@ public class Rules implements Cloneable
 		this.direction = direction;
 	}
 
-	public void setCreatorGiveUp(boolean creatorGiveUp)
-	{
-		this.creatorGiveUp = creatorGiveUp;
-	}
-
-	public void setIgnoreInvitable(boolean ignoreInvitable)
-	{
-		this.ignoreInvitable = ignoreInvitable;
-	}
-
 	public void setGamesPerPlayer(int gamesPerPlayer)
 	{
 		this.gamesPerPlayer = gamesPerPlayer;
@@ -156,19 +128,19 @@ public class Rules implements Cloneable
 	public Options createOptions()
 	{
 		Options options = new Options();
-		
+
 		options.setZzz(zzz == null ? random.nextInt(maxZzz - minZzz + 1) + minZzz : zzz);
 		options.setCps(cps == null ? random.nextBoolean() : cps);
 		options.setCrashallowed(EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)));
 		options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)));
-		
+
 		return options;
 	}
 
 	@Override
 	public Rules clone()
 	{
-		return new Rules(minZzz, maxZzz, tc, cps, direction, creatorGiveUp, ignoreInvitable);
+		return new Rules(minZzz, maxZzz, tc, cps, direction);
 	}
 
 	@Override
@@ -179,9 +151,7 @@ public class Rules implements Cloneable
 				" -> zzz                  = [" + minZzz + "," + maxZzz + "]\n" + 
 				" -> tc                   = " + tc + "\n" + 
 				" -> cps                  = " + cps + "\n" +
-				" -> direction            = " + direction + "\n" + 
-				" -> creatorGiveUp        = " + creatorGiveUp + "\n" + 
-				" -> ignoreInvitable      = " + ignoreInvitable;
+				" -> direction            = " + direction;
 		//@formatter:on
 	}
 
@@ -191,9 +161,7 @@ public class Rules implements Cloneable
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cps == null) ? 0 : cps.hashCode());
-		result = prime * result + (creatorGiveUp ? 1231 : 1237);
 		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
-		result = prime * result + (ignoreInvitable ? 1231 : 1237);
 		result = prime * result + maxZzz;
 		result = prime * result + minZzz;
 		result = prime * result + ((tc == null) ? 0 : tc.hashCode());
@@ -225,16 +193,12 @@ public class Rules implements Cloneable
 		}
 		else if(!tc.equals(other.tc))
 			return false;
-		if(creatorGiveUp != other.creatorGiveUp)
-			return false;
 		if(direction == null)
 		{
 			if(other.direction != null)
 				return false;
 		}
 		else if(!direction.equals(other.direction))
-			return false;
-		if(ignoreInvitable != other.ignoreInvitable)
 			return false;
 		if(maxZzz != other.maxZzz)
 			return false;
