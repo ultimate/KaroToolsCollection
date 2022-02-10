@@ -137,8 +137,9 @@ public abstract class GameSeriesManager
 		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
 		gs.setGames(convert(gs2.games, karoAPICache));
 		gs.setRules(convert(gs2.rules));
-		// TODO creator give up
-		// TODO ignore invitable
+		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
+		gs.setIgnoreInvitable(gs2.rules.ignoreInvitable);
+		// TODO
 		gs.setMapsByKey(null);
 		gs.setPlayersByKey(null);
 		gs.setRules(null);
