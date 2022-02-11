@@ -20,6 +20,13 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import muskel2.model.Direction;
+import muskel2.model.series.AllCombinationsGameSeries;
+import muskel2.model.series.BalancedGameSeries;
+import muskel2.model.series.KLCGameSeries;
+import muskel2.model.series.KOGameSeries;
+import muskel2.model.series.LeagueGameSeries;
+import muskel2.model.series.SimpleGameSeries;
+import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
@@ -139,7 +146,50 @@ public abstract class GameSeriesManager
 		gs.setRules(convert(gs2.rules));
 		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
 		gs.setIgnoreInvitable(gs2.rules.ignoreInvitable);
-		// TODO
+		// type specific properties
+		if(gs2 instanceof SimpleGameSeries)
+		{
+			gs.set(GameSeries.NUMBER_OF_GAMES, ((SimpleGameSeries) gs2).numberOfGames);
+			gs.set(GameSeries.MIN_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).minPlayersPerGame);
+			gs.set(GameSeries.MAX_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).maxPlayersPerGame);
+		}
+		else if(gs2 instanceof BalancedGameSeries)
+		{
+			((BalancedGameSeries) gs2)
+		}
+		else if(gs2 instanceof KLCGameSeries)
+		{
+			((KLCGameSeries) gs2)
+
+		}
+		else if(gs2 instanceof TeamBasedGameSeries)
+		{
+			((TeamBasedGameSeries) gs2)
+			if(gs2 instanceof AllCombinationsGameSeries)
+			{
+
+				((AllCombinationsGameSeries) gs2)
+			}
+			else if(gs2 instanceof KOGameSeries)
+			{
+				((KOGameSeries) gs2)
+
+			}
+			else if(gs2 instanceof LeagueGameSeries)
+			{
+				((LeagueGameSeries) gs2)
+
+			}
+			else
+			{
+				logger.error("unknown type: " + gs2.getClass());
+			}
+		}
+		else
+		{
+			logger.error("unknown type: " + gs2.getClass());
+		}
+
 		gs.setMapsByKey(null);
 		gs.setPlayersByKey(null);
 		gs.setRules(null);
@@ -170,7 +220,7 @@ public abstract class GameSeriesManager
 		for(muskel2.model.Game g2 : list2)
 		{
 			Game g = karoAPICache.get(Game.class, g2.getId());
-			
+
 			PlannedGame pg = new PlannedGame();
 			pg.setName(g2.name);
 			pg.setCreated(g2.created);
@@ -182,7 +232,7 @@ public abstract class GameSeriesManager
 		}
 		return list;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static Rules convert(muskel2.model.Rules r2)
 	{
