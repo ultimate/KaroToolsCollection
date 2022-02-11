@@ -161,7 +161,7 @@ public abstract class GameSeriesManager
 			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
 			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
 			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
-			//((BalancedGameSeries) gs2).shuffledPlayers // ignore
+			// ((BalancedGameSeries) gs2).shuffledPlayers // ignore
 		}
 		else if(gs2 instanceof KLCGameSeries)
 		{
@@ -199,7 +199,7 @@ public abstract class GameSeriesManager
 			gs.set(GameSeries.USE_CREATOR_TEAM, ((TeamBasedGameSeries) gs2).creatorTeam);
 			gs.setTeams(convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
 			gs.getTeamsByKey().put("shuffled", convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
-			
+
 			if(gs2 instanceof AllCombinationsGameSeries)
 			{
 				gs.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, ((AllCombinationsGameSeries) gs2).numberOfTeamsPerMatch);
@@ -225,8 +225,7 @@ public abstract class GameSeriesManager
 		return gs;
 	}
 
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls,
-			KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls, KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
 			return null;
@@ -252,7 +251,7 @@ public abstract class GameSeriesManager
 			pg.setPlayers(convert(g2.players, User.class, karoAPICache));
 			pg.setGame(g);
 			pg.setMap(g != null ? g.getMap() : karoAPICache.getMap(g2.getId()));
-			pg.setOptions(convert(g2.rules).createOptions());
+			pg.setOptions(convert(g2.rules).createOptions(null));
 		}
 		return list;
 	}
@@ -271,8 +270,8 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(
-			java.util.Map<Integer, T2> map2, Class<T> cls, KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
+			KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
 			return null;
@@ -300,7 +299,6 @@ public abstract class GameSeriesManager
 		r.setMaxZzz(r2.maxZzz);
 		r.setMinZzz(r2.minZzz);
 		r.setNumberOfPlayers(0);
-		r.setZzz(r2.zzz);
 		r.setDirection(null);
 		if(r2.direction == Direction.klassisch)
 			r.setDirection(EnumGameDirection.classic);
@@ -331,8 +329,7 @@ public abstract class GameSeriesManager
 		fos.close();
 	}
 
-	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton,
-			JButton nextButton, boolean loaded)
+	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
 	{
 		LinkedList<Screen> screens = new LinkedList<>();
 		if(loaded)

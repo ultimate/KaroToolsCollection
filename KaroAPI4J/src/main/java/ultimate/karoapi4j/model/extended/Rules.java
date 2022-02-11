@@ -12,18 +12,14 @@ public class Rules implements Cloneable
 	// TODO check what is necessary and what can be moved to settings
 	private int					minZzz;
 	private int					maxZzz;
-	private Integer				zzz;
 	private EnumGameTC			tc;
 	private Boolean				cps;
 	private EnumGameDirection	direction;
 	private int					gamesPerPlayer;
 	private int					numberOfPlayers;
 
-	private Random				random;
-
 	public Rules()
 	{
-		this.random = new Random();
 	}
 
 	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction)
@@ -31,7 +27,6 @@ public class Rules implements Cloneable
 		this();
 		this.minZzz = minZzz;
 		this.maxZzz = maxZzz;
-		this.zzz = null;
 		this.tc = tc;
 		this.cps = cps;
 		this.direction = direction;
@@ -42,11 +37,6 @@ public class Rules implements Cloneable
 		this(minZzz, maxZzz, tc, cps, direction);
 		this.gamesPerPlayer = gamesPerPlayer;
 		this.numberOfPlayers = numberOfPlayers;
-	}
-
-	public int getZzz()
-	{
-		return zzz;
 	}
 
 	public int getMinZzz()
@@ -94,12 +84,6 @@ public class Rules implements Cloneable
 		this.maxZzz = maxZzz;
 	}
 
-	public void setZzz(int zzz)
-	{
-		this.minZzz = zzz;
-		this.maxZzz = zzz;
-	}
-
 	public void setTC(EnumGameTC tc)
 	{
 		this.tc = tc;
@@ -125,14 +109,14 @@ public class Rules implements Cloneable
 		this.numberOfPlayers = numberOfPlayers;
 	}
 
-	public Options createOptions()
+	public Options createOptions(Random random)
 	{
 		Options options = new Options();
 
-		options.setZzz(zzz == null ? random.nextInt(maxZzz - minZzz + 1) + minZzz : zzz);
-		options.setCps(cps == null ? random.nextBoolean() : cps);
-		options.setCrashallowed(EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)));
-		options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)));
+		options.setZzz(random != null ? random.nextInt(maxZzz - minZzz + 1) + minZzz : minZzz);
+		options.setCps(cps == null && random != null ? random.nextBoolean() : cps);
+		options.setCrashallowed(tc == null  && random != null ? EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)) : tc);
+		options.setStartdirection(direction == null  && random != null ? EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)) : direction);
 
 		return options;
 	}
@@ -165,7 +149,6 @@ public class Rules implements Cloneable
 		result = prime * result + maxZzz;
 		result = prime * result + minZzz;
 		result = prime * result + ((tc == null) ? 0 : tc.hashCode());
-		result = prime * result + ((zzz == null) ? 0 : zzz.hashCode());
 		return result;
 	}
 
@@ -203,13 +186,6 @@ public class Rules implements Cloneable
 		if(maxZzz != other.maxZzz)
 			return false;
 		if(minZzz != other.minZzz)
-			return false;
-		if(zzz == null)
-		{
-			if(other.zzz != null)
-				return false;
-		}
-		else if(!zzz.equals(other.zzz))
 			return false;
 		return true;
 	}
