@@ -6,8 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -127,10 +129,13 @@ public abstract class JSONUtil
 	/**
 	 * Deserialize a JSON string to a generic object:<br>
 	 * <ul>
-	 * <li>If the JSON is a Object in the form <code>{...}</code> this method will produce a <code>Map&lt;String,Object&gt;</code></li>
-	 * <li>If the JSON is an Array in the form <code>[...]</code> this method will produce a <code>List&lt;Object&gt;</code></li>
+	 * <li>If the JSON is a Object in the form <code>{...}</code> this method will produce a
+	 * <code>Map&lt;String,Object&gt;</code></li>
+	 * <li>If the JSON is an Array in the form <code>[...]</code> this method will produce a
+	 * <code>List&lt;Object&gt;</code></li>
 	 * </ul>
-	 * Note: if you know the object type to deserialize consider using {@link JSONUtil#deserialize(String, TypeReference)} instead.
+	 * Note: if you know the object type to deserialize consider using
+	 * {@link JSONUtil#deserialize(String, TypeReference)} instead.
 	 * 
 	 * @see JSONUtil#deserialize(String, TypeReference)
 	 * @param serialization - the JSON string
@@ -185,7 +190,8 @@ public abstract class JSONUtil
 	}
 
 	/**
-	 * Deserialize a JSON string to a given Type when the desired Object is wrapped into a container in the form
+	 * Deserialize a JSON string to a given Type when the desired Object is wrapped into a container
+	 * in the form
 	 * <code>{"key":{ .. actual object .. }}
 	 * 
 	 * @param <T> - the object type
@@ -242,11 +248,12 @@ public abstract class JSONUtil
 	}
 
 	/**
-	 * Simple Parser that uses {@link JSONUtil#deserialize(String, TypeReference)} to process JSON strings.<br>
-	 * The Parser implements {@link Function} in order to be usable for example for {@link CompletableFuture} as produced by the {@link KaroAPI}
+	 * Simple Parser that uses {@link JSONUtil#deserialize(String, TypeReference)} to process JSON
+	 * strings.<br>
+	 * The Parser implements {@link Function} in order to be usable for example for
+	 * {@link CompletableFuture} as produced by the {@link KaroAPI}
 	 * 
 	 * @author ultimate
-	 *
 	 * @param <E> - the Type
 	 */
 	public static class Parser<E> implements Function<String, E>
@@ -278,11 +285,12 @@ public abstract class JSONUtil
 	}
 
 	/**
-	 * Simple Parser that uses {@link JSONUtil#deserializeContainer(String, TypeReference, String)} to process JSON strings.<br>
-	 * The Parser implements {@link Function} in order to be usable for example for {@link CompletableFuture} as produced by the {@link KaroAPI}
+	 * Simple Parser that uses {@link JSONUtil#deserializeContainer(String, TypeReference, String)}
+	 * to process JSON strings.<br>
+	 * The Parser implements {@link Function} in order to be usable for example for
+	 * {@link CompletableFuture} as produced by the {@link KaroAPI}
 	 * 
 	 * @author ultimate
-	 *
 	 * @param <E> - the Type
 	 */
 	public static class ContainerParser<E> extends Parser<E>
@@ -331,7 +339,8 @@ public abstract class JSONUtil
 	}
 
 	/**
-	 * Simple interface for a look up entity that can be used to look up objects by their ID and type
+	 * Simple interface for a look up entity that can be used to look up objects by their ID and
+	 * type
 	 * 
 	 * @author ultimate
 	 */
@@ -385,9 +394,9 @@ public abstract class JSONUtil
 		@Override
 		public Integer convert(T value)
 		{
-			if(value != null)
-				return value.getId();
-			return null;
+			if(value == null)
+				return null;
+			return value.getId();
 		}
 	}
 
@@ -401,13 +410,31 @@ public abstract class JSONUtil
 		@Override
 		public int[] convert(List<T> value)
 		{
-			if(value != null)
-				return CollectionsUtil.toIDArray(value);
-			return null;
+			if(value == null)
+				return null;
+			return CollectionsUtil.toIDArray(value);
 		}
 	}
-	
-	// TODO ID-List-Map converter (and vice versa)
+
+	/**
+	 * Custom converter that can be used to convert {@link Map} of {@link Identifiable} to IDs only
+	 * 
+	 * @author ultimate
+	 */
+	public static class ToIDMapConverter<T extends Identifiable> extends StdConverter<java.util.Map<String, List<T>>, java.util.Map<String, int[]>>
+	{
+		@Override
+		public java.util.Map<String, int[]> convert(java.util.Map<String, List<T>> value)
+		{
+			if(value == null)
+				return null;
+
+			HashMap<String, int[]> map = new HashMap<>();
+			for(Entry<String, List<T>> e : value.entrySet())
+				map.put(e.getKey(), CollectionsUtil.toIDArray(e.getValue()));
+			return map;
+		}
+	}
 
 	/**
 	 * Custom converter that can be used to convert IDs back to {@link Identifiable}
@@ -440,7 +467,8 @@ public abstract class JSONUtil
 					return t;
 				}
 			}
-			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
+			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+					| SecurityException e)
 			{
 				logger.error("could instantiate Identifiable", e);
 			}
@@ -449,7 +477,8 @@ public abstract class JSONUtil
 	}
 
 	/**
-	 * Custom converter that can be used to convert IDs back to a {@link List} of {@link Identifiable}
+	 * Custom converter that can be used to convert IDs back to a {@link List} of
+	 * {@link Identifiable}
 	 * 
 	 * @author ultimate
 	 */
@@ -470,6 +499,32 @@ public abstract class JSONUtil
 			for(int id : array)
 				list.add(fromIDConverter.convert(id));
 			return list;
+		}
+	}
+
+	/**
+	 * Custom converter that can be used to convert IDs back to a {@link List} of
+	 * {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static class FromIDMapConverter<T extends Identifiable> extends StdConverter<java.util.Map<String, int[]>, java.util.Map<String, List<T>>>
+	{
+		private FromIDListConverter<T> fromIDListConverter;
+
+		public FromIDMapConverter(Class<T> classRef)
+		{
+			super();
+			this.fromIDListConverter = new FromIDListConverter<>(classRef);
+		}
+
+		@Override
+		public java.util.Map<String, List<T>> convert(java.util.Map<String, int[]> arrayMap)
+		{
+			HashMap<String, List<T>> map = new HashMap<>(); 
+			for(Entry<String, int[]> e: arrayMap.entrySet())
+				map.put(e.getKey(), fromIDListConverter.convert(e.getValue()));
+			return map;
 		}
 	}
 }
