@@ -4,9 +4,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -16,11 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
@@ -68,11 +75,15 @@ public class KaroAPICache implements IDLookUp
 			});
 
 			// then check the current user
-			CompletableFuture<Void> loadCheck = loadUsers.thenComposeAsync(v -> { logger.info("checking login..."); return karoAPI.check(); }).thenAccept(checkUser -> {
+			CompletableFuture<Void> loadCheck = loadUsers.thenComposeAsync(v -> {
+				logger.info("checking login...");
+				return karoAPI.check();
+			}).thenAccept(checkUser -> {
 				if(checkUser != null)
 				{
 					logger.info("credentials confirmed: " + checkUser.getLogin() + " (" + checkUser.getId() + ")");
-					// but don't use the user returned, but instead use the same instance as previously loaded by getUsers
+					// but don't use the user returned, but instead use the same instance as
+					// previously loaded by getUsers
 					User preloaded = getUser(checkUser.getId());
 					ReflectionsUtil.copyFields(checkUser, preloaded, false);
 					this.currentUser = preloaded;
@@ -144,7 +155,9 @@ public class KaroAPICache implements IDLookUp
 			}
 
 			// join all operations
-			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, CompletableFuture.allOf(loadAllImages)).thenAccept(v -> { logger.info("refresh complete"); });
+			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, CompletableFuture.allOf(loadAllImages)).thenAccept(v -> {
+				logger.info("refresh complete");
+			});
 		}
 		else
 		{
@@ -174,7 +187,9 @@ public class KaroAPICache implements IDLookUp
 				}
 
 				currentUser = usersById.get(1);
-			}).thenAccept(v -> { logger.info("refresh complete"); });
+			}).thenAccept(v -> {
+				logger.info("refresh complete");
+			});
 		}
 	}
 
@@ -192,15 +207,23 @@ public class KaroAPICache implements IDLookUp
 	{
 		if(!this.usersById.containsKey(id))
 		{
-			try
+			if(this.karoAPI != null)
 			{
-				User u = karoAPI.getUser(id).get();
-				this.usersById.put(id, u);
-				this.usersByLogin.put(u.getLogin(), u);
+				try
+				{
+					User u = karoAPI.getUser(id).get();
+					updateUser(u);
+				}
+				catch(InterruptedException | ExecutionException e)
+				{
+					logger.error("could not get user: " + id);
+				}
 			}
-			catch(InterruptedException | ExecutionException e)
+			else
 			{
-				logger.error("could not get user: " + id);
+				// debug mode
+				User u = createDummyUser(id);
+				updateUser(u);
 			}
 		}
 		return this.usersById.get(id);
@@ -229,7 +252,10 @@ public class KaroAPICache implements IDLookUp
 		if(this.usersById.containsKey(user.getId()))
 			ReflectionsUtil.copyFields(user, this.usersById.get(user.getId()), false);
 		else
+		{
 			this.usersById.put(user.getId(), user);
+			this.usersByLogin.put(user.getLogin(), user);
+		}
 		return this.usersById.get(user.getId());
 	}
 
@@ -252,14 +278,23 @@ public class KaroAPICache implements IDLookUp
 	{
 		if(!this.gamesById.containsKey(id))
 		{
-			try
+			if(this.karoAPI != null)
 			{
-				Game g = karoAPI.getGame(id).get();
-				updateGame(g);
+				try
+				{
+					Game g = karoAPI.getGame(id).get();
+					updateGame(g);
+				}
+				catch(InterruptedException | ExecutionException e)
+				{
+					logger.error("could not get game: " + id);
+				}
 			}
-			catch(InterruptedException | ExecutionException e)
+			else
 			{
-				logger.error("could not get game: " + id);
+				// debug mode
+				Game g = createDummyGame(id);
+				updateGame(g);
 			}
 		}
 		return this.gamesById.get(id);
@@ -288,14 +323,23 @@ public class KaroAPICache implements IDLookUp
 	{
 		if(!this.mapsById.containsKey(id))
 		{
-			try
+			if(karoAPI != null)
 			{
-				Map m = karoAPI.getMap(id).get();
-				updateMap(m);
+				try
+				{
+					Map m = karoAPI.getMap(id).get();
+					updateMap(m);
+				}
+				catch(InterruptedException | ExecutionException e)
+				{
+					logger.error("could not get map: " + id);
+				}
 			}
-			catch(InterruptedException | ExecutionException e)
+			else
 			{
-				logger.error("could not get map: " + id);
+				// debug mode
+				Map m = createDummyMap(id);
+				updateMap(m);
 			}
 		}
 		return this.mapsById.get(id);
@@ -385,26 +429,21 @@ public class KaroAPICache implements IDLookUp
 	private static final Random	random		= new Random();
 	private static final int	MAP_SCALE	= 8;
 
-	private static Map createDummyMap(int id)
+	private <T> T randomEntry(java.util.Map<?, T> map)
 	{
-		Map m = new Map(id);
-		m.setName("map #" + id);
-		m.setAuthor("by anybody " + (id % 7));
-		m.setCols(random.nextInt(30) + 5);
-		m.setRows(random.nextInt(20) + 5);
-		m.setRating(random.nextDouble() * 4 + 1);
-		m.setPlayers(id % 20 + 1);
-		m.setCps(new int[] {});
-		m.setActive(random.nextDouble() < 0.95);
-		m.setNight(random.nextDouble() < 0.10);
-		m.setRecord(random.nextInt(200));
-		m.setCode("DUMMY");
-		m.setImage(createSpecialImage(createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white)));
-		m.setImage(createSpecialImage(createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white)));
-		return m;
+		int r = random.nextInt(map.size());
+		int i = 0;
+		for(Entry<?, T> e : map.entrySet())
+		{
+			if(i >= r)
+				return e.getValue();
+			i++;
+		}
+		// should not occur, but be safe
+		return map.entrySet().iterator().next().getValue();
 	}
 
-	private static User createDummyUser(int id)
+	private User createDummyUser(int id)
 	{
 		User u = new User(id);
 		u.setLogin("user #" + id);
@@ -429,5 +468,82 @@ public class KaroAPICache implements IDLookUp
 		u.setState(random.nextDouble() < 0.9 ? EnumUserState.active : EnumUserState.inactive);
 		u.setSuperCreator(id == 1);
 		return u;
+	}
+
+	private Game createDummyGame(int id)
+	{
+		Game g = new Game(id);
+		g.setName("game #" + id);
+		g.setMap(randomEntry(mapsById));
+		g.setCps(random.nextBoolean());
+		g.setZzz(random.nextInt(15));
+		g.setCrashallowed(random.nextBoolean() ? EnumGameTC.allowed : EnumGameTC.forbidden);
+		g.setStartdirection(random.nextBoolean() ? EnumGameDirection.classic : EnumGameDirection.formula1);
+		g.setStarted(random.nextBoolean());
+		g.setFinished(g.isStarted() ? random.nextBoolean() : false);
+		g.setStarteddate(g.isStarted() ? new Date(random.nextLong()) : null);
+		List<Player> players = new ArrayList<>();
+		int ps = random.nextInt(g.getMap().getPlayers() - 1) + 1;
+		int round = random.nextInt(100) + 1;
+		for(int i = 0; i < ps; i++)
+			players.add(createDummyPlayer(round));
+		g.setCreator(players.get(random.nextInt(players.size())).getName());
+		g.setNext(g.isFinished() ? null : getUser(players.get(random.nextInt(players.size())).getId()));
+		g.setBlocked(random.nextInt(30));
+		return g;
+	}
+
+	private Player createDummyPlayer(int round)
+	{
+		User user = randomEntry(usersById);
+		Player p = new Player();
+		p.setId(user.getId());
+		p.setName(user.getLogin());
+		p.setColor(user.getColor());
+		p.setCheckedCps(new int[] {});
+		p.setMissingCps(new int[] {});
+		if(random.nextDouble() < 0.1)
+		{
+			p.setStatus(EnumPlayerStatus.kicked);
+			p.setMoved(false);
+			p.setMoveCount(random.nextInt(round));
+			p.setCrashCount(random.nextInt(p.getMoveCount() / 10 + 1));
+		}
+		else
+		{
+			p.setStatus(EnumPlayerStatus.ok);
+			p.setCrashCount(random.nextInt(round / 10 + 1));
+			if(random.nextDouble() < 0.5)
+			{
+				p.setMoved(true);
+				p.setMoveCount(round);
+			}
+			else
+			{
+				p.setMoved(false);
+				p.setMoveCount(round - 1);
+			}
+		}
+		return p;
+	}
+
+	private Map createDummyMap(int id)
+	{
+		Map m = new Map(id);
+		m.setName("map #" + id);
+		m.setAuthor("by anybody " + (id % 7));
+		m.setCols(random.nextInt(30) + 5);
+		m.setRows(random.nextInt(20) + 5);
+		m.setRating(random.nextDouble() * 4 + 1);
+		m.setPlayers(id % 20 + 1);
+		m.setCps(new int[] {});
+		m.setActive(random.nextDouble() < 0.95);
+		m.setNight(random.nextDouble() < 0.10);
+		m.setRecord(random.nextInt(200));
+		m.setCode("DUMMY");
+		m.setImage(createSpecialImage(
+				createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white)));
+		m.setImage(createSpecialImage(createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white)));
+		return m;
 	}
 }

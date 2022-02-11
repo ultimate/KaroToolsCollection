@@ -700,7 +700,7 @@ public class Planner
 
 	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
 	{
-		return planGame(title, map, gamePlayers, rules.createOptions(), placeholderValues);
+		return planGame(title, map, gamePlayers, rules.createOptions(random), placeholderValues);
 	}
 
 	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
