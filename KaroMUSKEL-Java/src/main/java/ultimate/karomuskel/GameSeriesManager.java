@@ -252,6 +252,8 @@ public abstract class GameSeriesManager
 			pg.setGame(g);
 			pg.setMap(g != null ? g.getMap() : karoAPICache.getMap(g2.getId()));
 			pg.setOptions(convert(g2.rules).createOptions(null));
+			
+			list.add(pg);
 		}
 		return list;
 	}
