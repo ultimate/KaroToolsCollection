@@ -304,14 +304,16 @@ public abstract class GameSeriesManager
 			r.setDirection(EnumGameDirection.classic);
 		else if(r2.direction == Direction.Formula_1)
 			r.setDirection(EnumGameDirection.formula1);
-		else
+		else if(r2.direction == Direction.egal)
 			r.setDirection(EnumGameDirection.free);
+//		else
+//			r.setDirection(null);
 		if(r2.crashingAllowed == true)
 			r.setTC(EnumGameTC.allowed);
 		else if(r2.crashingAllowed == false)
 			r.setTC(EnumGameTC.forbidden);
-		else
-			r.setTC(EnumGameTC.free);
+//		else
+//			r.setTC(null);
 		return r;
 	}
 
