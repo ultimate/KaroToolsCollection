@@ -15,82 +15,93 @@ import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDMapConverter;
 
 // TODO
 public class GameSeries
 {
 	// type specific settings
-	// relevant game series types __________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// relevant game series types
+	// __________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
-	public static final String				NUMBER_OF_GAMES				= "maps";				// ______________________X__
-	public static final String				NUMBER_OF_MAPS				= "maps";				// ______X__________________
-	public static final String				NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
-	public static final String				NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
-	public static final String				NUMBER_OF_ROUND				= "round";				// __________X___X__________
-	public static final String				NUMBER_OF_GROUPS			= "groups";				// ______________X__________
-	public static final String				NUMBER_OF_LEAGUES			= "leagues";			// ______________X__________
-	public static final String				NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
-	public static final String				MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
-	public static final String				MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
-	public static final String				MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
-	public static final String				MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
+	public static final String					NUMBER_OF_GAMES				= "games";				// ______________________X__
+	public static final String					NUMBER_OF_MAPS				= "maps";				// ______X__________________
+	public static final String					NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
+	public static final String					NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
+	public static final String					NUMBER_OF_GROUPS			= "groups";				// ______________X__________
+	public static final String					NUMBER_OF_LEAGUES			= "leagues";			// ______________X__________
+	public static final String					NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
+	public static final String					CURRENT_ROUND				= "round";				// __________X___X__________
+	public static final String					MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
+	public static final String					MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
+	public static final String					MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
+	public static final String					MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
 	// boolean
-	public static final String				USE_HOME_MAPS				= "useHomeMaps";		// __X_______X_______X______
-	public static final String				USE_CREATOR_TEAM			= "useCreatorTeam";		// __X_______X_______X______
-	public static final String				SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
-	public static final String				AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
-	public static final String				ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
+	public static final String					USE_HOME_MAPS				= "useHomeMaps";		// __X_______X_______X______
+	public static final String					USE_CREATOR_TEAM			= "useCreatorTeam";		// __X_______X_______X______
+	public static final String					SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
+	public static final String					AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
+	public static final String					ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
 
 	// universal settings
-	protected EnumGameSeriesType			type;
+	protected EnumGameSeriesType				type;
 	@JsonInclude(value = Include.NON_DEFAULT)
-	protected boolean						teamBased;
-	protected String						title;
+	protected boolean							teamBased;
+	protected String							title;
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = User.FromIDConverter.class)
-	protected User							creator;
+	protected User								creator;
 
-	// TODO
-	protected boolean						creatorGiveUp;
-	protected boolean						ignoreInvitable;
+	@JsonInclude(value = Include.NON_DEFAULT)
+	protected boolean							creatorGiveUp;
+	@JsonInclude(value = Include.NON_DEFAULT)
+	protected boolean							ignoreInvitable;
 
 	// games (planned & created in one list)
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected List<PlannedGame>				games;
+	protected List<PlannedGame>					games;
 
 	// default lists
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = User.FromIDListConverter.class)
-	protected List<User>					players;
+	protected List<User>						players;
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected List<Team>					teams;
+	protected List<Team>						teams;
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = Map.FromIDListConverter.class)
-	protected List<Map>						maps;
+	protected List<Map>							maps;
 	@JsonInclude(value = Include.NON_NULL)
-	protected Rules							rules;
+	protected Rules								rules;
 
 	// parameterized lists
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected HashMap<String, List<User>>	playersByKey;										// TODO IDs only
+	@JsonSerialize(converter = ToIDMapConverter.class)
+	@JsonDeserialize(converter = User.FromIDMapConverter.class)
+	protected java.util.Map<String, List<User>>	playersByKey;
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected HashMap<String, List<Team>>	teamsByKey;
+	protected java.util.Map<String, List<Team>>	teamsByKey;
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected HashMap<String, List<Map>>	mapsByKey;											// TODO IDs only
+	@JsonSerialize(converter = ToIDMapConverter.class)
+	@JsonDeserialize(converter = Map.FromIDMapConverter.class)
+	protected java.util.Map<String, List<Map>>	mapsByKey;
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected HashMap<String, Rules>		rulesByKey;
+	protected java.util.Map<String, Rules>		rulesByKey;
 
 	// type specific settings
-	protected java.util.Map<String, Object>	settings;
+	protected java.util.Map<String, Object>		settings;
 
-	protected transient boolean				loaded;
+	protected transient boolean					loaded;
 
-	protected static Random					random						= new Random();
+	protected static Random						random						= new Random();
 
 	public GameSeries()
 	{
+		this.playersByKey = new HashMap<>();
+		this.teamsByKey = new HashMap<>();
+		this.mapsByKey = new HashMap<>();
+		this.rulesByKey = new HashMap<>();
 		this.settings = new HashMap<>();
 	}
 
@@ -201,42 +212,42 @@ public class GameSeries
 		this.rules = rules;
 	}
 
-	public HashMap<String, List<User>> getPlayersByKey()
+	public java.util.Map<String, List<User>> getPlayersByKey()
 	{
 		return playersByKey;
 	}
 
-	public void setPlayersByKey(HashMap<String, List<User>> playersByKey)
+	public void setPlayersByKey(java.util.Map<String, List<User>> playersByKey)
 	{
 		this.playersByKey = playersByKey;
 	}
 
-	public HashMap<String, List<Team>> getTeamsByKey()
+	public java.util.Map<String, List<Team>> getTeamsByKey()
 	{
 		return teamsByKey;
 	}
 
-	public void setTeamsByKey(HashMap<String, List<Team>> teamsByKey)
+	public void setTeamsByKey(java.util.Map<String, List<Team>> teamsByKey)
 	{
 		this.teamsByKey = teamsByKey;
 	}
 
-	public HashMap<String, List<Map>> getMapsByKey()
+	public java.util.Map<String, List<Map>> getMapsByKey()
 	{
 		return mapsByKey;
 	}
 
-	public void setMapsByKey(HashMap<String, List<Map>> mapsByKey)
+	public void setMapsByKey(java.util.Map<String, List<Map>> mapsByKey)
 	{
 		this.mapsByKey = mapsByKey;
 	}
 
-	public HashMap<String, Rules> getRulesByKey()
+	public java.util.Map<String, Rules> getRulesByKey()
 	{
 		return rulesByKey;
 	}
 
-	public void setRulesByKey(HashMap<String, Rules> rulesByKey)
+	public void setRulesByKey(java.util.Map<String, Rules> rulesByKey)
 	{
 		this.rulesByKey = rulesByKey;
 	}

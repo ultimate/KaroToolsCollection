@@ -8,8 +8,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -33,6 +36,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -49,6 +53,7 @@ import ultimate.karomuskel.ui.screens.RulesScreen;
 import ultimate.karomuskel.ui.screens.SettingsScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
 
+@SuppressWarnings("deprecation")
 public abstract class GameSeriesManager
 {
 	/**
@@ -116,7 +121,6 @@ public abstract class GameSeriesManager
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public static muskel2.model.GameSeries loadV2(File file) throws IOException, ClassNotFoundException, ClassCastException
 	{
 		FileInputStream fis = new FileInputStream(file);
@@ -132,7 +136,6 @@ public abstract class GameSeriesManager
 		return gs2;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static GameSeries convert(muskel2.model.GameSeries gs2, KaroAPICache karoAPICache)
 	{
 		GameSeries gs = new GameSeries();
@@ -142,7 +145,7 @@ public abstract class GameSeriesManager
 		gs.setLoaded(true);
 		gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
 		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
-		gs.setGames(convert(gs2.games, karoAPICache));
+		gs.setGames(convertGames(gs2.games, karoAPICache));
 		gs.setRules(convert(gs2.rules));
 		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
 		gs.setIgnoreInvitable(gs2.rules.ignoreInvitable);
@@ -155,30 +158,59 @@ public abstract class GameSeriesManager
 		}
 		else if(gs2 instanceof BalancedGameSeries)
 		{
-			((BalancedGameSeries) gs2)
+			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
+			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
+			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
+			//((BalancedGameSeries) gs2).shuffledPlayers // ignore
 		}
 		else if(gs2 instanceof KLCGameSeries)
 		{
-			((KLCGameSeries) gs2)
-
+			gs.set(GameSeries.NUMBER_OF_GROUPS, KLCGameSeries.GROUPS);
+			gs.set(GameSeries.NUMBER_OF_LEAGUES, KLCGameSeries.LEAGUES);
+			gs.set(GameSeries.CURRENT_ROUND, ((KLCGameSeries) gs2).round);
+			gs.setPlayers(convert(((KLCGameSeries) gs2).allPlayers, User.class, karoAPICache));
+			gs.getPlayersByKey().put("league1", convert(((KLCGameSeries) gs2).playersLeague1, User.class, karoAPICache));
+			gs.getPlayersByKey().put("league2", convert(((KLCGameSeries) gs2).playersLeague2, User.class, karoAPICache));
+			gs.getPlayersByKey().put("league3", convert(((KLCGameSeries) gs2).playersLeague3, User.class, karoAPICache));
+			gs.getPlayersByKey().put("league4", convert(((KLCGameSeries) gs2).playersLeague4, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group1", convert(((KLCGameSeries) gs2).playersGroup1, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group2", convert(((KLCGameSeries) gs2).playersGroup2, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group3", convert(((KLCGameSeries) gs2).playersGroup3, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group4", convert(((KLCGameSeries) gs2).playersGroup4, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group5", convert(((KLCGameSeries) gs2).playersGroup5, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group6", convert(((KLCGameSeries) gs2).playersGroup6, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group7", convert(((KLCGameSeries) gs2).playersGroup7, User.class, karoAPICache));
+			gs.getPlayersByKey().put("group8", convert(((KLCGameSeries) gs2).playersGroup8, User.class, karoAPICache));
+			gs.getPlayersByKey().put("roundOf16", convert(((KLCGameSeries) gs2).playersRoundOf16, User.class, karoAPICache));
+			gs.getPlayersByKey().put("roundOf8", convert(((KLCGameSeries) gs2).playersRoundOf8, User.class, karoAPICache));
+			gs.getPlayersByKey().put("roundOf4", convert(((KLCGameSeries) gs2).playersRoundOf4, User.class, karoAPICache));
+			gs.getPlayersByKey().put("roundOf2", convert(((KLCGameSeries) gs2).playersRoundOf2, User.class, karoAPICache));
 		}
 		else if(gs2 instanceof TeamBasedGameSeries)
 		{
-			((TeamBasedGameSeries) gs2)
+			gs.set(GameSeries.NUMBER_OF_TEAMS, ((TeamBasedGameSeries) gs2).numberOfTeams);
+			gs.set(GameSeries.MIN_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).minPlayersPerTeam);
+			gs.set(GameSeries.MAX_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).maxPlayersPerTeam);
+			gs.set(GameSeries.NUMBER_OF_GAMES_PER_PAIR, ((TeamBasedGameSeries) gs2).numberOfGamesPerPair);
+			gs.set(GameSeries.USE_HOME_MAPS, ((TeamBasedGameSeries) gs2).useHomeMaps);
+			gs.set(GameSeries.SHUFFLE_TEAMS, ((TeamBasedGameSeries) gs2).shuffleTeams);
+			gs.set(GameSeries.AUTO_NAME_TEAMS, ((TeamBasedGameSeries) gs2).autoNameTeams);
+			gs.set(GameSeries.ALLOW_MULTIPLE_TEAMS, ((TeamBasedGameSeries) gs2).multipleTeams);
+			gs.set(GameSeries.USE_CREATOR_TEAM, ((TeamBasedGameSeries) gs2).creatorTeam);
+			gs.setTeams(convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
+			gs.getTeamsByKey().put("shuffled", convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
+			
 			if(gs2 instanceof AllCombinationsGameSeries)
 			{
-
-				((AllCombinationsGameSeries) gs2)
+				gs.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, ((AllCombinationsGameSeries) gs2).numberOfTeamsPerMatch);
 			}
 			else if(gs2 instanceof KOGameSeries)
 			{
-				((KOGameSeries) gs2)
-
+				// no additional properties
 			}
 			else if(gs2 instanceof LeagueGameSeries)
 			{
-				((LeagueGameSeries) gs2)
-
+				// no additional properties
 			}
 			else
 			{
@@ -190,18 +222,11 @@ public abstract class GameSeriesManager
 			logger.error("unknown type: " + gs2.getClass());
 		}
 
-		gs.setMapsByKey(null);
-		gs.setPlayersByKey(null);
-		gs.setRules(null);
-		gs.setRulesByKey(null);
-		gs.setSettings(null);
-		gs.setTeams(null);
-		gs.setTeamsByKey(null);
-		// TODO
-		return null;
+		return gs;
 	}
 
-	public static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls, KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls,
+			KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
 			return null;
@@ -211,8 +236,7 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static List<PlannedGame> convert(List<muskel2.model.Game> list2, KaroAPICache karoAPICache)
+	protected static List<PlannedGame> convertGames(List<muskel2.model.Game> list2, KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
 			return null;
@@ -233,8 +257,42 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static Rules convert(muskel2.model.Rules r2)
+	protected static List<Team> convertTeams(List<muskel2.model.help.Team> list2, KaroAPICache karoAPICache)
+	{
+		if(list2 == null)
+			return null;
+		List<Team> list = new ArrayList<>(list2.size());
+		for(muskel2.model.help.Team t2 : list2)
+		{
+			Team t = new Team(t2.name, convert(t2.players, User.class, karoAPICache));
+			t.setHomeMap(karoAPICache.getMap(t2.homeMap.id));
+			list.add(t);
+		}
+		return list;
+	}
+
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(
+			java.util.Map<Integer, T2> map2, Class<T> cls, KaroAPICache karoAPICache)
+	{
+		if(map2 == null)
+			return null;
+		HashMap<String, List<T>> map = new HashMap<>();
+		for(Entry<Integer, T2> e : map2.entrySet())
+			map.put(e.getKey().toString(), Arrays.asList(karoAPICache.get(cls, e.getValue().getId())));
+		return map;
+	}
+
+	protected static java.util.Map<String, Rules> convert(java.util.Map<Integer, muskel2.model.Rules> map2)
+	{
+		if(map2 == null)
+			return null;
+		HashMap<String, Rules> map = new HashMap<>();
+		for(Entry<Integer, muskel2.model.Rules> e : map2.entrySet())
+			map.put(e.getKey().toString(), convert(e.getValue()));
+		return map;
+	}
+
+	protected static Rules convert(muskel2.model.Rules r2)
 	{
 		Rules r = new Rules();
 		r.setCPs(r2.checkpointsActivated);
@@ -273,7 +331,8 @@ public abstract class GameSeriesManager
 		fos.close();
 	}
 
-	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
+	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton,
+			JButton nextButton, boolean loaded)
 	{
 		LinkedList<Screen> screens = new LinkedList<>();
 		if(loaded)

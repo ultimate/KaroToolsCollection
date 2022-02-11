@@ -21,6 +21,7 @@ public class User extends Identifiable
 	//@formatter:off
 	public static class FromIDConverter extends JSONUtil.FromIDConverter<User> { public FromIDConverter() { super(User.class); } };
 	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<User> { public FromIDListConverter() { super(User.class); } };
+	public static class FromIDMapConverter extends JSONUtil.FromIDMapConverter<User> { public FromIDMapConverter() { super(User.class); } };
 	//@formatter:on
 
 	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
