@@ -2,6 +2,7 @@ package ultimate.karomuskel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.SimpleGameSeries;
+import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.test.KaroMUSKELTestcase;
 
@@ -46,7 +48,16 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
-		
+		assertEquals(gs2.minPlayersPerGame, gs.get(GameSeries.MIN_PLAYERS_PER_GAME));
+		assertEquals(gs2.maxPlayersPerGame, gs.get(GameSeries.MAX_PLAYERS_PER_GAME));
+		assertEquals(gs2.rules.minZzz, gs.getRules().getMinZzz());
+		assertEquals(gs2.rules.maxZzz, gs.getRules().getMaxZzz());
+		if(gs2.rules.crashingAllowed == true)
+			assertEquals(EnumGameTC.allowed, gs.getRules().getTC());
+		else if(gs2.rules.crashingAllowed == false)
+			assertEquals(EnumGameTC.forbidden, gs.getRules().getTC());
+		else
+			assertNull(gs.getRules().getTC());
 	}
 
 	@Test
