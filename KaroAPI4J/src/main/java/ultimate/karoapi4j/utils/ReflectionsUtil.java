@@ -51,6 +51,11 @@ public abstract class ReflectionsUtil
 				setterName = getterName.replaceFirst("is", "set");
 			else
 				continue;
+			
+			if(m.getParameterCount() > 0)
+				continue;
+			if(getterName.equals("getClass"))
+				continue;
 
 			try
 			{
