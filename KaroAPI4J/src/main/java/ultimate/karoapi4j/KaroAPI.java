@@ -44,7 +44,6 @@ import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
  * either blocking or asynchronously (see {@link URLLoader}).<br>
  * <br>
  * For calls with filter arguments, each argument is applied only if it is set to a non null value. If the argument is null, it will be ignored.
- *
  * For example
  * <ul>
  * <li><code>getUsers(null, null, null)</code> = get all</li>
@@ -81,7 +80,9 @@ public class KaroAPI implements IDLookUp
 	// parsers needed //
 	////////////////////
 
-	public static final Function<String, Void>									PARSER_VOID					= (result) -> { return null; };
+	public static final Function<String, Void>									PARSER_VOID					= (result) -> {
+																												return null;
+																											};
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
 	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
 	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
@@ -97,8 +98,8 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
-		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
-	};
+																												return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
+																											};
 
 	//////////////////
 	// static logic //
@@ -181,6 +182,7 @@ public class KaroAPI implements IDLookUp
 	// base
 	protected final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
 	protected final URLLoader	API				= KAROPAPIER.relative("/api");
+	protected final URLLoader	KEY				= API.relative("/key"); // TODO
 	// users
 	protected final URLLoader	USERS			= API.relative("/users");
 	protected final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
@@ -239,7 +241,6 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * 
 	 * The number of retries to perform.<br>
 	 * Default = 0
 	 * 
@@ -352,7 +353,6 @@ public class KaroAPI implements IDLookUp
 	 * Get the list of games where the given user is next.<br>
 	 * 
 	 * @see KaroAPI#USER_DRAN
-	 * 
 	 * @param userId - the user id
 	 * @return the list of games
 	 */
@@ -431,7 +431,6 @@ public class KaroAPI implements IDLookUp
 	 * Get the list blockers.<br>
 	 * 
 	 * @see KaroAPI#BLOCKERS
-	 * 
 	 * @return the list of users
 	 */
 	public CompletableFuture<List<User>> getBlockers()
@@ -443,7 +442,6 @@ public class KaroAPI implements IDLookUp
 	 * Get the list blockers for a specific user.<br>
 	 * 
 	 * @see KaroAPI#USER_BLOCKERS
-	 * 
 	 * @return the list of users
 	 */
 	public CompletableFuture<List<User>> getUserBlockers(int userId)
@@ -571,7 +569,9 @@ public class KaroAPI implements IDLookUp
 		args.put("starty", "" + move.getY());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
+			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
+		});
 	}
 
 	/**
@@ -591,7 +591,9 @@ public class KaroAPI implements IDLookUp
 		args.put("yvec", "" + move.getYv());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
+			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
+		});
 	}
 
 	/**
@@ -608,7 +610,9 @@ public class KaroAPI implements IDLookUp
 		args.put("GID", "" + gameId);
 		args.put("UID", "" + userId);
 		args.put("sicher", "1");
-		return loadAsync(GAME_KICK.doGet(args), (result) -> { return result != null && result.contains("Fertig, Du bist draussen..."); });
+		return loadAsync(GAME_KICK.doGet(args), (result) -> {
+			return result != null && result.contains("Fertig, Du bist draussen...");
+		});
 	}
 
 	///////////////////////
@@ -986,7 +990,9 @@ public class KaroAPI implements IDLookUp
 		else
 			throw new IllegalArgumentException("unsupported type: " + object.getClass());
 
-		return loader.whenComplete((result, th) -> { ReflectionsUtil.copyFields(result, object, false); });
+		return loader.whenComplete((result, th) -> {
+			ReflectionsUtil.copyFields(result, object, false);
+		});
 	}
 
 	///////////////////////
