@@ -20,8 +20,9 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 public class GameSeries
 {
 	// type specific settings
-	// relevant game series types ______________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// relevant game series types __________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
+	public static final String				NUMBER_OF_GAMES				= "maps";				// ______________________X__
 	public static final String				NUMBER_OF_MAPS				= "maps";				// ______X__________________
 	public static final String				NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
 	public static final String				NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
