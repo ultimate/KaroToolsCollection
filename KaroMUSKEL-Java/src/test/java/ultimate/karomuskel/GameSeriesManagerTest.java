@@ -58,6 +58,11 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 			assertEquals(EnumGameTC.forbidden, gs.getRules().getTC());
 		else
 			assertNull(gs.getRules().getTC());
+		assertEquals(gs2.rules.gamesPerPlayer, gs.getRules().getGamesPerPlayer());
+		assertEquals(gs2.players.size(), gs.getPlayers().size());
+		assertEquals(gs2.maps.size(), gs.getMaps().size());
+		assertEquals(gs2.numberOfGames, gs.get(GameSeries.NUMBER_OF_GAMES));
+		assertEquals(gs2.numberOfGames, gs.getGames().size());
 	}
 
 	@Test
