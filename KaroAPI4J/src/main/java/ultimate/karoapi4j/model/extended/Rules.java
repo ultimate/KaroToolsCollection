@@ -2,6 +2,9 @@ package ultimate.karoapi4j.model.extended;
 
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.official.Options;
@@ -12,29 +15,31 @@ public class Rules implements Cloneable
 	// TODO check what is necessary and what can be moved to settings
 	private int					minZzz;
 	private int					maxZzz;
-	private EnumGameTC			tc;
+	private EnumGameTC			crashallowed;
 	private Boolean				cps;
-	private EnumGameDirection	direction;
+	private EnumGameDirection	startdirection;
+	@JsonInclude(value = Include.NON_DEFAULT)
 	private int					gamesPerPlayer;
+	@JsonInclude(value = Include.NON_DEFAULT)
 	private int					numberOfPlayers;
 
 	public Rules()
 	{
 	}
 
-	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction)
+	public Rules(int minZzz, int maxZzz, EnumGameTC crashallowed, Boolean cps, EnumGameDirection startdirection)
 	{
 		this();
 		this.minZzz = minZzz;
 		this.maxZzz = maxZzz;
-		this.tc = tc;
+		this.crashallowed = crashallowed;
 		this.cps = cps;
-		this.direction = direction;
+		this.startdirection = startdirection;
 	}
 
-	public Rules(int minZzz, int maxZzz, EnumGameTC tc, Boolean cps, EnumGameDirection direction, int gamesPerPlayer, int numberOfPlayers)
+	public Rules(int minZzz, int maxZzz, EnumGameTC crashallowed, Boolean cps, EnumGameDirection startdirection, int gamesPerPlayer, int numberOfPlayers)
 	{
-		this(minZzz, maxZzz, tc, cps, direction);
+		this(minZzz, maxZzz, crashallowed, cps, startdirection);
 		this.gamesPerPlayer = gamesPerPlayer;
 		this.numberOfPlayers = numberOfPlayers;
 	}
@@ -49,9 +54,9 @@ public class Rules implements Cloneable
 		return maxZzz;
 	}
 
-	public EnumGameTC getTC()
+	public EnumGameTC getCrashallowed()
 	{
-		return tc;
+		return crashallowed;
 	}
 
 	public Boolean getCPs()
@@ -59,9 +64,9 @@ public class Rules implements Cloneable
 		return cps;
 	}
 
-	public EnumGameDirection getDirection()
+	public EnumGameDirection getStartdirection()
 	{
-		return direction;
+		return startdirection;
 	}
 
 	public int getGamesPerPlayer()
@@ -84,9 +89,9 @@ public class Rules implements Cloneable
 		this.maxZzz = maxZzz;
 	}
 
-	public void setTC(EnumGameTC tc)
+	public void setCrashallowed(EnumGameTC crashallowed)
 	{
-		this.tc = tc;
+		this.crashallowed = crashallowed;
 	}
 
 	public void setCPs(Boolean cps)
@@ -94,9 +99,9 @@ public class Rules implements Cloneable
 		this.cps = cps;
 	}
 
-	public void setDirection(EnumGameDirection direction)
+	public void setStartdirection(EnumGameDirection startdirection)
 	{
-		this.direction = direction;
+		this.startdirection = startdirection;
 	}
 
 	public void setGamesPerPlayer(int gamesPerPlayer)
@@ -115,8 +120,8 @@ public class Rules implements Cloneable
 
 		options.setZzz(random != null ? random.nextInt(maxZzz - minZzz + 1) + minZzz : minZzz);
 		options.setCps(cps == null && random != null ? random.nextBoolean() : cps);
-		options.setCrashallowed(tc == null  && random != null ? EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)) : tc);
-		options.setStartdirection(direction == null  && random != null ? EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)) : direction);
+		options.setCrashallowed(crashallowed == null && random != null ? EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)) : crashallowed);
+		options.setStartdirection(startdirection == null && random != null ? EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)) : startdirection);
 
 		return options;
 	}
@@ -124,7 +129,7 @@ public class Rules implements Cloneable
 	@Override
 	public Rules clone()
 	{
-		return new Rules(minZzz, maxZzz, tc, cps, direction);
+		return new Rules(minZzz, maxZzz, crashallowed, cps, startdirection);
 	}
 
 	@Override
@@ -132,10 +137,10 @@ public class Rules implements Cloneable
 	{
 		//@formatter:off
 		return "Regeln:\n" +
-				" -> zzz                  = [" + minZzz + "," + maxZzz + "]\n" + 
-				" -> tc                   = " + tc + "\n" + 
-				" -> cps                  = " + cps + "\n" +
-				" -> direction            = " + direction;
+				" -> zzz          = [" + minZzz + "," + maxZzz + "]\n" + 
+				" -> crashallowed = " + crashallowed + "\n" + 
+				" -> cps          = " + cps + "\n" +
+				" -> startdirection    = " + startdirection;
 		//@formatter:on
 	}
 
@@ -145,10 +150,10 @@ public class Rules implements Cloneable
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cps == null) ? 0 : cps.hashCode());
-		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		result = prime * result + ((startdirection == null) ? 0 : startdirection.hashCode());
 		result = prime * result + maxZzz;
 		result = prime * result + minZzz;
-		result = prime * result + ((tc == null) ? 0 : tc.hashCode());
+		result = prime * result + ((crashallowed == null) ? 0 : crashallowed.hashCode());
 		return result;
 	}
 
@@ -169,19 +174,19 @@ public class Rules implements Cloneable
 		}
 		else if(!cps.equals(other.cps))
 			return false;
-		if(tc == null)
+		if(crashallowed == null)
 		{
-			if(other.tc != null)
+			if(other.crashallowed != null)
 				return false;
 		}
-		else if(!tc.equals(other.tc))
+		else if(!crashallowed.equals(other.crashallowed))
 			return false;
-		if(direction == null)
+		if(startdirection == null)
 		{
-			if(other.direction != null)
+			if(other.startdirection != null)
 				return false;
 		}
-		else if(!direction.equals(other.direction))
+		else if(!startdirection.equals(other.startdirection))
 			return false;
 		if(maxZzz != other.maxZzz)
 			return false;

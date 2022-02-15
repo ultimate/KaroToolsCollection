@@ -92,6 +92,7 @@ public class GameSeries
 	// type specific settings
 	protected java.util.Map<String, Object>		settings;
 
+	@JsonInclude(value = Include.NON_DEFAULT)
 	protected transient boolean					loaded;
 
 	protected static Random						random						= new Random();
