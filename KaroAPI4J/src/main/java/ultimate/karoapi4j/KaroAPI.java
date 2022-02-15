@@ -182,7 +182,7 @@ public class KaroAPI implements IDLookUp
 	// base
 	protected final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
 	protected final URLLoader	API				= KAROPAPIER.relative("/api");
-	protected final URLLoader	KEY				= API.relative("/key"); // TODO
+	protected final URLLoader	KEY				= API.relative("/key");									// TODO implement
 	// users
 	protected final URLLoader	USERS			= API.relative("/users");
 	protected final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
@@ -196,7 +196,7 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader	BLOCKERS		= API.relative("/blockers");
 	protected final URLLoader	NOTES			= API.relative("/notes");
 	protected final URLLoader	NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
-	protected final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");						// TODO
+	protected final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");						// TODO implement
 	// games
 	protected final URLLoader	GAMES			= API.relative("/games");
 	protected final URLLoader	GAMES3			= API.relative("/games3");

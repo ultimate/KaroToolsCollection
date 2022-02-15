@@ -692,7 +692,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("ts = " + lastMsg.getTs() + ", timediff = " + timediff);
 		assertTrue(Math.abs(timediff) < 10000); // time diff should not be more than 10 seconds...
 
-		// TODO mark read
+		// TODO mark read -> requires PATCH
 		// String tmp = karoAPI2.readMessage(user1.getId()).get(); // PATCH currently not supported
 
 		// send 2
@@ -712,7 +712,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("ts = " + lastMsg.getTs() + ", timediff = " + timediff);
 		assertTrue(Math.abs(timediff) < 10000); // time diff should not be more than 10 seconds...
 
-		// TODO mark read
+		// TODO mark read -> requires PATCH
 		// String tmp = karoAPI.readMessage(user2.getId()).get(); // PATCH currently not supported
 	}
 
