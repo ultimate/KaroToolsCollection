@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -18,10 +17,12 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
@@ -42,8 +43,20 @@ public class JSONUtilTest
 		return "{\"zzz\":" + o.getZzz() + ","
 				+ "\"cps\":" + o.isCps() + "," 
 				+ "\"startdirection\":\"" + o.getStartdirection() + "\"," 
-				+ "\"crashallowed\":\"" + o.getCrashallowed() 
-				+ "\"}";
+				+ "\"crashallowed\":\"" + o.getCrashallowed() + "\""
+				+ "}";
+		//@formatter:on
+	}
+
+	private String toJson(Rules r)
+	{
+		//@formatter:off
+		return "{\"minZzz\":" + r.getMinZzz() + ","
+				+ "\"maxZzz\":" + r.getMaxZzz()+ "," 
+				+ "\"crashallowed\":\"" + r.getCrashallowed() + "\"," 
+				+ "\"cps\":" + r.getCPs() + "," 
+				+ "\"startdirection\":\"" + r.getStartdirection() + "\"" 
+				+ "}";
 		//@formatter:on
 	}
 
@@ -63,6 +76,21 @@ public class JSONUtilTest
 				+ "\"motion\":null," // only empty supported
 				+ "\"missingCps\":" + toJson(p.getMissingCps()) + ","
 				+ "\"possibles\":[]}"; // only empty supported
+		//@formatter:on
+	}
+
+	private String toJson(GameSeries gs)
+	{
+		// only supports simple gs
+		//@formatter:off
+		return "{\"type\":\"" + gs.getType() + "\","
+				+ "\"title\":\"" + gs.getTitle() + "\","
+				+ "\"creator\":" + gs.getCreator().getId() + ","
+				+ "\"players\":" + toJson(gs.getPlayers()) + ","
+				+ "\"maps\":" + toJson(gs.getMaps()) + ","
+				+ "\"rules\":" + toJson(gs.getRules()) + ","
+				+ "\"settings\":" + JSONUtil.serialize(gs.getSettings()) + ""
+				+ "}"; // only empty supported
 		//@formatter:on
 	}
 
@@ -101,7 +129,7 @@ public class JSONUtilTest
 				+ "\"map\":" + game.getMap().getId() + ","
 				+ "\"players\":" + toJson(game.getPlayers()) + ","
 				+ "\"options\":" + toJson(game.getOptions()) 
-				+ (game.getGame() != null ? "\"game\":" + game.getGame().getId() + ",": "")
+				+ (game.getGame() != null ? ",\"game\":" + game.getGame().getId(): "")
 				+ (game.isCreated() ? ",\"created\":true" : "")
 				+ (game.isLeft() ? ",\"left\":true" : "")
 				+ "}";
@@ -275,11 +303,43 @@ public class JSONUtilTest
 	@Test
 	public void test_serialize_deserialize_GameSeries()
 	{
-		int id = 5;
-		GameSeries gs = new GameSeries();
-		gs.setCreator(new User(5));
-		// TODO implement test #99
-		fail("not implemented");
+		String json;
+
+		int uid0 = 5;
+		int uid1 = 11;
+		int uid2 = 13;
+		int mid0 = 8;
+		int mid1 = 12;
+
+		User creator = new User(uid0);
+
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple, false);
+		gs.setTitle("test series {i}");
+		gs.setCreator(creator);
+		gs.set(GameSeries.MIN_PLAYERS_PER_GAME, 6);
+		gs.set(GameSeries.MAX_PLAYERS_PER_GAME, 8);
+		gs.set(GameSeries.NUMBER_OF_GAMES, 10);
+		gs.setRules(new Rules(2, 4, EnumGameTC.allowed, true, EnumGameDirection.formula1));
+		gs.setPlayers(Arrays.asList(creator, new User(uid1), new User(uid2)));
+		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
+
+		json = JSONUtil.serialize(gs);
+
+		String expected = toJson(gs);
+		assertEquals(expected, json);
+
+		GameSeries deserialized = JSONUtil.deserialize(json, new TypeReference<GameSeries>() {});
+		assertNotNull(deserialized.getCreator());
+		assertEquals(uid0, deserialized.getCreator().getId());
+		assertNotNull(deserialized.getPlayers());
+		assertEquals(3, deserialized.getPlayers().size());
+		assertEquals(uid0, deserialized.getPlayers().get(0).getId());
+		assertEquals(uid1, deserialized.getPlayers().get(1).getId());
+		assertEquals(uid2, deserialized.getPlayers().get(2).getId());
+		assertNotNull(deserialized.getMaps());
+		assertEquals(2, deserialized.getMaps().size());
+		assertEquals(mid0, deserialized.getMaps().get(0).getId());
+		assertEquals(mid1, deserialized.getMaps().get(1).getId());
 	}
 
 	@Test
