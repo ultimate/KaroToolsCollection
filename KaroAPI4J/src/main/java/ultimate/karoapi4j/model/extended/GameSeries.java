@@ -118,9 +118,19 @@ public class GameSeries
 		return type;
 	}
 
+	public void setType(EnumGameSeriesType type)
+	{
+		this.type = type;
+	}
+
 	public boolean isTeamBased()
 	{
 		return teamBased;
+	}
+
+	public void setTeamBased(boolean teamBased)
+	{
+		this.teamBased = teamBased;
 	}
 
 	public String getTitle()
