@@ -54,7 +54,7 @@ public class JSONUtilTest
 		return "{\"minZzz\":" + r.getMinZzz() + ","
 				+ "\"maxZzz\":" + r.getMaxZzz()+ "," 
 				+ "\"crashallowed\":\"" + r.getCrashallowed() + "\"," 
-				+ "\"cps\":" + r.getCPs() + "," 
+				+ "\"cps\":" + r.getCps() + "," 
 				+ "\"startdirection\":\"" + r.getStartdirection() + "\"" 
 				+ "}";
 		//@formatter:on
