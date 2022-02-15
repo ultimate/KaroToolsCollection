@@ -17,12 +17,26 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDMapConverter;
 
-// TODO
+/**
+ * Generic POJO for storing all the informations about a GameSeries.<br>
+ * Depending on the {@link EnumGameSeriesType} of the {@link GameSeries} different fields will be used.<br>
+ * For complex types predefined containers are provided which can hold the objects either universally or by key:
+ * <ul>
+ * <li>{@link GameSeries#players} or {@link GameSeries#playersByKey}</li>
+ * <li>{@link GameSeries#teams} or {@link GameSeries#teamsByKey}</li>
+ * <li>{@link GameSeries#maps} or {@link GameSeries#mapsByKey}</li>
+ * <li>{@link GameSeries#rules} or {@link GameSeries#rulesByKey}</li>
+ * </li>
+ * For simple types, there is a map, which can support any setting: {@link GameSeries#settings}.<br>
+ * For Serialization only non default values are serialized, so the JSON won't blow up.
+ * 
+ * @author ultimate
+ */
 public class GameSeries
 {
 	// type specific settings
 	// relevant game series types
-	// __________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
 	public static final String					NUMBER_OF_GAMES				= "games";				// ______________________X__
 	public static final String					NUMBER_OF_MAPS				= "maps";				// ______X__________________
