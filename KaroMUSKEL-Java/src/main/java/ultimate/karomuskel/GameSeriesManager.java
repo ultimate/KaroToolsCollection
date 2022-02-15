@@ -152,12 +152,16 @@ public abstract class GameSeriesManager
 		// type specific properties
 		if(gs2 instanceof SimpleGameSeries)
 		{
+			gs.setType(EnumGameSeriesType.Simple);
+			gs.setTeamBased(false);
 			gs.set(GameSeries.NUMBER_OF_GAMES, ((SimpleGameSeries) gs2).numberOfGames);
 			gs.set(GameSeries.MIN_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).minPlayersPerGame);
 			gs.set(GameSeries.MAX_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).maxPlayersPerGame);
 		}
 		else if(gs2 instanceof BalancedGameSeries)
 		{
+			gs.setType(EnumGameSeriesType.Balanced);
+			gs.setTeamBased(false);
 			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
 			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
 			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
@@ -165,6 +169,8 @@ public abstract class GameSeriesManager
 		}
 		else if(gs2 instanceof KLCGameSeries)
 		{
+			gs.setType(EnumGameSeriesType.KLC);
+			gs.setTeamBased(false);
 			gs.set(GameSeries.NUMBER_OF_GROUPS, KLCGameSeries.GROUPS);
 			gs.set(GameSeries.NUMBER_OF_LEAGUES, KLCGameSeries.LEAGUES);
 			gs.set(GameSeries.CURRENT_ROUND, ((KLCGameSeries) gs2).round);
@@ -185,9 +191,11 @@ public abstract class GameSeriesManager
 			gs.getPlayersByKey().put("roundOf8", convert(((KLCGameSeries) gs2).playersRoundOf8, User.class, karoAPICache));
 			gs.getPlayersByKey().put("roundOf4", convert(((KLCGameSeries) gs2).playersRoundOf4, User.class, karoAPICache));
 			gs.getPlayersByKey().put("roundOf2", convert(((KLCGameSeries) gs2).playersRoundOf2, User.class, karoAPICache));
+			gs.setMapsByKey(convertHomeMaps(((KLCGameSeries) gs2).homeMaps, Map.class, karoAPICache));
 		}
 		else if(gs2 instanceof TeamBasedGameSeries)
 		{
+			gs.setTeamBased(true);
 			gs.set(GameSeries.NUMBER_OF_TEAMS, ((TeamBasedGameSeries) gs2).numberOfTeams);
 			gs.set(GameSeries.MIN_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).minPlayersPerTeam);
 			gs.set(GameSeries.MAX_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).maxPlayersPerTeam);
@@ -202,14 +210,17 @@ public abstract class GameSeriesManager
 
 			if(gs2 instanceof AllCombinationsGameSeries)
 			{
+				gs.setType(EnumGameSeriesType.AllCombinations);
 				gs.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, ((AllCombinationsGameSeries) gs2).numberOfTeamsPerMatch);
 			}
 			else if(gs2 instanceof KOGameSeries)
 			{
+				gs.setType(EnumGameSeriesType.KO);
 				// no additional properties
 			}
 			else if(gs2 instanceof LeagueGameSeries)
 			{
+				gs.setType(EnumGameSeriesType.League);
 				// no additional properties
 			}
 			else
@@ -252,7 +263,7 @@ public abstract class GameSeriesManager
 			pg.setGame(g);
 			pg.setMap(g != null ? g.getMap() : karoAPICache.getMap(g2.getId()));
 			pg.setOptions(convert(g2.rules).createOptions(null));
-			
+
 			list.add(pg);
 		}
 		return list;
@@ -266,10 +277,21 @@ public abstract class GameSeriesManager
 		for(muskel2.model.help.Team t2 : list2)
 		{
 			Team t = new Team(t2.name, convert(t2.players, User.class, karoAPICache));
-			t.setHomeMap(karoAPICache.getMap(t2.homeMap.id));
+			if(t2.homeMap != null)
+				t.setHomeMap(karoAPICache.getMap(t2.homeMap.id));
 			list.add(t);
 		}
 		return list;
+	}
+
+	protected static <T extends Identifiable> java.util.Map<String, List<T>> convertHomeMaps(java.util.Map<Integer, Integer> map2, Class<T> cls, KaroAPICache karoAPICache)
+	{
+		if(map2 == null)
+			return null;
+		HashMap<String, List<T>> map = new HashMap<>();
+		for(Entry<Integer, Integer> e : map2.entrySet())
+			map.put(e.getKey().toString(), Arrays.asList(karoAPICache.get(cls, e.getValue())));
+		return map;
 	}
 
 	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
@@ -301,21 +323,21 @@ public abstract class GameSeriesManager
 		r.setMaxZzz(r2.maxZzz);
 		r.setMinZzz(r2.minZzz);
 		r.setNumberOfPlayers(0);
-		r.setDirection(null);
+		r.setStartdirection(null);
 		if(r2.direction == Direction.klassisch)
-			r.setDirection(EnumGameDirection.classic);
+			r.setStartdirection(EnumGameDirection.classic);
 		else if(r2.direction == Direction.Formula_1)
-			r.setDirection(EnumGameDirection.formula1);
+			r.setStartdirection(EnumGameDirection.formula1);
 		else if(r2.direction == Direction.egal)
-			r.setDirection(EnumGameDirection.free);
+			r.setStartdirection(EnumGameDirection.free);
 //		else
-//			r.setDirection(null);
-		if(r2.crashingAllowed == true)
-			r.setTC(EnumGameTC.allowed);
+//			r.setStartdirection(null);
+		if(r2.crashingAllowed == null)
+			r.setCrashallowed(null);
+		else if(r2.crashingAllowed == true)
+			r.setCrashallowed(EnumGameTC.allowed);
 		else if(r2.crashingAllowed == false)
-			r.setTC(EnumGameTC.forbidden);
-//		else
-//			r.setTC(null);
+			r.setCrashallowed(EnumGameTC.forbidden);
 		return r;
 	}
 
