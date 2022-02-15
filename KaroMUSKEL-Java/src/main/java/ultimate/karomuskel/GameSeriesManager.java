@@ -318,7 +318,7 @@ public abstract class GameSeriesManager
 	protected static Rules convert(muskel2.model.Rules r2)
 	{
 		Rules r = new Rules();
-		r.setCPs(r2.checkpointsActivated);
+		r.setCps(r2.checkpointsActivated);
 		r.setGamesPerPlayer(r2.gamesPerPlayer);
 		r.setMaxZzz(r2.maxZzz);
 		r.setMinZzz(r2.minZzz);
