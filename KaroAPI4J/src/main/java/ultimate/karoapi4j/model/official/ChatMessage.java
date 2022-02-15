@@ -16,8 +16,6 @@ import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
  */
 public class ChatMessage extends Identifiable
 {
-	
-
 	/*
 	 * chat/list.json
 	 * "id" : "cmdcfac73011f091c38bb3a16f55efd52c",
