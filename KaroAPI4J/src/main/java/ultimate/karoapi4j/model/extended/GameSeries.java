@@ -34,6 +34,7 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDMapConverter;
  */
 public class GameSeries
 {
+	// TODO javadoc
 	// type specific settings
 	// relevant game series types
 	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_

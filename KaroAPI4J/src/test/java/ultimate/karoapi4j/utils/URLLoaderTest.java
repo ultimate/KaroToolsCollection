@@ -49,22 +49,18 @@ public class URLLoaderTest
 	{
 		String url = "http://www.karopapier.de";
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-		
+
 		String result;
-		String expected = "<!DOCTYPE html>\n"
-				+ "<html>\n"
-				+ "    <head>\n"
-				+ "        <meta charset=\"UTF-8\"/>\n"
-				+ "        <meta name=”theme-color” content=”#333399”>\n"
+		String expected = "<!DOCTYPE html>\n" + "<html>\n" + "    <head>\n" + "        <meta charset=\"UTF-8\"/>\n" + "        <meta name=”theme-color” content=”#333399”>\n"
 				+ "        <title>Karopapier - Autofahren wie in der Vorlesung</title>";
-		
+
 		// simple get
 		result = URLLoader.doLoad(connection, "GET", null, null, "UTF-8");
 		assertNotNull(result);
-		
+
 		for(int i = 0; i < expected.length(); i++)
-			assertEquals(expected.charAt(i), result.charAt(i), "char mismatch at position " + i + ": '" + expected.charAt(i) + "' vs. '" + result.charAt(i)+ "'");
-		
+			assertEquals(expected.charAt(i), result.charAt(i), "char mismatch at position " + i + ": '" + expected.charAt(i) + "' vs. '" + result.charAt(i) + "'");
+
 		assertTrue(result.startsWith(expected));
 	}
 
@@ -89,6 +85,15 @@ public class URLLoaderTest
 		assertEquals(expected, new URLLoader(url).parameterize(paramString).getUrl());
 		assertEquals(expected, new URLLoader(url + "/").parameterize(paramString).getUrl());
 		assertEquals(expected, new URLLoader(url + "/").parameterize("?" + paramString).getUrl());
+
+		// already parameterized
+		String paramString2 = "key3=3";
+		expected = url + "?" + paramString + "&" + paramString2;
+		assertEquals(expected, new URLLoader(url).parameterize(paramString).parameterize(paramString2).getUrl());
+		assertEquals(expected, new URLLoader(url).parameterize(paramString).parameterize("&" + paramString2).getUrl());
+		assertEquals(expected, new URLLoader(url).parameterize(paramString).parameterize("?" + paramString2).getUrl());
+		assertEquals(expected, new URLLoader(url + "/").parameterize(paramString).parameterize("&" + paramString2).getUrl());
+		assertEquals(expected, new URLLoader(url + "/").parameterize(paramString).parameterize("?" + paramString2).getUrl());
 	}
 
 	@Test
