@@ -68,6 +68,10 @@ public class URLLoader
 	 */
 	public static final char				PARAMETER					= '?';
 	/**
+	 * Constant for use in {@link URLLoader#parameterize(String)}
+	 */
+	public static final char				PARAMETER_CONTINUED			= '&';
+	/**
 	 * Encoding charset used: UTF-8
 	 */
 	public static final String				DEFAULT_CHARSET				= "UTF-8";
@@ -371,21 +375,40 @@ public class URLLoader
 	 */
 	public URLLoader parameterize(String parameters, Map<String, String> requestProperties)
 	{
-		// TODO we could check here if this URLLoader was already parameterized, so another parameterization does not make sense
-		// --> either deny or add parameters without another "?"
 		if(parameters == null || parameters.length() == 0)
 			return this;
 
 		StringBuilder parURL = new StringBuilder();
-		if(this.url.charAt(this.url.length() - 1) == DELIMITER)
-			parURL.append(this.url.substring(0, this.url.length() - 1));
+		// check here if this URLLoader was already parameterized, so another parameterization with ? does not make sense
+		if(!this.url.contains("" + PARAMETER))
+		{
+			// default case (not yet parameterized)
+			if(this.url.charAt(this.url.length() - 1) == DELIMITER)
+				parURL.append(this.url.substring(0, this.url.length() - 1));
+			else
+				parURL.append(this.url);
+
+			if(parameters.charAt(0) != PARAMETER)
+				parURL.append(PARAMETER);
+
+			parURL.append(parameters);
+		}
 		else
+		{
+			// special case (already parameterized) --> append parameters with & instead of ?
 			parURL.append(this.url);
-
-		if(parameters.charAt(0) != PARAMETER)
-			parURL.append(PARAMETER);
-
-		parURL.append(parameters);
+			if(parameters.charAt(0) == PARAMETER)
+			{
+				parURL.append(PARAMETER_CONTINUED);
+				parURL.append(parameters.substring(1));
+			}
+			else
+			{
+				if(parameters.charAt(0) != PARAMETER_CONTINUED)
+					parURL.append(PARAMETER_CONTINUED);
+				parURL.append(parameters);
+			}
+		}
 
 		return new URLLoader(this, parURL.toString(), requestProperties, this.charset);
 	}
@@ -558,7 +581,7 @@ public class URLLoader
 	}
 
 	/**
-	 * Create a {@link URLLoaderThread} for a post to the URL represented by this {@link URLLoader}.<br>
+	 * Create a {@link BackgroundLoader} for a post to the URL represented by this {@link URLLoader}.<br>
 	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
 	 *
 	 * @param <T> - the type of content to load
@@ -600,7 +623,7 @@ public class URLLoader
 	}
 
 	/**
-	 * Create a {@link URLLoaderThread} for a put to the URL represented by this {@link URLLoader}.<br>
+	 * Create a {@link BackgroundLoader} for a put to the URL represented by this {@link URLLoader}.<br>
 	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
 	 *
 	 * @param <T> - the type of content to load
@@ -645,7 +668,7 @@ public class URLLoader
 	}
 
 	/**
-	 * Create a {@link URLLoaderThread} for a delete to the URL represented by this {@link URLLoader}.<br>
+	 * Create a {@link BackgroundLoader} for a delete to the URL represented by this {@link URLLoader}.<br>
 	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
 	 *
 	 * @param <T> - the type of content to load
@@ -692,7 +715,7 @@ public class URLLoader
 	}
 
 	/**
-	 * Create a {@link URLLoaderThread} for a patch to the URL represented by this {@link URLLoader}.<br>
+	 * Create a {@link BackgroundLoader} for a patch to the URL represented by this {@link URLLoader}.<br>
 	 * Use {@link BackgroundLoader#get()} or {@link BackgroundLoader#call()} to execute the call.
 	 *
 	 * @param <T> - the type of content to load
