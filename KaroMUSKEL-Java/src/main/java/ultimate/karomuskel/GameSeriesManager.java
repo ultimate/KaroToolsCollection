@@ -127,6 +127,7 @@ public abstract class GameSeriesManager
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		ObjectInputStream ois = new ObjectInputStream(bis);
 
+		// TODO check whether loading SerialVersionUID=1 is also possible
 		muskel2.model.GameSeries gs2 = (muskel2.model.GameSeries) ois.readObject();
 
 		ois.close();
