@@ -40,7 +40,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 		logger.debug("league-test for " + teamCount + " teams");
 
 		int expectedNumberOfDays = (teamCount - 1);
-		int expectedNumberOfMatches = expectedNumberOfDays * teamCount/2;
+		int expectedNumberOfMatches = expectedNumberOfDays * teamCount / 2;
 
 		List<User> list = new LinkedList<User>();
 		List<Team> teams = new LinkedList<Team>();
@@ -121,11 +121,13 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		ShuffleResult result;
 
+		int tries = 0;
 		while(true)
 		{
 			try
 			{
 				// shuffeling can fail (see Planner#shufflePlayers)
+				tries++;
 				result = Planner.shufflePlayers0(players, rules);
 				break;
 			}
@@ -134,6 +136,8 @@ public class PlannerTest extends KaroMUSKELTestcase
 				continue;
 			}
 		}
+		logger.debug("tries needed = " + tries);
+//		assertTrue(tries <= 3); // tries should not exceed 3
 
 		StringBuilder sb = new StringBuilder();
 
