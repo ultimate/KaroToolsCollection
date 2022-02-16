@@ -22,7 +22,8 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.Launcher;
 
 public class GameSeriesEditorForCCC5
-{	
+{
+	// TODO obsolete, when we have JSON export
 	public static void main(String[] args) throws Exception
 	{
 		JFileChooser fileChooser = new JFileChooser();
@@ -33,7 +34,7 @@ public class GameSeriesEditorForCCC5
 
 		Launcher.main(new String[] { "-l=debug" });
 		Launcher.getGui().setVisible(false);
-		
+
 		Properties gids = PropertiesUtil.loadProperties(new File(file.getParentFile().getAbsolutePath() + "/czzzcc5-gid.properties"));
 
 		BalancedGameSeries gs = (BalancedGameSeries) loadGameseries(file);
@@ -43,23 +44,22 @@ public class GameSeriesEditorForCCC5
 		result = JOptionPane.showConfirmDialog(null, "aendern?");
 		if(result != JOptionPane.OK_OPTION)
 			return;
-		
-		
+
 		Field f = Rules.class.getDeclaredField("zzz");
 		f.setAccessible(true);
-		
+
 		String key;
 		int expectedGid;
 		boolean changed = false;
-		for(Game g: gs.getGames())
+		for(Game g : gs.getGames())
 		{
-			key = g.getName().substring("CraZZZy Crash Challenge 5 - Challenge ".length(), g.getName().indexOf(" ", "CraZZZy Crash Challenge 5 - Challenge ".length()+1));
+			key = g.getName().substring("CraZZZy Crash Challenge 5 - Challenge ".length(), g.getName().indexOf(" ", "CraZZZy Crash Challenge 5 - Challenge ".length() + 1));
 			if(gids.containsKey(key))
 				expectedGid = Integer.parseInt(gids.getProperty(key));
 			else
 				expectedGid = -1;
 			System.out.println("[" + key + "] " + g.getName() + " created=" + g.isCreated() + " left=" + g.isLeft() + "\tgid=" + g.getId() + " expected=" + expectedGid);
-			
+
 			if(expectedGid != -1 && g.getId() < 0)
 			{
 				result = JOptionPane.showConfirmDialog(null, "Status ändern für " + g.getName());
@@ -83,7 +83,7 @@ public class GameSeriesEditorForCCC5
 		{
 			System.out.println("nothing to save");
 		}
-		
+
 //		new CCC5Eval().prepare(gs, 9999);
 	}
 
