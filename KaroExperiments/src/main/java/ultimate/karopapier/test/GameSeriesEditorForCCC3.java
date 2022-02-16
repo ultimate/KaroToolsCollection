@@ -23,6 +23,7 @@ import ultimate.karomuskel.Launcher;
 
 public class GameSeriesEditorForCCC3
 {
+	// TODO obsolete, when we have JSON export
 	public static void main(String[] args) throws Exception
 	{
 		JFileChooser fileChooser = new JFileChooser();

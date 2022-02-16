@@ -20,6 +20,7 @@ import ultimate.karomuskel.Launcher;
 
 public class GameSeriesVersionEditor
 {
+	// TODO move to GameSeriesManager
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void main(String[] args) throws Exception
 	{

@@ -8,6 +8,7 @@ import muskel2.core.karoaccess.KaropapierLoader;
 
 public class RandomMover
 {
+	// TODO fix
 	public static void main(String[] args) throws IOException, InterruptedException
 	{
 		String user = args[0];

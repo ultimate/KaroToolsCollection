@@ -24,11 +24,12 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.Launcher;
 
 public class GameSeriesEditorForCCC4
-{
-	private static class Change 
+{ 
+	// TODO obsolete, when we have JSON export
+	private static class Change
 	{
-		private int challenge;
-		private int zzz;
+		private int	challenge;
+		private int	zzz;
 
 		public Change(int challenge, int zzz)
 		{
@@ -37,7 +38,7 @@ public class GameSeriesEditorForCCC4
 			this.zzz = zzz;
 		}
 	}
-	
+
 	public static void main(String[] args) throws Exception
 	{
 		JFileChooser fileChooser = new JFileChooser();
@@ -56,36 +57,27 @@ public class GameSeriesEditorForCCC4
 		result = JOptionPane.showConfirmDialog(null, "aendern?");
 		if(result != JOptionPane.OK_OPTION)
 			return;
-		
+
 		int option = 2;
 
 		boolean changed = false;
 		if(option == 1)
 		{
-			
-			Change[] changes = new Change[] {
-				new Change(6, 0),
-				new Change(7, 1),
-				new Change(10, 2),
-				new Change(11, 1),
-				new Change(12, 1),
-				new Change(16, 0),
-				new Change(18, 0),
-				new Change(20, 1),
-			};
-			
+
+			Change[] changes = new Change[] { new Change(6, 0), new Change(7, 1), new Change(10, 2), new Change(11, 1), new Change(12, 1), new Change(16, 0), new Change(18, 0), new Change(20, 1), };
+
 			Field f = Rules.class.getDeclaredField("zzz");
 			f.setAccessible(true);
-			
-			for(Change change: changes)
+
+			for(Change change : changes)
 			{
-				Rules r = gs.getRules(change.challenge-1);
+				Rules r = gs.getRules(change.challenge - 1);
 				System.out.println("Challenge #" + change.challenge);
 				System.out.println("current ZZZ = null ( " + r.getMinZzz() + " - " + r.getMaxZzz() + " )");
 				System.out.println("Games: ");
-				
+
 				List<Game> gamesToChange = new ArrayList<Game>();
-				for(Game g: gs.getGames())
+				for(Game g : gs.getGames())
 				{
 					if(g.getName().contains("Challenge " + change.challenge + ".") && !g.isCreated())
 					{
@@ -93,11 +85,11 @@ public class GameSeriesEditorForCCC4
 						System.out.println("- " + g.getName() + " @@@ ZZZ = " + g.getRules().getZzz() + " ( " + g.getRules().getMinZzz() + " - " + g.getRules().getMaxZzz() + " )");
 					}
 				}
-	
+
 				result = JOptionPane.showConfirmDialog(null, "ZZZ für angezeigte Spiele ändern? " + r.getMinZzz() + " ===> " + change.zzz);
 				if(result == JOptionPane.OK_OPTION)
 				{
-					for(Game g: gamesToChange)
+					for(Game g : gamesToChange)
 					{
 						g.getRules().setZzz(change.zzz);
 						f.set(g.getRules(), change.zzz);
@@ -112,10 +104,10 @@ public class GameSeriesEditorForCCC4
 		else if(option == 2)
 		{
 			Properties gids = PropertiesUtil.loadProperties(new File(file.getParentFile().getAbsolutePath() + "/czzzcc4-gid.properties.78"));
-			
+
 			String cid;
 			int gid;
-			for(Game g: gs.getGames())
+			for(Game g : gs.getGames())
 			{
 //				if(g.getName().contains("Challenge 10."))
 //				{
@@ -127,7 +119,7 @@ public class GameSeriesEditorForCCC4
 //				}
 				if(g.getName().contains("Challenge 12."))
 				{
-					cid = g.getName().substring("CraZZZy Crash Challenge 4 - Challenge ".length(), "CraZZZy Crash Challenge 4 - Challenge ".length()+5).trim();
+					cid = g.getName().substring("CraZZZy Crash Challenge 4 - Challenge ".length(), "CraZZZy Crash Challenge 4 - Challenge ".length() + 5).trim();
 					gid = Integer.parseInt(gids.getProperty(cid));
 					System.out.println(cid + " (created=" + g.isCreated() + " left=" + g.isLeft() + "): " + g.getId() + " => " + gid);
 					g.setId(gid);
