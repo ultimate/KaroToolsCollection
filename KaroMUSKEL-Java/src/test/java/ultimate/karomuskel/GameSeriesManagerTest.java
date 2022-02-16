@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
@@ -18,8 +19,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import muskel2.model.Direction;
 import muskel2.model.series.AllCombinationsGameSeries;
@@ -38,12 +37,11 @@ import ultimate.karomuskel.test.KaroMUSKELTestcase;
 @SuppressWarnings("deprecation")
 public class GameSeriesManagerTest extends KaroMUSKELTestcase
 {
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-
 	@Test
 	public void test_storeAndLoad()
 	{
-
+		// TODO Test
+		fail("not implemented");
 	}
 
 	@ParameterizedTest

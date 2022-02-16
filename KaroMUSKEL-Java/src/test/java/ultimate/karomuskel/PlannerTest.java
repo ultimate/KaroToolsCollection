@@ -1,357 +1,183 @@
 package ultimate.karomuskel;
 
-import java.awt.Color;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import muskel2.model.Direction;
-import muskel2.model.Player;
-import muskel2.model.Rules;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.Match;
+import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karomuskel.Planner.ShuffleResult;
+import ultimate.karomuskel.test.KaroMUSKELTestcase;
 
-public class PlannerTest
+public class PlannerTest extends KaroMUSKELTestcase
 {
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Test
-	public void test_league()
+	protected Planner planner;
+	// TODO Test
+
+	@BeforeAll
+	public void setUpOnce() throws IOException
 	{
-		for(int i = 0; i < 1; i++)
-		{
-			List<User> list = new LinkedList<User>();
-			List<Team> teams = new LinkedList<Team>();
-			List<List<Match>> matches;
-			boolean[][] check;
-			int home;
-
-			Team team0 = new Team("T0", list);
-			Team team1 = new Team("T1", list);
-			Team team2 = new Team("T2", list);
-			Team team3 = new Team("T3", list);
-			Team team4 = new Team("T4", list);
-			Team team5 = new Team("T5", list);
-			Team team6 = new Team("T6", list);
-			Team team7 = new Team("T7", list);
-			Team team8 = new Team("T8", list);
-			Team team9 = new Team("T9", list);
-			Team team10 = new Team("T10", list);
-			Team team11 = new Team("T11", list);
-			Team team12 = new Team("T12", list);
-			Team team13 = new Team("T13", list);
-			Team team14 = new Team("T14", list);
-			Team team15 = new Team("T15", list);
-
-			teams.add(team0);
-			teams.add(team1);
-			teams.add(team2);
-			teams.add(team3);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[4][4];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team4);
-			teams.add(team5);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[6][6];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team6);
-			teams.add(team7);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[8][8];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team8);
-			teams.add(team9);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[10][10];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team10);
-			teams.add(team11);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[12][12];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team12);
-			teams.add(team13);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[14][14];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-
-			teams.add(team14);
-			teams.add(team15);
-
-			matches = planLeagueMatches(teams);
-			check = new boolean[16][16];
-			for(List<Match> dayList : matches)
-			{
-				for(Match match : dayList)
-				{
-					System.out.print(match.getTeam1().getName() + "-" + match.getTeam2().getName() + "\t");
-					if(check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))])
-						System.out.print("!");
-					check[Integer.parseInt(match.getTeam1().getName().substring(1))][Integer.parseInt(match.getTeam2().getName().substring(1))] = true;
-					check[Integer.parseInt(match.getTeam2().getName().substring(1))][Integer.parseInt(match.getTeam1().getName().substring(1))] = true;
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(boolean[] bs : check)
-			{
-				for(boolean b : bs)
-				{
-					System.out.print(b ? "1" : "0");
-				}
-				System.out.println("");
-			}
-			System.out.println("");
-			for(Team t : teams)
-			{
-				home = countHomeMatches(matches, t);
-				System.out.println(t.getName() + ":\t H: " + home + "\t A:" + (teams.size() - 1 - home));
-			}
-			System.out.println("");
-		}
+		super.setUpOnce();
+		planner = new Planner(dummyCache);
 	}
-	
-	@Test
-	public void test_shuffle()
+
+	@ParameterizedTest
+	@ValueSource(ints = { 4, 6, 8, 10, 12, 14, 16 })
+	public void test_planMatchesLeague(int teamCount)
 	{
-			int totalPlayers = 30;
-			int numberOfMaps = 20;
-			int gamesPerPlayer = 6;
+		logger.debug("league-test for " + teamCount + " teams");
 
-			List<Player> players = new LinkedList<Player>();
-			for(char c = 65; c < 65 + totalPlayers; c++)
+		int expectedNumberOfDays = (teamCount - 1);
+		int expectedNumberOfMatches = expectedNumberOfDays * teamCount/2;
+
+		List<User> list = new LinkedList<User>();
+		List<Team> teams = new LinkedList<Team>();
+		List<List<Match>> matches;
+		int[][] check;
+		int home;
+
+		for(int i = 0; i < teamCount; i++)
+		{
+			teams.add(new Team("T" + i, list));
+		}
+
+		StringBuilder sb;
+		matches = planner.planMatchesLeague(teams);
+
+		assertEquals(expectedNumberOfDays, matches.size());
+
+		check = new int[teamCount][teamCount];
+		int day = 1;
+		int matchCount = 0;
+		for(List<Match> dayList : matches)
+		{
+			sb = new StringBuilder();
+			sb.append("day " + day++ + "\t");
+			for(Match match : dayList)
 			{
-				players.add(new Player((int) c, "" + c, true, true, 9999, 0, 0, 999, new Color(c, c, c), 0, null));
+				matchCount++;
+				sb.append(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
+				check[Integer.parseInt(match.getTeam(0).getName().substring(1))][Integer.parseInt(match.getTeam(1).getName().substring(1))]++;
+				check[Integer.parseInt(match.getTeam(1).getName().substring(1))][Integer.parseInt(match.getTeam(0).getName().substring(1))]++;
 			}
+			logger.debug(sb.toString());
+		}
 
-			List<Rules> rules = new LinkedList<Rules>();
-			for(int i = 0; i < numberOfMaps; i++)
+		assertEquals(expectedNumberOfMatches, matchCount);
+
+		for(int i1 = 0; i1 < teamCount; i1++)
+		{
+			for(int i2 = 0; i2 < teamCount; i2++)
 			{
+				if(i1 == i2)
+					assertEquals(0, check[i1][i2], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1][i2]);
+				else
+					assertEquals(1, check[i1][i2], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1][i2]);
+			}
+		}
+		int totalHome = 0;
+		int expectedHomePerPlayer = (teamCount - 1) / 2;
+		logger.debug("expecting home counr = " + expectedHomePerPlayer + " or " + (expectedHomePerPlayer + 1));
+		for(Team t : teams)
+		{
+			home = Planner.countHomeMatches(matches, t);
+			totalHome += home;
+			logger.debug(t.getName() + ": home=" + home + ", guest=" + (teamCount - 1 - home));
+			assertTrue(home == expectedHomePerPlayer || home == (expectedHomePerPlayer + 1), "invalid home match count for " + t.getName() + ": " + home);
+		}
+		assertEquals(expectedNumberOfMatches, totalHome);
+	}
+
+	@Test
+	public void test_shufflePlayers()
+	{
+		int totalPlayers = 30;
+		int numberOfMaps = 20;
+		int gamesPerPlayer = 6;
+
+		List<User> players = new LinkedList<User>();
+		for(int i = 0; i < totalPlayers; i++)
+			players.add(dummyCache.getUser(i));
+
+		List<Rules> rules = new LinkedList<Rules>();
+		for(int i = 0; i < numberOfMaps; i++)
+		{
 //				int numberOfPlayers = (i < 6 ? 5 : (i < 12 ? 7 : 10));
-				int numberOfPlayers = (i < 6 ? 3 : (i < 12 ? 4 : 5));
-				rules.add(new Rules(0, 0, true, true, Direction.egal, false, false, gamesPerPlayer, numberOfPlayers));
+			int numberOfPlayers = (i < 6 ? 3 : (i < 12 ? 4 : 5));
+			rules.add(new Rules(0, 0, EnumGameTC.free, true, EnumGameDirection.free, gamesPerPlayer, numberOfPlayers));
+		}
+
+		ShuffleResult result;
+
+		while(true)
+		{
+			try
+			{
+				// shuffeling can fail (see Planner#shufflePlayers)
+				result = Planner.shufflePlayers0(players, rules);
+				break;
 			}
+			catch(IllegalArgumentException e)
+			{
+				continue;
+			}
+		}
 
-			Player[][][] shuffledPlayers = shufflePlayers(players, rules);
+		StringBuilder sb = new StringBuilder();
 
-			// print games
+		// print games
+		for(int m = 0; m < numberOfMaps; m++)
+		{
+			logger.debug("map=" + m);
+			for(int g = 0; g < result.shuffledUsers[m].length; g++)
+			{
+				sb = new StringBuilder();
+				sb.append((g > 9 ? "" : " ") + g + ": ");
+				for(int p = 0; p < rules.get(m).getNumberOfPlayers(); p++)
+				{
+					if(p > 0)
+						sb.append(", ");
+					if(result.shuffledUsers[m][g][p] != null)
+						sb.append(result.shuffledUsers[m][g][p].getLogin());
+				}
+				logger.debug(sb.toString());
+			}
+		}
+
+		// print playersGames
+		logger.debug("playersGames");
+		for(User player : players)
+		{
+			sb = new StringBuilder();
+			sb.append(player.getLogin() + ": ");
 			for(int m = 0; m < numberOfMaps; m++)
 			{
-				System.out.println(m);
-				for(int g = 0; g < shuffledPlayers[m].length; g++)
+				int count = 0;
+				for(int g = 0; g < result.shuffledUsers[m].length; g++)
 				{
-					System.out.print((g > 9 ? "" : " ") + g + ": ");
 					for(int p = 0; p < rules.get(m).getNumberOfPlayers(); p++)
 					{
-						if(p >= 0)
-						{
-							if(shuffledPlayers[m][g][p] != null)
-								System.out.print(shuffledPlayers[m][g][p].getName() + " ");
-						}
-						else
-							System.out.println(" ");
+						if(result.shuffledUsers[m][g][p] == player)
+							count++;
 					}
-					System.out.println("");
 				}
+				sb.append(count + " ");
+				assertEquals(gamesPerPlayer, count, "invalid match count for player " + player.getLogin() + " on map #" + m);
 			}
-
-			// print playersGames
-			System.out.println("playersGames");
-			for(int pl = 0; pl < totalPlayers; pl++)
-			{
-				for(int m = 0; m < numberOfMaps; m++)
-				{
-					int count = 0;
-					for(int g = 0; g < shuffledPlayers[m].length; g++)
-					{
-						for(int p = 0; p < rules.get(m).getNumberOfPlayers(); p++)
-						{
-							if(shuffledPlayers[m][g][p] == players.get(pl))
-								count++;
-						}
-					}
-					System.out.print(count + " ");
-				}
-				System.out.println("");
-			}
+			logger.debug(sb.toString());
+		}
 
 	}
 }

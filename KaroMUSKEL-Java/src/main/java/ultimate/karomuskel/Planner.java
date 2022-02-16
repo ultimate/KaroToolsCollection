@@ -182,7 +182,7 @@ public class Planner
 		return games;
 	}
 
-	private static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
+	static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
 	{
 		List<User> tmp = new LinkedList<User>(players);
 		Collections.shuffle(tmp);
@@ -194,7 +194,8 @@ public class Planner
 			try
 			{
 				ShuffleResult result = shufflePlayers0(tmp, rules);
-				printWhoOnWho(result, false);
+				if(logger.isDebugEnabled())
+					printWhoOnWho(result, false);
 				return result.shuffledUsers;
 			}
 			catch(IllegalArgumentException e)
@@ -204,7 +205,7 @@ public class Planner
 		}
 	}
 
-	private static ShuffleResult shufflePlayers0(List<User> players, List<Rules> rules)
+	static ShuffleResult shufflePlayers0(List<User> players, List<Rules> rules)
 	{
 		Random rand = new Random();
 		int[] playersGames;
@@ -357,7 +358,7 @@ public class Planner
 							minBattles = battles;
 						}
 					}
-
+					
 					int ri = rand.nextInt(potentials.size());
 
 					// add player
@@ -399,14 +400,18 @@ public class Planner
 
 	protected static void printWhoOnWho(ShuffleResult result, boolean printDetails)
 	{
+		if(!logger.isDebugEnabled())
+			return;
+		
+		StringBuilder sb = new StringBuilder();
 		// print totalWhoOnWho
 		for(int pl1 = 0; pl1 < result.totalWhoOnWho.length; pl1++)
 		{
+			sb.append("\n");
 			for(int pl2 = 0; pl2 < result.totalWhoOnWho[pl1].length; pl2++)
 			{
-				System.out.print(toString(result.totalWhoOnWho[pl1][pl2], 2) + " ");
+				sb.append(toString(result.totalWhoOnWho[pl1][pl2], 2) + " ");
 			}
-			System.out.println("");
 		}
 
 		// print whoOnWhos
@@ -416,22 +421,23 @@ public class Planner
 			{
 				for(int pl1 = 0; pl1 < result.whoOnWho[m].length; pl1++)
 				{
+					sb.append("\n");
+					sb = new StringBuilder();
 					for(int pl2 = 0; pl2 < result.whoOnWho[m][pl1].length; pl2++)
 					{
-						System.out.print(toString(result.whoOnWho[m][pl1][pl2], 2) + " ");
+						sb.append(toString(result.whoOnWho[m][pl1][pl2], 2) + " ");
 					}
-					System.out.println("");
 				}
-				System.out.println("");
+				logger.debug(sb.toString());
 			}
 		}
 	}
 
-	private static class ShuffleResult
+	static class ShuffleResult
 	{
-		private User[][][]	shuffledUsers;
-		private int[][][]	whoOnWho;
-		private int[][]		totalWhoOnWho;
+		User[][][]	shuffledUsers;
+		int[][][]	whoOnWho;
+		int[][]		totalWhoOnWho;
 
 		private ShuffleResult(int numberOfUsers, int numberOfRounds)
 		{
@@ -599,7 +605,9 @@ public class Planner
 				for(Match match : matchesForDay)
 				{
 					final int r = round;
-					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> { return (r % 2 == 0 ? team1 : team2); };
+					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
+						return (r % 2 == 0 ? team1 : team2);
+					};
 
 					// use a neutral map if the number of rounds is uneven
 					if(useHomeMaps && !((round % 2 == 1) && (round == numberOfGamesPerPair)) && maps != null)
@@ -925,7 +933,7 @@ public class Planner
 		return matches;
 	}
 
-	private static int countHomeMatches(List<List<Match>> matches, Team t)
+	static int countHomeMatches(List<List<Match>> matches, Team t)
 	{
 		int home = 0;
 		for(List<Match> ms : matches)
