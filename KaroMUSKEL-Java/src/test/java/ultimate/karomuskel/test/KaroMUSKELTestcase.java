@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.KaroAPICache;
 
 /**
@@ -31,12 +32,17 @@ public class KaroMUSKELTestcase
 	 * The {@link Properties} used to initiate the {@link KaroAPI}
 	 */
 	protected static Properties			properties;
+
+	/**
+	 * The config {@link Properties} for the {@link GameSeriesManager}
+	 */
+	protected static Properties			config;
 	/**
 	 * The {@link KaroAPI} instance
 	 */
 	protected static KaroAPI			karoAPI;
 	/**
-	 * The {@link KaroAPICache} 
+	 * The {@link KaroAPICache}
 	 */
 	protected static KaroAPICache		karoAPICache;
 	/**
@@ -52,13 +58,22 @@ public class KaroMUSKELTestcase
 	@BeforeAll
 	public void setUpOnce() throws IOException
 	{
+		config = PropertiesUtil.loadProperties(new File("target/classes/config.properties"));
+		GameSeriesManager.setConfig(config);
+		logger.info("config loaded: " + config);
+		
 		properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
 		logger.info("properties loaded: " + properties);
+		
 		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
 		logger.info("KaroAPI initialized");
+		
 		karoAPICache = new KaroAPICache(karoAPI);
 		karoAPICache.refresh().join();
+		logger.info("KaroAPICache initialized");
+		
 		dummyCache= new KaroAPICache(null);
 		dummyCache.refresh().join();
+		logger.info("KaroAPICache (DUMMY) initialized");
 	}
 }
