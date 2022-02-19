@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
+import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
@@ -84,6 +85,7 @@ public class KaroAPI implements IDLookUp
 																												return null;
 																											};
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
+	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(new TypeReference<java.util.Map<String, Object>>() {});
 	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
 	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
 	public static final Function<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
@@ -99,6 +101,9 @@ public class KaroAPI implements IDLookUp
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
 																												return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
+																											};
+	public static final Function<String, String>								PARSER_KEY					= (result) -> {
+																												return (String) PARSER_GENERIC.apply(result).get("api_key");
 																											};
 
 	//////////////////
@@ -182,7 +187,7 @@ public class KaroAPI implements IDLookUp
 	// base
 	protected final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
 	protected final URLLoader	API				= KAROPAPIER.relative("/api");
-	protected final URLLoader	KEY				= API.relative("/key");									// TODO implement
+	protected final URLLoader	KEY				= API.relative("/key");
 	// users
 	protected final URLLoader	USERS			= API.relative("/users");
 	protected final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
@@ -229,15 +234,50 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Get an instance for the given user
 	 * 
-	 * @param user - the karopapier.de user
+	 * @param username - the karopapier.de username
 	 * @param password - the password
 	 */
-	public KaroAPI(String user, String password)
+	public KaroAPI(String username, String password) throws KaroAPIException
 	{
-		if(user == null || password == null)
-			throw new IllegalArgumentException("user and password must not be null!");
-		KAROPAPIER.addRequestProperty("X-Auth-Login", user);
-		KAROPAPIER.addRequestProperty("X-Auth-Password", password);
+		try
+		{
+			Boolean loginSuccessful = login(username, password).get();
+			if(!loginSuccessful)
+				throw new RuntimeException("login not successful");
+		}
+		catch(InterruptedException | ExecutionException e)
+		{
+			throw new KaroAPIException("could not login user '" + username + "'", e);
+		}
+	}
+
+	/**
+	 * Initiate and login this {@link KaroAPI} instance for the given user.
+	 * 
+	 * @param username - the karopapier.de username
+	 * @param password - the password
+	 * @return success or not
+	 */
+	protected CompletableFuture<Boolean> login(String username, String password)
+	{
+		if(username == null || password == null)
+			throw new IllegalArgumentException("username and password must not be null!");
+		KEY.addRequestProperty("X-Auth-Login", username);
+		KEY.addRequestProperty("X-Auth-Password", password);
+		return key().thenComposeAsync((key) -> {
+			if(key == null)
+				throw new KaroAPIException("could not retrieve key");
+			
+			KAROPAPIER.addRequestProperty("X-Auth-Key", key);
+			
+			return check().thenApplyAsync((user) -> {
+				if(user == null)
+					throw new RuntimeException("check returned no user");
+				if(!user.getLogin().equals(username))
+					throw new RuntimeException("check returned wrong user");
+				return true;
+			});
+		});
 	}
 
 	/**
@@ -287,6 +327,18 @@ public class KaroAPI implements IDLookUp
 	///////////////////////
 	// user
 	///////////////////////
+
+	/**
+	 * Check to currently logged in user
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHECK
+	 * @return the currently logged in user
+	 */
+	public CompletableFuture<String> key()
+	{
+		return loadAsync(KEY.doGet((String) null), PARSER_KEY);
+	}
 
 	/**
 	 * Check to currently logged in user

@@ -1,8 +1,8 @@
-package ultimate.karomuskel;
+package ultimate.karoapi4j;
 
-import ultimate.karomuskel.test.KaroMUSKELTestcase;
+import ultimate.karoapi4j.test.KaroAPITestcase;
 
-public class KaroAPICacheTest extends KaroMUSKELTestcase
+public class KaroAPICacheTest extends KaroAPITestcase
 {
 	// TODO Test
 }
