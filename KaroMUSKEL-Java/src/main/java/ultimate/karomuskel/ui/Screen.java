@@ -7,9 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
-import ultimate.karomuskel.KaroAPICache;
 
 public abstract class Screen extends JPanel
 {

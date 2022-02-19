@@ -29,11 +29,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.CollectionsUtil;
-import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 

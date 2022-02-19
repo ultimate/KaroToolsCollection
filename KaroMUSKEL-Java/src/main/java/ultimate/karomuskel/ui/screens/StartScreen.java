@@ -14,10 +14,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
-import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 
