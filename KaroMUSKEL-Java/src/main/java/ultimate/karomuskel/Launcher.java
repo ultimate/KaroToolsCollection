@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;

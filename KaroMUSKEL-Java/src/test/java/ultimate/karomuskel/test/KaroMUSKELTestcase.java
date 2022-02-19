@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.GameSeriesManager;
-import ultimate.karomuskel.KaroAPICache;
 
 /**
  * Base class for all test cases that need a {@link KaroAPI} instance

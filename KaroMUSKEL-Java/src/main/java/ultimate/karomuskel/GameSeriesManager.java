@@ -30,6 +30,7 @@ import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.SimpleGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;

@@ -14,6 +14,7 @@ import java.util.function.BiFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;

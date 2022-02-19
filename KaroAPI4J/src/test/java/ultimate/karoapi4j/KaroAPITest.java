@@ -785,11 +785,30 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
+	public void test_erronousLogin() throws InterruptedException, ExecutionException
+	{
+		try
+		{
+			KaroAPI karoAPIwithWrongCredentials = new KaroAPI("a", "b");
+			fail("we shouldn't get here");
+		}
+		catch(Exception e)
+		{
+			logger.debug("error", e);
+			assertNotNull(e);
+			assertNotNull(e.getCause());
+			assertNotNull(e.getCause().getCause());
+			assertInstanceOf(IOException.class, e.getCause().getCause());
+			assertTrue(e.getCause().getCause().getMessage().startsWith("Server returned HTTP response code: 401"));
+		}
+	}
+
+	@Test
 	public void test_errorHandling() throws InterruptedException, ExecutionException
 	{
 		KaroAPI karoAPIwithFailingCall = new KaroAPI("a", "b");
 		CompletableFuture<User> completableFuture = karoAPIwithFailingCall.check();
-
+//TODO
 		try
 		{
 			completableFuture.get();

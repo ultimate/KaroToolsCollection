@@ -1,9 +1,10 @@
-package ultimate.karomuskel;
+package ultimate.karoapi4j;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,7 +19,6 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
@@ -32,24 +32,86 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 
+/**
+ * This class acts as a wrapper for the {@link KaroAPI} and allows cached access to the entities.<br>
+ * Whenever an entity with a given ID is queried, this class will first look for the entity in the cache. If the entity is not present it will be
+ * loaded (blocking) from the {@link KaroAPI}.<br>
+ * Same applies for the images. If a {@link Map} image is requested the cache will first look for a file in the local cache folder
+ * ({@link KaroAPICache#getCacheFolder()}). If no image file is found there, the {@link KaroAPI} will be used to request a new image.
+ * 
+ * @author ultimate
+ */
 public class KaroAPICache implements IDLookUp
 {
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger		logger	= LoggerFactory.getLogger(getClass());
+	protected transient final Logger		logger				= LoggerFactory.getLogger(getClass());
 
+	/**
+	 * The default cache folder
+	 * 
+	 * @see KaroAPICache#cacheFolder
+	 * @see KaroAPICache#getCacheFolder()
+	 */
+	public static final String				DEFAULT_FOLDER		= "cache";
+	/**
+	 * The folder separator
+	 */
+	public static final String				DELIMITER			= "/";
+	/**
+	 * The default image size
+	 */
+	public static final int					DEFAULT_IMAGE_SIZE	= 100;
+
+	/**
+	 * The underlying {@link KaroAPI} instance
+	 */
 	private KaroAPI							karoAPI;
 
+	/**
+	 * The current user
+	 * 
+	 * @see KaroAPI#check()
+	 */
 	private User							currentUser;
+	/**
+	 * The {@link User} cache (by id)
+	 */
 	private java.util.Map<Integer, User>	usersById;
+	/**
+	 * The {@link User} cache (by login)
+	 */
 	private java.util.Map<String, User>		usersByLogin;
+	/**
+	 * The {@link Game} cache (by id)
+	 */
 	private java.util.Map<Integer, Game>	gamesById;
+	/**
+	 * The {@link Map} cache (by id)
+	 */
 	private java.util.Map<Integer, Map>		mapsById;
 
-	private Planner							planner;										// TODO
+	/**
+	 * The cache Folder
+	 */
+	private File							cacheFolder;
 
+	/**
+	 * Create a new KaroAPICache which will use the default folder
+	 * 
+	 * @param karoAPI - The underlying {@link KaroAPI} instance
+	 */
 	public KaroAPICache(KaroAPI karoAPI)
+	{
+		this(karoAPI, null);
+	}
+
+	/**
+	 * @param karoAPI - The underlying {@link KaroAPI} instance
+	 * @param cacheFolder
+	 */
+	public KaroAPICache(KaroAPI karoAPI, File cacheFolder)
 	{
 		if(karoAPI == null)
 			logger.warn("KaroAPI is null - using debug mode");
@@ -58,9 +120,15 @@ public class KaroAPICache implements IDLookUp
 		this.usersByLogin = new TreeMap<>();
 		this.gamesById = new TreeMap<>();
 		this.mapsById = new TreeMap<>();
+		this.cacheFolder = cacheFolder;
 		// this.refresh().join();
 	}
 
+	/**
+	 * Refresh the internal cache from the {@link KaroAPI} (asynchronously)
+	 * 
+	 * @return a {@link CompletableFuture} for async execution
+	 */
 	public CompletableFuture<Void> refresh()
 	{
 		if(karoAPI != null)
@@ -193,11 +261,18 @@ public class KaroAPICache implements IDLookUp
 		}
 	}
 
+	/**
+	 * @return the underlying {@link KaroAPI}
+	 */
 	public KaroAPI getKaroAPI()
 	{
 		return karoAPI;
 	}
 
+	/**
+	 * @see KaroAPI#check()
+	 * @return the current user
+	 */
 	public User getCurrentUser()
 	{
 		return this.currentUser;
@@ -364,6 +439,11 @@ public class KaroAPICache implements IDLookUp
 		return Collections.unmodifiableMap(this.mapsById);
 	}
 
+	public File getCacheFolder()
+	{
+		return cacheFolder;
+	}
+
 	protected CompletableFuture<BufferedImage> loadMapImage(Map map, boolean thumb)
 	{
 		return null;
@@ -376,11 +456,6 @@ public class KaroAPICache implements IDLookUp
 		g.setColor(Color.white);
 		g.fillRect(0, 0, width, height);
 		return image;
-	}
-
-	public Planner getPlanner()
-	{
-		return planner;
 	}
 
 	/**
@@ -541,8 +616,7 @@ public class KaroAPICache implements IDLookUp
 		m.setNight(random.nextDouble() < 0.10);
 		m.setRecord(random.nextInt(200));
 		m.setCode("DUMMY");
-		m.setImage(createSpecialImage(
-				createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white)));
+		m.setImage(createSpecialImage(createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white)));
 		m.setImage(createSpecialImage(createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white)));
 		return m;
 	}
