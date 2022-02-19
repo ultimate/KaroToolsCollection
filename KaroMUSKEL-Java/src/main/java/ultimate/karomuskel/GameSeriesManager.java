@@ -51,8 +51,26 @@ import ultimate.karomuskel.ui.screens.MapsScreen;
 import ultimate.karomuskel.ui.screens.PlayersScreen;
 import ultimate.karomuskel.ui.screens.RulesScreen;
 import ultimate.karomuskel.ui.screens.SettingsScreen;
+import ultimate.karomuskel.ui.screens.StartScreen;
 import ultimate.karomuskel.ui.screens.SummaryScreen;
 
+/**
+ * Utility class for storing and loading {@link GameSeries}.<br>
+ * This class also offers backwards compatibility for {@link muskel2.model.GameSeries} via
+ * {@link GameSeriesManager#convert(muskel2.model.GameSeries, KaroAPICache)}.<br>
+ * <br>
+ * Since some {@link GameSeries} require constants for configuration, this class also provides access to the configuration of those constants via an
+ * external {@link Properties} file. This file needs to be set on start of the program via {@link GameSeriesManager#setConfig(Properties)} and then it
+ * can be accessed via
+ * <ul>
+ * <li>{@link GameSeriesManager#getIntConfig(String)}</li>
+ * <li>{@link GameSeriesManager#getStringConfig(String)}</li>
+ * <li>{@link GameSeriesManager#getIntConfig(EnumGameSeriesType, String)}</li>
+ * <li>{@link GameSeriesManager#getStringConfig(EnumGameSeriesType, String)}</li>
+ * </ul>
+ * 
+ * @author ultimate
+ */
 @SuppressWarnings("deprecation")
 public abstract class GameSeriesManager
 {
@@ -60,7 +78,13 @@ public abstract class GameSeriesManager
 	 * Logger-Instance
 	 */
 	private static final Logger	logger	= LoggerFactory.getLogger(GameSeriesManager.class);
+	/**
+	 * The charset for the JSON storage of {@link GameSeries}
+	 */
 	public static final String	CHARSET	= "UTF-8";
+	/**
+	 * The config file to use
+	 */
 	private static Properties	config;
 
 	/**
@@ -71,16 +95,56 @@ public abstract class GameSeriesManager
 
 	}
 
+	/**
+	 * Set the config {@link Properties}
+	 * 
+	 * @param config - the properties
+	 */
+	public static void setConfig(Properties config)
+	{
+		GameSeriesManager.config = config;
+	}
+
+	/**
+	 * Get the config {@link Properties}
+	 * 
+	 * @return config
+	 */
+	public static Properties getConfig()
+	{
+		return config;
+	}
+
+	/**
+	 * Get a string config by key
+	 * 
+	 * @param key - the key
+	 * @return the config value as String
+	 */
 	public static String getStringConfig(String key)
 	{
 		return config.getProperty(key);
 	}
 
+	/**
+	 * Get a int config by key
+	 * 
+	 * @param key - the key
+	 * @return the config value as int
+	 */
 	public static int getIntConfig(String key)
 	{
 		return Integer.parseInt(getStringConfig(key));
 	}
 
+	/**
+	 * Get a string config by key for a given {@link EnumGameSeriesType}. This is convienence for
+	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
+	 * 
+	 * @see GameSeriesManager#getStringConfig(String)
+	 * @param key - the key
+	 * @return the config value as String
+	 */
 	public static String getStringConfig(EnumGameSeriesType gsType, String key)
 	{
 		if(gsType == null)
@@ -88,28 +152,90 @@ public abstract class GameSeriesManager
 		return getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);
 	}
 
+	/**
+	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
+	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
+	 * 
+	 * @see GameSeriesManager#getIntConfig(String)
+	 * @param key - the key
+	 * @return the config value as int
+	 */
 	public static int getIntConfig(EnumGameSeriesType gsType, String key)
 	{
 		return Integer.parseInt(getStringConfig(gsType, key));
 	}
 
+	/**
+	 * Get the default title a given {@link EnumGameSeriesType}. This is convienence for
+	 * <code>getStringConfig(gsType, "defaultTitle");</code>
+	 * 
+	 * @see GameSeriesManager#getStringConfig(EnumGameSeriesType, String)
+	 * @param key - the key
+	 * @return the config value as String
+	 */
 	public static String getDefaultTitle(EnumGameSeriesType gsType)
 	{
 		return getStringConfig(gsType, "defaultTitle");
 	}
 
-	public static GameSeries load(File file, KaroAPICache karoAPICache) throws IOException, ClassNotFoundException, ClassCastException
+	/**
+	 * Save a {@link GameSeries} to JSON using the {@link JSONUtil}.<br>
+	 * Note: Storing of {@link muskel2.model.GameSeries} is not supported. Please convert it to the new format via
+	 * {@link GameSeriesManager#convert(muskel2.model.GameSeries, KaroAPICache)} first.
+	 * 
+	 * @see JSONUtil#serialize(Object)
+	 * @param gs - the {@link GameSeries}
+	 * @param file - the {@link File} to store the JSON to
+	 * @throws IOException - if storing fails
+	 */
+	public static void store(GameSeries gs, File file) throws IOException
 	{
+		logger.info("storing GameSeries to file: " + file.getAbsolutePath());
+		
+		String json = JSONUtil.serialize(gs, true);
+
+		FileOutputStream fos = new FileOutputStream(file);
+		BufferedOutputStream bos = new BufferedOutputStream(fos);
+
+		bos.write(json.getBytes(CHARSET));
+
+		bos.flush();
+		bos.close();
+		fos.close();
+	}
+
+	/**
+	 * Load a {@link GameSeries} from a given {@link File}.<br>
+	 * References in the JSON file will be resolved using the given {@link KaroAPICache}.<br>
+	 * Note: this method is also capable of loading V2 {@link muskel2.model.GameSeries}. Those entities will then automatically be converted to the
+	 * new format using {@link GameSeriesManager#convert(muskel2.model.GameSeries, KaroAPICache)}
+	 * 
+	 * @param file - the {@link File} that contains the {@link GameSeries} or the V2 {@link muskel2.model.GameSeries}
+	 * @param karoAPICache - the {@link KaroAPICache} to resolve references
+	 * @return the {@link GameSeries}
+	 * @throws IOException - if deserialization or loading fails
+	 */
+	public static GameSeries load(File file, KaroAPICache karoAPICache) throws IOException
+	{
+		logger.info("loading GameSeries from file: " + file.getAbsolutePath());
+		
 		FileInputStream fis = new FileInputStream(file);
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		byte[] bytes = bis.readAllBytes();
 		bis.close();
 		fis.close();
 
-		boolean v2 = (bytes[0] != '}');
+		boolean v2 = (bytes[0] != '{');
 		if(v2)
 		{
-			return convert(loadV2(file), karoAPICache);
+			try
+			{
+				return convert(loadV2(file), karoAPICache);
+			}
+			catch(ClassNotFoundException e)
+			{
+				throw new IOException(e);
+			}
 		}
 		else
 		{
@@ -121,7 +247,15 @@ public abstract class GameSeriesManager
 		}
 	}
 
-	public static muskel2.model.GameSeries loadV2(File file) throws IOException, ClassNotFoundException, ClassCastException
+	/**
+	 * Load a V2 {@link muskel2.model.GameSeries} (for backwards compatibility)
+	 * 
+	 * @param file - the {@link File} that contains the V2 {@link muskel2.model.GameSeries}
+	 * @return the {@link muskel2.model.GameSeries}
+	 * @throws IOException - if deserialization or loading fails
+	 * @throws ClassNotFoundException - if loading the class fails
+	 */
+	public static muskel2.model.GameSeries loadV2(File file) throws IOException, ClassNotFoundException
 	{
 		FileInputStream fis = new FileInputStream(file);
 		BufferedInputStream bis = new BufferedInputStream(fis);
@@ -137,6 +271,14 @@ public abstract class GameSeriesManager
 		return gs2;
 	}
 
+	/**
+	 * Convert a V2 {@link muskel2.model.GameSeries} to a {@link GameSeries}.<br>
+	 * References in the JSON file will be resolved using the given {@link KaroAPICache}.<br>
+	 * 
+	 * @param gs2 - the V2 {@link muskel2.model.GameSeries}
+	 * @param karoAPICache - the {@link KaroAPICache} to resolve references
+	 * @return the converted {@link GameSeries}
+	 */
 	public static GameSeries convert(muskel2.model.GameSeries gs2, KaroAPICache karoAPICache)
 	{
 		GameSeries gs = new GameSeries();
@@ -237,6 +379,16 @@ public abstract class GameSeriesManager
 		return gs;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param <T>
+	 * @param <T2>
+	 * @param list2
+	 * @param cls
+	 * @param karoAPICache
+	 * @return
+	 */
 	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls, KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
@@ -247,6 +399,13 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param list2
+	 * @param karoAPICache
+	 * @return
+	 */
 	protected static List<PlannedGame> convertGames(List<muskel2.model.Game> list2, KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
@@ -270,6 +429,13 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param list2
+	 * @param karoAPICache
+	 * @return
+	 */
 	protected static List<Team> convertTeams(List<muskel2.model.help.Team> list2, KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
@@ -285,6 +451,15 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param <T>
+	 * @param map2
+	 * @param cls
+	 * @param karoAPICache
+	 * @return
+	 */
 	protected static <T extends Identifiable> java.util.Map<String, List<T>> convertHomeMaps(java.util.Map<Integer, Integer> map2, Class<T> cls, KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
@@ -295,6 +470,16 @@ public abstract class GameSeriesManager
 		return map;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param <T>
+	 * @param <T2>
+	 * @param map2
+	 * @param cls
+	 * @param karoAPICache
+	 * @return
+	 */
 	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
 			KaroAPICache karoAPICache)
 	{
@@ -306,6 +491,12 @@ public abstract class GameSeriesManager
 		return map;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param map2
+	 * @return
+	 */
 	protected static java.util.Map<String, Rules> convert(java.util.Map<Integer, muskel2.model.Rules> map2)
 	{
 		if(map2 == null)
@@ -316,6 +507,12 @@ public abstract class GameSeriesManager
 		return map;
 	}
 
+	/**
+	 * Helper method for conversion
+	 * 
+	 * @param r2
+	 * @return
+	 */
 	protected static Rules convert(muskel2.model.Rules r2)
 	{
 		Rules r = new Rules();
@@ -342,24 +539,20 @@ public abstract class GameSeriesManager
 		return r;
 	}
 
-	public static void store(GameSeries gs, File file) throws IOException
-	{
-		String json = JSONUtil.serialize(gs);
-
-		FileOutputStream fos = new FileOutputStream(file);
-		BufferedOutputStream bos = new BufferedOutputStream(fos);
-
-		bos.write(json.getBytes(CHARSET));
-
-		bos.flush();
-		bos.close();
-		fos.close();
-	}
-
-	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton, boolean loaded)
+	/**
+	 * Initiate the screens for the KaroMUSKEL GUI for a given {@link GameSeries}
+	 * 
+	 * @param gs - the {@link GameSeries}
+	 * @param karoAPICache - the {@link KaroAPICache} to be used by the GUI
+	 * @param startScreen - the {@link StartScreen} that triggers the initiation
+	 * @param previousButton - the previous Button used in the GUI
+	 * @param nextButton - the next Button used in the GUI
+	 * @return the {@link List} of screens
+	 */
+	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton)
 	{
 		LinkedList<Screen> screens = new LinkedList<>();
-		if(loaded)
+		if(gs.isLoaded())
 		{
 			SummaryScreen s = new SummaryScreen(startScreen, karoAPICache, previousButton, nextButton);
 			s.setSkipPlan(true);

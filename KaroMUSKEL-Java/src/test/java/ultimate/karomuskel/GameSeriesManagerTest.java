@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -32,20 +32,90 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.test.KaroMUSKELTestcase;
 
 @SuppressWarnings("deprecation")
 public class GameSeriesManagerTest extends KaroMUSKELTestcase
 {
 	@Test
-	public void test_storeAndLoad()
+	public void test_getConfig()
 	{
-		// TODO Test
-		fail("not implemented");
+		assertEquals("de", GameSeriesManager.getStringConfig("language"));
+		assertEquals(10, GameSeriesManager.getIntConfig("karoAPI.maxThreads"));
+
+		assertEquals(16, GameSeriesManager.getIntConfig(EnumGameSeriesType.KO, "maxTeams"));
+		assertEquals(3, GameSeriesManager.getIntConfig(EnumGameSeriesType.KO, "maxRounds"));
+
+		assertEquals(8, GameSeriesManager.getIntConfig(EnumGameSeriesType.League, "maxTeams"));
+		assertEquals(8, GameSeriesManager.getIntConfig(EnumGameSeriesType.League, "maxRounds"));
+	}
+
+	@Test
+	public void test_storeAndLoad() throws IOException
+	{
+		User creator = dummyCache.getCurrentUser();
+
+		int uid1 = 11;
+		int uid2 = 13;
+		int mid0 = 8;
+		int mid1 = 12;
+
+		int minP = 6;
+		int maxP = 8;
+		int num = 10;
+		int minZzz = 2;
+		int maxZzz = 2;
+
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple, false);
+		gs.setTitle("test series {i}");
+		gs.setCreator(creator);
+		gs.set(GameSeries.MIN_PLAYERS_PER_GAME, minP);
+		gs.set(GameSeries.MAX_PLAYERS_PER_GAME, maxP);
+		gs.set(GameSeries.NUMBER_OF_GAMES, num);
+		gs.setRules(new Rules(minZzz, maxZzz, EnumGameTC.allowed, true, EnumGameDirection.formula1));
+		gs.setPlayers(Arrays.asList(creator, dummyCache.getUser(uid1), dummyCache.getUser(uid2)));
+		gs.setMaps(Arrays.asList(dummyCache.getMap(mid0), dummyCache.getMap(mid1)));
+
+		File file = new File("target/test-classes/test" + System.currentTimeMillis() + ".json");
+		assertFalse(file.exists());
+		
+		GameSeriesManager.store(gs, file);
+
+		assertTrue(file.exists());
+
+		GameSeries loaded = GameSeriesManager.load(file, dummyCache);
+
+		assertNotNull(loaded);
+
+		assertTrue(loaded.isLoaded());
+		assertEquals(EnumGameSeriesType.Simple, loaded.getType());
+		assertEquals(false, loaded.isTeamBased());
+		assertEquals(gs.getTitle(), loaded.getTitle());
+		assertEquals(creator, loaded.getCreator());
+		assertEquals(minP, gs.get(GameSeries.MIN_PLAYERS_PER_GAME));
+		assertEquals(maxP, gs.get(GameSeries.MAX_PLAYERS_PER_GAME));
+		assertEquals(num, gs.get(GameSeries.NUMBER_OF_GAMES));
+		assertNotNull(loaded.getRules());
+		assertEquals(minZzz, loaded.getRules().getMinZzz());
+		assertEquals(maxZzz, loaded.getRules().getMaxZzz());
+		assertEquals(EnumGameTC.allowed, loaded.getRules().getCrashallowed());
+		assertEquals(true, loaded.getRules().getCps());
+		assertEquals(EnumGameDirection.formula1, loaded.getRules().getStartdirection());
+		assertNotNull(loaded.getPlayers());
+		assertEquals(3, loaded.getPlayers().size());
+		assertEquals(creator, loaded.getPlayers().get(0));
+		assertEquals(dummyCache.getUser(uid1), loaded.getPlayers().get(1));
+		assertEquals(dummyCache.getUser(uid2), loaded.getPlayers().get(2));
+		assertNotNull(loaded.getMaps());
+		assertEquals(2, loaded.getMaps().size());
+		assertEquals(dummyCache.getMap(mid0), loaded.getMaps().get(0));
+		assertEquals(dummyCache.getMap(mid1), loaded.getMaps().get(1));
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"target/test-classes/simple.muskel2"})
+	@ValueSource(strings = { "target/test-classes/simple.muskel2" })
 	public void test_loadV2andConvert_simple(String filename) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		SimpleGameSeries gs2 = (SimpleGameSeries) GameSeriesManager.loadV2(new File(filename));
@@ -93,7 +163,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"target/test-classes/balanced.muskel2"})
+	@ValueSource(strings = { "target/test-classes/balanced.muskel2" })
 	public void test_loadV2andConvert_balanced(String filename) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		BalancedGameSeries gs2 = (BalancedGameSeries) GameSeriesManager.loadV2(new File(filename));
@@ -149,7 +219,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"target/test-classes/league.muskel2"})
+	@ValueSource(strings = { "target/test-classes/league.muskel2" })
 	public void test_loadV2andConvert_league(String filename) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		LeagueGameSeries gs2 = (LeagueGameSeries) GameSeriesManager.loadV2(new File(filename));
@@ -207,7 +277,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"target/test-classes/allcombinations.muskel2"})
+	@ValueSource(strings = { "target/test-classes/allcombinations.muskel2" })
 	public void test_loadV2andConvert_allcombinations(String filename) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		AllCombinationsGameSeries gs2 = (AllCombinationsGameSeries) GameSeriesManager.loadV2(new File(filename));
@@ -265,7 +335,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	}
 
 	@ParameterizedTest
-	@ValueSource(strings = {"target/test-classes/ko.muskel2"})
+	@ValueSource(strings = { "target/test-classes/ko.muskel2" })
 	public void test_loadV2andConvert_ko(String filename) throws ClassNotFoundException, ClassCastException, IOException
 	{
 		KOGameSeries gs2 = (KOGameSeries) GameSeriesManager.loadV2(new File(filename));
@@ -319,7 +389,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(gs2.maps.size(), gs.getMaps().size());
 		assertEquals(gs2.numberOfTeams, gs.getTeamsByKey().get("shuffled").size());
 	}
-	
+
 	public static Stream<Arguments> provideKLCRounds()
 	{
 		//@formatter:off
@@ -368,7 +438,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		if(round == 32)
 			expectedGames = gamesPerGroup * 8;
 		else
-			expectedGames = round/2;
+			expectedGames = round / 2;
 		assertEquals(expectedGames, gs2.games.size());
 		assertEquals(round <= 16 ? 16 : 0, gs2.playersRoundOf16.size());
 		assertEquals(round <= 8 ? 8 : 0, gs2.playersRoundOf8.size());
