@@ -59,6 +59,10 @@ public abstract class JSONUtil
 	 */
 	private static final ObjectWriter	writer;
 	/**
+	 * the Jackson {@link ObjectWriter} for formatted Output
+	 */
+	private static final ObjectWriter	prettyWriter;
+	/**
 	 * the Jackson {@link ObjectReader}
 	 */
 	private static final ObjectReader	reader;
@@ -96,21 +100,40 @@ public abstract class JSONUtil
 
 		// now create writer and reader
 		writer = mapper.writer();
+		prettyWriter = mapper.writerWithDefaultPrettyPrinter();
 		reader = mapper.reader();
 	}
 
 	/**
-	 * Serialize any given Object to JSON
+	 * Serialize any given Object to JSON.<br>
+	 * Short for <code>JSONUtil.serialize(o, false);</code>
 	 * 
+	 * @see JSONUtil#serialize(Object, boolean)
 	 * @param o - the object to serialize
 	 * @return the json string
 	 * @throws SerializationException - if an Exception occurs, wrapping the original Exception
 	 */
 	public static String serialize(Object o) throws SerializationException
 	{
+		return serialize(o, false);
+	}
+
+	/**
+	 * Serialize any given Object to JSON
+	 * 
+	 * @param o - the object to serialize
+	 * @param prettyPrint - whether to format the JSON
+	 * @return the json string
+	 * @throws SerializationException - if an Exception occurs, wrapping the original Exception
+	 */
+	public static String serialize(Object o, boolean prettyPrint) throws SerializationException
+	{
 		try
 		{
-			return writer.writeValueAsString(o);
+			if(prettyPrint)
+				return prettyWriter.writeValueAsString(o);
+			else
+				return writer.writeValueAsString(o);
 		}
 		catch(JsonGenerationException e)
 		{
@@ -467,8 +490,7 @@ public abstract class JSONUtil
 					return t;
 				}
 			}
-			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-					| SecurityException e)
+			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
 			{
 				logger.error("could instantiate Identifiable", e);
 			}
@@ -521,8 +543,8 @@ public abstract class JSONUtil
 		@Override
 		public java.util.Map<String, List<T>> convert(java.util.Map<String, int[]> arrayMap)
 		{
-			HashMap<String, List<T>> map = new HashMap<>(); 
-			for(Entry<String, int[]> e: arrayMap.entrySet())
+			HashMap<String, List<T>> map = new HashMap<>();
+			for(Entry<String, int[]> e : arrayMap.entrySet())
 				map.put(e.getKey(), fromIDListConverter.convert(e.getValue()));
 			return map;
 		}

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -134,6 +135,25 @@ public class JSONUtilTest
 				+ (game.isLeft() ? ",\"left\":true" : "")
 				+ "}";
 		//@formatter:on
+	}
+
+	@Test
+	public void test_serialize_pretty()
+	{
+		HashMap<String, Object> o = new HashMap<>();
+		o.put("key1", "1");
+		o.put("key2", 2);
+		
+		//@formatter:off
+		String expectedPretty = "{\r\n"
+								+ "  \"key1\" : \"1\",\r\n"
+								+ "  \"key2\" : 2\r\n"
+								+ "}";
+		//@formatter:on
+		String expectedNormal = expectedPretty.replace("\r\n", "").replace(" ", "").replace("\t", "");
+		
+		assertEquals(expectedNormal, JSONUtil.serialize(o, false));
+		assertEquals(expectedPretty, JSONUtil.serialize(o, true));
 	}
 
 	@Test
