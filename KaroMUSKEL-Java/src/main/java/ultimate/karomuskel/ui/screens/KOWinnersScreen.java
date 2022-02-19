@@ -24,8 +24,8 @@ import muskel2.model.help.Team;
 import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.TeamBasedGameSeries;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
-import ultimate.karomuskel.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 
