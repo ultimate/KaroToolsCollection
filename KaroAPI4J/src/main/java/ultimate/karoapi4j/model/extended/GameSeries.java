@@ -57,6 +57,8 @@ public class GameSeries
 	public static final String					SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
 	public static final String					AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
 	public static final String					ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
+	
+	//TODO add keys for config entries
 
 	// universal settings
 	protected EnumGameSeriesType				type;
