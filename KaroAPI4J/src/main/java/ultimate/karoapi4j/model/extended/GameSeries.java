@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -70,7 +69,6 @@ public class GameSeries
 	public static final String					MAX_GAMES						= "maxGames";					// ______________________X__
 	public static final String					MAX_GAMES_PER_PLAYER			= "maxGamesPerPlayer";			// ______X__________________
 	public static final String					MAX_MAPS						= "maxMaps";					// ______X__________________
-	public static final String					MIN_SUPPORTED_PLAYERS_PER_MAP	= "minSupportedPlayersPerMap";	// ______________X__________
 	public static final String					KLC_GROUPS						= "groups";						// ______________X__________
 	public static final String					KLC_LEAGUES						= "leagues";					// ______________X__________
 	public static final String					KLC_FIRST_KO_ROUND				= "firstKORound";				// ______________X__________
@@ -147,23 +145,6 @@ public class GameSeries
 	public EnumGameSeriesType getType()
 	{
 		return type;
-	}
-
-	@JsonIgnore
-	public boolean isTeamBased()
-	{
-		switch(type)
-		{
-			case AllCombinations:
-			case KO:
-			case League:
-				return true;
-			case Balanced:
-			case KLC:
-			case Simple:
-			default:
-				return false;
-		}
 	}
 
 	////////////////////////////////////
