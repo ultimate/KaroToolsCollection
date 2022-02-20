@@ -144,6 +144,7 @@ public abstract class GameSeriesManager
 	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
 	 * 
 	 * @see GameSeriesManager#getStringConfig(String)
+	 * @param gsType - the {@link EnumGameSeriesType}
 	 * @param key - the key
 	 * @return the config value as String
 	 */
@@ -159,6 +160,7 @@ public abstract class GameSeriesManager
 	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
 	 * 
 	 * @see GameSeriesManager#getIntConfig(String)
+	 * @param gsType - the {@link EnumGameSeriesType}
 	 * @param key - the key
 	 * @return the config value as int
 	 */
@@ -172,12 +174,58 @@ public abstract class GameSeriesManager
 	 * <code>getStringConfig(gsType, "defaultTitle");</code>
 	 * 
 	 * @see GameSeriesManager#getStringConfig(EnumGameSeriesType, String)
-	 * @param key - the key
+	 * @param gsType - the {@link EnumGameSeriesType}
 	 * @return the config value as String
 	 */
 	public static String getDefaultTitle(EnumGameSeriesType gsType)
 	{
 		return getStringConfig(gsType, "defaultTitle");
+	}
+
+	/**
+	 * Get the minimum number of players that a map needs to support for the given type of {@link GameSeries}
+	 * 
+	 * @param gs - the {@link GameSeries}
+	 * @return the min number of players per map
+	 */
+	public static int getMinSupportedPlayersPerMap(GameSeries gs)
+	{
+		switch(gs.getType())
+		{
+			case AllCombinations:
+			case KO:
+			case League:
+				return (int) gs.get(GameSeries.MAX_PLAYERS_PER_TEAM) * 2 + 1;
+			case KLC:
+				return 3;
+			case Simple:
+				return (int) gs.get(GameSeries.MIN_PLAYERS_PER_GAME);
+			case Balanced:
+			default:
+				return 0;
+		}
+	}
+
+	/**
+	 * Is the given Type teambased?
+	 * 
+	 * @param gsType - the {@link EnumGameSeriesType}
+	 * @return true or false
+	 */
+	public static boolean isTeamBased(EnumGameSeriesType gsType)
+	{
+		switch(gsType)
+		{
+			case AllCombinations:
+			case KO:
+			case League:
+				return true;
+			case Balanced:
+			case KLC:
+			case Simple:
+			default:
+				return false;
+		}
 	}
 
 	/**
@@ -193,7 +241,7 @@ public abstract class GameSeriesManager
 	public static void store(GameSeries gs, File file) throws IOException
 	{
 		logger.info("storing GameSeries to file: " + file.getAbsolutePath());
-		
+
 		String json = JSONUtil.serialize(gs, true);
 
 		FileOutputStream fos = new FileOutputStream(file);
@@ -220,7 +268,7 @@ public abstract class GameSeriesManager
 	public static GameSeries load(File file, KaroAPICache karoAPICache) throws IOException
 	{
 		logger.info("loading GameSeries from file: " + file.getAbsolutePath());
-		
+
 		FileInputStream fis = new FileInputStream(file);
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		byte[] bytes = bis.readAllBytes();
@@ -286,7 +334,7 @@ public abstract class GameSeriesManager
 		GameSeries gs;
 		// type specific properties first (includinc instantiation)
 		if(gs2 instanceof SimpleGameSeries)
-		{ 
+		{
 			gs = new GameSeries(EnumGameSeriesType.Simple);
 			gs.set(GameSeries.NUMBER_OF_GAMES, ((SimpleGameSeries) gs2).numberOfGames);
 			gs.set(GameSeries.MIN_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).minPlayersPerGame);
@@ -363,7 +411,7 @@ public abstract class GameSeriesManager
 		{
 			throw new GameSeriesException("unknown type: " + gs2.getClass());
 		}
-		
+
 		// universal properties
 		gs.setTitle(gs2.title);
 		gs.setCreator(karoAPICache.getUser(gs2.creator.id));
