@@ -301,7 +301,7 @@ public class JSONUtilTest
 		int uid = 5;
 		int mid0 = 8;
 		int mid1 = 12;
-		GameSeries gs = new GameSeries();
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
 		gs.setCreator(new User(uid));
 		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
 
@@ -333,7 +333,7 @@ public class JSONUtilTest
 
 		User creator = new User(uid0);
 
-		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple, false);
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
 		gs.setTitle("test series {i}");
 		gs.setCreator(creator);
 		gs.set(GameSeries.MIN_PLAYERS_PER_GAME, 6);
