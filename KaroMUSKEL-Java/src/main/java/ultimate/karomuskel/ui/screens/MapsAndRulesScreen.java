@@ -30,8 +30,7 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
-import ultimate.karomuskel.ui.components.Label;
-import ultimate.karomuskel.ui.help.MapRenderer;
+import ultimate.karomuskel.ui.components.MapRenderer;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener
 {

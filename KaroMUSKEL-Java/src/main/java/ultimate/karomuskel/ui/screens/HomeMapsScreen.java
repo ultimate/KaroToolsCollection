@@ -24,7 +24,7 @@ import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.help.MapRenderer;
+import ultimate.karomuskel.ui.components.MapRenderer;
 
 public class HomeMapsScreen extends Screen
 {
