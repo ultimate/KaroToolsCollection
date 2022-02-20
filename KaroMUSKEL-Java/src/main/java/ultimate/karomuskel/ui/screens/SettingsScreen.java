@@ -29,6 +29,7 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.AllCombinationsNumberModel;
 import ultimate.karomuskel.ui.components.BooleanModel;
