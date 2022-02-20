@@ -20,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
+import muskel2.model.series.KLCGameSeries;
+import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;

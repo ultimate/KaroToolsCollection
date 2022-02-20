@@ -20,7 +20,6 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
-import ultimate.karomuskel.ui.components.Label;
 
 public class RulesScreen extends Screen
 {
