@@ -232,6 +232,26 @@ public class KaroAPI implements IDLookUp
 	private int					performRetries	= 0;
 
 	/**
+	 * Get an instance for the given API-Key
+	 * 
+	 * @param apiKey - the API-Key retrieved previously from <a href="https://www.karopapier.de/api/key">https://www.karopapier.de/api/key</a>
+	 */
+	public KaroAPI(String apiKey) throws KaroAPIException
+	{
+		try
+		{
+			setAPIKey(apiKey);
+			User user = check().get();
+			if(user == null)
+				throw new KaroAPIException("user is null!");
+		}
+		catch(InterruptedException | ExecutionException e)
+		{
+			throw new KaroAPIException("invalid API-Key '" + apiKey + "'", e);
+		}
+	}
+
+	/**
 	 * Get an instance for the given user
 	 * 
 	 * @param username - the karopapier.de username
@@ -243,7 +263,7 @@ public class KaroAPI implements IDLookUp
 		{
 			Boolean loginSuccessful = login(username, password).get();
 			if(!loginSuccessful)
-				throw new RuntimeException("login not successful");
+				throw new KaroAPIException("login not successful");
 		}
 		catch(InterruptedException | ExecutionException e)
 		{
@@ -264,20 +284,25 @@ public class KaroAPI implements IDLookUp
 			throw new IllegalArgumentException("username and password must not be null!");
 		KEY.addRequestProperty("X-Auth-Login", username);
 		KEY.addRequestProperty("X-Auth-Password", password);
-		return key().thenComposeAsync((key) -> {
+		return getKey().thenComposeAsync((key) -> {
 			if(key == null)
 				throw new KaroAPIException("could not retrieve key");
 			
-			KAROPAPIER.addRequestProperty("X-Auth-Key", key);
+			setAPIKey(key);
 			
 			return check().thenApplyAsync((user) -> {
 				if(user == null)
-					throw new RuntimeException("check returned no user");
+					throw new KaroAPIException("check returned no user");
 				if(!user.getLogin().equals(username))
-					throw new RuntimeException("check returned wrong user");
+					throw new KaroAPIException("check returned wrong user");
 				return true;
 			});
 		});
+	}
+	
+	protected void setAPIKey(String key)
+	{
+		KAROPAPIER.addRequestProperty("X-Auth-Key", key);
 	}
 
 	/**
@@ -329,19 +354,31 @@ public class KaroAPI implements IDLookUp
 	///////////////////////
 
 	/**
-	 * Check to currently logged in user
+	 * Get the API key for this user
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
-	 * @see KaroAPI#CHECK
-	 * @return the currently logged in user
+	 * @see KaroAPI#KEY
+	 * @return the API key
 	 */
-	public CompletableFuture<String> key()
+	public CompletableFuture<String> getKey()
 	{
 		return loadAsync(KEY.doGet((String) null), PARSER_KEY);
 	}
 
 	/**
-	 * Check to currently logged in user
+	 * Reset the API key for this user
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#KEY
+	 * @return the...
+	 */
+	public CompletableFuture<String> resetkey()
+	{
+		return loadAsync(KEY.doDelete((String) null), PARSER_RAW);
+	}
+
+	/**
+	 * Check the currently logged in user
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#CHECK

@@ -49,6 +49,30 @@ public class KaroAPITest extends KaroAPITestcase
 	private static final int	TEST_CHAT_ID_MAX	= 462589;
 
 	@Test
+	public void test_instanciateWithKey() throws InterruptedException, ExecutionException
+	{
+		String key = karoAPI.getKey().get();
+		User user = karoAPI.check().get();
+		logger.debug("user = " + user.getLogin() + ", key = " + key);
+
+		assertNotNull(user);
+		assertNotNull(key);
+
+		KaroAPI karoAPIbyKey = new KaroAPI(key);
+
+		String keyByKey = karoAPIbyKey.getKey().get();
+		User userByKey = karoAPIbyKey.check().get();
+
+		logger.debug("user = " + userByKey.getLogin() + ", key = " + keyByKey);
+
+		assertNotNull(userByKey);
+		assertNotNull(keyByKey);
+
+		assertEquals(key, keyByKey);
+		assertEquals(user.getLogin(), userByKey.getLogin());
+	}
+
+	@Test
 	public void test_check() throws InterruptedException, ExecutionException
 	{
 		User user = karoAPI.check().get();
@@ -69,7 +93,9 @@ public class KaroAPITest extends KaroAPITestcase
 		// should be more than just a few users...
 		assertTrue(users.size() > 100);
 		// should contain the current user
-		Predicate<User> findCurrentUser = (user) -> { return user.getLogin().equals(properties.get("karoapi.user")); };
+		Predicate<User> findCurrentUser = (user) -> {
+			return user.getLogin().equals(properties.get("karoapi.user"));
+		};
 		assertTrue(CollectionsUtil.contains(users, findCurrentUser));
 
 		// check invitable filter
@@ -78,7 +104,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded invitable: " + invitables.size());
 		assertNotNull(invitables);
 		// all users in this list should be invitable
-		Predicate<User> findInvitable = (user) -> { return user.isInvitable(false); };
+		Predicate<User> findInvitable = (user) -> {
+			return user.isInvitable(false);
+		};
 		assertEquals(invitables.size(), CollectionsUtil.count(invitables, findInvitable));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToInvitables = new ArrayList<User>(users);
@@ -91,7 +119,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded desperates: " + desperates.size());
 		assertNotNull(desperates);
 		// all users in this list should be desperate
-		Predicate<User> findDesperates = (user) -> { return user.isDesperate(); };
+		Predicate<User> findDesperates = (user) -> {
+			return user.isDesperate();
+		};
 		assertEquals(desperates.size(), CollectionsUtil.count(desperates, findDesperates));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToDesperates = new ArrayList<User>(users);
@@ -105,7 +135,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded bylogin: " + bylogin.size());
 		assertNotNull(bylogin);
 		// all users in this list should match the login
-		Predicate<User> findLogin = (user) -> { return user.getLogin().toLowerCase().contains(login.toLowerCase()); };
+		Predicate<User> findLogin = (user) -> {
+			return user.getLogin().toLowerCase().contains(login.toLowerCase());
+		};
 		assertEquals(bylogin.size(), CollectionsUtil.count(bylogin, findLogin));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToLogin = new ArrayList<User>(users);
@@ -118,7 +150,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded filtered: " + filtered.size());
 		assertNotNull(filtered);
 		// all users in this list should match the filter
-		Predicate<User> filter = (user) -> { return findInvitable.test(user) && findDesperates.test(user) && findLogin.test(user); };
+		Predicate<User> filter = (user) -> {
+			return findInvitable.test(user) && findDesperates.test(user) && findLogin.test(user);
+		};
 		assertEquals(filtered.size(), CollectionsUtil.count(filtered, filter));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filtered = new ArrayList<User>(users);
@@ -233,7 +267,9 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(TEST_GAMES_IDS.length, games2.size());
 		for(int id : TEST_GAMES_IDS)
 		{
-			Predicate<Game> findGame = (game) -> { return game.getId() == id; };
+			Predicate<Game> findGame = (game) -> {
+				return game.getId() == id;
+			};
 			assertEquals(1, CollectionsUtil.count(games1, findGame));
 		}
 		// check the games are sorted by id (first print them for debugging)
@@ -307,7 +343,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded maps_withcode: " + maps_withcode.size());
 		assertNotNull(maps_withcode);
 		// all maps in this list should contain a mapcode
-		maps_withcode.forEach((map) -> { checkMapCode(map); });
+		maps_withcode.forEach((map) -> {
+			checkMapCode(map);
+		});
 		// the maps in invitable should match the global map list
 		compareList(maps, maps_withcode, new MethodComparator<>("getId", 1));
 	}
@@ -485,7 +523,9 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_favs() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
-		Predicate<Game> findFav = (game) -> { return game.getId() == gameId; };
+		Predicate<Game> findFav = (game) -> {
+			return game.getId() == gameId;
+		};
 
 		// get the initial list of favs
 		List<Game> favs = karoAPI.getFavs().get();
@@ -537,8 +577,12 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(chat);
 		assertEquals(limit, chat.size());
 
-		CollectionsUtil.contains(chat, (m) -> { return m.getId() == oldMessage.getId(); });
-		CollectionsUtil.contains(chat, (m) -> { return m.getId() == newMessage.getId(); });
+		CollectionsUtil.contains(chat, (m) -> {
+			return m.getId() == oldMessage.getId();
+		});
+		CollectionsUtil.contains(chat, (m) -> {
+			return m.getId() == newMessage.getId();
+		});
 	}
 
 	@Test
@@ -789,26 +833,29 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 		try
 		{
+			@SuppressWarnings("unused")
 			KaroAPI karoAPIwithWrongCredentials = new KaroAPI("a", "b");
 			fail("we shouldn't get here");
 		}
 		catch(Exception e)
 		{
 			logger.debug("error", e);
-			assertNotNull(e);
-			assertNotNull(e.getCause());
-			assertNotNull(e.getCause().getCause());
-			assertInstanceOf(IOException.class, e.getCause().getCause());
-			assertTrue(e.getCause().getCause().getMessage().startsWith("Server returned HTTP response code: 401"));
+			assertNotNull(e); // KaroAPIException from KaroAPI
+			assertNotNull(e.getCause()); // ExecutionException from CompletableFuture
+			assertNotNull(e.getCause().getCause()); // RuntimeException from URLLoader
+			assertNotNull(e.getCause().getCause().getCause()); // IOException from the Server
+			assertInstanceOf(IOException.class, e.getCause().getCause().getCause());
+			assertTrue(e.getCause().getCause().getCause().getMessage().startsWith("Server returned HTTP response code: 401"));
 		}
 	}
 
 	@Test
 	public void test_errorHandling() throws InterruptedException, ExecutionException
 	{
-		KaroAPI karoAPIwithFailingCall = new KaroAPI("a", "b");
+		KaroAPI karoAPIwithFailingCall = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
+		karoAPIwithFailingCall.KAROPAPIER.addRequestProperty("X-Auth-Key", "wrong key");
 		CompletableFuture<User> completableFuture = karoAPIwithFailingCall.check();
-//TODO
+
 		try
 		{
 			completableFuture.get();
@@ -835,7 +882,9 @@ public class KaroAPITest extends KaroAPITestcase
 		// immediately blocking
 		// -> output "cf" should come after "2"
 		CompletableFuture<User> cf1 = karoAPI.check();
-		cf1.whenComplete((result, th) -> { executionOrder.add("cf"); });
+		cf1.whenComplete((result, th) -> {
+			executionOrder.add("cf");
+		});
 		executionOrder.add("1");
 		executionOrder.add("2");
 		cf1.join();
@@ -848,7 +897,9 @@ public class KaroAPITest extends KaroAPITestcase
 		// in parallel
 		// -> output "cf" should come before "2" because of sleep
 		CompletableFuture<User> cf2 = karoAPI.check();
-		cf2.whenComplete((result, th) -> { executionOrder.add("cf"); });
+		cf2.whenComplete((result, th) -> {
+			executionOrder.add("cf");
+		});
 		executionOrder.add("1");
 		Thread.sleep(1000);
 		executionOrder.add("2");
