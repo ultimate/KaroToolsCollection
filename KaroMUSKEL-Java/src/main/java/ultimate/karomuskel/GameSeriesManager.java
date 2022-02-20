@@ -34,6 +34,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
@@ -282,30 +283,18 @@ public abstract class GameSeriesManager
 	 */
 	public static GameSeries convert(muskel2.model.GameSeries gs2, KaroAPICache karoAPICache)
 	{
-		GameSeries gs = new GameSeries();
-		// universal properties
-		gs.setTitle(gs2.title);
-		gs.setCreator(karoAPICache.getUser(gs2.creator.id));
-		gs.setLoaded(true);
-		gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
-		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
-		gs.setGames(convertGames(gs2.games, karoAPICache));
-		gs.setRules(convert(gs2.rules));
-		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
-		gs.setIgnoreInvitable(gs2.rules.ignoreInvitable);
-		// type specific properties
+		GameSeries gs;
+		// type specific properties first (includinc instantiation)
 		if(gs2 instanceof SimpleGameSeries)
-		{
-			gs.setType(EnumGameSeriesType.Simple);
-			gs.setTeamBased(false);
+		{ 
+			gs = new GameSeries(EnumGameSeriesType.Simple);
 			gs.set(GameSeries.NUMBER_OF_GAMES, ((SimpleGameSeries) gs2).numberOfGames);
 			gs.set(GameSeries.MIN_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).minPlayersPerGame);
 			gs.set(GameSeries.MAX_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).maxPlayersPerGame);
 		}
 		else if(gs2 instanceof BalancedGameSeries)
 		{
-			gs.setType(EnumGameSeriesType.Balanced);
-			gs.setTeamBased(false);
+			gs = new GameSeries(EnumGameSeriesType.Balanced);
 			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
 			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
 			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
@@ -313,8 +302,7 @@ public abstract class GameSeriesManager
 		}
 		else if(gs2 instanceof KLCGameSeries)
 		{
-			gs.setType(EnumGameSeriesType.KLC);
-			gs.setTeamBased(false);
+			gs = new GameSeries(EnumGameSeriesType.KLC);
 			gs.set(GameSeries.NUMBER_OF_GROUPS, KLCGameSeries.GROUPS);
 			gs.set(GameSeries.NUMBER_OF_LEAGUES, KLCGameSeries.LEAGUES);
 			gs.set(GameSeries.CURRENT_ROUND, ((KLCGameSeries) gs2).round);
@@ -339,7 +327,26 @@ public abstract class GameSeriesManager
 		}
 		else if(gs2 instanceof TeamBasedGameSeries)
 		{
-			gs.setTeamBased(true);
+			if(gs2 instanceof AllCombinationsGameSeries)
+			{
+				gs = new GameSeries(EnumGameSeriesType.AllCombinations);
+				gs.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, ((AllCombinationsGameSeries) gs2).numberOfTeamsPerMatch);
+			}
+			else if(gs2 instanceof KOGameSeries)
+			{
+				gs = new GameSeries(EnumGameSeriesType.KO);
+				// no additional properties
+			}
+			else if(gs2 instanceof LeagueGameSeries)
+			{
+				gs = new GameSeries(EnumGameSeriesType.League);
+				// no additional properties
+			}
+			else
+			{
+				throw new GameSeriesException("unknown type: " + gs2.getClass());
+			}
+			// team based properties
 			gs.set(GameSeries.NUMBER_OF_TEAMS, ((TeamBasedGameSeries) gs2).numberOfTeams);
 			gs.set(GameSeries.MIN_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).minPlayersPerTeam);
 			gs.set(GameSeries.MAX_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).maxPlayersPerTeam);
@@ -351,31 +358,22 @@ public abstract class GameSeriesManager
 			gs.set(GameSeries.USE_CREATOR_TEAM, ((TeamBasedGameSeries) gs2).creatorTeam);
 			gs.setTeams(convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
 			gs.getTeamsByKey().put("shuffled", convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
-
-			if(gs2 instanceof AllCombinationsGameSeries)
-			{
-				gs.setType(EnumGameSeriesType.AllCombinations);
-				gs.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, ((AllCombinationsGameSeries) gs2).numberOfTeamsPerMatch);
-			}
-			else if(gs2 instanceof KOGameSeries)
-			{
-				gs.setType(EnumGameSeriesType.KO);
-				// no additional properties
-			}
-			else if(gs2 instanceof LeagueGameSeries)
-			{
-				gs.setType(EnumGameSeriesType.League);
-				// no additional properties
-			}
-			else
-			{
-				logger.error("unknown type: " + gs2.getClass());
-			}
 		}
 		else
 		{
-			logger.error("unknown type: " + gs2.getClass());
+			throw new GameSeriesException("unknown type: " + gs2.getClass());
 		}
+		
+		// universal properties
+		gs.setTitle(gs2.title);
+		gs.setCreator(karoAPICache.getUser(gs2.creator.id));
+		gs.setLoaded(true);
+		gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
+		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
+		gs.setGames(convertGames(gs2.games, karoAPICache));
+		gs.setRules(convert(gs2.rules));
+		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
+		gs.setIgnoreInvitable(gs2.rules.ignoreInvitable);
 
 		return gs;
 	}
