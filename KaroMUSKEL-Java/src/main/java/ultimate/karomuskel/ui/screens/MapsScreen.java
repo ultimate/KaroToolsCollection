@@ -21,6 +21,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
@@ -64,7 +65,7 @@ public class MapsScreen extends Screen implements ActionListener
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
-		int minSupportedPlayersPerMapTmp = gameSeries.getMinSupportedPlayersPerMap();
+		int minSupportedPlayersPerMapTmp = GameSeriesManager.getMinSupportedPlayersPerMap(gameSeries);
 
 		if(this.minSupportedPlayersPerMap != minSupportedPlayersPerMapTmp)
 		{
