@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
@@ -131,7 +132,6 @@ public class StartScreen extends Screen implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		boolean loaded = false;
 		if(e.getActionCommand().equals("load"))
 		{
 			JFileChooser fc = new JFileChooser();
@@ -141,15 +141,14 @@ public class StartScreen extends Screen implements ActionListener
 				if(action == JFileChooser.APPROVE_OPTION)
 				{
 					File file = fc.getSelectedFile();
-					this.gameSeries = GameSeriesManager.load(file);
-					loaded = true;
+					this.gameSeries = GameSeriesManager.load(file, karoAPICache);
 				}
 				else if(action == JFileChooser.ERROR_OPTION)
 				{
 					throw new IOException("unknown");
 				}
 			}
-			catch(ClassNotFoundException | ClassCastException ex)
+			catch(ClassCastException ex)
 			{
 				JOptionPane.showMessageDialog(this, Language.getString("error.loadcast"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
 				ex.printStackTrace();
@@ -164,14 +163,14 @@ public class StartScreen extends Screen implements ActionListener
 		{
 			try
 			{
-				this.gameSeries = GameSeriesManager.create(e.getActionCommand());
+				this.gameSeries = new GameSeries(EnumGameSeriesType.valueOf(e.getActionCommand()));
 			}
 			catch(Exception ex)
 			{
 				ex.printStackTrace();
 			}
 		}
-		LinkedList<Screen> screens = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton, loaded);
+		LinkedList<Screen> screens = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton);
 		// this.setNext(screens.getFirst()); // already set in initScreens
 		screens.getLast().setNext(this);
 	}
