@@ -50,19 +50,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			// TODO not implemented
-			// List<Team> winnerTeams = new LinkedList<Team>();
-			//
-			// for(int g = 1; g <= KLCGameSeries.GROUPS; g++)
-			// {
-			// for(int i = 0; i < (Integer) numberOfWinnersPerGroupSpinner.getValue(); i++)
-			// {
-			// winnerTeams.add(((KLCGameSeries) gameSeries).getTeamsGroupX(g).get(i));
-			// }
-			// }
-			//
-			// ((TeamBasedGameSeries) gameSeries).getTeamsRoundX(((TeamBasedGameSeries)
-			// gameSeries).getRound()).addAll(winnerTeams);
+			// TODO for future use
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
@@ -105,8 +93,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			List<String> namesInGroup;
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				// TODO not implemented
-				// groups = ((TeamBasedGameSeries) gameSeries).getTeams().size();
+				// TODO for future use
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
