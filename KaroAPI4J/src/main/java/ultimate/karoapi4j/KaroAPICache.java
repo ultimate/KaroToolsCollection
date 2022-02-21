@@ -278,6 +278,8 @@ public class KaroAPICache implements IDLookUp
 		return this.currentUser;
 	}
 
+	// TODO javadoc
+	
 	public User getUser(int id)
 	{
 		if(!this.usersById.containsKey(id))
