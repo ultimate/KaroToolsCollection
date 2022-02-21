@@ -108,7 +108,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 			this.titleLabel = new JLabel(Language.getString("screen.settings.title"));
 			this.titleTF = new JTextField(84);
-			this.titleTF.setText(GameSeriesManager.getDefaultTitle(this.gameSeries.getType()));
+			this.titleTF.setText(GameSeriesManager.getDefaultTitle(this.gameSeries));
 			this.titleTF.setToolTipText(Language.getString("titlepatterns"));
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;
@@ -130,7 +130,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				{
 					if(gameSeries.getType() == EnumGameSeriesType.Simple)
 					{
-						numberOfGamesSpinner = new JSpinner(new SpinnerNumberModel(10, 1, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_GAMES), 1));
+						numberOfGamesSpinner = new JSpinner(new SpinnerNumberModel(10, 1, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_GAMES), 1));
 						((DefaultEditor) this.numberOfGamesSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 						numberComp = numberOfGamesSpinner;
 					}
@@ -146,7 +146,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				}
 				else
 				{
-					numberOfMapsSpinner = new JSpinner(new SpinnerNumberModel(5, 1, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_MAPS), 1));
+					numberOfMapsSpinner = new JSpinner(new SpinnerNumberModel(5, 1, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_MAPS), 1));
 					((DefaultEditor) this.numberOfMapsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					numberComp = numberOfMapsSpinner;
 
@@ -168,7 +168,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				if(GameSeriesManager.isTeamBased(gameSeries))
 				{
 					numberOfTeamsLabel = new JLabel(Language.getString("screen.settings.numberofteams"));
-					numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 4, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_TEAMS), 2));
+					numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 4, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS), 2));
 					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
@@ -193,7 +193,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(numberOfTeamsSpinner, gbc);
 
 					numberOfGamesPerPairLabel = new JLabel(Language.getString("screen.settings.numberofgamesperpair"));
-					numberOfGamesPerPairSpinner = new JSpinner(new SpinnerNumberModel(2, 1, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_ROUNDS), 1));
+					numberOfGamesPerPairSpinner = new JSpinner(new SpinnerNumberModel(2, 1, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_ROUNDS), 1));
 					numberOfGamesPerPairSpinner.addChangeListener(this);
 					((NumberEditor) this.numberOfGamesPerPairSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
