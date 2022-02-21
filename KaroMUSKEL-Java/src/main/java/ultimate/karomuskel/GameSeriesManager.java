@@ -364,22 +364,22 @@ public abstract class GameSeriesManager
 			gs.set(GameSeries.NUMBER_OF_LEAGUES, KLCGameSeries.LEAGUES);
 			gs.set(GameSeries.CURRENT_ROUND, ((KLCGameSeries) gs2).round);
 			gs.setPlayers(convert(((KLCGameSeries) gs2).allPlayers, User.class, karoAPICache));
-			gs.getPlayersByKey().put("league1", convert(((KLCGameSeries) gs2).playersLeague1, User.class, karoAPICache));
-			gs.getPlayersByKey().put("league2", convert(((KLCGameSeries) gs2).playersLeague2, User.class, karoAPICache));
-			gs.getPlayersByKey().put("league3", convert(((KLCGameSeries) gs2).playersLeague3, User.class, karoAPICache));
-			gs.getPlayersByKey().put("league4", convert(((KLCGameSeries) gs2).playersLeague4, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group1", convert(((KLCGameSeries) gs2).playersGroup1, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group2", convert(((KLCGameSeries) gs2).playersGroup2, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group3", convert(((KLCGameSeries) gs2).playersGroup3, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group4", convert(((KLCGameSeries) gs2).playersGroup4, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group5", convert(((KLCGameSeries) gs2).playersGroup5, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group6", convert(((KLCGameSeries) gs2).playersGroup6, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group7", convert(((KLCGameSeries) gs2).playersGroup7, User.class, karoAPICache));
-			gs.getPlayersByKey().put("group8", convert(((KLCGameSeries) gs2).playersGroup8, User.class, karoAPICache));
-			gs.getPlayersByKey().put("roundOf16", convert(((KLCGameSeries) gs2).playersRoundOf16, User.class, karoAPICache));
-			gs.getPlayersByKey().put("roundOf8", convert(((KLCGameSeries) gs2).playersRoundOf8, User.class, karoAPICache));
-			gs.getPlayersByKey().put("roundOf4", convert(((KLCGameSeries) gs2).playersRoundOf4, User.class, karoAPICache));
-			gs.getPlayersByKey().put("roundOf2", convert(((KLCGameSeries) gs2).playersRoundOf2, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_LEAGUE + "1", convert(((KLCGameSeries) gs2).playersLeague1, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_LEAGUE + "2", convert(((KLCGameSeries) gs2).playersLeague2, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_LEAGUE + "3", convert(((KLCGameSeries) gs2).playersLeague3, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_LEAGUE + "4", convert(((KLCGameSeries) gs2).playersLeague4, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "1", convert(((KLCGameSeries) gs2).playersGroup1, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "2", convert(((KLCGameSeries) gs2).playersGroup2, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "3", convert(((KLCGameSeries) gs2).playersGroup3, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "4", convert(((KLCGameSeries) gs2).playersGroup4, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "5", convert(((KLCGameSeries) gs2).playersGroup5, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "6", convert(((KLCGameSeries) gs2).playersGroup6, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "7", convert(((KLCGameSeries) gs2).playersGroup7, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_GROUP + "8", convert(((KLCGameSeries) gs2).playersGroup8, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "16", convert(((KLCGameSeries) gs2).playersRoundOf16, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "8", convert(((KLCGameSeries) gs2).playersRoundOf8, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "4", convert(((KLCGameSeries) gs2).playersRoundOf4, User.class, karoAPICache));
+			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "2", convert(((KLCGameSeries) gs2).playersRoundOf2, User.class, karoAPICache));
 			gs.setMapsByKey(convertHomeMaps(((KLCGameSeries) gs2).homeMaps, Map.class, karoAPICache));
 		}
 		else if(gs2 instanceof TeamBasedGameSeries)

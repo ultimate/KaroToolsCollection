@@ -39,7 +39,7 @@ public class GameSeries
 	// TODO javadoc
 	// keys for type specific settings
 	// relevant game series types
-	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _____________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
 	public static final String					NUMBER_OF_GAMES				= "games";				// ______________________X__
 	public static final String					NUMBER_OF_MAPS				= "maps";				// ______X__________________
@@ -65,14 +65,21 @@ public class GameSeries
 	// relevant game series types
 	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
-	public static final String					MAX_TEAMS					= "maxTeams";			// __X_______X_______X______
-	public static final String					MAX_ROUNDS					= "maxRounds";			// __X_______X_______X______
-	public static final String					MAX_GAMES					= "maxGames";			// ______________________X__
-	public static final String					MAX_GAMES_PER_PLAYER		= "maxGamesPerPlayer";	// ______X__________________
-	public static final String					MAX_MAPS					= "maxMaps";			// ______X__________________
-	public static final String					KLC_GROUPS					= "groups";				// ______________X__________
-	public static final String					KLC_LEAGUES					= "leagues";			// ______________X__________
-	public static final String					KLC_FIRST_KO_ROUND			= "firstKORound";		// ______________X__________
+	public static final String					CONF_MAX_TEAMS				= "maxTeams";			// __X_______X_______X______
+	public static final String					CONF_MAX_ROUNDS				= "maxRounds";			// __X_______X_______X______
+	public static final String					CONF_MAX_GAMES				= "maxGames";			// ______________________X__
+	public static final String					CONF_MAX_GAMES_PER_PLAYER	= "maxGamesPerPlayer";	// ______X__________________
+	public static final String					CONF_MAX_MAPS				= "maxMaps";			// ______X__________________
+	public static final String					CONF_KLC_GROUPS				= "groups";				// ______________X__________
+	public static final String					CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
+	public static final String					CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
+
+	// keys for type specific lists: these are MAX values to prevent misuse (unless config is edited)
+	// relevant game series types
+	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	public static final String					KEY_LEAGUE					= "league";				// ______________X__________
+	public static final String					KEY_GROUP					= "group";				// ______________X__________
+	public static final String					KEY_ROUND					= "roundOf";			// ______________X__________
 
 	// universal settings
 	protected EnumGameSeriesType				type;
@@ -139,7 +146,7 @@ public class GameSeries
 		this.rulesByKey = new HashMap<>();
 		this.settings = new HashMap<>();
 	}
-	
+
 	////////////////////////////////////
 	// non settable fields / properties
 	////////////////////////////////////
