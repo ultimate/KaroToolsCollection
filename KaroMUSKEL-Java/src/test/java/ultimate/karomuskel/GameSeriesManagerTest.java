@@ -68,7 +68,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		int minZzz = 2;
 		int maxZzz = 2;
 
-		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple, false);
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
 		gs.setTitle("test series {i}");
 		gs.setCreator(creator);
 		gs.set(GameSeries.MIN_PLAYERS_PER_GAME, minP);
@@ -91,7 +91,6 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		assertTrue(loaded.isLoaded());
 		assertEquals(EnumGameSeriesType.Simple, loaded.getType());
-		assertEquals(false, loaded.isTeamBased());
 		assertEquals(gs.getTitle(), loaded.getTitle());
 		assertEquals(creator, loaded.getCreator());
 		assertEquals(minP, gs.get(GameSeries.MIN_PLAYERS_PER_GAME));
@@ -136,7 +135,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(EnumGameSeriesType.Simple, gs.getType());
-		assertFalse(gs.isTeamBased());
+		assertFalse(GameSeriesManager.isTeamBased(gs));
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.minPlayersPerGame, gs.get(GameSeries.MIN_PLAYERS_PER_GAME));
@@ -192,7 +191,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(EnumGameSeriesType.Balanced, gs.getType());
-		assertFalse(gs.isTeamBased());
+		assertFalse(GameSeriesManager.isTeamBased(gs));
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.numberOfMaps, gs.get(GameSeries.NUMBER_OF_MAPS));
@@ -243,7 +242,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(EnumGameSeriesType.League, gs.getType());
-		assertTrue(gs.isTeamBased());
+		assertTrue(GameSeriesManager.isTeamBased(gs));
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.autoNameTeams, gs.get(GameSeries.AUTO_NAME_TEAMS));
@@ -300,7 +299,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(EnumGameSeriesType.AllCombinations, gs.getType());
-		assertTrue(gs.isTeamBased());
+		assertTrue(GameSeriesManager.isTeamBased(gs));
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.autoNameTeams, gs.get(GameSeries.AUTO_NAME_TEAMS));
@@ -357,7 +356,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(EnumGameSeriesType.KO, gs.getType());
-		assertTrue(gs.isTeamBased());
+		assertTrue(GameSeriesManager.isTeamBased(gs));
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.autoNameTeams, gs.get(GameSeries.AUTO_NAME_TEAMS));
@@ -447,7 +446,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
 		assertEquals(EnumGameSeriesType.KLC, gs.getType());
-		assertFalse(gs.isTeamBased());
+		assertFalse(GameSeriesManager.isTeamBased(gs));
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.round, gs.get(GameSeries.CURRENT_ROUND));

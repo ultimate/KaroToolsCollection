@@ -207,14 +207,20 @@ public abstract class GameSeriesManager
 	}
 
 	/**
-	 * Is the given Type teambased?
+	 * Is the given {@link GameSeries} teambased?<br>
+	 * Note: under normal conditions the teambased flag only depends on the {@link EnumGameSeriesType} of the {@link GameSeries} (simple switch
+	 * statement). But to ensure backwards compatibility in case of changes to the type, this method first checks for a setting "teamBased" in the
+	 * gameSeries, which will be set during conversion of old GameSeries.
 	 * 
-	 * @param gsType - the {@link EnumGameSeriesType}
+	 * @param gs - the {@link GameSeries}
 	 * @return true or false
 	 */
-	public static boolean isTeamBased(EnumGameSeriesType gsType)
+	public static boolean isTeamBased(GameSeries gs)
 	{
-		switch(gsType)
+		if(gs.getSettings().containsKey(GameSeries.V2_TEAM_BASED))
+			return (boolean) gs.get(GameSeries.V2_TEAM_BASED);
+
+		switch(gs.getType())
 		{
 			case AllCombinations:
 			case KO:
@@ -336,6 +342,7 @@ public abstract class GameSeriesManager
 		if(gs2 instanceof SimpleGameSeries)
 		{
 			gs = new GameSeries(EnumGameSeriesType.Simple);
+			gs.set(GameSeries.V2_TEAM_BASED, false);
 			gs.set(GameSeries.NUMBER_OF_GAMES, ((SimpleGameSeries) gs2).numberOfGames);
 			gs.set(GameSeries.MIN_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).minPlayersPerGame);
 			gs.set(GameSeries.MAX_PLAYERS_PER_GAME, ((SimpleGameSeries) gs2).maxPlayersPerGame);
@@ -343,6 +350,7 @@ public abstract class GameSeriesManager
 		else if(gs2 instanceof BalancedGameSeries)
 		{
 			gs = new GameSeries(EnumGameSeriesType.Balanced);
+			gs.set(GameSeries.V2_TEAM_BASED, false);
 			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
 			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
 			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
@@ -351,6 +359,7 @@ public abstract class GameSeriesManager
 		else if(gs2 instanceof KLCGameSeries)
 		{
 			gs = new GameSeries(EnumGameSeriesType.KLC);
+			gs.set(GameSeries.V2_TEAM_BASED, false);
 			gs.set(GameSeries.NUMBER_OF_GROUPS, KLCGameSeries.GROUPS);
 			gs.set(GameSeries.NUMBER_OF_LEAGUES, KLCGameSeries.LEAGUES);
 			gs.set(GameSeries.CURRENT_ROUND, ((KLCGameSeries) gs2).round);
@@ -395,6 +404,7 @@ public abstract class GameSeriesManager
 				throw new GameSeriesException("unknown type: " + gs2.getClass());
 			}
 			// team based properties
+			gs.set(GameSeries.V2_TEAM_BASED, true);
 			gs.set(GameSeries.NUMBER_OF_TEAMS, ((TeamBasedGameSeries) gs2).numberOfTeams);
 			gs.set(GameSeries.MIN_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).minPlayersPerTeam);
 			gs.set(GameSeries.MAX_PLAYERS_PER_TEAM, ((TeamBasedGameSeries) gs2).maxPlayersPerTeam);
@@ -575,8 +585,8 @@ public abstract class GameSeriesManager
 			r.setStartdirection(EnumGameDirection.formula1);
 		else if(r2.direction == Direction.egal)
 			r.setStartdirection(EnumGameDirection.free);
-//		else
-//			r.setStartdirection(null);
+		// else
+		// r.setStartdirection(null);
 		if(r2.crashingAllowed == null)
 			r.setCrashallowed(null);
 		else if(r2.crashingAllowed == true)
