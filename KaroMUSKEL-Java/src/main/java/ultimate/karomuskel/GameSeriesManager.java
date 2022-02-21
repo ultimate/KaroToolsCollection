@@ -79,11 +79,19 @@ public abstract class GameSeriesManager
 	/**
 	 * Logger-Instance
 	 */
-	private static final Logger	logger	= LoggerFactory.getLogger(GameSeriesManager.class);
+	private static final Logger	logger						= LoggerFactory.getLogger(GameSeriesManager.class);
 	/**
 	 * The charset for the JSON storage of {@link GameSeries}
 	 */
-	public static final String	CHARSET	= "UTF-8";
+	public static final String	CHARSET						= "UTF-8";
+	/**
+	 * The prefix for the GameSeries configurations
+	 */
+	public static final String	CONFIG_GAMESERIES_PREFIX	= "gameseries";
+	/**
+	 * The config delimiter ('.')
+	 */
+	public static final char	CONFIG_DELIMITER			= '.';
 	/**
 	 * The config file to use
 	 */
@@ -152,11 +160,11 @@ public abstract class GameSeriesManager
 	{
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("invalid GameSeries");
-		
+
 		if(gs.getSettings().containsKey(key)) // default to settings first
 			return gs.get(key).toString();
-		
-		return getStringConfig("gameseries." + gs.getType().toString().toLowerCase() + "." + key);
+
+		return getStringConfig(CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + gs.getType().toString().toLowerCase() + CONFIG_DELIMITER + key);
 	}
 
 	/**
@@ -250,6 +258,27 @@ public abstract class GameSeriesManager
 	 */
 	public static void store(GameSeries gs, File file) throws IOException
 	{
+		logger.debug("copying config to settings");
+		String prefix = CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + gs.getType().toString().toLowerCase() + CONFIG_DELIMITER;
+		String settingsKey;
+		String valueS;
+		for(Object key: config.keySet())
+		{
+			if(((String) key).toLowerCase().startsWith(prefix))
+			{
+				settingsKey = ((String) key).substring(prefix.length());
+				valueS = getStringConfig(gs, settingsKey);
+				try
+				{
+					gs.set(settingsKey, Integer.parseInt(valueS));
+				}
+				catch(NumberFormatException e)
+				{
+					gs.set(prefix, valueS);
+				}
+			}
+		}
+		
 		logger.info("storing GameSeries to file: " + file.getAbsolutePath());
 
 		String json = JSONUtil.serialize(gs, true);

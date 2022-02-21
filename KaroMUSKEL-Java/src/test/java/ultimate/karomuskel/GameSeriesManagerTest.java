@@ -44,12 +44,12 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	{
 		assertEquals("de", GameSeriesManager.getStringConfig("language"));
 		assertEquals(10, GameSeriesManager.getIntConfig("karoAPI.maxThreads"));
+		
+		assertEquals(16, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_TEAMS));
+		assertEquals(3, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_ROUNDS));
 
-		assertEquals(16, GameSeriesManager.getIntConfig(EnumGameSeriesType.KO, "maxTeams"));
-		assertEquals(3, GameSeriesManager.getIntConfig(EnumGameSeriesType.KO, "maxRounds"));
-
-		assertEquals(8, GameSeriesManager.getIntConfig(EnumGameSeriesType.League, "maxTeams"));
-		assertEquals(8, GameSeriesManager.getIntConfig(EnumGameSeriesType.League, "maxRounds"));
+		assertEquals(8, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_TEAMS));
+		assertEquals(8, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_ROUNDS));
 	}
 
 	@Test
@@ -80,7 +80,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 
 		File file = new File("target/test-classes/test" + System.currentTimeMillis() + ".json");
 		assertFalse(file.exists());
-		
+
 		GameSeriesManager.store(gs, file);
 
 		assertTrue(file.exists());
@@ -450,8 +450,8 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(gs2.title, gs.getTitle());
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.round, gs.get(GameSeries.CURRENT_ROUND));
-		assertEquals(KLCGameSeries.LEAGUES, gs.get(GameSeries.NUMBER_OF_LEAGUES));
-		assertEquals(KLCGameSeries.GROUPS, gs.get(GameSeries.NUMBER_OF_GROUPS));
+		assertEquals(KLCGameSeries.LEAGUES, GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES));
+		assertEquals(KLCGameSeries.GROUPS, GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS));
 		assertEquals(gs2.homeMaps.size(), gs.getMapsByKey().size());
 		compareMapWithIDs(gs.getMapsByKey(), gs2.homeMaps);
 		assertEquals(gs2.rules.minZzz, gs.getRules().getMinZzz());
