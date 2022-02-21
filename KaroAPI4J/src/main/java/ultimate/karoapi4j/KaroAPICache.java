@@ -446,6 +446,7 @@ public class KaroAPICache implements IDLookUp
 
 	protected CompletableFuture<BufferedImage> loadMapImage(Map map, boolean thumb)
 	{
+		// TODO implement
 		return null;
 	}
 
