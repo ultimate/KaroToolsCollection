@@ -338,7 +338,7 @@ public abstract class GameSeriesManager
 	public static GameSeries convert(muskel2.model.GameSeries gs2, KaroAPICache karoAPICache)
 	{
 		GameSeries gs;
-		// type specific properties first (includinc instantiation)
+		// type specific properties first (including instantiation)
 		if(gs2 instanceof SimpleGameSeries)
 		{
 			gs = new GameSeries(EnumGameSeriesType.Simple);
@@ -426,7 +426,8 @@ public abstract class GameSeriesManager
 		gs.setTitle(gs2.title);
 		gs.setCreator(karoAPICache.getUser(gs2.creator.id));
 		gs.setLoaded(true);
-		gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
+		if(gs.getPlayers() == null) // only do this if the players have not yet been set (--> KLCGameSeries)
+			gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
 		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
 		gs.setGames(convertGames(gs2.games, karoAPICache));
 		gs.setRules(convert(gs2.rules));
