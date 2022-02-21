@@ -131,7 +131,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 				}
 				this.chooser.notSelectedUsers.remove(u);
 				this.chooser.users.add(u);
-				CollectionsUtil.sortAscending(this.chooser.users, "getNameLowerCase");
+				CollectionsUtil.sortAscending(this.chooser.users, "getLoginLowerCase");
 			}
 			this.chooser.fireContentChanged();
 		}
@@ -149,7 +149,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 				}
 				this.chooser.users.remove(u);
 				this.chooser.notSelectedUsers.add(u);
-				CollectionsUtil.sortAscending(this.chooser.notSelectedUsers, "getNameLowerCase");
+				CollectionsUtil.sortAscending(this.chooser.notSelectedUsers, "getLoginLowerCase");
 			}
 			this.chooser.fireContentChanged();
 		}
