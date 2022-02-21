@@ -1,5 +1,8 @@
 package ultimate.karomuskel;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
@@ -10,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
@@ -19,7 +23,10 @@ public class Launcher
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger	= LoggerFactory.getLogger(Launcher.class);
+	protected static transient final Logger	logger			= LoggerFactory.getLogger(Launcher.class);
+	public static final String				KEY_LANGUAGE	= "language";
+	public static final String				KEY_THREADS		= "karoAPI.maxThreads";
+
 	/**
 	 * The UI instance
 	 */
@@ -47,9 +54,11 @@ public class Launcher
 		logger.info("------------------------------------------------------------------------");
 		logger.info("------------------------------------------------------------------------");
 
+		// defaults
 		boolean debug = false;
-
+		String configFile = "config.properties";
 		String language = Language.getDefault();
+
 		if(args.length > 0)
 		{
 			// TODO allow only one arg for selecting the config file
@@ -57,34 +66,54 @@ public class Launcher
 			{
 				if(arg.equalsIgnoreCase("-d"))
 					debug = true;
-				else if(arg.toLowerCase().startsWith("-l="))
-					language = arg.substring(3);
-				else if(arg.toLowerCase().startsWith("-t="))
-				{
-					String maxThreadsS = null;
-					try
-					{
-						maxThreadsS = arg.substring(3);
-						int maxThreads = Integer.parseInt(maxThreadsS);
-						if(maxThreads > 0)
-						{
-							logger.info("Setting KaroAPI thread pool size = " + maxThreads);
-							KaroAPI.setExecutor(Executors.newFixedThreadPool(maxThreads));
-						}
-						else
-						{
-							logger.error("Invalid value for KaroAPI thread pool size = " + maxThreads);
-						}
-					}
-					catch(NumberFormatException e)
-					{
-						logger.error("Invalid value for KaroAPI thread pool size = " + maxThreadsS);
-					}
-				}
+				// else if(arg.toLowerCase().startsWith("-l="))
+				// language = arg.substring(3);
+				else
+					configFile = arg;
 			}
 		}
 
+		Properties config;
+		try
+		{
+			logger.info("loading config file '" + configFile + "' ...");
+			config = PropertiesUtil.loadProperties(new File(configFile));
+			GameSeriesManager.setConfig(config);
+		}
+		catch(IOException e1)
+		{
+			logger.error("Could not load config file '" + configFile + "'");
+			exit();
+			return;
+		}
+		
+		if(config.containsKey(KEY_LANGUAGE))
+			language = config.getProperty(KEY_LANGUAGE);
 		Language.load(language);
+
+		if(config.containsKey(KEY_THREADS))
+		{
+			try
+			{
+				int maxThreads = Integer.parseInt(config.getProperty(KEY_THREADS));
+				if(maxThreads > 0)
+				{
+					logger.info("Setting KaroAPI thread pool size = " + maxThreads);
+					KaroAPI.setExecutor(Executors.newFixedThreadPool(maxThreads));
+				}
+				else
+				{
+					logger.error("Invalid value for KaroAPI thread pool size = " + maxThreads);
+				}
+			}
+			catch(NumberFormatException e)
+			{
+				logger.error("Invalid value for KaroAPI thread pool size = " + config.getProperty(KEY_THREADS));
+			}
+		}
+		
+		logger.info("------------------------------------------------------------------------");
+		logger.info("------------------------------------------------------------------------");
 
 		if(debug)
 		{

@@ -43,7 +43,7 @@ public abstract class Language
 		}
 		try
 		{
-			logger.info("Loading language '" + language + "'... ");
+			logger.info("loading language '" + language + "'... ");
 			lang = PropertiesUtil.loadProperties(new File(folder + "/lang_" + language + ".properties"));
 			logger.info("language '" + language + "' loaded");
 			return true;
