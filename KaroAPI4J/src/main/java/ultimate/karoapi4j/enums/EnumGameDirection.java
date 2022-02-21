@@ -21,7 +21,11 @@ public enum EnumGameDirection
 	/**
 	 * free choice
 	 */
-	free;
+	free,
+	/**
+	 * additional random value
+	 */
+	random;
 
 	/**
 	 * Get the int value (used in the classic php pages)

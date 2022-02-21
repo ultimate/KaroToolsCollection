@@ -16,84 +16,77 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import muskel2.model.series.AllCombinationsGameSeries;
-import muskel2.model.series.BalancedGameSeries;
-import muskel2.model.series.KOGameSeries;
-import muskel2.model.series.LeagueGameSeries;
-import muskel2.model.series.SimpleGameSeries;
-import muskel2.model.series.TeamBasedGameSeries;
-import muskel2.util.LeaguePlanner;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.AllCombinationsNumberModel;
 import ultimate.karomuskel.ui.components.BooleanModel;
-import ultimate.karomuskel.ui.components.KORoundNumberModel;
 
 public class SettingsScreen extends Screen implements ChangeListener
 {
-	private static final long	serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
-	private static final int	gridwidth			= 5;
+	private static final int			gridwidth			= 5;
 
-	private GridBagConstraints	gbc;
+	private GridBagConstraints			gbc;
 
-	private GameSeries			gameSeries;
+	private GameSeries					gameSeries;
 
-	private JLabel				titleLabel;
-	private JTextField			titleTF;
-	private JLabel				titleDescLabel;
+	private JLabel						titleLabel;
+	private JTextField					titleTF;
+	private JLabel						titleDescLabel;
 
-	private JTextField			numberOfGamesTF;
-	private JSpinner			numberOfGamesSpinner;
-	private JSpinner			numberOfMapsSpinner;
-	private JLabel				numberLabel;
-	private JLabel				numberDescLabel;
+	private JTextField					numberOfGamesTF;
+	private JSpinner					numberOfGamesSpinner;
+	private JSpinner					numberOfMapsSpinner;
+	private JLabel						numberLabel;
+	private JLabel						numberDescLabel;
 
-	private JLabel				minPlayersPerGameLabel;
-	private JSpinner			minPlayersPerGameSpinner;
-	private JLabel				maxPlayersPerGameLabel;
-	private JSpinner			maxPlayersPerGameSpinner;
+	private JLabel						minPlayersPerGameLabel;
+	private JSpinner					minPlayersPerGameSpinner;
+	private JLabel						maxPlayersPerGameLabel;
+	private JSpinner					maxPlayersPerGameSpinner;
 
-	private JLabel				numberOfTeamsLabel;
-	private JSpinner			numberOfTeamsSpinner;
-	private JLabel				numberOfGamesPerPairLabel;
-	private JSpinner			numberOfGamesPerPairSpinner;
+	private JLabel						numberOfTeamsLabel;
+	private JSpinner					numberOfTeamsSpinner;
+	private JLabel						numberOfGamesPerPairLabel;
+	private JSpinner					numberOfGamesPerPairSpinner;
 
-	private JLabel				playersDescLabel;
+	private JLabel						playersDescLabel;
 
-	private JLabel				useHomeMapsLabel;
-	private JComboBox			useHomeMapsCB;
+	private JLabel						useHomeMapsLabel;
+	private JComboBox<Label<Boolean>>	useHomeMapsCB;
 
-	private JLabel				shuffleTeamsLabel;
-	private JComboBox			shuffleTeamsCB;
+	private JLabel						shuffleTeamsLabel;
+	private JComboBox<Label<Boolean>>	shuffleTeamsCB;
 
-	private JLabel				autoNameTeamsLabel;
-	private JComboBox			autoNameTeamsCB;
+	private JLabel						autoNameTeamsLabel;
+	private JComboBox<Label<Boolean>>	autoNameTeamsCB;
 
-	private JLabel				multipleTeamsLabel;
-	private JComboBox			multipleTeamsCB;
+	private JLabel						multipleTeamsLabel;
+	private JComboBox<Label<Boolean>>	multipleTeamsCB;
 
-	private JLabel				creatorTeamLabel;
-	private JComboBox			creatorTeamCB;
+	private JLabel						creatorTeamLabel;
+	private JComboBox<Label<Boolean>>	creatorTeamCB;
 
-	private JLabel				numberOfTeamsPerMatchLabel;
-	private JSpinner			numberOfTeamsPerMatchSpinner;
+	private JLabel						numberOfTeamsPerMatchLabel;
+	private JSpinner					numberOfTeamsPerMatchSpinner;
 
-	private JLabel				minPlayersPerTeamLabel;
-	private JSpinner			minPlayersPerTeamSpinner;
-	private JLabel				maxPlayersPerTeamLabel;
-	private JSpinner			maxPlayersPerTeamSpinner;
+	private JLabel						minPlayersPerTeamLabel;
+	private JSpinner					minPlayersPerTeamSpinner;
+	private JLabel						maxPlayersPerTeamLabel;
+	private JSpinner					maxPlayersPerTeamSpinner;
 
-	private Screen				homeMapsScreenPrevious;
-	private Screen				homeMapsScreen;
-	private Screen				mapsScreen;
-	private Screen				mapsScreenNext;
+	private Screen						homeMapsScreenPrevious;
+	private Screen						homeMapsScreen;
+	private Screen						mapsScreen;
+	private Screen						mapsScreenNext;
 
 	public SettingsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -115,7 +108,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 			this.titleLabel = new JLabel(Language.getString("screen.settings.title"));
 			this.titleTF = new JTextField(84);
-			this.titleTF.setText(GameSeriesManager.getDefaultTitle(this.gameSeries));
+			this.titleTF.setText(GameSeriesManager.getDefaultTitle(this.gameSeries.getType()));
 			this.titleTF.setToolTipText(Language.getString("titlepatterns"));
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;
@@ -133,15 +126,15 @@ public class SettingsScreen extends Screen implements ChangeListener
 			JComponent numberComp = null;
 			if(!(gameSeries.getType() == EnumGameSeriesType.KLC))
 			{
-				if(!(gameSeries.getType() == BalancedGameSeries))
+				if(!(gameSeries.getType() == EnumGameSeriesType.Balanced))
 				{
-					if(gameSeries.getType() == SimpleGameSeries)
+					if(gameSeries.getType() == EnumGameSeriesType.Simple)
 					{
-						numberOfGamesSpinner = new JSpinner(new SpinnerNumberModel(10, 1, SimpleGameSeries.MAX_GAMES, 1));
+						numberOfGamesSpinner = new JSpinner(new SpinnerNumberModel(10, 1, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_GAMES), 1));
 						((DefaultEditor) this.numberOfGamesSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 						numberComp = numberOfGamesSpinner;
 					}
-					else if(gameSeries.getType() == TeamBasedGameSeries)
+					else if(GameSeriesManager.isTeamBased(gameSeries))
 					{
 						numberOfGamesTF = new JTextField();
 						numberOfGamesTF.setEditable(false);
@@ -149,12 +142,11 @@ public class SettingsScreen extends Screen implements ChangeListener
 						numberComp = numberOfGamesTF;
 					}
 					numberLabel = new JLabel(Language.getString("screen.settings.numberofgames"));
-					numberDescLabel = new JLabel(Language
-							.getString("screen.settings.numberofgames.description" + (gameSeries.getType() == TeamBasedGameSeries ? "team" : "")));
+					numberDescLabel = new JLabel(Language.getString("screen.settings.numberofgames.description" + (GameSeriesManager.isTeamBased(gameSeries) ? "team" : "")));
 				}
 				else
 				{
-					numberOfMapsSpinner = new JSpinner(new SpinnerNumberModel(5, 1, BalancedGameSeries.MAX_MAPS, 1));
+					numberOfMapsSpinner = new JSpinner(new SpinnerNumberModel(5, 1, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_MAPS), 1));
 					((DefaultEditor) this.numberOfMapsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					numberComp = numberOfMapsSpinner;
 
@@ -173,28 +165,15 @@ public class SettingsScreen extends Screen implements ChangeListener
 				gbc.gridy = 6;
 				this.add(numberDescLabel, gbc);
 
-				if(gameSeries.getType() == TeamBasedGameSeries)
+				if(GameSeriesManager.isTeamBased(gameSeries))
 				{
 					numberOfTeamsLabel = new JLabel(Language.getString("screen.settings.numberofteams"));
-					if(gameSeries.getType() == LeagueGameSeries)
-					{
-						numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 4, LeagueGameSeries.MAX_TEAMS, 2));
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
+					numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 4, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_TEAMS), 2));
+					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
+					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
-						numberOfTeamsSpinner.addChangeListener(this);
-					}
-					else if(gameSeries.getType() == KOGameSeries)
+					if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
 					{
-						numberOfTeamsSpinner = new JSpinner(new KORoundNumberModel(8, KOGameSeries.MAX_TEAMS));
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
-						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
-
-						numberOfTeamsSpinner.addChangeListener(this);
-					}
-					else if(gameSeries.getType() == AllCombinationsGameSeries)
-					{
-						numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(8, 3, AllCombinationsGameSeries.MAX_TEAMS, 1));
 						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 						((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
@@ -202,9 +181,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 						((DefaultEditor) this.numberOfTeamsPerMatchSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 						((DefaultEditor) this.numberOfTeamsPerMatchSpinner.getEditor()).getTextField().setEditable(true);
 
-						numberOfTeamsSpinner.addChangeListener(this);
 						numberOfTeamsPerMatchSpinner.addChangeListener(this);
 					}
+					numberOfTeamsSpinner.addChangeListener(this);
+
 					gbc.gridwidth = 1;
 					gbc.gridx = 1;
 					gbc.gridy = 4;
@@ -213,18 +193,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(numberOfTeamsSpinner, gbc);
 
 					numberOfGamesPerPairLabel = new JLabel(Language.getString("screen.settings.numberofgamesperpair"));
-					if(gameSeries.getType() == LeagueGameSeries)
-					{
-						numberOfGamesPerPairSpinner = new JSpinner(new SpinnerNumberModel(2, 1, LeagueGameSeries.MAX_ROUNDS, 1));
-					}
-					else if(gameSeries.getType() == KOGameSeries)
-					{
-						numberOfGamesPerPairSpinner = new JSpinner(new SpinnerNumberModel(1, 1, KOGameSeries.MAX_ROUNDS, 1));
-					}
-					else if(gameSeries.getType() == AllCombinationsGameSeries)
-					{
-						numberOfGamesPerPairSpinner = new JSpinner(new SpinnerNumberModel(1, 1, AllCombinationsGameSeries.MAX_ROUNDS, 1));
-					}
+					numberOfGamesPerPairSpinner = new JSpinner(new SpinnerNumberModel(2, 1, GameSeriesManager.getIntConfig(gameSeries.getType(), GameSeries.MAX_ROUNDS), 1));
 					numberOfGamesPerPairSpinner.addChangeListener(this);
 					((NumberEditor) this.numberOfGamesPerPairSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
@@ -235,7 +204,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gbc.gridy = 5;
 					this.add(numberOfGamesPerPairSpinner, gbc);
 
-					if(gameSeries.getType() == AllCombinationsGameSeries)
+					if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
 					{
 						numberOfTeamsPerMatchLabel = new JLabel(Language.getString("screen.settings.numberofteamspermatch"));
 						gbc.gridwidth = 1;
@@ -249,7 +218,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					else
 					{
 						useHomeMapsLabel = new JLabel(Language.getString("screen.settings.usehomemaps"));
-						useHomeMapsCB = new JComboBox(new BooleanModel(true, false));
+						useHomeMapsCB = new JComboBox<>(new BooleanModel(true, false));
 						gbc.gridwidth = 1;
 						gbc.gridx = 3;
 						gbc.gridy = 4;
@@ -260,7 +229,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					}
 
 					shuffleTeamsLabel = new JLabel(Language.getString("screen.settings.shuffleteams"));
-					shuffleTeamsCB = new JComboBox(new BooleanModel(false, false));
+					shuffleTeamsCB = new JComboBox<>(new BooleanModel(false, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 4;
 					gbc.gridy = 4;
@@ -272,7 +241,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.stateChanged(null);
 				}
 
-				if(gameSeries.getType() == SimpleGameSeries)
+				if(gameSeries.getType() == EnumGameSeriesType.Simple)
 				{
 					minPlayersPerGameLabel = new JLabel(Language.getString("screen.settings.minplayerspergame"));
 					minPlayersPerGameSpinner = new JSpinner(new SpinnerNumberModel(6, 1, Integer.MAX_VALUE, 1));
@@ -300,7 +269,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gbc.gridy = 9;
 					this.add(playersDescLabel, gbc);
 				}
-				else if(gameSeries.getType() == TeamBasedGameSeries)
+				else if(GameSeriesManager.isTeamBased(gameSeries))
 				{
 					minPlayersPerTeamLabel = new JLabel(Language.getString("screen.settings.minplayersperteam"));
 					minPlayersPerTeamSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
@@ -323,7 +292,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(maxPlayersPerTeamSpinner, gbc);
 
 					autoNameTeamsLabel = new JLabel(Language.getString("screen.settings.autonameteams"));
-					autoNameTeamsCB = new JComboBox(new BooleanModel(true, false));
+					autoNameTeamsCB = new JComboBox<>(new BooleanModel(true, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 2;
 					gbc.gridy = 7;
@@ -333,7 +302,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(autoNameTeamsCB, gbc);
 
 					multipleTeamsLabel = new JLabel(Language.getString("screen.settings.multipleteams"));
-					multipleTeamsCB = new JComboBox(new BooleanModel(false, false));
+					multipleTeamsCB = new JComboBox<>(new BooleanModel(false, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 3;
 					gbc.gridy = 7;
@@ -343,7 +312,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(multipleTeamsCB, gbc);
 
 					creatorTeamLabel = new JLabel(Language.getString("screen.settings.creatorteam"));
-					creatorTeamCB = new JComboBox(new BooleanModel(true, false));
+					creatorTeamCB = new JComboBox<>(new BooleanModel(true, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 4;
 					gbc.gridy = 7;
@@ -372,31 +341,31 @@ public class SettingsScreen extends Screen implements ChangeListener
 			throw new GameSeriesException("screen.settings.notitle");
 		if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{
-			((SimpleGameSeries) gameSeries).setNumberOfGames((Integer) numberOfGamesSpinner.getValue());
-			((SimpleGameSeries) gameSeries).setMinPlayersPerGame((Integer) minPlayersPerGameSpinner.getValue());
-			((SimpleGameSeries) gameSeries).setMaxPlayersPerGame((Integer) maxPlayersPerGameSpinner.getValue());
-			if(((SimpleGameSeries) gameSeries).getMinPlayersPerGame() > ((SimpleGameSeries) gameSeries).getMaxPlayersPerGame())
+			gameSeries.set(GameSeries.NUMBER_OF_GAMES, (Integer) numberOfGamesSpinner.getValue());
+			gameSeries.set(GameSeries.MIN_PLAYERS_PER_GAME, (Integer) minPlayersPerGameSpinner.getValue());
+			gameSeries.set(GameSeries.MAX_PLAYERS_PER_GAME, (Integer) maxPlayersPerGameSpinner.getValue());
+			if((int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_GAME))
 				throw new GameSeriesException("screen.settings.minabovemax");
 		}
-		else if(gameSeries.isTeamBased())
+		else if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			((TeamBasedGameSeries) gameSeries).setNumberOfTeams((Integer) numberOfTeamsSpinner.getValue());
-			((TeamBasedGameSeries) gameSeries).setMinPlayersPerTeam((Integer) minPlayersPerTeamSpinner.getValue());
-			((TeamBasedGameSeries) gameSeries).setMaxPlayersPerTeam((Integer) maxPlayersPerTeamSpinner.getValue());
-			if(((TeamBasedGameSeries) gameSeries).getMinPlayersPerTeam() > ((TeamBasedGameSeries) gameSeries).getMaxPlayersPerTeam())
+			gameSeries.set(GameSeries.NUMBER_OF_TEAMS, (Integer) numberOfTeamsSpinner.getValue());
+			gameSeries.set(GameSeries.MIN_PLAYERS_PER_TEAM, (Integer) minPlayersPerTeamSpinner.getValue());
+			gameSeries.set(GameSeries.MAX_PLAYERS_PER_TEAM, (Integer) maxPlayersPerTeamSpinner.getValue());
+			if((int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM) > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM))
 				throw new GameSeriesException("screen.settings.minabovemax");
-			((TeamBasedGameSeries) gameSeries).setNumberOfGamesPerPair((Integer) numberOfGamesPerPairSpinner.getValue());
-			if(gameSeries.getType() == AllCombinationsGameSeries)
-				((AllCombinationsGameSeries) gameSeries).setNumberOfTeamsPerMatch((Integer) numberOfTeamsPerMatchSpinner.getValue());
+			gameSeries.set(GameSeries.NUMBER_OF_GAMES_PER_PAIR, (Integer) numberOfGamesPerPairSpinner.getValue());
+			if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
+				gameSeries.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, (Integer) numberOfTeamsPerMatchSpinner.getValue());
 			else
-				((TeamBasedGameSeries) gameSeries).setUseHomeMaps(((Label<Boolean>) useHomeMapsCB.getSelectedItem()).getValue());
-			((TeamBasedGameSeries) gameSeries).setShuffleTeams(((Label<Boolean>) shuffleTeamsCB.getSelectedItem()).getValue());
-			((TeamBasedGameSeries) gameSeries).setAutoNameTeams(((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
-			((TeamBasedGameSeries) gameSeries).setCreatorTeam(!((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
-			((TeamBasedGameSeries) gameSeries).setMultipleTeams(((Label<Boolean>) multipleTeamsCB.getSelectedItem()).getValue());
+				gameSeries.set(GameSeries.USE_HOME_MAPS, ((Label<Boolean>) useHomeMapsCB.getSelectedItem()).getValue());
+			gameSeries.set(GameSeries.SHUFFLE_TEAMS, ((Label<Boolean>) shuffleTeamsCB.getSelectedItem()).getValue());
+			gameSeries.set(GameSeries.AUTO_NAME_TEAMS, ((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
+			gameSeries.set(GameSeries.USE_CREATOR_TEAM, !((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
+			gameSeries.set(GameSeries.ALLOW_MULTIPLE_TEAMS, ((Label<Boolean>) multipleTeamsCB.getSelectedItem()).getValue());
 
-			int numberOfGamesPerPair = ((TeamBasedGameSeries) gameSeries).getNumberOfGamesPerPair();
-			boolean homeMaps = ((TeamBasedGameSeries) gameSeries).isUseHomeMaps() && numberOfGamesPerPair > 1;
+			int numberOfGamesPerPair = (int) gameSeries.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
+			boolean homeMaps = ((boolean) gameSeries.get(GameSeries.USE_HOME_MAPS)) && (numberOfGamesPerPair > 1);
 			boolean otherMaps = (numberOfGamesPerPair % 2 == 1) || (!homeMaps);
 
 			Screen tmp;
@@ -441,7 +410,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.Balanced)
 		{
-			((BalancedGameSeries) gameSeries).setNumberOfMaps((Integer) numberOfMapsSpinner.getValue());
+			gameSeries.set(GameSeries.NUMBER_OF_MAPS, (Integer) numberOfMapsSpinner.getValue());
 		}
 		return gameSeries;
 	}
@@ -449,23 +418,23 @@ public class SettingsScreen extends Screen implements ChangeListener
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
-		if(gameSeries.isTeamBased())
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			int numberOfGames = 0;
 			int numberOfTeams = (Integer) numberOfTeamsSpinner.getValue();
 			int numberOfGamesPerPair = (Integer) numberOfGamesPerPairSpinner.getValue();
-			if(gameSeries.getType() == LeagueGameSeries)
+			if(gameSeries.getType() == EnumGameSeriesType.League)
 			{
 				numberOfGames = (numberOfTeams - 1) * (numberOfTeams / 2) * numberOfGamesPerPair;
 			}
-			else if(gameSeries.getType() == KOGameSeries)
+			else if(gameSeries.getType() == EnumGameSeriesType.KO)
 			{
 				numberOfGames = (numberOfTeams / 2) * numberOfGamesPerPair;
 			}
-			else if(gameSeries.getType() == AllCombinationsGameSeries)
+			else if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
 			{
 				int numberOfTeamsPerMatch = (Integer) numberOfTeamsPerMatchSpinner.getValue();
-				numberOfGames = LeaguePlanner.calculateNumberOfMatches(numberOfTeams, numberOfTeamsPerMatch);
+				numberOfGames = Planner.calculateNumberOfMatches(numberOfTeams, numberOfTeamsPerMatch);
 			}
 			numberOfGamesTF.setText("" + numberOfGames);
 		}
