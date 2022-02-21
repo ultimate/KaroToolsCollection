@@ -3,6 +3,8 @@ package ultimate.karoapi4j.model.official;
 import java.awt.Color;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
@@ -80,6 +82,7 @@ public class User extends Identifiable
 	private boolean				uc;
 	private int					blocked;
 	// additional Fields (internally used)
+	@JsonIgnore
 	private int					plannedGames;
 
 	public User()
@@ -352,9 +355,16 @@ public class User extends Identifiable
 
 	// derived from other information
 
+	@JsonIgnore
 	public boolean isInvitable(boolean night)
 	{
 		boolean withinLimit = (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
 		return (night ? acceptsNightGames : acceptsDayGames) && withinLimit;
+	}
+	
+	@JsonIgnore
+	public String getLoginLowerCase()
+	{
+		return getLogin().toLowerCase();
 	}
 }
