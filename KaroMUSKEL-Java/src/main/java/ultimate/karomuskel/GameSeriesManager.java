@@ -579,17 +579,16 @@ public abstract class GameSeriesManager
 		r.setMaxZzz(r2.maxZzz);
 		r.setMinZzz(r2.minZzz);
 		r.setNumberOfPlayers(0);
-		r.setStartdirection(null);
 		if(r2.direction == Direction.klassisch)
 			r.setStartdirection(EnumGameDirection.classic);
 		else if(r2.direction == Direction.Formula_1)
 			r.setStartdirection(EnumGameDirection.formula1);
 		else if(r2.direction == Direction.egal)
 			r.setStartdirection(EnumGameDirection.free);
-		// else
-		// r.setStartdirection(null);
+		else
+			r.setStartdirection(EnumGameDirection.random);
 		if(r2.crashingAllowed == null)
-			r.setCrashallowed(null);
+			r.setCrashallowed(EnumGameTC.random);
 		else if(r2.crashingAllowed == true)
 			r.setCrashallowed(EnumGameTC.allowed);
 		else if(r2.crashingAllowed == false)
