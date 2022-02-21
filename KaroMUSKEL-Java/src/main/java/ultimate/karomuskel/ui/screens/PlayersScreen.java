@@ -21,17 +21,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-import muskel2.model.GameSeries;
-import muskel2.model.Player;
-import muskel2.model.help.Team;
-import muskel2.model.series.BalancedGameSeries;
-import muskel2.model.series.KLCGameSeries;
-import muskel2.model.series.KOGameSeries;
-import muskel2.model.series.LeagueGameSeries;
-import muskel2.model.series.SimpleGameSeries;
-import muskel2.model.series.TeamBasedGameSeries;
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.User;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
@@ -42,10 +38,10 @@ public class PlayersScreen extends Screen implements ActionListener
 
 	private static final int		listFixedCellWidth	= 250;
 
-	private JList					allPlayersLI;
-	private TreeMap<String, Player>	allPlayers;
+	private JList<User>				allPlayersLI;
+	private TreeMap<String, User>	allPlayers;
 
-	private List<JList>				teamLIList;
+	private List<JList<User>>		teamLIList;
 	private List<JTextField>		teamNameTFList;
 	private List<JButton>			addButtonList;
 	private List<JButton>			removeButtonList;
@@ -69,63 +65,63 @@ public class PlayersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			Team team;
-			List<Player> playerList;
-			((TeamBasedGameSeries) gameSeries).getTeams().clear();
+			List<User> playerList;
+			gameSeries.getTeams().clear();
 			for(int i = 0; i < this.teams; i++)
 			{
 				String teamName = this.teamNameTFList.get(i).getText();
-				playerList = new LinkedList<Player>();
-				Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(players.length < ((TeamBasedGameSeries) gameSeries).getMinPlayersPerTeam())
+				playerList = new LinkedList<User>();
+				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
+				if(players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.minplayersperteam", teamName);
-				if(players.length > ((TeamBasedGameSeries) gameSeries).getMaxPlayersPerTeam())
+				if(players.length > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.maxplayersperteam", teamName);
-				for(Object player : players)
+				for(User player : players)
 				{
-					playerList.add((Player) player);
+					playerList.add(player);
 				}
 				team = new Team(teamName, playerList);
-				((TeamBasedGameSeries) gameSeries).getTeams().add(team);
+				gameSeries.getTeams().add(team);
 			}
 		}
-		else if(gameSeries instanceof SimpleGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{
-			Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(0).getModel()).getEntryArray();
-			if(players.length < ((SimpleGameSeries) gameSeries).getMinPlayersPerGame() - 1)
+			User[] players = ((GenericListModel<String, User>) this.teamLIList.get(0).getModel()).getEntryArray();
+			if(players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) - 1)
 				throw new GameSeriesException("screen.players.notenoughplayers");
 			gameSeries.getPlayers().clear();
-			for(Object player : players)
+			for(User player : players)
 			{
-				gameSeries.getPlayers().add((Player) player);
+				gameSeries.getPlayers().add(player);
 			}
 		}
-		else if(gameSeries instanceof BalancedGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.Balanced)
 		{
-			Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(0).getModel()).getEntryArray();
+			User[] players = ((GenericListModel<String, User>) this.teamLIList.get(0).getModel()).getEntryArray();
 			gameSeries.getPlayers().clear();
-			for(Object player : players)
+			for(User player : players)
 			{
-				gameSeries.getPlayers().add((Player) player);
+				gameSeries.getPlayers().add(player);
 			}
 		}
-		else if(gameSeries instanceof KLCGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			List<Player> playerList;
+			List<User> playerList;
 			for(int i = 0; i < this.teams; i++)
 			{
 				String teamName = this.teamNameTFList.get(i).getText();
-				playerList = ((KLCGameSeries) gameSeries).getPlayersLeagueX(i + 1);
+				playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1));
 				playerList.clear();
-				Object[] players = ((GenericListModel<String, Player>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(players.length != KLCGameSeries.GROUPS)
+				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
+				if(players.length != GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS))
 					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName);
-				for(Object player : players)
+				for(User player : players)
 				{
-					playerList.add((Player) player);
-					((KLCGameSeries) gameSeries).getAllPlayers().add((Player)player);
+					playerList.add(player);
+					gameSeries.getPlayers().add(player);
 				}
 			}
 		}
@@ -139,16 +135,16 @@ public class PlayersScreen extends Screen implements ActionListener
 		int teamsTmp = 1;
 		int maxPlayersPerTeamTmp = 25;
 		boolean multipleTeamsTmp = false;
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			teamsTmp = ((TeamBasedGameSeries) gameSeries).getNumberOfTeams();
-			maxPlayersPerTeamTmp = ((TeamBasedGameSeries) gameSeries).getMaxPlayersPerTeam();
-			this.autoNameTeams = ((TeamBasedGameSeries) gameSeries).isAutoNameTeams();
-			multipleTeamsTmp = ((TeamBasedGameSeries) gameSeries).isMultipleTeams();
+			teamsTmp = (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS);
+			maxPlayersPerTeamTmp = (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM);
+			this.autoNameTeams = (boolean) gameSeries.get(GameSeries.AUTO_NAME_TEAMS);
+			multipleTeamsTmp = (boolean) gameSeries.get(GameSeries.ALLOW_MULTIPLE_TEAMS);
 		}
-		else if(gameSeries instanceof KLCGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			teamsTmp = KLCGameSeries.LEAGUES;
+			teamsTmp = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 			maxPlayersPerTeamTmp = 1;
 			this.autoNameTeams = false;
 			multipleTeamsTmp = false;
@@ -159,10 +155,10 @@ public class PlayersScreen extends Screen implements ActionListener
 		if(this.firstCall)
 		{
 			this.firstCall = false;
-			this.teamLIList = new LinkedList<JList>();
-			this.teamNameTFList = new LinkedList<JTextField>();
-			this.addButtonList = new LinkedList<JButton>();
-			this.removeButtonList = new LinkedList<JButton>();
+			this.teamLIList = new LinkedList<>();
+			this.teamNameTFList = new LinkedList<>();
+			this.addButtonList = new LinkedList<>();
+			this.removeButtonList = new LinkedList<>();
 
 			this.teams = teamsTmp;
 			this.maxPlayersPerTeam = maxPlayersPerTeamTmp;
@@ -173,7 +169,7 @@ public class PlayersScreen extends Screen implements ActionListener
 			allPlayersPanel.setLayout(new BorderLayout(5, 5));
 			this.add(allPlayersPanel);
 
-			this.allPlayersLI = new JList();
+			this.allPlayersLI = new JList<>();
 			this.allPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.allPlayersLI.setFixedCellWidth(listFixedCellWidth);
 			JScrollPane allMapsSP = new JScrollPane(this.allPlayersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -181,7 +177,7 @@ public class PlayersScreen extends Screen implements ActionListener
 			allPlayersPanel.add(new JLabel(Language.getString("screen.players.allplayers")), BorderLayout.NORTH);
 			allPlayersPanel.add(allMapsSP, BorderLayout.CENTER);
 
-			JList teamPlayersLI;
+			JList<User> teamPlayersLI;
 			JScrollPane teamPlayersSP;
 			JTextField teamNameTF;
 			JButton addButton;
@@ -218,7 +214,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				gbc.gridy = 1;
 				buttonPanel.add(removeButton, gbc);
 
-				teamPlayersLI = new JList(new GenericListModel<String, Player>(Player.class, new HashMap<String, Player>()));
+				teamPlayersLI = new JList<>(new GenericListModel<String, User>(User.class, new HashMap<String, User>()));
 				teamPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 				this.allPlayersLI.setFixedCellWidth(1500);
 				teamPlayersLI.setFixedCellWidth(1500);
@@ -239,17 +235,12 @@ public class PlayersScreen extends Screen implements ActionListener
 
 				JPanel innerTeamsPanel = new JPanel();
 				innerTeamsPanel.setLayout(new BoxLayout(innerTeamsPanel, BoxLayout.Y_AXIS));
-				JScrollPane innerTeamsSP = new JScrollPane(innerTeamsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-						JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+				JScrollPane innerTeamsSP = new JScrollPane(innerTeamsPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 				outerTeamsPanel.add(new JLabel(Language.getString("screen.players.selectedplayers")), BorderLayout.NORTH);
 				outerTeamsPanel.add(innerTeamsSP, BorderLayout.CENTER);
 
-				int maxTeams = 32;
-				if(gameSeries instanceof KOGameSeries)
-					maxTeams = KOGameSeries.MAX_TEAMS;
-				else if(gameSeries instanceof LeagueGameSeries)
-					maxTeams = LeagueGameSeries.MAX_TEAMS;
+				int maxTeams = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS);
 
 				boolean enabled;
 				for(int i = 0; i < maxTeams; i++)
@@ -290,11 +281,11 @@ public class PlayersScreen extends Screen implements ActionListener
 					buttonPanel.add(removeButton, gbc2);
 
 					teamNameTF = new JTextField("Team " + (i + 1), 15);
-					if(gameSeries instanceof KLCGameSeries)
+					if(gameSeries.getType() == EnumGameSeriesType.KLC)
 						teamNameTF.setText("Liga " + (i + 1));
 					teamNameTF.setEnabled(enabled);
 
-					teamPlayersLI = new JList(new GenericListModel<String, Player>(Player.class, new HashMap<String, Player>()));
+					teamPlayersLI = new JList<>(new GenericListModel<String, User>(User.class, new HashMap<String, User>()));
 					teamPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 					teamPlayersLI.setFixedCellWidth(listFixedCellWidth);
 					teamPlayersLI.setVisibleRowCount(Math.max(3, this.maxPlayersPerTeam));
@@ -315,7 +306,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		if(this.teams != teamsTmp)
 		{
 			this.teams = teamsTmp;
-			JList teamPlayersLI;
+			JList<User> teamPlayersLI;
 			JTextField teamNameTF;
 			JButton addButton;
 			JButton removeButton;
@@ -330,7 +321,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				addButton.setEnabled(i < this.teams);
 				removeButton.setEnabled(i < this.teams);
 
-				if(gameSeries instanceof KLCGameSeries)
+				if(gameSeries.getType() == EnumGameSeriesType.KLC)
 					teamNameTF.setText("Liga " + (i + 1));
 				else
 					teamNameTF.setEnabled(i < this.teams);
@@ -338,16 +329,14 @@ public class PlayersScreen extends Screen implements ActionListener
 				if(i >= this.teams)
 				{
 					// remove all entries
-					Object[] players = ((GenericListModel<String, Player>) teamPlayersLI.getModel()).getEntryArray();
-					Player player;
+					User[] players = ((GenericListModel<String, User>) teamPlayersLI.getModel()).getEntryArray();
 					String key;
-					for(Object o : players)
+					for(User player : players)
 					{
-						player = (Player) o;
-						key = player.getName().toLowerCase();
-						((GenericListModel<String, Player>) teamPlayersLI.getModel()).removeElement(key);
+						key = player.getLogin().toLowerCase();
+						((GenericListModel<String, User>) teamPlayersLI.getModel()).removeElement(key);
 						teamPlayersLI.setModel(teamPlayersLI.getModel());
-						((GenericListModel<String, Player>) this.allPlayersLI.getModel()).addElement(key, player);
+						((GenericListModel<String, User>) this.allPlayersLI.getModel()).addElement(key, player);
 						this.allPlayersLI.setModel(this.allPlayersLI.getModel());
 					}
 				}
@@ -357,44 +346,42 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(this.maxPlayersPerTeam != maxPlayersPerTeamTmp)
 		{
 			this.maxPlayersPerTeam = maxPlayersPerTeamTmp;
-			for(JList teamPlayersLI : this.teamLIList)
+			for(JList<User> teamPlayersLI : this.teamLIList)
 			{
 				teamPlayersLI.setVisibleRowCount(this.maxPlayersPerTeam);
 			}
 		}
 
-		boolean ignoreInvitableTmp = gameSeries.getRules().isIgnoreInvitable();
+		boolean ignoreInvitableTmp = gameSeries.isIgnoreInvitable();
 
 		if(this.ignoreInvitable == null || this.ignoreInvitable != ignoreInvitableTmp || this.multipleTeams != multipleTeamsTmp)
 		{
 			changed = true;
 			this.ignoreInvitable = ignoreInvitableTmp;
 			this.multipleTeams = multipleTeamsTmp;
-			this.allPlayers = new TreeMap<String, Player>(gameSeries.getKaroAPICache().getPlayers());
+			this.allPlayers = new TreeMap<String, User>(karoAPICache.getUsersByLogin());
 
 			if(!this.ignoreInvitable)
 			{
-				for(JList teamPlayersLI : this.teamLIList)
+				for(JList<User> teamPlayersLI : this.teamLIList)
 				{
 					// remove uninvitable players
-					Object[] players = ((GenericListModel<String, Player>) teamPlayersLI.getModel()).getEntryArray();
-					Player player;
+					User[] players = ((GenericListModel<String, User>) teamPlayersLI.getModel()).getEntryArray();
 					String key;
-					for(Object o : players)
+					for(User player : players)
 					{
-						player = (Player) o;
 						if(!this.ignoreInvitable && !player.isInvitable(false))
 						{
-							key = player.getName().toLowerCase();
-							((GenericListModel<String, Player>) teamPlayersLI.getModel()).removeElement(key);
+							key = player.getLogin().toLowerCase();
+							((GenericListModel<String, User>) teamPlayersLI.getModel()).removeElement(key);
 							teamPlayersLI.setModel(teamPlayersLI.getModel());
-							((GenericListModel<String, Player>) allPlayersLI.getModel()).addElement(key, player);
+							((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(key, player);
 							allPlayersLI.setModel(allPlayersLI.getModel());
 						}
 					}
 				}
 				List<String> removeList = new LinkedList<String>();
-				Player player;
+				User player;
 				for(String key : this.allPlayers.keySet())
 				{
 					player = this.allPlayers.get(key);
@@ -409,10 +396,10 @@ public class PlayersScreen extends Screen implements ActionListener
 				}
 			}
 		}
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			String key = gameSeries.getCreator().getName().toLowerCase();
-			if(((TeamBasedGameSeries) gameSeries).isCreatorTeam())
+			String key = gameSeries.getCreator().getLogin().toLowerCase();
+			if((boolean) gameSeries.get(GameSeries.USE_CREATOR_TEAM))
 			{
 				if(!this.allPlayers.containsKey(key))
 				{
@@ -431,26 +418,24 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 		if(changed)
 		{
-			TreeMap<String, Player> allPlayersTmp = new TreeMap<String, Player>(this.allPlayers);
-			JList teamPlayersLI;
+			TreeMap<String, User> allPlayersTmp = new TreeMap<String, User>(this.allPlayers);
+			JList<User> teamPlayersLI;
 			if(!this.multipleTeams)
 			{
 				for(int i = 0; i < this.teamLIList.size(); i++)
 				{
 					teamPlayersLI = this.teamLIList.get(i);
 
-					Object[] players = ((GenericListModel<String, Player>) teamPlayersLI.getModel()).getEntryArray();
-					Player player;
+					User[] players = ((GenericListModel<String, User>) teamPlayersLI.getModel()).getEntryArray();
 					String key;
-					for(Object o : players)
+					for(User player : players)
 					{
-						player = (Player) o;
-						key = player.getName().toLowerCase();
+						key = player.getLogin().toLowerCase();
 						allPlayersTmp.remove(key);
 					}
 				}
 			}
-			this.allPlayersLI.setModel(new GenericListModel<String, Player>(Player.class, allPlayersTmp));
+			this.allPlayersLI.setModel(new GenericListModel<String, User>(User.class, allPlayersTmp));
 		}
 	}
 
@@ -472,34 +457,30 @@ public class PlayersScreen extends Screen implements ActionListener
 					oldNameGenerated = true;
 			}
 
-			JList teamLI = teamLIList.get(teamIndex);
+			JList<User> teamLI = teamLIList.get(teamIndex);
 
 			if(add)
 			{
-				Object[] players = allPlayersLI.getSelectedValues();
-				Player player;
+				List<User> players = allPlayersLI.getSelectedValuesList();
 				String key;
-				for(Object o : players)
+				for(User player : players)
 				{
-					player = (Player) o;
-					key = player.getName().toLowerCase();
+					key = player.getLogin().toLowerCase();
 					if(!this.multipleTeams)
-						((GenericListModel<String, Player>) allPlayersLI.getModel()).removeElement(key);
-					((GenericListModel<String, Player>) teamLI.getModel()).addElement(key, player);
+						((GenericListModel<String, User>) allPlayersLI.getModel()).removeElement(key);
+					((GenericListModel<String, User>) teamLI.getModel()).addElement(key, player);
 				}
 			}
 			else
 			{
-				Object[] players = teamLI.getSelectedValues();
-				Player player;
+				List<User> players = teamLI.getSelectedValuesList();
 				String key;
-				for(Object o : players)
+				for(User player : players)
 				{
-					player = (Player) o;
-					key = player.getName().toLowerCase();
-					((GenericListModel<String, Player>) teamLI.getModel()).removeElement(key);
+					key = player.getLogin().toLowerCase();
+					((GenericListModel<String, User>) teamLI.getModel()).removeElement(key);
 					if(!this.multipleTeams)
-						((GenericListModel<String, Player>) allPlayersLI.getModel()).addElement(key, player);
+						((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(key, player);
 				}
 			}
 
@@ -515,7 +496,7 @@ public class PlayersScreen extends Screen implements ActionListener
 	@SuppressWarnings("unchecked")
 	private String createTeamName(int teamIndex)
 	{
-		Object[] teamPlayers = ((GenericListModel<String, Player>) teamLIList.get(teamIndex).getModel()).getEntryArray();
+		User[] teamPlayers = ((GenericListModel<String, User>) teamLIList.get(teamIndex).getModel()).getEntryArray();
 		StringBuilder tmp = new StringBuilder();
 		for(int p = 0; p < teamPlayers.length; p++)
 		{
@@ -523,7 +504,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				tmp.append(", ");
 			else if((p != 0) && (p == teamPlayers.length - 1))
 				tmp.append(" und ");
-			tmp.append(((Player) teamPlayers[p]).getName());
+			tmp.append(teamPlayers[p].getLogin());
 		}
 		return tmp.toString();
 	}
