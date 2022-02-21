@@ -42,9 +42,6 @@ import javax.swing.table.TableModel;
 
 import org.json.JSONObject;
 
-import muskel2.model.Direction;
-import muskel2.model.help.DirectionModel;
-import muskel2.util.PlaceholderFactory;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.model.extended.GameSeries;
@@ -313,6 +310,8 @@ public class SummaryScreen extends Screen implements ActionListener
 						if(result != JOptionPane.OK_OPTION)
 							return;
 					}
+					
+					// TODO use GameSeriesManager
 
 					FileOutputStream fos = new FileOutputStream(file);
 					BufferedOutputStream bos = new BufferedOutputStream(fos);

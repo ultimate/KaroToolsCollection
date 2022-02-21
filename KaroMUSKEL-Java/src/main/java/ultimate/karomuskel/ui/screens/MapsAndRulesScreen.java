@@ -19,12 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import muskel2.model.Direction;
-import muskel2.model.GameSeries;
-import muskel2.model.Map;
-import muskel2.model.Rules;
-import muskel2.model.help.DirectionModel;
-import muskel2.model.series.BalancedGameSeries;
+
+
+
+
+
+
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karomuskel.ui.Language;

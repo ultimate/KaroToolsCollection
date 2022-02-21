@@ -20,11 +20,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
-import muskel2.model.series.KLCGameSeries;
-import muskel2.model.series.TeamBasedGameSeries;
+
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 
@@ -47,7 +48,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			// TODO not implemented
 			// List<Team> winnerTeams = new LinkedList<Team>();
@@ -63,7 +64,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			// ((TeamBasedGameSeries) gameSeries).getTeamsRoundX(((TeamBasedGameSeries)
 			// gameSeries).getRound()).addAll(winnerTeams);
 		}
-		else if(gameSeries instanceof KLCGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			List<Player> winnerPlayers = new LinkedList<Player>();
 
@@ -78,7 +79,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 					player = null;
 					for(Player p: ((KLCGameSeries) gameSeries).getPlayersGroupX(g))
 					{
-						if(p.getName().equalsIgnoreCase(name))
+						if(p.getLogin().equalsIgnoreCase(name))
 						{
 							player = p;
 							break;
@@ -102,12 +103,12 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			int groups = 0;
 			List<List<String>> names = null;
 			List<String> namesInGroup;
-			if(gameSeries instanceof TeamBasedGameSeries)
+			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
 				// TODO not implemented
 				// groups = ((TeamBasedGameSeries) gameSeries).getTeams().size();
 			}
-			else if(gameSeries instanceof KLCGameSeries)
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
 				groups = KLCGameSeries.GROUPS;
 				names = new ArrayList<List<String>>(groups);
@@ -115,7 +116,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				{
 					namesInGroup = new ArrayList<String>(((KLCGameSeries) gameSeries).getPlayersGroupX(g + 1).size());
 					for(Player p : ((KLCGameSeries) gameSeries).getPlayersGroupX(g + 1))
-						namesInGroup.add(p.getName());
+						namesInGroup.add(p.getLogin());
 					names.add(namesInGroup);
 				}
 			}

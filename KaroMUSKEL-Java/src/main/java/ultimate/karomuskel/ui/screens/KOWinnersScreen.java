@@ -18,14 +18,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import muskel2.model.GameSeries;
-import muskel2.model.Player;
-import muskel2.model.help.Team;
-import muskel2.model.series.KLCGameSeries;
-import muskel2.model.series.KOGameSeries;
-import muskel2.model.series.TeamBasedGameSeries;
+
+
+
+
+
+
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 
@@ -46,7 +48,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			int teamsBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
 			List<Team> teams = ((TeamBasedGameSeries) gameSeries).getTeams();
@@ -66,7 +68,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			((KOGameSeries) gameSeries).setShuffleTeams(false);
 			((KOGameSeries) gameSeries).setNumberOfTeams(winnerTeams.size());
 		}
-		else if(gameSeries instanceof KLCGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			int playersBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
 			List<Player> players = ((KLCGameSeries) gameSeries).getPlayersRoundOfX(playersBefore);
@@ -95,7 +97,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			this.firstCall = false;
 			int numBefore = 0;
 			List<String> names = null;
-			if(gameSeries instanceof TeamBasedGameSeries)
+			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
 				numBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
 				names = new ArrayList<String>(((TeamBasedGameSeries) gameSeries).getTeams().size());
@@ -104,13 +106,13 @@ public class KOWinnersScreen extends Screen implements ActionListener
 					names.add(t.getName());
 				}
 			}
-			else if(gameSeries instanceof KLCGameSeries)
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
 				numBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
 				names = new ArrayList<String>(numBefore);
 				for(Player p: ((KLCGameSeries) gameSeries).getPlayersRoundOfX(numBefore))
 				{
-					names.add(p.getName());
+					names.add(p.getLogin());
 				}
 			}
 			this.winners = new boolean[numBefore];

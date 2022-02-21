@@ -15,14 +15,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import muskel2.model.GameSeries;
-import muskel2.model.Map;
-import muskel2.model.series.KLCGameSeries;
-import muskel2.model.series.KOGameSeries;
-import muskel2.model.series.LeagueGameSeries;
-import muskel2.model.series.TeamBasedGameSeries;
+
+
+
+
+
+
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.MapRenderer;
 
@@ -48,7 +50,7 @@ public class HomeMapsScreen extends Screen
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			Map homeMap;
 			for(int i = 0; i < this.numberOfTeams; i++)
@@ -57,7 +59,7 @@ public class HomeMapsScreen extends Screen
 				((TeamBasedGameSeries) gameSeries).getTeams().get(i).setHomeMap(homeMap);
 			}
 		}
-		else if(gameSeries instanceof KLCGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			Map homeMap;
 			for(int i = 0; i < this.numberOfTeams; i++)
@@ -75,12 +77,12 @@ public class HomeMapsScreen extends Screen
 		int numberOfTeamsTmp = 0;
 		int minSupportedPlayersPerMapTmp = 0;
 
-		if(gameSeries instanceof TeamBasedGameSeries)
+		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			numberOfTeamsTmp = ((TeamBasedGameSeries) gameSeries).getNumberOfTeams();
 			minSupportedPlayersPerMapTmp = ((TeamBasedGameSeries) gameSeries).getMinSupportedPlayersPerMap();
 		}
-		else if(gameSeries instanceof KLCGameSeries)
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			numberOfTeamsTmp = KLCGameSeries.PLAYERS;
 			minSupportedPlayersPerMapTmp = ((KLCGameSeries) gameSeries).getMinSupportedPlayersPerMap();
@@ -110,11 +112,11 @@ public class HomeMapsScreen extends Screen
 			JComboBox mapCB;
 
 			int maxTeams = 32;
-			if(gameSeries instanceof KOGameSeries)
+			if(gameSeries.getType() == EnumGameSeriesType.KO)
 				maxTeams = KOGameSeries.MAX_TEAMS;
-			else if(gameSeries instanceof LeagueGameSeries)
+			else if(gameSeries.getType() == EnumGameSeriesType.League)
 				maxTeams = LeagueGameSeries.MAX_TEAMS;
-			else if(gameSeries instanceof KLCGameSeries)
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 				maxTeams = KLCGameSeries.PLAYERS;
 
 			for(int i = 0; i < maxTeams; i++)
@@ -170,10 +172,10 @@ public class HomeMapsScreen extends Screen
 		{
 			enabled = (i < this.numberOfTeams);
 
-			if(enabled && gameSeries instanceof TeamBasedGameSeries)
+			if(enabled && GameSeriesManager.isTeamBased(gameSeries))
 				label = ((TeamBasedGameSeries) gameSeries).getTeams().get(i).getName();
-			else if(enabled && gameSeries instanceof KLCGameSeries)
-				label = ((KLCGameSeries) gameSeries).getAllPlayers().get(i).getName();
+			else if(enabled && gameSeries.getType() == EnumGameSeriesType.KLC)
+				label = ((KLCGameSeries) gameSeries).getAllPlayers().get(i).getLogin();
 			else
 				label = "Team " + (i + 1);
 
