@@ -144,15 +144,19 @@ public abstract class GameSeriesManager
 	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
 	 * 
 	 * @see GameSeriesManager#getStringConfig(String)
-	 * @param gsType - the {@link EnumGameSeriesType}
+	 * @param gs - the {@link GameSeries}
 	 * @param key - the key
 	 * @return the config value as String
 	 */
-	public static String getStringConfig(EnumGameSeriesType gsType, String key)
+	public static String getStringConfig(GameSeries gs, String key)
 	{
-		if(gsType == null)
-			throw new IllegalArgumentException("invalid GameSeries type");
-		return getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);
+		if(gs == null || gs.getType() == null)
+			throw new IllegalArgumentException("invalid GameSeries");
+		
+		if(gs.getSettings().containsKey(key)) // default to settings first
+			return gs.get(key).toString();
+		
+		return getStringConfig("gameseries." + gs.getType().toString().toLowerCase() + "." + key);
 	}
 
 	/**
@@ -160,26 +164,26 @@ public abstract class GameSeriesManager
 	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
 	 * 
 	 * @see GameSeriesManager#getIntConfig(String)
-	 * @param gsType - the {@link EnumGameSeriesType}
+	 * @param gs - the {@link GameSeries}
 	 * @param key - the key
 	 * @return the config value as int
 	 */
-	public static int getIntConfig(EnumGameSeriesType gsType, String key)
+	public static int getIntConfig(GameSeries gs, String key)
 	{
-		return Integer.parseInt(getStringConfig(gsType, key));
+		return Integer.parseInt(getStringConfig(gs, key));
 	}
 
 	/**
 	 * Get the default title a given {@link EnumGameSeriesType}. This is convienence for
 	 * <code>getStringConfig(gsType, "defaultTitle");</code>
 	 * 
-	 * @see GameSeriesManager#getStringConfig(EnumGameSeriesType, String)
-	 * @param gsType - the {@link EnumGameSeriesType}
+	 * @see GameSeriesManager#getStringConfig(GameSeries, String)
+	 * @param gs - the {@link GameSeries}
 	 * @return the config value as String
 	 */
-	public static String getDefaultTitle(EnumGameSeriesType gsType)
+	public static String getDefaultTitle(GameSeries gs)
 	{
-		return getStringConfig(gsType, "defaultTitle");
+		return getStringConfig(gs, "defaultTitle");
 	}
 
 	/**
@@ -360,8 +364,9 @@ public abstract class GameSeriesManager
 		{
 			gs = new GameSeries(EnumGameSeriesType.KLC);
 			gs.set(GameSeries.V2_TEAM_BASED, false);
-			gs.set(GameSeries.NUMBER_OF_GROUPS, KLCGameSeries.GROUPS);
-			gs.set(GameSeries.NUMBER_OF_LEAGUES, KLCGameSeries.LEAGUES);
+			gs.set(GameSeries.CONF_KLC_GROUPS, KLCGameSeries.GROUPS);
+			gs.set(GameSeries.CONF_KLC_LEAGUES, KLCGameSeries.LEAGUES);
+			gs.set(GameSeries.CONF_KLC_FIRST_KO_ROUND, KLCGameSeries.FIRST_KO_ROUND);
 			gs.set(GameSeries.CURRENT_ROUND, ((KLCGameSeries) gs2).round);
 			gs.setPlayers(convert(((KLCGameSeries) gs2).allPlayers, User.class, karoAPICache));
 			gs.getPlayersByKey().put(GameSeries.KEY_LEAGUE + "1", convert(((KLCGameSeries) gs2).playersLeague1, User.class, karoAPICache));

@@ -45,8 +45,6 @@ public class GameSeries
 	public static final String					NUMBER_OF_MAPS				= "maps";				// ______X__________________
 	public static final String					NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
 	public static final String					NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
-	public static final String					NUMBER_OF_GROUPS			= "groups";				// ______________X__________
-	public static final String					NUMBER_OF_LEAGUES			= "leagues";			// ______________X__________
 	public static final String					NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
 	public static final String					CURRENT_ROUND				= "round";				// __________X___X__________
 	public static final String					MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
