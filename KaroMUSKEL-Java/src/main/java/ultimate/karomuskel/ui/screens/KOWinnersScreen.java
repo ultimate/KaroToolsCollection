@@ -18,15 +18,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-
-
-
-
-
-
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
@@ -50,8 +47,8 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			int teamsBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
-			List<Team> teams = ((TeamBasedGameSeries) gameSeries).getTeams();
+			int teamsBefore = gameSeries.getTeams().size();
+			List<Team> teams = gameSeries.getTeams();
 
 			List<Team> winnerTeams = new LinkedList<Team>();
 			for(int i = 0; i < this.winners.length; i++)
@@ -64,16 +61,18 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			if(winnerTeams.size() != teamsBefore / 2)
 				throw new GameSeriesException("screen.kowinners.notenoughwinners");
 
-			((KOGameSeries) gameSeries).setTeams(winnerTeams);
-			((KOGameSeries) gameSeries).setShuffleTeams(false);
-			((KOGameSeries) gameSeries).setNumberOfTeams(winnerTeams.size());
+			gameSeries.setTeams(winnerTeams);
+			gameSeries.set(GameSeries.SHUFFLE_TEAMS, false);
+			gameSeries.set(GameSeries.NUMBER_OF_TEAMS, winnerTeams.size());
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			int playersBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
-			List<Player> players = ((KLCGameSeries) gameSeries).getPlayersRoundOfX(playersBefore);
+			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int previousRound = round * 2;
 
-			List<Player> winnerPlayers = new LinkedList<Player>();
+			List<User> players = gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + previousRound);
+
+			List<User> winnerPlayers = new LinkedList<User>();
 			for(int i = 0; i < this.winners.length; i++)
 			{
 				if(this.winners[i])
@@ -81,10 +80,10 @@ public class KOWinnersScreen extends Screen implements ActionListener
 					winnerPlayers.add(players.get(i));
 				}
 			}
-			if(winnerPlayers.size() != ((KLCGameSeries) gameSeries).getRound())
+			if(winnerPlayers.size() != round)
 				throw new GameSeriesException("screen.kowinners.notenoughwinners");
-			((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()).clear();
-			((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()).addAll(winnerPlayers);
+			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
+			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
 		}
 		return gameSeries;
 	}
@@ -99,21 +98,18 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			List<String> names = null;
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				numBefore = ((TeamBasedGameSeries) gameSeries).getTeams().size();
-				names = new ArrayList<String>(((TeamBasedGameSeries) gameSeries).getTeams().size());
-				for(Team t: ((TeamBasedGameSeries) gameSeries).getTeams())
-				{
+				numBefore = gameSeries.getTeams().size();
+				names = new ArrayList<String>(gameSeries.getTeams().size());
+				for(Team t : gameSeries.getTeams())
 					names.add(t.getName());
-				}
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				numBefore = ((KLCGameSeries) gameSeries).getRound() * 2;
+				int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+				numBefore = round * 2;
 				names = new ArrayList<String>(numBefore);
-				for(Player p: ((KLCGameSeries) gameSeries).getPlayersRoundOfX(numBefore))
-				{
+				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + numBefore))
 					names.add(p.getLogin());
-				}
 			}
 			this.winners = new boolean[numBefore];
 
