@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.model.extended;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -138,10 +139,17 @@ public class GameSeries
 			throw new IllegalArgumentException("type must not be null");
 		this.type = type;
 
+		this.games = new LinkedList<>();
+		
+		this.players = new LinkedList<>();
+		this.teams = new LinkedList<>();
+		this.maps = new LinkedList<>();
+
 		this.playersByKey = new HashMap<>();
 		this.teamsByKey = new HashMap<>();
 		this.mapsByKey = new HashMap<>();
 		this.rulesByKey = new HashMap<>();
+		
 		this.settings = new HashMap<>();
 	}
 
