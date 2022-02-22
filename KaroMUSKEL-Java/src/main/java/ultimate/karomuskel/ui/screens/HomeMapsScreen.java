@@ -15,15 +15,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-
-
-
-
-
-
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.MapRenderer;
@@ -33,7 +30,7 @@ public class HomeMapsScreen extends Screen
 	private static final long		serialVersionUID	= 1L;
 
 	private List<JLabel>			teamNameLabelList;
-	private List<JComboBox>			mapCBList;
+	private List<JComboBox<Map>>	mapCBList;
 
 	private int						numberOfTeams;
 	private int						minSupportedPlayersPerMap;
@@ -56,16 +53,18 @@ public class HomeMapsScreen extends Screen
 			for(int i = 0; i < this.numberOfTeams; i++)
 			{
 				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
-				((TeamBasedGameSeries) gameSeries).getTeams().get(i).setHomeMap(homeMap);
+				gameSeries.getTeams().get(i).setHomeMap(homeMap);
 			}
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
+			User player;
 			Map homeMap;
 			for(int i = 0; i < this.numberOfTeams; i++)
 			{
 				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
-				((KLCGameSeries) gameSeries).getAllPlayers().get(i).setHomeMap(homeMap);
+				player = gameSeries.getPlayers().get(i);
+				gameSeries.getMapsByKey().get("" + player.getId()).add(homeMap);
 			}
 		}
 		return gameSeries;
@@ -75,17 +74,17 @@ public class HomeMapsScreen extends Screen
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
 		int numberOfTeamsTmp = 0;
-		int minSupportedPlayersPerMapTmp = 0;
+		int minSupportedPlayersPerMapTmp = GameSeriesManager.getMinSupportedPlayersPerMap(gameSeries);
 
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			numberOfTeamsTmp = ((TeamBasedGameSeries) gameSeries).getNumberOfTeams();
-			minSupportedPlayersPerMapTmp = ((TeamBasedGameSeries) gameSeries).getMinSupportedPlayersPerMap();
+			numberOfTeamsTmp = (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS);
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			numberOfTeamsTmp = KLCGameSeries.PLAYERS;
-			minSupportedPlayersPerMapTmp = ((KLCGameSeries) gameSeries).getMinSupportedPlayersPerMap();
+			int groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
+			int leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
+			numberOfTeamsTmp = groups * leagues;
 		}
 
 		if(this.firstCall)
@@ -94,7 +93,7 @@ public class HomeMapsScreen extends Screen
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.teamNameLabelList = new LinkedList<JLabel>();
-			this.mapCBList = new LinkedList<JComboBox>();
+			this.mapCBList = new LinkedList<JComboBox<Map>>();
 			this.removeAll();
 
 			JPanel contentPanel = new JPanel();
@@ -109,15 +108,15 @@ public class HomeMapsScreen extends Screen
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 
 			JLabel teamLabel;
-			JComboBox mapCB;
+			JComboBox<Map> mapCB;
 
 			int maxTeams = 32;
 			if(gameSeries.getType() == EnumGameSeriesType.KO)
-				maxTeams = KOGameSeries.MAX_TEAMS;
+				maxTeams = GameSeriesManager.getIntConfig(GameSeries.CONF_MAX_TEAMS);
 			else if(gameSeries.getType() == EnumGameSeriesType.League)
-				maxTeams = LeagueGameSeries.MAX_TEAMS;
+				maxTeams = GameSeriesManager.getIntConfig(GameSeries.CONF_MAX_TEAMS);
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
-				maxTeams = KLCGameSeries.PLAYERS;
+				maxTeams = numberOfTeamsTmp;
 
 			for(int i = 0; i < maxTeams; i++)
 			{
@@ -127,7 +126,7 @@ public class HomeMapsScreen extends Screen
 				gbc.gridx = 0;
 				contentPanel.add(teamLabel, gbc);
 
-				mapCB = new JComboBox();
+				mapCB = new JComboBox<>();
 				mapCB.setRenderer(new MapRenderer());
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
@@ -143,14 +142,14 @@ public class HomeMapsScreen extends Screen
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
-			this.maps = karoAPICache.getMaps();
+			this.maps = new TreeMap<>(karoAPICache.getMapsById());
 
 			List<Integer> removeList = new LinkedList<Integer>();
 			Map map;
 			for(Integer key : this.maps.keySet())
 			{
 				map = this.maps.get(key);
-				if(map.getMaxPlayers() < this.minSupportedPlayersPerMap)
+				if(map.getPlayers() < this.minSupportedPlayersPerMap)
 				{
 					removeList.add(key);
 				}
@@ -162,7 +161,7 @@ public class HomeMapsScreen extends Screen
 
 			for(int i = 0; i < this.mapCBList.size(); i++)
 			{
-				this.mapCBList.get(i).setModel(new DefaultComboBoxModel(maps.values().toArray(new Map[0])));
+				this.mapCBList.get(i).setModel(new DefaultComboBoxModel<Map>(maps.values().toArray(new Map[0])));
 			}
 		}
 
@@ -173,9 +172,9 @@ public class HomeMapsScreen extends Screen
 			enabled = (i < this.numberOfTeams);
 
 			if(enabled && GameSeriesManager.isTeamBased(gameSeries))
-				label = ((TeamBasedGameSeries) gameSeries).getTeams().get(i).getName();
+				label = gameSeries.getTeams().get(i).getName();
 			else if(enabled && gameSeries.getType() == EnumGameSeriesType.KLC)
-				label = ((KLCGameSeries) gameSeries).getAllPlayers().get(i).getLogin();
+				label = gameSeries.getPlayers().get(i).getLogin();
 			else
 				label = "Team " + (i + 1);
 
