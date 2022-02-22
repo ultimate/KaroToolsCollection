@@ -61,13 +61,10 @@ public class Launcher
 
 		if(args.length > 0)
 		{
-			// TODO allow only one arg for selecting the config file
 			for(String arg : args)
 			{
 				if(arg.equalsIgnoreCase("-d"))
 					debug = true;
-				// else if(arg.toLowerCase().startsWith("-l="))
-				// language = arg.substring(3);
 				else
 					configFile = arg;
 			}
