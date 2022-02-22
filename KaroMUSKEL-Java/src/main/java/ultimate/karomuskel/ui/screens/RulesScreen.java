@@ -73,6 +73,7 @@ public class RulesScreen extends Screen
 		EnumGameTC crashingAllowed = ((Label<EnumGameTC>) crashingAllowedCB.getSelectedItem()).getValue();
 		Boolean checkpointsActivated = ((Label<Boolean>) checkpointsActivatedCB.getSelectedItem()).getValue();
 		EnumGameDirection direction = ((Label<EnumGameDirection>) directionCB.getSelectedItem()).getValue();
+		
 		return new Rules(minZzz, maxZzz, crashingAllowed, checkpointsActivated, direction);
 	}
 
