@@ -20,11 +20,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
-
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
@@ -33,7 +33,9 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
 
-	private JList[]				groupLists;
+	private JList<String>[]				groupLists;
+	// TODO IDEA make numberOfWinnersPerGroup selectable
+	@SuppressWarnings("unused")
 	private JSpinner			numberOfWinnersPerGroupSpinner;
 
 	private boolean				firstCall			= true;
@@ -44,28 +46,32 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			// TODO for future use
+			// TODO IDEA for future use
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			List<Player> winnerPlayers = new LinkedList<Player>();
+			List<User> winnerPlayers = new LinkedList<User>();
 
-			for(int g = 1; g <= KLCGameSeries.GROUPS; g++)
+			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
+			int firstKORound = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND);
+			// TODO IDEA make numberOfWinnersPerGroup selectable
+			int winnersPerGroup = firstKORound / groups;
+			for(int g = 1; g <= groups; g++)
 			{
 				DefaultListModel<String> model = (DefaultListModel<String>) groupLists[g - 1].getModel();
 				String name;
-				Player player;
-				for(int i = 0; i < KLCGameSeries.WINNERS_PER_GROUP; i++)
+				User player;
+				
+				for(int i = 0; i < winnersPerGroup; i++)
 				{
 					name = model.get(i);
 					player = null;
-					for(Player p: ((KLCGameSeries) gameSeries).getPlayersGroupX(g))
+					for(User p: gameSeries.getPlayersByKey().get(GameSeries.KEY_GROUP + g))
 					{
 						if(p.getLogin().equalsIgnoreCase(name))
 						{
@@ -76,12 +82,14 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 					winnerPlayers.add(player);
 				}
 			}
-
-			((KLCGameSeries) gameSeries).getPlayersRoundOfX(((KLCGameSeries) gameSeries).getRound()).addAll(winnerPlayers);
+			
+			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
 		}
 		return gameSeries;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
@@ -93,16 +101,16 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			List<String> namesInGroup;
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				// TODO for future use
+				// TODO IDEA for future use
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				groups = KLCGameSeries.GROUPS;
+				groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
 				names = new ArrayList<List<String>>(groups);
-				for(int g = 0; g < groups; g++)
+				for(int g = 1; g <= groups; g++)
 				{
-					namesInGroup = new ArrayList<String>(((KLCGameSeries) gameSeries).getPlayersGroupX(g + 1).size());
-					for(Player p : ((KLCGameSeries) gameSeries).getPlayersGroupX(g + 1))
+					namesInGroup = new ArrayList<String>(gameSeries.getPlayersByKey().get(GameSeries.KEY_GROUP + g).size());
+					for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_GROUP + g))
 						namesInGroup.add(p.getLogin());
 					names.add(namesInGroup);
 				}
@@ -118,10 +126,10 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.insets = new Insets(5, 5, 5, 5);
 			gbc.fill = GridBagConstraints.HORIZONTAL;
-			
-			// TODO numberOfWinnersPerGroup
 
-			groupLists = new JList[groups];
+			// TODO IDEA make numberOfWinnersPerGroup selectable
+
+			groupLists = (JList<String>[]) new JList<?>[groups];
 
 			JLabel groupLabel;
 			JButton upButton, downButton;
@@ -138,7 +146,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				for(String name: names.get(i))
 					model.addElement(name);
 
-				groupLists[i] = new JList<String>(model);
+				groupLists[i] = new JList<>(model);
 				groupLists[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 				gbc.gridx = 1;
 				gbc.gridheight = 2;
@@ -158,12 +166,10 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				gbc.gridy++;
 				gbc.gridheight = 1;
 				contentPanel.add(downButton, gbc);
-
 			}
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
