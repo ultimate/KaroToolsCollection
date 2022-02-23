@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -54,9 +55,9 @@ public class PlayersScreen extends Screen implements ActionListener
 	private boolean					autoNameTeams		= false;
 	private boolean					multipleTeams		= false;
 
-	public PlayersScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public PlayersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.players.header", "screen.players.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.players.header", "screen.players.next");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}

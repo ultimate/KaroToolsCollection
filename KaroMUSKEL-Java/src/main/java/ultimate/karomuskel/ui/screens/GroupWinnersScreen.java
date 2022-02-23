@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -40,9 +41,9 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 	private boolean				firstCall			= true;
 
-	public GroupWinnersScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public GroupWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header", "screen.groupwinners.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header", "screen.groupwinners.next");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 

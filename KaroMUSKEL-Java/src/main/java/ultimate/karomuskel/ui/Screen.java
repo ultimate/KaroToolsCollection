@@ -4,8 +4,12 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
@@ -13,29 +17,34 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 
 public abstract class Screen extends JPanel
 {
-	private static final long	serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
-	protected static final int	spinnerColumns		= 14;
-	protected static final int	insetsV				= 3;
-	protected static final int	insetsH				= 10;
-	protected static final int	columnWidth			= 350;
-	protected static final int	totalHeight			= 450;
+	protected transient final Logger	logger				= LoggerFactory.getLogger(getClass());
 
-	protected KaroAPICache		karoAPICache;
+	protected static final int			spinnerColumns		= 14;
+	protected static final int			insetsV				= 3;
+	protected static final int			insetsH				= 10;
+	protected static final int			columnWidth			= 350;
+	protected static final int			totalHeight			= 450;
 
-	protected JButton			previousButton;
-	protected JButton			nextButton;
+	protected KaroAPICache				karoAPICache;
 
-	protected Screen			previous;
-	protected Screen			next;
+	protected JFrame					gui;
 
-	protected String			nextKey;
+	protected JButton					previousButton;
+	protected JButton					nextButton;
 
-	protected String			headerKey;
+	protected Screen					previous;
+	protected Screen					next;
 
-	public Screen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
+	protected String					nextKey;
+
+	protected String					headerKey;
+
+	public Screen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
 	{
 		super();
+		this.gui = gui;
 		this.previous = previous;
 		if(previous != null)
 			previous.next = this;
@@ -47,6 +56,11 @@ public abstract class Screen extends JPanel
 		else
 			this.nextKey = nextKey;
 		this.headerKey = headerKey;
+	}
+
+	public JFrame getGui()
+	{
+		return gui;
 	}
 
 	public Screen getPrevious()

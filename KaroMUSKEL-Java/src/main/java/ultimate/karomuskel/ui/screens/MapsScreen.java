@@ -11,6 +11,7 @@ import java.util.TreeMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -40,9 +41,9 @@ public class MapsScreen extends Screen implements ActionListener
 
 	private TreeMap<Integer, Map>	maps;
 
-	public MapsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public MapsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.maps.header", "screen.maps.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header", "screen.maps.next");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}

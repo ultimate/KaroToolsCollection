@@ -103,7 +103,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	private void initializeStartScreen()
 	{
-		this.startScreen = new StartScreen(this.karoAPICache, this.previousButton, this.nextButton);
+		this.startScreen = new StartScreen(this, this.karoAPICache, this.previousButton, this.nextButton);
 	}
 
 	private void setStart()

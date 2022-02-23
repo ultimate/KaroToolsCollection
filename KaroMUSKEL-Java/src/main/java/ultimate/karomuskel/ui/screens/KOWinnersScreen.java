@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -36,9 +37,9 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 	private boolean				firstCall			= true;
 
-	public KOWinnersScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public KOWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header", "screen.kowinners.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header", "screen.kowinners.next");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 
