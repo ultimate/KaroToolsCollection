@@ -96,17 +96,17 @@ public class Launcher
 				int maxThreads = Integer.parseInt(config.getProperty(KEY_THREADS));
 				if(maxThreads > 0)
 				{
-					logger.info("Setting KaroAPI thread pool size = " + maxThreads);
+					logger.info("setting KaroAPI thread pool size = " + maxThreads);
 					KaroAPI.setExecutor(Executors.newFixedThreadPool(maxThreads));
 				}
 				else
 				{
-					logger.error("Invalid value for KaroAPI thread pool size = " + maxThreads);
+					logger.error("invalid value for KaroAPI thread pool size = " + maxThreads);
 				}
 			}
 			catch(NumberFormatException e)
 			{
-				logger.error("Invalid value for KaroAPI thread pool size = " + config.getProperty(KEY_THREADS));
+				logger.error("invalid value for KaroAPI thread pool size = " + config.getProperty(KEY_THREADS));
 			}
 		}
 		
@@ -131,6 +131,7 @@ public class Launcher
 				if(result == JOptionPane.CANCEL_OPTION || result == JOptionPane.CLOSED_OPTION)
 				{
 					logger.info("login canceled");
+					exit();
 					return;
 				}
 
