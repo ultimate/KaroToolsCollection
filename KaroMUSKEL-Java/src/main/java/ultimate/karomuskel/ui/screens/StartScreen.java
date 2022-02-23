@@ -42,7 +42,7 @@ public class StartScreen extends Screen implements ActionListener
 		JRadioButton radioButton;
 
 		radioButton = new JRadioButton(Language.getString("gameseries.simple"));
-		radioButton.setActionCommand("muskel2.model.series.SimpleGameSeries");
+		radioButton.setActionCommand(EnumGameSeriesType.Simple.toString());
 		radioButton.addActionListener(this);
 		setIcons(radioButton, BUTTON_SIZE);
 
@@ -52,7 +52,7 @@ public class StartScreen extends Screen implements ActionListener
 		this.buttonGroup.add(radioButton);
 
 		radioButton = new JRadioButton(Language.getString("gameseries.balanced"));
-		radioButton.setActionCommand("muskel2.model.series.BalancedGameSeries");
+		radioButton.setActionCommand(EnumGameSeriesType.Balanced.toString());
 		radioButton.addActionListener(this);
 		setIcons(radioButton, BUTTON_SIZE);
 
@@ -62,7 +62,7 @@ public class StartScreen extends Screen implements ActionListener
 		this.buttonGroup.add(radioButton);
 
 		radioButton = new JRadioButton(Language.getString("gameseries.league"));
-		radioButton.setActionCommand("muskel2.model.series.LeagueGameSeries");
+		radioButton.setActionCommand(EnumGameSeriesType.League.toString());
 		radioButton.addActionListener(this);
 		setIcons(radioButton, BUTTON_SIZE);
 
@@ -72,7 +72,7 @@ public class StartScreen extends Screen implements ActionListener
 		this.buttonGroup.add(radioButton);
 
 		radioButton = new JRadioButton(Language.getString("gameseries.allcombinations"));
-		radioButton.setActionCommand("muskel2.model.series.AllCombinationsGameSeries");
+		radioButton.setActionCommand(EnumGameSeriesType.AllCombinations.toString());
 		radioButton.addActionListener(this);
 		setIcons(radioButton, BUTTON_SIZE);
 
@@ -82,7 +82,7 @@ public class StartScreen extends Screen implements ActionListener
 		this.buttonGroup.add(radioButton);
 
 		radioButton = new JRadioButton(Language.getString("gameseries.ko"));
-		radioButton.setActionCommand("muskel2.model.series.KOGameSeries");
+		radioButton.setActionCommand(EnumGameSeriesType.KO.toString());
 		radioButton.addActionListener(this);
 		setIcons(radioButton, BUTTON_SIZE);
 
@@ -92,7 +92,7 @@ public class StartScreen extends Screen implements ActionListener
 		this.buttonGroup.add(radioButton);
 
 		radioButton = new JRadioButton(Language.getString("gameseries.klc"));
-		radioButton.setActionCommand("muskel2.model.series.KLCGameSeries");
+		radioButton.setActionCommand(EnumGameSeriesType.KLC.toString());
 		radioButton.addActionListener(this);
 		setIcons(radioButton, BUTTON_SIZE);
 
