@@ -6,6 +6,7 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -37,9 +38,9 @@ public class RulesScreen extends Screen
 	private JComboBox<Label<Boolean>>			creatorGiveUpCB;
 	private JComboBox<Label<Boolean>>			ignoreInvitableCB;
 
-	public RulesScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public RulesScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.rules.header", "screen.rules.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.rules.header", "screen.rules.next");
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);

@@ -7,6 +7,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
@@ -88,9 +89,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private Screen						mapsScreen;
 	private Screen						mapsScreenNext;
 
-	public SettingsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public SettingsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.settings.header", "screen.settings.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.settings.header", "screen.settings.next");
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);

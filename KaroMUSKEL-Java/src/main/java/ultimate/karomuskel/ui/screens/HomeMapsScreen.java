@@ -11,6 +11,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,9 +39,9 @@ public class HomeMapsScreen extends Screen
 	private TreeMap<Integer, Map>	maps;
 	private boolean					firstCall			= true;
 
-	public HomeMapsScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public HomeMapsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.homemaps.header", "screen.homemaps.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.homemaps.header", "screen.homemaps.next");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 

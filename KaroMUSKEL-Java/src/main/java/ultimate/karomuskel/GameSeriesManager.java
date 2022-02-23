@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -642,10 +643,11 @@ public abstract class GameSeriesManager
 	 */
 	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton)
 	{
+		JFrame gui = startScreen.getGui();
 		LinkedList<Screen> screens = new LinkedList<>();
 		if(gs.isLoaded())
 		{
-			SummaryScreen s = new SummaryScreen(startScreen, karoAPICache, previousButton, nextButton);
+			SummaryScreen s = new SummaryScreen(gui, startScreen, karoAPICache, previousButton, nextButton);
 			s.setSkipPlan(true);
 			screens.add(s);
 
@@ -659,13 +661,13 @@ public abstract class GameSeriesManager
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round == players)
 				{
-					screens.add(new GroupWinnersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new GroupWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				}
 				else if(round > 2)
 				{
-					screens.add(new KOWinnersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				}
 				round = round / 2;
 				gs.set("round", round);
@@ -677,8 +679,8 @@ public abstract class GameSeriesManager
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round > 2)
 				{
-					screens.add(new KOWinnersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				}
 			}
 		}
@@ -689,34 +691,34 @@ public abstract class GameSeriesManager
 				case AllCombinations:
 				case KO:
 				case League:
-					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new HomeMapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					break;
 				case Balanced:
-					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsAndRulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new MapsAndRulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					break;
 				case KLC:
-					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new HomeMapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					screens.getLast().setNextKey("screen.homemaps.nextskip");
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					break;
 				case Simple:
-					screens.add(new SettingsScreen(startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					break;
 			}
 		}

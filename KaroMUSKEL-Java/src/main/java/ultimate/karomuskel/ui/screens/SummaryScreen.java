@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -49,6 +50,8 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil;
+import ultimate.karomuskel.Planner;
+import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
@@ -63,14 +66,19 @@ public class SummaryScreen extends Screen implements ActionListener
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
 
+	private Planner				planner;
+
+	private boolean				firstCall			= true;
 	private boolean				skipPlan;
 
-	private List<PlannedGame>			gamesCreated;
-	private List<PlannedGame>			gamesLeft;
+	private List<PlannedGame>	gamesBackup;
 
-	private List<PlannedGame>			gamesToCreate;
-	private List<PlannedGame>			gamesToLeave;
-	private List<PlannedGame>			gamesToLeaveTmp;
+	private List<PlannedGame>	gamesCreated;
+	private List<PlannedGame>	gamesLeft;
+
+	private List<PlannedGame>	gamesToCreate;
+	private List<PlannedGame>	gamesToLeave;
+	private List<PlannedGame>	gamesToLeaveTmp;
 
 	private JTable				table;
 	private JScrollPane			tableSP;
@@ -78,7 +86,6 @@ public class SummaryScreen extends Screen implements ActionListener
 	private JButton				createButton;
 	private JButton				leaveButton;
 	private JButton				saveButton;
-	private JButton				exportButton;
 
 	private SummaryModel		model;
 
@@ -90,9 +97,9 @@ public class SummaryScreen extends Screen implements ActionListener
 	private static final int	LEAVING				= 3;
 	private static final int	LEFT				= 4;
 
-	public SummaryScreen(Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public SummaryScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(previous, karoAPICache, previousButton, nextButton, "screen.summary.header", "screen.summary.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.summary.header", "screen.summary.next");
 		this.startScreen = this;
 		while(startScreen.getPrevious() != null)
 		{
@@ -106,6 +113,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gamesToLeave = new LinkedList<PlannedGame>();
 
 		this.skipPlan = false;
+		this.planner = new Planner(karoAPICache);
 	}
 
 	public boolean isSkipPlan()
@@ -122,9 +130,21 @@ public class SummaryScreen extends Screen implements ActionListener
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
 		this.gameSeries = gameSeries;
+
+		if(this.firstCall)
+		{
+			this.firstCall = false;
+			this.gamesBackup = new ArrayList<>(gameSeries.getGames());
+		}
+
 		if(!this.skipPlan)
 		{
-			this.gameSeries.planGames();
+			if(!firstCall)
+				gameSeries.getGames().removeIf(g -> { return !gamesBackup.contains(g); });
+			gameSeries.getGames().addAll(planner.planSeries(gameSeries));
+
+			Planner.resetPlannedGames(gameSeries.getPlayers());
+
 			this.gamesCreated.clear();
 			this.gamesLeft.clear();
 			this.gamesToCreate.clear();
@@ -132,7 +152,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else
 		{
-			for(PlannedGame game : gameSeries.getPlannedGames())
+			for(PlannedGame game : gameSeries.getGames())
 			{
 				if(game.isCreated())
 					this.gamesCreated.add(game);
@@ -163,11 +183,6 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.saveButton.addActionListener(this);
 		buttonPanel.add(this.saveButton);
 
-		this.exportButton = new JButton(Language.getString("screen.summary.export"));
-		this.exportButton.setActionCommand("export");
-		this.exportButton.addActionListener(this);
-//		buttonPanel.add(this.exportButton);
-
 		this.model = new SummaryModel();
 		this.table = new JTable(this.model);
 		this.table.setFillsViewportHeight(true);
@@ -197,14 +212,22 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 
 		this.inProgress = true;
-		GameCreator gc = new GameCreator(karoAPICache, this);
-		for(PlannedGame game : this.gamesToCreate)
-		{
-			this.model.setStatus(game, CREATING);
-		}
+
 		if(this.gamesToCreate.size() > 0)
 		{
-			gc.createGames(this.gamesToCreate);
+			for(PlannedGame plannedGame : this.gamesToCreate)
+			{
+				this.model.setStatus(plannedGame, CREATING);
+				//@formatter:off
+				this.karoAPICache.getKaroAPI()
+					.createGame(plannedGame)
+					.thenAcceptAsync(createdGame -> {
+						plannedGame.setCreated(true);
+						plannedGame.setGame(createdGame);
+						notifyGameCreated(plannedGame);
+				});
+				//@formatter:on
+			}
 		}
 		else
 		{
@@ -233,14 +256,24 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 
 		this.inProgress = true;
-		GameCreator gc = new GameCreator(karoAPICache, this);
-		for(PlannedGame game : this.gamesToLeaveTmp)
-		{
-			this.model.setStatus(game, LEAVING);
-		}
+		
 		if(this.gamesToLeaveTmp.size() > 0)
 		{
-			gc.leaveGames(gamesToLeaveTmp, this.gameSeries.getCreator());
+			for(PlannedGame plannedGame : this.gamesToLeaveTmp)
+			{
+				if(plannedGame.getGame() == null)
+					continue;
+				
+				this.model.setStatus(plannedGame, LEAVING);
+				//@formatter:off
+				this.karoAPICache.getKaroAPI()
+					.kick(plannedGame.getGame().getId(), karoAPICache.getCurrentUser().getId())
+					.thenAcceptAsync(leftGame -> {
+						plannedGame.setLeft(true);
+						notifyGameLeft(plannedGame);
+				});
+				//@formatter:on
+			}
 		}
 		else
 		{
@@ -256,7 +289,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.gamesToCreate.remove(game);
 			this.gamesCreated.add(game);
 			this.model.setStatus(game, CREATED);
-			System.out.println("Spiele verbleibend: " + this.gamesToCreate.size());
+			logger.info("Spiele verbleibend: " + this.gamesToCreate.size());
 		}
 		if(this.gamesToCreate.size() == 0)
 		{
@@ -273,7 +306,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.gamesToLeaveTmp.remove(game);
 			this.gamesLeft.add(game);
 			this.model.setStatus(game, LEFT);
-			System.out.println("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
+			logger.info("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
 		}
 		if(this.gamesToLeaveTmp.size() == 0)
 		{
@@ -296,109 +329,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else if(e.getActionCommand().equals("save"))
 		{
-			JFileChooser fc = new JFileChooser();
-			int action = fc.showSaveDialog(this);
-			try
-			{
-				if(action == JFileChooser.APPROVE_OPTION)
-				{
-					File file = fc.getSelectedFile();
-
-					if(file.exists())
-					{
-						int result = JOptionPane.showConfirmDialog(this, Language.getString("option.overwrite"));
-						if(result != JOptionPane.OK_OPTION)
-							return;
-					}
-					
-					// TODO use GameSeriesManager
-
-					FileOutputStream fos = new FileOutputStream(file);
-					BufferedOutputStream bos = new BufferedOutputStream(fos);
-					ObjectOutputStream oos = new ObjectOutputStream(bos);
-
-					oos.writeObject(this.gameSeries);
-
-					oos.flush();
-					bos.flush();
-					fos.flush();
-
-					oos.close();
-					bos.close();
-					fos.close();
-				}
-				else if(action == JFileChooser.ERROR_OPTION)
-				{
-					throw new IOException("unknown");
-				}
-			}
-			catch(IOException ex)
-			{
-				JOptionPane.showMessageDialog(this, Language.getString("error.save") + ex.getLocalizedMessage(), Language.getString("error.title"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			enableButtons();
-		}
-		else if(e.getActionCommand().equals("export"))
-		{
-			final String extension = ".json";
-			JFileChooser fc = new JFileChooser();
-			fc.setFileFilter(new FileFilter() {
-
-				@Override
-				public String getDescription()
-				{
-					return "*" + extension;
-				}
-
-				@Override
-				public boolean accept(File f)
-				{
-					return f.getName().endsWith(extension);
-				}
-			});
-			fc.setAcceptAllFileFilterUsed(false);
-			int action = fc.showSaveDialog(this);
-			try
-			{
-				if(action == JFileChooser.APPROVE_OPTION)
-				{
-					File file = fc.getSelectedFile();
-
-					if(!file.getName().endsWith(extension))
-						file = new File(file.getPath() + extension);
-
-					if(file.exists())
-					{
-						int result = JOptionPane.showConfirmDialog(this, Language.getString("option.overwrite"));
-						if(result != JOptionPane.OK_OPTION)
-							return;
-					}
-
-					FileWriter fw = new FileWriter(file);
-					BufferedWriter bw = new BufferedWriter(fw);
-
-					// TODO use storage util
-					JSONObject json = JSONUtil.serialize(gameSeries);
-					bw.write(json.toString(4));
-					// json.write(bw);
-
-					bw.flush();
-					fw.flush();
-
-					bw.close();
-					fw.close();
-				}
-				else if(action == JFileChooser.ERROR_OPTION)
-				{
-					throw new IOException("unknown");
-				}
-			}
-			catch(IOException ex)
-			{
-				JOptionPane.showMessageDialog(this, Language.getString("error.export") + ex.getLocalizedMessage(), Language.getString("error.title"),
-						JOptionPane.ERROR_MESSAGE);
-			}
+			boolean saved = FileDialog.getInstance().showSave(this, gameSeries);
+			logger.info("GameSeries saved? -> " + saved);
 			enableButtons();
 		}
 	}
@@ -469,7 +401,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(User.class))
 			{
-				UserCellEditor editor = new UserCellEditor(this.model, karoAPICache);
+				UserCellEditor editor = new UserCellEditor(this.gui, this.model, karoAPICache);
 				col.setCellEditor(editor);
 				col.setCellRenderer(editor);
 			}
@@ -482,11 +414,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				int col = table.columnAtPoint(e.getPoint());
 				if(col == 0) // Title
-					batchUpdateString(col, Language.getString("screen.summary.table.name"),
-							Language.getString("screen.summary.batchUpdate.note.name"));
+					batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
 				else if(col == 1) // Map
-					batchUpdateEnum(col, Language.getString("screen.summary.table.map"),
-							new DefaultComboBoxModel(karoAPICache.getMaps().values().toArray(new Map[0])));
+					batchUpdateEnum(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel(karoAPICache.getMaps().values().toArray(new Map[0])));
 				else if(col == 2) // Players
 					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
 				else if(col == 3) // ZZZ
@@ -513,8 +443,8 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdateBoolean(int column, String label)
 	{
 		JCheckBox checkbox = new JCheckBox(label);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"),
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -537,8 +467,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		panel.setLayout(new FlowLayout());
 		((FlowLayout) panel.getLayout()).setAlignment(FlowLayout.LEFT);
 
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"),
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -558,8 +488,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		JTextField textfield = new JTextField(50);
 		panel.add(new JLabel(label));
 		panel.add(textfield);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"),
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -577,8 +507,8 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdateEnum(int column, String label, ComboBoxModel comboBoxModel)
 	{
 		JComboBox combobox = new JComboBox(comboBoxModel);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"),
-				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -598,11 +528,11 @@ public class SummaryScreen extends Screen implements ActionListener
 		players.remove(gameSeries.getCreator());
 		JComboBox combobox = new JComboBox(new DefaultComboBoxModel(players.toArray(new User[0])));
 
-		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"),
-				Language.getString("screen.summary.batchUpdate.players.remove"), Language.getString("option.cancel") };
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"),
+				Language.getString("option.cancel") };
 
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox },
-				Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null,
+				options, null);
 
 		List<Player> updatedPlayers;
 		if(result == 0) // add
@@ -641,7 +571,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		private List<Object[]>		rows;
 
-		private List<PlannedGame>			games;
+		private List<PlannedGame>	games;
 
 		public SummaryModel()
 		{
