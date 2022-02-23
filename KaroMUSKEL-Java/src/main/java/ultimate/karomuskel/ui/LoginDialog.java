@@ -9,6 +9,13 @@ import javax.swing.event.AncestorListener;
 
 public class LoginDialog
 {
+	private static LoginDialog instance = new LoginDialog();
+
+	public static LoginDialog getInstance()
+	{
+		return instance;
+	}
+
 	private String					user;
 	private String					password;
 
@@ -20,7 +27,7 @@ public class LoginDialog
 	private final JLabel			pwL;
 	private final JPasswordField	pw;
 
-	public LoginDialog()
+	private LoginDialog()
 	{
 		logintitle = Language.getString("login.title");
 
