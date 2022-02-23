@@ -3,6 +3,7 @@ package ultimate.karoapi4j.model.official;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -27,24 +28,26 @@ public class PlannedGame
 	 * "players": [ 2241 ],
 	 * "options": { .. } // see options
 	 */
-	private String		name;
+	private String							name;
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = Map.FromIDConverter.class)
-	private Map			map;
+	private Map								map;
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = User.FromIDListConverter.class)
-	private List<User>	players	= new LinkedList<>();
-	private Options		options;
+	private List<User>						players	= new LinkedList<>();
+	private Options							options;
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = Game.FromIDConverter.class)
-	private Game		game;
+	private Game							game;
 
 	// additional properties
 	@JsonInclude(value = Include.NON_DEFAULT)
-	private boolean		created;
+	private boolean							created;
 	@JsonInclude(value = Include.NON_DEFAULT)
-	private boolean		left;
+	private boolean							left;
+	@JsonIgnore
+	private java.util.Map<String, String>	placeHolderValues;
 
 	public PlannedGame()
 	{
@@ -59,6 +62,12 @@ public class PlannedGame
 		this.map = map;
 		this.players = players;
 		this.options = options;
+	}
+
+	public PlannedGame(String name, Map map, List<User> players, Options options, java.util.Map<String, String> placeHolderValues)
+	{
+		this(name, map, players, options);
+		this.placeHolderValues = placeHolderValues;
 	}
 
 	public String getName()
@@ -129,5 +138,15 @@ public class PlannedGame
 	public void setLeft(boolean left)
 	{
 		this.left = left;
+	}
+
+	public java.util.Map<String, String> getPlaceHolderValues()
+	{
+		return placeHolderValues;
+	}
+
+	public void setPlaceHolderValues(java.util.Map<String, String> placeHolderValues)
+	{
+		this.placeHolderValues = placeHolderValues;
 	}
 }
