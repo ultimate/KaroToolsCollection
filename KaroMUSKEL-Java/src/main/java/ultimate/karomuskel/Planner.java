@@ -723,7 +723,7 @@ public class Planner
 
 		String name = applyPlaceholders(title, placeholderValues);
 
-		return new PlannedGame(name, map, gamePlayers, options);
+		return new PlannedGame(name, map, gamePlayers, options, placeholderValues);
 	}
 
 	public List<Match> planMatchesAllCombinations(List<Team> teams, int numberOfTeamsPerMatch)
@@ -1006,6 +1006,9 @@ public class Planner
 
 	public static String applyPlaceholders(String title, java.util.Map<String, String> placeholderValues)
 	{
+		if(placeholderValues == null)
+			return title;
+		
 		// preparation
 		if(placeholderValues.containsKey("i"))
 		{

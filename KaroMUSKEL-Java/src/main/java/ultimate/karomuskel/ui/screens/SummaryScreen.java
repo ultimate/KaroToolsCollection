@@ -7,13 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -25,7 +18,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,20 +28,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import org.json.JSONObject;
-
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
-import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
@@ -256,14 +245,14 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 
 		this.inProgress = true;
-		
+
 		if(this.gamesToLeaveTmp.size() > 0)
 		{
 			for(PlannedGame plannedGame : this.gamesToLeaveTmp)
 			{
 				if(plannedGame.getGame() == null)
 					continue;
-				
+
 				this.model.setStatus(plannedGame, LEAVING);
 				//@formatter:off
 				this.karoAPICache.getKaroAPI()
@@ -416,17 +405,17 @@ public class SummaryScreen extends Screen implements ActionListener
 				if(col == 0) // Title
 					batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
 				else if(col == 1) // Map
-					batchUpdateEnum(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel(karoAPICache.getMaps().values().toArray(new Map[0])));
+					batchUpdateSelection(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel<Map>(karoAPICache.getMaps().toArray(new Map[0])));
 				else if(col == 2) // Players
 					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
 				else if(col == 3) // ZZZ
 					batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
 				else if(col == 4) // TC
-					batchUpdateBoolean(col, Language.getString("screen.summary.table.crashs"));
+					batchUpdateSelection(col, Language.getString("screen.summary.table.crashs"), new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false));
 				else if(col == 5) // CPs
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
 				else if(col == 6) // Direction
-					batchUpdateEnum(col, Language.getString("screen.summary.table.direction"), new DirectionModel(Direction.egal, false));
+					batchUpdateSelection(col, Language.getString("screen.summary.table.direction"), new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false));
 				else if(col == 7) // Create
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
 				else if(col == 8) // Leave
@@ -497,16 +486,16 @@ public class SummaryScreen extends Screen implements ActionListener
 			System.out.println("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				String updateValue = PlaceholderFactory.applyPlaceholders(this.karoAPICache, value, model.getRow(row), row);
+				String updateValue = Planner.applyPlaceholders(value, model.getRow(row).getPlaceHolderValues());
 				if(model.isCellEditable(row, column))
 					model.setValueAt(updateValue, row, column);
 			}
 		}
 	}
 
-	private void batchUpdateEnum(int column, String label, ComboBoxModel comboBoxModel)
+	private void batchUpdateSelection(int column, String label, ComboBoxModel<?> comboBoxModel)
 	{
-		JComboBox combobox = new JComboBox(comboBoxModel);
+		JComboBox<?> combobox = new JComboBox<>(comboBoxModel);
 		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
 				JOptionPane.QUESTION_MESSAGE);
 
@@ -526,7 +515,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		Collection<User> players = karoAPICache.getUsers();
 		players.remove(gameSeries.getCreator());
-		JComboBox combobox = new JComboBox(new DefaultComboBoxModel(players.toArray(new User[0])));
+		JComboBox<User> combobox = new JComboBox<>(new DefaultComboBoxModel<User>(players.toArray(new User[0])));
 
 		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"),
 				Language.getString("option.cancel") };
@@ -534,14 +523,14 @@ public class SummaryScreen extends Screen implements ActionListener
 		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null,
 				options, null);
 
-		List<Player> updatedPlayers;
+		List<User> updatedPlayers;
 		if(result == 0) // add
 		{
-			Player value = (Player) combobox.getSelectedItem();
+			User value = (User) combobox.getSelectedItem();
 			System.out.println("Füge Spieler " + value + " hinzu");
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				updatedPlayers = new ArrayList<Player>(model.getRow(row).getPlayers());
+				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
 				updatedPlayers.add(value);
 				if(model.isCellEditable(row, column))
 					model.setValueAt(updatedPlayers, row, column);
@@ -549,11 +538,11 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else if(result == 1) // remove
 		{
-			Player value = (Player) combobox.getSelectedItem();
+			User value = (User) combobox.getSelectedItem();
 			System.out.println("Entferne Spieler " + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				updatedPlayers = new ArrayList<Player>(model.getRow(row).getPlayers());
+				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
 				updatedPlayers.remove(value);
 				if(model.isCellEditable(row, column))
 					model.setValueAt(updatedPlayers, row, column);
@@ -584,11 +573,11 @@ public class SummaryScreen extends Screen implements ActionListener
 
 			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 150);
 			this.addColumn(Language.getString("screen.summary.table.map"), Map.class, 150);
-			this.addColumn(Language.getString("screen.summary.table.players"), Player.class, 100);
+			this.addColumn(Language.getString("screen.summary.table.players"), User.class, 100);
 			this.addColumn(Language.getString("screen.summary.table.zzz"), Integer.class, 30);
-			this.addColumn(Language.getString("screen.summary.table.crashs"), Boolean.class, 30);
+			this.addColumn(Language.getString("screen.summary.table.crashs"), EnumGameTC.class, 30);
 			this.addColumn(Language.getString("screen.summary.table.cps"), Boolean.class, 30);
-			this.addColumn(Language.getString("screen.summary.table.direction"), Direction.class, 70);
+			this.addColumn(Language.getString("screen.summary.table.direction"), EnumGameDirection.class, 70);
 			this.addColumn(Language.getString("screen.summary.table.createstatus"), Boolean.class, 40);
 			this.addColumn(Language.getString("screen.summary.table.leavestatus"), Boolean.class, 40);
 			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 70);
@@ -601,16 +590,16 @@ public class SummaryScreen extends Screen implements ActionListener
 			row[0] = game.getName();
 			row[1] = game.getMap();
 			row[2] = game.getPlayers();
-			row[3] = game.getRules().getZzz();
-			row[4] = game.getRules().getCrashingAllowed();
-			row[5] = game.getRules().getCheckpointsActivated();
-			row[6] = game.getRules().getDirection();
+			row[3] = game.getOptions().getZzz();
+			row[4] = game.getOptions().getCrashallowed();
+			row[5] = game.getOptions().isCps();
+			row[6] = game.getOptions().getStartdirection();
 			row[7] = true;
-			row[8] = game.getRules().isCreatorGiveUp() || game.isLeft();
+			row[8] = gameSeries.isCreatorGiveUp() || game.isLeft();
 
 			if(!game.isCreated())
 				gamesToCreate.add(game);
-			if(!game.isLeft() && game.getRules().isCreatorGiveUp())
+			if(!game.isLeft() && gameSeries.isCreatorGiveUp())
 				gamesToLeave.add(game);
 
 			this.rows.add(row);
@@ -691,8 +680,8 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(getRow(rowIndex).isCreated() && columnIndex < 8)
 				return false;
 
-			if(columnIndex == getColumnCount() - 2)
-				return karoAPICache.isUnlocked();
+			// if(columnIndex == getColumnCount() - 2) // leave
+			// return karoAPICache.getCurrentUser().isSuperCreator();
 
 			return true;
 		}
@@ -711,7 +700,7 @@ public class SummaryScreen extends Screen implements ActionListener
 					game.setName((String) aValue);
 					break;
 				case 1:
-					if(((Map) aValue).getMaxPlayers() < game.getPlayers().size())
+					if(((Map) aValue).getPlayers() < game.getPlayers().size())
 					{
 						JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
 						return;
@@ -720,19 +709,19 @@ public class SummaryScreen extends Screen implements ActionListener
 					break;
 				case 2:
 					game.getPlayers().clear();
-					game.getPlayers().addAll((List<Player>) aValue);
+					game.getPlayers().addAll((List<User>) aValue);
 					break;
 				case 3:
-					game.getRules().setZzz((Integer) aValue);
+					game.getOptions().setZzz((Integer) aValue);
 					break;
 				case 4:
-					game.getRules().setCrashingAllowed((Boolean) aValue);
+					game.getOptions().setCrashallowed((EnumGameTC) aValue);
 					break;
 				case 5:
-					game.getRules().setCheckpointsActivated((Boolean) aValue);
+					game.getOptions().setCps((Boolean) aValue);
 					break;
 				case 6:
-					game.getRules().setDirection((Direction) aValue);
+					game.getOptions().setStartdirection((EnumGameDirection) aValue);
 					break;
 				case 7:
 					if((Boolean) aValue)
@@ -746,7 +735,6 @@ public class SummaryScreen extends Screen implements ActionListener
 					}
 					break;
 				case 8:
-					game.getRules().setCreatorGiveUp((Boolean) aValue);
 					if((Boolean) aValue)
 					{
 						if(!gamesToLeave.contains(game))
