@@ -143,7 +143,7 @@ public class Launcher
 					if(api.check().get() != null)
 					{
 						logger.info("login successful!");
-						continue;
+						break;
 					}
 					else
 					{
