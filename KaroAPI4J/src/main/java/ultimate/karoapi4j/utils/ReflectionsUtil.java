@@ -66,7 +66,11 @@ public abstract class ReflectionsUtil
 				Method setter = cls.getMethod(setterName, m.getReturnType());
 				setter.invoke(target, value);
 			}
-			catch(NoSuchMethodException | IllegalArgumentException | IllegalAccessException | InvocationTargetException e)
+			catch(NoSuchMethodException e)
+			{
+				logger.trace("ignoring field: " + getterName + " -> no setter");
+			}
+			catch(IllegalArgumentException | IllegalAccessException | InvocationTargetException e)
 			{
 				logger.warn("error copying field: " + getterName + " -> " + setterName);
 				e.printStackTrace();
