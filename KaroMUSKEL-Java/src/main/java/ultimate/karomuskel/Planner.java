@@ -27,6 +27,7 @@ import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.ui.Language;
 
+// TODO javadoc
 public class Planner
 {
 	/**

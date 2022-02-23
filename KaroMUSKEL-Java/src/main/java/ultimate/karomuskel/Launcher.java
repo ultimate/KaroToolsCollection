@@ -18,6 +18,7 @@ import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
 
+//TODO javadoc
 public class Launcher
 {
 	/**
