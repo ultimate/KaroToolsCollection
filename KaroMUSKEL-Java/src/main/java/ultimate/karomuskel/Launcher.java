@@ -122,7 +122,7 @@ public class Launcher
 		}
 		else
 		{
-			LoginDialog loginDialog = new LoginDialog();
+			LoginDialog loginDialog = LoginDialog.getInstance();
 
 			while(true)
 			{
