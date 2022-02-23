@@ -65,6 +65,12 @@ public class KaroAPICache implements IDLookUp
 	public static final int					DEFAULT_IMAGE_SIZE	= 100;
 
 	/**
+	 * The special maps to add
+	 * TODO make this configurable
+	 */
+	public static final int[]				SPECIAL_MAPS		= { 25, 30, 31, 32, 39, 47, 48, 52, 81, 100, 106, 113, 115, 144, 177, 186 };
+
+	/**
 	 * The underlying {@link KaroAPI} instance
 	 */
 	private KaroAPI							karoAPI;
@@ -143,10 +149,7 @@ public class KaroAPICache implements IDLookUp
 			});
 
 			// then check the current user
-			CompletableFuture<Void> loadCheck = loadUsers.thenComposeAsync(v -> {
-				logger.info("checking login...");
-				return karoAPI.check();
-			}).thenAccept(checkUser -> {
+			CompletableFuture<Void> loadCheck = loadUsers.thenComposeAsync(v -> { logger.info("checking login..."); return karoAPI.check(); }).thenAccept(checkUser -> {
 				if(checkUser != null)
 				{
 					logger.info("credentials confirmed: " + checkUser.getLogin() + " (" + checkUser.getId() + ")");
@@ -171,12 +174,11 @@ public class KaroAPICache implements IDLookUp
 			});
 
 			// additionally load special maps
-			final int[] specialMaps = new int[] {};
 			loadMaps = loadMaps.thenRunAsync(() -> {
 				logger.info("loading special maps...");
 				Map m;
 				int count = 0;
-				for(int id : specialMaps)
+				for(int id : SPECIAL_MAPS)
 				{
 					try
 					{
@@ -223,9 +225,7 @@ public class KaroAPICache implements IDLookUp
 			}
 
 			// join all operations
-			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, CompletableFuture.allOf(loadAllImages)).thenAccept(v -> {
-				logger.info("refresh complete");
-			});
+			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, CompletableFuture.allOf(loadAllImages)).thenAccept(v -> { logger.info("refresh complete"); });
 		}
 		else
 		{
@@ -255,9 +255,7 @@ public class KaroAPICache implements IDLookUp
 				}
 
 				currentUser = usersById.get(1);
-			}).thenAccept(v -> {
-				logger.info("refresh complete");
-			});
+			}).thenAccept(v -> { logger.info("refresh complete"); });
 		}
 	}
 
@@ -279,7 +277,7 @@ public class KaroAPICache implements IDLookUp
 	}
 
 	// TODO javadoc
-	
+
 	public User getUser(int id)
 	{
 		if(!this.usersById.containsKey(id))
