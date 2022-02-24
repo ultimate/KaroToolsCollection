@@ -82,7 +82,6 @@ public class JSONUtilTest
 
 	private String toJson(GameSeries gs)
 	{
-		// #99
 		// only supports simple gs
 		//@formatter:off
 		return "{\"type\":\"" + gs.getType() + "\","
