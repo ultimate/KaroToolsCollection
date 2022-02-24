@@ -28,6 +28,11 @@ import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
 public class CCCEvalNew implements Eval
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger			= LoggerFactory.getLogger(getClass());
+	
 	private static final String	DEFAULT_FOLDER	= "";
 	private static final int[]	ALL_COLUMNS;
 
@@ -134,30 +139,30 @@ public class CCCEvalNew implements Eval
 	public String doEvaluation() throws IOException, InterruptedException
 	{
 		long start;
-		System.out.print("reading properties (" + cccx + ")... ");
+		logger.info("reading properties (" + cccx + ")... ");
 		start = System.currentTimeMillis();
 		gidProperties = readProperties(folder + "czzzcc" + cccx + "-gid.properties");
-		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
+		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
-		System.out.print("buffering logs... ");
+		logger.info("buffering logs... ");
 		start = System.currentTimeMillis();
 		readLogs();
-		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
+		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
-		System.out.println("creating tables... ");
+		logger.info("creating tables... ");
 		start = System.currentTimeMillis();
 		boolean finished = createTables();
-		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
+		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
-		System.out.print("creating WIKI... ");
+		logger.info("creating WIKI... ");
 		start = System.currentTimeMillis();
 		String wiki = createWiki(folder + "czzzcc" + cccx + "-schema.txt", finished);
-		System.out.println("OK (" + (System.currentTimeMillis() - start) + ")");
+		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
-		// System.out.println();
-		// System.out.println();
+		// logger.info();
+		// logger.info();
 
-		// System.out.println(wiki);
+		// logger.info(wiki);
 
 		return wiki;
 	}
@@ -387,14 +392,14 @@ public class CCCEvalNew implements Eval
 				}
 				catch(Exception e)
 				{
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
-					System.out.println("ERROR for race " + c + "." + r);
-					System.out.print(getLog(c, r));
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("ERROR for race " + c + "." + r);
+					logger.info(getLog(c, r));
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
 					throw new RuntimeException(e);
 				}
 			}
@@ -473,14 +478,14 @@ public class CCCEvalNew implements Eval
 				}
 				catch(Exception e)
 				{
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
-					System.out.println("ERROR for race " + c + "." + r);
-					System.out.print(getLog(c, r));
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
-					System.out.println("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("ERROR for race " + c + "." + r);
+					logger.info(getLog(c, r));
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
+					logger.info("----------------------------------------------");
 					throw new RuntimeException(e);
 				}
 				createWhoOnWho(c, r, challengePlayers);
@@ -568,7 +573,7 @@ public class CCCEvalNew implements Eval
 			finalTable[i][tables.length + 10] = ("" + round(round(expected_old + expected_bonus)));
 		}
 
-		System.out.println("finished=" + finished);
+		logger.info("finished=" + finished);
 
 		sortFinalTable(finished);
 
@@ -743,7 +748,7 @@ public class CCCEvalNew implements Eval
 			lastRankWithoutPointsThrownIndex = indexes[numberOfPlayers[c] - lastRankWithPoints - 1];
 		}
 		if(lastRankWithoutPointsThrownIndex > 0)
-			System.out.println("  Challenge " + c + "." + r);
+			logger.info("  Challenge " + c + "." + r);
 
 		for(String player : players)
 		{
@@ -755,15 +760,15 @@ public class CCCEvalNew implements Eval
 
 			if(gidProperties.containsKey(c + "." + r + "." + player))
 			{
-				System.out.print("    correcting crash count for " + player + " @ " + c + "." + r);
+				logger.info("    correcting crash count for " + player + " @ " + c + "." + r);
 				try
 				{
 					crashs += intFromString(gidProperties.getProperty(c + "." + r + "." + player));
-					System.out.println(" >> OK");
+					logger.info(" >> OK");
 				}
 				catch(NumberFormatException e)
 				{
-					System.out.println(" >> ERROR: " + e.getMessage());
+					logger.info(" >> ERROR: " + e.getMessage());
 				}
 			}
 
@@ -796,7 +801,7 @@ public class CCCEvalNew implements Eval
 				position = position + (player + " wird ").length();
 				position = intFromString(log.substring(position, log.indexOf(".", position + 1)));
 				if((lastRankWithoutPointsThrownIndex > 0) && (position == lastRankWithPoints) && (crashsAfterLastRankWithoutPointsThrown > 0))
-					System.out.println("    " + player + ": " + crashsAfterLastRankWithoutPointsThrown + " (" + crashs + ")");
+					logger.info("    " + player + ": " + crashsAfterLastRankWithoutPointsThrown + " (" + crashs + ")");
 				finished = true;
 			}
 			else
@@ -813,7 +818,7 @@ public class CCCEvalNew implements Eval
 		}
 
 		// sort players by position
-		// System.out.println("before: " + players);
+		// logger.info("before: " + players);
 		players.sort(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2)
@@ -821,7 +826,7 @@ public class CCCEvalNew implements Eval
 				return playerPosition.get(o1) - playerPosition.get(o2);
 			}
 		});
-		// System.out.println("after: " + players);
+		// logger.info("after: " + players);
 
 		return table;
 	}
@@ -1234,7 +1239,7 @@ public class CCCEvalNew implements Eval
 		int firstMovePartEnd = log.indexOf(": -----------------------------------");
 		if(firstMovePartEnd == -1)
 		{
-			// System.out.println("First round not yet completed: need to look in page instead of
+			// logger.info("First round not yet completed: need to look in page instead of
 			// log: " + c + "." + r);
 			return getChallengePlayers(c, r);
 		}
@@ -1280,7 +1285,7 @@ public class CCCEvalNew implements Eval
 		while(true)
 		{
 			if(page == null)
-				System.out.println("ERROR: page is null");
+				logger.info("ERROR: page is null");
 			index = page.indexOf(start_playerName, index + 1) + start_playerName.length();
 			if(index == start_playerName.length() - 1)
 				break;
@@ -1304,14 +1309,14 @@ public class CCCEvalNew implements Eval
 		}
 		queue.begin();
 		queue.waitForFinished();
-		// System.out.println("all logs loaded");
+		// logger.info("all logs loaded");
 	}
 
 	private String getPage(int c, int r)
 	{
 		if(pages[c][r] == null)
 		{
-			// System.out.println("page null: loading: " + c + "." + r);
+			// logger.info("page null: loading: " + c + "." + r);
 			try
 			{
 				queue.addThread(new GameLoaderThread(c, r, "page"));
@@ -1322,7 +1327,7 @@ public class CCCEvalNew implements Eval
 			{
 				e.printStackTrace();
 			}
-			// System.out.println(pages[c][r]);
+			// logger.info(pages[c][r]);
 		}
 		return pages[c][r];
 	}
@@ -1454,7 +1459,7 @@ public class CCCEvalNew implements Eval
 			}
 		}
 		int challenges = c - 1;
-		System.out.println("number of challenges: " + challenges);
+		logger.info("number of challenges: " + challenges);
 		p.setProperty("challenges", "" + challenges);
 
 		PropertiesUtil.storeProperties(file, p, "");

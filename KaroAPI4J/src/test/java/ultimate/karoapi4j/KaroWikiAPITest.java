@@ -16,11 +16,18 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public class KaroWikiAPITest
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass());
+	
 	private static String		username;
 	private static String		password;
 
@@ -62,7 +69,7 @@ public class KaroWikiAPITest
 			assertTrue(wl.login(username, password).get());
 
 			Map<String, Object> propertiesValid = wl.queryRevisionProperties(PAGE_EXISTING, "timestamp").get();
-			System.out.println(propertiesValid);
+			logger.debug(propertiesValid.toString());
 			assertEquals(PAGE_EXISTING, propertiesValid.get("title"));
 			assertFalse(propertiesValid.containsKey("missing"));
 			assertNotNull(propertiesValid.get("pageid"));
@@ -71,7 +78,7 @@ public class KaroWikiAPITest
 			assertTrue(((List) propertiesValid.get("revisions")).size() > 0);
 
 			Map<String, Object> propertiesInvalid = wl.queryRevisionProperties(PAGE_MISSING, "timestamp").get();
-			System.out.println(propertiesInvalid);
+			logger.debug(propertiesInvalid.toString());
 			assertEquals(PAGE_MISSING, propertiesInvalid.get("title"));
 			assertTrue(propertiesInvalid.containsKey("missing"));
 		}
@@ -92,11 +99,11 @@ public class KaroWikiAPITest
 			String timestamp;
 
 			timestamp = wl.getTimestamp(PAGE_EXISTING).get();
-			System.out.println(timestamp);
+			logger.debug(timestamp);
 			assertNotNull(timestamp);
 
 			timestamp = wl.getTimestamp(PAGE_MISSING).get();
-			System.out.println(timestamp);
+			logger.debug(timestamp);
 			assertNull(timestamp);
 
 		}
@@ -117,11 +124,11 @@ public class KaroWikiAPITest
 			String token;
 
 			token = wl.getToken(PAGE_EXISTING, "edit").get();
-			System.out.println(token);
+			logger.debug(token);
 			assertNotNull(token);
 
 			token = wl.getToken(PAGE_MISSING, "edit").get();
-			System.out.println(token);
+			logger.debug(token);
 			assertNotNull(token);
 
 		}

@@ -191,7 +191,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	public void createGames()
 	{
 		int amount = this.gamesToCreate.size();
-		System.out.println("Spiele zu erstellen: " + amount);
+		logger.info("Spiele zu erstellen: " + amount);
 
 		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.create.confirm").replace("%N", "" + amount));
 		if(result != JOptionPane.OK_OPTION)
@@ -235,7 +235,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 
 		int amount = this.gamesToLeaveTmp.size();
-		System.out.println("Spiele zu verlassen: " + amount);
+		logger.info("Spiele zu verlassen: " + amount);
 
 		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.leave.confirm").replace("%N", "" + amount));
 		if(result != JOptionPane.OK_OPTION)
@@ -438,7 +438,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == JOptionPane.OK_OPTION)
 		{
 			boolean value = checkbox.isSelected();
-			System.out.println("Setze " + label + "=" + value);
+			logger.info("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				if(model.isCellEditable(row, column))
@@ -462,7 +462,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == JOptionPane.OK_OPTION)
 		{
 			Integer value = (Integer) spinner.getValue();
-			System.out.println("Setze " + label + "=" + value);
+			logger.info("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				if(model.isCellEditable(row, column))
@@ -483,7 +483,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == JOptionPane.OK_OPTION)
 		{
 			String value = (String) textfield.getText();
-			System.out.println("Setze " + label + "=" + value);
+			logger.info("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				String updateValue = Planner.applyPlaceholders(value, model.getRow(row).getPlaceHolderValues());
@@ -502,7 +502,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == JOptionPane.OK_OPTION)
 		{
 			Object value = combobox.getSelectedItem();
-			System.out.println("Setze " + label + "=" + value);
+			logger.info("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				if(model.isCellEditable(row, column))
@@ -527,7 +527,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == 0) // add
 		{
 			User value = (User) combobox.getSelectedItem();
-			System.out.println("Füge Spieler " + value + " hinzu");
+			logger.info("Füge Spieler " + value + " hinzu");
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
@@ -539,7 +539,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		else if(result == 1) // remove
 		{
 			User value = (User) combobox.getSelectedItem();
-			System.out.println("Entferne Spieler " + value);
+			logger.info("Entferne Spieler " + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());

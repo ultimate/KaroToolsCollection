@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Properties;
 import java.util.TimeZone;
 
@@ -32,10 +36,14 @@ import ultimate.karopapier.eval.Eval;
 
 public class KaropapierCronTool
 {
-	public static final String		DEFAULT_PROPERTIES	= "crontool.properties";
-	public static final DateFormat	DATE_FORMAT			= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-	public static final String		PROP_WIKI_PREFIX	= "wiki.file.";
-	
+	/**
+	 * Logger-Instance
+	 */
+	protected static transient final Logger	logger				= LoggerFactory.getLogger(KaropapierCronTool.class);
+	public static final String				DEFAULT_PROPERTIES	= "crontool.properties";
+	public static final DateFormat			DATE_FORMAT			= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	public static final String				PROP_WIKI_PREFIX	= "wiki.file.";
+
 	static
 	{
 		DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("CET"));
@@ -43,9 +51,9 @@ public class KaropapierCronTool
 
 	public static void main(String[] args)
 	{
-		System.out.println("---------------------------------------------------------------");
-		System.out.println("--- EXECUTION " + DATE_FORMAT.format(new Date()));
-		System.out.println("---------------------------------------------------------------");
+		logger.info("---------------------------------------------------------------");
+		logger.info("--- EXECUTION " + DATE_FORMAT.format(new Date()));
+		logger.info("---------------------------------------------------------------");
 
 		Language.load("de");
 
@@ -58,13 +66,13 @@ public class KaropapierCronTool
 		Properties properties;
 		try
 		{
-			System.out.print("reading properties... ");
+			logger.info("reading properties... ");
 			properties = PropertiesUtil.loadProperties(propertiesFile);
-			System.out.println("OK");
+			logger.info("OK");
 		}
 		catch(IOException e)
 		{
-			System.err.println("ERROR: could not load properties: " + propertiesFile.getPath());
+			logger.error("ERROR: could not load properties: " + propertiesFile.getPath());
 			return;
 		}
 
@@ -92,7 +100,7 @@ public class KaropapierCronTool
 		}
 
 		executions++;
-		System.out.println("current execution: " + executions);
+		logger.info("current execution: " + executions);
 		properties.setProperty("executions", "" + executions);
 
 		GameSeries gs = null;
@@ -102,7 +110,7 @@ public class KaropapierCronTool
 		{
 			try
 			{
-				System.out.println("creating games... ");
+				logger.info("creating games... ");
 				if(KaropapierLoader.login(karoUsername, karoPassword))
 				{
 					Karopapier karopapier = initiateKaropapier();
@@ -115,43 +123,44 @@ public class KaropapierCronTool
 					List<Game> allGames = gs.getGames();
 					List<Game> gamesToCreate = new ArrayList<Game>();
 
-					String pattern = gameseriesPattern.replace("%{EXEC}", "" + ((executions-1)/gameseriesCreate + 1));
+					String pattern = gameseriesPattern.replace("%{EXEC}", "" + ((executions - 1) / gameseriesCreate + 1));
 					for(Game g : allGames)
 					{
-//						System.out.println("checking '" + g.getName() + "' with '" + pattern + "' & created=" + g.isCreated() + " -> " + (g.getName().contains(pattern) && !g.isCreated()));
+						// logger.info("checking '" + g.getName() + "' with '" + pattern + "' & created=" + g.isCreated() + " -> " +
+						// (g.getName().contains(pattern) && !g.isCreated()));
 						if(g.getName().contains(pattern) && !g.isCreated())
 							gamesToCreate.add(g);
 					}
 
 					if(gamesToCreate.size() > 0)
 					{
-						System.out.println("games to create:");
+						logger.info("games to create:");
 						for(Game g : gamesToCreate)
-							System.out.println("  " + g.getName());
+							logger.info("  " + g.getName());
 
 						GameCreator gc = new GameCreator(karopapier, null);
 						gc.createGames(gamesToCreate);
 						gc.waitForFinished();
-						System.out.println("OK");
+						logger.info("OK");
 
 						for(Game g : gamesToCreate)
 							g.setCreated(true);
 
 						if(gameseriesLeave)
 						{
-							System.out.println("leaving games... ");
+							logger.info("leaving games... ");
 							gc.leaveGames(gamesToCreate, gs.getCreator());
 							gc.waitForFinished();
-							System.out.println("OK");
+							logger.info("OK");
 
 							for(Game g : gamesToCreate)
 								g.setLeft(true);
 						}
 						else
 						{
-							System.out.println("finding game ids... ");
+							logger.info("finding game ids... ");
 							KaropapierLoader.findIds(gamesToCreate);
-							System.out.println("OK");
+							logger.info("OK");
 						}
 
 						File backupFile = new File(gameseriesFile.getPath() + "." + (executions - 1));
@@ -160,17 +169,17 @@ public class KaropapierCronTool
 					}
 					else
 					{
-						System.out.println("no games to create");
+						logger.info("no games to create");
 					}
 				}
 				else
 				{
-					System.err.println("FAILED: login failed!");
+					logger.error("FAILED: login failed!");
 				}
 			}
 			catch(Exception e)
 			{
-				System.err.println("ERROR: " + e.getMessage());
+				logger.error("ERROR: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -180,16 +189,16 @@ public class KaropapierCronTool
 		{
 			try
 			{
-				System.out.println("doing evaluation... ");
+				logger.info("doing evaluation... ");
 				Eval e = (Eval) Class.forName(evalClass).newInstance();
 				if(gs != null)
 					e.prepare(gs, executions);
 				e.doEvaluation();
-				System.out.println("OK");
+				logger.info("OK");
 			}
 			catch(Exception e)
 			{
-				System.err.println("ERROR: " + e.getMessage());
+				logger.error("ERROR: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
@@ -199,7 +208,7 @@ public class KaropapierCronTool
 		{
 			try
 			{
-				System.out.println("uploading wiki... ");
+				logger.info("uploading wiki... ");
 				KaroWikiAPI wl = new KaroWikiAPI();
 				if(wl.login(wikiUsername, wikiPassword))
 				{
@@ -209,7 +218,7 @@ public class KaropapierCronTool
 						File file = new File(e.getKey());
 						if(file.exists())
 						{
-							System.out.println("uploading " + e.getKey() + " -> " + e.getValue() + " ... ");
+							logger.info("uploading " + e.getKey() + " -> " + e.getValue() + " ... ");
 							String content = null;
 							try
 							{
@@ -217,13 +226,13 @@ public class KaropapierCronTool
 							}
 							catch(IOException ex)
 							{
-								System.out.println("ERROR: " + ex.getMessage());
+								logger.info("ERROR: " + ex.getMessage());
 								continue;
 							}
 							if(wl.edit(e.getValue(), content, summary, true, wikiBot))
-								System.out.println("OK");
+								logger.info("OK");
 							else
-								System.out.println("FAILED");
+								logger.info("FAILED");
 						}
 
 					}
@@ -236,23 +245,23 @@ public class KaropapierCronTool
 			}
 			catch(Exception e)
 			{
-				System.err.println("ERROR: " + e.getMessage());
+				logger.error("ERROR: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
 
 		try
 		{
-			System.out.print("writing updated properties... ");
+			logger.info("writing updated properties... ");
 			File backupFile = new File(propertiesFile.getPath() + ".bak");
 			if(!backupFile.exists())
 				propertiesFile.renameTo(backupFile);
 			PropertiesUtil.storeProperties(propertiesFile, properties, null);
-			System.out.println("OK");
+			logger.info("OK");
 		}
 		catch(IOException e)
 		{
-			System.err.println("ERROR: could not write properties: " + propertiesFile.getPath());
+			logger.error("ERROR: could not write properties: " + propertiesFile.getPath());
 			return;
 		}
 
