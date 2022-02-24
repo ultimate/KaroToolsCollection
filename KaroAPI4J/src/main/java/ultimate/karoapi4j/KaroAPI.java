@@ -81,9 +81,7 @@ public class KaroAPI implements IDLookUp
 	// parsers needed //
 	////////////////////
 
-	public static final Function<String, Void>									PARSER_VOID					= (result) -> {
-																												return null;
-																											};
+	public static final Function<String, Void>									PARSER_VOID					= (result) -> { return null; };
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
 	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(new TypeReference<java.util.Map<String, Object>>() {});
 	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
@@ -100,11 +98,9 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
-																												return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
-																											};
-	public static final Function<String, String>								PARSER_KEY					= (result) -> {
-																												return (String) PARSER_GENERIC.apply(result).get("api_key");
-																											};
+		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
+	};
+	public static final Function<String, String>								PARSER_KEY					= (result) -> { return (String) PARSER_GENERIC.apply(result).get("api_key"); };
 
 	//////////////////
 	// static logic //
@@ -287,9 +283,9 @@ public class KaroAPI implements IDLookUp
 		return getKey().thenComposeAsync((key) -> {
 			if(key == null)
 				throw new KaroAPIException("could not retrieve key");
-			
+
 			setAPIKey(key);
-			
+
 			return check().thenApplyAsync((user) -> {
 				if(user == null)
 					throw new KaroAPIException("check returned no user");
@@ -299,7 +295,7 @@ public class KaroAPI implements IDLookUp
 			});
 		});
 	}
-	
+
 	protected void setAPIKey(String key)
 	{
 		KAROPAPIER.addRequestProperty("X-Auth-Key", key);
@@ -658,9 +654,7 @@ public class KaroAPI implements IDLookUp
 		args.put("starty", "" + move.getY());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
-			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
-		});
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
 	}
 
 	/**
@@ -680,9 +674,7 @@ public class KaroAPI implements IDLookUp
 		args.put("yvec", "" + move.getYv());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
-			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
-		});
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
 	}
 
 	/**
@@ -699,9 +691,7 @@ public class KaroAPI implements IDLookUp
 		args.put("GID", "" + gameId);
 		args.put("UID", "" + userId);
 		args.put("sicher", "1");
-		return loadAsync(GAME_KICK.doGet(args), (result) -> {
-			return result != null && result.contains("Fertig, Du bist draussen...");
-		});
+		return loadAsync(GAME_KICK.doGet(args), (result) -> { return result != null && result.contains("Fertig, Du bist draussen..."); });
 	}
 
 	///////////////////////
@@ -1079,9 +1069,7 @@ public class KaroAPI implements IDLookUp
 		else
 			throw new IllegalArgumentException("unsupported type: " + object.getClass());
 
-		return loader.whenComplete((result, th) -> {
-			ReflectionsUtil.copyFields(result, object, false);
-		});
+		return loader.whenComplete((result, th) -> { ReflectionsUtil.copyFields(result, object, false); });
 	}
 
 	///////////////////////
@@ -1094,14 +1082,14 @@ public class KaroAPI implements IDLookUp
 	{
 		try
 		{
-			if(cls.equals(User.class))
+			if(User.class.equals(cls))
 				return (T) getUser(id).get();
-			else if(cls.equals(Map.class))
-				return (T) getMap(id).get();
-			else if(cls.equals(Game.class))
+			else if(Game.class.equals(cls))
 				return (T) getGame(id).get();
+			else if(Map.class.equals(cls))
+				return (T) getMap(id).get();
 			else
-				logger.error("unsupported lookup type");
+				logger.error("unsupported lookup type: " + cls.getName());
 		}
 		catch(ExecutionException | InterruptedException e)
 		{

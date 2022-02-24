@@ -157,7 +157,7 @@ public class Launcher
 			}
 		}
 
-		cache = new KaroAPICache(api);
+		cache = new KaroAPICache(api, config);
 
 		logger.info("-------------------------------------------------------------------------");
 		logger.info("initializing cache...");

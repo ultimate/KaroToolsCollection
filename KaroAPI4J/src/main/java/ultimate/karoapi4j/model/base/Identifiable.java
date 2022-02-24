@@ -14,7 +14,7 @@ public class Identifiable
 	 * the id
 	 */
 	@JsonInclude(value = Include.NON_NULL)
-	private Integer id;
+	protected Integer id;
 
 	/**
 	 * Default constructor
