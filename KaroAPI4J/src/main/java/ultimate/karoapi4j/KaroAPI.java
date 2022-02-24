@@ -62,7 +62,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LogManager.getLogger();
+	protected transient final Logger											logger						= LogManager.getLogger();
 
 	////////////////////////
 	// config & constants //
@@ -90,6 +90,7 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
 	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
 	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	public static final Function<String, List<Move>>							PARSER_MOVE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Move>>() {});
 	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
 	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
 	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
@@ -157,7 +158,7 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader	BLOCKERS		= API.relative("/blockers");
 	protected final URLLoader	NOTES			= API.relative("/notes");
 	protected final URLLoader	NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
-	protected final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");						// TODO implement
+	protected final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");
 	// games
 	protected final URLLoader	GAMES			= API.relative("/games");
 	protected final URLLoader	GAMES3			= API.relative("/games3");
@@ -532,6 +533,17 @@ public class KaroAPI implements IDLookUp
 	public CompletableFuture<List<User>> getUserBlockers(int userId)
 	{
 		return loadAsync(USER_BLOCKERS.replace(PLACEHOLDER, userId).doGet(), PARSER_USER_LIST);
+	}
+
+	/**
+	 * Get the list of planned moves for a specific user.<br>
+	 * 
+	 * @see KaroAPI#PLANNED_MOVES
+	 * @return the list of users
+	 */
+	public CompletableFuture<List<Move>> getPlannedMoves()
+	{
+		return loadAsync(PLANNED_MOVES.doGet(), PARSER_MOVE_LIST);
 	}
 
 	///////////////////////
