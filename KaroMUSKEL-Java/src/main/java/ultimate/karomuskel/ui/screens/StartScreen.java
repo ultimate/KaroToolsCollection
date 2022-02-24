@@ -134,14 +134,17 @@ public class StartScreen extends Screen implements ActionListener
 		{
 			this.gameSeries = FileDialog.getInstance().showLoad(this, karoAPICache);
 			if(this.gameSeries == null)
-				((JRadioButton) e.getSource()).setSelected(false);
+				this.buttonGroup.clearSelection();
 		}
 		else
 		{
 			this.gameSeries = new GameSeries(EnumGameSeriesType.valueOf(e.getActionCommand()));
 		}
-		LinkedList<Screen> screens = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton);
-		// this.setNext(screens.getFirst()); // already set in initScreens
-		screens.getLast().setNext(this);
+		if(this.gameSeries != null)
+		{
+			LinkedList<Screen> screens = GameSeriesManager.initScreens(this.gameSeries, karoAPICache, this, previousButton, nextButton);
+			// this.setNext(screens.getFirst()); // already set in initScreens
+			screens.getLast().setNext(this);
+		}
 	}
 }
