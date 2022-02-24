@@ -55,6 +55,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	@Test
 	public void test_storeAndLoad() throws IOException
 	{
+		// #99
 		User creator = dummyCache.getCurrentUser();
 
 		int uid1 = 11;
