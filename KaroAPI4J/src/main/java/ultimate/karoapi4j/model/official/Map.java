@@ -205,6 +205,7 @@ public class Map extends Identifiable
 	@Override
 	public String toString()
 	{
+		// #105
 		return "Karte " + this.getId() + ": " + this.name + " (" + this.players + " Spieler) von '" + author + "' " + (this.night ? "'Nacht'" : "'Tag'");
 	}
 }
