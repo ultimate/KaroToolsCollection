@@ -80,23 +80,27 @@ public abstract class GameSeriesManager
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger();
+	protected static transient final Logger	logger							= LogManager.getLogger();
 	/**
 	 * The charset for the JSON storage of {@link GameSeries}
 	 */
-	public static final String	CHARSET						= "UTF-8";
+	public static final String				CHARSET							= "UTF-8";
 	/**
 	 * The prefix for the GameSeries configurations
 	 */
-	public static final String	CONFIG_GAMESERIES_PREFIX	= "gameseries";
+	public static final String				CONFIG_GAMESERIES_PREFIX		= "gameseries";
 	/**
 	 * The config delimiter ('.')
 	 */
-	public static final char	CONFIG_DELIMITER			= '.';
+	public static final char				CONFIG_DELIMITER				= '.';
+	/**
+	 * The config delimiter ('.')
+	 */
+	public static final String				CONFIG_ALLOW_CREATOR_GIVE_UP	= CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + "allow.creatorGiveUp";
 	/**
 	 * The config file to use
 	 */
-	private static Properties	config;
+	private static Properties				config;
 
 	/**
 	 * Prevent instantiation
@@ -146,6 +150,17 @@ public abstract class GameSeriesManager
 	public static int getIntConfig(String key)
 	{
 		return Integer.parseInt(getStringConfig(key));
+	}
+
+	/**
+	 * Get a boolean config by key
+	 * 
+	 * @param key - the key
+	 * @return the config value as boolean
+	 */
+	public static boolean getBooleanConfig(String key)
+	{
+		return Boolean.parseBoolean(getStringConfig(key));
 	}
 
 	/**
@@ -263,7 +278,7 @@ public abstract class GameSeriesManager
 		String prefix = CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + gs.getType().toString().toLowerCase() + CONFIG_DELIMITER;
 		String settingsKey;
 		String valueS;
-		for(Object key: config.keySet())
+		for(Object key : config.keySet())
 		{
 			if(((String) key).toLowerCase().startsWith(prefix))
 			{
@@ -279,7 +294,7 @@ public abstract class GameSeriesManager
 				}
 			}
 		}
-		
+
 		logger.info("storing GameSeries to file: " + file.getAbsolutePath());
 
 		String json = JSONUtil.serialize(gs, true);

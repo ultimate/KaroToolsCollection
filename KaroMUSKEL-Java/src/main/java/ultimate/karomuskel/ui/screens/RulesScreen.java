@@ -18,6 +18,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
@@ -55,10 +56,9 @@ public class RulesScreen extends Screen
 		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(true, true));
 		this.directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.classic, true));
 		this.creatorGiveUpCB = new JComboBox<>(new BooleanModel(false, false));
-		this.creatorGiveUpCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator());
+		this.creatorGiveUpCB.setEnabled(GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
 		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(false, false));
 		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator());
-
 	}
 
 	@SuppressWarnings("unchecked")
