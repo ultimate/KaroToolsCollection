@@ -367,4 +367,11 @@ public class User extends Identifiable
 	{
 		return getLogin().toLowerCase();
 	}
+	
+	@Override
+	public String toString()
+	{
+		return this.login + " (ID=" + this.id + ") [ " + this.signup + " | "
+				+ this.lastVisit + " @ " + this.activeGames + " / " + this.maxGames + (this.isAcceptsNightGames() ? "" : " , keine Nachtrennen") + " ]";
+	}
 }
