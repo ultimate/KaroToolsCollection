@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -48,6 +49,11 @@ public class KaroAPICache implements IDLookUp
 	 */
 	protected transient final Logger		logger				= LoggerFactory.getLogger(getClass());
 
+	public static final String				CONFIG_BASE			= "karoAPI.";
+	public static final String				CONFIG_CACHE		= CONFIG_BASE + "cache";
+	public static final String				CONFIG_EXTRA_MAPS	= CONFIG_BASE + "extra.maps";
+	public static final String				CONFIG_EXTRA_USERS	= CONFIG_BASE + "extra.users";
+
 	/**
 	 * The default cache folder
 	 * 
@@ -58,17 +64,15 @@ public class KaroAPICache implements IDLookUp
 	/**
 	 * The folder separator
 	 */
-	public static final String				DELIMITER			= "/";
+	public static final String				FOLDER_SEPARATOR	= "/";
 	/**
 	 * The default image size
 	 */
 	public static final int					DEFAULT_IMAGE_SIZE	= 100;
-
 	/**
-	 * The special maps to add
-	 * TODO make this configurable
+	 * The list separator
 	 */
-	public static final int[]				SPECIAL_MAPS		= { 25, 30, 31, 32, 39, 47, 48, 52, 81, 100, 106, 113, 115, 144, 177, 186 };
+	public static final String				LIST_SEPARATOR		= ",";
 
 	/**
 	 * The underlying {@link KaroAPI} instance
@@ -99,6 +103,11 @@ public class KaroAPICache implements IDLookUp
 	private java.util.Map<Integer, Map>		mapsById;
 
 	/**
+	 * The config used
+	 */
+	private Properties						config;
+
+	/**
 	 * The cache Folder
 	 */
 	private File							cacheFolder;
@@ -110,15 +119,6 @@ public class KaroAPICache implements IDLookUp
 	 */
 	public KaroAPICache(KaroAPI karoAPI)
 	{
-		this(karoAPI, null);
-	}
-
-	/**
-	 * @param karoAPI - The underlying {@link KaroAPI} instance
-	 * @param cacheFolder
-	 */
-	public KaroAPICache(KaroAPI karoAPI, File cacheFolder)
-	{
 		if(karoAPI == null)
 			logger.warn("KaroAPI is null - using debug mode");
 		this.karoAPI = karoAPI;
@@ -126,7 +126,16 @@ public class KaroAPICache implements IDLookUp
 		this.usersByLogin = new TreeMap<>();
 		this.gamesById = new TreeMap<>();
 		this.mapsById = new TreeMap<>();
-		this.cacheFolder = cacheFolder;
+	}
+
+	/**
+	 * @param karoAPI - The underlying {@link KaroAPI} instance
+	 * @param config - an optional configuration
+	 */
+	public KaroAPICache(KaroAPI karoAPI, Properties config)
+	{
+		this(karoAPI);
+		this.config = config;
 		// this.refresh().join();
 	}
 
@@ -140,6 +149,7 @@ public class KaroAPICache implements IDLookUp
 		if(karoAPI != null)
 		{
 			logger.info("refreshing KaroAPICache...");
+			
 			// load users
 			logger.info("loading users...");
 			CompletableFuture<Void> loadUsers = karoAPI.getUsers().thenAccept(userList -> {
@@ -147,6 +157,10 @@ public class KaroAPICache implements IDLookUp
 				for(User u : userList)
 					updateUser(u);
 			});
+			
+			// load extra users
+			if(config != null && config.containsKey(CONFIG_EXTRA_USERS))
+				loadUsers = loadExtras(User.class, config.getProperty(CONFIG_EXTRA_USERS), loadUsers);
 
 			// then check the current user
 			CompletableFuture<Void> loadCheck = loadUsers.thenComposeAsync(v -> { logger.info("checking login..."); return karoAPI.check(); }).thenAccept(checkUser -> {
@@ -173,27 +187,9 @@ public class KaroAPICache implements IDLookUp
 					updateMap(m);
 			});
 
-			// additionally load special maps
-			loadMaps = loadMaps.thenRunAsync(() -> {
-				logger.info("loading special maps...");
-				Map m;
-				int count = 0;
-				for(int id : SPECIAL_MAPS)
-				{
-					try
-					{
-						m = karoAPI.getMap(id).get();
-						updateMap(m);
-						count++;
-					}
-					catch(InterruptedException | ExecutionException e)
-					{
-						logger.error("could not load special map #" + id);
-						e.printStackTrace();
-					}
-				}
-				logger.info("special maps loaded: " + count);
-			});
+			// load extra maps
+			if(config != null && config.containsKey(CONFIG_EXTRA_MAPS))
+				loadMaps = loadExtras(Map.class, config.getProperty(CONFIG_EXTRA_MAPS), loadMaps);
 
 			// then load map images
 			logger.info("loading map images...");
@@ -257,6 +253,41 @@ public class KaroAPICache implements IDLookUp
 				currentUser = usersById.get(1);
 			}).thenAccept(v -> { logger.info("refresh complete"); });
 		}
+	}
+
+	private <T> CompletableFuture<Void> loadExtras(Class<T> cls, String ids, CompletableFuture<?> prereq)
+	{
+		return prereq.thenRunAsync(() -> {
+			logger.info("loading extra " + cls.getSimpleName() + "s...");
+			T t;
+			int count = 0;
+			int id;
+			
+			String[] idArray = ids.split(LIST_SEPARATOR);
+
+			for(String idS : idArray)
+			{
+				try
+				{
+					id = Integer.parseInt(idS.trim());
+					t = karoAPI.get(cls, id);
+					if(t != null)
+					{
+						update(t);
+						count++;
+					}
+					else
+					{
+						logger.error("could not load special " + cls.getSimpleName() + " #" + id);
+					}
+				}
+				catch(NumberFormatException e)
+				{
+					logger.error("could not load special " + cls.getSimpleName() + " #" + idS);
+				}
+			}
+			logger.info("extra " + cls.getSimpleName() + "s loaded: " + count);
+		});
 	}
 
 	/**
@@ -439,6 +470,11 @@ public class KaroAPICache implements IDLookUp
 		return Collections.unmodifiableMap(this.mapsById);
 	}
 
+	public Properties getConfig()
+	{
+		return config;
+	}
+
 	public File getCacheFolder()
 	{
 		return cacheFolder;
@@ -479,20 +515,34 @@ public class KaroAPICache implements IDLookUp
 		return image2;
 	}
 
-	///////////////////////
-	// LOOK UP FUNCTIONALITY
-	///////////////////////
+	///////////////////////////////////
+	// GENERIC & LOOK UP FUNCTIONALITY
+	///////////////////////////////////
+
+	@SuppressWarnings("unchecked")
+	public <T> T update(T t)
+	{
+		if(t instanceof User)
+			return (T) updateUser((User) t);
+		else if(t instanceof Game)
+			return (T) updateGame((Game) t);
+		else if(t instanceof Map)
+			return (T) updateMap((Map) t);
+		else
+			logger.error("unsupported type: " + (t == null ? null : t.getClass().getName()));
+		return null;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get(Class<T> cls, int id)
 	{
-		if(cls.equals(User.class))
+		if(User.class.equals(cls))
 			return (T) getUser(id);
-		else if(cls.equals(Map.class))
-			return (T) getMap(id);
-		else if(cls.equals(Game.class))
+		else if(Game.class.equals(cls))
 			return (T) getGame(id);
+		else if(Map.class.equals(cls))
+			return (T) getMap(id);
 		else
 			logger.error("unsupported lookup type: " + cls.getName());
 		return null;
