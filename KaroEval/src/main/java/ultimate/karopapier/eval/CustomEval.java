@@ -32,6 +32,11 @@ import ultimate.karopapier.eval.model.TableRecord;
 
 public abstract class CustomEval
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger			= LoggerFactory.getLogger(getClass());
+	
 	private static List<GameResult>				allResults				= new LinkedList<GameResult>();
 	private static List<GameResult>				filteredResults			= new LinkedList<GameResult>();
 
@@ -62,36 +67,36 @@ public abstract class CustomEval
 	{
 		long start;
 
-		System.out.print("Initialisierung...                         ");
+		logger.info("Initialisierung...                         ");
 		start = System.currentTimeMillis();
 		init(args);
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("Ermittle höchste GID...              ");
+		logger.info("Ermittle höchste GID...              ");
 		start = System.currentTimeMillis();
 		loadMaxGID();
-		System.out.print(format(gidMax, 6));
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(format(gidMax, 6));
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("Lade log-Dateien...                        ");
+		logger.info("Lade log-Dateien...                        ");
 		start = System.currentTimeMillis();
 		loadLogs();
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("Sortiere Spiele...                         ");
+		logger.info("Sortiere Spiele...                         ");
 		start = System.currentTimeMillis();
 		sortResults();
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("Auswertung (alle Spiele)...                ");
+		logger.info("Auswertung (alle Spiele)...                ");
 		start = System.currentTimeMillis();
 		evaluate(allResults, "result_all");
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("Auswertung (gefilterte Spiele)...          ");
+		logger.info("Auswertung (gefilterte Spiele)...          ");
 		start = System.currentTimeMillis();
 		evaluate(filteredResults, "result_filtered");
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 	}
 
 	private static void init(String[] args) throws IOException, ClassNotFoundException
@@ -99,8 +104,8 @@ public abstract class CustomEval
 		String properties = "iq.properties";
 		if(args.length == 0 || args.length > 1)
 		{
-			System.out.println("one single argument is required: path to your properties file (further arguments will be ignored)");
-			System.out.println("exampe: java -cp iq.jar eval.CustomEval \"C:\\Karo\\iq.properties\"");
+			logger.info("one single argument is required: path to your properties file (further arguments will be ignored)");
+			logger.info("exampe: java -cp iq.jar eval.CustomEval \"C:\\Karo\\iq.properties\"");
 		}
 		readProperties(properties);
 
@@ -202,32 +207,32 @@ public abstract class CustomEval
 
 	private static void evaluate(List<GameResult> results, String listName) throws InstantiationException, IllegalAccessException
 	{
-		System.out.println("");
+		logger.info("");
 
 		CustomEval eval = evalClass.newInstance();
 		long start;
 
-		System.out.print("  Ermittle beteiligte Spieler              ");
+		logger.info("  Ermittle beteiligte Spieler              ");
 		start = System.currentTimeMillis();
 		eval.init(results);
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("  Berechne Wertung                         ");
+		logger.info("  Berechne Wertung                         ");
 		start = System.currentTimeMillis();
 		eval.calculate(results);
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("  Schreibe Spielerdateien                  ");
+		logger.info("  Schreibe Spielerdateien                  ");
 		start = System.currentTimeMillis();
 		writeRecords(listName, eval.getPlayerRecords());
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("  Schreibe Tabelle                         ");
+		logger.info("  Schreibe Tabelle                         ");
 		start = System.currentTimeMillis();
 		writeTable(listName, eval.getTable());
-		System.out.println(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
+		logger.info(" OK (" + ((System.currentTimeMillis() - start) / 1000.0) + "s)");
 
-		System.out.print("                                           ");
+		logger.info("                                           ");
 	}
 
 	private static void writeRecords(String folder, Map<String, List<PlayerRecord>> playerRecords)
@@ -315,7 +320,7 @@ public abstract class CustomEval
 		}
 		catch(Exception e)
 		{
-			System.out.println("Error parsing game gid=" + gid);
+			logger.info("Error parsing game gid=" + gid);
 			e.printStackTrace();
 			return new GameResult(gid, "ERROR", null, null);
 		}
@@ -507,7 +512,7 @@ public abstract class CustomEval
 		{
 			moves = countOccurrences(log, player + " -> ", true);
 			if(moves != countOccurrences(log, player + " -> ", false))
-				System.out.println(" " + gid + " " + player);
+				logger.info(" " + gid + " " + player);
 			moves = countOccurrences(log, player + " -> ", false);
 			if(moves < 0)
 				moves = 0;
@@ -598,8 +603,8 @@ public abstract class CustomEval
 			fin = " " + fin;
 		String result = fin + "/" + plan;
 		for(int i = 0; i < result.length(); i++)
-			System.out.print("\b");
-		System.out.print(result);
+			logger.info("\b");
+		logger.info(result);
 	}
 
 	protected List<String>	players;

@@ -9,6 +9,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.official.Map;
@@ -25,6 +28,11 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
  */
 public class Demo
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected static transient final Logger logger = LoggerFactory.getLogger(Demo.class);
+
 	/**
 	 * Demo Code
 	 * 
@@ -48,11 +56,11 @@ public class Demo
 		{
 			currentUser = api.check().get();
 			if(currentUser != null)
-				System.out.println("login successful");
+				logger.info("login successful");
 		}
 		catch(InterruptedException | ExecutionException e)
 		{
-			System.out.println("login NOT successful");
+			logger.error("login NOT successful");
 			return;
 		}
 
@@ -68,26 +76,26 @@ public class Demo
 			// 2a) to get the result, you can either wait blocking
 			List<Map> maps = mapsCF.get();
 			// and then do something with the result
-			System.out.println("2a) maps found = " + maps.size());
+			logger.info("2a) maps found = " + maps.size());
 		}
 		catch(InterruptedException | ExecutionException e)
 		{
 			// Note that this can throw an Exception, if loading fails (for example server is not reachable)
-			System.out.println("2a) loading maps not successful NOT successful");
+			logger.error("2a) loading maps not successful NOT successful");
 		}
 
 		// 2b) or you can pass a callback
 		mapsCF.whenComplete((result, throwable) -> {
 			if(throwable == null)
 				// do something with the result
-				System.out.println("2b) maps found = " + result.size());
+				logger.info("2b) maps found = " + result.size());
 			else
-				System.out.println("2b) something went wrong");
+				logger.error("2b) something went wrong");
 		});
 
 		// 2c) or you can use the CompletableFuture to build up your logic
 		api.getMaps().thenCompose((result) -> {
-			System.out.println("2c) maps found = " + result.size());
+			logger.info("2c) maps found = " + result.size());
 			return CompletableFuture.supplyAsync(() -> {
 				PlannedGame game = new PlannedGame();
 
@@ -101,8 +109,8 @@ public class Demo
 			});
 		}).thenCompose(Function.identity()).whenComplete((game, throwable) -> {
 			if(game != null && throwable == null)
-				System.out.println("game created: id=" + game.getId());
-		}).exceptionally((throwable) -> { System.out.println("2c) something went wrong"); return null; }).join();
+				logger.info("game created: id=" + game.getId());
+		}).exceptionally((throwable) -> { logger.error("2c) something went wrong"); return null; }).join();
 
 		// 3) do with the result whatever you want (if you haven't already used in in 2b or 2c)
 		// ...
