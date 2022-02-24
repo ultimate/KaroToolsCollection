@@ -13,13 +13,21 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
 
+/**
+ * This class provides an abstraction for the {@link File} save and load dialog.<br>
+ * It performs all the requires settings on the {@link JFileChooser} and is capable of memorizing the last used folder throughout the program
+ * execution.
+ * 
+ * @author ultimate
+ *
+ */
 public class FileDialog
 {
 	private static FileDialog	instance	= new FileDialog();
 
 	private JFileChooser		fileChooser	= new JFileChooser();
-	
-	private FileFilter 			jsonFilter = new FileNameExtensionFilter("JSON-File", "json");
+
+	private FileFilter			jsonFilter	= new FileNameExtensionFilter("JSON-File", "json");
 
 	public static FileDialog getInstance()
 	{
@@ -39,7 +47,7 @@ public class FileDialog
 		this.fileChooser.resetChoosableFileFilters();
 		this.fileChooser.addChoosableFileFilter(jsonFilter);
 		this.fileChooser.setAcceptAllFileFilterUsed(true);
-		
+
 		int action = this.fileChooser.showSaveDialog(parent);
 
 		File file = this.fileChooser.getSelectedFile();
@@ -77,23 +85,24 @@ public class FileDialog
 		int action = this.fileChooser.showOpenDialog(parent);
 
 		File file = this.fileChooser.getSelectedFile();
+		if(action != JFileChooser.APPROVE_OPTION || file == null)
+			return null;
+
 		this.currentDirectory = file.isDirectory() ? file : file.getParentFile();
 
-		if(action != JFileChooser.APPROVE_OPTION)
-			return null;
 		if(!file.exists())
 		{
 			JOptionPane.showMessageDialog(parent, Language.getString("error.load") + Language.getString("error.load.notExisting"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
-		
+
 		try
 		{
 			return GameSeriesManager.load(file, karoAPICache);
 		}
 		catch(ClassCastException ex)
 		{
-			JOptionPane.showMessageDialog(parent, Language.getString("error.load") +  Language.getString("error.load.notAGameSeries"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parent, Language.getString("error.load") + Language.getString("error.load.notAGameSeries"), Language.getString("error.title"), JOptionPane.ERROR_MESSAGE);
 			ex.printStackTrace();
 		}
 		catch(IOException ex)
