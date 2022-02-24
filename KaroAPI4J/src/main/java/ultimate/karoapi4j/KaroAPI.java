@@ -318,6 +318,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
 	{
+		// #95
 		CompletableFuture<T> cf;
 		// check whether an Executor is set. If not use the default.
 		if(executor != null)
