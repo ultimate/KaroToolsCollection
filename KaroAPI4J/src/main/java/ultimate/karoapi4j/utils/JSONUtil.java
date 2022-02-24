@@ -13,8 +13,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -53,7 +53,7 @@ public abstract class JSONUtil
 	/**
 	 * Logger instance
 	 */
-	private static final Logger			logger		= LoggerFactory.getLogger(JSONUtil.class);
+	private static transient final Logger logger = LogManager.getLogger();
 	/**
 	 * the Jackson {@link ObjectWriter}
 	 */

@@ -30,7 +30,7 @@ public abstract class URLLoaderUtil
 	/**
 	 * Logger-Instance
 	 */
-	protected static final Logger	logger	= LoggerFactory.getLogger(URLLoaderUtil.class);
+	protected static final Logger	logger	= LogManager.getLogger(URLLoaderUtil.class);
 
 	/**
 	 * Load an URL with an {@link URLLoaderThread}<br>

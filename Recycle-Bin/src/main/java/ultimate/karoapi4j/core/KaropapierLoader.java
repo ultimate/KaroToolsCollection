@@ -24,7 +24,7 @@ public class KaropapierLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger				logger						= LoggerFactory.getLogger(URLLoaderUtil.class);
+	protected transient final Logger				logger						= LogManager.getLogger(URLLoaderUtil.class);
 
 	/**
 	 * The String the login page contains if login was successful

@@ -30,7 +30,7 @@ public abstract class BaseSynchronizedMap<K, V, U, S extends BaseSynchronizedMap
 	/**
 	 * Logger-Instance
 	 */
-	protected transient Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected transient Logger	logger	= LogManager.getLogger(getClass());
 
 	/**
 	 * the underlying map to refresh

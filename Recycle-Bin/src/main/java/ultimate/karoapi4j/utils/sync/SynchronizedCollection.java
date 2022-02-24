@@ -26,7 +26,7 @@ public class SynchronizedCollection<E, C extends Collection<E>, S extends Synchr
 	/**
 	 * Logger-Instance
 	 */
-	protected transient Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected transient Logger	logger	= LogManager.getLogger(getClass());
 
 	/**
 	 * the underlying collection to refresh

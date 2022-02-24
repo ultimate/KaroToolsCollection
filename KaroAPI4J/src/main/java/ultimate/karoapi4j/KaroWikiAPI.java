@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -53,7 +53,7 @@ public class KaroWikiAPI
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger							logger								= LoggerFactory.getLogger(KaroWikiAPI.class);
+	protected transient final Logger logger = LogManager.getLogger();
 
 	//////////////
 	// api URLs //

@@ -9,8 +9,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
@@ -31,7 +31,7 @@ public class Demo
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LoggerFactory.getLogger(Demo.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 
 	/**
 	 * Demo Code

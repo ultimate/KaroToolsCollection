@@ -18,8 +18,8 @@ import java.util.Properties;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -80,7 +80,7 @@ public abstract class GameSeriesManager
 	/**
 	 * Logger-Instance
 	 */
-	private static final Logger	logger						= LoggerFactory.getLogger(GameSeriesManager.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 	/**
 	 * The charset for the JSON storage of {@link GameSeries}
 	 */
@@ -461,7 +461,7 @@ public abstract class GameSeriesManager
 		gs.setTitle(gs2.title);
 		gs.setCreator(karoAPICache.getUser(gs2.creator.id));
 		gs.setLoaded(true);
-		if(gs.getPlayers() == null) // only do this if the players have not yet been set (--> KLCGameSeries)
+		if(gs.getPlayers() == null || gs.getPlayers().size() == 0) // only do this if the players have not yet been set (--> KLCGameSeries)
 			gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
 		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
 		gs.setGames(convertGames(gs2.games, karoAPICache));

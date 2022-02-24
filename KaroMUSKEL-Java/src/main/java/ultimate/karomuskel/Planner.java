@@ -11,8 +11,8 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.function.BiFunction;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
@@ -33,7 +33,7 @@ public class Planner
 	/**
 	 * Logger-Instance
 	 */
-	private static final Logger	logger	= LoggerFactory.getLogger(Planner.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 	private static Random		random	= new Random();
 
 	private KaroAPICache		karoAPICache;

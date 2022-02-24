@@ -16,12 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.Properties;
 import java.util.TimeZone;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import muskel2.core.karoaccess.GameCreator;
 import muskel2.core.karoaccess.KaropapierLoader;
@@ -39,7 +38,7 @@ public class KaropapierCronTool
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger				= LoggerFactory.getLogger(KaropapierCronTool.class);
+	private static transient final Logger	logger			= LogManager.getLogger();
 	public static final String				DEFAULT_PROPERTIES	= "crontool.properties";
 	public static final DateFormat			DATE_FORMAT			= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	public static final String				PROP_WIKI_PREFIX	= "wiki.file.";

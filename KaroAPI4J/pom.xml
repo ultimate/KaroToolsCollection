@@ -18,19 +18,9 @@
 	<dependencies>
 		<!-- finally the dependencies -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -52,10 +42,9 @@
 
 	<properties>		
 		<!-- Dependencies -->
-		<log4j.version>1.2.16</log4j.version> <!-- 19.01.2012 -->
-		<slf4j.version>1.6.4</slf4j.version> <!-- 19.01.2012 -->
-		<servlet.version>3.1.1</servlet.version> <!-- 19.01.2012 -->
-		<jackson.version>2.13.1</jackson.version> <!-- 24.01.2022 -->
+		<log4j.version>2.17.1</log4j.version> <!-- 24.02.2022 -->
+		<servlet.version>3.1.1</servlet.version> <!-- 24.02.2022 -->
+		<jackson.version>2.13.1</jackson.version> <!-- 24.02.2022 -->
 		<junit.version>5.8.2</junit.version>
 	</properties>
 </project>

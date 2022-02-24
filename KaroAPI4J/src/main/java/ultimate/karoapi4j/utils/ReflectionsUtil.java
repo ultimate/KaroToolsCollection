@@ -3,8 +3,8 @@ package ultimate.karoapi4j.utils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Util class for some reflections based operations (for example copying fields from one object to another).
@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class ReflectionsUtil
 {
-	private static final Logger logger = LoggerFactory.getLogger(ReflectionsUtil.class);
+	private static transient final Logger logger = LogManager.getLogger();
 
 	/**
 	 * Prevent instantiation

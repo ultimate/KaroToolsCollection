@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
@@ -19,7 +19,7 @@ public abstract class Screen extends JPanel
 {
 	private static final long			serialVersionUID	= 1L;
 
-	protected transient final Logger	logger				= LoggerFactory.getLogger(getClass());
+	protected transient final Logger logger = LogManager.getLogger(getClass());
 
 	protected static final int			spinnerColumns		= 14;
 	protected static final int			insetsV				= 3;

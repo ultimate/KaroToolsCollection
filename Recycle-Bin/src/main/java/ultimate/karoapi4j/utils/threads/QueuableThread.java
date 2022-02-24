@@ -12,7 +12,7 @@ public abstract class QueuableThread<T> extends Thread
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass() + "[" + this.getName() + "]");
+	protected transient final Logger	logger	= LogManager.getLogger(getClass() + "[" + this.getName() + "]");
 
 	protected ThreadQueue				q;
 	protected boolean					debug;

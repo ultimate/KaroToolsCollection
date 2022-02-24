@@ -3,8 +3,8 @@ package ultimate.karoapi4j.utils;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This is a helper class that scans the raw content from the karo API for enum values. The output can then be used to add new values to the enum
@@ -20,7 +20,7 @@ public class EnumFinder
 	/**
 	 * Logger-Instance
 	 */
-	protected transient static final Logger	logger	= LoggerFactory.getLogger(EnumFinder.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 	/**
 	 * The quotations mark around json identifiers
 	 */

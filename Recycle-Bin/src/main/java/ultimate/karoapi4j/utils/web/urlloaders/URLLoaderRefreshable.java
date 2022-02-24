@@ -21,7 +21,7 @@ public class URLLoaderRefreshable<T> implements Refreshable<T>
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected transient final Logger	logger	= LogManager.getLogger(getClass());
 
 	/**
 	 * The URLLoaderThread used to load the required content
