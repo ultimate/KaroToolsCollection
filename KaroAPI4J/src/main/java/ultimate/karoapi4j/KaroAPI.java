@@ -194,7 +194,6 @@ public class KaroAPI implements IDLookUp
 	 */
 	public KaroAPI(String apiKey) throws KaroAPIException
 	{
-		// API KEY #100
 		try
 		{
 			setAPIKey(apiKey);
