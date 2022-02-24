@@ -49,6 +49,13 @@ public class KaroAPITest extends KaroAPITestcase
 	private static final int	TEST_CHAT_ID_MAX	= 462589;
 
 	@Test
+	public void test_version() throws InterruptedException, ExecutionException
+	{
+		assertNotNull(KaroAPI.getVersion());
+		assertEquals("1.0", KaroAPI.getVersion());
+	}
+	
+	@Test
 	public void test_instanciateWithKey() throws InterruptedException, ExecutionException
 	{
 		String key = karoAPI.getKey().get();

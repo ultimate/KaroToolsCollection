@@ -1,10 +1,14 @@
 package ultimate.karoapi4j;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -31,6 +35,7 @@ import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
+import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
@@ -62,21 +67,121 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger											logger						= LogManager.getLogger();
+	protected static transient final Logger	logger		= LogManager.getLogger();
 
-	////////////////////////
-	// config & constants //
-	////////////////////////
+	///////////////////////////////////////////
+	// config & constants & static variables //
+	///////////////////////////////////////////
 
 	/**
 	 * The default placeholder for API urls
 	 */
-	public static final String													PLACEHOLDER					= "$";
+	public static final String				PLACEHOLDER	= "$";
 	/**
 	 * The maximum number of allowed retries
 	 */
-	public static final int														MAX_RETRIES					= 10;
+	public static final int					MAX_RETRIES	= 10;
 
+	/**
+	 * The version of the {@link KaroAPI}
+	 */
+	private static String					version;
+	/**
+	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * instances of the {@link KaroAPI}.
+	 */
+	private static Executor					executor;
+
+	/**
+	 * The name of the application using the {@link KaroAPI}
+	 */
+	private static String					applicationName;
+
+	/**
+	 * The version of the application using the {@link KaroAPI}
+	 */
+	private static String					applicationVersion;
+
+	static
+	{
+		// read the version from the properties
+		logger.debug("loading KaroAPI version");
+		try
+		{
+			Properties properties = PropertiesUtil.loadProperties(new File(KaroAPI.class.getClassLoader().getResource("karoapi4j.properties").toURI()));
+			version = properties.getProperty("karoAPI.version");
+			logger.debug("version = " + version);
+		}
+		catch(IOException | URISyntaxException e)
+		{
+			logger.error("could not determine API version", e);
+		}
+	}
+
+	/**
+	 * @return the version of the {@link KaroAPI}
+	 */
+	public static String getVersion()
+	{
+		return version;
+	}
+
+	/**
+	 * @return the name of the application using the {@link KaroAPI}
+	 */
+	public static String getApplicationName()
+	{
+		return applicationName;
+	}
+
+	/**
+	 * @return the version of the application using the {@link KaroAPI}
+	 */
+	public static String getApplicationVersion()
+	{
+		return applicationVersion;
+	}
+
+	/**
+	 * The name of the application using the {@link KaroAPI}
+	 * 
+	 * @param applicationName - the name
+	 */
+	public static void setApplication(String applicationName, String applicationVersion)
+	{
+		KaroAPI.applicationName = applicationName;
+		KaroAPI.applicationVersion = applicationVersion;
+	}
+	
+	public static String getUserAgent()
+	{
+		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/"
+				+ (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
+	}
+
+	/**
+	 * Set a new {@link Executor}:<br>
+	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * instances of the {@link KaroAPI}.
+	 * 
+	 * @param e - the new {@link Executor}
+	 */
+	public static void setExecutor(Executor e)
+	{
+		executor = e;
+	}
+
+	/**
+	 * Get the current {@link Executor}:<br>
+	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * instances of the {@link KaroAPI}.
+	 * 
+	 * @return the {@link Executor}
+	 */
+	public static Executor getExecutor()
+	{
+		return executor;
+	}
 	////////////////////
 	// parsers needed //
 	////////////////////
@@ -103,82 +208,48 @@ public class KaroAPI implements IDLookUp
 	};
 	public static final Function<String, String>								PARSER_KEY					= (result) -> { return (String) PARSER_GENERIC.apply(result).get("api_key"); };
 
-	//////////////////
-	// static logic //
-	//////////////////
-
-	/**
-	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
-	 * instances of the {@link KaroAPI}.
-	 */
-	private static Executor														executor;
-
-	/**
-	 * Set a new {@link Executor}:<br>
-	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
-	 * instances of the {@link KaroAPI}.
-	 * 
-	 * @param e - the new {@link Executor}
-	 */
-	public static void setExecutor(Executor e)
-	{
-		executor = e;
-	}
-
-	/**
-	 * Get the current {@link Executor}:<br>
-	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
-	 * instances of the {@link KaroAPI}.
-	 * 
-	 * @return the {@link Executor}
-	 */
-	public static Executor getExecutor()
-	{
-		return executor;
-	}
-
 	//////////////
 	// api URLs //
 	//////////////
 
 	// base
-	protected final URLLoader	KAROPAPIER		= new URLLoader("https://www.karopapier.de");
-	protected final URLLoader	API				= KAROPAPIER.relative("/api");
-	protected final URLLoader	KEY				= API.relative("/key");
+	protected final URLLoader													KAROPAPIER					= new URLLoader("https://www.karopapier.de");
+	protected final URLLoader													API							= KAROPAPIER.relative("/api");
+	protected final URLLoader													KEY							= API.relative("/key");
 	// users
-	protected final URLLoader	USERS			= API.relative("/users");
-	protected final URLLoader	USER			= USERS.relative("/" + PLACEHOLDER);
-	protected final URLLoader	USER_DRAN		= USER.relative("/dran");
-	protected final URLLoader	USER_BLOCKERS	= USER.relative("/blockers");
+	protected final URLLoader													USERS						= API.relative("/users");
+	protected final URLLoader													USER						= USERS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													USER_DRAN					= USER.relative("/dran");
+	protected final URLLoader													USER_BLOCKERS				= USER.relative("/blockers");
 	// current user
-	protected final URLLoader	CURRENT_USER	= API.relative("/user");
-	protected final URLLoader	CHECK			= CURRENT_USER.relative("/check");
-	protected final URLLoader	FAVS			= CURRENT_USER.relative("/favs");
-	protected final URLLoader	FAVS_EDIT		= FAVS.relative("/" + PLACEHOLDER);
-	protected final URLLoader	BLOCKERS		= API.relative("/blockers");
-	protected final URLLoader	NOTES			= API.relative("/notes");
-	protected final URLLoader	NOTES_EDIT		= NOTES.relative("/" + PLACEHOLDER);
-	protected final URLLoader	PLANNED_MOVES	= API.relative("/planned-moves");
+	protected final URLLoader													CURRENT_USER				= API.relative("/user");
+	protected final URLLoader													CHECK						= CURRENT_USER.relative("/check");
+	protected final URLLoader													FAVS						= CURRENT_USER.relative("/favs");
+	protected final URLLoader													FAVS_EDIT					= FAVS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													BLOCKERS					= API.relative("/blockers");
+	protected final URLLoader													NOTES						= API.relative("/notes");
+	protected final URLLoader													NOTES_EDIT					= NOTES.relative("/" + PLACEHOLDER);
+	protected final URLLoader													PLANNED_MOVES				= API.relative("/planned-moves");
 	// games
-	protected final URLLoader	GAMES			= API.relative("/games");
-	protected final URLLoader	GAMES3			= API.relative("/games3");
-	protected final URLLoader	GAME			= GAMES.relative("/" + PLACEHOLDER);
-	protected final URLLoader	GAME_CREATE		= API.relative("/game");
-	protected final URLLoader	GAME_MOVE		= KAROPAPIER.relative("/move.php");
-	protected final URLLoader	GAME_KICK		= KAROPAPIER.relative("/kickplayer.php");
+	protected final URLLoader													GAMES						= API.relative("/games");
+	protected final URLLoader													GAMES3						= API.relative("/games3");
+	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
+	protected final URLLoader													GAME_CREATE					= API.relative("/game");
+	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
+	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
 	// maps
-	protected final URLLoader	MAPS			= API.relative("/maps");
-	protected final URLLoader	MAP				= MAPS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													MAPS						= API.relative("/maps");
+	protected final URLLoader													MAP							= MAPS.relative("/" + PLACEHOLDER);
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
-	protected final URLLoader	MAP_IMAGE		= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// chat
-	protected final URLLoader	CHAT			= API.relative("/chat");
-	protected final URLLoader	CHAT_LAST		= CHAT.relative("/last");
-	protected final URLLoader	CHAT_USERS		= CHAT.relative("/users");
+	protected final URLLoader													CHAT						= API.relative("/chat");
+	protected final URLLoader													CHAT_LAST					= CHAT.relative("/last");
+	protected final URLLoader													CHAT_USERS					= CHAT.relative("/users");
 	// messaging
-	protected final URLLoader	CONTACTS		= API.relative("/contacts");
-	protected final URLLoader	MESSAGES		= API.relative("/messages/" + PLACEHOLDER);
+	protected final URLLoader													CONTACTS					= API.relative("/contacts");
+	protected final URLLoader													MESSAGES					= API.relative("/messages/" + PLACEHOLDER);
 
 	/**
 	 * The number of retries to perform.<br>
@@ -186,7 +257,12 @@ public class KaroAPI implements IDLookUp
 	 * 
 	 * @see KaroAPI#loadAsync(BackgroundLoader, Function, int)
 	 */
-	private int					performRetries	= 0;
+	private int																	performRetries				= 0;
+
+	private KaroAPI()
+	{
+		KAROPAPIER.addRequestProperty("User-Agent", getUserAgent());
+	}
 
 	/**
 	 * Get an instance for the given API-Key
@@ -195,6 +271,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	public KaroAPI(String apiKey) throws KaroAPIException
 	{
+		this();
 		try
 		{
 			setAPIKey(apiKey);
@@ -216,6 +293,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	public KaroAPI(String username, String password) throws KaroAPIException
 	{
+		this();
 		try
 		{
 			Boolean loginSuccessful = login(username, password).get();

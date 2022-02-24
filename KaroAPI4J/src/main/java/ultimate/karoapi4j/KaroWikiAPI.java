@@ -53,58 +53,67 @@ public class KaroWikiAPI
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LogManager.getLogger();
+	protected transient final Logger	logger								= LogManager.getLogger();
 
 	//////////////
 	// api URLs //
 	//////////////
 
-	protected static final URLLoader							KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
-	protected static final URLLoader							API									= KAROWIKI.relative("/api.php");
+	protected static final URLLoader	KAROWIKI							= new URLLoader("https://wiki.karopapier.de");
+	protected static final URLLoader	API									= KAROWIKI.relative("/api.php");
 
 	//////////////////////////
 	// parameters & actions //
 	//////////////////////////
 
-	public static final String									PARAMETER_ACTION					= "action";
-	public static final String									PARAMETER_FORMAT					= "format";
+	public static final String			PARAMETER_ACTION					= "action";
+	public static final String			PARAMETER_FORMAT					= "format";
 
-	public static final String									ACTION_LOGIN						= "login";
-	public static final String									PARAMETER_ACTION_LOGIN_USER			= "lgname";
-	public static final String									PARAMETER_ACTION_LOGIN_PASSWORD		= "lgpassword";
-	public static final String									PARAMETER_ACTION_LOGIN_TOKEN		= "lgtoken";
+	public static final String			ACTION_LOGIN						= "login";
+	public static final String			PARAMETER_ACTION_LOGIN_USER			= "lgname";
+	public static final String			PARAMETER_ACTION_LOGIN_PASSWORD		= "lgpassword";
+	public static final String			PARAMETER_ACTION_LOGIN_TOKEN		= "lgtoken";
 
-	public static final String									ACTION_LOGOUT						= "logout";
-	public static final String									PARAMETER_ACTION_LOGOUT_TOKEN		= "token";
+	public static final String			ACTION_LOGOUT						= "logout";
+	public static final String			PARAMETER_ACTION_LOGOUT_TOKEN		= "token";
 
-	public static final String									ACTION_QUERY						= "query";
-	public static final String									PARAMETER_ACTION_QUERY_META			= "meta";
-	public static final String									PARAMETER_ACTION_QUERY_META_TOKENS	= "tokens";
-	public static final String									PARAMETER_ACTION_QUERY_PROP			= "prop";
-	public static final String									PARAMETER_ACTION_QUERY_PROP_RV		= "revisions";
-	public static final String									PARAMETER_ACTION_QUERY_PROP_IN		= "info";
-	public static final String									PARAMETER_ACTION_QUERY_TITLES		= "titles";
-	public static final String									PARAMETER_ACTION_QUERY_RVPROP		= "rvprop";
-	public static final String									PARAMETER_ACTION_QUERY_INPROP		= "inprop";
-	public static final String									PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
+	public static final String			ACTION_QUERY						= "query";
+	public static final String			PARAMETER_ACTION_QUERY_META			= "meta";
+	public static final String			PARAMETER_ACTION_QUERY_META_TOKENS	= "tokens";
+	public static final String			PARAMETER_ACTION_QUERY_PROP			= "prop";
+	public static final String			PARAMETER_ACTION_QUERY_PROP_RV		= "revisions";
+	public static final String			PARAMETER_ACTION_QUERY_PROP_IN		= "info";
+	public static final String			PARAMETER_ACTION_QUERY_TITLES		= "titles";
+	public static final String			PARAMETER_ACTION_QUERY_RVPROP		= "rvprop";
+	public static final String			PARAMETER_ACTION_QUERY_INPROP		= "inprop";
+	public static final String			PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
 
-	public static final String									ACTION_EDIT							= "edit";
-	public static final String									PARAMETER_ACTION_EDIT_TITLE			= "title";
-	public static final String									PARAMETER_ACTION_EDIT_TEXT			= "text";
-	public static final String									PARAMETER_ACTION_EDIT_TOKEN			= "token";
-	public static final String									PARAMETER_ACTION_EDIT_SUMMARY		= "summary";
-	public static final String									PARAMETER_ACTION_EDIT_BASETIMESTAMP	= "basetimestamp";
-	public static final String									PARAMETER_ACTION_EDIT_CAPTCHAID		= "captchaid";
-	public static final String									PARAMETER_ACTION_EDIT_CAPTCHAWORD	= "captchaword";
-	public static final String									PARAMETER_ACTION_EDIT_BOT			= "bot";
+	public static final String			ACTION_EDIT							= "edit";
+	public static final String			PARAMETER_ACTION_EDIT_TITLE			= "title";
+	public static final String			PARAMETER_ACTION_EDIT_TEXT			= "text";
+	public static final String			PARAMETER_ACTION_EDIT_TOKEN			= "token";
+	public static final String			PARAMETER_ACTION_EDIT_SUMMARY		= "summary";
+	public static final String			PARAMETER_ACTION_EDIT_BASETIMESTAMP	= "basetimestamp";
+	public static final String			PARAMETER_ACTION_EDIT_CAPTCHAID		= "captchaid";
+	public static final String			PARAMETER_ACTION_EDIT_CAPTCHAWORD	= "captchaword";
+	public static final String			PARAMETER_ACTION_EDIT_BOT			= "bot";
 
-	public static final String									FORMAT_JSON							= "json";
+	public static final String			FORMAT_JSON							= "json";
+
+	/**
+	 * @see KaroAPI#getVersion()
+	 * @return the version of the {@link KaroAPI}
+	 */
+	public static String getVersion()
+	{
+		return KaroAPI.getVersion();
+	}
 
 	////////////////////
 	// parsers needed //
 	////////////////////
 
-	public static final Function<String, Map<String, Object>>	PARSER_JSON_OBJECT					= new JSONUtil.Parser<>(new TypeReference<Map<String, Object>>() {});
+	public static final Function<String, Map<String, Object>> PARSER_JSON_OBJECT = new JSONUtil.Parser<>(new TypeReference<Map<String, Object>>() {});
 
 	/**
 	 * Default Constructor.<br>
