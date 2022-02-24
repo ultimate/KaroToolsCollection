@@ -21,8 +21,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.FutureTask;
 import java.util.function.Supplier;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil.Parser;
@@ -57,7 +57,7 @@ public class URLLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected transient static final Logger	logger						= LoggerFactory.getLogger(URLLoader.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 
 	/**
 	 * Constant for use in {@link URLLoader#relative(String)}

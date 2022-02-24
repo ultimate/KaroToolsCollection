@@ -1,0 +1,13 @@
+<Configuration>
+  <Appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss} %-5p [%t] %C.%M(%L) | %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="ultimate" level="debug"/>
+    <Root level="info">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>

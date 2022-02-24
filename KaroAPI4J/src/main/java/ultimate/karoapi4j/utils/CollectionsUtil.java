@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.model.base.Identifiable;
 
@@ -25,7 +25,7 @@ public abstract class CollectionsUtil
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger		= LoggerFactory.getLogger(CollectionsUtil.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 	/**
 	 * Orientierung für aufsteigende Sortierung
 	 */

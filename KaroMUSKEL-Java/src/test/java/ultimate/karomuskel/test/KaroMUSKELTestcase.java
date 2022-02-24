@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
@@ -26,7 +26,7 @@ public class KaroMUSKELTestcase
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected transient final Logger logger = LogManager.getLogger(getClass());
 
 	/**
 	 * The {@link Properties} used to initiate the {@link KaroAPI}

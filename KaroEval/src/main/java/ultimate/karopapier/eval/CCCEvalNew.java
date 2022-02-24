@@ -19,6 +19,9 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import muskel2.model.Game;
 import muskel2.model.GameSeries;
 import muskel2.model.series.BalancedGameSeries;
@@ -31,7 +34,7 @@ public class CCCEvalNew implements Eval
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger			= LoggerFactory.getLogger(getClass());
+	private static transient final Logger	logger			= LogManager.getLogger();
 	
 	private static final String	DEFAULT_FOLDER	= "";
 	private static final int[]	ALL_COLUMNS;

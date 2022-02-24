@@ -12,7 +12,7 @@ public class ThreadQueue
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger	= LoggerFactory.getLogger(getClass());
+	protected transient final Logger	logger	= LogManager.getLogger(getClass());
 	
 	private LinkedBlockingQueue<QueuableThread<?>>	q;
 	private int										max;

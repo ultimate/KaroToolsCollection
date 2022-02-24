@@ -19,7 +19,7 @@ public abstract class BaseSynchronized<T, S extends BaseSynchronized<T, S>> exte
 	/**
 	 * Logger-Instance
 	 */
-	protected final Logger	logger			= LoggerFactory.getLogger(getClass());
+	protected final Logger	logger			= LogManager.getLogger(getClass());
 
 	/**
 	 * The Loader used to load the Content to synchronize from

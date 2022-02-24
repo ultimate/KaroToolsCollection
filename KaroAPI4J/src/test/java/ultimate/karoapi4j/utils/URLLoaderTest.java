@@ -14,9 +14,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
@@ -26,7 +26,7 @@ public class URLLoaderTest
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LoggerFactory.getLogger(getClass());
+	protected transient final Logger logger = LogManager.getLogger(getClass());
 
 	@Test
 	public void test_formatParameters()

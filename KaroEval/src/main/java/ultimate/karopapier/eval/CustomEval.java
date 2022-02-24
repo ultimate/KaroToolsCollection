@@ -22,6 +22,9 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.threads.ThreadQueue;
 import ultimate.karoapi4j.utils.web.urlloaders.StringURLLoaderThread;
@@ -35,7 +38,7 @@ public abstract class CustomEval
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger			= LoggerFactory.getLogger(getClass());
+	private static transient final Logger	logger			= LogManager.getLogger();
 	
 	private static List<GameResult>				allResults				= new LinkedList<GameResult>();
 	private static List<GameResult>				filteredResults			= new LinkedList<GameResult>();

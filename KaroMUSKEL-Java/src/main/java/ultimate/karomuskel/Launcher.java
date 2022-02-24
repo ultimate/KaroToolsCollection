@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JOptionPane;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
@@ -24,7 +24,7 @@ public class Launcher
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger			= LoggerFactory.getLogger(Launcher.class);
+	protected static transient final Logger logger = LogManager.getLogger();
 	public static final String				KEY_LANGUAGE	= "language";
 	public static final String				KEY_THREADS		= "karoAPI.maxThreads";
 

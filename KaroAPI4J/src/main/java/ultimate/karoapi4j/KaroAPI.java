@@ -12,8 +12,8 @@ import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -62,7 +62,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger										logger						= LoggerFactory.getLogger(KaroAPI.class);
+	protected transient final Logger logger = LogManager.getLogger();
 
 	////////////////////////
 	// config & constants //
@@ -134,46 +134,6 @@ public class KaroAPI implements IDLookUp
 	public static Executor getExecutor()
 	{
 		return executor;
-	}
-
-	/**
-	 * Asynchronously schedule and execute a {@link BackgroundLoader}.<br>
-	 * This method will create {@link CompletableFuture} that is passed to the set {@link KaroAPI#executor} for asynchronous execution.<br>
-	 * It is further capable of appending retries to the {@link CompletableFuture} optionally.
-	 * 
-	 * @param <T> - the type that the parser will return
-	 * @param backgroundLoader - the {@link BackgroundLoader} to execute
-	 * @param parser - the parser that shall be used to parse the loaded content
-	 * @param retries - the number of <b>additional</b> retries to perform if the first execution fails.
-	 * @return the {@link CompletableFuture}
-	 */
-	private static <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
-	{
-		CompletableFuture<T> cf;
-		// check whether an Executor is set. If not use the default.
-		if(executor != null)
-			cf = CompletableFuture.supplyAsync(backgroundLoader, executor).thenApply(parser);
-		else
-			cf = CompletableFuture.supplyAsync(backgroundLoader).thenApply(parser);
-
-		if(retries > 0)
-		{
-			// check for MAX_RETRIES
-			final int remainingTries = (retries > MAX_RETRIES ? MAX_RETRIES : retries);
-			// add a completion stage for the retry handling
-			// if the loading fails, this will call loadAsync again with a reduced retry-counter
-			cf = cf.thenApply(CompletableFuture::completedFuture).exceptionally(new Function<Throwable, CompletableFuture<T>>() {
-				public CompletableFuture<T> apply(Throwable t)
-				{
-					logger.warn("an error occurred - tries remaining: " + remainingTries, t);
-					if(remainingTries > 0)
-						return loadAsync(backgroundLoader, parser, remainingTries - 1);
-					else
-						return CompletableFuture.failedFuture(t);
-				};
-			}).thenCompose(Function.identity());
-		}
-		return cf;
 	}
 
 	//////////////
@@ -343,6 +303,46 @@ public class KaroAPI implements IDLookUp
 	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser)
 	{
 		return loadAsync(backgroundLoader, parser, performRetries);
+	}
+
+	/**
+	 * Asynchronously schedule and execute a {@link BackgroundLoader}.<br>
+	 * This method will create {@link CompletableFuture} that is passed to the set {@link KaroAPI#executor} for asynchronous execution.<br>
+	 * It is further capable of appending retries to the {@link CompletableFuture} optionally.
+	 * 
+	 * @param <T> - the type that the parser will return
+	 * @param backgroundLoader - the {@link BackgroundLoader} to execute
+	 * @param parser - the parser that shall be used to parse the loaded content
+	 * @param retries - the number of <b>additional</b> retries to perform if the first execution fails.
+	 * @return the {@link CompletableFuture}
+	 */
+	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
+	{
+		CompletableFuture<T> cf;
+		// check whether an Executor is set. If not use the default.
+		if(executor != null)
+			cf = CompletableFuture.supplyAsync(backgroundLoader, executor).thenApply(parser);
+		else
+			cf = CompletableFuture.supplyAsync(backgroundLoader).thenApply(parser);
+
+		if(retries > 0)
+		{
+			// check for MAX_RETRIES
+			final int remainingTries = (retries > MAX_RETRIES ? MAX_RETRIES : retries);
+			// add a completion stage for the retry handling
+			// if the loading fails, this will call loadAsync again with a reduced retry-counter
+			cf = cf.thenApply(CompletableFuture::completedFuture).exceptionally(new Function<Throwable, CompletableFuture<T>>() {
+				public CompletableFuture<T> apply(Throwable t)
+				{
+					logger.warn("an error occurred - tries remaining: " + remainingTries, t);
+					if(remainingTries > 0)
+						return loadAsync(backgroundLoader, parser, remainingTries - 1);
+					else
+						return CompletableFuture.failedFuture(t);
+				};
+			}).thenCompose(Function.identity());
+		}
+		return cf;
 	}
 
 	///////////////////////

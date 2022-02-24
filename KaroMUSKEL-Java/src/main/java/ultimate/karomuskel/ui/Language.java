@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.utils.PropertiesUtil;
@@ -19,7 +19,7 @@ public abstract class Language
 	/**
 	 * Logger-Instance
 	 */
-	protected transient static final Logger	logger						= LoggerFactory.getLogger(Language.class);
+	private static transient final Logger logger = LogManager.getLogger();
 	private static final String				folder						= "lang";
 	private static final String				defaultLang					= "de";
 

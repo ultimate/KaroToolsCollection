@@ -20,7 +20,7 @@ public class BaseRefreshing<T> implements Refreshing<T>
 	/**
 	 * Logger-Instance
 	 */
-	protected final Logger				logger	= LoggerFactory.getLogger(getClass());
+	protected final Logger				logger	= LogManager.getLogger(getClass());
 
 	/**
 	 * The List of Refreshables
