@@ -19,8 +19,8 @@ public abstract class Language
 	/**
 	 * Logger-Instance
 	 */
-	private static transient final Logger logger = LogManager.getLogger();
-	private static final String				folder						= "lang";
+	private static transient final Logger	logger						= LogManager.getLogger();
+	private static String					folder						= "lang";
 	private static final String				defaultLang					= "de";
 
 	private static final String				VERSION_HISTORY_INFO_PREFIX	= "version.";
@@ -33,6 +33,11 @@ public abstract class Language
 	private static boolean					debug						= false;
 
 	private static String					about						= null;
+
+	public static void setFolder(String folder)
+	{
+		Language.folder = folder;
+	}
 
 	public static boolean load(String language)
 	{
@@ -77,7 +82,7 @@ public abstract class Language
 			throw new RuntimeException("No language loaded!");
 		return lang.getProperty(key, arg);
 	}
-	
+
 	public static String getString(EnumGameDirection direction)
 	{
 		switch(direction)
@@ -93,16 +98,21 @@ public abstract class Language
 		}
 	}
 
-	public static String getVersion()
+	public static String getApplicationName()
 	{
-		return getString("version");
+		return getString("karoMUSKEL.name") + (debug ? "-debug" : "");
+	}
+
+	public static String getApplicationVersion()
+	{
+		return getString("karoMUSKEL.version");
 	}
 
 	public static String getAbout()
 	{
 		if(about == null)
 		{
-			Version currentVersion = new Version(getVersion());
+			Version currentVersion = new Version(getApplicationVersion());
 			about = Language.getString("mainframe.about").replace(PLACEHOLDER_VERSION, currentVersion.toString());
 
 			StringBuilder history = new StringBuilder();
@@ -159,12 +169,12 @@ public abstract class Language
 			return this.major - o.major;
 		}
 	}
-	
+
 	public static class Label<V>
 	{
-		private String label;
-		private V value;
-		
+		private String	label;
+		private V		value;
+
 		public Label(String label, V value)
 		{
 			super();
@@ -181,7 +191,7 @@ public abstract class Language
 		{
 			return value;
 		}
-		
+
 		public String toString()
 		{
 			return label;

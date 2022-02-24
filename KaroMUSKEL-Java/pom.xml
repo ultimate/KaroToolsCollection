@@ -20,12 +20,13 @@
 	    <resources>
 	      <resource>
 	        <directory>src/main/resources</directory>
+      		<filtering>true</filtering>
 	        <excludes>
 	          <exclude>*.psd</exclude>
 	        </excludes>
 	      </resource>
 	    </resources>
-  </build>
+  	</build>
 
 	<dependencies>
 		<!-- finally the dependencies -->
