@@ -6,7 +6,7 @@ import java.util.List;
 @Deprecated
 public abstract class GameSeries implements Serializable
 {
-	private static final long	serialVersionUID	= 2L;
+	public static final long	serialVersionUID	= 2L;
 
 	public String				title;
 	public String				defaultTitleKey;

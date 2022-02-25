@@ -8,7 +8,7 @@ import muskel2.model.Player;
 @Deprecated
 public class Team implements Serializable
 {
-	private static final long	serialVersionUID	= 1L;
+	public static final long	serialVersionUID	= 1L;
 
 	public String				name;
 	public List<Player>		players;

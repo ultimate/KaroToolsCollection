@@ -9,7 +9,7 @@ import muskel2.model.help.Identifiable;
 @Deprecated
 public class Player implements Serializable, Identifiable
 {
-	private static final long	serialVersionUID	= 1L;
+	public static final long	serialVersionUID	= 1L;
 
 	public int					id;
 	public String				name;
