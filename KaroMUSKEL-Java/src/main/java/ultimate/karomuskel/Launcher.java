@@ -18,24 +18,71 @@ import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
 
-// TODO javadoc
+/**
+ * This is the Launcher for the KaroMUSKEL. It contains the {@link Launcher#main(String[])} to run the program.<br>
+ * On start the Launcher will perform the following steps:
+ * <table>
+ * <tr>
+ * <td>1.</td>
+ * <td>{@link Launcher#loadConfig(String)}</td>
+ * <td>=&gt;</td>
+ * <td>load and apply the configuration</td>
+ * </tr>
+ * <tr>
+ * <td>2.</td>
+ * <td>{@link Launcher#login()}</td>
+ * <td>=&gt;</td>
+ * <td>initialize the {@link KaroAPI} and login the user via a login dialog</td>
+ * </tr>
+ * <tr>
+ * <td>3.</td>
+ * <td>{@link Launcher#createCache(KaroAPI, Properties)}</td>
+ * <td>=&gt;</td>
+ * <td>initialize the {@link KaroAPICache} and pre-load relevant information into memory</td>
+ * </tr>
+ * <tr>
+ * <td>4.</td>
+ * <td>{@link Launcher#initUI(KaroAPICache)}</td>
+ * <td>=&gt;</td>
+ * <td>initialize the UI {@link MainFrame}</td>
+ * </tr>
+ * </table>
+ * 
+ * @author ultimate
+ */
 public class Launcher
 {
 	/**
 	 * Logger-Instance
 	 */
 	protected static transient final Logger	logger			= LogManager.getLogger();
+	/**
+	 * The key for the language in the config
+	 */
 	public static final String				KEY_LANGUAGE	= "language";
+	/**
+	 * The key for the max number of {@link KaroAPI} threads in the config
+	 * 
+	 * @see KaroAPI#setExecutor(java.util.concurrent.Executor)
+	 */
 	public static final String				KEY_THREADS		= "karoAPI.maxThreads";
 
+	/**
+	 * Is the KaroMUSKEL running in debug mode?
+	 */
 	private static boolean					debug			= false;
 	/**
 	 * The UI instance
 	 */
-	private static MainFrame				gui = null;
-
-	private static KaroAPI					api = null;
-	private static KaroAPICache				cache = null;
+	private static MainFrame				gui				= null;
+	/**
+	 * The {@link KaroAPI} instance
+	 */
+	private static KaroAPI					api				= null;
+	/**
+	 * The {@link KaroAPICache} instance
+	 */
+	private static KaroAPICache				cache			= null;
 
 	/**
 	 * The main to start the KaroMUSKEL.<br>
@@ -69,14 +116,14 @@ public class Launcher
 					configFile = arg;
 			}
 		}
-		
+
 		if(debug)
 		{
 			logger.info("                              DEBUG - MODE                              ");
 			logger.info("------------------------------------------------------------------------");
 			logger.info("------------------------------------------------------------------------");
 		}
-		
+
 		Properties config = loadConfig(configFile);
 		if(!debug)
 		{
@@ -85,7 +132,7 @@ public class Launcher
 		}
 		cache = createCache(api, config);
 		gui = initUI(cache);
-		
+
 		logger.info("-------------------------------------------------------------------------");
 		logger.info("-------------------------------------------------------------------------");
 		logger.info("                         INITIALIZATION COMPLETE                         ");
@@ -93,6 +140,13 @@ public class Launcher
 		logger.info("-------------------------------------------------------------------------");
 	}
 
+	/**
+	 * Load and apply the configuration. This will also configure the {@link Executor} for the {@link KaroAPI}
+	 * 
+	 * @see KaroAPI#setExecutor(java.util.concurrent.Executor)
+	 * @param configFile - the config
+	 * @return the loaded config as {@link Properties}
+	 */
 	static Properties loadConfig(String configFile)
 	{
 		Properties config;
@@ -138,6 +192,12 @@ public class Launcher
 		return config;
 	}
 
+	/**
+	 * Initialize the {@link KaroAPI} and login the user via a login dialog.
+	 * 
+	 * @see LoginDialog
+	 * @return the {@link KaroAPI} instance
+	 */
 	static KaroAPI login()
 	{
 		LoginDialog loginDialog = LoginDialog.getInstance();
@@ -174,7 +234,14 @@ public class Launcher
 		}
 		return api;
 	}
-	
+
+	/**
+	 * Initialize the {@link KaroAPICache} and pre-load relevant information into memory
+	 * 
+	 * @param api - the {@link KaroAPI} instance
+	 * @param config - the config {@link Properties} loaded previously
+	 * @return the {@link KaroAPICache} instance
+	 */
 	static KaroAPICache createCache(KaroAPI api, Properties config)
 	{
 		logger.info("initializing cache...");
@@ -183,7 +250,13 @@ public class Launcher
 		logger.info("cache initialized");
 		return cache;
 	}
-	
+
+	/**
+	 * Initialize the UI {@link MainFrame}
+	 * 
+	 * @param cache - the {@link KaroAPICache} instance
+	 * @return the UI {@link MainFrame}
+	 */
 	static MainFrame initUI(KaroAPICache cache)
 	{
 		logger.info("launching user interface");
@@ -193,17 +266,25 @@ public class Launcher
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run()
 			{
-				// TODO needed?
+				exit();
 			}
 		});
 		return gui;
 	}
 
+	/**
+	 * Kill the GUI and terminate the program.
+	 */
 	public static void exit()
 	{
 		logger.info("-------------------------------------------------------------------------");
 		logger.info("-------------------------------------------------------------------------");
 
+		if(KaroAPI.getExecutor() != null)
+		{
+			KaroAPI.getExecutor().shutdownNow();
+		}
+		
 		if(gui != null)
 		{
 			gui.setVisible(false);

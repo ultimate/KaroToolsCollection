@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
@@ -87,10 +87,10 @@ public class KaroAPI implements IDLookUp
 	 */
 	private static String					version;
 	/**
-	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible across multiple
 	 * instances of the {@link KaroAPI}.
 	 */
-	private static Executor					executor;
+	private static ExecutorService					executor;
 
 	/**
 	 * The name of the application using the {@link KaroAPI}
@@ -160,25 +160,25 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Set a new {@link Executor}:<br>
-	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * Set a new {@link ExecutorService}:<br>
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible across multiple
 	 * instances of the {@link KaroAPI}.
 	 * 
-	 * @param e - the new {@link Executor}
+	 * @param e - the new {@link ExecutorService}
 	 */
-	public static void setExecutor(Executor e)
+	public static void setExecutor(ExecutorService e)
 	{
 		executor = e;
 	}
 
 	/**
-	 * Get the current {@link Executor}:<br>
-	 * The {@link Executor} used to run all BackgroundLoaders. This {@link Executor} is static since load balancing shall be possible across multiple
+	 * Get the current {@link ExecutorService}:<br>
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible across multiple
 	 * instances of the {@link KaroAPI}.
 	 * 
-	 * @return the {@link Executor}
+	 * @return the {@link ExecutorService}
 	 */
-	public static Executor getExecutor()
+	public static ExecutorService getExecutor()
 	{
 		return executor;
 	}
