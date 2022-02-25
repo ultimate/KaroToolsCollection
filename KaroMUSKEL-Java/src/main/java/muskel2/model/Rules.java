@@ -6,7 +6,7 @@ import java.util.Random;
 @Deprecated
 public class Rules implements Cloneable, Serializable
 {
-	private static final long	serialVersionUID	= 1L;
+	public static final long	serialVersionUID	= 1L;
 
 	public int					minZzz;
 	public int					maxZzz;

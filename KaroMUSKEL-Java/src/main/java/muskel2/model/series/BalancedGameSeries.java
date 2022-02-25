@@ -10,7 +10,7 @@ import muskel2.model.Rules;
 @Deprecated
 public class BalancedGameSeries extends GameSeries
 {
-	private static final long		serialVersionUID		= 1L;
+	public static final long		serialVersionUID		= 1L;
 
 	public static int				MAX_GAMES_PER_PLAYER	= 5;
 	public static int				MAX_MAPS				= 5;
