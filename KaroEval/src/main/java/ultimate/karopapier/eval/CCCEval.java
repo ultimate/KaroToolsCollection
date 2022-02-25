@@ -280,7 +280,7 @@ public class CCCEval implements Eval
 		String[][] totalTable;
 		String[] totalTableHead;
 		String player;
-		List<String> challengePlayers = loadType.equals("logs") ? getChallengePlayersFromLog(1) : getChallengePlayers(1);
+		List<String> challengePlayers = getChallengePlayersFromLog(1);
 		stats_players = challengePlayers.size();
 
 		Map<String, Double> sum_pointsUnskaled;
@@ -353,12 +353,8 @@ public class CCCEval implements Eval
 				totalTableHead[r] = raceToLink(c, r);
 				try
 				{
-					if(loadType.equals("logs"))
-						tables[c][r] = createRaceTableFromLog(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs,
-								total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus, total_sum_races_bychallenge);
-					else
-						tables[c][r] = createRaceTable(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs,
-								total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus, total_sum_races_bychallenge);
+					tables[c][r] = createRaceTableFromLog(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs,
+							total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus, total_sum_races_bychallenge);
 				}
 				catch(Exception e)
 				{

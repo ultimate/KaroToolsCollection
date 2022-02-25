@@ -22,12 +22,9 @@ import java.util.TreeMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import muskel2.model.Game;
-import muskel2.model.GameSeries;
-import muskel2.model.series.BalancedGameSeries;
+import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karoapi4j.utils.threads.ThreadQueue;
-import ultimate.karoapi4j.utils.web.URLLoaderThread;
 
 public class CCCEvalNew implements Eval
 {
@@ -97,7 +94,6 @@ public class CCCEvalNew implements Eval
 	private final String					end_playerName_Log		= " -> ";
 
 	private final int						maxCols					= 7;
-	private final ThreadQueue				queue					= new ThreadQueue(10, true, false);
 
 	private final String					highlight				= "'''";
 
