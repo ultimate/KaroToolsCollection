@@ -1,6 +1,6 @@
 package ultimate.karopapier.eval;
 
-import muskel2.model.GameSeries;
+import ultimate.karoapi4j.model.extended.GameSeries;
 
 public interface Eval
 {

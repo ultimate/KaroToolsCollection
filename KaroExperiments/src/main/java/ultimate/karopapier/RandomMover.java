@@ -1,58 +1,75 @@
-package ultimate.karopapier.util;
+package ultimate.karopapier;
 
 import java.io.IOException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
-import muskel2.core.karoaccess.KaropapierLoader;
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Move;
+import ultimate.karoapi4j.model.official.Player;
 
 public class RandomMover
 {
-	// TODO fix
-	public static void main(String[] args) throws IOException, InterruptedException
+	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
 		String user = args[0];
 		String pw = args[1];
 		int gid = Integer.parseInt(args[2]);
+		int maxSpeed = Integer.parseInt(args[3]);
+
+		KaroAPI api = new KaroAPI(user, pw);
+		int uid = api.check().get().getId();
+
 		long sleep = 1000;
 		Random rand = new Random();
-		if(KaropapierLoader.login(user, pw))
+
+		Game game;
+		Player player;
+		Move move;
+		List<Move> validMoves = new ArrayList<>(9);
+
+		do
 		{
-			System.out.println("logged in as " + user);
-			
-			@SuppressWarnings("unused")
-			String page;
-			int x = 0;
-			int y = 0;
-			int r;
-			do
+			game = api.getGame(gid).get();
+			if(game.getNext() == null || game.getNext().getId() != uid)
+				return;
+
+			player = null;
+			for(Player p : game.getPlayers())
 			{
-				r = rand.nextInt(3)-1;
-				if(x == 0)
+				if(p.getId() == uid)
 				{
-					if(r != 0)
-					{
-						x = r;
-						y = 0;
-					}
+					player = p;
+					break;
 				}
-				else if(y == 0)
-				{
-					if(r != 0)
-					{
-						y = r;
-						x = 0;
-					}
-				}
-				page = KaropapierLoader.readPage(new URL("http://www.karopapier.de/move.php"), "GID=" + gid + "&xvec=" + x + "&yvec=" + y);
-				System.out.println("moved: x=" + x + " y=" + y);
-				Thread.sleep(sleep);
 			}
-			while(true);
-		}
-		else
-		{
-			System.out.println("could not log in...");
-		}
+			if(player == null)
+				return;
+
+			if(player.getPossibles() == null || player.getPossibles().size() == 0)
+				api.refresh(gid);
+
+			validMoves.clear();
+			for(Move m : player.getPossibles())
+			{
+				if(speed(m) <= maxSpeed)
+					validMoves.add(m);
+			}
+			if(validMoves.size() == 0)
+				validMoves.addAll(player.getPossibles());
+
+			move = validMoves.get(rand.nextInt(validMoves.size()));
+			System.out.println("moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
+			api.move(gid, move);
+			Thread.sleep(sleep);
+		} while(true);
+	}
+
+	private static double speed(Move m)
+	{
+		return Math.sqrt(m.getXv() * m.getXv() + m.getYv() * m.getYv());
 	}
 }
