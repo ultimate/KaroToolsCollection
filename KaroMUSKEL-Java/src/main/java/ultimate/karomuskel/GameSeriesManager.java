@@ -94,9 +94,13 @@ public abstract class GameSeriesManager
 	 */
 	public static final char				CONFIG_DELIMITER				= '.';
 	/**
-	 * The config delimiter ('.')
+	 * The config key for "allow creator give up"
 	 */
 	public static final String				CONFIG_ALLOW_CREATOR_GIVE_UP	= CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + "allow.creatorGiveUp";
+	/**
+	 * The config key for "allow ignore invitable"
+	 */
+	public static final String				CONFIG_ALLOW_IGNORE_INVITABLE	= CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + "allow.ignoreInvitable";
 	/**
 	 * The config file to use
 	 */
@@ -149,7 +153,14 @@ public abstract class GameSeriesManager
 	 */
 	public static int getIntConfig(String key)
 	{
-		return Integer.parseInt(getStringConfig(key));
+		try
+		{
+			return Integer.parseInt(getStringConfig(key));
+		}
+		catch(NumberFormatException e)
+		{
+			return 0;
+		}
 	}
 
 	/**
@@ -185,7 +196,7 @@ public abstract class GameSeriesManager
 
 	/**
 	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
-	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
+	 * <code>Integer.parseInt(getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key));</code>
 	 * 
 	 * @see GameSeriesManager#getIntConfig(String)
 	 * @param gs - the {@link GameSeries}
@@ -194,7 +205,28 @@ public abstract class GameSeriesManager
 	 */
 	public static int getIntConfig(GameSeries gs, String key)
 	{
-		return Integer.parseInt(getStringConfig(gs, key));
+		try
+		{
+			return Integer.parseInt(getStringConfig(gs, key));
+		}
+		catch(NumberFormatException e)
+		{
+			return 0;
+		}
+	}
+
+	/**
+	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
+	 * <code>Integer.parseInt(getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key));</code>
+	 * 
+	 * @see GameSeriesManager#getIntConfig(String)
+	 * @param gs - the {@link GameSeries}
+	 * @param key - the key
+	 * @return the config value as boolean
+	 */
+	public static boolean getBooleanConfig(GameSeries gs, String key)
+	{
+		return Boolean.parseBoolean(getStringConfig(gs, key));
 	}
 
 	/**

@@ -58,7 +58,7 @@ public class RulesScreen extends Screen
 		this.creatorGiveUpCB = new JComboBox<>(new BooleanModel(false, false));
 		this.creatorGiveUpCB.setEnabled(GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
 		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(false, false));
-		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator());
+		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_IGNORE_INVITABLE));
 	}
 
 	@SuppressWarnings("unchecked")
