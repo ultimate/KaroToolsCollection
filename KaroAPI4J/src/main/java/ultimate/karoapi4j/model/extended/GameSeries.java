@@ -3,7 +3,6 @@ package ultimate.karoapi4j.model.extended;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -37,7 +36,6 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDMapConverter;
  */
 public class GameSeries
 {
-	// TODO javadoc
 	// keys for type specific settings
 	// relevant game series types
 	// _____________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
@@ -81,57 +79,106 @@ public class GameSeries
 	public static final String					KEY_ROUND					= "roundOf";			// ______________X__________
 
 	// universal settings
+	/**
+	 * the type of the gameseries
+	 */
 	protected EnumGameSeriesType				type;
+	/**
+	 * the gameseries title (including placeholders)
+	 */
 	protected String							title;
+	/**
+	 * the creator
+	 */
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = User.FromIDConverter.class)
 	protected User								creator;
 
+	/**
+	 * shall the creator leave all games?
+	 */
 	@JsonInclude(value = Include.NON_DEFAULT)
 	protected boolean							creatorGiveUp;
+	/**
+	 * shall the game limits and invitable status be ignored?
+	 */
 	@JsonInclude(value = Include.NON_DEFAULT)
 	protected boolean							ignoreInvitable;
 
-	// games (planned & created in one list)
+	/**
+	 * the list of games (planned & created in one list)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	protected List<PlannedGame>					games;
 
 	// default lists
+	/**
+	 * the list of all players participating (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = User.FromIDListConverter.class)
 	protected List<User>						players;
+	/**
+	 * the list of all team participating (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	protected List<Team>						teams;
+	/**
+	 * the list of maps used (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = Map.FromIDListConverter.class)
 	protected List<Map>							maps;
+	/**
+	 * the general rules used
+	 */
 	@JsonInclude(value = Include.NON_NULL)
 	protected Rules								rules;
 
 	// parameterized lists
+	/**
+	 * additional player lists by key (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDMapConverter.class)
 	@JsonDeserialize(converter = User.FromIDMapConverter.class)
 	protected java.util.Map<String, List<User>>	playersByKey;
+	/**
+	 * additional team lists by key (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	protected java.util.Map<String, List<Team>>	teamsByKey;
+	/**
+	 * additional map lists by key (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDMapConverter.class)
 	@JsonDeserialize(converter = Map.FromIDMapConverter.class)
 	protected java.util.Map<String, List<Map>>	mapsByKey;
+	/**
+	 * additional rules by key (optional)
+	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	protected java.util.Map<String, Rules>		rulesByKey;
 
-	// type specific settings
+	/**
+	 * type specific settings
+	 */
 	protected java.util.Map<String, Object>		settings;
 
+	/**
+	 * was the gameseries loaded from file?
+	 */
 	@JsonInclude(value = Include.NON_DEFAULT)
 	protected transient boolean					loaded;
 
-	protected static Random						random						= new Random();
-
+	/**
+	 * Create a new GameSeries
+	 * 
+	 * @param type - the type of the gameseries
+	 */
 	@JsonCreator
 	public GameSeries(@JsonProperty("type") EnumGameSeriesType type)
 	{
@@ -140,7 +187,7 @@ public class GameSeries
 		this.type = type;
 
 		this.games = new LinkedList<>();
-		
+
 		this.players = new LinkedList<>();
 		this.teams = new LinkedList<>();
 		this.maps = new LinkedList<>();
@@ -149,7 +196,7 @@ public class GameSeries
 		this.teamsByKey = new HashMap<>();
 		this.mapsByKey = new HashMap<>();
 		this.rulesByKey = new HashMap<>();
-		
+
 		this.settings = new HashMap<>();
 	}
 
@@ -157,6 +204,9 @@ public class GameSeries
 	// non settable fields / properties
 	////////////////////////////////////
 
+	/**
+	 * @return the type of the gameseries
+	 */
 	public EnumGameSeriesType getType()
 	{
 		return type;
@@ -166,173 +216,270 @@ public class GameSeries
 	// normal fields
 	////////////////////////////////////
 
+	/**
+	 * @return the gameseries title (including placeholders)
+	 */
 	public String getTitle()
 	{
 		return title;
 	}
 
+	/**
+	 * @param title - the gameseries title (including placeholders)
+	 */
 	public void setTitle(String title)
 	{
 		this.title = title;
 	}
 
+	/**
+	 * @return the creator
+	 */
 	public User getCreator()
 	{
 		return creator;
 	}
 
+	/**
+	 * @param creator - the creator
+	 */
 	public void setCreator(User creator)
 	{
 		this.creator = creator;
 	}
 
+	/**
+	 * @return shall the creator leave all games?
+	 */
 	public boolean isCreatorGiveUp()
 	{
 		return creatorGiveUp;
 	}
 
+	/**
+	 * @param creatorGiveUp - shall the creator leave all games?
+	 */
 	public void setCreatorGiveUp(boolean creatorGiveUp)
 	{
 		this.creatorGiveUp = creatorGiveUp;
 	}
 
+	/**
+	 * @return shall the game limits and invitable status be ignored?
+	 */
 	public boolean isIgnoreInvitable()
 	{
 		return ignoreInvitable;
 	}
 
+	/**
+	 * @param ignoreInvitable - shall the game limits and invitable status be ignored?
+	 */
 	public void setIgnoreInvitable(boolean ignoreInvitable)
 	{
 		this.ignoreInvitable = ignoreInvitable;
 	}
 
+	/**
+	 * @return the list of games (planned & created in one list)
+	 */
 	public List<PlannedGame> getGames()
 	{
 		return games;
 	}
 
+	/**
+	 * @param games - the list of games (planned & created in one list)
+	 */
 	public void setGames(List<PlannedGame> games)
 	{
 		this.games = games;
 	}
 
+	/**
+	 * @return the list of all players participating (optional)
+	 */
 	public List<User> getPlayers()
 	{
 		return players;
 	}
 
+	/**
+	 * @param players - the list of all players participating (optional)
+	 */
 	public void setPlayers(List<User> players)
 	{
 		this.players = players;
 	}
 
+	/**
+	 * @return the list of all team participating (optional)
+	 */
 	public List<Team> getTeams()
 	{
 		return teams;
 	}
 
+	/**
+	 * @param teams - the list of all team participating (optional)
+	 */
 	public void setTeams(List<Team> teams)
 	{
 		this.teams = teams;
 	}
 
+	/**
+	 * @return the list of maps used (optional)
+	 */
 	public List<Map> getMaps()
 	{
 		return maps;
 	}
 
+	/**
+	 * @param maps - the list of maps used (optional)
+	 */
 	public void setMaps(List<Map> maps)
 	{
 		this.maps = maps;
 	}
 
+	/**
+	 * @return the general rules used
+	 */
 	public Rules getRules()
 	{
 		return rules;
 	}
 
+	/**
+	 * @param rules - the general rules used
+	 */
 	public void setRules(Rules rules)
 	{
 		this.rules = rules;
 	}
 
+	/**
+	 * @return additional player lists by key (optional)
+	 */
 	public java.util.Map<String, List<User>> getPlayersByKey()
 	{
 		return playersByKey;
 	}
 
+	/**
+	 * @param playersByKey - additional player lists by key (optional)
+	 */
 	public void setPlayersByKey(java.util.Map<String, List<User>> playersByKey)
 	{
 		this.playersByKey = playersByKey;
 	}
 
+	/**
+	 * @return additional team lists by key (optional)
+	 */
 	public java.util.Map<String, List<Team>> getTeamsByKey()
 	{
 		return teamsByKey;
 	}
 
+	/**
+	 * @param teamsByKey - additional team lists by key (optional)
+	 */
 	public void setTeamsByKey(java.util.Map<String, List<Team>> teamsByKey)
 	{
 		this.teamsByKey = teamsByKey;
 	}
 
+	/**
+	 * @return additional map lists by key (optional)
+	 */
 	public java.util.Map<String, List<Map>> getMapsByKey()
 	{
 		return mapsByKey;
 	}
 
+	/**
+	 * @param mapsByKey - additional map lists by key (optional)
+	 */
 	public void setMapsByKey(java.util.Map<String, List<Map>> mapsByKey)
 	{
 		this.mapsByKey = mapsByKey;
 	}
 
+	/**
+	 * @return additional rules by key (optional)
+	 */
 	public java.util.Map<String, Rules> getRulesByKey()
 	{
 		return rulesByKey;
 	}
 
+	/**
+	 * @param rulesByKey - additional rules by key (optional)
+	 */
 	public void setRulesByKey(java.util.Map<String, Rules> rulesByKey)
 	{
 		this.rulesByKey = rulesByKey;
 	}
 
+	/**
+	 * @return type specific settings
+	 */
 	public java.util.Map<String, Object> getSettings()
 	{
 		return settings;
 	}
 
+	/**
+	 * @param settings - type specific settings
+	 */
 	public void setSettings(java.util.Map<String, Object> settings)
 	{
 		this.settings = settings;
 	}
 
+	/**
+	 * @param key - the key
+	 * @return the value from the type specific settings
+	 */
 	public Object get(String key)
 	{
 		return settings.get(key);
 	}
 
+	/**
+	 * 
+	 * @param key - the key
+	 * @param value - the value for the type specific settings
+	 */
 	public void set(String key, Object value)
 	{
 		settings.put(key, value);
 	}
 
+	/**
+	 * @param key - remove a value from the type specific settings
+	 */
 	public void clear(String key)
 	{
 		settings.remove(key);
 	}
 
+	/**
+	 * @return was the gameseries loaded from file?
+	 */
 	public boolean isLoaded()
 	{
 		return loaded;
 	}
 
+	/**
+	 * @param loaded - was the gameseries loaded from file?
+	 */
 	public void setLoaded(boolean loaded)
 	{
 		this.loaded = loaded;
-	}
-
-	protected void planGame(PlannedGame game)
-	{
-		this.games.add(game);
 	}
 }
