@@ -35,9 +35,9 @@ public class CCCEvalNew implements Eval
 	 * Logger-Instance
 	 */
 	private static transient final Logger	logger			= LogManager.getLogger();
-	
-	private static final String	DEFAULT_FOLDER	= "";
-	private static final int[]	ALL_COLUMNS;
+
+	private static final String				DEFAULT_FOLDER	= "";
+	private static final int[]				ALL_COLUMNS;
 
 	static
 	{
@@ -232,8 +232,7 @@ public class CCCEvalNew implements Eval
 			col = 0;
 			for(int r = 1; r < tables[c].length; r++)
 			{
-				tableTable[row][col] = "\nChallenge " + raceToLink(c, r) + "\n" + tableToString(raceTableHead, tables[c][r], null, ALL_COLUMNS)
-						+ "\n";
+				tableTable[row][col] = "\nChallenge " + raceToLink(c, r) + "\n" + tableToString(raceTableHead, tables[c][r], null, ALL_COLUMNS) + "\n";
 				col++;
 				if(col == maxCols)
 				{
@@ -272,8 +271,7 @@ public class CCCEvalNew implements Eval
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\n");
 
 		stats.append("== Wer gegen wen? ==\n");
-		stats.append(
-				"Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
+		stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
 		stats.append(tableToString(null, whoOnWho, null, ALL_COLUMNS));
 
 		StringBuilder schema = new StringBuilder();
@@ -390,8 +388,8 @@ public class CCCEvalNew implements Eval
 
 				try
 				{
-					tables[c][r] = createRaceTableFromLog_Part1(c, r, (Map<String, Integer>) playerMoves[r], (Map<String, Integer>) playerCrashs[r],
-							(Map<String, Integer>) playerPosition[r], (Map<String, Boolean>) playerFinished[r]);
+					tables[c][r] = createRaceTableFromLog_Part1(c, r, (Map<String, Integer>) playerMoves[r], (Map<String, Integer>) playerCrashs[r], (Map<String, Integer>) playerPosition[r],
+							(Map<String, Boolean>) playerFinished[r]);
 				}
 				catch(Exception e)
 				{
@@ -474,9 +472,8 @@ public class CCCEvalNew implements Eval
 			{
 				try
 				{
-					createRaceTableFromLog_Part2(tables[c][r], c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs,
-							sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
-							total_sum_bonus, total_sum_races_bychallenge, (Map<String, Integer>) playerMoves[r],
+					createRaceTableFromLog_Part2(tables[c][r], c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs,
+							total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus, total_sum_races_bychallenge, (Map<String, Integer>) playerMoves[r],
 							(Map<String, Integer>) playerCrashs[r], (Map<String, Integer>) playerPosition[r], (Map<String, Boolean>) playerFinished[r], pointsForMoves[c]);
 				}
 				catch(Exception e)
@@ -494,8 +491,7 @@ public class CCCEvalNew implements Eval
 				createWhoOnWho(c, r, challengePlayers);
 			}
 
-			double maxPointsUnskaled = addBonus(c, challengePlayers, totalTable, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves,
-					total_sum_bonus);
+			double maxPointsUnskaled = addBonus(c, challengePlayers, totalTable, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_bonus);
 			if(maxPointsUnskaled == 0.0)
 				maxPointsUnskaled = 100;
 
@@ -541,8 +537,7 @@ public class CCCEvalNew implements Eval
 				// stats_racesPerPlayerPerChallenge + ")</span>";
 				if(stats_racesPerPlayerPerChallenge - total_sum_races_bychallenge.get(player)[c] > 0)
 				{
-					tmp2 = "&nbsp;<span style=\"font-size:50%\">(" + (stats_racesPerPlayerPerChallenge - total_sum_races_bychallenge.get(player)[c])
-							+ ")</span>";
+					tmp2 = "&nbsp;<span style=\"font-size:50%\">(" + (stats_racesPerPlayerPerChallenge - total_sum_races_bychallenge.get(player)[c]) + ")</span>";
 					finished = false;
 				}
 				else
@@ -699,8 +694,8 @@ public class CCCEvalNew implements Eval
 		return ret.toString();
 	}
 
-	private String[][] createRaceTableFromLog_Part1(int c, int r, Map<String, Integer> playerMoves, Map<String, Integer> playerCrashs,
-			final Map<String, Integer> playerPosition, Map<String, Boolean> playerFinished)
+	private String[][] createRaceTableFromLog_Part1(int c, int r, Map<String, Integer> playerMoves, Map<String, Integer> playerCrashs, final Map<String, Integer> playerPosition,
+			Map<String, Boolean> playerFinished)
 	{
 		String[][] table = new String[numberOfPlayers[c]][raceTableHead.length];
 		int last = numberOfPlayers[c];
@@ -734,8 +729,7 @@ public class CCCEvalNew implements Eval
 			if(position == -1)
 			{
 			}
-			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position
-					|| log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
+			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position || log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
 					|| log.lastIndexOf(player + " steigt aus dem Spiel aus") == position)
 			{
 				thrown++;
@@ -782,16 +776,14 @@ public class CCCEvalNew implements Eval
 				position = last--;
 				finished = false;
 			}
-			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position
-					|| log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
+			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position || log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
 					|| log.lastIndexOf(player + " steigt aus dem Spiel aus") == position)
 			{
 				position = players.size();
 				moves = maxMoves + 1;
 				finished = false;
 			}
-			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0
-					&& log.indexOf(player + " steigt aus dem Spiel aus") < position)
+			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0 && log.indexOf(player + " steigt aus dem Spiel aus") < position)
 			{
 				// Ausstiegs-Bug abfangen: Nach dem Ausstieg wurde gecrasht...
 				// dann ist in der Zeile vor dem CRASH der Ausstieg
@@ -834,12 +826,11 @@ public class CCCEvalNew implements Eval
 		return table;
 	}
 
-	private void createRaceTableFromLog_Part2(String[][] table, int c, int r, String[][] totalTable, List<String> challengePlayers,
-			Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs,
-			Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
-			Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
-			Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge, Map<String, Integer> playerMoves,
-			Map<String, Integer> playerCrashs, Map<String, Integer> playerPosition, Map<String, Boolean> playerFinished, Map<Integer, Integer> pointsForMoves)
+	private void createRaceTableFromLog_Part2(String[][] table, int c, int r, String[][] totalTable, List<String> challengePlayers, Map<String, Double> sum_pointsUnskaled,
+			Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
+			Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus,
+			Map<String, Integer[]> total_sum_races_bychallenge, Map<String, Integer> playerMoves, Map<String, Integer> playerCrashs, Map<String, Integer> playerPosition,
+			Map<String, Boolean> playerFinished, Map<Integer, Integer> pointsForMoves)
 	{
 		int moves;
 		int crashs;
@@ -867,17 +858,15 @@ public class CCCEvalNew implements Eval
 			}
 			real_crashs_allraces.get(player)[c].add(crashs);
 
-			fillRaceTable(table, totalTable, player, challengePlayers, c, r, position, points, crashs, moves, sum_pointsUnskaled, sum_basePoints,
-					sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races,
-					total_sum_bonus, total_sum_races_bychallenge);
+			fillRaceTable(table, totalTable, player, challengePlayers, c, r, position, points, crashs, moves, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints,
+					total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_races, total_sum_bonus, total_sum_races_bychallenge);
 		}
 	}
 
-	private void fillRaceTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r, int position,
-			double points, int crashs, int moves, Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints,
-			Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints,
-			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled,
-			Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
+	private void fillRaceTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r, int position, double points, int crashs, int moves,
+			Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints,
+			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
+			Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
 	{
 
 		String racePoints = (points < 0 ? (points == -1 ? "?" : "" + round(points)) : "" + round(crashs * points));
@@ -917,8 +906,8 @@ public class CCCEvalNew implements Eval
 			Arrays.sort(finalTable, new FinalTableRowSorter(-4)); // sort by Endergebnis
 	}
 
-	private double addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Double> sum_pointsUnskaled,
-			Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Integer> total_sum_bonus)
+	private double addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs,
+			Map<String, Integer> sum_moves, Map<String, Integer> total_sum_bonus)
 	{
 		String player;
 
@@ -983,17 +972,16 @@ public class CCCEvalNew implements Eval
 			}
 		}
 
-//		addBonus(c, index_minMoves, pages[c].length + 2, totalTable, challengePlayers, total_sum_bonus);
+		// addBonus(c, index_minMoves, pages[c].length + 2, totalTable, challengePlayers, total_sum_bonus);
 		addBonus(c, index_maxCrashs, pages[c].length + 1, totalTable, challengePlayers, total_sum_bonus);
-//		addBonus(c, index_maxBasePoints, pages[c].length + 0, totalTable, challengePlayers, total_sum_bonus);
+		// addBonus(c, index_maxBasePoints, pages[c].length + 0, totalTable, challengePlayers, total_sum_bonus);
 		// addBonus(c, index_maxPointsUnskaled, totalTable, challengePlayers,
 		// total_sum_bonus);
 
 		return maxPointsUnskaled;
 	}
 
-	private void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers,
-			Map<String, Integer> total_sum_bonus)
+	private void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers, Map<String, Integer> total_sum_bonus)
 	{
 		for(int i : indexes)
 		{
@@ -1018,8 +1006,8 @@ public class CCCEvalNew implements Eval
 		}
 	}
 
-	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Double> total_sum_basePoints,
-			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Integer> final_sum_bonus)
+	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
+			Map<String, Integer> total_sum_moves, Map<String, Integer> final_sum_bonus)
 	{
 		String player;
 
@@ -1072,8 +1060,7 @@ public class CCCEvalNew implements Eval
 		addFinalBonus(index_maxBasePoints, pages.length + 1, finalTable, challengePlayers, final_sum_bonus);
 	}
 
-	private void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers,
-			Map<String, Integer> final_sum_bonus)
+	private void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers, Map<String, Integer> final_sum_bonus)
 	{
 		for(int i : indexes)
 		{
@@ -1613,9 +1600,8 @@ public class CCCEvalNew implements Eval
 
 		public GameLoaderThread(int challenge, int race, String type) throws MalformedURLException
 		{
-			super(new URL(
-					type.equals("log") ? "http://www.karopapier.de/logs/" + gids[challenge][race] + ".log" : "http://www.karopapier.de/showmap.php"),
-					type.equals("log") ? "GET" : "POST", type.equals("log") ? "" : "GID=" + gids[challenge][race], 10000);
+			super(new URL(type.equals("log") ? "http://www.karopapier.de/logs/" + gids[challenge][race] + ".log" : "http://www.karopapier.de/showmap.php"), type.equals("log") ? "GET" : "POST",
+					type.equals("log") ? "" : "GID=" + gids[challenge][race], 10000);
 			this.challenge = challenge;
 			this.race = race;
 			this.type = type;
