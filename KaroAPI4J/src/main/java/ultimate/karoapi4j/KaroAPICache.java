@@ -124,25 +124,28 @@ public class KaroAPICache implements IDLookUp
 	 */
 	public KaroAPICache(KaroAPI karoAPI)
 	{
-		if(karoAPI == null)
-			logger.warn("KaroAPI is null - using debug mode");
-		this.karoAPI = karoAPI;
-		this.usersById = new TreeMap<>();
-		this.usersByLogin = new TreeMap<>();
-		this.gamesById = new TreeMap<>();
-		this.mapsById = new TreeMap<>();
+		this(karoAPI, null);
 	}
 
 	/**
+	 * Create a new KaroAPICache which will use the given config
+	 * 
 	 * @param karoAPI - The underlying {@link KaroAPI} instance
 	 * @param config - an optional configuration
 	 */
 	public KaroAPICache(KaroAPI karoAPI, Properties config)
 	{
-		this(karoAPI);
-		this.config = config;
+		if(karoAPI == null)
+			logger.warn("KaroAPI is null - using debug mode");
+		
+		this.karoAPI = karoAPI;
+		this.usersById = new TreeMap<>();
+		this.usersByLogin = new TreeMap<>();
+		this.gamesById = new TreeMap<>();
+		this.mapsById = new TreeMap<>();
 
-		if(this.config != null && this.config.contains(CONFIG_CACHE))
+		this.config = config;
+		if(this.config != null && this.config.containsKey(CONFIG_CACHE))
 			this.cacheFolder = new File(this.config.getProperty(CONFIG_CACHE));
 		else
 			this.cacheFolder = new File(DEFAULT_FOLDER);
@@ -613,7 +616,7 @@ public class KaroAPICache implements IDLookUp
 			logger.info("cache folder does not exist - creating folder: " + folder.getAbsolutePath());
 			getCacheFolder().mkdirs();
 		}
-		File cacheFile = new File(folder, mapId + (thumb ? IMAGE_THUMB_SUFFIX : "") + "." + IMAGE_TYPE);
+		File cacheFile = new File(folder, (karoAPI == null ? "d_" : "") + mapId + (thumb ? IMAGE_THUMB_SUFFIX : "") + "." + IMAGE_TYPE);
 		if(cacheFile.exists())
 		{
 			try
