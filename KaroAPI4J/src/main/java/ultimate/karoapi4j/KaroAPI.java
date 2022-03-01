@@ -86,10 +86,11 @@ public class KaroAPI implements IDLookUp
 	 */
 	private static String					version;
 	/**
-	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible across multiple
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
+	 * across multiple
 	 * instances of the {@link KaroAPI}.
 	 */
-	private static ExecutorService					executor;
+	private static ExecutorService			executor;
 
 	/**
 	 * The name of the application using the {@link KaroAPI}
@@ -151,16 +152,17 @@ public class KaroAPI implements IDLookUp
 		KaroAPI.applicationName = applicationName;
 		KaroAPI.applicationVersion = applicationVersion;
 	}
-	
+
 	public static String getUserAgent()
 	{
-		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/"
-				+ (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
+		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java "
+				+ System.getProperty("java.version") + ")";
 	}
 
 	/**
 	 * Set a new {@link ExecutorService}:<br>
-	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible across multiple
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
+	 * across multiple
 	 * instances of the {@link KaroAPI}.
 	 * 
 	 * @param e - the new {@link ExecutorService}
@@ -172,7 +174,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get the current {@link ExecutorService}:<br>
-	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible across multiple
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
+	 * across multiple
 	 * instances of the {@link KaroAPI}.
 	 * 
 	 * @return the {@link ExecutorService}
@@ -236,6 +239,7 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													GAME_CREATE					= API.relative("/game");
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
 	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
+	protected final URLLoader													GAME_REFRESH				= KAROPAPIER.relative("/showmap.php?GID=" + PLACEHOLDER);
 	// maps
 	protected final URLLoader													MAPS						= API.relative("/maps");
 	protected final URLLoader													MAP							= MAPS.relative("/" + PLACEHOLDER);
@@ -777,6 +781,14 @@ public class KaroAPI implements IDLookUp
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
 		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
+	}
+
+	public CompletableFuture<Boolean> refreshAfterCrash(int gameId)
+	{
+		// TODO
+		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> {
+			return result != null && result.contains("href=/spiele/" + gameId);
+			});
 	}
 
 	/**
