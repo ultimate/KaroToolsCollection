@@ -468,6 +468,8 @@ public class KaroAPITest extends KaroAPITestcase
 
 		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
 		int gameId = game.getId();
+		int moves = 0;
+		int crashs = 0;
 
 		// load full game -> check players and moves
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -476,13 +478,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game.getPlayers());
 		assertEquals(1, game.getPlayers().size());
 		assertEquals(user.getId(), game.getPlayers().get(0).getId());
-		assertEquals(0, game.getPlayers().get(0).getMoveCount());
-		assertEquals(0, game.getPlayers().get(0).getMoves().size());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
 
 		// select start position
 		assertTrue(karoAPI.selectStartPosition(game.getId(), new Move(2, 1, null)).get());
+		moves++;
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -491,13 +495,65 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game.getPlayers());
 		assertEquals(1, game.getPlayers().size());
 		assertEquals(user.getId(), game.getPlayers().get(0).getId());
-		assertEquals(1, game.getPlayers().get(0).getMoveCount());
-		assertEquals(1, game.getPlayers().get(0).getMoves().size());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
-		// move 1
+		// move 1 (to the left)
+		assertTrue(karoAPI.move(game.getId(), new Move(1, 1, -1, 0, null)).get());
+		moves++;
+
+		// update -> check players and moves again
+		game = karoAPI.getGame(gameId, false, true, true).get();
+		assertNotNull(game);
+		assertEquals(gameId, game.getId());
+		assertNotNull(game.getPlayers());
+		assertEquals(1, game.getPlayers().size());
+		assertEquals(user.getId(), game.getPlayers().get(0).getId());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertNull(game.getPlayers().get(0).getPossibles()); // we ran into a crash
+		
+		// refresh
+		assertTrue(karoAPI.refreshAfterCrash(gameId).get());
+		crashs++;
+		
+		// update -> check players and moves again
+		game = karoAPI.getGame(gameId, false, true, true).get();
+		assertNotNull(game);
+		assertEquals(gameId, game.getId());
+		assertNotNull(game.getPlayers());
+		assertEquals(1, game.getPlayers().size());
+		assertEquals(user.getId(), game.getPlayers().get(0).getId());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertNotNull(game.getPlayers().get(0).getPossibles());
+		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
+
+		// move (from the crash point)
+		assertTrue(karoAPI.move(game.getId(), new Move(2, 1, 1, 0, null)).get());
+		moves++;
+
+		// update -> check players and moves again
+		game = karoAPI.getGame(gameId, false, true, true).get();
+		assertNotNull(game);
+		assertEquals(gameId, game.getId());
+		assertNotNull(game.getPlayers());
+		assertEquals(1, game.getPlayers().size());
+		assertEquals(user.getId(), game.getPlayers().get(0).getId());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertNotNull(game.getPlayers().get(0).getPossibles());
+		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
+
+		// move (again from the start to the right)
 		assertTrue(karoAPI.move(game.getId(), new Move(3, 1, 1, 0, null)).get());
+		moves++;
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -506,13 +562,16 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game.getPlayers());
 		assertEquals(1, game.getPlayers().size());
 		assertEquals(user.getId(), game.getPlayers().get(0).getId());
-		assertEquals(2, game.getPlayers().get(0).getMoveCount());
-		assertEquals(2, game.getPlayers().get(0).getMoves().size());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
-		// move 2
+		// move (cross the finish line)
 		assertTrue(karoAPI.move(game.getId(), new Move(5, 1, 2, 0, null)).get());
+		moves++; // last move
+		moves++; // parc ferme
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -520,8 +579,9 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(gameId, game.getId());
 		assertEquals(1, game.getPlayers().size());
 		assertEquals(user.getId(), game.getPlayers().get(0).getId());
-		assertEquals(4, game.getPlayers().get(0).getMoveCount()); // +1 because of parc ferme
-		assertEquals(4, game.getPlayers().get(0).getMoves().size());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNull(game.getPlayers().get(0).getPossibles());
 		assertTrue(game.isFinished());
 	}
