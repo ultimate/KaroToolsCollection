@@ -358,7 +358,7 @@ public class User extends Identifiable
 	@JsonIgnore
 	public boolean isInvitable(boolean night)
 	{
-		boolean withinLimit = (activeGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
+		boolean withinLimit = (activeGames + plannedGames < maxGames || maxGames <= 0) && lastVisit <= INVITABLE_LAST_VISIT_LIMIT;
 		return (night ? acceptsNightGames : acceptsDayGames) && withinLimit;
 	}
 	

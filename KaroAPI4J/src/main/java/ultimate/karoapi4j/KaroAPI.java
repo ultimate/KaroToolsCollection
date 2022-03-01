@@ -1,7 +1,6 @@
 package ultimate.karoapi4j;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
@@ -108,7 +107,7 @@ public class KaroAPI implements IDLookUp
 		logger.debug("loading KaroAPI version");
 		try
 		{
-			Properties properties = PropertiesUtil.loadProperties(new File(KaroAPI.class.getClassLoader().getResource("karoapi4j.properties").toURI()));
+			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j");
 			version = properties.getProperty("karoAPI.version");
 			logger.debug("version = " + version);
 		}

@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -59,6 +60,39 @@ public abstract class PropertiesUtil
 		properties.load(is);
 		is.close();
 		return properties;
+	}
+
+	/**
+	 * Load {@link Properties} from the given {@link File}.<br>
+	 * Convenience for <code>PropertiesUtil.loadProperties(file, false)</code>
+	 * 
+	 * @see PropertiesUtil#loadProperties(File, boolean)
+	 * @param contextClass - the class context used to locate the file
+	 * @param name - the name of the properties (without the file ending of ".properties")
+	 * @return the {@link Properties}
+	 * @throws IOException - if loading fails
+	 * @throws URISyntaxException - if building the file URI fails
+	 */
+	public static Properties loadProperties(Class<?> contextClass, String name) throws IOException, URISyntaxException
+	{
+		return loadProperties(contextClass, name, false);
+	}
+
+	/**
+	 * Load {@link Properties} from the given {@link File}.<br>
+	 * Convenience for <code>PropertiesUtil.loadProperties(file, false)</code>
+	 * 
+	 * @see PropertiesUtil#loadProperties(File, boolean)
+	 * @param contextClass - the class context used to locate the file
+	 * @param name - the name of the properties (without the file ending of ".properties")
+	 * @param zipped - use zip-format?
+	 * @return the {@link Properties}
+	 * @throws IOException - if loading fails
+	 * @throws URISyntaxException - if building the file URI fails
+	 */
+	public static Properties loadProperties(Class<?> contextClass, String name, boolean zipped) throws IOException, URISyntaxException
+	{
+		return loadProperties(new File(contextClass.getClassLoader().getResource(name + ".properties").toURI()), zipped);
 	}
 
 	/**

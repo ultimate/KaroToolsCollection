@@ -205,7 +205,7 @@ public class Planner
 		int dayCount;
 		HashMap<String, String> placeholderValues = new HashMap<>();
 
-		User[][][] shuffledPlayers = shufflePlayers(players, new ArrayList<>(gameDayRules.values()));
+		User[][][] shuffledPlayers = balancedShufflePlayers(players, new ArrayList<>(gameDayRules.values()));
 
 		for(int day = 0; day < gameDayMaps.size(); day++)
 		{
@@ -253,7 +253,7 @@ public class Planner
 	 * @param rules - the list of {@link Rules} (by round/game day)
 	 * @return the shuffled {@link User}s
 	 */
-	static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
+	static User[][][] balancedShufflePlayers(List<User> players, List<Rules> rules)
 	{
 		List<User> tmp = new LinkedList<User>(players);
 		Collections.shuffle(tmp);
@@ -264,7 +264,7 @@ public class Planner
 		{
 			try
 			{
-				ShuffleResult result = shufflePlayers0(tmp, rules);
+				ShuffleResult result = balancedShufflePlayers0(tmp, rules);
 				if(logger.isDebugEnabled())
 					printWhoOnWho(result, false);
 				return result.shuffledUsers;
@@ -277,15 +277,16 @@ public class Planner
 	}
 
 	/**
-	 * Internal logic used by {@link Planner#shufflePlayers(List, List)}.<br>
-	 * Since shuffling can fail, the shuffle logic is separated into this method, so {@link Planner#shufflePlayers(List, List)} can retry on failure
+	 * Internal logic used by {@link Planner#balancedShufflePlayers(List, List)}.<br>
+	 * Since shuffling can fail, the shuffle logic is separated into this method, so {@link Planner#balancedShufflePlayers(List, List)} can retry on
+	 * failure
 	 * more easily.
 	 * 
 	 * @param players - the list of {@link User}s
 	 * @param rules - the list of {@link Rules} (by round/game day)
 	 * @return the shuffled {@link User}s as a {@link ShuffleResult}
 	 */
-	static ShuffleResult shufflePlayers0(List<User> players, List<Rules> rules)
+	static ShuffleResult balancedShufflePlayers0(List<User> players, List<Rules> rules)
 	{
 		Random rand = new Random();
 		int[] playersGames;
@@ -481,7 +482,7 @@ public class Planner
 	/**
 	 * For debugging: print the combinations (who-on-who) for a balanced gameseries
 	 * 
-	 * @param result - the {@link ShuffleResult} returned by {@link Planner#shufflePlayers0(List, List)}
+	 * @param result - the {@link ShuffleResult} returned by {@link Planner#balancedShufflePlayers0(List, List)}
 	 * @param printDetails - false = print only the total result, true = print results for all game days
 	 */
 	protected static void printWhoOnWho(ShuffleResult result, boolean printDetails)
@@ -520,7 +521,7 @@ public class Planner
 	}
 
 	/**
-	 * Internal result returned by {@link Planner#shufflePlayers0(List, List)}.<br>
+	 * Internal result returned by {@link Planner#balancedShufflePlayers0(List, List)}.<br>
 	 * It contains not only the actual result of shuffled users, but also the counts on the "who-on-who" for validation and debugging.
 	 * 
 	 * @author ultimate
@@ -936,6 +937,9 @@ public class Planner
 	 */
 	public List<Match> planMatchesAllCombinations(List<Team> teams, int numberOfTeamsPerMatch)
 	{
+		if(numberOfTeamsPerMatch > teams.size())
+			throw new IllegalArgumentException("numberOfTeamsPerMatch must be <= teams.size");
+		
 		List<Match> matches = new ArrayList<Match>();
 
 		int[] selectors = new int[numberOfTeamsPerMatch];
@@ -1259,7 +1263,7 @@ public class Planner
 		defaultPlaceholderValues.put("regeln", toPlaceholderString(options, false));
 		defaultPlaceholderValues.put("regeln.x", toPlaceholderString(options, true));
 		defaultPlaceholderValues.put("regeln.zzz", Language.getString("titlepatterns.zzz") + options.getZzz());
-		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc") + options.getCrashallowed());
 		defaultPlaceholderValues.put("regeln.cps", Language.getString("titlepatterns.cps." + options.isCps()));
 		defaultPlaceholderValues.put("regeln.richtung", Language.getString("titlepatterns.direction") + options.getStartdirection());
 
@@ -1288,7 +1292,10 @@ public class Planner
 
 		String name = title;
 		for(Entry<String, String> pv : placeholderValues.entrySet())
+		{
+			logger.trace("replacing ${" + pv.getKey() + "} -> " + pv.getValue());
 			name = name.replace("${" + pv.getKey() + "}", pv.getValue());
+		}
 
 		name = name.replace("  ", " ");
 		name = name.trim();
