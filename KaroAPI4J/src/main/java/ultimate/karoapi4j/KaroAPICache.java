@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +17,9 @@ import java.util.Random;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Function;
+
+import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +30,7 @@ import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
+import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Player;
@@ -47,7 +52,7 @@ public class KaroAPICache implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LogManager.getLogger();
+	protected transient final Logger		logger				= LogManager.getLogger();
 
 	public static final String				CONFIG_BASE			= "karoAPI.";
 	public static final String				CONFIG_CACHE		= CONFIG_BASE + "cache";
@@ -62,13 +67,13 @@ public class KaroAPICache implements IDLookUp
 	 */
 	public static final String				DEFAULT_FOLDER		= "cache";
 	/**
-	 * The folder separator
+	 * The image file ending
 	 */
-	public static final String				FOLDER_SEPARATOR	= "/";
+	public static final String				IMAGE_TYPE			= "png";
 	/**
-	 * The default image size
+	 * The suffix for thumbs
 	 */
-	public static final int					DEFAULT_IMAGE_SIZE	= 100;
+	public static final String				IMAGE_THUMB_SUFFIX	= "_thumb";
 	/**
 	 * The list separator
 	 */
@@ -136,7 +141,11 @@ public class KaroAPICache implements IDLookUp
 	{
 		this(karoAPI);
 		this.config = config;
-		// this.refresh().join();
+
+		if(this.config != null && this.config.contains(CONFIG_CACHE))
+			this.cacheFolder = new File(this.config.getProperty(CONFIG_CACHE));
+		else
+			this.cacheFolder = new File(DEFAULT_FOLDER);
 	}
 
 	/**
@@ -149,7 +158,7 @@ public class KaroAPICache implements IDLookUp
 		if(karoAPI != null)
 		{
 			logger.info("refreshing KaroAPICache...");
-			
+
 			// load users
 			logger.info("loading users...");
 			CompletableFuture<Void> loadUsers = karoAPI.getUsers().thenAccept(userList -> {
@@ -157,7 +166,7 @@ public class KaroAPICache implements IDLookUp
 				for(User u : userList)
 					updateUser(u);
 			});
-			
+
 			// load extra users
 			if(config != null && config.containsKey(CONFIG_EXTRA_USERS))
 				loadUsers = loadExtras(User.class, config.getProperty(CONFIG_EXTRA_USERS), loadUsers);
@@ -169,8 +178,8 @@ public class KaroAPICache implements IDLookUp
 					logger.info("credentials confirmed: " + checkUser.getLogin() + " (" + checkUser.getId() + ")");
 					// but don't use the user returned, but instead use the same instance as
 					// previously loaded by getUsers
+					updateUser(checkUser);
 					User preloaded = getUser(checkUser.getId());
-					ReflectionsUtil.copyFields(checkUser, preloaded, false);
 					this.currentUser = preloaded;
 				}
 				else
@@ -193,35 +202,38 @@ public class KaroAPICache implements IDLookUp
 
 			// then load map images
 			logger.info("loading map images...");
-			CompletableFuture<?>[] loadAllImages = new CompletableFuture[this.mapsById.size()];
-			int cursor = 0;
-			for(Map m : mapsById.values())
-			{
-				if(m.getImage() == null || m.getThumb() == null)
+			CompletableFuture<Void> loadImages = loadMaps.thenApplyAsync(_void -> {
+				CompletableFuture<?>[] loadAllImages = new CompletableFuture[this.mapsById.size()];
+				int cursor = 0;
+				for(Map m : mapsById.values())
 				{
+					if(m.getImage() == null || m.getThumb() == null)
+					{
 					//@formatter:off
 					loadAllImages[cursor++] = CompletableFuture.supplyAsync(() -> {
 							return m;
 						}).thenComposeAsync(map -> {
-							return loadMapImage(map, false);
+							return loadMapImage(map.getId(), false);
 						}).thenApply(image -> {
 							m.setImage(image);
 							return m;
 						}).thenComposeAsync(map -> {
-							return loadMapImage(map, true);
+							return loadMapImage(map.getId(), true);
 						}).thenAccept(thumb -> {
 							m.setThumb(thumb);
 						});
 					//@formatter:on
+					}
+					else
+					{
+						loadAllImages[cursor++] = CompletableFuture.completedFuture(null);
+					}
 				}
-				else
-				{
-					loadAllImages[cursor++] = CompletableFuture.completedFuture(null);
-				}
-			}
+				return CompletableFuture.allOf(loadAllImages);
+			}).thenCompose(Function.identity());
 
 			// join all operations
-			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, CompletableFuture.allOf(loadAllImages)).thenAccept(v -> { logger.info("refresh complete"); });
+			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, loadImages).thenAccept(v -> { logger.info("refresh complete"); });
 		}
 		else
 		{
@@ -255,6 +267,16 @@ public class KaroAPICache implements IDLookUp
 		}
 	}
 
+	/**
+	 * Internal method used to load extras as specified in the config.<br>
+	 * This can be used to preload inactive users or maps.<br>
+	 * 
+	 * @param <T> - the type to load
+	 * @param cls - the type to load
+	 * @param ids - the ids as a string
+	 * @param prereq - the prerequisites as a {@link CompletableFuture}
+	 * @return another {@link CompletableFuture} that loads the extras
+	 */
 	private <T> CompletableFuture<Void> loadExtras(Class<T> cls, String ids, CompletableFuture<?> prereq)
 	{
 		return prereq.thenRunAsync(() -> {
@@ -262,7 +284,7 @@ public class KaroAPICache implements IDLookUp
 			T t;
 			int count = 0;
 			int id;
-			
+
 			String[] idArray = ids.split(LIST_SEPARATOR);
 
 			for(String idS : idArray)
@@ -307,8 +329,12 @@ public class KaroAPICache implements IDLookUp
 		return this.currentUser;
 	}
 
-	// TODO javadoc
-
+	/**
+	 * get the {@link User} with the given ID from the cache or load it from the API if not yet cached
+	 * 
+	 * @param id - the user id
+	 * @return the {@link User}
+	 */
 	public User getUser(int id)
 	{
 		if(!this.usersById.containsKey(id))
@@ -335,6 +361,13 @@ public class KaroAPICache implements IDLookUp
 		return this.usersById.get(id);
 	}
 
+	/**
+	 * get the {@link User} with the given login from the cache or load it from the API if not yet cached
+	 * 
+	 * @see KaroAPI#getUser(int)
+	 * @param login - the user id
+	 * @return the {@link User}
+	 */
 	public User getUser(String login)
 	{
 		if(!this.usersByLogin.containsKey(login))
@@ -353,6 +386,12 @@ public class KaroAPICache implements IDLookUp
 		return this.usersByLogin.get(login);
 	}
 
+	/**
+	 * Update the cache with the data from the {@link User} passed
+	 * 
+	 * @param user - the {@link User} to copy the data from
+	 * @return the updated {@link User} from the cache
+	 */
 	protected User updateUser(User user)
 	{
 		if(this.usersById.containsKey(user.getId()))
@@ -365,21 +404,43 @@ public class KaroAPICache implements IDLookUp
 		return this.usersById.get(user.getId());
 	}
 
+	/**
+	 * Get all {@link User}s from the cache
+	 * 
+	 * @return an unmodifiable {@link Collection} of all cached {@link User}s
+	 */
 	public Collection<User> getUsers()
 	{
 		return Collections.unmodifiableCollection(this.usersById.values());
 	}
 
+	/**
+	 * Get all {@link User}s from the cache
+	 * 
+	 * @return an unmodifiable {@link java.util.Map} of all {@link User} with their IDs as the keys
+	 */
 	public java.util.Map<Integer, User> getUsersById()
 	{
 		return Collections.unmodifiableMap(this.usersById);
 	}
 
+	/**
+	 * Get all {@link User}s from the cache
+	 * 
+	 * @return an unmodifiable {@link java.util.Map} of all {@link User} with their logins as the keys
+	 */
 	public java.util.Map<String, User> getUsersByLogin()
 	{
 		return Collections.unmodifiableMap(this.usersByLogin);
 	}
 
+	/**
+	 * get the {@link Game} with the given ID from the cache or load it from the API if not yet cached
+	 * 
+	 * @see KaroAPI#getGameWithDetails(int)
+	 * @param id - the game id
+	 * @return the {@link Game}
+	 */
 	public Game getGame(int id)
 	{
 		if(!this.gamesById.containsKey(id))
@@ -388,7 +449,7 @@ public class KaroAPICache implements IDLookUp
 			{
 				try
 				{
-					Game g = karoAPI.getGame(id).get();
+					Game g = karoAPI.getGameWithDetails(id).get();
 					updateGame(g);
 				}
 				catch(InterruptedException | ExecutionException e)
@@ -406,6 +467,12 @@ public class KaroAPICache implements IDLookUp
 		return this.gamesById.get(id);
 	}
 
+	/**
+	 * Update the cache with the data from the {@link Game} passed
+	 * 
+	 * @param user - the {@link Game} to copy the data from
+	 * @return the updated {@link Game} from the cache
+	 */
 	protected Game updateGame(Game game)
 	{
 		if(this.gamesById.containsKey(game.getId()))
@@ -415,16 +482,33 @@ public class KaroAPICache implements IDLookUp
 		return this.gamesById.get(game.getId());
 	}
 
+	/**
+	 * Get all {@link Game}s from the cache
+	 * 
+	 * @return an unmodifiable {@link Collection} of all cached {@link Game}s
+	 */
 	public Collection<Game> getGames()
 	{
 		return Collections.unmodifiableCollection(this.gamesById.values());
 	}
 
+	/**
+	 * Get all {@link Game}s from the cache
+	 * 
+	 * @return an unmodifiable {@link java.util.Map} of all {@link Game} with their IDs as the keys
+	 */
 	public java.util.Map<Integer, Game> getGamesById()
 	{
 		return Collections.unmodifiableMap(this.gamesById);
 	}
 
+	/**
+	 * get the {@link Map} with the given ID from the cache or load it from the API if not yet cached
+	 * 
+	 * @see KaroAPI#getMapWithDetails(int)
+	 * @param id - the map id
+	 * @return the {@link Map}
+	 */
 	public Map getMap(int id)
 	{
 		if(!this.mapsById.containsKey(id))
@@ -433,7 +517,7 @@ public class KaroAPICache implements IDLookUp
 			{
 				try
 				{
-					Map m = karoAPI.getMap(id).get();
+					Map m = karoAPI.getMapWithDetails(id).get();
 					updateMap(m);
 				}
 				catch(InterruptedException | ExecutionException e)
@@ -451,6 +535,12 @@ public class KaroAPICache implements IDLookUp
 		return this.mapsById.get(id);
 	}
 
+	/**
+	 * Update the cache with the data from the {@link Map} passed
+	 * 
+	 * @param user - the {@link Map} to copy the data from
+	 * @return the updated {@link Map} from the cache
+	 */
 	protected Map updateMap(Map map)
 	{
 		if(this.mapsById.containsKey(map.getId()))
@@ -460,32 +550,119 @@ public class KaroAPICache implements IDLookUp
 		return this.mapsById.get(map.getId());
 	}
 
+	/**
+	 * Get all {@link Map}s from the cache
+	 * 
+	 * @return an unmodifiable {@link Collection} of all cached {@link Map}s
+	 */
 	public Collection<Map> getMaps()
 	{
 		return Collections.unmodifiableCollection(this.mapsById.values());
 	}
 
+	/**
+	 * Get all {@link Map}s from the cache
+	 * 
+	 * @return an unmodifiable {@link java.util.Map} of all {@link Map} with their IDs as the keys
+	 */
 	public java.util.Map<Integer, Map> getMapsById()
 	{
 		return Collections.unmodifiableMap(this.mapsById);
 	}
 
+	/**
+	 * Get the config used
+	 * 
+	 * @return
+	 */
 	public Properties getConfig()
 	{
 		return config;
 	}
 
+	/**
+	 * The cache folder used
+	 * 
+	 * @return the folder as a {@link File}
+	 */
 	public File getCacheFolder()
 	{
 		return cacheFolder;
 	}
 
-	protected CompletableFuture<BufferedImage> loadMapImage(Map map, boolean thumb)
+	/**
+	 * Load a {@link Map} image. If the image is present in the file system cache the image will be loaded from there. If not, the image will be
+	 * loaded from
+	 * the {@link KaroAPI}.<br>
+	 * Note: This method is for internal initialization only. After initialization the images will be added to the Map POJOs so they are accessible
+	 * via {@link Map#getImage()} or {@link Map#getThumb()}
+	 * 
+	 * @see Map#getImage()
+	 * @see Map#getThumb()
+	 * @param mapId - the id of the map
+	 * @param thumb - load thumb or normal image?
+	 * @return the {@link BufferedImage} in a {@link CompletableFuture}
+	 */
+	protected CompletableFuture<BufferedImage> loadMapImage(int mapId, boolean thumb)
 	{
-		// TODO implement
-		return null;
+		File folder = getCacheFolder();
+		if(folder.exists() && !folder.isDirectory())
+			logger.error("cache folder is not a directory: " + folder.getAbsolutePath());
+		if(!folder.exists())
+		{
+			logger.info("cache folder does not exist - creating folder: " + folder.getAbsolutePath());
+			getCacheFolder().mkdirs();
+		}
+		File cacheFile = new File(folder, mapId + (thumb ? IMAGE_THUMB_SUFFIX : "") + "." + IMAGE_TYPE);
+		if(cacheFile.exists())
+		{
+			try
+			{
+				logger.debug("loading image from cache: " + cacheFile);
+				return CompletableFuture.completedFuture(ImageIO.read(cacheFile));
+			}
+			catch(IOException e)
+			{
+				logger.warn("could not load image from cache - trying from API: " + cacheFile, e);
+			}
+		}
+		return loadMapImageFromAPI(cacheFile, mapId, thumb);
 	}
 
+	/**
+	 * Load a {@link Map} image from the API. After the image has been loaded, it will be stored in the file system cache for reusage.<br>
+	 * Note: This method is for internal initialization only. After initialization the images will be added to the Map POJOs so they are accessible
+	 * via {@link Map#getImage()} or {@link Map#getThumb()}
+	 * 
+	 * @param cacheFile
+	 * @param mapId - the id of the map
+	 * @param thumb - load thumb or normal image?
+	 * @return the {@link BufferedImage} in a {@link CompletableFuture}
+	 */
+	protected CompletableFuture<BufferedImage> loadMapImageFromAPI(File cacheFile, int mapId, boolean thumb)
+	{
+		return CompletableFuture.supplyAsync(() -> {
+			logger.debug("loading image from API: " + mapId);
+			if(thumb)
+				return karoAPI.getMapThumb(mapId, true);
+			else
+				return karoAPI.getMapImage(mapId);
+		}).thenApply(img -> {
+			try
+			{
+				logger.debug("writing image to cache: " + cacheFile);
+				if(!ImageIO.write(img, IMAGE_TYPE, cacheFile))
+					logger.error("could not write image to cache: " + cacheFile, false);
+			}
+			catch(IOException e)
+			{
+				logger.error("could not write image to cache: " + cacheFile, e);
+			}
+			return img;
+		});
+	}
+
+	@Deprecated(since = "only used for dummy creation")
 	protected static BufferedImage createSingleColorImage(int width, int height, Color color)
 	{
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -501,6 +678,7 @@ public class KaroAPICache implements IDLookUp
 	 * @param image - the original image
 	 * @return the specialized image
 	 */
+	@Deprecated(since = "only used for dummy creation")
 	protected static BufferedImage createSpecialImage(BufferedImage image)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
@@ -519,8 +697,15 @@ public class KaroAPICache implements IDLookUp
 	// GENERIC & LOOK UP FUNCTIONALITY
 	///////////////////////////////////
 
+	/**
+	 * Update the cache with the data from the argument passed
+	 * 
+	 * @param <T> - the type of the entity
+	 * @param user - the argument to copy the data from
+	 * @return the updated entity from the cache
+	 */
 	@SuppressWarnings("unchecked")
-	public <T> T update(T t)
+	protected <T> T update(T t)
 	{
 		if(t instanceof User)
 			return (T) updateUser((User) t);
@@ -533,6 +718,14 @@ public class KaroAPICache implements IDLookUp
 		return null;
 	}
 
+	/**
+	 * get the entity of the given type and with the given ID from the cache or load it from the API if not yet cached
+	 * 
+	 * @param <T> - the type of the entity
+	 * @param cls - the type of the entity
+	 * @param id - the id
+	 * @return the entity
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get(Class<T> cls, int id)
@@ -548,13 +741,59 @@ public class KaroAPICache implements IDLookUp
 		return null;
 	}
 
+	/**
+	 * Refresh an entity in the cache from the API
+	 * 
+	 * @param <T> - the type of the object
+	 * @param t - the entity to refresh
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Identifiable> CompletableFuture<T> refresh(T t)
+	{
+		return (CompletableFuture<T>) refresh(t.getClass(), t.getId());
+	}
+
+	/**
+	 * Refresh an entity in the cache from the API
+	 * 
+	 * @param <T> - the type of the object
+	 * @param cls - the type of the object
+	 * @param id - the id of the object
+	 * @return
+	 */
+	public <T> CompletableFuture<T> refresh(Class<T> cls, int id)
+	{
+		return CompletableFuture.supplyAsync(() -> {
+			T refreshed = karoAPI.get(cls, id);
+			if(refreshed != null)
+				return update(refreshed);
+			return null;
+		});
+	}
+
 	////////////////////////////////////////
 	// code for dummy instance generation //
 	////////////////////////////////////////
 
+	// The KaroAPICache is prepared for tests: if the KaroAPI passed is null, then the cache will be initialized with dummy instances.
+
+	/**
+	 * {@link Random} number generator for the creation of dummy instances.
+	 */
 	private static final Random	random		= new Random();
+	/**
+	 * The scale for creating dummy images
+	 */
 	private static final int	MAP_SCALE	= 8;
 
+	/**
+	 * Return a random entry from the given {@link java.util.Map}
+	 * 
+	 * @param <T> - the {@link java.util.Map} value type
+	 * @param map - the {@link java.util.Map}
+	 * @return a random entry
+	 */
 	private <T> T randomEntry(java.util.Map<?, T> map)
 	{
 		int r = random.nextInt(map.size());
@@ -569,6 +808,12 @@ public class KaroAPICache implements IDLookUp
 		return map.entrySet().iterator().next().getValue();
 	}
 
+	/**
+	 * Create a dummy {@link User}
+	 * 
+	 * @param id - the id to use
+	 * @return the {@link User}
+	 */
 	private User createDummyUser(int id)
 	{
 		User u = new User(id);
@@ -596,6 +841,12 @@ public class KaroAPICache implements IDLookUp
 		return u;
 	}
 
+	/**
+	 * Create a dummy {@link Game}
+	 * 
+	 * @param id - the id to use
+	 * @return the {@link Game}
+	 */
 	private Game createDummyGame(int id)
 	{
 		Game g = new Game(id);
@@ -619,6 +870,12 @@ public class KaroAPICache implements IDLookUp
 		return g;
 	}
 
+	/**
+	 * Create a dummy {@link Player}
+	 * 
+	 * @param round - the round the player is in
+	 * @return the {@link Player}
+	 */
 	private Player createDummyPlayer(int round)
 	{
 		User user = randomEntry(usersById);
@@ -653,6 +910,12 @@ public class KaroAPICache implements IDLookUp
 		return p;
 	}
 
+	/**
+	 * Create a dummy {@link Map}
+	 * 
+	 * @param id - the id to use
+	 * @return the {@link Map}
+	 */
 	private Map createDummyMap(int id)
 	{
 		Map m = new Map(id);

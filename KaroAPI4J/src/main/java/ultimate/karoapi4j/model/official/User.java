@@ -51,8 +51,8 @@ public class User extends Identifiable
 	 * "gamesort": "blocktime",
 	 * "state": "active",
 	 * "superCreator": true,
-	 * "uc": 1 // for current user only
 	 * "blocked": "6", // for blockers only
+	 * "uc": 1 // for current user and contacts only
 	 * "ts": "2022-01-14 12:20:55", // for contacts only
 	 */
 	// Standard JSON Fields

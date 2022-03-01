@@ -11,6 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 /**
@@ -34,6 +35,14 @@ public class KaroAPITestcase
 	 * The {@link KaroAPI} instance
 	 */
 	protected static KaroAPI			karoAPI;
+	/**
+	 * The {@link KaroAPICache}
+	 */
+	protected static KaroAPICache		karoAPICache;
+	/**
+	 * The {@link KaroAPICache} dummy
+	 */
+	protected static KaroAPICache		dummyCache;
 
 	/**
 	 * Load the {@link Properties} and initiate the {@link KaroAPI} instance once per class
@@ -45,7 +54,16 @@ public class KaroAPITestcase
 	{
 		properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
 		logger.info("properties loaded: " + properties);
+		
 		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
 		logger.info("KaroAPI initialized");
+		
+		karoAPICache = new KaroAPICache(karoAPI);
+		karoAPICache.refresh().join();
+		logger.info("KaroAPICache initialized");
+		
+		dummyCache= new KaroAPICache(null);
+		dummyCache.refresh().join();
+		logger.info("KaroAPICache (DUMMY) initialized");
 	}
 }
