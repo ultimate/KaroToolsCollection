@@ -44,6 +44,6 @@ public class DummyEval implements Eval
 	@Override
 	public void prepare(GameSeries gs, int execution)
 	{
-		// TODO Auto-generated method stub
+		// do nothing
 	}
 }

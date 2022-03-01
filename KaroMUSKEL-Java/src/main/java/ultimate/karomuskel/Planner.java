@@ -14,35 +14,75 @@ import java.util.function.BiFunction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Match;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.ui.Language;
 
-// TODO javadoc
+/**
+ * The {@link Planner} is the core of the KaroMUSKEL and contains all logic for planning {@link GameSeries}. Planning will not directly create the
+ * {@link Game}s, but instead return a list of {@link PlannedGame}s which can be used to create the games using
+ * {@link KaroAPI#createGame(PlannedGame)}.<br>
+ * Note: other than in the V2 KaroMUSKEL, the KaroMUSKEL does not need to care about threading for creating the games anymore. Instead the
+ * {@link KaroAPI} already includes threading and parallel game creation (if configured appropriately) (see
+ * {@link KaroAPI#setExecutor(java.util.concurrent.ExecutorService)}). This configuration is automatically performed using the values from the config
+ * file if the {@link Launcher} is used to start the KaroMUSKEL including UI.
+ * 
+ * @see KaroAPI#setExecutor(java.util.concurrent.ExecutorService)
+ * @author ultimate
+ */
 public class Planner
 {
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger();
-	private static Random		random	= new Random();
+	protected static transient final Logger	logger	= LogManager.getLogger();
+	/**
+	 * The {@link Random} number generator used to plan {@link GameSeries}
+	 */
+	private static Random					random	= new Random();
 
-	private KaroAPICache		karoAPICache;
+	/**
+	 * The {@link KaroAPICache} used to lookup {@link User}s, {@link Map}s, etc.
+	 */
+	private KaroAPICache					karoAPICache;
 
+	/**
+	 * Create a new {@link Planner} with the given {@link KaroAPICache}
+	 * 
+	 * @param karoAPICache - the {@link KaroAPICache} used to lookup {@link User}s, {@link Map}s, etc.
+	 */
 	public Planner(KaroAPICache karoAPICache)
 	{
 		this.karoAPICache = karoAPICache;
 	}
 
+	/**
+	 * Plan a {@link GameSeries} according to its {@link EnumGameSeriesType} and settings.<br>
+	 * Settings will automatically be fetched from the {@link GameSeries} and the plan-function for the respective {@link EnumGameSeriesType} will be
+	 * called.
+	 * 
+	 * @see Planner#planSeriesAllCombinations(String, List, List, Rules, int, int)
+	 * @see Planner#planSeriesBalanced(String, List, java.util.Map, java.util.Map)
+	 * @see Planner#planSeriesKLC(String, java.util.Map, java.util.Map, int, int, Rules, int)
+	 * @see Planner#planSeriesKO(String, List, List, BiFunction, Rules, boolean, boolean)
+	 * @see Planner#planSeriesLeague(String, List, List, Rules, boolean, int)
+	 * @see Planner#planSeriesSimple(String, List, List, Rules, int, int)l
+	 * 
+	 * @param gs - the {@link GameSeries}
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeries(GameSeries gs)
 	{
 		if(gs == null || gs.getType() == null)
@@ -80,6 +120,17 @@ public class Planner
 		}
 	}
 
+	/**
+	 * Plan the games for an {@link EnumGameSeriesType#AllCombinations} {@link GameSeries}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param teams - the list of {@link Team}s
+	 * @param maps - the list of {@link Map}s
+	 * @param rules - the {@link Rules}
+	 * @param numberOfGamesPerPair - the number of games per pair/combination
+	 * @param numberOfTeamsPerMatch - the number of {@link Team}s per match
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeriesAllCombinations(String title, List<Team> teams, List<Map> maps, Rules rules, int numberOfGamesPerPair, int numberOfTeamsPerMatch)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -131,6 +182,15 @@ public class Planner
 		return games;
 	}
 
+	/**
+	 * Plan the games for a {@link EnumGameSeriesType#Balanced} {@link GameSeries}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param players - the list of {@link User}s
+	 * @param gameDayMaps - the {@link Map}s used sorted by game day
+	 * @param gameDayRules - the {@link Rules} used sorted by game day
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeriesBalanced(String title, List<User> players, java.util.Map<Integer, List<Map>> gameDayMaps, java.util.Map<Integer, Rules> gameDayRules)
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
@@ -184,6 +244,15 @@ public class Planner
 		return games;
 	}
 
+	/**
+	 * Internal logic used by {@link Planner#planSeriesBalanced(String, List, java.util.Map, java.util.Map)} to shuffle the players to have them
+	 * equally distributed.<br>
+	 * The result is an array of Users with the following indexes used: <code>users[round][match][player]</code>.<br>
+	 * 
+	 * @param players - the list of {@link User}s
+	 * @param rules - the list of {@link Rules} (by round/game day)
+	 * @return the shuffled {@link User}s
+	 */
 	static User[][][] shufflePlayers(List<User> players, List<Rules> rules)
 	{
 		List<User> tmp = new LinkedList<User>(players);
@@ -207,6 +276,15 @@ public class Planner
 		}
 	}
 
+	/**
+	 * Internal logic used by {@link Planner#shufflePlayers(List, List)}.<br>
+	 * Since shuffling can fail, the shuffle logic is separated into this method, so {@link Planner#shufflePlayers(List, List)} can retry on failure
+	 * more easily.
+	 * 
+	 * @param players - the list of {@link User}s
+	 * @param rules - the list of {@link Rules} (by round/game day)
+	 * @return the shuffled {@link User}s as a {@link ShuffleResult}
+	 */
 	static ShuffleResult shufflePlayers0(List<User> players, List<Rules> rules)
 	{
 		Random rand = new Random();
@@ -360,7 +438,7 @@ public class Planner
 							minBattles = battles;
 						}
 					}
-					
+
 					int ri = rand.nextInt(potentials.size());
 
 					// add player
@@ -400,11 +478,17 @@ public class Planner
 		return result;
 	}
 
+	/**
+	 * For debugging: print the combinations (who-on-who) for a balanced gameseries
+	 * 
+	 * @param result - the {@link ShuffleResult} returned by {@link Planner#shufflePlayers0(List, List)}
+	 * @param printDetails - false = print only the total result, true = print results for all game days
+	 */
 	protected static void printWhoOnWho(ShuffleResult result, boolean printDetails)
 	{
 		if(!logger.isDebugEnabled())
 			return;
-		
+
 		StringBuilder sb = new StringBuilder();
 		// print totalWhoOnWho
 		for(int pl1 = 0; pl1 < result.totalWhoOnWho.length; pl1++)
@@ -435,12 +519,33 @@ public class Planner
 		}
 	}
 
+	/**
+	 * Internal result returned by {@link Planner#shufflePlayers0(List, List)}.<br>
+	 * It contains not only the actual result of shuffled users, but also the counts on the "who-on-who" for validation and debugging.
+	 * 
+	 * @author ultimate
+	 */
 	static class ShuffleResult
 	{
+		/**
+		 * The actual result of shuffed {@link Users}
+		 */
 		User[][][]	shuffledUsers;
+		/**
+		 * The "who-on-who" statistics for each game day
+		 */
 		int[][][]	whoOnWho;
+		/**
+		 * The total "who-on-who" statistics
+		 */
 		int[][]		totalWhoOnWho;
 
+		/**
+		 * Initiate the result and its arrays with the given sizes.
+		 * 
+		 * @param numberOfUsers - number of {@link User}s
+		 * @param numberOfRounds - number of rounds
+		 */
 		private ShuffleResult(int numberOfUsers, int numberOfRounds)
 		{
 			this.shuffledUsers = new User[numberOfRounds][][];
@@ -449,7 +554,19 @@ public class Planner
 		}
 	}
 
-	// note: lists are modified
+	/**
+	 * Plan the games for a {@link EnumGameSeriesType#KLC} {@link GameSeries}.<br>
+	 * Note: the original league lists in <code>playersByKey</code> will be shuffled.<br>
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param playersByKey - the map of {@link User}s (by leagues)
+	 * @param homeMaps - the home {@link Map}s for the {@link User}s
+	 * @param leagues - the number of leagues
+	 * @param groups - the number of groups
+	 * @param rules - the {@link Rules} to use
+	 * @param round - the round to plan
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeriesKLC(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, Rules rules, int round)
 	{
 		int totalPlayers = groups * leagues;
@@ -487,6 +604,22 @@ public class Planner
 		}
 	}
 
+	/**
+	 * Internal logic used by {@link Planner#planSeriesKLC(String, java.util.Map, java.util.Map, int, int, Rules, int)} used to plan the group
+	 * phase.<br>
+	 * It will use the logic of {@link Planner#planMatchesLeague(List)} for each group.<br>
+	 * Note: the original league lists in <code>playersByKey</code> will be shuffled.<br>
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param playersByKey - the map of {@link User}s (by leagues)
+	 * @param homeMaps - the home {@link Map}s for the {@link User}s
+	 * @param leagues - the number of leagues
+	 * @param groups - the number of groups
+	 * @param whoIsHome - logic to determine who is the home team
+	 * @param rules - the {@link Rules} to use
+	 * @param round - the round to plan
+	 * @return the list of {@link PlannedGame}s
+	 */
 	// original listen werden gemischt
 	private List<PlannedGame> planGroupphase(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
 			BiFunction<Team, Team, Team> whoIsHome, Rules rules, int round)
@@ -544,6 +677,18 @@ public class Planner
 		return games;
 	}
 
+	/**
+	 * Plan the games for a round in a {@link EnumGameSeriesType#KO} {@link GameSeries}.<br>
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param teams - the teams in this round (pairs will be created ascending (2n) vs. (2n+1)
+	 * @param maps - the list of maps to use (only used if !useHomeMaps; if size > 1 a random map will be used)
+	 * @param whoIsHome - logic to determine who is the home team
+	 * @param rules - the {@link Rules} to use
+	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
+	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeriesKO(String title, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -582,6 +727,17 @@ public class Planner
 		return games;
 	}
 
+	/**
+	 * Plan the games for a {@link EnumGameSeriesType#League} {@link GameSeries}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param teams - the list of {@link Team}s
+	 * @param maps - the list of {@link Map}s if useHomeMaps is set to false or if there is an uneven number of games per pair)
+	 * @param rules - the {@link Rules} to use
+	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
+	 * @param numberOfGamesPerPair - the number of games per pair (usually this is 2 = one for the first and one for the second half of the season)
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeriesLeague(String title, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, int numberOfGamesPerPair)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -607,9 +763,7 @@ public class Planner
 				for(Match match : matchesForDay)
 				{
 					final int r = round;
-					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
-						return (r % 2 == 0 ? team1 : team2);
-					};
+					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> { return (r % 2 == 0 ? team1 : team2); };
 
 					// use a neutral map if the number of rounds is uneven
 					if(useHomeMaps && !((round % 2 == 1) && (round == numberOfGamesPerPair)) && maps != null)
@@ -634,6 +788,17 @@ public class Planner
 		return games;
 	}
 
+	/**
+	 * Plan the games for a {@link EnumGameSeriesType#Simple} {@link GameSeries}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param players - the list of {@link User}s
+	 * @param maps - the list of {@link Map}s to chose from
+	 * @param rules - the {@link Rules} to use
+	 * @param numberOfGames - the number of games to create
+	 * @param maxPlayersPerGame - the max number of {@link User}s per {@link PlannedGame}
+	 * @return the list of {@link PlannedGame}s
+	 */
 	public List<PlannedGame> planSeriesSimple(String title, List<User> players, List<Map> maps, Rules rules, int numberOfGames, int maxPlayersPerGame)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -675,6 +840,19 @@ public class Planner
 		return games;
 	}
 
+	/**
+	 * Plan a team game.<br>
+	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param team1 - the first team
+	 * @param team2 - the second team
+	 * @param whoIsHome - logic to determine who is the home team, if null, team1 is used
+	 * @param overwriteMap - overwrite the map with a neutral one? If null, the home-map is used
+	 * @param rules - the {@link Rules} to use
+	 * @param placeholderValues - the values for the title placeholders
+	 * @return the {@link PlannedGame}
+	 */
 	public PlannedGame planTeamGame(String title, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, java.util.Map<String, String> placeholderValues)
 	{
 		Team home, guest;
@@ -708,11 +886,33 @@ public class Planner
 		return planGame(title, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
 	}
 
+	/**
+	 * Plan a game.<br>
+	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param map - the map to use
+	 * @param gamePlayers - the participating {@link User}s
+	 * @param rules - the {@link Rules} to use
+	 * @param placeholderValues - the values for the title placeholders
+	 * @return the {@link PlannedGame}
+	 */
 	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
 	{
 		return planGame(title, map, gamePlayers, rules.createOptions(random), placeholderValues);
 	}
 
+	/**
+	 * Plan a game.<br>
+	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
+	 * 
+	 * @param title - the title (including placeholders)
+	 * @param map - the map to use
+	 * @param gamePlayers - the participating {@link User}s
+	 * @param options - the {@link Options} to use
+	 * @param placeholderValues - the values for the title placeholders
+	 * @return the {@link PlannedGame}
+	 */
 	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
 	{
 		increasePlannedGames(gamePlayers);
@@ -727,6 +927,13 @@ public class Planner
 		return new PlannedGame(name, map, gamePlayers, options, placeholderValues);
 	}
 
+	/**
+	 * Logic used by {@link Planner#planSeriesAllCombinations(String, List, List, Rules, int, int)}
+	 * 
+	 * @param teams - the list of {@link Team}s
+	 * @param numberOfTeamsPerMatch - the number of teams per match
+	 * @return the list of {@link Match}es
+	 */
 	public List<Match> planMatchesAllCombinations(List<Team> teams, int numberOfTeamsPerMatch)
 	{
 		List<Match> matches = new ArrayList<Match>();
@@ -747,6 +954,13 @@ public class Planner
 		return matches;
 	}
 
+	/**
+	 * Internal helper for {@link Planner#planMatchesAllCombinations(List, int)}
+	 * 
+	 * @param s
+	 * @param max
+	 * @return success or not
+	 */
 	private static boolean incrementSelectors(int[] s, int max)
 	{
 		int pointer = s.length - 1;
@@ -774,6 +988,13 @@ public class Planner
 		return success;
 	}
 
+	/**
+	 * Logic used by {@link Planner#planSeriesLeague(String, List, List, Rules, boolean, int)} and
+	 * {@link Planner#planGroupphase(String, java.util.Map, java.util.Map, int, int, BiFunction, Rules, int)}
+	 * 
+	 * @param teams - the list of {@link Team}s
+	 * @return the list of {@link Match}es per game day
+	 */
 	public List<List<Match>> planMatchesLeague(List<Team> teams)
 	{
 		if(teams.size() % 2 == 1)
@@ -935,6 +1156,13 @@ public class Planner
 		return matches;
 	}
 
+	/**
+	 * Internal helper for debugging and validating a league
+	 * 
+	 * @param matches - the list of {@link Match}es
+	 * @param t - the {@link Team} to look for
+	 * @return the number of home matches for this {@link Team}
+	 */
 	static int countHomeMatches(List<List<Match>> matches, Team t)
 	{
 		int home = 0;
@@ -951,18 +1179,41 @@ public class Planner
 
 	// HELPERS
 
+	/**
+	 * Reset the planned games of all {@link User}s in the list
+	 * 
+	 * @see User#getPlannedGames()
+	 * @see User#setPlannedGames(int)
+	 * @param users - the list of users
+	 */
 	public static void resetPlannedGames(List<User> users)
 	{
 		for(User user : users)
 			user.setPlannedGames(0);
 	}
 
+	/**
+	 * Increase the planned games by 1 for all {@link User}s in the list
+	 * 
+	 * @see User#getPlannedGames()
+	 * @see User#setPlannedGames(int)
+	 * @param users - the list of users
+	 */
 	public static void increasePlannedGames(List<User> users)
 	{
 		for(User user : users)
 			user.setPlannedGames(user.getPlannedGames() + 1);
 	}
 
+	/**
+	 * Calculate the expected number of {@link Match}es for a {@link EnumGameSeriesType#AllCombinations} {@link GameSeries}.<br>
+	 * The result is calculated as the binomial coefficient <code>(n k) = n! / (k! * (n-k)!)</code> which resolves to
+	 * <code>n/1 * (n-1)/2 * (n-2)/3 * ...</code> where n = teams and k = teamsPerMatch.
+	 * 
+	 * @param teams - the total number of {@link Team}s
+	 * @param teamsPerMatch - the number of {@link Team}s per {@link Match}
+	 * @return the expected number of {@link Match}es
+	 */
 	public static int calculateNumberOfMatches(int teams, int teamsPerMatch)
 	{
 		BigInteger ret = BigInteger.ONE;
@@ -973,6 +1224,16 @@ public class Planner
 		return ret.intValue();
 	}
 
+	/**
+	 * Get a {@link java.util.Map} with the default placeholder values for a {@link PlannedGame} based on the {@link Map}, the {@link User}s and the
+	 * {@link Options}.<br>
+	 * Additional placeholders can be added depending on the {@link GameSeries}.
+	 * 
+	 * @param map - the {@link Map}
+	 * @param gamePlayers - the list of {@link User}s
+	 * @param options - the {@link Options}
+	 * @return the placeholder {@link java.util.Map}
+	 */
 	public java.util.Map<String, String> getDefaultPlaceholderValues(Map map, List<User> gamePlayers, Options options)
 	{
 		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
@@ -1005,11 +1266,18 @@ public class Planner
 		return defaultPlaceholderValues;
 	}
 
+	/**
+	 * Apply the given placeholders on the given game title
+	 * 
+	 * @param title - the title containing the placeholders
+	 * @param placeholderValues - the values for the placeholders by key
+	 * @return the updated (filled) string
+	 */
 	public static String applyPlaceholders(String title, java.util.Map<String, String> placeholderValues)
 	{
 		if(placeholderValues == null)
 			return title;
-		
+
 		// preparation
 		if(placeholderValues.containsKey("i"))
 		{
@@ -1031,6 +1299,13 @@ public class Planner
 		return name;
 	}
 
+	/**
+	 * Fill a number with leading zeros ('0')
+	 * 
+	 * @param x - the number
+	 * @param minDigits - the minimum number of digits to achieve
+	 * @return the number as a string with leading zeros
+	 */
 	private static String toString(int x, int minDigits)
 	{
 		String s = "" + x;
@@ -1039,6 +1314,12 @@ public class Planner
 		return s;
 	}
 
+	/**
+	 * Create a string containing the names of all {@link User}s in the list (separated by ',' and 'and')
+	 * 
+	 * @param players - the list of {@link User}s
+	 * @return the string containing the names
+	 */
 	private static String toPlaceholderString(List<User> players)
 	{
 		StringBuilder tmp = new StringBuilder();
@@ -1053,6 +1334,12 @@ public class Planner
 		return tmp.toString();
 	}
 
+	/**
+	 * Create a string containing the names of all {@link Team}s in the list (separated by 'vs.')
+	 * 
+	 * @param teams - the list of {@link Team}s
+	 * @return the string containing the names
+	 */
 	private static String toPlaceholderString(Team... teams)
 	{
 		StringBuilder tmp = new StringBuilder();
@@ -1065,6 +1352,15 @@ public class Planner
 		return tmp.toString();
 	}
 
+	/**
+	 * Create a string representing the current round/game day of a game series.
+	 * 
+	 * @param round - the round
+	 * @param group - the group (or -1 if not applicable)
+	 * @param day - the day
+	 * @param count - the game count (or -1 if not applicable)
+	 * @return the placeholder value string
+	 */
 	private static String toPlaceholderString(int round, int group, int day, int count)
 	{
 		StringBuilder tmp = new StringBuilder();
@@ -1090,6 +1386,13 @@ public class Planner
 		return tmp.toString();
 	}
 
+	/**
+	 * Create a string for the {@link Options}.<br>
+	 * 
+	 * @param options - the {@link Options}
+	 * @param nonStandardOnly - true = only print those options not equal to the standard/default; false = print all options
+	 * @return the placeholder value string
+	 */
 	private static String toPlaceholderString(Options options, boolean nonStandardOnly)
 	{
 		StringBuilder tmp = new StringBuilder();
@@ -1120,6 +1423,14 @@ public class Planner
 		return tmp.toString();
 	}
 
+	/**
+	 * Check that both maps contain exactly the same keys. (as a consistency check)
+	 * 
+	 * @param <K> - the key type
+	 * @param map1 - the first {@link java.util.Map}
+	 * @param map2 - the second {@link java.util.Map}
+	 * @return true or false
+	 */
 	private static <K> boolean checkKeys(java.util.Map<K, ?> map1, java.util.Map<K, ?> map2)
 	{
 		if(map1 == null || map2 == null)
