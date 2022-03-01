@@ -693,6 +693,19 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
+	 * Get a game by id (with all details
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GAME
+	 * @param gameId - the game id
+	 * @return the game
+	 */
+	public CompletableFuture<Game> getGameWithDetails(int gameId)
+	{
+		return getGame(gameId, true, true, true);
+	}
+
+	/**
 	 * Get a game by id with optional additional information.<br>
 	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
 	 * 
@@ -700,8 +713,8 @@ public class KaroAPI implements IDLookUp
 	 * @see KaroAPI#MAP
 	 * @param mapId - the map id
 	 * @param mapcode - true or false or null
-	 * @param mapcode - true or false or null
-	 * @param mapcode - true or false or null
+	 * @param players - true or false or null
+	 * @param moves - true or false or null
 	 * @return the map
 	 */
 	public CompletableFuture<Game> getGame(int gameId, Boolean mapcode, Boolean players, Boolean moves)
@@ -829,6 +842,19 @@ public class KaroAPI implements IDLookUp
 	public CompletableFuture<Map> getMap(int mapId)
 	{
 		return getMap(mapId, null);
+	}
+
+	/**
+	 * Get a map by id (with all details)
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#MAP
+	 * @param mapId - the map id
+	 * @return the map
+	 */
+	public CompletableFuture<Map> getMapWithDetails(int mapId)
+	{
+		return getMap(mapId, true);
 	}
 
 	/**
@@ -1175,9 +1201,9 @@ public class KaroAPI implements IDLookUp
 			if(User.class.equals(cls))
 				return (T) getUser(id).get();
 			else if(Game.class.equals(cls))
-				return (T) getGame(id).get();
+				return (T) getGameWithDetails(id).get();
 			else if(Map.class.equals(cls))
-				return (T) getMap(id).get();
+				return (T) getMapWithDetails(id).get();
 			else
 				logger.error("unsupported lookup type: " + cls.getName());
 		}

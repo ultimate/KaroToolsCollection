@@ -28,15 +28,15 @@ public class KaroMUSKELTestcase
 	 */
 	protected transient final Logger logger = LogManager.getLogger(getClass());
 
-	/**
-	 * The {@link Properties} used to initiate the {@link KaroAPI}
-	 */
-	protected static Properties			properties;
-
+	
 	/**
 	 * The config {@link Properties} for the {@link GameSeriesManager}
 	 */
 	protected static Properties			config;
+	/**
+	 * The {@link Properties} used to initiate the {@link KaroAPI}
+	 */
+	protected static Properties			properties;
 	/**
 	 * The {@link KaroAPI} instance
 	 */
