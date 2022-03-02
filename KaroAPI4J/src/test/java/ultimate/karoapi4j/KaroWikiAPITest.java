@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,26 +27,26 @@ public class KaroWikiAPITest
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LogManager.getLogger(getClass());
-	
-	private static String		username;
-	private static String		password;
+	protected transient final Logger	logger				= LogManager.getLogger(getClass());
 
-	public static final String	PAGE_EXISTING	= "Test";
-	public static final String	PAGE_TEST_SECTION	= "== Ultimates Test Section ==";
-	public static final String	PAGE_NEXT_HEADLINE	= "==";
-	public static final String	PAGE_MISSING	= "Asdfasdfasdfasdf";
-	private static final int	EDIT_TESTS		= 1;
+	private static String				username;
+	private static String				password;
+
+	public static final String			PAGE_EXISTING		= "Test";
+	public static final String			PAGE_TEST_SECTION	= "== Ultimates Test Section ==";
+	public static final String			PAGE_NEXT_HEADLINE	= "==";
+	public static final String			PAGE_MISSING		= "Asdfasdfasdfasdf";
+	private static final int			EDIT_TESTS			= 1;
 
 	static
 	{
 		try
 		{
-			Properties p = PropertiesUtil.loadProperties(new File("src/test/resources/login.properties"));
+			Properties p = PropertiesUtil.loadProperties(KaroWikiAPITest.class, "login");
 			username = p.getProperty("karowiki.user");
 			password = p.getProperty("karowiki.password");
 		}
-		catch(IOException e)
+		catch(IOException | URISyntaxException e)
 		{
 			e.printStackTrace();
 		}
@@ -150,9 +150,9 @@ public class KaroWikiAPITest
 			{
 				String content = wl.getContent(PAGE_EXISTING).get();
 				assertNotNull(content);
-				
+
 				String newContent;
-				
+
 				int index = content.indexOf(PAGE_TEST_SECTION);
 				if(index >= 0)
 				{
@@ -160,10 +160,10 @@ public class KaroWikiAPITest
 					newContent = content.substring(0, index) + "some new line --~~~~\n\n" + content.substring(index);
 				}
 				else
-				{	
+				{
 					newContent = content + "\n\nsome new line --~~~~";
 				}
-				
+
 				Date date = new Date();
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
