@@ -27,7 +27,7 @@ public class KaroWikiAPITest
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger				= LogManager.getLogger(getClass());
+	protected transient static final Logger	logger				= LogManager.getLogger();
 
 	private static String				username;
 	private static String				password;
@@ -43,6 +43,7 @@ public class KaroWikiAPITest
 		try
 		{
 			Properties p = PropertiesUtil.loadProperties(KaroWikiAPITest.class, "login");
+			logger.debug(p);
 			username = p.getProperty("karowiki.user");
 			password = p.getProperty("karowiki.password");
 		}
