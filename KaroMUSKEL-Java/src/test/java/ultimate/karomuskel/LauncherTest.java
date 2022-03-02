@@ -12,8 +12,8 @@ import ultimate.karomuskel.ui.Language;
 
 public class LauncherTest
 {
-	private static final String	apiVersion	= "1.0";
-	private static final String	appVersion	= "3.0";
+	private static final String	apiVersion	= "1.0.0";
+	private static final String	appVersion	= "3.0.0";
 
 	@Test
 	public void test_APIVersion() throws InterruptedException, ExecutionException
