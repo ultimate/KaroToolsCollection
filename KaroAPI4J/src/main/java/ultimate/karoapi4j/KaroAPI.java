@@ -783,12 +783,16 @@ public class KaroAPI implements IDLookUp
 		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
 	}
 
+	/**
+	 * Refresh a game after a crash to trigger the ZZZ
+	 * 
+	 * @param gameId - the game
+	 * @return true if the operation was successful, false otherwise
+	 */
 	public CompletableFuture<Boolean> refreshAfterCrash(int gameId)
 	{
-		// TODO
-		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> {
-			return result != null && result.contains("href=/spiele/" + gameId);
-			});
+		// TODO not really working
+		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> { return result != null && result.contains("href=/spiele/" + gameId); });
 	}
 
 	/**
