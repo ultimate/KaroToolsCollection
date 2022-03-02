@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -163,12 +164,14 @@ public class KaroWikiAPITest
 					newContent = content + "\n\nsome new line --~~~~";
 				}
 				
+				Date date = new Date();
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
 
-				Date date = new Date();
-				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY");
-				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + df.format(date) + " (CET)");
+				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY", Locale.GERMAN);
+				String dateString = df.format(date);
+				dateString = dateString.replace("März", "Mär.");
+				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
 
 				String updatedContent = wl.getContent(PAGE_EXISTING).get();
 				assertEquals(expectedContent, updatedContent);

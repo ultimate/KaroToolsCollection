@@ -25,7 +25,7 @@ import ultimate.karoapi4j.test.KaroAPITestcase;
 
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 public class KaroAPICacheTest extends KaroAPITestcase
-{
+{	
 	@Test
 	@Order(1)
 	public void test_init()

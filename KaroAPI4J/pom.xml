@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>KaroAPI4J</artifactId>
-    <packaging>jar</packaging>
-    <version>${ultimate.KaroAPI4J.version}</version>
-    <name>ultimate's KaroAPI wrapper for Java</name>
-	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>KaroAPI4J</artifactId>
+	<packaging>jar</packaging>
+	<version>${ultimate.KaroAPI4J.version}</version>
+	<name>ultimate's KaroAPI wrapper for Java</name>
+
 	<parent>
 		<groupId>ultimate</groupId>
 		<artifactId>KaroToolsCollection</artifactId>
@@ -18,8 +19,8 @@
 	<dependencies>
 		<!-- finally the dependencies -->
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
@@ -32,28 +33,46 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-		<dependency>
-    		<groupId>org.junit.jupiter</groupId>
-    		<artifactId>junit-jupiter</artifactId>
-    		<version>${junit.version}</version>
-    		<scope>test</scope>
-		</dependency>
 	</dependencies>
-	
+
 	<build>
-	  <resources>
-	    <resource>
-	      <directory>src/main/resources</directory>
-	      <filtering>true</filtering>
-	    </resource>
-	  </resources>   
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+					<archive>
+						<manifest>
+							<mainClass>ultimate.karoabi4j.Demo</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-archive</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
-	<properties>		
+	<properties>
 		<!-- Dependencies -->
 		<log4j.version>2.17.1</log4j.version> <!-- 24.02.2022 -->
 		<servlet.version>3.1.1</servlet.version> <!-- 24.02.2022 -->
 		<jackson.version>2.13.1</jackson.version> <!-- 24.02.2022 -->
-		<junit.version>5.8.2</junit.version>
 	</properties>
 </project>

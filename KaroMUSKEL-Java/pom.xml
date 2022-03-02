@@ -15,18 +15,6 @@
 		<version>1.0.0</version>
 		<relativePath>..</relativePath>
 	</parent>
-	
-	<build>
-	    <resources>
-	      <resource>
-	        <directory>src/main/resources</directory>
-      		<filtering>true</filtering>
-	        <excludes>
-	          <exclude>*.psd</exclude>
-	        </excludes>
-	      </resource>
-	    </resources>
-  	</build>
 
 	<dependencies>
 		<!-- finally the dependencies -->
@@ -35,21 +23,45 @@
 			<artifactId>KaroAPI4J</artifactId>
 			<version>${ultimate.KaroAPI4J.version}</version>
 		</dependency>
-		<dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>${json.version}</version>
-		</dependency>
-		<dependency>
-    		<groupId>org.junit.jupiter</groupId>
-    		<artifactId>junit-jupiter</artifactId>
-    		<version>${junit.version}</version>
-    		<scope>test</scope>
-		</dependency>
 	</dependencies>
 
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>*.psd</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+					<archive>
+						<manifest>
+							<mainClass>ultimate.karomuskel.Launcher</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-archive</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<properties>
-		<json.version>20211205</json.version>
-		<junit.version>5.8.2</junit.version>
 	</properties>
 </project>
