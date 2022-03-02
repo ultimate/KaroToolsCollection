@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>ultimate</groupId>
-    <artifactId>KaroToolsCollection</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.0</version>
-    <name>ultimate's Karopapier Tools Collection</name>
-    <url>http://www.karopapier.de</url>
-	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ultimate</groupId>
+	<artifactId>KaroToolsCollection</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0</version>
+	<name>ultimate's Karopapier Tools Collection</name>
+	<url>http://www.karopapier.de</url>
+
 	<modules>
 		<module>KaroAPI4J</module>
+		<module>KaroMUSKEL-Java</module>
 		<module>KaroEval</module>
 		<module>KaroExperiments</module>
-		<module>KaroMUSKEL-Java</module>
 		<module>Recycle-Bin</module>
 	</modules>
 
@@ -23,17 +24,48 @@
 			<name>ultimate</name>
 		</developer>
 	</developers>
-	
+
 	<profiles>
 	</profiles>
 
+	<dependencies>
+		<!-- finally the dependencies -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven.surefire.version}</version>
+            </plugin>
+		</plugins>
+	</build>
+
 	<properties>
-    	<maven.compiler.source>9</maven.compiler.source>
-    	<maven.compiler.target>9</maven.compiler.target>
-  
-		<ultimate.KaroAPI4J.version>1.0</ultimate.KaroAPI4J.version>
-		<ultimate.KaroEval.version>3.0</ultimate.KaroEval.version>
-		<ultimate.KaroExperiments.version>0.1</ultimate.KaroExperiments.version>
-		<ultimate.KaroMUSKEL.version>3.0</ultimate.KaroMUSKEL.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven.compiler.source>9</maven.compiler.source>
+		<maven.compiler.target>9</maven.compiler.target>
+		<maven.surefire.version>2.1</maven.surefire.version>
+		<maven.assembly.version>2.1</maven.assembly.version>
+
+		<junit.version>5.8.2</junit.version>
+
+		<ultimate.KaroAPI4J.version>1.0.0</ultimate.KaroAPI4J.version>
+		<ultimate.KaroMUSKEL.version>3.0.0</ultimate.KaroMUSKEL.version>
+		<ultimate.KaroEval.version>3.0.0</ultimate.KaroEval.version>
+		<ultimate.KaroExperiments.version>0.1.0</ultimate.KaroExperiments.version>
 	</properties>
 </project>
