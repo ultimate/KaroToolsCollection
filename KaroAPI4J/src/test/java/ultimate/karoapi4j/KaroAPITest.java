@@ -439,6 +439,8 @@ public class KaroAPITest extends KaroAPITestcase
 	@Test
 	public void test_createGameAndMove() throws InterruptedException, ExecutionException
 	{
+		int sleep = 500;
+		
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
@@ -457,6 +459,8 @@ public class KaroAPITest extends KaroAPITestcase
 		int moves = 0;
 		int crashs = 0;
 		int x, y;
+		
+		Thread.sleep(sleep);
 
 		// load full game -> check players and moves
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -470,12 +474,16 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
+		
+		Thread.sleep(sleep);
 
 		// select start position
 		x = 2;
 		y = 1;
 		assertTrue(karoAPI.selectStartPosition(game.getId(), new Move(x, y, null)).get());
 		moves++;
+
+		Thread.sleep(sleep);
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -492,11 +500,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
+		Thread.sleep(sleep);
+
 		// move 1 (to the left)
 		x = 1;
 		y = 1;
 		assertTrue(karoAPI.move(game.getId(), new Move(x, y, -1, 0, null)).get());
 		moves++;
+
+		Thread.sleep(sleep);
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -512,11 +524,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNull(game.getPlayers().get(0).getPossibles()); // we ran into a crash
 
+		Thread.sleep(sleep);
+
 		// refresh
 		x = 2;
 		y = 1;
 		assertTrue(karoAPI.refreshAfterCrash(gameId).get());
 		crashs++;
+
+		Thread.sleep(sleep);
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -533,11 +549,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
+		Thread.sleep(sleep);
+
 		// move (again from ZZZ-point (= start) to the right)
 		x = 3;
 		y = 1;
 		assertTrue(karoAPI.move(game.getId(), new Move(x, y, 1, 0, null)).get());
 		moves++;
+
+		Thread.sleep(sleep);
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -552,12 +572,16 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
+		Thread.sleep(sleep);
+
 		// move (cross the finish line)
 		x = 5;
 		y = 1;
 		assertTrue(karoAPI.move(game.getId(), new Move(x, y, 2, 0, null)).get());
 		moves++; // last move
 		moves++; // parc ferme
+
+		Thread.sleep(sleep);
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
