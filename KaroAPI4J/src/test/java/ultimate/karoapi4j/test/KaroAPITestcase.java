@@ -24,7 +24,7 @@ public class KaroAPITestcase
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger logger = LogManager.getLogger(getClass());
+	protected transient final Logger	logger	= LogManager.getLogger(getClass());
 
 	/**
 	 * The {@link Properties} used to initiate the {@link KaroAPI}
@@ -53,15 +53,15 @@ public class KaroAPITestcase
 	{
 		properties = PropertiesUtil.loadProperties(KaroAPITestcase.class, "login.properties");
 		logger.info("properties loaded: " + properties);
-		
+
 		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
 		logger.info("KaroAPI initialized");
-		
+
 		karoAPICache = new KaroAPICache(karoAPI);
 		karoAPICache.refresh().join();
 		logger.info("KaroAPICache initialized");
-		
-		dummyCache= new KaroAPICache(null);
+
+		dummyCache = new KaroAPICache(null);
 		dummyCache.refresh().join();
 		logger.info("KaroAPICache (DUMMY) initialized");
 	}
