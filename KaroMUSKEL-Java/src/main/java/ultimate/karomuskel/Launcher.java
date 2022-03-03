@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
@@ -224,9 +225,9 @@ public class Launcher
 
 			logger.info("creating KaroAPI instance: \"" + loginDialog.getUser() + "\" ... ");
 
-			api = new KaroAPI(loginDialog.getUser(), loginDialog.getPassword());
 			try
 			{
+				api = new KaroAPI(loginDialog.getUser(), loginDialog.getPassword());
 				if(api.check().get() != null)
 				{
 					logger.info("login successful!");
@@ -237,9 +238,9 @@ public class Launcher
 					logger.warn("login failed!");
 				}
 			}
-			catch(InterruptedException | ExecutionException e)
+			catch(InterruptedException | ExecutionException | KaroAPIException e)
 			{
-				logger.error("login failed!", e);
+				logger.error("login failed!", e.getMessage());
 			}
 		}
 		return api;
