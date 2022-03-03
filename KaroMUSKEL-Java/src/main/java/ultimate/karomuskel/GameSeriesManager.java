@@ -700,11 +700,11 @@ public abstract class GameSeriesManager
 
 			if(gs.getType() == EnumGameSeriesType.KLC)
 			{
-				int groups = (int) gs.get("groups");
-				int leagues = (int) gs.get("leagues");
-				int players = (int) groups * leagues;
+				int groups = getIntConfig(GameSeries.CONF_KLC_GROUPS);
+				int leagues = getIntConfig(GameSeries.CONF_KLC_LEAGUES);
+				int players = groups * leagues;
 
-				int round = (int) gs.get("round");
+				int round = (int) gs.get(GameSeries.CURRENT_ROUND);
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round == players)
 				{
@@ -717,11 +717,11 @@ public abstract class GameSeriesManager
 					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				}
 				round = round / 2;
-				gs.set("round", round);
+				gs.set(GameSeries.CURRENT_ROUND, round);
 			}
 			else if(gs.getType() == EnumGameSeriesType.KO)
 			{
-				int round = (int) gs.get("round");
+				int round = (int) gs.get(GameSeries.CURRENT_ROUND);
 
 				screens.getLast().setNextKey("screen.summary.nextko");
 				if(round > 2)
