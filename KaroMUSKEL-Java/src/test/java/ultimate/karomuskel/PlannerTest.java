@@ -39,7 +39,6 @@ public class PlannerTest extends KaroMUSKELTestcase
 		planner = new Planner(dummyCache);
 
 		// needed for the placeholder stuff
-		Language.setFolder("target/classes/lang");
 		Language.load("de");
 	}
 

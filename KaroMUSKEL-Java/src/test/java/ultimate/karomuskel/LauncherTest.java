@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karomuskel.ui.Language;
 
 public class LauncherTest
 {
@@ -25,7 +24,6 @@ public class LauncherTest
 	@Test
 	public void test_AppVersion() throws InterruptedException, ExecutionException
 	{
-		Language.setFolder("target/classes/lang");
 		Launcher.loadConfig(null);
 
 		assertNotNull(KaroAPI.getApplicationName());
