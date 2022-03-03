@@ -94,26 +94,26 @@ public class Planner
 		switch(gs.getType())
 		{
 			case AllCombinations:
-				numberOfGamesPerPair = (int) gs.get("numberOfGamesPerPair");
-				numberOfTeamsPerMatch = (int) gs.get("numberOfTeamsPerMatch");
+				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
+				numberOfTeamsPerMatch = (int) gs.get(GameSeries.NUMBER_OF_TEAMS_PER_MATCH);
 				return planSeriesAllCombinations(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), numberOfGamesPerPair, numberOfTeamsPerMatch);
 			case Balanced:
 				return planSeriesBalanced(gs.getTitle(), null, null, null);
 			case KLC:
-				round = (int) gs.get("round");
-				groups = (int) gs.get("groups");
-				leagues = (int) gs.get("leagues");
+				round = (int) gs.get(GameSeries.CURRENT_ROUND);
+				groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
+				leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
 				return planSeriesKLC(gs.getTitle(), gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
 			case KO:
-				useHomeMaps = (boolean) gs.get("useHomeMaps");
+				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
 				return planSeriesKO(gs.getTitle(), gs.getTeams(), gs.getMaps(), null, gs.getRules(), useHomeMaps, true);
 			case League:
-				numberOfGamesPerPair = (int) gs.get("numberOfGamesPerPair");
-				useHomeMaps = (boolean) gs.get("useHomeMaps");
+				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
+				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
 				return planSeriesLeague(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, numberOfGamesPerPair);
 			case Simple:
-				numberOfGames = (int) gs.get("numberOfGames");
-				maxPlayersPerGame = (int) gs.get("maxPlayersPerGame");
+				numberOfGames = (int) gs.get(GameSeries.NUMBER_OF_GAMES);
+				maxPlayersPerGame = (int) gs.get(GameSeries.MAX_PLAYERS_PER_GAME);
 				return planSeriesSimple(gs.getTitle(), gs.getPlayers(), gs.getMaps(), gs.getRules(), numberOfGames, maxPlayersPerGame);
 			default:
 				return null;
@@ -258,7 +258,7 @@ public class Planner
 		List<User> tmp = new LinkedList<User>(players);
 		Collections.shuffle(tmp);
 		// shuffeln kann manchmal fehlschlagen
-		// (weil sonst ein spieler doppelt in einem Rennen sein müsste)
+		// (weil sonst ein spieler doppelt in einem Rennen sein mï¿½sste)
 		// --> dann versuch es einfach nochmal...
 		while(true)
 		{
@@ -413,7 +413,7 @@ public class Planner
 					}
 
 					// Suche minimale Spaltensumme (seltenster Gegner)
-					// (Spaltensumme nur über die Zeilen, cols-Liste ausschließen)
+					// (Spaltensumme nur ï¿½ber die Zeilen, cols-Liste ausschlieï¿½en)
 					int minBattles = Integer.MAX_VALUE;
 					List<Integer> potentials = new LinkedList<Integer>();
 					for(int col = 0; col < result.totalWhoOnWho.length; col++)
@@ -469,7 +469,7 @@ public class Planner
 				}
 			}
 
-			// letztes Rennen auffüllen... (falls nicht voll)
+			// letztes Rennen auffï¿½llen... (falls nicht voll)
 			for(; g < games && p < rules.get(r).getNumberOfPlayers(); p++)
 			{
 				result.shuffledUsers[r][g][p] = null;
@@ -577,17 +577,17 @@ public class Planner
 			int league2 = -1;
 			for(int l = 1; l <= leagues; l++)
 			{
-				if(playersByKey.get("league_" + l).contains(team1.getMembers().get(0)))
+				if(playersByKey.get(GameSeries.KEY_LEAGUE + l).contains(team1.getMembers().get(0)))
 					league1 = l;
-				if(playersByKey.get("league_" + l).contains(team2.getMembers().get(0)))
+				if(playersByKey.get(GameSeries.KEY_LEAGUE + l).contains(team2.getMembers().get(0)))
 					league2 = l;
 			}
 			if(league1 == -1 || league2 == -1)
 				logger.error("should not happen!");
 
-			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
+			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= hï¿½here Liga Nummer)
 				return team1;
-			else if(league1 < league2) // Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
+			else if(league1 < league2) // Spieler 1 ist in der niedrigeren Liga (= hï¿½here Liga Nummer)
 				return team2;
 			return (random.nextBoolean() ? team1 : team2); // beide sind in der gleichen Liga -> zufall
 		};
@@ -597,8 +597,8 @@ public class Planner
 		else
 		{
 			// create tmp list of teams so we can use planTeamGame
-			List<Team> teams = new ArrayList<>(playersByKey.get("round_" + round).size());
-			for(User user : playersByKey.get("round_" + round))
+			List<Team> teams = new ArrayList<>(playersByKey.get(GameSeries.KEY_ROUND + round).size());
+			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
 				teams.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
 
 			return planSeriesKO(title, teams, null, whoIsHome, rules, true, true);
@@ -629,22 +629,22 @@ public class Planner
 
 		// Liegen durchmischen
 		for(int l = 1; l <= leagues; l++)
-			Collections.shuffle(playersByKey.get("league_" + l));
+			Collections.shuffle(playersByKey.get(GameSeries.KEY_LEAGUE + l));
 
 		// Gruppenphase
 		for(int g = 1; g <= groups; g++)
 		{
 			// Bilde Gruppe aus je 1 Spieler pro Liga
-			// die Ligen sind 1mal initial durchgemischt, deshalb können wir einfach für Gruppe
+			// die Ligen sind 1mal initial durchgemischt, deshalb kï¿½nnen wir einfach fï¿½r Gruppe
 			// X jeweils den X-ten Spieler pro Gruppe nehmen
-			playersByKey.get("group_" + g).clear();
+			playersByKey.get(GameSeries.KEY_GROUP + g).clear();
 			for(int l = 1; l <= leagues; l++)
-				playersByKey.get("group_" + g).add(playersByKey.get("league_" + l).get(g - 1));
-			Collections.shuffle(playersByKey.get("group_" + g), random);
+				playersByKey.get(GameSeries.KEY_GROUP + g).add(playersByKey.get(GameSeries.KEY_LEAGUE + l).get(g - 1));
+			Collections.shuffle(playersByKey.get(GameSeries.KEY_GROUP + g), random);
 
 			// create a temporarily list of single player teams to be able to use the LeaguePlanner
-			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get("group_" + g).size());
-			for(User p : playersByKey.get("group_" + g))
+			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get(GameSeries.KEY_GROUP + g).size());
+			for(User p : playersByKey.get(GameSeries.KEY_GROUP + g))
 				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p)));
 
 			List<List<Match>> matches = planMatchesLeague(teamsTmp);
@@ -1003,13 +1003,13 @@ public class Planner
 	{
 		if(teams.size() % 2 == 1)
 			throw new IllegalArgumentException("equal number of teams required");
-		// oder Team "frei" hinzufügen
+		// oder Team "frei" hinzufï¿½gen
 
 		int teamcount = teams.size(); // Anzahl der Teams
-		int matchcount = teamcount / 2; // Anzahl der möglichen Spielpaare
+		int matchcount = teamcount / 2; // Anzahl der mï¿½glichen Spielpaare
 		int days = teamcount - 1; // Anzahl der Spieltage pro Runde
 		List<List<Match>> matches = new LinkedList<List<Match>>(); // Spielplan
-		int gamenr = 0; // Zähler für Spielnummer
+		int gamenr = 0; // Zï¿½hler fï¿½r Spielnummer
 
 		Team team1, team2;
 		List<Match> dayList;
