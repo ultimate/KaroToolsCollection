@@ -33,11 +33,6 @@ public abstract class Language
 
 	private static String					about						= null;
 
-	public static void setFolder(String folder)
-	{
-		Language.folder = folder;
-	}
-
 	public static boolean load(String language)
 	{
 		if("debug".equalsIgnoreCase(language))
