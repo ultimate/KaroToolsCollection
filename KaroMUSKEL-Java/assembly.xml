@@ -12,7 +12,6 @@
 			<directory>${project.build.directory}</directory>
 			<outputDirectory>/</outputDirectory>
 			<excludes>
-				<exclude>**/karomuskel.properties</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>
