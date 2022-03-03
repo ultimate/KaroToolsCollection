@@ -379,6 +379,10 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				col.setCellEditor(new SpinnerCellEditor(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1)));
 			}
+			else if(table.getColumnClass(i).equals(EnumGameTC.class))
+			{
+				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false))));
+			}
 			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false))));
@@ -527,7 +531,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == 0) // add
 		{
 			User value = (User) combobox.getSelectedItem();
-			logger.info("Füge Spieler " + value + " hinzu");
+			logger.info("Fï¿½ge Spieler " + value + " hinzu");
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
@@ -591,9 +595,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			row[1] = game.getMap();
 			row[2] = game.getPlayers();
 			row[3] = game.getOptions().getZzz();
-			row[4] = game.getOptions().getCrashallowed();
+			row[4] = new Label<>(Language.getString(EnumGameTC.class, game.getOptions().getCrashallowed()), game.getOptions().getCrashallowed());
 			row[5] = game.getOptions().isCps();
-			row[6] = game.getOptions().getStartdirection();
+			row[6] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
 			row[7] = true;
 			row[8] = gameSeries.isCreatorGiveUp() || game.isLeft();
 
@@ -715,13 +719,13 @@ public class SummaryScreen extends Screen implements ActionListener
 					game.getOptions().setZzz((Integer) aValue);
 					break;
 				case 4:
-					game.getOptions().setCrashallowed((EnumGameTC) aValue);
+					game.getOptions().setCrashallowed(((Label<EnumGameTC>) aValue).getValue());
 					break;
 				case 5:
 					game.getOptions().setCps((Boolean) aValue);
 					break;
 				case 6:
-					game.getOptions().setStartdirection((EnumGameDirection) aValue);
+					game.getOptions().setStartdirection(((Label<EnumGameDirection>) aValue).getValue());
 					break;
 				case 7:
 					if((Boolean) aValue)
