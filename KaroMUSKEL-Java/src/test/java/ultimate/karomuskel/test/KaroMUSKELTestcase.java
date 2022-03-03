@@ -1,6 +1,5 @@
 package ultimate.karomuskel.test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -58,11 +57,11 @@ public class KaroMUSKELTestcase
 	@BeforeAll
 	public void setUpOnce() throws IOException
 	{
-		config = PropertiesUtil.loadProperties(new File("target/classes/config.properties"));
+		config = PropertiesUtil.loadProperties(getClass(), "karomuskel.properties");
 		GameSeriesManager.setConfig(config);
 		logger.info("config loaded: " + config);
 		
-		properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
+		properties = PropertiesUtil.loadProperties(getClass(), "login.properties");
 		logger.info("properties loaded: " + properties);
 		
 		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));

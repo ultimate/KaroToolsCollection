@@ -1,6 +1,5 @@
 package ultimate.karoapi4j.test;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -52,7 +51,7 @@ public class KaroAPITestcase
 	@BeforeAll
 	public void setUpOnce() throws IOException
 	{
-		properties = PropertiesUtil.loadProperties(new File("target/test-classes/login.properties"));
+		properties = PropertiesUtil.loadProperties(KaroAPITestcase.class, "login.properties");
 		logger.info("properties loaded: " + properties);
 		
 		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));

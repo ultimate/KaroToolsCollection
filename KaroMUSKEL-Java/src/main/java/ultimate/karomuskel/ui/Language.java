@@ -1,6 +1,5 @@
 package ultimate.karomuskel.ui;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +48,7 @@ public abstract class Language
 		try
 		{
 			logger.info("loading language '" + language + "'... ");
-			lang = PropertiesUtil.loadProperties(new File(folder + "/lang_" + language + ".properties"));
+			lang = PropertiesUtil.loadProperties(Language.class, folder + "/lang_" + language + ".properties");
 			logger.info("language '" + language + "' loaded");
 			return true;
 		}
