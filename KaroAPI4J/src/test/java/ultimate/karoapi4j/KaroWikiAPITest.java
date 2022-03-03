@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,12 +41,12 @@ public class KaroWikiAPITest
 	{
 		try
 		{
-			Properties p = PropertiesUtil.loadProperties(KaroWikiAPITest.class, "login");
+			Properties p = PropertiesUtil.loadProperties(KaroWikiAPITest.class, "login.properties");
 			logger.debug(p);
 			username = p.getProperty("karowiki.user");
 			password = p.getProperty("karowiki.password");
 		}
-		catch(IOException | URISyntaxException e)
+		catch(IOException e)
 		{
 			e.printStackTrace();
 		}

@@ -99,12 +99,12 @@ public class Launcher
 	{
 		logger.info("------------------------------------------------------------------------");
 		logger.info("                               KaroMUSKEL                               ");
-		logger.info("  Maschinelle-Ultimative-Spielserien-für-Karopapier-Erstellungs-Lösung  ");
+		logger.info("  Maschinelle-Ultimative-Spielserien-fï¿½r-Karopapier-Erstellungs-Lï¿½sung  ");
 		logger.info("------------------------------------------------------------------------");
 		logger.info("------------------------------------------------------------------------");
 
 		// defaults
-		String configFile = "config.properties";
+		String configFile = null;
 
 		if(args.length > 0)
 		{
@@ -152,13 +152,23 @@ public class Launcher
 		Properties config;
 		try
 		{
-			logger.info("loading config file '" + configFile + "' ...");
-			config = PropertiesUtil.loadProperties(new File(configFile));
+			if(configFile == null)
+			{
+				// load default from jar
+				logger.info("loading default config file ...");
+				config = PropertiesUtil.loadProperties(Launcher.class, "karomuskel.properties");
+			}
+			else
+			{
+				// load custom from file
+				logger.info("loading config file '" + configFile + "' ...");
+				config = PropertiesUtil.loadProperties(new File(configFile));
+			}
 			GameSeriesManager.setConfig(config);
 		}
 		catch(IOException e1)
 		{
-			logger.error("Could not load config file '" + configFile + "'");
+			logger.error("could not load config file '" + configFile + "'");
 			exit();
 			return null;
 		}
@@ -284,7 +294,7 @@ public class Launcher
 		{
 			KaroAPI.getExecutor().shutdownNow();
 		}
-		
+
 		if(gui != null)
 		{
 			gui.setVisible(false);

@@ -26,7 +26,7 @@ public class LauncherTest
 	public void test_AppVersion() throws InterruptedException, ExecutionException
 	{
 		Language.setFolder("target/classes/lang");
-		Launcher.loadConfig("target/classes/config.properties");
+		Launcher.loadConfig(null);
 
 		assertNotNull(KaroAPI.getApplicationName());
 		assertEquals("KaroMUSKEL", KaroAPI.getApplicationName());

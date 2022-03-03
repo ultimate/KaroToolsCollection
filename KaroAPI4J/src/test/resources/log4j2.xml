@@ -5,9 +5,10 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger name="ultimate" level="debug"/>
     <Root level="info">
       <AppenderRef ref="STDOUT"/>
     </Root>
+    <Logger name="ultimate" level="debug"/>
+    <Logger name="ultimate.karoapi4j.utils.ReflectionsUtil" level="info"/>
   </Loggers>
 </Configuration>

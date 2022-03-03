@@ -25,7 +25,7 @@ import ultimate.karoapi4j.test.KaroAPITestcase;
 
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 public class KaroAPICacheTest extends KaroAPITestcase
-{	
+{
 	@Test
 	@Order(1)
 	public void test_init()
@@ -77,8 +77,8 @@ public class KaroAPICacheTest extends KaroAPITestcase
 	@Order(4)
 	public void test_refreshing() throws InterruptedException, ExecutionException
 	{
-		// check that this user has no game
-		assertEquals(0, karoAPICache.getCurrentUser().getActiveGames());
+		// check the number of games this user has
+		int games = karoAPICache.getCurrentUser().getActiveGames();
 
 		// now create a game
 		PlannedGame plannedGame = new PlannedGame();
@@ -89,8 +89,8 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		Game game = karoAPI.createGame(plannedGame).get();
 		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
 
-		// still the current user should not have a game
-		assertEquals(0, karoAPICache.getCurrentUser().getActiveGames());
+		// still the current user should not have the same amount of games
+		assertEquals(games, karoAPICache.getCurrentUser().getActiveGames());
 
 		// now refresh
 		User previousObject = karoAPICache.getCurrentUser();
@@ -98,8 +98,8 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		// check that it is still the same entity
 		assertTrue(previousObject == refreshedObject);
 
-		// now the current user should have a game
-		assertEquals(1, karoAPICache.getCurrentUser().getActiveGames());
+		// now the current user should have 1 game more
+		assertEquals(games + 1, karoAPICache.getCurrentUser().getActiveGames());
 
 		// finish the game for clean up, for each step refresh and check the game
 		//@formatter:off
@@ -112,9 +112,9 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		assertEquals(4, karoAPICache.refresh(game).get().getPlayers().get(0).getMoveCount());	// refresh & check
 		//@formatter:on
 
-		// check the games again
+		// check the games again - should be back to were it was before
 		karoAPICache.refresh(karoAPICache.getCurrentUser()).get();
-		assertEquals(0, karoAPICache.getCurrentUser().getActiveGames());
+		assertEquals(games, karoAPICache.getCurrentUser().getActiveGames());
 	}
 
 	@Test
@@ -128,13 +128,13 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		for(Map m : karoAPICache.getMaps())
 		{
 			logger.debug("checking images for map #" + m.getId());
-			
+
 			assertNotNull(m.getImage());
 			assertNotNull(m.getThumb());
-			
+
 			img = new File(karoAPICache.getCacheFolder(), m.getId() + "." + KaroAPICache.IMAGE_TYPE);
 			thumb = new File(karoAPICache.getCacheFolder(), m.getId() + "_thumb." + KaroAPICache.IMAGE_TYPE);
-			
+
 			assertTrue(img.exists());
 			assertTrue(thumb.exists());
 		}

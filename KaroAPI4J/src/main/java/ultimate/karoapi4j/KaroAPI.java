@@ -3,7 +3,6 @@ package ultimate.karoapi4j;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -108,11 +107,11 @@ public class KaroAPI implements IDLookUp
 		logger.debug("loading KaroAPI version");
 		try
 		{
-			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j");
+			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
 			version = properties.getProperty("karoAPI.version");
 			logger.debug("version = " + version);
 		}
-		catch(IOException | URISyntaxException e)
+		catch(IOException e)
 		{
 			logger.error("could not determine API version", e);
 		}

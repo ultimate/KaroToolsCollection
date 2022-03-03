@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.util.Properties;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -26,6 +25,25 @@ public abstract class PropertiesUtil
 	private PropertiesUtil()
 	{
 
+	}
+
+	/**
+	 * Load {@link Properties} from the given {@link InputStream}
+	 * 
+	 * @param is - the {@link InputStream}
+	 * @param zipped - use zip-format?
+	 * @return the {@link Properties}
+	 * @throws IOException - if loading fails
+	 */
+	public static Properties loadProperties(InputStream is, boolean zipped) throws IOException
+	{
+		if(zipped)
+			is = new GZIPInputStream(is);
+		is = new BufferedInputStream(is);
+		Properties properties = new Properties();
+		properties.load(is);
+		is.close();
+		return properties;
 	}
 
 	/**
@@ -52,47 +70,41 @@ public abstract class PropertiesUtil
 	 */
 	public static Properties loadProperties(File file, boolean zipped) throws IOException
 	{
-		InputStream is = new FileInputStream(file);
-		if(zipped)
-			is = new GZIPInputStream(is);
-		is = new BufferedInputStream(is);
-		Properties properties = new Properties();
-		properties.load(is);
-		is.close();
-		return properties;
+		return loadProperties(new FileInputStream(file), zipped);
 	}
 
 	/**
-	 * Load {@link Properties} from the given {@link File}.<br>
-	 * Convenience for <code>PropertiesUtil.loadProperties(file, false)</code>
+	 * Load {@link Properties} with the given name from a file.<br>
+	 * Convenience for <code>PropertiesUtil.loadProperties(contextClass, name, false)</code>
 	 * 
-	 * @see PropertiesUtil#loadProperties(File, boolean)
+	 * @see PropertiesUtil#loadProperties(Class, String, boolean)
 	 * @param contextClass - the class context used to locate the file
-	 * @param name - the name of the properties (without the file ending of ".properties")
+	 * @param fileName - the name of the properties
 	 * @return the {@link Properties}
 	 * @throws IOException - if loading fails
-	 * @throws URISyntaxException - if building the file URI fails
 	 */
-	public static Properties loadProperties(Class<?> contextClass, String name) throws IOException, URISyntaxException
+	public static Properties loadProperties(Class<?> contextClass, String fileName) throws IOException
 	{
-		return loadProperties(contextClass, name, false);
+		return loadProperties(contextClass, fileName, false);
 	}
 
 	/**
-	 * Load {@link Properties} from the given {@link File}.<br>
-	 * Convenience for <code>PropertiesUtil.loadProperties(file, false)</code>
+	 * Load {@link Properties} with the given name from a file.<br>
+	 * This method will look up the matching ressource <code>%name%.properties</code> with the classloader of the class passed as an argument. This
+	 * way also properties in jar files can be accessed.<br>
+	 * Convenience for
+	 * <code>PropertiesUtil.loadProperties(contextClass.getClassLoader().getResourceAsStream(fileName), zipped)</code>
 	 * 
 	 * @see PropertiesUtil#loadProperties(File, boolean)
 	 * @param contextClass - the class context used to locate the file
-	 * @param name - the name of the properties (without the file ending of ".properties")
+	 * @param fileName - the name of the properties
 	 * @param zipped - use zip-format?
 	 * @return the {@link Properties}
 	 * @throws IOException - if loading fails
-	 * @throws URISyntaxException - if building the file URI fails
 	 */
-	public static Properties loadProperties(Class<?> contextClass, String name, boolean zipped) throws IOException, URISyntaxException
+	public static Properties loadProperties(Class<?> contextClass, String fileName, boolean zipped) throws IOException
 	{
-		return loadProperties(new File(contextClass.getClassLoader().getResource(name + ".properties").toURI()), zipped);
+		return loadProperties(contextClass.getClassLoader().getResourceAsStream(fileName), zipped);
 	}
 
 	/**

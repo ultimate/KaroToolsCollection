@@ -5,9 +5,9 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger name="ultimate" level="info"/>
     <Root level="info">
       <AppenderRef ref="STDOUT"/>
     </Root>
+    <Logger name="ultimate" level="info"/>
   </Loggers>
 </Configuration>
