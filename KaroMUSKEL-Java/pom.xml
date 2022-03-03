@@ -31,7 +31,7 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<excludes>
-					<exclude>*.psd</exclude>
+					<exclude>img/*.psd</exclude>
 				</excludes>
 			</resource>
 		</resources>
