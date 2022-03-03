@@ -54,7 +54,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(KaroAPI.getVersion());
 		assertEquals("1.0.0", KaroAPI.getVersion());
 	}
-	
+
 	@Test
 	public void test_instanciateWithKey() throws InterruptedException, ExecutionException
 	{
@@ -100,9 +100,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// should be more than just a few users...
 		assertTrue(users.size() > 100);
 		// should contain the current user
-		Predicate<User> findCurrentUser = (user) -> {
-			return user.getLogin().equals(properties.get("karoapi.user"));
-		};
+		Predicate<User> findCurrentUser = (user) -> { return user.getLogin().equals(properties.get("karoapi.user")); };
 		assertTrue(CollectionsUtil.contains(users, findCurrentUser));
 
 		// check invitable filter
@@ -111,9 +109,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded invitable: " + invitables.size());
 		assertNotNull(invitables);
 		// all users in this list should be invitable
-		Predicate<User> findInvitable = (user) -> {
-			return user.isInvitable(false);
-		};
+		Predicate<User> findInvitable = (user) -> { return user.isInvitable(false); };
 		assertEquals(invitables.size(), CollectionsUtil.count(invitables, findInvitable));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToInvitables = new ArrayList<User>(users);
@@ -126,9 +122,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded desperates: " + desperates.size());
 		assertNotNull(desperates);
 		// all users in this list should be desperate
-		Predicate<User> findDesperates = (user) -> {
-			return user.isDesperate();
-		};
+		Predicate<User> findDesperates = (user) -> { return user.isDesperate(); };
 		assertEquals(desperates.size(), CollectionsUtil.count(desperates, findDesperates));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToDesperates = new ArrayList<User>(users);
@@ -142,9 +136,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded bylogin: " + bylogin.size());
 		assertNotNull(bylogin);
 		// all users in this list should match the login
-		Predicate<User> findLogin = (user) -> {
-			return user.getLogin().toLowerCase().contains(login.toLowerCase());
-		};
+		Predicate<User> findLogin = (user) -> { return user.getLogin().toLowerCase().contains(login.toLowerCase()); };
 		assertEquals(bylogin.size(), CollectionsUtil.count(bylogin, findLogin));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToLogin = new ArrayList<User>(users);
@@ -157,9 +149,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded filtered: " + filtered.size());
 		assertNotNull(filtered);
 		// all users in this list should match the filter
-		Predicate<User> filter = (user) -> {
-			return findInvitable.test(user) && findDesperates.test(user) && findLogin.test(user);
-		};
+		Predicate<User> filter = (user) -> { return findInvitable.test(user) && findDesperates.test(user) && findLogin.test(user); };
 		assertEquals(filtered.size(), CollectionsUtil.count(filtered, filter));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filtered = new ArrayList<User>(users);
@@ -274,9 +264,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(TEST_GAMES_IDS.length, games2.size());
 		for(int id : TEST_GAMES_IDS)
 		{
-			Predicate<Game> findGame = (game) -> {
-				return game.getId() == id;
-			};
+			Predicate<Game> findGame = (game) -> { return game.getId() == id; };
 			assertEquals(1, CollectionsUtil.count(games1, findGame));
 		}
 		// check the games are sorted by id (first print them for debugging)
@@ -350,9 +338,7 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded maps_withcode: " + maps_withcode.size());
 		assertNotNull(maps_withcode);
 		// all maps in this list should contain a mapcode
-		maps_withcode.forEach((map) -> {
-			checkMapCode(map);
-		});
+		maps_withcode.forEach((map) -> { checkMapCode(map); });
 		// the maps in invitable should match the global map list
 		compareList(maps, maps_withcode, new MethodComparator<>("getId", 1));
 	}
@@ -470,6 +456,7 @@ public class KaroAPITest extends KaroAPITestcase
 		int gameId = game.getId();
 		int moves = 0;
 		int crashs = 0;
+		int x, y;
 
 		// load full game -> check players and moves
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -485,7 +472,9 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
 
 		// select start position
-		assertTrue(karoAPI.selectStartPosition(game.getId(), new Move(2, 1, null)).get());
+		x = 2;
+		y = 1;
+		assertTrue(karoAPI.selectStartPosition(game.getId(), new Move(x, y, null)).get());
 		moves++;
 
 		// update -> check players and moves again
@@ -498,11 +487,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
 		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
+		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
 		// move 1 (to the left)
-		assertTrue(karoAPI.move(game.getId(), new Move(1, 1, -1, 0, null)).get());
+		x = 1;
+		y = 1;
+		assertTrue(karoAPI.move(game.getId(), new Move(x, y, -1, 0, null)).get());
 		moves++;
 
 		// update -> check players and moves again
@@ -515,28 +508,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
 		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
+		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNull(game.getPlayers().get(0).getPossibles()); // we ran into a crash
-		
+
 		// refresh
+		x = 2;
+		y = 1;
 		assertTrue(karoAPI.refreshAfterCrash(gameId).get());
 		crashs++;
-		
-		// update -> check players and moves again
-		game = karoAPI.getGame(gameId, false, true, true).get();
-		assertNotNull(game);
-		assertEquals(gameId, game.getId());
-		assertNotNull(game.getPlayers());
-		assertEquals(1, game.getPlayers().size());
-		assertEquals(user.getId(), game.getPlayers().get(0).getId());
-		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
-		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
-		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
-		assertNotNull(game.getPlayers().get(0).getPossibles());
-		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
-
-		// move (from the crash point)
-		assertTrue(karoAPI.move(game.getId(), new Move(2, 1, 1, 0, null)).get());
-		moves++;
 
 		// update -> check players and moves again
 		game = karoAPI.getGame(gameId, false, true, true).get();
@@ -548,11 +528,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
 		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
+		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
-		// move (again from the start to the right)
-		assertTrue(karoAPI.move(game.getId(), new Move(3, 1, 1, 0, null)).get());
+		// move (again from ZZZ-point (= start) to the right)
+		x = 3;
+		y = 1;
+		assertTrue(karoAPI.move(game.getId(), new Move(x, y, 1, 0, null)).get());
 		moves++;
 
 		// update -> check players and moves again
@@ -569,7 +553,9 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
 
 		// move (cross the finish line)
-		assertTrue(karoAPI.move(game.getId(), new Move(5, 1, 2, 0, null)).get());
+		x = 5;
+		y = 1;
+		assertTrue(karoAPI.move(game.getId(), new Move(x, y, 2, 0, null)).get());
 		moves++; // last move
 		moves++; // parc ferme
 
@@ -590,9 +576,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_favs() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
-		Predicate<Game> findFav = (game) -> {
-			return game.getId() == gameId;
-		};
+		Predicate<Game> findFav = (game) -> { return game.getId() == gameId; };
 
 		// get the initial list of favs
 		List<Game> favs = karoAPI.getFavs().get();
@@ -644,12 +628,8 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(chat);
 		assertEquals(limit, chat.size());
 
-		CollectionsUtil.contains(chat, (m) -> {
-			return m.getId() == oldMessage.getId();
-		});
-		CollectionsUtil.contains(chat, (m) -> {
-			return m.getId() == newMessage.getId();
-		});
+		CollectionsUtil.contains(chat, (m) -> { return m.getId() == oldMessage.getId(); });
+		CollectionsUtil.contains(chat, (m) -> { return m.getId() == newMessage.getId(); });
 	}
 
 	@Test
@@ -949,9 +929,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// immediately blocking
 		// -> output "cf" should come after "2"
 		CompletableFuture<User> cf1 = karoAPI.check();
-		cf1.whenComplete((result, th) -> {
-			executionOrder.add("cf");
-		});
+		cf1.whenComplete((result, th) -> { executionOrder.add("cf"); });
 		executionOrder.add("1");
 		executionOrder.add("2");
 		cf1.join();
@@ -964,9 +942,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// in parallel
 		// -> output "cf" should come before "2" because of sleep
 		CompletableFuture<User> cf2 = karoAPI.check();
-		cf2.whenComplete((result, th) -> {
-			executionOrder.add("cf");
-		});
+		cf2.whenComplete((result, th) -> { executionOrder.add("cf"); });
 		executionOrder.add("1");
 		Thread.sleep(1000);
 		executionOrder.add("2");
