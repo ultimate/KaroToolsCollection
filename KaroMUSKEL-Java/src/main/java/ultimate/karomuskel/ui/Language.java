@@ -10,7 +10,6 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public abstract class Language
@@ -77,19 +76,9 @@ public abstract class Language
 		return lang.getProperty(key, arg);
 	}
 
-	public static String getString(EnumGameDirection direction)
+	public static <E> String getString(Class<E> enumType, E crashallowed)
 	{
-		switch(direction)
-		{
-			case classic:
-				return getString("option.direction.klassisch");
-			case free:
-				return getString("option.direction.egal");
-			case formula1:
-				return getString("option.direction.formula1");
-			default:
-				return getString("option.direction.random");
-		}
+		return getString(enumType.getSimpleName() + "." + crashallowed);
 	}
 
 	public static String getApplicationName()

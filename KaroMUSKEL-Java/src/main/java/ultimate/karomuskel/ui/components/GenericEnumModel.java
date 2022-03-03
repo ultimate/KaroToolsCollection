@@ -16,7 +16,7 @@ public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel<La
 		for(E e: enumType.getEnumConstants())
 		{
 			if(!e.toString().equalsIgnoreCase("random") || randomEnabled)
-				this.addElement(new Label<E>(Language.getString(enumType.getSimpleName() + "." + e), e));;
+				this.addElement(new Label<E>(Language.getString(enumType, e), e));;
 		}
 		
 		for(int i = 0; i < this.getSize(); i++)

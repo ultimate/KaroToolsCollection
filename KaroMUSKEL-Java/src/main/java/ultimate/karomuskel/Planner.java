@@ -939,7 +939,7 @@ public class Planner
 	{
 		if(numberOfTeamsPerMatch > teams.size())
 			throw new IllegalArgumentException("numberOfTeamsPerMatch must be <= teams.size");
-		
+
 		List<Match> matches = new ArrayList<Match>();
 
 		int[] selectors = new int[numberOfTeamsPerMatch];
@@ -1263,9 +1263,9 @@ public class Planner
 		defaultPlaceholderValues.put("regeln", toPlaceholderString(options, false));
 		defaultPlaceholderValues.put("regeln.x", toPlaceholderString(options, true));
 		defaultPlaceholderValues.put("regeln.zzz", Language.getString("titlepatterns.zzz") + options.getZzz());
-		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc") + options.getCrashallowed());
+		defaultPlaceholderValues.put("regeln.tc", Language.getString("titlepatterns.tc") + Language.getString(EnumGameTC.class, options.getCrashallowed()));
 		defaultPlaceholderValues.put("regeln.cps", Language.getString("titlepatterns.cps." + options.isCps()));
-		defaultPlaceholderValues.put("regeln.richtung", Language.getString("titlepatterns.direction") + options.getStartdirection());
+		defaultPlaceholderValues.put("regeln.richtung", Language.getString("titlepatterns.direction") + Language.getString(EnumGameDirection.class, options.getStartdirection()));
 
 		return defaultPlaceholderValues;
 	}
@@ -1412,7 +1412,8 @@ public class Planner
 		{
 			if(!tmp.toString().isEmpty())
 				tmp.append(", ");
-			tmp.append(Language.getString("titlepatterns.tc." + options.getCrashallowed()));
+			tmp.append(Language.getString("titlepatterns.tc"));
+			tmp.append(Language.getString(EnumGameTC.class, options.getCrashallowed()));
 		}
 		if(!nonStandardOnly || !options.isCps())
 		{
@@ -1425,7 +1426,7 @@ public class Planner
 			if(!tmp.toString().isEmpty())
 				tmp.append(", ");
 			tmp.append(Language.getString("titlepatterns.direction"));
-			tmp.append(options.getStartdirection());
+			tmp.append(Language.getString(EnumGameDirection.class, options.getStartdirection()));
 		}
 		return tmp.toString();
 	}
