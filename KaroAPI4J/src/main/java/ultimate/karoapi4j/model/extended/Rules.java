@@ -242,12 +242,15 @@ public class Rules implements Cloneable
 	 */
 	public Options createOptions(Random random)
 	{
+		if(random == null)
+			random = new Random();
+		
 		Options options = new Options();
 
-		options.setZzz(random != null ? random.nextInt(maxZzz - minZzz + 1) + minZzz : minZzz);
-		options.setCps(cps == null && random != null ? random.nextBoolean() : cps);
-		options.setCrashallowed(crashallowed == null && random != null ? EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)) : crashallowed);
-		options.setStartdirection(startdirection == null && random != null ? EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)) : startdirection);
+		options.setZzz(random.nextInt(maxZzz - minZzz + 1) + minZzz);
+		options.setCps(cps == null ? random.nextBoolean() : cps);
+		options.setCrashallowed(crashallowed == null || crashallowed == EnumGameTC.random ? EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)) : crashallowed);
+		options.setStartdirection(startdirection == null  || startdirection == EnumGameDirection.random ? EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)) : startdirection);
 
 		return options;
 	}
