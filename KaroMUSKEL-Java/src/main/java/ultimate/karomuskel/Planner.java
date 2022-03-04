@@ -165,7 +165,7 @@ public abstract class Planner
 				placeholderValues.put("spieltag", toString(round + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-				game = planGame(title, creator, map, gamePlayers, rules, null);
+				game = planGame(title, creator, map, gamePlayers, rules, placeholderValues);
 
 				games.add(game);
 				count++;
