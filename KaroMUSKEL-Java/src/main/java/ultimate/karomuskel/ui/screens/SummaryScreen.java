@@ -112,6 +112,12 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.skipPlan = skipPlan;
 	}
 
+	public void resetPlannedGames()
+	{
+		this.gameSeries.getGames().removeIf(g -> { return !gamesBackup.contains(g); });
+		Planner.resetPlannedGames(this.gameSeries.getPlayers());
+	}
+
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
@@ -126,10 +132,9 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(!this.skipPlan)
 		{
 			if(!firstCall)
-				gameSeries.getGames().removeIf(g -> { return !gamesBackup.contains(g); });
-			gameSeries.getGames().addAll(Planner.planSeries(gameSeries));
+				resetPlannedGames();
 
-			Planner.resetPlannedGames(gameSeries.getPlayers());
+			this.gameSeries.getGames().addAll(Planner.planSeries(gameSeries));
 
 			this.gamesCreated.clear();
 			this.gamesLeft.clear();

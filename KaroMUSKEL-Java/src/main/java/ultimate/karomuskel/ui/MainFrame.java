@@ -132,6 +132,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 					JOptionPane.QUESTION_MESSAGE);
 			if(result != JOptionPane.OK_OPTION)
 				return;
+			((SummaryScreen) this.currentScreen).resetPlannedGames();
 		}
 		try
 		{
@@ -178,11 +179,11 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 	}
 
 	/**
-	 * Fügt einen Rahmen mit Titel zu einer Komponente hinzu
+	 * Fï¿½gt einen Rahmen mit Titel zu einer Komponente hinzu
 	 * 
 	 * @param component - die zu rahmende Komponente
 	 * @param titleKey - der Titel
-	 * @param outersize - der Abstand außerhalb des Rahmens zu anderen
+	 * @param outersize - der Abstand auï¿½erhalb des Rahmens zu anderen
 	 *            Komponenten
 	 * @param innersize - der Abstand innerhalb des Rahmens zum Inhalt der
 	 *            Komponente
