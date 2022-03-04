@@ -111,15 +111,7 @@ public class HomeMapsScreen extends Screen
 			JLabel teamLabel;
 			JComboBox<Map> mapCB;
 
-			int maxTeams = 32;
-			if(gameSeries.getType() == EnumGameSeriesType.KO)
-				maxTeams = GameSeriesManager.getIntConfig(GameSeries.CONF_MAX_TEAMS);
-			else if(gameSeries.getType() == EnumGameSeriesType.League)
-				maxTeams = GameSeriesManager.getIntConfig(GameSeries.CONF_MAX_TEAMS);
-			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
-				maxTeams = numberOfTeamsTmp;
-
-			for(int i = 0; i < maxTeams; i++)
+			for(int i = 0; i < this.numberOfTeams; i++)
 			{
 				gbc.gridy = i;
 
