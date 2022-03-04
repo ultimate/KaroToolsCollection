@@ -98,7 +98,7 @@ public class Planner
 				numberOfTeamsPerMatch = (int) gs.get(GameSeries.NUMBER_OF_TEAMS_PER_MATCH);
 				return planSeriesAllCombinations(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), numberOfGamesPerPair, numberOfTeamsPerMatch);
 			case Balanced:
-				return planSeriesBalanced(gs.getTitle(), null, null, null);
+				return planSeriesBalanced(gs.getTitle(), gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey());
 			case KLC:
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
 				groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
@@ -191,7 +191,7 @@ public class Planner
 	 * @param gameDayRules - the {@link Rules} used sorted by game day
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesBalanced(String title, List<User> players, java.util.Map<Integer, List<Map>> gameDayMaps, java.util.Map<Integer, Rules> gameDayRules)
+	public List<PlannedGame> planSeriesBalanced(String title, List<User> players, java.util.Map<String, List<Map>> gameDayMaps, java.util.Map<String, Rules> gameDayRules)
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
@@ -225,13 +225,13 @@ public class Planner
 				}
 				gamePlayers.add(karoAPICache.getCurrentUser());
 
-				map = gameDayMaps.get(day).get(random.nextInt(gameDayMaps.get(day).size()));
+				map = gameDayMaps.get("" + day).get(random.nextInt(gameDayMaps.get("" + day).size()));
 
 				placeholderValues.put("i", toString(count + 1, 1));
 				placeholderValues.put("spieltag", toString(day + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-				game = planGame(title, map, gamePlayers, gameDayRules.get(day), placeholderValues);
+				game = planGame(title, map, gamePlayers, gameDayRules.get("" + day), placeholderValues);
 
 				games.add(game);
 				count++;
