@@ -64,12 +64,12 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 		this.screenPanel = new JPanel();
 		this.screenPanel.setLayout(new GridLayout(1, 1));
-		addTitle(this.screenPanel, "mainframe.descriptionTitle", 5, 5);
+		addTitle(this.screenPanel, "mainframe.contentTitle", 5, 5);
 		this.getContentPane().add(this.screenPanel, BorderLayout.CENTER);
 
 		this.navigationPanel = new JPanel();
 		this.navigationPanel.setLayout(new GridLayout(1, 5));
-		addTitle(this.navigationPanel, "mainframe.descriptionTitle", 5, 5);
+		addTitle(this.navigationPanel, "mainframe.navigationTitle", 5, 5);
 		this.getContentPane().add(this.navigationPanel, BorderLayout.SOUTH);
 
 		this.previousButton = new JButton();
@@ -83,6 +83,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		this.navigationPanel.add(this.aboutButton);
 		this.navigationPanel.add(new JPanel());
 		this.navigationPanel.add(this.nextButton);
+		
+		// TODO add estimated number of games
 
 		initializeStartScreen();
 		setStart();

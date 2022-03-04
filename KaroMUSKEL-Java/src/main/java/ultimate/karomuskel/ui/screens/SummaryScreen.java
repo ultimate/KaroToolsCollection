@@ -359,6 +359,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private void enableButtons()
 	{
+		// TODO add anzahl der zu erstellenden / verlassenden Spiele anzeigen
 		createButton.setEnabled(gamesSelectedToCreate());
 		leaveButton.setEnabled(gamesSelectedToLeave());
 		saveButton.setEnabled(true);
