@@ -134,8 +134,14 @@ public abstract class Language
 
 		public Version(String version)
 		{
-			major = Integer.parseInt(version.substring(0, version.indexOf('.')));
-			minor = Integer.parseInt(version.substring(version.indexOf('.') + 1));
+			int firstDot = version.indexOf('.');
+			int secondDot = version.indexOf('.', firstDot + 1);
+
+			major = Integer.parseInt(version.substring(0, firstDot));
+			if(secondDot > 0)
+				minor = Integer.parseInt(version.substring(firstDot + 1, secondDot));
+			else
+				minor = Integer.parseInt(version.substring(firstDot + 1));
 		}
 
 		@Override
