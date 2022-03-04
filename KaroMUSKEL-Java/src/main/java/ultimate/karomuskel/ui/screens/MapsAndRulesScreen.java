@@ -137,7 +137,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				LinkedList<Map> maps = new LinkedList<Map>(karoAPICache.getMaps());
 				maps.removeIf(m -> { return m.getPlayers() < 3; });
 
-				if(gameSeries.getMapsByKey().get("" + i).size() > 0)
+				if(gameSeries.getMapsByKey().containsKey("" + i) && gameSeries.getMapsByKey().get("" + i).size() > 0)
 					map = gameSeries.getMapsByKey().get("" + i).get(0);
 				else
 					map = maps.getFirst();
