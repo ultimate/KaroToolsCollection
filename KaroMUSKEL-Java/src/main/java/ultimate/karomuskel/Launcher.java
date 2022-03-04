@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
@@ -272,14 +273,8 @@ public class Launcher
 	{
 		logger.info("launching user interface");
 		MainFrame gui = new MainFrame("mainframe.title", cache);
+		gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gui.requestFocus();
-
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			public void run()
-			{
-				exit();
-			}
-		});
 		return gui;
 	}
 
@@ -293,11 +288,14 @@ public class Launcher
 
 		if(KaroAPI.getExecutor() != null)
 		{
+			logger.info("stopping KaroAPI threads...");
 			KaroAPI.getExecutor().shutdownNow();
 		}
 
 		if(gui != null)
 		{
+			
+			logger.info("stopping GUI...");
 			gui.setVisible(false);
 			gui.dispose();
 			gui = null;
