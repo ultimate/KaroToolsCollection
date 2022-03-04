@@ -69,6 +69,7 @@ public class GameSeries
 	public static final String					CONF_MAX_MAPS				= "maxMaps";			// ______X__________________
 	public static final String					CONF_KLC_GROUPS				= "groups";				// ______________X__________
 	public static final String					CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
+	public static final String					CONF_KLC_PLAYERS_PER_LEAGUE	= "playersPerLeague";	// ______________X__________
 	public static final String					CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
 
 	// keys for type specific lists: these are MAX values to prevent misuse (unless config is edited)
