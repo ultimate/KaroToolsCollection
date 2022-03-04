@@ -207,6 +207,8 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowed, true));
 				gbc.gridx++;
 				contentPanel.add(crashingAllowedCB, gbc);
+				
+				// TODO add calculation of number of games + warning, when its not working out evenly
 
 				gbc.gridy++;
 
