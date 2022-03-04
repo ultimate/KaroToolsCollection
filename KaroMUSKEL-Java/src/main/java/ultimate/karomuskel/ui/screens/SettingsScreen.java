@@ -440,7 +440,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			else if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
 			{
 				int numberOfTeamsPerMatch = (Integer) numberOfTeamsPerMatchSpinner.getValue();
-				numberOfGames = Planner.calculateNumberOfMatches(numberOfTeams, numberOfTeamsPerMatch);
+				numberOfGames = Planner.calculateNumberOfMatches(numberOfTeams, numberOfTeamsPerMatch) * numberOfGamesPerPair;
 			}
 			numberOfGamesTF.setText("" + numberOfGames);
 		}
