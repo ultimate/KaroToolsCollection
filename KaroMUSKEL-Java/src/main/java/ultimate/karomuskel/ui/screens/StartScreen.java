@@ -123,7 +123,7 @@ public class StartScreen extends Screen implements ActionListener
 	{
 		if(this.gameSeries == null)
 			throw new GameSeriesException("screen.start.noselection");
-		logger.info("Spiel-Serie initialisiert: " + this.gameSeries.getClass());
+		logger.info("Spiel-Serie initialisiert: " + this.gameSeries.getType());
 		return this.gameSeries;
 	}
 
