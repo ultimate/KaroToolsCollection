@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
@@ -42,7 +41,7 @@ import ultimate.karomuskel.ui.Language;
  * @see KaroAPI#setExecutor(java.util.concurrent.ExecutorService)
  * @author ultimate
  */
-public class Planner
+public abstract class Planner
 {
 	/**
 	 * Logger-Instance
@@ -52,20 +51,12 @@ public class Planner
 	 * The {@link Random} number generator used to plan {@link GameSeries}
 	 */
 	private static Random					random	= new Random();
-
+	
 	/**
-	 * The {@link KaroAPICache} used to lookup {@link User}s, {@link Map}s, etc.
+	 * prevent instantiation
 	 */
-	private KaroAPICache					karoAPICache;
-
-	/**
-	 * Create a new {@link Planner} with the given {@link KaroAPICache}
-	 * 
-	 * @param karoAPICache - the {@link KaroAPICache} used to lookup {@link User}s, {@link Map}s, etc.
-	 */
-	public Planner(KaroAPICache karoAPICache)
+	private Planner()
 	{
-		this.karoAPICache = karoAPICache;
 	}
 
 	/**
@@ -83,7 +74,7 @@ public class Planner
 	 * @param gs - the {@link GameSeries}
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeries(GameSeries gs)
+	public static List<PlannedGame> planSeries(GameSeries gs)
 	{
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("gameseries & type must not be null!");
@@ -91,30 +82,32 @@ public class Planner
 		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, numberOfGames, maxPlayersPerGame;
 		boolean useHomeMaps;
 
+		User creator = gs.getCreator();
+
 		switch(gs.getType())
 		{
 			case AllCombinations:
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				numberOfTeamsPerMatch = (int) gs.get(GameSeries.NUMBER_OF_TEAMS_PER_MATCH);
-				return planSeriesAllCombinations(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), numberOfGamesPerPair, numberOfTeamsPerMatch);
+				return planSeriesAllCombinations(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), numberOfGamesPerPair, numberOfTeamsPerMatch);
 			case Balanced:
-				return planSeriesBalanced(gs.getTitle(), gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey());
+				return planSeriesBalanced(gs.getTitle(), creator, gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey());
 			case KLC:
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
 				groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
 				leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
-				return planSeriesKLC(gs.getTitle(), gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
+				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
 			case KO:
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
-				return planSeriesKO(gs.getTitle(), gs.getTeams(), gs.getMaps(), null, gs.getRules(), useHomeMaps, true);
+				return planSeriesKO(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), null, gs.getRules(), useHomeMaps, true);
 			case League:
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
-				return planSeriesLeague(gs.getTitle(), gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, numberOfGamesPerPair);
+				return planSeriesLeague(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, numberOfGamesPerPair);
 			case Simple:
 				numberOfGames = (int) gs.get(GameSeries.NUMBER_OF_GAMES);
 				maxPlayersPerGame = (int) gs.get(GameSeries.MAX_PLAYERS_PER_GAME);
-				return planSeriesSimple(gs.getTitle(), gs.getPlayers(), gs.getMaps(), gs.getRules(), numberOfGames, maxPlayersPerGame);
+				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), numberOfGames, maxPlayersPerGame);
 			default:
 				return null;
 		}
@@ -131,7 +124,7 @@ public class Planner
 	 * @param numberOfTeamsPerMatch - the number of {@link Team}s per match
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesAllCombinations(String title, List<Team> teams, List<Map> maps, Rules rules, int numberOfGamesPerPair, int numberOfTeamsPerMatch)
+	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, int numberOfGamesPerPair, int numberOfTeamsPerMatch)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -157,7 +150,7 @@ public class Planner
 				map = maps.get(random.nextInt(maps.size()));
 
 				gamePlayers = new LinkedList<User>();
-				gamePlayers.add(karoAPICache.getCurrentUser());
+				gamePlayers.add(creator);
 				for(Team team : match.getTeams())
 				{
 					for(User member : team.getMembers())
@@ -172,7 +165,7 @@ public class Planner
 				placeholderValues.put("spieltag", toString(round + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-				game = planGame(title, map, gamePlayers, rules, null);
+				game = planGame(title, creator, map, gamePlayers, rules, null);
 
 				games.add(game);
 				count++;
@@ -192,7 +185,7 @@ public class Planner
 	 * @param gameDayRules - the {@link Rules} used sorted by game day
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesBalanced(String title, List<User> players, java.util.Map<String, List<Map>> gameDayMaps, java.util.Map<String, Rules> gameDayRules)
+	public static List<PlannedGame> planSeriesBalanced(String title, User creator, List<User> players, java.util.Map<String, List<Map>> gameDayMaps, java.util.Map<String, Rules> gameDayRules)
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
@@ -224,7 +217,7 @@ public class Planner
 						continue;
 					gamePlayers.add(shuffledPlayers[day][g][p]);
 				}
-				gamePlayers.add(karoAPICache.getCurrentUser());
+				gamePlayers.add(creator);
 
 				map = gameDayMaps.get("" + day).get(random.nextInt(gameDayMaps.get("" + day).size()));
 
@@ -233,7 +226,7 @@ public class Planner
 				placeholderValues.put("spieltag", toString(day + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-				game = planGame(title, map, gamePlayers, gameDayRules.get("" + day), placeholderValues);
+				game = planGame(title, creator, map, gamePlayers, gameDayRules.get("" + day), placeholderValues);
 
 				games.add(game);
 				count++;
@@ -570,7 +563,8 @@ public class Planner
 	 * @param round - the round to plan
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesKLC(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, Rules rules, int round)
+	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, Rules rules,
+			int round)
 	{
 		int totalPlayers = groups * leagues;
 
@@ -595,7 +589,7 @@ public class Planner
 		};
 
 		if(round == totalPlayers)
-			return planGroupphase(title, playersByKey, homeMaps, leagues, groups, whoIsHome, rules, round);
+			return planGroupphase(title, creator, playersByKey, homeMaps, leagues, groups, whoIsHome, rules, round);
 		else
 		{
 			// create tmp list of teams so we can use planTeamGame
@@ -603,7 +597,7 @@ public class Planner
 			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
 				teams.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
 
-			return planSeriesKO(title, teams, null, whoIsHome, rules, true, true);
+			return planSeriesKO(title, creator, teams, null, whoIsHome, rules, true, true);
 		}
 	}
 
@@ -624,7 +618,7 @@ public class Planner
 	 * @return the list of {@link PlannedGame}s
 	 */
 	// original listen werden gemischt
-	private List<PlannedGame> planGroupphase(String title, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
+	private static List<PlannedGame> planGroupphase(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
 			BiFunction<Team, Team, Team> whoIsHome, Rules rules, int round)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -668,7 +662,7 @@ public class Planner
 					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1));
 					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count));
 
-					game = planTeamGame(title, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, placeholderValues);
+					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, placeholderValues);
 
 					games.add(game);
 					count++;
@@ -693,7 +687,7 @@ public class Planner
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesKO(String title, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
+	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -723,7 +717,7 @@ public class Planner
 			if(!useHomeMaps)
 				overwriteMap = maps.get(random.nextInt(maps.size()));
 
-			game = planTeamGame(title, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
+			game = planTeamGame(title, creator, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
 
 			games.add(game);
 			count++;
@@ -743,7 +737,7 @@ public class Planner
 	 * @param numberOfGamesPerPair - the number of games per pair (usually this is 2 = one for the first and one for the second half of the season)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesLeague(String title, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, int numberOfGamesPerPair)
+	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, int numberOfGamesPerPair)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -781,7 +775,7 @@ public class Planner
 					placeholderValues.put("spieltag", toString(day + 1, 1));
 					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-					game = planTeamGame(title, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, placeholderValues);
+					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, placeholderValues);
 
 					games.add(game);
 					count++;
@@ -805,7 +799,7 @@ public class Planner
 	 * @param maxPlayersPerGame - the max number of {@link User}s per {@link PlannedGame}
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public List<PlannedGame> planSeriesSimple(String title, List<User> players, List<Map> maps, Rules rules, int numberOfGames, int maxPlayersPerGame)
+	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<Map> maps, Rules rules, int numberOfGames, int maxPlayersPerGame)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -822,7 +816,7 @@ public class Planner
 			map = maps.get(random.nextInt(maps.size()));
 
 			gamePlayers = new LinkedList<User>();
-			gamePlayers.add(karoAPICache.getCurrentUser());
+			gamePlayers.add(creator);
 
 			allPlayers = new LinkedList<User>(players);
 
@@ -838,7 +832,7 @@ public class Planner
 			placeholderValues = new HashMap<>();
 			placeholderValues.put("i", toString(count + 1, 1));
 
-			game = planGame(title, map, gamePlayers, rules, placeholderValues);
+			game = planGame(title, creator, map, gamePlayers, rules, placeholderValues);
 
 			games.add(game);
 			count++;
@@ -860,7 +854,8 @@ public class Planner
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public PlannedGame planTeamGame(String title, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planTeamGame(String title, User creator, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules,
+			java.util.Map<String, String> placeholderValues)
 	{
 		Team home, guest;
 
@@ -876,7 +871,7 @@ public class Planner
 		}
 
 		List<User> gamePlayers = new LinkedList<User>();
-		gamePlayers.add(karoAPICache.getCurrentUser());
+		gamePlayers.add(creator);
 		for(User player : home.getMembers())
 		{
 			if(!gamePlayers.contains(player))
@@ -890,7 +885,7 @@ public class Planner
 
 		placeholderValues.put("teams", toPlaceholderString(home, guest));
 
-		return planGame(title, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
+		return planGame(title, creator, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
 	}
 
 	/**
@@ -904,9 +899,9 @@ public class Planner
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planGame(String title, User creator, Map map, List<User> gamePlayers, Rules rules, java.util.Map<String, String> placeholderValues)
 	{
-		return planGame(title, map, gamePlayers, rules.createOptions(random), placeholderValues);
+		return planGame(title, creator, map, gamePlayers, rules.createOptions(random), placeholderValues);
 	}
 
 	/**
@@ -920,12 +915,12 @@ public class Planner
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public PlannedGame planGame(String title, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planGame(String title, User creator, Map map, List<User> gamePlayers, Options options, java.util.Map<String, String> placeholderValues)
 	{
 		increasePlannedGames(gamePlayers);
 
 		// add default placeholder values
-		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(map, gamePlayers, options);
+		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(creator, map, gamePlayers, options);
 		for(Entry<String, String> pv : defaultPlaceholderValues.entrySet())
 			placeholderValues.putIfAbsent(pv.getKey(), pv.getValue());
 
@@ -941,7 +936,7 @@ public class Planner
 	 * @param numberOfTeamsPerMatch - the number of teams per match
 	 * @return the list of {@link Match}es
 	 */
-	public List<Match> planMatchesAllCombinations(List<Team> teams, int numberOfTeamsPerMatch)
+	public static List<Match> planMatchesAllCombinations(List<Team> teams, int numberOfTeamsPerMatch)
 	{
 		if(numberOfTeamsPerMatch > teams.size())
 			throw new IllegalArgumentException("numberOfTeamsPerMatch must be <= teams.size");
@@ -1005,7 +1000,7 @@ public class Planner
 	 * @param teams - the list of {@link Team}s
 	 * @return the list of {@link Match}es per game day
 	 */
-	public List<List<Match>> planMatchesLeague(List<Team> teams)
+	public static List<List<Match>> planMatchesLeague(List<Team> teams)
 	{
 		if(teams.size() % 2 == 1)
 			throw new IllegalArgumentException("equal number of teams required");
@@ -1244,7 +1239,7 @@ public class Planner
 	 * @param options - the {@link Options}
 	 * @return the placeholder {@link java.util.Map}
 	 */
-	public java.util.Map<String, String> getDefaultPlaceholderValues(Map map, List<User> gamePlayers, Options options)
+	public static java.util.Map<String, String> getDefaultPlaceholderValues(User creator, Map map, List<User> gamePlayers, Options options)
 	{
 		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
 
@@ -1254,12 +1249,12 @@ public class Planner
 		defaultPlaceholderValues.put("karte.author", map.getAuthor());
 
 		// spieler
-		defaultPlaceholderValues.put("spieler.ersteller", karoAPICache.getCurrentUser().getLogin());
+		defaultPlaceholderValues.put("spieler.ersteller", creator.getLogin());
 		defaultPlaceholderValues.put("spieler.anzahl", toString(gamePlayers.size(), 1));
 		defaultPlaceholderValues.put("spieler.anzahl.x", toString(gamePlayers.size() - 1, 1));
 		defaultPlaceholderValues.put("spieler.namen", toPlaceholderString(gamePlayers));
 		List<User> playersWithoutCreator = new LinkedList<User>(gamePlayers);
-		playersWithoutCreator.remove(karoAPICache.getCurrentUser());
+		playersWithoutCreator.remove(creator);
 		defaultPlaceholderValues.put("spieler.namen.x", toPlaceholderString(playersWithoutCreator));
 
 		// teams --> set individually

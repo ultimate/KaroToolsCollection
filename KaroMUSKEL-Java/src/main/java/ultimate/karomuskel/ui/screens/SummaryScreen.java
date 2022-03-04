@@ -55,8 +55,6 @@ public class SummaryScreen extends Screen implements ActionListener
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
 
-	private Planner				planner;
-
 	private boolean				firstCall			= true;
 	private boolean				skipPlan;
 
@@ -102,7 +100,6 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gamesToLeave = new LinkedList<PlannedGame>();
 
 		this.skipPlan = false;
-		this.planner = new Planner(karoAPICache);
 	}
 
 	public boolean isSkipPlan()
@@ -130,7 +127,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			if(!firstCall)
 				gameSeries.getGames().removeIf(g -> { return !gamesBackup.contains(g); });
-			gameSeries.getGames().addAll(planner.planSeries(gameSeries));
+			gameSeries.getGames().addAll(Planner.planSeries(gameSeries));
 
 			Planner.resetPlannedGames(gameSeries.getPlayers());
 

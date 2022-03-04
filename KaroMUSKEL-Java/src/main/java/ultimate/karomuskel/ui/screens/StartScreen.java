@@ -139,6 +139,7 @@ public class StartScreen extends Screen implements ActionListener
 		else
 		{
 			this.gameSeries = new GameSeries(EnumGameSeriesType.valueOf(e.getActionCommand()));
+			this.gameSeries.setCreator(karoAPICache.getCurrentUser());
 		}
 		if(this.gameSeries != null)
 		{
