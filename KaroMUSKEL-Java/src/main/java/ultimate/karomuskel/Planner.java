@@ -764,9 +764,13 @@ public abstract class Planner
 					final int r = round;
 					BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> { return (r % 2 == 0 ? team1 : team2); };
 
-					// use a neutral map if the number of rounds is uneven
-					if(useHomeMaps && !((round % 2 == 1) && (round == numberOfGamesPerPair)) && maps != null)
+					// use a neutral map
+					if(!useHomeMaps)
 						overwriteMap = maps.get(random.nextInt(maps.size()));
+					// also use a neutral map if the number of rounds is uneven and it is the last round
+					else if(useHomeMaps && (round % 2 == 1) && (round == numberOfGamesPerPair) && maps != null)
+						overwriteMap = maps.get(random.nextInt(maps.size()));
+					// use the home map
 					else
 						overwriteMap = null;
 
