@@ -357,9 +357,14 @@ public class SettingsScreen extends Screen implements ChangeListener
 				throw new GameSeriesException("screen.settings.minabovemax");
 			gameSeries.set(GameSeries.NUMBER_OF_GAMES_PER_PAIR, (Integer) numberOfGamesPerPairSpinner.getValue());
 			if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
+			{
+				gameSeries.set(GameSeries.USE_HOME_MAPS, false); // always false for AllCombinations, required so we don't run into an error
 				gameSeries.set(GameSeries.NUMBER_OF_TEAMS_PER_MATCH, (Integer) numberOfTeamsPerMatchSpinner.getValue());
+			}
 			else
+			{
 				gameSeries.set(GameSeries.USE_HOME_MAPS, ((Label<Boolean>) useHomeMapsCB.getSelectedItem()).getValue());
+			}
 			gameSeries.set(GameSeries.SHUFFLE_TEAMS, ((Label<Boolean>) shuffleTeamsCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.AUTO_NAME_TEAMS, ((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.USE_CREATOR_TEAM, !((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
