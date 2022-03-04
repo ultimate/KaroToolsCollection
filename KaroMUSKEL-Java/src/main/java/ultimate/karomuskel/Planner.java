@@ -146,7 +146,7 @@ public class Planner
 		List<User> gamePlayers;
 		int count = 0;
 		int dayCount;
-		HashMap<String, String> placeholderValues = new HashMap<>();
+		HashMap<String, String> placeholderValues;
 
 		for(int round = 0; round < numberOfGamesPerPair; round++)
 		{
@@ -167,6 +167,7 @@ public class Planner
 					}
 				}
 
+				placeholderValues = new HashMap<>();
 				placeholderValues.put("i", toString(count + 1, 1));
 				placeholderValues.put("spieltag", toString(round + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
@@ -203,7 +204,7 @@ public class Planner
 		Map map;
 		int count = 0;
 		int dayCount;
-		HashMap<String, String> placeholderValues = new HashMap<>();
+		HashMap<String, String> placeholderValues;
 
 		User[][][] shuffledPlayers = balancedShufflePlayers(players, new ArrayList<>(gameDayRules.values()));
 
@@ -227,6 +228,7 @@ public class Planner
 
 				map = gameDayMaps.get("" + day).get(random.nextInt(gameDayMaps.get("" + day).size()));
 
+				placeholderValues = new HashMap<>();
 				placeholderValues.put("i", toString(count + 1, 1));
 				placeholderValues.put("spieltag", toString(day + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
@@ -653,12 +655,13 @@ public class Planner
 			PlannedGame game;
 			int count = 0;
 			int dayCount;
-			HashMap<String, String> placeholderValues = new HashMap<>();
+			HashMap<String, String> placeholderValues;
 			for(List<Match> matchesForDay : matches)
 			{
 				dayCount = 0;
 				for(Match match : matchesForDay)
 				{
+					placeholderValues = new HashMap<>();
 					placeholderValues.put("i", toString(count + 1, 1));
 					placeholderValues.put("spieltag", toString(day + 1, 1));
 					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
@@ -703,13 +706,14 @@ public class Planner
 		PlannedGame game;
 		Team ti, ti1;
 		Map overwriteMap = null;
-		HashMap<String, String> placeholderValues = new HashMap<>();
+		HashMap<String, String> placeholderValues;
 
 		for(int i = 0; i < tmp.size(); i = i + 2)
 		{
 			ti = tmp.get(i);
 			ti1 = tmp.get(i + 1);
 
+			placeholderValues = new HashMap<>();
 			placeholderValues.put("i", toString(count + 1, 1));
 			// placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
 			// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
@@ -754,7 +758,7 @@ public class Planner
 		Map overwriteMap;
 		int count = 0;
 		int dayCount;
-		HashMap<String, String> placeholderValues = new HashMap<>();
+		HashMap<String, String> placeholderValues;
 
 		for(int round = 1; round <= numberOfGamesPerPair; round++)
 		{
@@ -772,6 +776,7 @@ public class Planner
 					else
 						overwriteMap = null;
 
+					placeholderValues = new HashMap<>();
 					placeholderValues.put("i", toString(count + 1, 1));
 					placeholderValues.put("spieltag", toString(day + 1, 1));
 					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
@@ -810,7 +815,7 @@ public class Planner
 		User player;
 		Map map;
 		int count = 0;
-		HashMap<String, String> placeholderValues = new HashMap<>();
+		HashMap<String, String> placeholderValues;
 
 		for(int i = 0; i < numberOfGames; i++)
 		{
@@ -830,6 +835,7 @@ public class Planner
 					gamePlayers.add(player);
 			}
 
+			placeholderValues = new HashMap<>();
 			placeholderValues.put("i", toString(count + 1, 1));
 
 			game = planGame(title, map, gamePlayers, rules, placeholderValues);
