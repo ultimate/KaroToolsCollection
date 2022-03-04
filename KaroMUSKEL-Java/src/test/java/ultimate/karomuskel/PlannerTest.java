@@ -22,6 +22,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.Match;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.Planner.ShuffleResult;
@@ -30,13 +31,10 @@ import ultimate.karomuskel.ui.Language;
 
 public class PlannerTest extends KaroMUSKELTestcase
 {
-	protected Planner planner;
-
 	@BeforeAll
 	public void setUpOnce() throws IOException
 	{
 		super.setUpOnce();
-		planner = new Planner(dummyCache);
 
 		// needed for the placeholder stuff
 		Language.load("de");
@@ -65,7 +63,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 		int home;
 
 		StringBuilder sb;
-		matches = planner.planMatchesLeague(teams);
+		matches = Planner.planMatchesLeague(teams);
 
 		assertEquals(expectedNumberOfDays, matches.size());
 
@@ -131,7 +129,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 		{
 			expectedNumberOfMatches = Planner.calculateNumberOfMatches(teamCount, numberOfTeamsPerMatch);
 			logger.debug("testing teamCount = " + teamCount + ", numberOfTeamsPerMatch = " + numberOfTeamsPerMatch + ", expectedNumberOfMatches = " + expectedNumberOfMatches);
-			matches = planner.planMatchesAllCombinations(teams, numberOfTeamsPerMatch);
+			matches = Planner.planMatchesAllCombinations(teams, numberOfTeamsPerMatch);
 			assertNotNull(matches);
 			assertEquals(expectedNumberOfMatches, matches.size());
 
@@ -267,7 +265,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		Rules rules = new Rules();
 
-		List<PlannedGame> games = planner.planSeriesKO("test", teams, new ArrayList<>(dummyCache.getMaps()), null, rules, false, false);
+		List<PlannedGame> games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), teams, new ArrayList<Map>(dummyCache.getMaps()), null, rules, false, false);
 
 		assertEquals(teamCount / 2, games.size());
 		for(int i = 0; i < games.size(); i++)
@@ -289,7 +287,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 		int numberOfPlayersPerGame = 5;
 		Rules rules = new Rules();
 		List<User> players = new ArrayList<>(dummyCache.getUsers());
-		List<PlannedGame> games = planner.planSeriesSimple("test", players, new ArrayList<>(dummyCache.getMaps()), rules, numberOfGames, numberOfPlayersPerGame);
+		List<PlannedGame> games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, new ArrayList<>(dummyCache.getMaps()), rules, numberOfGames, numberOfPlayersPerGame);
 
 		assertNotNull(games);
 		assertEquals(numberOfGames, games.size());
