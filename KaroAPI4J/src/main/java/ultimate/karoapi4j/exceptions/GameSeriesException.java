@@ -18,6 +18,10 @@ public class GameSeriesException extends RuntimeException
 	 * argument that specifies the cause
 	 */
 	private String specification;
+	/**
+	 * argument that specifies the value
+	 */
+	private String value;
 
 	/**
 	 * @see Exception#Exception()
@@ -47,6 +51,18 @@ public class GameSeriesException extends RuntimeException
 
 	/**
 	 * @see Exception#Exception(String)
+	 * @param specification - an additional argument that specifies the cause
+	 * @param value - an additional argument that specifies the value for the cause
+	 */
+	public GameSeriesException(String message, String specification, String value)
+	{
+		super(message);
+		this.specification = specification;
+		this.value = value;
+	}
+
+	/**
+	 * @see Exception#Exception(String)
 	 */
 	public GameSeriesException(String message)
 	{
@@ -67,5 +83,13 @@ public class GameSeriesException extends RuntimeException
 	public String getSpecification()
 	{
 		return specification;
+	}
+
+	/**
+	 * argument that specifies the value
+	 */
+	public String getValue()
+	{
+		return value;
 	}
 }

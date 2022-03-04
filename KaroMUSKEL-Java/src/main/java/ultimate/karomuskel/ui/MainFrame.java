@@ -176,7 +176,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	private void showError(GameSeriesException e)
 	{
-		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString("error.title"),
+		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString("error.title"),
 				JOptionPane.ERROR_MESSAGE);
 	}
 

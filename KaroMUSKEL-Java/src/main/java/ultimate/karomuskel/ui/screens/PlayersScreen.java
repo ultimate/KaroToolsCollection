@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -114,11 +115,19 @@ public class PlayersScreen extends Screen implements ActionListener
 			for(int i = 0; i < this.teams; i++)
 			{
 				String teamName = this.teamNameTFList.get(i).getText();
-				playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1));
-				playerList.clear();
+				if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_LEAGUE + (i + 1)))
+				{
+					playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1));
+					playerList.clear();
+				}
+				else
+				{
+					playerList = new ArrayList<>(GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE));
+					gameSeries.getPlayersByKey().put(GameSeries.KEY_LEAGUE + (i + 1), playerList);
+				}
 				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(players.length != GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS))
-					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName);
+				if(players.length != GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE))
+					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE));
 				for(User player : players)
 				{
 					playerList.add(player);
@@ -146,7 +155,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			teamsTmp = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
-			maxPlayersPerTeamTmp = 1;
+			maxPlayersPerTeamTmp = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE);
 			this.autoNameTeams = false;
 			multipleTeamsTmp = false;
 		}
@@ -241,7 +250,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				outerTeamsPanel.add(new JLabel(Language.getString("screen.players.selectedplayers")), BorderLayout.NORTH);
 				outerTeamsPanel.add(innerTeamsSP, BorderLayout.CENTER);
 
-				int maxTeams = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS);
+				int maxTeams = Math.max(this.teams, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS));
 
 				boolean enabled;
 				for(int i = 0; i < maxTeams; i++)
