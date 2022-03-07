@@ -51,7 +51,7 @@ public abstract class Planner
 	 * The {@link Random} number generator used to plan {@link GameSeries}
 	 */
 	private static Random					random	= new Random();
-	
+
 	/**
 	 * prevent instantiation
 	 */
@@ -563,8 +563,8 @@ public abstract class Planner
 	 * @param round - the round to plan
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, Rules rules,
-			int round)
+	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
+			Rules rules, int round)
 	{
 		int totalPlayers = groups * leagues;
 
@@ -687,7 +687,8 @@ public abstract class Planner
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle)
+	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps,
+			boolean shuffle)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -1231,6 +1232,34 @@ public abstract class Planner
 			ret = ret.multiply(BigInteger.valueOf(teams - k)).divide(BigInteger.valueOf(k + 1));
 		}
 		return ret.intValue();
+	}
+
+	/**
+	 * Calculate the expected number of {@link PlannedGames} for a balanced {@link GameSeries} game day.<br>
+	 * The number is calculated as <code>ceil(totalNumberOfPlayers * gamesPerPlayer / numberOfPlayersPerGame)</code>
+	 * 
+	 * @param totalNumberOfPlayers - the total number of {@link User}s in the {@link GameSeries}
+	 * @param gamesPerPlayer - the number of games per {@link User} for this game day
+	 * @param numberOfPlayersPerGame - the number of {@link User}s per match for this game day
+	 * @return
+	 */
+	public static int calculateNumberOfGames(int totalNumberOfPlayers, int gamesPerPlayer, int numberOfPlayersPerGame)
+	{
+		return (int) Math.ceil(totalNumberOfPlayers * gamesPerPlayer / (double) numberOfPlayersPerGame);
+	}
+
+	/**
+	 * Check whether the expected number of {@link PlannedGames} for a balanced {@link GameSeries} game day work out evenly
+	 * The number is calculated as <code>(totalNumberOfPlayers * gamesPerPlayer % numberOfPlayersPerGame) == 0</code>
+	 * 
+	 * @param totalNumberOfPlayers - the total number of {@link User}s in the {@link GameSeries}
+	 * @param gamesPerPlayer - the number of games per {@link User} for this game day
+	 * @param numberOfPlayersPerGame - the number of {@link User}s per match for this game day
+	 * @return
+	 */
+	public static boolean checkNumberOfGamesWorksOutEvenly(int totalNumberOfPlayers, int gamesPerPlayer, int numberOfPlayersPerGame)
+	{
+		return (totalNumberOfPlayers * gamesPerPlayer % numberOfPlayersPerGame) == 0;
 	}
 
 	/**

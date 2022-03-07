@@ -14,6 +14,7 @@ import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -139,6 +140,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						numberOfGamesTF = new JTextField();
 						numberOfGamesTF.setEditable(false);
+						numberOfGamesTF.setHorizontalAlignment(SwingConstants.RIGHT);
 						numberOfGamesTF.setColumns(spinnerColumns + 2);
 						numberComp = numberOfGamesTF;
 					}

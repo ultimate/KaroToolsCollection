@@ -83,8 +83,6 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		this.navigationPanel.add(this.aboutButton);
 		this.navigationPanel.add(new JPanel());
 		this.navigationPanel.add(this.nextButton);
-		
-		// TODO add estimated number of games
 
 		initializeStartScreen();
 		setStart();

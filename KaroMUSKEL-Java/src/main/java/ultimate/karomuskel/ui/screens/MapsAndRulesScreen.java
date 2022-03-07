@@ -18,7 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
@@ -28,6 +32,7 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
@@ -35,15 +40,19 @@ import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.MapRenderer;
 
-public class MapsAndRulesScreen extends Screen implements ActionListener
+public class MapsAndRulesScreen extends Screen implements ActionListener, ChangeListener
 {
 	private static final long							serialVersionUID	= 1L;
+	
+	private static final String ACTION_MAP_SELECT = "mapSelect";
+	private static final String ACTION_RECALC_NUMBER_OF_GAMES = "recalcNumberOfGames";
 
 	private List<JComboBox<Map>>						mapCBList;
 	private List<JSpinner>								gamesPerPlayerSpinnerList;
 	private List<JSpinner>								numberOfPlayersSpinnerList;
 	private List<JSpinner>								minZzzSpinnerList;
 	private List<JSpinner>								maxZzzSpinnerList;
+	private List<JTextField>							numberOfGamesTFList;
 	private List<JComboBox<Label<EnumGameTC>>>			crashingAllowedCBList;
 	private List<JComboBox<Label<Boolean>>>				checkpointsActivatedCBList;
 	private List<JComboBox<Label<EnumGameDirection>>>	directionCBList;
@@ -89,10 +98,11 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 			this.numberOfMaps = numberOfMapsTmp;
 
 			this.mapCBList = new LinkedList<>();
-			this.gamesPerPlayerSpinnerList = new LinkedList<JSpinner>();
-			this.numberOfPlayersSpinnerList = new LinkedList<JSpinner>();
-			this.minZzzSpinnerList = new LinkedList<JSpinner>();
-			this.maxZzzSpinnerList = new LinkedList<JSpinner>();
+			this.gamesPerPlayerSpinnerList = new LinkedList<>();
+			this.numberOfPlayersSpinnerList = new LinkedList<>();
+			this.minZzzSpinnerList = new LinkedList<>();
+			this.maxZzzSpinnerList = new LinkedList<>();
+			this.numberOfGamesTFList = new LinkedList<>();
 			this.crashingAllowedCBList = new LinkedList<>();
 			this.checkpointsActivatedCBList = new LinkedList<>();
 			this.directionCBList = new LinkedList<>();
@@ -115,6 +125,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 			JSpinner numberOfPlayersSpinner;
 			JSpinner minZzzSpinner;
 			JSpinner maxZzzSpinner;
+			JTextField numberOfGamesTF;
 			JComboBox<Label<EnumGameTC>> crashingAllowedCB;
 			JComboBox<Label<Boolean>> checkpointsActivatedCB;
 			JComboBox<Label<EnumGameDirection>> directionCB;
@@ -133,6 +144,8 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 
 			for(int i = 0; i < this.numberOfMaps; i++)
 			{
+				final int j = i;
+				
 				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
 				LinkedList<Map> maps = new LinkedList<Map>(karoAPICache.getMaps());
 				maps.removeIf(m -> { return m.getPlayers() < 3; });
@@ -175,7 +188,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				mapCB.setRenderer(new MapRenderer());
 				mapCB.setSelectedItem(map);
 				mapCB.addActionListener(this);
-				mapCB.setActionCommand("mapSelect" + i);
+				mapCB.setActionCommand(ACTION_MAP_SELECT + i);
 				gbc.gridwidth = 4;
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
@@ -188,6 +201,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				gbc.gridx = 1;
 				contentPanel.add(label, gbc);
 				gamesPerPlayerSpinner = new JSpinner(new SpinnerNumberModel(Math.min(gamesPerPlayer, maxGamesPerPlayer), 1, maxGamesPerPlayer, 1));
+				gamesPerPlayerSpinner.addChangeListener(e -> {actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j));});
 				gbc.gridx++;
 				contentPanel.add(gamesPerPlayerSpinner, gbc);
 
@@ -196,6 +210,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				contentPanel.add(label, gbc);
 				numberOfPlayersSpinner = new JSpinner(
 						new SpinnerNumberModel(Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers), 2, Math.min(gameSeries.getPlayers().size() + 1, map.getPlayers() - 1), 1));
+				numberOfPlayersSpinner.addChangeListener(e -> {actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j));});
 				gbc.gridx++;
 				contentPanel.add(numberOfPlayersSpinner, gbc);
 
@@ -207,8 +222,15 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowed, true));
 				gbc.gridx++;
 				contentPanel.add(crashingAllowedCB, gbc);
-				
-				// TODO add calculation of number of games + warning, when its not working out evenly
+
+				label = new JLabel(Language.getString("screen.settings.numberofgames"));
+				gbc.gridx++;
+				contentPanel.add(label, gbc);
+				numberOfGamesTF = new JTextField();
+				numberOfGamesTF.setEditable(false);
+				numberOfGamesTF.setHorizontalAlignment(SwingConstants.RIGHT);
+				gbc.gridx++;
+				contentPanel.add(numberOfGamesTF, gbc);
 
 				gbc.gridy++;
 
@@ -246,6 +268,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 				this.numberOfPlayersSpinnerList.add(numberOfPlayersSpinner);
 				this.minZzzSpinnerList.add(minZzzSpinner);
 				this.maxZzzSpinnerList.add(maxZzzSpinner);
+				this.numberOfGamesTFList.add(numberOfGamesTF);
 				this.crashingAllowedCBList.add(crashingAllowedCB);
 				this.checkpointsActivatedCBList.add(checkpointsActivatedCB);
 				this.directionCBList.add(directionCB);
@@ -277,13 +300,30 @@ public class MapsAndRulesScreen extends Screen implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getActionCommand().startsWith("mapSelect"))
+		if(e.getActionCommand().startsWith(ACTION_MAP_SELECT))
 		{
-			int mapNumber = Integer.parseInt(e.getActionCommand().substring("mapSelect".length()));
+			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_SELECT.length()));
 			int max = Math.min(gameSeries.getPlayers().size() + 1, ((Map) ((JComboBox<Map>) e.getSource()).getSelectedItem()).getPlayers() - 1);
 			((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setMaximum(max);
 			if(((Integer) ((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).getValue()) > max)
 				((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setValue(max);
 		}
+		else if(e.getActionCommand().startsWith(ACTION_RECALC_NUMBER_OF_GAMES))
+		{
+			int index = e.getID();
+			// calculation of number of games
+			int totalNumberOfPlayers = gameSeries.getPlayers().size();
+			int gamesPerPlayer = ((Integer) ((SpinnerNumberModel) this.gamesPerPlayerSpinnerList.get(index).getModel()).getValue());
+			int numberOfPlayersPerGame = ((Integer) ((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(index).getModel()).getValue());
+			int expectedGames = Planner.calculateNumberOfGames(totalNumberOfPlayers, gamesPerPlayer, numberOfPlayersPerGame);
+			// warning, when its not working out evenly
+			boolean warning = !Planner.checkNumberOfGamesWorksOutEvenly(totalNumberOfPlayers, gamesPerPlayer, numberOfPlayersPerGame);
+			this.numberOfGamesTFList.get(index).setText("" + expectedGames + (warning ? " " + Language.getString("screen.mapsAndRules.warning") : ""));
+		}
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e)
+	{
 	}
 }
