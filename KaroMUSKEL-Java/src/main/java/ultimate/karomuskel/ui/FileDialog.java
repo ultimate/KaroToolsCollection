@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import ultimate.karoapi4j.KaroAPICache;
@@ -23,11 +22,11 @@ import ultimate.karomuskel.GameSeriesManager;
  */
 public class FileDialog
 {
-	private static FileDialog	instance	= new FileDialog();
+	private static FileDialog		instance	= new FileDialog();
 
-	private JFileChooser		fileChooser	= new JFileChooser();
+	private JFileChooser			fileChooser	= new JFileChooser();
 
-	private FileFilter			jsonFilter	= new FileNameExtensionFilter("JSON-File", "json");
+	private FileNameExtensionFilter	jsonFilter	= new FileNameExtensionFilter("JSON-File", "json");
 
 	public static FileDialog getInstance()
 	{
@@ -50,7 +49,12 @@ public class FileDialog
 
 		int action = this.fileChooser.showSaveDialog(parent);
 
-		File file = this.fileChooser.getSelectedFile();
+		File file = this.fileChooser.getSelectedFile();		
+		
+		// add extension if not entered by user
+		if(this.fileChooser.getFileFilter() == jsonFilter && !file.getName().endsWith(jsonFilter.getExtensions()[0]))
+			file = new File(file.getAbsolutePath() + "." + jsonFilter.getExtensions()[0]);
+		
 		this.currentDirectory = file.isDirectory() ? file : file.getParentFile();
 
 		if(action != JFileChooser.APPROVE_OPTION)
