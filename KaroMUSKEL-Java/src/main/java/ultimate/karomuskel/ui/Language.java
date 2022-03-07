@@ -23,7 +23,7 @@ public abstract class Language
 
 	private static final String				VERSION_HISTORY_INFO_PREFIX	= "version.";
 	private static final String				VERSION_HISTORY_INFO_SUFFIX	= ".about";
-	private static final String				PLACEHOLDER_ARG			= "%%ARG%%";
+	private static final String				PLACEHOLDER_ARG				= "%%ARG%%";
 	private static final String				PLACEHOLDER_VERSION			= "%%VERSION%%";
 	private static final String				PLACEHOLDER_HISTORY			= "%%HISTORY%%";
 
@@ -76,7 +76,7 @@ public abstract class Language
 			throw new RuntimeException("No language loaded!");
 		String text = lang.getProperty(key);
 		return text.replace(PLACEHOLDER_ARG, arg);
-	}	
+	}
 
 	public static <E> String getString(Class<E> enumType, E crashallowed)
 	{
