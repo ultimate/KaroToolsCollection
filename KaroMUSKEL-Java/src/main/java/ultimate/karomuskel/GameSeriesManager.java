@@ -6,7 +6,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -398,14 +407,161 @@ public abstract class GameSeriesManager
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		ObjectInputStream ois = new ObjectInputStream(bis);
 
-		// TODO check whether loading SerialVersionUID=1 is also possible
-		muskel2.model.GameSeries gs2 = (muskel2.model.GameSeries) ois.readObject();
+		muskel2.model.GameSeries gs2;
 
-		ois.close();
-		bis.close();
-		fis.close();
+		try
+		{
+			gs2 = (muskel2.model.GameSeries) ois.readObject();
+		}
+		catch(InvalidClassException e)
+		{
+			// try loading SerialVersionUID=1
+			logger.warn(e.getMessage());
+			if(e.getMessage().equals("muskel2.model.GameSeries; local class incompatible: stream classdesc serialVersionUID = 1, local class serialVersionUID = 2"))
+				return loadV2_serialVersionUID1(file);
+			else
+				throw e;
+		}
+		finally
+		{
+			ois.close();
+			bis.close();
+			fis.close();
+		}
 
 		return gs2;
+	}
+
+	/**
+	 * Load a V2 {@link muskel2.model.GameSeries} (for backwards compatibility) with serialVersionUID = 1
+	 * 
+	 * @param file - the {@link File} that contains the V2 {@link muskel2.model.GameSeries}
+	 * @return the {@link muskel2.model.GameSeries}
+	 * @throws IOException - if deserialization or loading fails
+	 * @throws ClassNotFoundException - if loading the class fails
+	 */
+	public static muskel2.model.GameSeries loadV2_serialVersionUID1(File file) throws IOException, ClassNotFoundException
+	{
+		FileInputStream fis = new FileInputStream(file);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		CustomInputStream ois = new CustomInputStream(bis);
+
+		muskel2.model.GameSeries gs2;
+
+		try
+		{
+			gs2 = (muskel2.model.GameSeries) ois.readObject();
+		}
+		finally
+		{
+			ois.close();
+			bis.close();
+			fis.close();
+		}
+
+		return gs2;
+	}
+
+	/**
+	 * @see https://stackoverflow.com/questions/1816559/make-java-runtime-ignore-serialversionuids
+	 */
+	private static class CustomInputStream extends ObjectInputStream
+	{
+		ClassLoader loader;
+
+		public CustomInputStream(InputStream in) throws IOException
+		{
+			super(in);
+
+			ClassLoader prevCl = Thread.currentThread().getContextClassLoader();
+			// Create the class loader by using the given URL; use prevCl as parent to maintain current visibility
+			loader = URLClassLoader.newInstance(new URL[] { Launcher.class.getClassLoader().getResource("svuid1.jar") }, prevCl);
+		}
+
+		@Override
+		protected ObjectStreamClass readClassDescriptor() throws IOException, ClassNotFoundException
+		{
+			ObjectStreamClass resultClassDescriptor = super.readClassDescriptor(); // initially streams descriptor
+			Class streamClass = loader.loadClass(resultClassDescriptor.getName());
+			logger.debug(streamClass);
+			return ObjectStreamClass.lookup(streamClass);
+//			Class<?> localClass; // the class in the local JVM that this descriptor represents.
+//			try
+//			{
+//				localClass = Class.forName(resultClassDescriptor.getName());
+//			}
+//			catch(ClassNotFoundException e)
+//			{
+//				logger.error("No local class for " + resultClassDescriptor.getName(), e);
+//				return resultClassDescriptor;
+//			}
+//			ObjectStreamClass localClassDescriptor = ObjectStreamClass.lookup(localClass);
+//			if(localClassDescriptor != null)
+//			{
+//				// only if class implements serializable
+//				final long localSUID = localClassDescriptor.getSerialVersionUID();
+//				final long streamSUID = resultClassDescriptor.getSerialVersionUID();
+//				if(streamSUID != localSUID) // check for serialVersionUID mismatch.
+//					resultClassDescriptor = localClassDescriptor; // Use local class descriptor for deserialization
+//			}
+//			return resultClassDescriptor;
+//			ObjectStreamClass resultClassDescriptor = super.readClassDescriptor(); // initially streams descriptor
+//			Class<?> localClass; // the class in the local JVM that this descriptor represents.
+//			try
+//			{
+//				localClass = Class.forName(resultClassDescriptor.getName());
+//			}
+//			catch(ClassNotFoundException e)
+//			{
+//				logger.error("No local class for " + resultClassDescriptor.getName(), e);
+//				return resultClassDescriptor;
+//			}
+//			ObjectStreamClass localClassDescriptor = ObjectStreamClass.lookup(localClass);
+//			if(localClassDescriptor != null)
+//			{
+//				// only if class implements serializable
+//				final long localSUID = localClassDescriptor.getSerialVersionUID();
+//				final long streamSUID = resultClassDescriptor.getSerialVersionUID();
+//				if(streamSUID != localSUID) // check for serialVersionUID mismatch.
+//					resultClassDescriptor = localClassDescriptor; // Use local class descriptor for deserialization
+//			}
+//			return resultClassDescriptor;
+		}
+	}
+
+	private static final void setGameSeriesV2SerialVersionUID(long value)
+	{
+		try
+		{
+			logger.debug("setting muskel2.model.GameSeries.serialVersionUID = " + value);
+			final Field f = muskel2.model.GameSeries.class.getDeclaredField("serialVersionUID");
+
+			AccessController.doPrivileged(new PrivilegedAction<Void>() {
+				@Override
+				public Void run()
+				{
+					try
+					{
+						Field modifiersField = Field.class.getDeclaredField("modifiers");
+						modifiersField.setAccessible(true);
+						modifiersField.setInt(f, f.getModifiers() & ~Modifier.FINAL);
+						f.setAccessible(true);
+
+						f.setLong(null, value);
+					}
+					catch(Exception e)
+					{
+						throw new RuntimeException(e);
+					}
+					return null;
+				}
+			});
+			logger.debug("setting muskel2.model.GameSeries.serialVersionUID = " + value + " OK");
+		}
+		catch(Exception e)
+		{
+			logger.error("setting muskel2.model.GameSeries.serialVersionUID = " + value + " ERROR", e);
+		}
 	}
 
 	/**
