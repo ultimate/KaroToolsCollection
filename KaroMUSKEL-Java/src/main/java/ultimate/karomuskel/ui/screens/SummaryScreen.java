@@ -51,7 +51,7 @@ import ultimate.karomuskel.ui.components.UserCellEditor;
 public class SummaryScreen extends Screen implements ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
-
+	
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
 
@@ -159,12 +159,12 @@ public class SummaryScreen extends Screen implements ActionListener
 		buttonPanel.setLayout(new GridLayout(1, 3, 5, 5));
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		this.createButton = new JButton(Language.getString("screen.summary.create"));
+		this.createButton = new JButton(); // Text will be set in enable buttons Language.getString("screen.summary.create"));
 		this.createButton.setActionCommand("create");
 		this.createButton.addActionListener(this);
 		buttonPanel.add(this.createButton);
 
-		this.leaveButton = new JButton(Language.getString("screen.summary.leave"));
+		this.leaveButton = new JButton(); // Text will be set in enable buttons Language.getString("screen.summary.leave"));
 		this.leaveButton.setActionCommand("leave");
 		this.leaveButton.addActionListener(this);
 		buttonPanel.add(this.leaveButton);
@@ -361,14 +361,16 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		// TODO add anzahl der zu erstellenden / verlassenden Spiele anzeigen
 		createButton.setEnabled(gamesSelectedToCreate());
+		createButton.setText(Language.getString("screen.summary.create", "" + this.gamesToCreate.size()));
 		leaveButton.setEnabled(gamesSelectedToLeave());
+		leaveButton.setText(Language.getString("screen.summary.leave", "" + this.gamesToLeave.size()));
 		saveButton.setEnabled(true);
 		if(previousButton != null)
 			previousButton.setEnabled(!gamesCreated());
 		if(nextButton != null)
 			nextButton.setEnabled(true);
 	}
-
+	
 	private void initTable(final JTable table)
 	{
 		table.setRowHeight(20);
