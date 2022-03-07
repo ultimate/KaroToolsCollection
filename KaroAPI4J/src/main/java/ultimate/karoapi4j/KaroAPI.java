@@ -790,7 +790,6 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<Boolean> refreshAfterCrash(int gameId)
 	{
-		// TODO not really working
 		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> { return result != null && result.contains("href=/spiele/" + gameId); });
 	}
 
