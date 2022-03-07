@@ -37,7 +37,7 @@ import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 
-// TODO IDEA Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die auch für die Serie ausgewählt wurden
+// TODO IDEA Filterung ermÃ¶glichen, nach der in der linken Liste nur die Spieler angezeigt werden, die auch fï¿½r die Serie ausgewÃ¤hlt wurden
 public class UserCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener, TableCellRenderer
 {
 	private static final long	serialVersionUID	= 1L;

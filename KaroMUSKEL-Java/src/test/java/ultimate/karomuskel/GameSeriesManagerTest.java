@@ -7,12 +7,29 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Stream;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,6 +38,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import muskel2.model.Direction;
+import muskel2.model.Game;
 import muskel2.model.series.AllCombinationsGameSeries;
 import muskel2.model.series.BalancedGameSeries;
 import muskel2.model.series.KLCGameSeries;
@@ -44,9 +62,9 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	{
 		assertEquals("de", GameSeriesManager.getStringConfig("language"));
 		assertEquals(10, GameSeriesManager.getIntConfig("karoAPI.maxThreads"));
-		
+
 		assertEquals(16, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_TEAMS));
-		assertEquals(3, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_ROUNDS));
+		assertEquals(5, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_ROUNDS));
 
 		assertEquals(8, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_TEAMS));
 		assertEquals(8, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_ROUNDS));
@@ -387,6 +405,161 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(gs2.players.size(), gs.getPlayers().size());
 		assertEquals(gs2.maps.size(), gs.getMaps().size());
 		assertEquals(gs2.numberOfTeams, gs.getTeamsByKey().get("shuffled").size());
+	}
+
+	@ParameterizedTest
+	@ValueSource(strings = { "../CraZZZy Crash Challenge/CCC3/czzzcc3.muskel" })
+	public void test_loadV2_withwrongSerialVersionUID(String filename) throws ClassNotFoundException, ClassCastException, IOException, ExecutionException, InterruptedException, URISyntaxException
+	{
+		BufferedInputStream is1 = new BufferedInputStream(new FileInputStream(new File(filename)));
+		BufferedInputStream is2 = new BufferedInputStream(new FileInputStream(new File("target/test-classes/balanced.muskel2")));
+
+		byte[] b1 = is1.readAllBytes();
+		byte[] b2 = is2.readAllBytes();
+		int i = 0;
+
+		while(i < 10000)
+		{
+			// TODO search for muskel2.model.GameSeries --> 8 byte long = 8. byte ist das kritische
+			System.out.println(i + ": " + b1[i] + " vs. " + b2[i] + " diff = " + (b2[i] - b1[i]));
+			if((b2[i] - b1[i]) == 1)
+				break;
+			i++;
+		}
+		
+		b1[i] = b2[i];
+
+		is1.close();
+		is2.close();
+		
+		ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(b1));
+		Object result = ois.readObject();
+		logger.debug(result);
+		logger.debug(result.getClass() == BalancedGameSeries.class);
+		
+		logger.debug(((BalancedGameSeries) result).title);
+
+		// logger.debug("original class: " + muskel2.model.GameSeries.class);
+		//
+		// File path = new File(Launcher.class.getClassLoader().getResource("svuid1.jar").toURI());
+		// logger.debug(path);
+		// JarFile jarFile = new JarFile(path);
+		// Enumeration<JarEntry> e = jarFile.entries();
+		//
+		// URL[] urls = { new URL("jar:file:" + path +"!/") };
+		// URLClassLoader cl = URLClassLoader.newInstance(urls);
+		//
+		// while (e.hasMoreElements()) {
+		// JarEntry je = e.nextElement();
+		// logger.debug(je);
+		// if(je.isDirectory() || !je.getName().endsWith(".class")){
+		// continue;
+		// }
+		// // -6 because of .class
+		// String className = je.getName().substring(0,je.getName().length()-6);
+		// className = className.replace('/', '.');
+		// Class c = cl.loadClass(className);
+		// }
+		//
+		//
+		//
+		// ClassLoader prevCl = Thread.currentThread().getContextClassLoader();
+		// // Create the class loader by using the given URL; use prevCl as parent to maintain current visibility
+		// ClassLoader urlCl = URLClassLoader.newInstance(new URL[]{Launcher.class.getClassLoader().getResource("svuid1.jar")}, prevCl);
+		// logger.debug(urlCl.getResource("muskel2.model.GameSeries"));
+		//
+		// Class<?> cls = urlCl.loadClass("muskel2.model.GameSeries");
+		// logger.debug("loaded class: " + cls);
+		// logger.debug((muskel2.model.GameSeries.class == cls) + " ? ");
+		//
+		// FileInputStream fis = new FileInputStream(new File(filename));
+		// BufferedInputStream bis = new BufferedInputStream(fis);
+		// ObjectInputStream ois = new ObjectInputStream(bis);
+		//
+		// muskel2.model.GameSeries gs21 = (muskel2.model.GameSeries) ois.readObject();
+		//
+		// ois.close();
+		// bis.close();
+		// fis.close();
+
+		// use a Thread to load the GameSeries, so we can set the different classloader
+		// muskel2.model.GameSeries gs2 = (muskel2.model.GameSeries) CompletableFuture.supplyAsync(() -> {
+		// try {
+		// // Save the class loader so that you can restore it later
+		// Thread.currentThread().setContextClassLoader(urlCl);
+		// Class<?> cls = urlCl.loadClass("muskel2.model.GameSeries");
+		// logger.debug("loaded class: " + cls);
+		//
+		// FileInputStream fis = new FileInputStream(new File(filename));
+		// BufferedInputStream bis = new BufferedInputStream(fis);
+		// ObjectInputStream ois = new ObjectInputStream(bis);
+		//
+		// muskel2.model.GameSeries gs21 = (muskel2.model.GameSeries) ois.readObject();
+		//
+		// ois.close();
+		// bis.close();
+		// fis.close();
+		//
+		// // Do something useful with ctx
+		// }
+		// catch(ClassNotFoundException e)
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+		// catch(IOException e)
+		// {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// } finally {
+		// // Restore
+		// Thread.currentThread().setContextClassLoader(prevCl);
+		// }
+		// return null;
+		// }).get();
+
+//		SimpleGameSeries gs2 = (SimpleGameSeries) GameSeriesManager.loadV2(new File(filename));
+//		assertNotNull(gs2);
+		// assertEquals("${spieler.ersteller}s Spieleserie - Spiel ${i} auf Karte ${karte.id}, ${regeln.x}", gs2.title);
+		// assertEquals(0, gs2.creator.id);
+		// assertEquals(6, gs2.minPlayersPerGame);
+		// assertEquals(8, gs2.maxPlayersPerGame);
+		// assertEquals(2, gs2.rules.minZzz);
+		// assertEquals(2, gs2.rules.maxZzz);
+		// assertEquals(false, gs2.rules.crashingAllowed);
+		// assertEquals(Direction.klassisch, gs2.rules.direction);
+		// assertEquals(0, gs2.rules.gamesPerPlayer);
+		// assertEquals(10, gs2.players.size());
+		// assertEquals(10, gs2.maps.size());
+		// assertEquals(10, gs2.numberOfGames);
+		// assertEquals(gs2.numberOfGames, gs2.games.size());
+		//
+		// GameSeries gs = GameSeriesManager.convert(gs2, dummyCache);
+		// assertEquals(EnumGameSeriesType.Simple, gs.getType());
+		// assertFalse(GameSeriesManager.isTeamBased(gs));
+		// assertEquals(gs2.title, gs.getTitle());
+		// assertEquals(gs2.creator.id, gs.getCreator().getId());
+		// assertEquals(gs2.minPlayersPerGame, gs.get(GameSeries.MIN_PLAYERS_PER_GAME));
+		// assertEquals(gs2.maxPlayersPerGame, gs.get(GameSeries.MAX_PLAYERS_PER_GAME));
+		// assertEquals(gs2.rules.minZzz, gs.getRules().getMinZzz());
+		// assertEquals(gs2.rules.maxZzz, gs.getRules().getMaxZzz());
+		// if(gs2.rules.crashingAllowed == true)
+		// assertEquals(EnumGameTC.allowed, gs.getRules().getCrashallowed());
+		// else if(gs2.rules.crashingAllowed == false)
+		// assertEquals(EnumGameTC.forbidden, gs.getRules().getCrashallowed());
+		// else
+		// assertNull(gs.getRules().getCrashallowed());
+		// if(gs2.rules.direction == Direction.klassisch)
+		// assertEquals(EnumGameDirection.classic, gs.getRules().getStartdirection());
+		// else if(gs2.rules.direction == Direction.Formula_1)
+		// assertEquals(EnumGameDirection.formula1, gs.getRules().getStartdirection());
+		// else
+		// assertNull(gs.getRules().getStartdirection());
+		// assertEquals(gs2.rules.gamesPerPlayer, gs.getRules().getGamesPerPlayer());
+		// assertEquals(gs2.players.size(), gs.getPlayers().size());
+		// assertEquals(gs2.maps.size(), gs.getMaps().size());
+		// assertEquals(gs2.numberOfGames, gs.get(GameSeries.NUMBER_OF_GAMES));
+		// assertEquals(gs2.numberOfGames, gs.getGames().size());
 	}
 
 	public static Stream<Arguments> provideKLCRounds()
