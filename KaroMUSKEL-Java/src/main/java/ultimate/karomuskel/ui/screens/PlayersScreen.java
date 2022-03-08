@@ -49,7 +49,6 @@ public class PlayersScreen extends Screen implements ActionListener
 	private List<JButton>			addButtonList;
 	private List<JButton>			removeButtonList;
 
-	private boolean					firstCall			= true;
 	private int						teams;
 	private int						maxPlayersPerTeam;
 	private Boolean					ignoreInvitable;
@@ -163,9 +162,9 @@ public class PlayersScreen extends Screen implements ActionListener
 
 		boolean changed = false;
 
-		if(this.firstCall)
+		if(this.firstShow)
 		{
-			this.firstCall = false;
+			this.firstShow = false;
 			this.teamLIList = new LinkedList<>();
 			this.teamNameTFList = new LinkedList<>();
 			this.addButtonList = new LinkedList<>();
@@ -448,6 +447,8 @@ public class PlayersScreen extends Screen implements ActionListener
 			}
 			this.allPlayersLI.setModel(new GenericListModel<String, User>(User.class, allPlayersTmp));
 		}
+		
+		// TODO NAVIGATION preselect values from gameseries
 	}
 
 	@SuppressWarnings("unchecked")

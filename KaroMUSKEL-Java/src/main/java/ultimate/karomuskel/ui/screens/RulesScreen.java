@@ -164,5 +164,7 @@ public class RulesScreen extends Screen
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;
 		this.add(new JLabel(Language.getString("screen.rules.ignoreinvitable.description")), gbc);
+		
+		// TODO NAVIGATION preselect values from gameseries
 	}
 }

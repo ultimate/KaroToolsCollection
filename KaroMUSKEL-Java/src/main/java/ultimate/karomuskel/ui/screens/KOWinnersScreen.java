@@ -36,8 +36,6 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 	private boolean[]			winners;
 
-	private boolean				firstCall			= true;
-
 	public KOWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header", "screen.kowinners.next");
@@ -47,6 +45,8 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
+		// reset round, when backwards
+		
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			int teamsBefore = gameSeries.getTeams().size();
@@ -93,9 +93,12 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
-		if(this.firstCall)
+		// TODO NAVIGATION update round
+		// round = round / 2;
+		// gs.set(GameSeries.CURRENT_ROUND, round);
+		if(this.firstShow)
 		{
-			this.firstCall = false;
+			this.firstShow = false;
 			int numBefore = 0;
 			List<String> names = null;
 			if(GameSeriesManager.isTeamBased(gameSeries))

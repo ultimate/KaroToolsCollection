@@ -333,6 +333,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				}
 			}
 		}
+		// TODO NAVIGATION preselect values from gameseries
 		this.titleTF.requestFocus();
 	}
 

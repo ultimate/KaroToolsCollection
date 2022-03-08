@@ -56,7 +56,6 @@ public class SummaryScreen extends Screen implements ActionListener
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
 
-	private boolean				firstCall			= true;
 	private boolean				skipPlan;
 
 	private List<PlannedGame>	gamesBackup;
@@ -85,7 +84,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private static final int	LEAVING				= 3;
 	private static final int	LEFT				= 4;
 
-	public SummaryScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public SummaryScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.summary.header", "screen.summary.next");
 		this.startScreen = this;
@@ -100,7 +99,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gamesToCreate = new LinkedList<PlannedGame>();
 		this.gamesToLeave = new LinkedList<PlannedGame>();
 
-		this.skipPlan = false;
+		this.skipPlan = skipPlan;
 	}
 
 	public boolean isSkipPlan()
@@ -124,15 +123,12 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		this.gameSeries = gameSeries;
 
-		if(this.firstCall)
-		{
-			this.firstCall = false;
+		if(this.firstShow)
 			this.gamesBackup = new ArrayList<>(gameSeries.getGames());
-		}
 
 		if(!this.skipPlan)
 		{
-			if(!firstCall)
+			if(!firstShow)
 				resetPlannedGames();
 
 			this.gameSeries.getGames().addAll(Planner.planSeries(gameSeries));
@@ -152,6 +148,8 @@ public class SummaryScreen extends Screen implements ActionListener
 					this.gamesLeft.add(game);
 			}
 		}
+
+		this.firstShow = false;
 
 		this.removeAll();
 		this.setLayout(new BorderLayout());

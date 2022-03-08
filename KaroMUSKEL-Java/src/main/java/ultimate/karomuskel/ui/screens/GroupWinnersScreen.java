@@ -40,8 +40,6 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	@SuppressWarnings("unused")
 	private JSpinner			numberOfWinnersPerGroupSpinner;
 
-	private boolean				firstCall			= true;
-
 	public GroupWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header", "screen.groupwinners.next");
@@ -51,6 +49,8 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
+		// reset round, when backwards
+		
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			// TODO IDEA for future use
@@ -95,9 +95,12 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
-		if(this.firstCall)
+		// TODO NAVIGATION update round
+		// round = round / 2;
+		// gs.set(GameSeries.CURRENT_ROUND, round);
+		if(this.firstShow)
 		{
-			this.firstCall = false;
+			this.firstShow = false;
 			int groups = 0;
 			List<List<String>> names = null;
 			List<String> namesInGroup;
@@ -170,6 +173,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				contentPanel.add(downButton, gbc);
 			}
 		}
+		// TODO NAVIGATION preselect values from gameseries
 	}
 
 	@Override

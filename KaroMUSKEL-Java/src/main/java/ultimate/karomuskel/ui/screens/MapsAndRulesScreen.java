@@ -59,7 +59,6 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	private List<JComboBox<Label<EnumGameDirection>>>	directionCBList;
 
 	private int											numberOfMaps;
-	private boolean										firstCall			= true;
 
 	private static final int							rowsPerMap			= 5;
 
@@ -94,7 +93,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 		this.gameSeries = gameSeries;
 
 		int numberOfMapsTmp = (int) gameSeries.get(GameSeries.NUMBER_OF_MAPS);
-		if(this.firstCall || numberOfMapsTmp != this.numberOfMaps)
+		if(this.firstShow || numberOfMapsTmp != this.numberOfMaps)
 		{
 			this.numberOfMaps = numberOfMapsTmp;
 
@@ -276,6 +275,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				this.mapCBList.add(mapCB);
 			}
 		}
+		// TODO NAVIGATION preselect values from gameseries
 	}
 
 	@SuppressWarnings("unchecked")
