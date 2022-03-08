@@ -114,7 +114,7 @@ public class StartScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		// nothing
 		this.firstShow = false;

@@ -45,10 +45,12 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
-		// reset round, when backwards
-		
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
+			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int round = previousRound / 2;
+			gameSeries.set(GameSeries.CURRENT_ROUND, round);
+			
 			int teamsBefore = gameSeries.getTeams().size();
 			List<Team> teams = gameSeries.getTeams();
 
@@ -69,8 +71,9 @@ public class KOWinnersScreen extends Screen implements ActionListener
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-			int previousRound = round * 2;
+			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int round = previousRound / 2;
+			gameSeries.set(GameSeries.CURRENT_ROUND, round);
 
 			List<User> players = gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + previousRound);
 
@@ -91,11 +94,15 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
-		// TODO NAVIGATION update round
-		// round = round / 2;
-		// gs.set(GameSeries.CURRENT_ROUND, round);
+		if(direction == EnumNavigation.previous)
+		{
+			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int previousRound = round * 2;
+			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
+		}
+		
 		if(this.firstShow)
 		{
 			this.firstShow = false;

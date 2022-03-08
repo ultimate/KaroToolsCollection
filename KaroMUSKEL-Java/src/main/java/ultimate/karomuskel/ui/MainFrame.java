@@ -107,12 +107,12 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	private void setStart()
 	{
-		this.setScreen(startScreen);
+		this.setScreen(startScreen, EnumNavigation.next);
 	}
 
-	public void setScreen(Screen screen)
+	public void setScreen(Screen screen, EnumNavigation direction)
 	{
-		screen.updateBeforeShow(this.gameSeries);
+		screen.updateBeforeShow(this.gameSeries, direction);
 		this.currentScreen = screen;
 		this.screenPanel.removeAll();
 		this.screenPanel.add(screen);
@@ -151,7 +151,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 			if(this.currentScreen.getNext() == null)
 				throw new GameSeriesException("navigation.error");
 		
-			setScreen(newScreen);
+			setScreen(newScreen, direction);
 		}
 		catch(GameSeriesException e)
 		{

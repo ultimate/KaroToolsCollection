@@ -105,7 +105,7 @@ public abstract class Screen extends JPanel
 		return null;
 	}
 
-	public abstract void updateBeforeShow(GameSeries gameSeries);
+	public abstract void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction);
 
 	public abstract GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException;
 

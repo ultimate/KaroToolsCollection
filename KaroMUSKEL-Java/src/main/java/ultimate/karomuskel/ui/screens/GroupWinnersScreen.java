@@ -48,9 +48,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
-	{
-		// reset round, when backwards
-		
+	{		
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			// TODO IDEA for future use
@@ -84,8 +82,10 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 					winnerPlayers.add(player);
 				}
 			}
-			
-			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+
+			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int round = previousRound / 2;
+			gameSeries.set(GameSeries.CURRENT_ROUND, round);
 			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
 		}
 		return gameSeries;
@@ -93,11 +93,15 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
-		// TODO NAVIGATION update round
-		// round = round / 2;
-		// gs.set(GameSeries.CURRENT_ROUND, round);
+		if(direction == EnumNavigation.previous)
+		{
+			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int previousRound = round * 2;
+			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
+		}
+		
 		if(this.firstShow)
 		{
 			this.firstShow = false;

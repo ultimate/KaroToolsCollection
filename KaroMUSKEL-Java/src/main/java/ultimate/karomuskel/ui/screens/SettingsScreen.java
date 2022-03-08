@@ -103,7 +103,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		if(this.gameSeries != gameSeries)
 		{
