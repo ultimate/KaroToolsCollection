@@ -129,6 +129,8 @@ public class MapsScreen extends Screen implements ActionListener
 			this.allMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, this.maps));
 			this.selectedMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, new TreeMap<Integer, Map>()));
 		}
+		
+		// TODO NAVIGATION preselect values from gameseries
 	}
 
 	@SuppressWarnings("unchecked")

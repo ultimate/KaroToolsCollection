@@ -38,7 +38,6 @@ public class HomeMapsScreen extends Screen
 	private int						minSupportedPlayersPerMap;
 
 	private TreeMap<Integer, Map>	maps;
-	private boolean					firstCall			= true;
 
 	public HomeMapsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -89,7 +88,7 @@ public class HomeMapsScreen extends Screen
 			numberOfTeamsTmp = groups * leagues;
 		}
 
-		if(this.firstCall)
+		if(this.firstShow)
 		{
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
@@ -130,9 +129,9 @@ public class HomeMapsScreen extends Screen
 			}
 		}
 
-		if(this.firstCall || this.numberOfTeams != numberOfTeamsTmp || this.minSupportedPlayersPerMap != minSupportedPlayersPerMapTmp)
+		if(this.firstShow || this.numberOfTeams != numberOfTeamsTmp || this.minSupportedPlayersPerMap != minSupportedPlayersPerMapTmp)
 		{
-			this.firstCall = false;
+			this.firstShow = false;
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
@@ -175,5 +174,7 @@ public class HomeMapsScreen extends Screen
 			this.teamNameLabelList.get(i).setText(label);
 			this.mapCBList.get(i).setEnabled(enabled);
 		}
+
+		// TODO NAVIGATION preselect values from gameseries
 	}
 }

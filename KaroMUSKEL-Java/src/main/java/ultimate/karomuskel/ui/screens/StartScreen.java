@@ -117,6 +117,7 @@ public class StartScreen extends Screen implements ActionListener
 	public void updateBeforeShow(GameSeries gameSeries)
 	{
 		// nothing
+		this.firstShow = false;
 	}
 
 	@Override

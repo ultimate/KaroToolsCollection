@@ -41,6 +41,8 @@ public abstract class Screen extends JPanel
 
 	protected String					headerKey;
 
+	protected boolean					firstShow			= true;
+
 	public Screen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
 	{
 		super();
