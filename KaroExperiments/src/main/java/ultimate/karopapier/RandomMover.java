@@ -50,7 +50,7 @@ public class RandomMover
 				return;
 
 			if(player.getPossibles() == null || player.getPossibles().size() == 0)
-				api.refresh(gid);
+				api.refreshAfterCrash(gid);
 
 			validMoves.clear();
 			for(Move m : player.getPossibles())
