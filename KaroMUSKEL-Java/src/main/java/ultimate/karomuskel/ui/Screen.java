@@ -115,7 +115,7 @@ public abstract class Screen extends JPanel
 
 	protected ImageIcon createIcon(String src, Integer size)
 	{
-		ImageIcon imageIcon = new ImageIcon(src);
+		ImageIcon imageIcon = new ImageIcon(getClass().getClassLoader().getResource(src));
 		if(size == null || imageIcon.getIconHeight() == size)
 			return imageIcon;
 		return new ImageIcon(imageIcon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
