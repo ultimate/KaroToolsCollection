@@ -38,7 +38,7 @@ public abstract class CustomEval
 	/**
 	 * Logger-Instance
 	 */
-	private static transient final Logger	logger			= LogManager.getLogger();
+	private static transient final Logger	logger			= LogManager.getLogger(CustomEval.class);
 	
 	private static List<GameResult>				allResults				= new LinkedList<GameResult>();
 	private static List<GameResult>				filteredResults			= new LinkedList<GameResult>();

@@ -17,7 +17,7 @@ public abstract class Language
 	/**
 	 * Logger-Instance
 	 */
-	private static transient final Logger	logger						= LogManager.getLogger();
+	private static transient final Logger	logger						= LogManager.getLogger(Language.class);
 	private static String					folder						= "lang";
 	private static final String				defaultLang					= "de";
 

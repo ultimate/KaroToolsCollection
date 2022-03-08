@@ -53,7 +53,7 @@ public class KaroWikiAPI
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger								= LogManager.getLogger();
+	protected transient final Logger	logger								= LogManager.getLogger(KaroWikiAPI.class);
 
 	//////////////
 	// api URLs //

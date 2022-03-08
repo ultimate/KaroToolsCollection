@@ -65,7 +65,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger		= LogManager.getLogger();
+	protected static transient final Logger	logger		= LogManager.getLogger(KaroAPI.class);
 
 	///////////////////////////////////////////
 	// config & constants & static variables //

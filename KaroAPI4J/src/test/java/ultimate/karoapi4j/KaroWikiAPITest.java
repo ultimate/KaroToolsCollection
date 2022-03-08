@@ -26,7 +26,7 @@ public class KaroWikiAPITest
 	/**
 	 * Logger-Instance
 	 */
-	protected transient static final Logger	logger				= LogManager.getLogger();
+	protected transient static final Logger	logger				= LogManager.getLogger(KaroWikiAPITest.class);
 
 	private static String				username;
 	private static String				password;

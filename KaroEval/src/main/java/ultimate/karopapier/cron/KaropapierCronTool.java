@@ -38,7 +38,7 @@ public class KaropapierCronTool
 	/**
 	 * Logger-Instance
 	 */
-	private static transient final Logger	logger			= LogManager.getLogger();
+	private static transient final Logger	logger			= LogManager.getLogger(KaropapierCronTool.class);
 	public static final String				DEFAULT_PROPERTIES	= "crontool.properties";
 	public static final DateFormat			DATE_FORMAT			= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 	public static final String				PROP_WIKI_PREFIX	= "wiki.file.";

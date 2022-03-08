@@ -25,7 +25,7 @@ public abstract class CollectionsUtil
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger();
+	protected static transient final Logger logger = LogManager.getLogger(CollectionsUtil.class);
 	/**
 	 * Orientierung für aufsteigende Sortierung
 	 */

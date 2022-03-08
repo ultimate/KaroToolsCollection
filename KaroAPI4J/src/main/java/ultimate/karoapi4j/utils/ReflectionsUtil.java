@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class ReflectionsUtil
 {
-	private static transient final Logger logger = LogManager.getLogger();
+	private static transient final Logger logger = LogManager.getLogger(ReflectionsUtil.class);
 
 	/**
 	 * Prevent instantiation

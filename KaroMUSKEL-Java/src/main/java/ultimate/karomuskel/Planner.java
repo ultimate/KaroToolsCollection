@@ -46,7 +46,7 @@ public abstract class Planner
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger	= LogManager.getLogger();
+	protected static transient final Logger	logger	= LogManager.getLogger(Planner.class);
 	/**
 	 * The {@link Random} number generator used to plan {@link GameSeries}
 	 */

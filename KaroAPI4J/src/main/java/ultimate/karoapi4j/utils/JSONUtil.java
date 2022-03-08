@@ -53,7 +53,7 @@ public abstract class JSONUtil
 	/**
 	 * Logger instance
 	 */
-	private static transient final Logger logger = LogManager.getLogger();
+	private static transient final Logger logger = LogManager.getLogger(JSONUtil.class);
 	/**
 	 * the Jackson {@link ObjectWriter}
 	 */
