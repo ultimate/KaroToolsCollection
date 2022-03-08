@@ -189,7 +189,7 @@ public class KaropapierCronTool
 			try
 			{
 				logger.info("doing evaluation... ");
-				Eval e = (Eval) Class.forName(evalClass).newInstance();
+				Eval e = (Eval) Class.forName(evalClass).getDeclaredConstructor().newInstance();
 				if(gs != null)
 					e.prepare(gs, executions);
 				e.doEvaluation();
