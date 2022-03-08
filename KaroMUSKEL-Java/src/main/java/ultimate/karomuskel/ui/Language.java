@@ -75,6 +75,8 @@ public abstract class Language
 		if(lang == null)
 			throw new RuntimeException("No language loaded!");
 		String text = lang.getProperty(key);
+		if (arg == null)
+			return text;
 		return text.replace(PLACEHOLDER_ARG, arg);
 	}
 
