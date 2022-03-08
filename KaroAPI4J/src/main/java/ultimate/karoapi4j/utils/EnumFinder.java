@@ -20,7 +20,7 @@ public class EnumFinder
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger();
+	protected static transient final Logger logger = LogManager.getLogger(EnumFinder.class);
 	/**
 	 * The quotations mark around json identifiers
 	 */

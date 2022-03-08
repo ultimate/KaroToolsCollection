@@ -57,7 +57,7 @@ public class Launcher
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger			= LogManager.getLogger();
+	protected static transient final Logger	logger			= LogManager.getLogger(Launcher.class);
 	/**
 	 * The key for the language in the config
 	 */

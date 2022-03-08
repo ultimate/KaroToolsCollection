@@ -52,7 +52,7 @@ public class KaroAPICache implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger		logger				= LogManager.getLogger();
+	protected transient final Logger		logger				= LogManager.getLogger(KaroAPICache.class);
 
 	public static final String				CONFIG_BASE			= "karoAPI.";
 	public static final String				CONFIG_CACHE		= CONFIG_BASE + "cache";

@@ -31,7 +31,7 @@ public class CCCEvalNew implements Eval
 	/**
 	 * Logger-Instance
 	 */
-	private static transient final Logger	logger			= LogManager.getLogger();
+	private static transient final Logger	logger			= LogManager.getLogger(CCCEvalNew.class);
 
 	private static final String				DEFAULT_FOLDER	= "";
 	private static final int[]				ALL_COLUMNS;

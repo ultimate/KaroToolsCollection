@@ -83,7 +83,7 @@ public abstract class GameSeriesManager
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger							= LogManager.getLogger();
+	protected static transient final Logger	logger							= LogManager.getLogger(GameSeriesManager.class);
 	/**
 	 * The charset for the JSON storage of {@link GameSeries}
 	 */

@@ -31,7 +31,7 @@ public class Demo
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger();
+	protected static transient final Logger logger = LogManager.getLogger(Demo.class);
 
 	/**
 	 * Demo Code

@@ -57,7 +57,7 @@ public class URLLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger();
+	protected static transient final Logger logger = LogManager.getLogger(URLLoader.class);
 
 	/**
 	 * Constant for use in {@link URLLoader#relative(String)}
