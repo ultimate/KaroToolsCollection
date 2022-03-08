@@ -40,6 +40,7 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.Planner;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
@@ -51,7 +52,7 @@ import ultimate.karomuskel.ui.components.UserCellEditor;
 public class SummaryScreen extends Screen implements ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
-	
+
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
 
@@ -185,8 +186,21 @@ public class SummaryScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries)
+	public String confirm(EnumNavigation direction)
 	{
+		if(direction == EnumNavigation.previous)
+			return "navigation.summary.previous";
+		else if(gamesToCreate())
+			return "navigation.summary.next";
+		else
+			return null;
+	}
+
+	@Override
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction)
+	{
+		if(direction == EnumNavigation.previous)
+			resetPlannedGames();
 		return gameSeries;
 	}
 
@@ -369,7 +383,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(nextButton != null)
 			nextButton.setEnabled(true);
 	}
-	
+
 	private void initTable(final JTable table)
 	{
 		table.setRowHeight(20);

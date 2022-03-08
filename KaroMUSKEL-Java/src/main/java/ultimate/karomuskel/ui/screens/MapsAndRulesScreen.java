@@ -33,6 +33,7 @@ import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
@@ -72,7 +73,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	}
 
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		Map map;
 		Rules rules;

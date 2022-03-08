@@ -24,7 +24,6 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.StartScreen;
-import ultimate.karomuskel.ui.screens.SummaryScreen;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {
@@ -124,51 +123,40 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		repaint();
 	}
 
-	private void previous()
+	private boolean confirm(String messageKey)
 	{
-		if(this.currentScreen instanceof SummaryScreen)
-		{
-			int result = JOptionPane.showConfirmDialog(this, Language.getString("navigation.summaryprevious"), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
-			if(result != JOptionPane.OK_OPTION)
-				return;
-			((SummaryScreen) this.currentScreen).resetPlannedGames();
-		}
-		try
-		{
-			this.gameSeries = this.currentScreen.applySettings(this.gameSeries);
-		}
-		catch(GameSeriesException e)
-		{
-		}
-		setScreen(this.currentScreen.getPrevious());
+		if(messageKey == null)
+			return true;
+		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		if(result == JOptionPane.OK_OPTION)
+			return true;
+		return false;
 	}
 
-	private void next()
+	private void navigate(EnumNavigation direction)
 	{
-		if(this.currentScreen instanceof SummaryScreen)
-		{
-			if(((SummaryScreen) this.currentScreen).gamesToCreate())
-			{
-				int result = JOptionPane.showConfirmDialog(this, Language.getString("navigation.summarynext"), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION,
-						JOptionPane.QUESTION_MESSAGE);
-				if(result != JOptionPane.OK_OPTION)
-					return;
-			}
-		}
+		if(!confirm(this.currentScreen.confirm(direction)))
+			return;
 		try
 		{
-			this.gameSeries = this.currentScreen.applySettings(this.gameSeries);
+			this.gameSeries = this.currentScreen.applySettings(this.gameSeries, direction);
+			
+			Screen newScreen = null;
+			
+			if(direction == EnumNavigation.previous)
+				newScreen = this.currentScreen.getPrevious();
+			else if(direction == EnumNavigation.next)
+				newScreen = this.currentScreen.getNext();
+
+			if(this.currentScreen.getNext() == null)
+				throw new GameSeriesException("navigation.error");
+		
+			setScreen(newScreen);
 		}
 		catch(GameSeriesException e)
 		{
 			showError(e);
 			return;
-		}
-
-		if(this.currentScreen.getNext() != null)
-		{
-			setScreen(this.currentScreen.getNext());
 		}
 	}
 
@@ -236,11 +224,11 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 	{
 		if(e.getSource().equals(this.nextButton))
 		{
-			next();
+			navigate(EnumNavigation.next);
 		}
 		else if(e.getSource().equals(this.previousButton))
 		{
-			previous();
+			navigate(EnumNavigation.previous);
 		}
 		else if(e.getSource().equals(this.aboutButton))
 		{

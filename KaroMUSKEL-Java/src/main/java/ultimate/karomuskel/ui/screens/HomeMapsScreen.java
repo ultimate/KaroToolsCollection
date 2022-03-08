@@ -23,6 +23,7 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.MapRenderer;
 
@@ -46,7 +47,7 @@ public class HomeMapsScreen extends Screen
 	}
 
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
