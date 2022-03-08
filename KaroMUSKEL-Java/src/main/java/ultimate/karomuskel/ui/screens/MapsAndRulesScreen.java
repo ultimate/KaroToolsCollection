@@ -88,7 +88,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.gameSeries = gameSeries;
 
@@ -138,7 +138,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 			Integer minZzz;
 			EnumGameTC crashingAllowed;
 			Boolean checkpointsActivated;
-			EnumGameDirection direction;
+			EnumGameDirection startDirection;
 
 			int maxGamesPerPlayer = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_GAMES_PER_PLAYER);
 
@@ -160,7 +160,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				{
 					checkpointsActivated = rules.getCps();
 					crashingAllowed = rules.getCrashallowed();
-					direction = rules.getStartdirection();
+					startDirection = rules.getStartdirection();
 					maxZzz = rules.getMaxZzz();
 					minZzz = rules.getMinZzz();
 					numberOfPlayers = rules.getNumberOfPlayers();
@@ -170,7 +170,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				{
 					checkpointsActivated = null;
 					crashingAllowed = null;
-					direction = null;
+					startDirection = null;
 					maxZzz = null;
 					minZzz = null;
 					numberOfPlayers = map.getPlayers() - 1;
@@ -260,7 +260,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				label = new JLabel(Language.getString("screen.rules.direction"));
 				gbc.gridx++;
 				contentPanel.add(label, gbc);
-				directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, direction, true));
+				directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, startDirection, true));
 				gbc.gridx++;
 				contentPanel.add(directionCB, gbc);
 

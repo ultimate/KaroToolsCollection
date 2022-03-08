@@ -96,7 +96,7 @@ public class RulesScreen extends Screen
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.removeAll();
 

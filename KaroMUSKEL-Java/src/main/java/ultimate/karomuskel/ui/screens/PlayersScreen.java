@@ -140,7 +140,7 @@ public class PlayersScreen extends Screen implements ActionListener
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries)
+	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		int teamsTmp = 1;
 		int maxPlayersPerTeamTmp = 25;
