@@ -98,9 +98,14 @@ public abstract class Screen extends JPanel
 		this.next = next;
 	}
 
+	public String confirm(EnumNavigation direction)
+	{
+		return null;
+	}
+
 	public abstract void updateBeforeShow(GameSeries gameSeries);
 
-	public abstract GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException;
+	public abstract GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException;
 
 	protected void setIcons(JRadioButton radioButton, Integer size)
 	{

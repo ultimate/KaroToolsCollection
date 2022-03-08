@@ -23,6 +23,7 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
@@ -50,7 +51,7 @@ public class MapsScreen extends Screen implements ActionListener
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		Object[] maps = ((GenericListModel<Integer, Map>) selectedMapsLI.getModel()).getEntryArray();
 		if(maps.length == 0)

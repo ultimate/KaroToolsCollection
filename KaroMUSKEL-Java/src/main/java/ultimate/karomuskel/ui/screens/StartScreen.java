@@ -16,6 +16,7 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
@@ -119,8 +120,10 @@ public class StartScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries)
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction)
 	{
+		if(direction == EnumNavigation.previous)
+			throw new GameSeriesException("navigation.beginning");
 		if(this.gameSeries == null)
 			throw new GameSeriesException("screen.start.noselection");
 		logger.info("Spiel-Serie initialisiert: " + this.gameSeries.getType());

@@ -26,6 +26,7 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Screen;
 
@@ -44,7 +45,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{

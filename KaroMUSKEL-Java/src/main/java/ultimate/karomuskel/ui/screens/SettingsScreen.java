@@ -24,6 +24,7 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
@@ -337,7 +338,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		gameSeries.setTitle(titleTF.getText());
 		if(gameSeries.getTitle() == null || gameSeries.getTitle().isEmpty())

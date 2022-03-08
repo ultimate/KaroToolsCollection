@@ -19,6 +19,7 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
@@ -80,7 +81,7 @@ public class RulesScreen extends Screen
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public GameSeries applySettings(GameSeries gameSeries) throws GameSeriesException
+	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		Rules rules = createRules();
 		gameSeries.setRules(rules);
