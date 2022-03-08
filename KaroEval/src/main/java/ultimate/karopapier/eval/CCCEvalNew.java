@@ -82,8 +82,8 @@ public class CCCEvalNew implements Eval
 	private String							folder;
 
 	private final String[]					mapTableHead			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
-	// TODO change order (move Grundpunkte after Züge)
-	private final String[]					raceTableHead			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge", "Punkte" };
+	// TODO change order (move Grundpunkte after ZÃ¼ge)
+	private final String[]					raceTableHead			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Zï¿½ge", "Punkte" };
 	private String[]						finalTableHead;
 	private String[][]						totalTableHeads;
 
@@ -204,7 +204,7 @@ public class CCCEvalNew implements Eval
 			detail.append("== Punkteverteilung ==\n");
 
 			pointsTable = new String[2][pointsForMoves[c].size() + 1];
-			pointsTable[0][0] = highlight("Züge");
+			pointsTable[0][0] = highlight("Zï¿½ge");
 			pointsTable[1][0] = highlight("Grundpunkte");
 			int col = 1;
 			for(Entry<Integer, Integer> pfm : pointsForMoves[c].entrySet())
@@ -261,9 +261,9 @@ public class CCCEvalNew implements Eval
 		stats.append("*Teilnehmer: '''" + stats_players + "'''\n");
 		stats.append("*Rennen pro Spieler: '''" + stats_racesPerPlayer + "'''\n");
 		stats.append("*Rennen pro Spieler pro Challenge: '''" + stats_racesPerPlayerPerChallenge + "'''\n");
-		stats.append("*Züge insgesamt: '''" + stats_moves + "'''\n");
+		stats.append("*Zï¿½ge insgesamt: '''" + stats_moves + "'''\n");
 		stats.append("*Crashs insgesamt: '''" + stats_crashs + "'''\n");
-		stats.append("*Häufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\n");
+		stats.append("*Hï¿½ufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\n");
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\n");
 
 		stats.append("== Wer gegen wen? ==\n");
@@ -326,7 +326,7 @@ public class CCCEvalNew implements Eval
 		finalTableHead[1] = "Spieler";
 		finalTableHead[pages.length + 1] = "Grundpunkte (gesamt)";
 		finalTableHead[pages.length + 2] = "Crashs (gesamt)";
-		finalTableHead[pages.length + 3] = "Züge (gesamt)";
+		finalTableHead[pages.length + 3] = "Zï¿½ge (gesamt)";
 		finalTableHead[pages.length + 4] = "Skalierte Punkte (gesamt)";
 		finalTableHead[pages.length + 5] = "Challenge-Bonus (gesamt)";
 		finalTableHead[pages.length + 6] = "Bonus (Gesamtwertung)";
@@ -342,7 +342,7 @@ public class CCCEvalNew implements Eval
 			totalTableHead[0] = "Spieler";
 			totalTableHead[pages[c].length + 0] = "Grundpunkte (gesamt)";
 			totalTableHead[pages[c].length + 1] = "Crashs (gesamt)";
-			totalTableHead[pages[c].length + 2] = "Züge (gesamt)";
+			totalTableHead[pages[c].length + 2] = "Zï¿½ge (gesamt)";
 			totalTableHead[pages[c].length + 3] = "Gesamtpunkte (unskaliert)";
 			totalTableHead[pages[c].length + 4] = "Gesamtpunkte (skaliert)";
 			totalTableHead[pages[c].length + 5] = "Challenge-Bonus";
@@ -1255,7 +1255,7 @@ public class CCCEvalNew implements Eval
 			if(player.equals(p.getProperty("creator")))
 				continue;
 			if(players.contains(player))
-				continue; // Beim Ausstiegs-Bug kann es zu Doppeleinträgen (Ausstieg + Crash) in der
+				continue; // Beim Ausstiegs-Bug kann es zu Doppeleintrï¿½gen (Ausstieg + Crash) in der
 							// ersten Runde kommen
 			players.add(player);
 		}
@@ -1652,7 +1652,7 @@ public class CCCEvalNew implements Eval
 			if(b2 != b1)
 				return (int) Math.signum(b2 - b1);
 
-			// weniger Züge
+			// weniger Zï¿½ge
 			int m1 = intFromString(o1[o1.length - 8]);
 			int m2 = intFromString(o2[o2.length - 8]);
 			if(m2 != m1)
