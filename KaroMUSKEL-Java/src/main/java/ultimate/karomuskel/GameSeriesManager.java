@@ -2,6 +2,7 @@ package ultimate.karomuskel;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -444,10 +445,14 @@ public abstract class GameSeriesManager
 	{
 		FileInputStream fis = new FileInputStream(file);
 		BufferedInputStream bis = new BufferedInputStream(fis);
-		CustomInputStream ois = new CustomInputStream(bis);
+
+		byte[] bytes = bis.readAllBytes();
+		
+		replaceSerialVersionUID(bytes, muskel2.model.GameSeries.class);
+						
+		ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
 
 		muskel2.model.GameSeries gs2;
-
 		try
 		{
 			gs2 = (muskel2.model.GameSeries) ois.readObject();
@@ -460,6 +465,39 @@ public abstract class GameSeriesManager
 		}
 
 		return gs2;
+	}
+	
+	static void replaceSerialVersionUID(byte[] bytes, Class<?> cls)
+	{
+		long serialVersionUID = ObjectStreamClass.lookup(cls).getSerialVersionUID();
+		byte[] className = cls.getName().getBytes();
+		
+		int i,j;
+		for(i = 0; i < bytes.length; i++)
+		{
+			for(j = 0; j < className.length && className[j] == bytes[i+j]; j++);
+			logger.trace(i + " -> matching bytes = " + j); 
+			if(j == className.length)
+				break;
+		}
+		
+		if(i < bytes.length)
+		{
+			int sIndex = i + className.length;
+			logger.debug("className '" + cls.getName() + "' found @ " + i + " -> replacing serialVersionUID @ " + sIndex);
+			bytes[sIndex + 0] = (byte) ((serialVersionUID & 0xFF00000000000000L) >> 56);
+			bytes[sIndex + 1] = (byte) ((serialVersionUID & 0x00FF000000000000L) >> 48);
+			bytes[sIndex + 2] = (byte) ((serialVersionUID & 0x0000FF0000000000L) >> 40);
+			bytes[sIndex + 3] = (byte) ((serialVersionUID & 0x000000FF00000000L) >> 32);
+			bytes[sIndex + 4] = (byte) ((serialVersionUID & 0x00000000FF000000L) >> 24);
+			bytes[sIndex + 5] = (byte) ((serialVersionUID & 0x0000000000FF0000L) >> 16);
+			bytes[sIndex + 6] = (byte) ((serialVersionUID & 0x000000000000FF00L) >> 8);
+			bytes[sIndex + 7] = (byte) ((serialVersionUID & 0x00000000000000FFL));
+		}
+		else
+		{
+			logger.debug("className '" + cls.getName() + "' not found");
+		}
 	}
 
 	/**
