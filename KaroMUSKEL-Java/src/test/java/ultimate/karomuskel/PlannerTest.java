@@ -265,15 +265,21 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		Rules rules = new Rules();
 
-		List<PlannedGame> games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), teams, new ArrayList<Map>(dummyCache.getMaps()), null, rules, false, false);
-
-		assertEquals(teamCount / 2, games.size());
-		for(int i = 0; i < games.size(); i++)
+		// TODO TEST update for game for 3rd place
+		for(int numberOfGamesPerPair = 1; numberOfGamesPerPair <= 5; numberOfGamesPerPair++)
 		{
-			assertEquals(3, games.get(i).getPlayers().size());
-			assertTrue(games.get(i).getPlayers().contains(dummyCache.getCurrentUser()));
-			assertTrue(games.get(i).getPlayers().containsAll(teams.get(2*i).getMembers()));
-			assertTrue(games.get(i).getPlayers().containsAll(teams.get(2*i+1).getMembers()));
+			List<PlannedGame> games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), teams, null, new ArrayList<Map>(dummyCache.getMaps()), null, rules, false, false, numberOfGamesPerPair);
+	
+			assertEquals(teamCount / 2 * numberOfGamesPerPair, games.size());
+			int pair;
+			for(int i = 0; i < games.size(); i++)
+			{
+				pair = 2*i/numberOfGamesPerPair;
+				assertEquals(3, games.get(i).getPlayers().size());
+				assertTrue(games.get(i).getPlayers().contains(dummyCache.getCurrentUser()));
+				assertTrue(games.get(i).getPlayers().containsAll(teams.get(pair).getMembers()));
+				assertTrue(games.get(i).getPlayers().containsAll(teams.get(pair+1).getMembers()));
+			}
 		}
 	}
 
