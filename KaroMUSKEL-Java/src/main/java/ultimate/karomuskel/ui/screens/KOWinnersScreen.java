@@ -51,8 +51,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			int round = previousRound / 2;
 			gameSeries.set(GameSeries.CURRENT_ROUND, round);
 			
-			int teamsBefore = gameSeries.getTeams().size();
-			List<Team> teams = gameSeries.getTeams();
+			List<Team> teams = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + previousRound);
 
 			List<Team> winnerTeams = new LinkedList<Team>();
 			for(int i = 0; i < this.winners.length; i++)
@@ -62,12 +61,12 @@ public class KOWinnersScreen extends Screen implements ActionListener
 					winnerTeams.add(teams.get(i));
 				}
 			}
-			if(winnerTeams.size() != teamsBefore / 2)
+			if(winnerTeams.size() != round)
 				throw new GameSeriesException("screen.kowinners.notenoughwinners");
 
-			gameSeries.setTeams(winnerTeams);
+			gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round).clear();
+			gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerTeams);
 			gameSeries.set(GameSeries.SHUFFLE_TEAMS, false);
-			gameSeries.set(GameSeries.NUMBER_OF_TEAMS, winnerTeams.size());
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
@@ -87,6 +86,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 			if(winnerPlayers.size() != round)
 				throw new GameSeriesException("screen.kowinners.notenoughwinners");
+			
 			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
 			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
 		}

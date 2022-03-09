@@ -38,7 +38,7 @@ public class GameSeries
 {
 	// keys for type specific settings
 	// relevant game series types
-	// _____________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
 	public static final String					NUMBER_OF_GAMES				= "games";				// ______________________X__
 	public static final String					NUMBER_OF_MAPS				= "maps";				// ______X__________________

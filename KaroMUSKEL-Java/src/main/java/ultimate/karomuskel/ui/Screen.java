@@ -1,6 +1,7 @@
 package ultimate.karomuskel.ui;
 
 import java.awt.Image;
+import java.util.function.Predicate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,6 +42,7 @@ public abstract class Screen extends JPanel
 
 	protected String					headerKey;
 
+	protected boolean					skip				= false;
 	protected boolean					firstShow			= true;
 
 	public Screen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
@@ -100,6 +102,16 @@ public abstract class Screen extends JPanel
 		this.next = next;
 	}
 
+	public boolean isSkip()
+	{
+		return skip;
+	}
+
+	public void setSkip(boolean skip)
+	{
+		this.skip = skip;
+	}
+
 	public String confirm(EnumNavigation direction)
 	{
 		return null;
@@ -109,6 +121,37 @@ public abstract class Screen extends JPanel
 
 	public abstract GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException;
 
+	/**
+	 * Find a screen for the given criteria in the navigation direction
+	 * 
+	 * @param predicate
+	 * @param direction
+	 * @return
+	 */
+	public Screen findScreen(Predicate<Screen> predicate, EnumNavigation direction)
+	{
+		Screen cursor = this;
+		if(direction == EnumNavigation.next)
+		{
+			do
+			{
+				cursor = cursor.getNext();
+				if(predicate.test(cursor))
+					return cursor;
+			} while(cursor.getNext() != null);
+		}
+		else if(direction == EnumNavigation.previous)
+		{
+			do
+			{
+				cursor = cursor.getPrevious();
+				if(predicate.test(cursor))
+					return cursor;
+			} while(cursor.getNext() != null);
+		}
+		return null;
+	}
+
 	protected void setIcons(JRadioButton radioButton, Integer size)
 	{
 		radioButton.setIcon(createIcon("img/Radio-Normal.gif", size));
@@ -117,8 +160,6 @@ public abstract class Screen extends JPanel
 		radioButton.setRolloverSelectedIcon(createIcon("img/Radio-Active-Hover.gif", size));
 		radioButton.setSelectedIcon(createIcon("img/Radio-Active.gif", size));
 	}
-
-	public static double rot = -Math.PI;
 
 	protected ImageIcon createIcon(String src, Integer size)
 	{
