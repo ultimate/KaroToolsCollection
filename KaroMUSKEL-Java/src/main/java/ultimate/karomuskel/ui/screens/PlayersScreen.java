@@ -88,6 +88,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				team = new Team(teamName, playerList);
 				gameSeries.getTeams().add(team);
 			}
+			gameSeries.getTeamsByKey().put(GameSeries.KEY_ROUND + (this.teams), gameSeries.getTeams());
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{

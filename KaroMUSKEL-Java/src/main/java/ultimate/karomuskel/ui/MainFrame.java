@@ -140,17 +140,27 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		try
 		{
 			this.gameSeries = this.currentScreen.applySettings(this.gameSeries, direction);
-			
-			Screen newScreen = null;
-			
-			if(direction == EnumNavigation.previous)
-				newScreen = this.currentScreen.getPrevious();
-			else if(direction == EnumNavigation.next)
-				newScreen = this.currentScreen.getNext();
 
-			if(this.currentScreen.getNext() == null)
+			Screen newScreen = this.currentScreen;
+
+			if(direction == EnumNavigation.previous)
+			{
+				do
+				{
+					newScreen = newScreen.getPrevious();
+				} while(newScreen.isSkip());
+			}
+			else if(direction == EnumNavigation.next)
+			{
+				do
+				{
+					newScreen = newScreen.getNext();
+				} while(newScreen.isSkip());
+			}
+
+			if(newScreen.getNext() == null)
 				throw new GameSeriesException("navigation.error");
-		
+
 			setScreen(newScreen, direction);
 		}
 		catch(GameSeriesException e)
