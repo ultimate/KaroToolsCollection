@@ -139,7 +139,7 @@ public abstract class Screen extends JPanel
 				cursor = cursor.getNext();
 				if(predicate.test(cursor))
 					return cursor;
-			} while(cursor.getNext() != null);
+			} while(cursor.getNext() != null && cursor != this);
 		}
 		else if(direction == EnumNavigation.previous)
 		{
@@ -148,7 +148,7 @@ public abstract class Screen extends JPanel
 				cursor = cursor.getPrevious();
 				if(predicate.test(cursor))
 					return cursor;
-			} while(cursor.getNext() != null);
+			} while(cursor.getNext() != null && cursor != this);
 		}
 		return null;
 	}
