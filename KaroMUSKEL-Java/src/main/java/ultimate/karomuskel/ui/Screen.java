@@ -25,8 +25,9 @@ public abstract class Screen extends JPanel
 	protected static final int			spinnerColumns		= 14;
 	protected static final int			insetsV				= 3;
 	protected static final int			insetsH				= 10;
-	protected static final int			columnWidth			= 350;
-	protected static final int			totalHeight			= 450;
+
+	protected static final int			cellWidth			= 200;
+	protected static final int			totalWidth			= 800;
 
 	protected KaroAPICache				karoAPICache;
 

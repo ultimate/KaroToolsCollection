@@ -847,7 +847,7 @@ public abstract class GameSeriesManager
 					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					// Note: skip those who are too many those when applying the SettingsScreen!
 					int teams = GameSeriesManager.getIntConfig(GameSeries.CONF_MAX_TEAMS);
-					int round = (int) gs.get(GameSeries.CURRENT_ROUND);
+					int round = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : teams * 2);
 					while(teams > 1)
 					{
 						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams == round));
