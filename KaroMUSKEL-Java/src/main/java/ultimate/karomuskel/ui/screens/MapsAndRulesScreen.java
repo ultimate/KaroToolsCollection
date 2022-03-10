@@ -90,7 +90,6 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
-		// TODO NAVIGATION init from gameSeries
 		this.gameSeries = gameSeries;
 
 		int numberOfMapsTmp = (int) gameSeries.get(GameSeries.NUMBER_OF_MAPS);
