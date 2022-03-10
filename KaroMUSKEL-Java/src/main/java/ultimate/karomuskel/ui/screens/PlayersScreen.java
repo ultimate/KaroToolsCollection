@@ -77,9 +77,9 @@ public class PlayersScreen extends Screen implements ActionListener
 				String teamName = this.teamNameTFList.get(i).getText();
 				playerList = new LinkedList<User>();
 				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM))
+				if(direction == EnumNavigation.next && players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.minplayersperteam", teamName);
-				if(players.length > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM))
+				if(direction == EnumNavigation.next && players.length > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.maxplayersperteam", teamName);
 				for(User player : players)
 				{
@@ -93,7 +93,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{
 			User[] players = ((GenericListModel<String, User>) this.teamLIList.get(0).getModel()).getEntryArray();
-			if(players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) - 1)
+			if(direction == EnumNavigation.next && players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) - 1)
 				throw new GameSeriesException("screen.players.notenoughplayers");
 			gameSeries.getPlayers().clear();
 			for(User player : players)
@@ -127,7 +127,7 @@ public class PlayersScreen extends Screen implements ActionListener
 					gameSeries.getPlayersByKey().put(GameSeries.KEY_LEAGUE + (i + 1), playerList);
 				}
 				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(players.length != GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE))
+				if(direction == EnumNavigation.next && players.length != GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE))
 					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE));
 				for(User player : players)
 				{
