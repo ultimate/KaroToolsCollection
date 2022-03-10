@@ -143,7 +143,6 @@ public class PlayersScreen extends Screen implements ActionListener
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
-		// TODO NAVIGATION init from gameSeries
 		int teamsTmp = 1;
 		int maxPlayersPerTeamTmp = 25;
 		boolean multipleTeamsTmp = false;

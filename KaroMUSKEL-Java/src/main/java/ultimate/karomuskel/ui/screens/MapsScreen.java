@@ -67,7 +67,6 @@ public class MapsScreen extends Screen implements ActionListener
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
-		// TODO NAVIGATION init from gameSeries
 		int minSupportedPlayersPerMapTmp = GameSeriesManager.getMinSupportedPlayersPerMap(gameSeries);
 
 		if(this.minSupportedPlayersPerMap != minSupportedPlayersPerMapTmp)
