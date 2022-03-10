@@ -450,6 +450,27 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 		
 		// TODO NAVIGATION preselect values from gameseries
+		if(teams == 1)
+		{
+			for(User player: gameSeries.getPlayers())
+				preselectPlayer(player, 0);
+		}
+		else
+		{
+			for(int t = 0; t < teams; t++)
+			{
+				for(User player: gameSeries.getPlayers())
+					preselectPlayer(player, t);
+				// TODO set team name
+			}
+		}
+	}
+	
+	private void preselectPlayer(User player, int teamIndex)
+	{
+		// select player, then add
+		// if not present in list (not invitable), then add first
+		actionPerformed(new ActionEvent(this, 0, "add" + teamIndex));
 	}
 
 	@SuppressWarnings("unchecked")
