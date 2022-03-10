@@ -56,6 +56,7 @@ public class GameSeries
 	public static final String					SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
 	public static final String					AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
 	public static final String					ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
+	public static final String					SMALL_FINAL					= "smallFinal";			// __________X______________
 	public static final String					V2_TEAM_BASED				= "teamBased";			// __X___X___X___X___X___X__
 
 	// keys for type specific configuration: these are MAX values to prevent misuse (unless config is edited)

@@ -80,7 +80,7 @@ public abstract class Planner
 			throw new IllegalArgumentException("gameseries & type must not be null!");
 
 		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, numberOfGames, maxPlayersPerGame;
-		boolean useHomeMaps;
+		boolean useHomeMaps, loserRound;
 
 		User creator = gs.getCreator();
 
@@ -104,7 +104,8 @@ public abstract class Planner
 				List<Team> winners = gs.getTeamsByKey().get(GameSeries.KEY_ROUND + round);
 				List<Team> losers = new ArrayList<>(gs.getTeamsByKey().get(GameSeries.KEY_ROUND + (round * 2)));
 				losers.removeAll(winners);
-				return planSeriesKO(gs.getTitle(), creator, winners, losers, gs.getMaps(), null, gs.getRules(), useHomeMaps, true, numberOfGamesPerPair);
+				loserRound = (boolean) gs.get(GameSeries.SMALL_FINAL) && (round == 2);
+				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), useHomeMaps, true, numberOfGamesPerPair);
 			case League:
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
