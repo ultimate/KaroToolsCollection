@@ -198,7 +198,10 @@ public class SummaryScreen extends Screen implements ActionListener
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction)
 	{
 		if(direction == EnumNavigation.previous)
+		{
 			resetPlannedGames();
+			this.skipPlan = false;
+		}
 		return gameSeries;
 	}
 

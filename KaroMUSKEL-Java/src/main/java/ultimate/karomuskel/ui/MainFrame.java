@@ -19,6 +19,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
@@ -28,6 +31,8 @@ import ultimate.karomuskel.ui.screens.StartScreen;
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {
 	private static final long		serialVersionUID	= 1L;
+
+	protected transient final Logger	logger				= LogManager.getLogger(getClass());
 
 	private static final Dimension	size				= new Dimension(1200, 900);
 	private static final Dimension	aboutSize			= new Dimension(700, 500);

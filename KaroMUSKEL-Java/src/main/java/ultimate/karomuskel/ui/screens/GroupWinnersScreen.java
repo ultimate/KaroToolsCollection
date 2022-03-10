@@ -146,7 +146,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			{
 				gbc.gridy = i * 2;
 
-				groupLabel = new JLabel(Language.getString("screen.groupwinners.groupX").replace("%X", "" + (i + 1)));
+				groupLabel = new JLabel(Language.getString("screen.groupwinners.groupX", i + 1));
 				gbc.gridx = 0;
 				gbc.gridheight = 2;
 				contentPanel.add(groupLabel, gbc);

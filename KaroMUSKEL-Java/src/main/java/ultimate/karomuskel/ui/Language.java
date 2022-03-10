@@ -68,6 +68,11 @@ public abstract class Language
 		return lang.getProperty(key);
 	}
 
+	public static String getString(String key, int arg)
+	{
+		return getString(key, "" + arg);
+	}
+
 	public static String getString(String key, String arg)
 	{
 		if(debug)
