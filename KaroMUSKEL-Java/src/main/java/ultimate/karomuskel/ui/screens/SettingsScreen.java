@@ -422,7 +422,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				int teams = (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS);
 				// skip the screens those who are too many for the number of teams
 				Screen cursor = findScreen(s -> { return s instanceof KOWinnersScreen; }, EnumNavigation.next);
-				while(cursor != null)
+				while(cursor != null && !(cursor instanceof StartScreen))
 				{
 					cursor.setSkip(maxTeams > teams);
 					cursor = cursor.getNext();
