@@ -714,8 +714,20 @@ public abstract class Planner
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
+		games.addAll(planSeriesKO0(title, creator, winners, maps, whoIsHome, rules, useHomeMaps, shuffle, numberOfGamesPerPair, false));
+		if(losers != null)
+			games.addAll(planSeriesKO0(title, creator, losers, maps, whoIsHome, rules, useHomeMaps, shuffle, numberOfGamesPerPair, true));
+
+		return games;
+	}
+
+	static List<PlannedGame> planSeriesKO0(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, boolean useHomeMaps, boolean shuffle,
+			int numberOfGamesPerPair, boolean losers)
+	{
+		List<PlannedGame> games = new LinkedList<>();
+
 		// create local copy of the input list
-		List<Team> tmp = new ArrayList<>(winners);
+		List<Team> tmp = new ArrayList<>(teams);
 		if(shuffle)
 			Collections.shuffle(tmp, random);
 
@@ -736,8 +748,8 @@ public abstract class Planner
 				placeholderValues.put("i", toString(count + 1, 1));
 				// placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
 				// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
-				placeholderValues.put("runde", toPlaceholderString(tmp.size(), -1, -1, -1));
-				placeholderValues.put("runde.x", toPlaceholderString(tmp.size(), -1, -1, count));
+				placeholderValues.put("runde", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, -1));
+				placeholderValues.put("runde.x", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, count));
 
 				if(!useHomeMaps)
 					overwriteMap = maps.get(random.nextInt(maps.size()));
@@ -1432,6 +1444,8 @@ public abstract class Planner
 		StringBuilder tmp = new StringBuilder();
 		if(round == 2)
 			tmp.append(Language.getString("titlepatterns.final"));
+		else if(round == 3)
+			tmp.append(Language.getString("titlepatterns.smallfinal"));
 		else if(round == 4)
 			tmp.append(Language.getString("titlepatterns.semifinal"));
 		else if(round == 8)
