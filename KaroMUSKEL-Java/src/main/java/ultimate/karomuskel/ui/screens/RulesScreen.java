@@ -50,16 +50,6 @@ public class RulesScreen extends Screen
 		this.gbc.anchor = GridBagConstraints.LINE_START;
 		this.gbc.insets = new Insets(insetsV, insetsH, insetsV, insetsH);
 		this.gbc.fill = GridBagConstraints.HORIZONTAL;
-
-		this.minZzzSpinner = new JSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
-		this.maxZzzSpinner = new JSpinner(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
-		this.crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.forbidden, true));
-		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(true, true));
-		this.directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.classic, true));
-		this.creatorGiveUpCB = new JComboBox<>(new BooleanModel(false, false));
-		this.creatorGiveUpCB.setEnabled(GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
-		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(false, false));
-		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_IGNORE_INVITABLE));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -99,6 +89,29 @@ public class RulesScreen extends Screen
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.removeAll();
+
+		int minZzzInit = (gameSeries.getRules() != null ? gameSeries.getRules().getMinZzz() : 2);
+		this.minZzzSpinner = new JSpinner(new SpinnerNumberModel(minZzzInit, 0, Integer.MAX_VALUE, 1));
+
+		int maxZzzInit = (gameSeries.getRules() != null ? gameSeries.getRules().getMaxZzz() : 2);
+		this.maxZzzSpinner = new JSpinner(new SpinnerNumberModel(maxZzzInit, 0, Integer.MAX_VALUE, 1));
+
+		EnumGameTC crashingAllowedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCrashallowed() : EnumGameTC.forbidden);
+		this.crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowedInit, true));
+		
+		Boolean checkpointsActivatedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCps() : true);
+		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, true));
+
+		EnumGameDirection directionInit = (gameSeries.getRules() != null ? gameSeries.getRules().getStartdirection() : EnumGameDirection.classic);
+		this.directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, directionInit, true));
+
+		boolean creatorGiveUpInit = gameSeries.isCreatorGiveUp();
+		this.creatorGiveUpCB = new JComboBox<>(new BooleanModel(creatorGiveUpInit, false));
+		this.creatorGiveUpCB.setEnabled(GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
+
+		boolean ignoreInvitableInit = gameSeries.isIgnoreInvitable();
+		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(ignoreInvitableInit, false));
+		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(GameSeriesManager.CONFIG_ALLOW_IGNORE_INVITABLE));
 
 		gbc.gridy = 0;
 
