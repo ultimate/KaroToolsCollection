@@ -38,47 +38,48 @@ public class GameSeries
 {
 	// keys for type specific settings
 	// relevant game series types
-	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
-	public static final String							NUMBER_OF_GAMES				= "games";				// ______________________X__
-	public static final String							NUMBER_OF_MAPS				= "maps";				// ______X__________________
-	public static final String							NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
-	public static final String							NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
-	public static final String							NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
-	public static final String							CURRENT_ROUND				= "round";				// __________X___X__________
-	public static final String							MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
-	public static final String							MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
-	public static final String							MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
-	public static final String							MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
+	public static final String							NUMBER_OF_GAMES						= "games";						// ______________________X__
+	public static final String							NUMBER_OF_MAPS						= "maps";						// ______X__________________
+	public static final String							NUMBER_OF_TEAMS						= "teams";						// __X_______X_______X______
+	public static final String							NUMBER_OF_TEAMS_PER_MATCH			= "teamsPerMatch";				// __X______________________
+	public static final String							NUMBER_OF_GAMES_PER_PAIR			= "gamesPerPair";				// __X_______X_______X______
+	public static final String							CURRENT_ROUND						= "round";						// __________X___X__________
+	public static final String							MIN_PLAYERS_PER_GAME				= "minPlayersPerGame";			// ______________________X__
+	public static final String							MAX_PLAYERS_PER_GAME				= "maxPlayersPerGame";			// ______________________X__
+	public static final String							MIN_PLAYERS_PER_TEAM				= "minPlayersPerTeam";			// __X_______X_______X______
+	public static final String							MAX_PLAYERS_PER_TEAM				= "maxPlayersPerTeam";			// __X_______X_______X______
 	// boolean
-	public static final String							USE_HOME_MAPS				= "useHomeMaps";		// __X_______X_______X______
-	public static final String							USE_CREATOR_TEAM			= "useCreatorTeam";		// __X_______X_______X______
-	public static final String							SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
-	public static final String							AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
-	public static final String							ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
-	public static final String							SMALL_FINAL					= "smallFinal";			// __________X______________
-	public static final String							V2_TEAM_BASED				= "teamBased";			// __X___X___X___X___X___X__
+	public static final String							USE_HOME_MAPS						= "useHomeMaps";				// __X_______X_______X______
+	public static final String							USE_CREATOR_TEAM					= "useCreatorTeam";				// __X_______X_______X______
+	public static final String							SHUFFLE_TEAMS						= "shuffleTeams";				// __X_______X_______X______
+	public static final String							AUTO_NAME_TEAMS						= "autoNameTeams";				// __X_______X_______X______
+	public static final String							ALLOW_MULTIPLE_TEAMS				= "allowMultipleTeams";			// __X_______X_______X______
+	public static final String							SMALL_FINAL							= "smallFinal";					// __________X______________
+	public static final String							V2_TEAM_BASED						= "teamBased";					// __X___X___X___X___X___X__
 
 	// keys for type specific configuration: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types
-	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
-	public static final String							CONF_MAX_TEAMS				= "maxTeams";			// __X_______X_______X______
-	public static final String							CONF_MAX_ROUNDS				= "maxRounds";			// __X_______X_______X______
-	public static final String							CONF_MAX_GAMES				= "maxGames";			// ______________________X__
-	public static final String							CONF_MAX_GAMES_PER_PLAYER	= "maxGamesPerPlayer";	// ______X__________________
-	public static final String							CONF_MAX_MAPS				= "maxMaps";			// ______X__________________
-	public static final String							CONF_KLC_GROUPS				= "groups";				// ______________X__________
-	public static final String							CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
-	public static final String							CONF_KLC_PLAYERS_PER_LEAGUE	= "playersPerLeague";	// ______________X__________
-	public static final String							CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
+	public static final String							CONF_MAX_TEAMS						= "maxTeams";					// __X_______X_______X______
+	public static final String							CONF_MAX_ROUNDS						= "maxRounds";					// __X_______X_______X______
+	public static final String							CONF_MAX_GAMES						= "maxGames";					// ______________________X__
+	public static final String							CONF_MAX_GAMES_PER_PLAYER			= "maxGamesPerPlayer";			// ______X__________________
+	public static final String							CONF_MAX_MAPS						= "maxMaps";					// ______X__________________
+	public static final String							CONF_NUMBER_OF_WINNERS_PER_GROUP	= "numberOfWinnersPerGroup";	// ______________X__________
+	public static final String							CONF_KLC_GROUPS						= "groups";						// ______________X__________
+	public static final String							CONF_KLC_LEAGUES					= "leagues";					// ______________X__________
+	public static final String							CONF_KLC_PLAYERS_PER_LEAGUE			= "playersPerLeague";			// ______________X__________
+	public static final String							CONF_KLC_FIRST_KO_ROUND				= "firstKORound";				// ______________X__________
 
 	// keys for type specific lists: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types
-	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
-	public static final String							KEY_LEAGUE					= "league";				// ______________X__________
-	public static final String							KEY_GROUP					= "group";				// ______________X__________
-	public static final String							KEY_ROUND					= "roundOf";			// ______________X__________
+	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	public static final String							KEY_LEAGUE							= "league";						// ______________X__________
+	public static final String							KEY_GROUP							= "group";						// ______________X__________
+	public static final String							KEY_ROUND							= "roundOf";					// ______________X__________
 
 	// universal settings
 	/**
