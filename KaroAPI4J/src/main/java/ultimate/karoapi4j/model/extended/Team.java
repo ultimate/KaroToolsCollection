@@ -43,6 +43,14 @@ public class Team
 	@JsonDeserialize(converter = Map.FromIDConverter.class)
 	private Map					homeMap;
 
+
+	/**
+	 * Default constructor
+	 */
+	public Team()
+	{
+	}
+	
 	/**
 	 * Create a new team (without home {@link Map})
 	 * 
