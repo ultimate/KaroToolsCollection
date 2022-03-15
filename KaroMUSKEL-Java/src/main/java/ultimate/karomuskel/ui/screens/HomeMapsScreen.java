@@ -203,7 +203,7 @@ public class HomeMapsScreen extends Screen
 	{
 		logger.debug("preselect map: " + map.getId() + " for team " + this.teamNameLabelList.get(index).getText());
 		// check map is present in model, if not, add first
-		if(((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).getIndexOf(map.getId()) == -1)
+		if(((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).getIndexOf(map) == -1)
 		{
 			logger.warn("map not present in list: " + map.getId() + " -> adding");
 

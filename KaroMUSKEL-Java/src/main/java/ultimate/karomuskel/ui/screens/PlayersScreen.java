@@ -94,7 +94,9 @@ public class PlayersScreen extends Screen implements ActionListener
 				team = new Team(teamName, playerList);
 				gameSeries.getTeams().add(team);
 			}
-			gameSeries.getTeamsByKey().put(GameSeries.KEY_ROUND + (this.teams), gameSeries.getTeams());
+
+			if(gameSeries.getType() == EnumGameSeriesType.KO)
+				gameSeries.getTeamsByKey().put(GameSeries.KEY_ROUND + (this.teams), gameSeries.getTeams());
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{
@@ -501,9 +503,9 @@ public class PlayersScreen extends Screen implements ActionListener
 	{
 		logger.debug("preselect player: " + player.getLogin());
 		// check user is present in list, if not (not invitable), add first
-		if(!((GenericListModel<String, User>) allPlayersLI.getModel()).containsKey(player.getLogin()))
+		if(!((GenericListModel<String, User>) allPlayersLI.getModel()).containsKey(player.getLoginLowerCase()))
 		{
-			logger.warn("player  not present in list: " + player.getLogin() + " -> adding");
+			logger.warn("player not present in list: " + player.getLogin() + " -> adding");
 			((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(player.getLoginLowerCase(), player);
 			allPlayersLI.setModel(allPlayersLI.getModel());
 		}
