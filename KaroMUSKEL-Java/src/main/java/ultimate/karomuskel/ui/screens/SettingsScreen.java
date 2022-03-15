@@ -30,6 +30,7 @@ import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.AllCombinationsNumberModel;
 import ultimate.karomuskel.ui.components.BooleanModel;
+import ultimate.karomuskel.ui.components.KORoundNumberModel;
 
 public class SettingsScreen extends Screen implements ChangeListener
 {
@@ -188,7 +189,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 					int numberOfTeamsInit = (gameSeries.get(GameSeries.NUMBER_OF_TEAMS) != null ? (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS) : 8);
 					numberOfTeamsLabel = new JLabel(Language.getString("screen.settings.numberofteams", cellWidth));
 					int stepSize = (gameSeries.getType() == EnumGameSeriesType.AllCombinations ? 1 : 2);
-					numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(numberOfTeamsInit, 4, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS), stepSize));
+					if(gameSeries.getType() == EnumGameSeriesType.KO)
+						numberOfTeamsSpinner = new JSpinner(new KORoundNumberModel(numberOfTeamsInit, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS)));
+					else
+						numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(numberOfTeamsInit, 4, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS), stepSize));
 					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 
@@ -411,7 +415,17 @@ public class SettingsScreen extends Screen implements ChangeListener
 			}
 			gameSeries.set(GameSeries.SHUFFLE_TEAMS, ((Label<Boolean>) shuffleTeamsCB.getSelectedItem()).getValue());
 			if(gameSeries.getType() == EnumGameSeriesType.KO)
+			{
 				gameSeries.set(GameSeries.SMALL_FINAL, ((Label<Boolean>) smallFinalCB.getSelectedItem()).getValue());
+				gameSeries.set(GameSeries.CURRENT_ROUND, gameSeries.get(GameSeries.NUMBER_OF_TEAMS));
+			}
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
+			{
+				int groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
+				int leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
+				int totalPlayers = groups * leagues;
+				gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
+			}			
 			gameSeries.set(GameSeries.AUTO_NAME_TEAMS, ((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.USE_CREATOR_TEAM, !((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.ALLOW_MULTIPLE_TEAMS, ((Label<Boolean>) multipleTeamsCB.getSelectedItem()).getValue());
@@ -425,13 +439,15 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 			if(gameSeries.getType() == EnumGameSeriesType.KO)
 			{
-				int maxTeams = GameSeriesManager.getIntConfig(GameSeries.CONF_MAX_TEAMS);
+				int maxTeams = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS);
 				int teams = (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS);
 				// skip the screens those who are too many for the number of teams
 				Screen cursor = findScreen(s -> { return s instanceof KOWinnersScreen; }, EnumNavigation.next);
 				while(cursor != null && !(cursor instanceof StartScreen))
 				{
-					cursor.setSkip(maxTeams > teams);
+					cursor.setSkip(maxTeams > teams); // skip KO
+					cursor = cursor.getNext();
+					cursor.setSkip(maxTeams > teams); // skip Summary
 					cursor = cursor.getNext();
 					maxTeams /= 2;
 				}

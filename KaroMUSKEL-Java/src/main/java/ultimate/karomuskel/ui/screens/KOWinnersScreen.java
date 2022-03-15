@@ -51,51 +51,60 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
-		if(GameSeriesManager.isTeamBased(gameSeries))
+		if(direction == EnumNavigation.next)
 		{
 			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			int round = previousRound / 2;
 			gameSeries.set(GameSeries.CURRENT_ROUND, round);
 			
-			List<Team> teams = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + previousRound);
-
-			List<Team> winnerTeams = new LinkedList<Team>();
-			for(int i = 0; i < this.winners.length; i++)
-			{
-				if(this.winners[i])
+			if(GameSeriesManager.isTeamBased(gameSeries))
+			{				
+				List<Team> teams = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + previousRound);
+	
+				List<Team> winnerTeams = new LinkedList<Team>();
+				for(int i = 0; i < this.winners.length; i++)
 				{
-					winnerTeams.add(teams.get(i));
+					if(this.winners[i])
+					{
+						winnerTeams.add(teams.get(i));
+					}
 				}
+				if(winnerTeams.size() != round)
+					throw new GameSeriesException("screen.kowinners.notenoughwinners");
+	
+				if(gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round) == null)
+					gameSeries.getTeamsByKey().put(GameSeries.KEY_ROUND + round, new ArrayList<>(round));
+				else
+					gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round).clear();
+				gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerTeams);
+				gameSeries.set(GameSeries.SHUFFLE_TEAMS, false);
 			}
-			if(winnerTeams.size() != round)
-				throw new GameSeriesException("screen.kowinners.notenoughwinners");
-
-			gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round).clear();
-			gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerTeams);
-			gameSeries.set(GameSeries.SHUFFLE_TEAMS, false);
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
+			{	
+				List<User> players = gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + previousRound);
+	
+				List<User> winnerPlayers = new LinkedList<User>();
+				for(int i = 0; i < this.winners.length; i++)
+				{
+					if(this.winners[i])
+					{
+						winnerPlayers.add(players.get(i));
+					}
+				}
+				if(winnerPlayers.size() != round)
+					throw new GameSeriesException("screen.kowinners.notenoughwinners");
+				
+				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
+				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
+			}
 		}
-		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
+		else
 		{
-			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-			int round = previousRound / 2;
-			gameSeries.set(GameSeries.CURRENT_ROUND, round);
-
-			List<User> players = gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + previousRound);
-
-			List<User> winnerPlayers = new LinkedList<User>();
-			for(int i = 0; i < this.winners.length; i++)
-			{
-				if(this.winners[i])
-				{
-					winnerPlayers.add(players.get(i));
-				}
-			}
-			if(winnerPlayers.size() != round)
-				throw new GameSeriesException("screen.kowinners.notenoughwinners");
-			
-			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
-			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
+			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int previousRound = round * 2;
+			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
 		}
+		
 		return gameSeries;
 	}
 
@@ -111,18 +120,16 @@ public class KOWinnersScreen extends Screen implements ActionListener
 		
 		if(this.firstShow)
 		{
-			int numBefore = 0;
+			int numBefore = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			List<String> names = null;
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				numBefore = gameSeries.getTeams().size();
 				names = new ArrayList<String>(gameSeries.getTeams().size());
 				for(Team t : gameSeries.getTeams())
 					names.add(t.getName());
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				numBefore = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 				names = new ArrayList<String>(numBefore);
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + numBefore))
 					names.add(p.getLogin());

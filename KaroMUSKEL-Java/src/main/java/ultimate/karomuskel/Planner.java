@@ -102,9 +102,13 @@ public abstract class Planner
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				List<Team> winners = gs.getTeamsByKey().get(GameSeries.KEY_ROUND + round);
-				List<Team> losers = new ArrayList<>(gs.getTeamsByKey().get(GameSeries.KEY_ROUND + (round * 2)));
-				losers.removeAll(winners);
 				loserRound = (boolean) gs.get(GameSeries.SMALL_FINAL) && (round == 2);
+				List<Team> losers = null;
+				if(loserRound)
+				{
+					losers = new ArrayList<>(gs.getTeamsByKey().get(GameSeries.KEY_ROUND + (round * 2)));
+					losers.removeAll(winners);
+				}
 				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), useHomeMaps, true, numberOfGamesPerPair);
 			case League:
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
