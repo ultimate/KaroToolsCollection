@@ -253,8 +253,7 @@ public class KaroAPICache implements IDLookUp
 				for(int i = 1; i <= DUMMY_USERS; i++)
 				{
 					u = createDummyUser(i);
-					usersById.put(u.getId(), u);
-					usersByLogin.put(u.getLogin(), u);
+					updateUser(u);
 				}
 				// create some dummy maps
 				logger.info("creating dummy maps...");
@@ -262,7 +261,7 @@ public class KaroAPICache implements IDLookUp
 				for(int i = 1; i <= DUMMY_MAPS; i++)
 				{
 					m = createDummyMap(i);
-					mapsById.put(m.getId(), m);
+					updateMap(m);
 				}
 
 				currentUser = usersById.get(1);
@@ -386,7 +385,7 @@ public class KaroAPICache implements IDLookUp
 				logger.error("could not get user: " + login);
 			}
 		}
-		return this.usersByLogin.get(login);
+		return this.usersByLogin.get(login.toLowerCase());
 	}
 
 	/**
@@ -402,7 +401,7 @@ public class KaroAPICache implements IDLookUp
 		else
 		{
 			this.usersById.put(user.getId(), user);
-			this.usersByLogin.put(user.getLogin(), user);
+			this.usersByLogin.put(user.getLoginLowerCase(), user);
 		}
 		return this.usersById.get(user.getId());
 	}
