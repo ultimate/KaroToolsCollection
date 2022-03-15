@@ -1,0 +1,2217 @@
+{
+  "type" : "Balanced",
+  "title" : "${spieler.ersteller}s Ausgewogene Testserie - Spiel ${i} - ${spieler.namen.x} auf Karte ${karte.id}, ${regeln.x}",
+  "creator" : 2241,
+  "games" : {
+    "Balanced" : [ {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 1 - aristarch, CarpeNoctem, Atomy und anton auf Karte 1, TC: Erlaubt",
+      "map" : 1,
+      "players" : [ 2231, 2501, 723, 1717, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 2 - chaos, Blindschleiche, blackrog und cachito auf Karte 1, ZZZ=1, TC: Erlaubt",
+      "map" : 1,
+      "players" : [ 127, 1448, 1327, 1175, 2241 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 3 - Calypso, buttertasse, Anthropophagos und andreu73 auf Karte 1, ZZZ=1, TC: Erlaubt",
+      "map" : 1,
+      "players" : [ 1543, 1991, 3182, 2321, 2241 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 4 - Balteatus, A300, BertiPlusP und Botrix auf Karte 1, TC: Erlaubt",
+      "map" : 1,
+      "players" : [ 1912, 1823, 2779, 773, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 5 - Akari, Anaxaros, Booo und [lunatic]suicide auf Karte 1, ZZZ=1, TC: Erlaubt",
+      "map" : 1,
+      "players" : [ 1168, 1578, 422, 239, 2241 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 6 - blackrog und Booo auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1327, 422, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 7 - BertiPlusP und CarpeNoctem auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 2779, 2501, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 8 - Anthropophagos und [lunatic]suicide auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 3182, 239, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 9 - Atomy und andreu73 auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 723, 2321, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 10 - anton und Anaxaros auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1717, 1578, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 11 - Balteatus und cachito auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1912, 1175, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 12 - Botrix und Akari auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 773, 1168, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 13 - aristarch und Calypso auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 2231, 1543, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 14 - chaos und buttertasse auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 127, 1991, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 15 - Blindschleiche und A300 auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1448, 1823, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 16 - Akari und aristarch auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1168, 2231, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 17 - Anthropophagos und A300 auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 3182, 1823, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 18 - [lunatic]suicide und Botrix auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 239, 773, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 19 - Blindschleiche und Booo auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1448, 422, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 20 - BertiPlusP und Anaxaros auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 2779, 1578, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 21 - CarpeNoctem und buttertasse auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 2501, 1991, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 22 - anton und andreu73 auf Karte 2, ZZZ=3, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1717, 2321, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 23 - chaos und Calypso auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 127, 1543, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 24 - blackrog und Atomy auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1327, 723, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 25 - Balteatus und cachito auf Karte 2, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 2,
+      "players" : [ 1912, 1175, 2241 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 26 - Blindschleiche, Calypso und Balteatus auf Karte 3, ZZZ=3, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 1448, 1543, 1912, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 27 - CarpeNoctem, Anaxaros und blackrog auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 2501, 1578, 1327, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 28 - Akari, buttertasse und cachito auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 1168, 1991, 1175, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 29 - aristarch, andreu73 und BertiPlusP auf Karte 3, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 2231, 2321, 2779, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 30 - Anthropophagos, anton und Blindschleiche auf Karte 3, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 3182, 1717, 1448, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 31 - chaos, Booo und A300 auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 127, 422, 1823, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 32 - [lunatic]suicide, Atomy und buttertasse auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 239, 723, 1991, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 33 - CarpeNoctem, cachito und Botrix auf Karte 3, ZZZ=3, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 2501, 1175, 773, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 34 - [lunatic]suicide, andreu73 und chaos auf Karte 3, ZZZ=3, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 239, 2321, 127, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 35 - Booo, anton und Botrix auf Karte 3, ZZZ=3, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 422, 1717, 773, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 36 - Atomy, Balteatus und Anthropophagos auf Karte 3, ZZZ=3, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 723, 1912, 3182, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 37 - blackrog, A300 und andreu73 auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 1327, 1823, 2321, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 38 - aristarch, Anaxaros und cachito auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 2231, 1578, 1175, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 39 - BertiPlusP, Calypso und blackrog auf Karte 3, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 2779, 1543, 1327, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 40 - aristarch, Booo und Balteatus auf Karte 3, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 2231, 422, 1912, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 41 - Botrix, buttertasse und Blindschleiche auf Karte 3, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 773, 1991, 1448, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 42 - [lunatic]suicide, CarpeNoctem und A300 auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 239, 2501, 1823, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 43 - chaos, BertiPlusP und Akari auf Karte 3, ZZZ=3, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 127, 2779, 1168, 2241 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 44 - anton, Calypso und Akari auf Karte 3, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 1717, 1543, 1168, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 45 - Atomy, Anaxaros und Anthropophagos auf Karte 3, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 3,
+      "players" : [ 723, 1578, 3182, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 46 - Atomy und cachito auf Karte 4, ZZZ=5, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 723, 1175, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 47 - chaos und Botrix auf Karte 4, ZZZ=4, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 127, 773, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 48 - BertiPlusP und anton auf Karte 4, ZZZ=4, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 2779, 1717, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 49 - Calypso und Anaxaros auf Karte 4, ZZZ=4, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 1543, 1578, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 50 - Balteatus und andreu73 auf Karte 4, ZZZ=5, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1912, 2321, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 51 - aristarch und A300 auf Karte 4, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 2231, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 52 - Anthropophagos und CarpeNoctem auf Karte 4, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 3182, 2501, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 53 - blackrog und [lunatic]suicide auf Karte 4, ZZZ=5, TC: Egal, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 1327, 239, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 54 - Blindschleiche und Akari auf Karte 4, ZZZ=4, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 1448, 1168, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 55 - Booo und buttertasse auf Karte 4, ZZZ=5, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 422, 1991, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 56 - Booo und CarpeNoctem auf Karte 4, ZZZ=5, TC: Erlaubt",
+      "map" : 4,
+      "players" : [ 422, 2501, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 57 - blackrog und Akari auf Karte 4, ZZZ=5, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 1327, 1168, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 58 - Botrix und Calypso auf Karte 4, ZZZ=5, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 773, 1543, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 59 - [lunatic]suicide und aristarch auf Karte 4, ZZZ=5, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 239, 2231, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 60 - Atomy und BertiPlusP auf Karte 4, ZZZ=5, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 723, 2779, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 61 - chaos und Anthropophagos auf Karte 4, ZZZ=4, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 127, 3182, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 62 - Balteatus und buttertasse auf Karte 4, ZZZ=4, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1912, 1991, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 63 - anton und A300 auf Karte 4, ZZZ=5, TC: Erlaubt",
+      "map" : 4,
+      "players" : [ 1717, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 64 - cachito und andreu73 auf Karte 4, ZZZ=5, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1175, 2321, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 65 - Blindschleiche und Anaxaros auf Karte 4, ZZZ=4, TC: Egal",
+      "map" : 4,
+      "players" : [ 1448, 1578, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 66 - CarpeNoctem und Calypso auf Karte 4, ZZZ=4, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 2501, 1543, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 67 - chaos und aristarch auf Karte 4, ZZZ=4, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 127, 2231, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 68 - anton und buttertasse auf Karte 4, ZZZ=5, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1717, 1991, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 69 - Booo und cachito auf Karte 4, ZZZ=5, TC: Erlaubt",
+      "map" : 4,
+      "players" : [ 422, 1175, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 70 - [lunatic]suicide und Balteatus auf Karte 4, ZZZ=5, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 239, 1912, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 71 - Blindschleiche und BertiPlusP auf Karte 4, ZZZ=4, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 1448, 2779, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 72 - Botrix und Anaxaros auf Karte 4, ZZZ=5, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 773, 1578, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 73 - blackrog und Anthropophagos auf Karte 4, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1327, 3182, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 74 - Atomy und A300 auf Karte 4, ZZZ=4, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 723, 1823, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 75 - Akari und andreu73 auf Karte 4, ZZZ=5, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 1168, 2321, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 76 - Blindschleiche und andreu73 auf Karte 4, ZZZ=4, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1448, 2321, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 77 - BertiPlusP und buttertasse auf Karte 4, ZZZ=4, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 2779, 1991, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 78 - blackrog und aristarch auf Karte 4, ZZZ=4, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1327, 2231, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 79 - Calypso und A300 auf Karte 4, ZZZ=5, TC: Egal, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 1543, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 80 - Balteatus und Anaxaros auf Karte 4, ZZZ=4, TC: Egal, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 1912, 1578, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 81 - Botrix und Atomy auf Karte 4, ZZZ=4, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 4,
+      "players" : [ 773, 723, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 82 - Akari und CarpeNoctem auf Karte 4, ZZZ=5, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1168, 2501, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 83 - Anthropophagos und Booo auf Karte 4, ZZZ=4, Checkpoints deaktiviert",
+      "map" : 4,
+      "players" : [ 3182, 422, 2241 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 84 - anton und cachito auf Karte 4, ZZZ=5, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 1717, 1175, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 85 - chaos und [lunatic]suicide auf Karte 4, ZZZ=5, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 4,
+      "players" : [ 127, 239, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 86 - Blindschleiche und Atomy auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1448, 723, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 87 - Anaxaros und buttertasse auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1578, 1991, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 88 - [lunatic]suicide und anton auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 239, 1717, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 89 - CarpeNoctem und andreu73 auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2501, 2321, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 90 - BertiPlusP und cachito auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2779, 1175, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 91 - Booo und Calypso auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 422, 1543, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 92 - chaos und Balteatus auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 127, 1912, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 93 - Akari und A300 auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1168, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 94 - blackrog und Botrix auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1327, 773, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 95 - Anthropophagos und aristarch auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 3182, 2231, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 96 - Balteatus und CarpeNoctem auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1912, 2501, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 97 - Anthropophagos und Botrix auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 3182, 773, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 98 - cachito und Calypso auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1175, 1543, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 99 - Akari und Atomy auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1168, 723, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 100 - Blindschleiche und aristarch auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1448, 2231, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 101 - blackrog und anton auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1327, 1717, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 102 - A300 und buttertasse auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1823, 1991, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 103 - Booo und andreu73 auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 422, 2321, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 104 - [lunatic]suicide und BertiPlusP auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 239, 2779, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 105 - chaos und Anaxaros auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 127, 1578, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 106 - andreu73 und Anaxaros auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2321, 1578, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 107 - [lunatic]suicide und Calypso auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 239, 1543, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 108 - cachito und A300 auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1175, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 109 - chaos und Atomy auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 127, 723, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 110 - Booo und BertiPlusP auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 422, 2779, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 111 - aristarch und buttertasse auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2231, 1991, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 112 - Balteatus und anton auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1912, 1717, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 113 - Blindschleiche und CarpeNoctem auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1448, 2501, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 114 - Anthropophagos und Akari auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 3182, 1168, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 115 - blackrog und Botrix auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1327, 773, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 116 - blackrog und buttertasse auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1327, 1991, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 117 - Botrix und aristarch auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 773, 2231, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 118 - Anthropophagos und BertiPlusP auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 3182, 2779, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 119 - Anaxaros und A300 auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1578, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 120 - [lunatic]suicide und Blindschleiche auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 239, 1448, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 121 - chaos und CarpeNoctem auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 127, 2501, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 122 - Atomy und Calypso auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 723, 1543, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 123 - Akari und Balteatus auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1168, 1912, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 124 - Booo und anton auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 422, 1717, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 125 - cachito und andreu73 auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1175, 2321, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 126 - chaos und anton auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 127, 1717, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 127 - Atomy und Booo auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 723, 422, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 128 - blackrog und Balteatus auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1327, 1912, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 129 - [lunatic]suicide und cachito auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 239, 1175, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 130 - Botrix und andreu73 auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 773, 2321, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 131 - aristarch und Anaxaros auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2231, 1578, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 132 - CarpeNoctem und A300 auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2501, 1823, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 133 - BertiPlusP und Calypso auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 2779, 1543, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 134 - Anthropophagos und buttertasse auf Karte 5, ZZZ=6, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 3182, 1991, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 135 - Blindschleiche und Akari auf Karte 5, ZZZ=5, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 5,
+      "players" : [ 1448, 1168, 2241 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 136 - Anthropophagos, cachito, Botrix und [lunatic]suicide auf Karte 6, ZZZ=7, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 3182, 1175, 773, 239, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 137 - Blindschleiche, BertiPlusP, Balteatus und buttertasse auf Karte 6, ZZZ=7, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1448, 2779, 1912, 1991, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 138 - anton, Calypso, andreu73 und [lunatic]suicide auf Karte 6, ZZZ=7, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1717, 1543, 2321, 239, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 139 - blackrog, A300, aristarch und Balteatus auf Karte 6, ZZZ=6, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1327, 1823, 2231, 1912, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 140 - Booo, Anaxaros, Balteatus und Anthropophagos auf Karte 6, ZZZ=6, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 422, 1578, 1912, 3182, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 141 - chaos, Akari, Booo und blackrog auf Karte 6, ZZZ=7, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 127, 1168, 422, 1327, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 142 - Atomy, CarpeNoctem, buttertasse und anton auf Karte 6, ZZZ=6, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 723, 2501, 1991, 1717, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 143 - Atomy, andreu73, Balteatus und Akari auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 723, 2321, 1912, 1168, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 144 - chaos, cachito, Anaxaros und BertiPlusP auf Karte 6, ZZZ=6, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 127, 1175, 1578, 2779, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 145 - aristarch, CarpeNoctem, andreu73 und chaos auf Karte 6, ZZZ=7, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 2231, 2501, 2321, 127, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 146 - Blindschleiche, Botrix, Calypso und CarpeNoctem auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1448, 773, 1543, 2501, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 147 - Akari, A300, Anthropophagos und Calypso auf Karte 6, ZZZ=6, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1168, 1823, 3182, 1543, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 148 - Anaxaros, A300, Blindschleiche und [lunatic]suicide auf Karte 6, ZZZ=6, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1578, 1823, 1448, 239, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 149 - Booo, cachito, Calypso und aristarch auf Karte 6, ZZZ=7, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 422, 1175, 1543, 2231, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 150 - blackrog, BertiPlusP, andreu73 und Anthropophagos auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1327, 2779, 2321, 3182, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 151 - Botrix, anton, aristarch und BertiPlusP auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 773, 1717, 2231, 2779, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 152 - Atomy, buttertasse, cachito und blackrog auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 723, 1991, 1175, 1327, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 153 - Blindschleiche, Booo, Atomy und A300 auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1448, 422, 723, 1823, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 154 - chaos, anton, Blindschleiche und Anthropophagos auf Karte 6, ZZZ=6, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 127, 1717, 1448, 3182, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 155 - [lunatic]suicide, CarpeNoctem, blackrog und BertiPlusP auf Karte 6, ZZZ=6, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 239, 2501, 1327, 2779, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 156 - Anaxaros, buttertasse, Akari und Botrix auf Karte 6, ZZZ=6, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1578, 1991, 1168, 773, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 157 - [lunatic]suicide, Balteatus, Akari und CarpeNoctem auf Karte 6, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 239, 1912, 1168, 2501, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 158 - Atomy, Anaxaros, Calypso und chaos auf Karte 6, ZZZ=6, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 723, 1578, 1543, 127, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 159 - anton, A300, cachito und buttertasse auf Karte 6, ZZZ=6, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 1717, 1823, 1175, 1991, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 160 - Booo, andreu73, Botrix und aristarch auf Karte 6, ZZZ=6, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 6,
+      "players" : [ 422, 2321, 773, 2231, 2241 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 161 - andreu73, Anaxaros, A300 und buttertasse auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 2321, 1578, 1823, 1991, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 162 - blackrog, Blindschleiche, anton und Anaxaros auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1327, 1448, 1717, 1578, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 163 - [lunatic]suicide, Booo, buttertasse und Calypso auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 239, 422, 1991, 1543, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 164 - CarpeNoctem, cachito, Anthropophagos und Akari auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 2501, 1175, 3182, 1168, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 165 - Atomy, BertiPlusP, Akari und aristarch auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 723, 2779, 1168, 2231, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 166 - chaos, Balteatus, Botrix und A300 auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 127, 1912, 773, 1823, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 167 - Booo, BertiPlusP, A300 und CarpeNoctem auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 422, 2779, 1823, 2501, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 168 - Blindschleiche, cachito, aristarch und [lunatic]suicide auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1448, 1175, 2231, 239, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 169 - Balteatus, anton, Calypso und blackrog auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1912, 1717, 1543, 1327, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 170 - Botrix, Atomy, [lunatic]suicide und Anthropophagos auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 773, 723, 239, 3182, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 171 - chaos, andreu73, Blindschleiche und buttertasse auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 127, 2321, 1448, 1991, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 172 - Anthropophagos, aristarch, buttertasse und CarpeNoctem auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 3182, 2231, 1991, 2501, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 173 - Akari, anton, BertiPlusP und cachito auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1168, 1717, 2779, 1175, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 174 - chaos, Balteatus, anton und CarpeNoctem auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 127, 1912, 1717, 2501, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 175 - blackrog, Botrix, chaos und Atomy auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1327, 773, 127, 723, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 176 - Booo, andreu73, BertiPlusP und Botrix auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 422, 2321, 2779, 773, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 177 - Calypso, Anaxaros, Akari und andreu73 auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1543, 1578, 1168, 2321, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 178 - blackrog, A300, [lunatic]suicide und aristarch auf Karte 7, ZZZ=7, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1327, 1823, 239, 2231, 2241 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 179 - Balteatus, Calypso, cachito und Blindschleiche auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 1912, 1543, 1175, 1448, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 180 - Booo, Anaxaros, Atomy und Anthropophagos auf Karte 7, ZZZ=8, Richtungsmodus: Formula 1",
+      "map" : 7,
+      "players" : [ 422, 1578, 723, 3182, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 181 - CarpeNoctem, Anaxaros und blackrog auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 2501, 1578, 1327, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 182 - [lunatic]suicide, Balteatus und BertiPlusP auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 239, 1912, 2779, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 183 - chaos, buttertasse und [lunatic]suicide auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 127, 1991, 239, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 184 - aristarch, anton und Atomy auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 2231, 1717, 723, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 185 - Blindschleiche, Akari und Booo auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1448, 1168, 422, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 186 - cachito, andreu73 und Anthropophagos auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1175, 2321, 3182, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 187 - Botrix, Calypso und buttertasse auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 773, 1543, 1991, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 188 - blackrog, cachito und Booo auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1327, 1175, 422, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 189 - CarpeNoctem, Calypso und Atomy auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 2501, 1543, 723, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 190 - chaos, BertiPlusP und Anthropophagos auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 127, 2779, 3182, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 191 - Blindschleiche, aristarch und Anthropophagos auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1448, 2231, 3182, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 192 - Botrix, anton und Anaxaros auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 773, 1717, 1578, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 193 - Akari, A300 und anton auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1168, 1823, 1717, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 194 - Balteatus, andreu73 und Atomy auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1912, 2321, 723, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 195 - [lunatic]suicide, Booo und Balteatus auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 239, 422, 1912, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 196 - Akari, aristarch und buttertasse auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1168, 2231, 1991, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 197 - Botrix, A300 und cachito auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 773, 1823, 1175, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 198 - Calypso, A300 und BertiPlusP auf Karte 8, ZZZ=8, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1543, 1823, 2779, 2241 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 199 - Blindschleiche, andreu73 und CarpeNoctem auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1448, 2321, 2501, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 200 - blackrog, Anaxaros und chaos auf Karte 8, ZZZ=9, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 8,
+      "players" : [ 1327, 1578, 127, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 201 - chaos, aristarch, Calypso und Booo auf Karte 9, ZZZ=9, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 127, 2231, 1543, 422, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 202 - blackrog, Akari, Botrix und Blindschleiche auf Karte 9, ZZZ=10, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 1327, 1168, 773, 1448, 2241 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 203 - anton, andreu73, [lunatic]suicide und Anaxaros auf Karte 9, ZZZ=10, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 1717, 2321, 239, 1578, 2241 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 204 - Balteatus, buttertasse, aristarch und Anaxaros auf Karte 9, ZZZ=10, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 1912, 1991, 2231, 1578, 2241 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 205 - Anthropophagos, A300, chaos und Akari auf Karte 9, ZZZ=9, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 3182, 1823, 127, 1168, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 206 - Atomy, cachito, [lunatic]suicide und CarpeNoctem auf Karte 9, ZZZ=10, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 723, 1175, 239, 2501, 2241 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 207 - blackrog, buttertasse, Calypso und Anthropophagos auf Karte 9, ZZZ=9, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 1327, 1991, 1543, 3182, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 208 - Blindschleiche, BertiPlusP, Atomy und A300 auf Karte 9, ZZZ=9, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 1448, 2779, 723, 1823, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 209 - Booo, anton, CarpeNoctem und Botrix auf Karte 9, ZZZ=10, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 422, 1717, 2501, 773, 2241 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Ausgewogene Testserie - Spiel 210 - Balteatus, BertiPlusP, andreu73 und cachito auf Karte 9, ZZZ=9, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 9,
+      "players" : [ 1912, 2779, 2321, 1175, 2241 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    } ]
+  },
+  "players" : [ 239, 1823, 1168, 1578, 2321, 3182, 1717, 2231, 723, 1912, 2779, 1327, 1448, 422, 773, 1991, 1175, 1543, 2501, 127 ],
+  "rules" : {
+    "minZzz" : 2,
+    "maxZzz" : 2,
+    "crashallowed" : "forbidden",
+    "cps" : true,
+    "startdirection" : "classic"
+  },
+  "mapsByKey" : {
+    "0" : [ 1 ],
+    "1" : [ 2 ],
+    "2" : [ 3 ],
+    "3" : [ 4 ],
+    "4" : [ 5 ],
+    "5" : [ 6 ],
+    "6" : [ 7 ],
+    "7" : [ 8 ],
+    "8" : [ 9 ]
+  },
+  "rulesByKey" : {
+    "0" : {
+      "minZzz" : 1,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "classic",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "1" : {
+      "minZzz" : 2,
+      "maxZzz" : 3,
+      "crashallowed" : "forbidden",
+      "cps" : false,
+      "startdirection" : "formula1",
+      "gamesPerPlayer" : 2,
+      "numberOfPlayers" : 2
+    },
+    "2" : {
+      "minZzz" : 3,
+      "maxZzz" : 4,
+      "crashallowed" : "free",
+      "cps" : null,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 3,
+      "numberOfPlayers" : 3
+    },
+    "3" : {
+      "minZzz" : 4,
+      "maxZzz" : 5,
+      "crashallowed" : "random",
+      "cps" : null,
+      "startdirection" : "random",
+      "gamesPerPlayer" : 4,
+      "numberOfPlayers" : 2
+    },
+    "4" : {
+      "minZzz" : 5,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : false,
+      "startdirection" : "formula1",
+      "gamesPerPlayer" : 5,
+      "numberOfPlayers" : 2
+    },
+    "5" : {
+      "minZzz" : 6,
+      "maxZzz" : 7,
+      "crashallowed" : "random",
+      "cps" : true,
+      "startdirection" : "formula1",
+      "gamesPerPlayer" : 5,
+      "numberOfPlayers" : 4
+    },
+    "6" : {
+      "minZzz" : 7,
+      "maxZzz" : 8,
+      "crashallowed" : "forbidden",
+      "cps" : true,
+      "startdirection" : "formula1",
+      "gamesPerPlayer" : 4,
+      "numberOfPlayers" : 4
+    },
+    "7" : {
+      "minZzz" : 8,
+      "maxZzz" : 9,
+      "crashallowed" : "free",
+      "cps" : false,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 3,
+      "numberOfPlayers" : 3
+    },
+    "8" : {
+      "minZzz" : 9,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : false,
+      "startdirection" : "classic",
+      "gamesPerPlayer" : 2,
+      "numberOfPlayers" : 4
+    }
+  },
+  "settings" : {
+    "defaultTitle" : "${spieler.ersteller}s Ausgewogene Spieleserie - Spiel ${i} - ${spieler.namen.x} auf Karte ${karte.id}, ${regeln.x}",
+    "maps" : 9,
+    "maxGamesPerPlayer" : 5,
+    "maxMaps" : 10
+  },
+  "loaded" : true
+}
