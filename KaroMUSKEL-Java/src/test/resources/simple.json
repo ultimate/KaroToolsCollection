@@ -1,0 +1,224 @@
+{
+  "type" : "Simple",
+  "title" : "${spieler.ersteller}s Testserie - Spiel ${i} auf Karte ${karte.id}, ${regeln.x}",
+  "creator" : 2241,
+  "games" : {
+    "Simple" : [ {
+      "name" : "CraZZZys Testserie - Spiel 1 auf Karte 118, ZZZ=47, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 118,
+      "players" : [ 2241, 678, 976, 3145, 132, 29, 814, 1597 ],
+      "options" : {
+        "zzz" : 47,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 2 auf Karte 113, ZZZ=60, TC: Egal, Richtungsmodus: Egal",
+      "map" : 113,
+      "players" : [ 2241, 88, 3006, 723 ],
+      "options" : {
+        "zzz" : 60,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 3 auf Karte 226, ZZZ=88, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 226,
+      "players" : [ 2241, 2865, 1230, 1687, 2270, 3047, 2746, 1597, 1175, 2336, 766, 516, 814 ],
+      "options" : {
+        "zzz" : 88,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 4 auf Karte 243, ZZZ=29, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 243,
+      "players" : [ 2241, 519, 2730, 1912, 557, 805, 2740, 1327, 2822, 2094, 2638 ],
+      "options" : {
+        "zzz" : 29,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 5 auf Karte 117, ZZZ=57, Richtungsmodus: Egal",
+      "map" : 117,
+      "players" : [ 2241, 222, 1991, 563, 3182, 2779, 2746, 518, 519, 2445 ],
+      "options" : {
+        "zzz" : 57,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 6 auf Karte 10000, ZZZ=25, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 10000,
+      "players" : [ 2241, 2336, 1, 1574 ],
+      "options" : {
+        "zzz" : 25,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 7 auf Karte 162, ZZZ=52, TC: Egal, Richtungsmodus: Egal",
+      "map" : 162,
+      "players" : [ 2241, 1597, 678, 3182 ],
+      "options" : {
+        "zzz" : 52,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 8 auf Karte 151, ZZZ=54, TC: Erlaubt, Richtungsmodus: Egal",
+      "map" : 151,
+      "players" : [ 2241, 1991, 2915, 1574, 2791, 213, 422, 2264, 210, 2345, 1989, 2094, 220 ],
+      "options" : {
+        "zzz" : 54,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 9 auf Karte 117, ZZZ=55, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 117,
+      "players" : [ 2241, 1413, 516, 2915, 1543, 2264, 213, 210, 2740, 992 ],
+      "options" : {
+        "zzz" : 55,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 10 auf Karte 39, ZZZ=48, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 39,
+      "players" : [ 2241, 410, 2834, 2868, 1989, 2541 ],
+      "options" : {
+        "zzz" : 48,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 11 auf Karte 118, ZZZ=60, TC: Egal, Checkpoints deaktiviert",
+      "map" : 118,
+      "players" : [ 2241, 2501, 766, 222, 2235, 1647, 2791, 2492 ],
+      "options" : {
+        "zzz" : 60,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 12 auf Karte 196, ZZZ=70, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 196,
+      "players" : [ 2241, 411, 2336, 3183, 453 ],
+      "options" : {
+        "zzz" : 70,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 13 auf Karte 54, ZZZ=25, Richtungsmodus: Formula 1",
+      "map" : 54,
+      "players" : [ 2241, 87, 751, 60, 222, 1991, 1175, 1643 ],
+      "options" : {
+        "zzz" : 25,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 14 auf Karte 177, ZZZ=20, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 177,
+      "players" : [ 2241, 1323, 3065, 3097, 1717, 773, 2336, 519 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 15 auf Karte 5, ZZZ=99, TC: Egal",
+      "map" : 5,
+      "players" : [ 2241, 2094, 2937, 3182, 201 ],
+      "options" : {
+        "zzz" : 99,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 16 auf Karte 178, ZZZ=93",
+      "map" : 178,
+      "players" : [ 2241, 519, 1327, 210, 2270, 1912 ],
+      "options" : {
+        "zzz" : 93,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 17 auf Karte 187, ZZZ=33, TC: Erlaubt",
+      "map" : 187,
+      "players" : [ 2241, 132, 2772, 1505, 723, 3091, 2345 ],
+      "options" : {
+        "zzz" : 33,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 18 auf Karte 10046, ZZZ=20, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 10046,
+      "players" : [ 2241, 2638, 2834, 422, 3091, 875 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 19 auf Karte 151, ZZZ=74, TC: Egal, Checkpoints deaktiviert",
+      "map" : 151,
+      "players" : [ 2241, 678, 2624, 411, 3097, 1413, 875, 2834, 992, 426, 2738, 1717, 1578 ],
+      "options" : {
+        "zzz" : 74,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Testserie - Spiel 20 auf Karte 223, ZZZ=3, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 223,
+      "players" : [ 2241, 1597, 1989, 422, 2868, 751, 814, 2915, 426, 805, 2231, 2730, 557 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    } ]
+  },
+  "players" : [ 239, 1823, 1168, 1578, 2321, 3182, 1717, 2231, 723, 1912, 2779, 1327, 1448, 422, 773, 1991, 1175, 1543, 2501, 127, 2740, 2445, 2985, 410, 411, 2235, 3184, 1, 222, 88, 326, 2937, 557, 2915, 3114, 1294, 1722, 519, 1644, 2730, 1643, 60, 1505, 2226, 3145, 1309, 2638, 3186, 751, 2894, 766, 814, 3187, 805, 2492, 2822, 2345, 210, 3065, 871, 1690, 1597, 563, 2624, 2634, 453, 2791, 1401, 2800, 3091, 2737, 678, 29, 132, 87, 976, 2336, 516, 3097, 1989, 3021, 2865, 68, 3058, 1230, 2834, 1830, 1323, 2541, 2738, 2772, 2094, 3006, 875, 2270, 3048, 3047, 1413, 1647, 992, 1574, 1687, 2746, 213, 426, 201, 2264, 277, 220, 3183, 518, 1629, 2868 ],
+  "maps" : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 10000, 10001, 10003, 10004, 10005, 10006, 10007, 10008, 10009, 10010, 10011, 10012, 10013, 10014, 10015, 10016, 10017, 10018, 10019, 10020, 10021, 10022, 10023, 10024, 10025, 10026, 10027, 10028, 10029, 10032, 10033, 10035, 10036, 10038, 10039, 10041, 10042, 10043, 10044, 10045, 10046, 10047, 10048 ],
+  "rules" : {
+    "minZzz" : 0,
+    "maxZzz" : 99,
+    "crashallowed" : "random",
+    "cps" : null,
+    "startdirection" : "random"
+  },
+  "settings" : {
+    "games" : 20,
+    "gameseries.simple." : "${spieler.ersteller}s Spieleserie - Spiel ${i} auf Karte ${karte.id}, ${regeln.x}",
+    "maxGames" : 20,
+    "maxPlayersPerGame" : 13,
+    "minPlayersPerGame" : 3
+  }
+}

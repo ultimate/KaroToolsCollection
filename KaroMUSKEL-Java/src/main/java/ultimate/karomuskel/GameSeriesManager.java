@@ -326,7 +326,7 @@ public abstract class GameSeriesManager
 				}
 				catch(NumberFormatException e)
 				{
-					gs.set(prefix, valueS);
+					gs.set(settingsKey, valueS);
 				}
 			}
 		}
