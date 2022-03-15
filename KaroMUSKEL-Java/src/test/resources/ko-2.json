@@ -1,0 +1,977 @@
+{
+  "type" : "KO",
+  "title" : "Karopapier TESTmeisterschaft 20xx - ${runde} - ${teams} auf Karte ${karte.id}",
+  "creator" : 2241,
+  "games" : {
+    "KO.roundOf16" : [ {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - joe vs. wolle auf Karte 11",
+      "map" : 11,
+      "players" : [ 2241, 805, 220 ],
+      "options" : {
+        "zzz" : 38,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - joe vs. wolle auf Karte 11",
+      "map" : 11,
+      "players" : [ 2241, 805, 220 ],
+      "options" : {
+        "zzz" : 76,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - joe vs. wolle auf Karte 11",
+      "map" : 11,
+      "players" : [ 2241, 805, 220 ],
+      "options" : {
+        "zzz" : 77,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - joe vs. wolle auf Karte 11",
+      "map" : 11,
+      "players" : [ 2241, 805, 220 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - joe vs. wolle auf Karte 11",
+      "map" : 11,
+      "players" : [ 2241, 805, 220 ],
+      "options" : {
+        "zzz" : 85,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - eisbaer04 vs. Nebresh auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 678 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - eisbaer04 vs. Nebresh auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 678 ],
+      "options" : {
+        "zzz" : 59,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - eisbaer04 vs. Nebresh auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 678 ],
+      "options" : {
+        "zzz" : 70,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - eisbaer04 vs. Nebresh auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 678 ],
+      "options" : {
+        "zzz" : 38,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - eisbaer04 vs. Nebresh auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 678 ],
+      "options" : {
+        "zzz" : 82,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - KaBotte vs. fiete auf Karte 12",
+      "map" : 12,
+      "players" : [ 2241, 2822, 557 ],
+      "options" : {
+        "zzz" : 95,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - KaBotte vs. fiete auf Karte 12",
+      "map" : 12,
+      "players" : [ 2241, 2822, 557 ],
+      "options" : {
+        "zzz" : 94,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - KaBotte vs. fiete auf Karte 12",
+      "map" : 12,
+      "players" : [ 2241, 2822, 557 ],
+      "options" : {
+        "zzz" : 45,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - KaBotte vs. fiete auf Karte 12",
+      "map" : 12,
+      "players" : [ 2241, 2822, 557 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - KaBotte vs. fiete auf Karte 12",
+      "map" : 12,
+      "players" : [ 2241, 2822, 557 ],
+      "options" : {
+        "zzz" : 96,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - gerd 1 2 3 vs. Icky auf Karte 7",
+      "map" : 7,
+      "players" : [ 2241, 519, 766 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - gerd 1 2 3 vs. Icky auf Karte 7",
+      "map" : 7,
+      "players" : [ 2241, 519, 766 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - gerd 1 2 3 vs. Icky auf Karte 7",
+      "map" : 7,
+      "players" : [ 2241, 519, 766 ],
+      "options" : {
+        "zzz" : 71,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - gerd 1 2 3 vs. Icky auf Karte 7",
+      "map" : 7,
+      "players" : [ 2241, 519, 766 ],
+      "options" : {
+        "zzz" : 79,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - gerd 1 2 3 vs. Icky auf Karte 7",
+      "map" : 7,
+      "players" : [ 2241, 519, 766 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - haeckler vs. A300 auf Karte 9",
+      "map" : 9,
+      "players" : [ 2241, 1505, 1823 ],
+      "options" : {
+        "zzz" : 40,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - haeckler vs. A300 auf Karte 9",
+      "map" : 9,
+      "players" : [ 2241, 1505, 1823 ],
+      "options" : {
+        "zzz" : 15,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - haeckler vs. A300 auf Karte 9",
+      "map" : 9,
+      "players" : [ 2241, 1505, 1823 ],
+      "options" : {
+        "zzz" : 56,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - haeckler vs. A300 auf Karte 9",
+      "map" : 9,
+      "players" : [ 2241, 1505, 1823 ],
+      "options" : {
+        "zzz" : 13,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - haeckler vs. A300 auf Karte 9",
+      "map" : 9,
+      "players" : [ 2241, 1505, 1823 ],
+      "options" : {
+        "zzz" : 49,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - pacman vs. cachito auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1175 ],
+      "options" : {
+        "zzz" : 48,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - pacman vs. cachito auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1175 ],
+      "options" : {
+        "zzz" : 37,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - pacman vs. cachito auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1175 ],
+      "options" : {
+        "zzz" : 49,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - pacman vs. cachito auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1175 ],
+      "options" : {
+        "zzz" : 85,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - pacman vs. cachito auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1175 ],
+      "options" : {
+        "zzz" : 64,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 13,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 68,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 69,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Leonard vs. Madeleine auf Karte 13",
+      "map" : 13,
+      "players" : [ 2241, 1690, 563 ],
+      "options" : {
+        "zzz" : 72,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Leonard vs. Madeleine auf Karte 13",
+      "map" : 13,
+      "players" : [ 2241, 1690, 563 ],
+      "options" : {
+        "zzz" : 33,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Leonard vs. Madeleine auf Karte 13",
+      "map" : 13,
+      "players" : [ 2241, 1690, 563 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Leonard vs. Madeleine auf Karte 13",
+      "map" : 13,
+      "players" : [ 2241, 1690, 563 ],
+      "options" : {
+        "zzz" : 73,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - 8-tel Finale - Leonard vs. Madeleine auf Karte 13",
+      "map" : 13,
+      "players" : [ 2241, 1690, 563 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    } ],
+    "KO.roundOf2" : [ {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Finale - A300 vs. pacman auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 132 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Finale - A300 vs. pacman auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 132 ],
+      "options" : {
+        "zzz" : 35,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Finale - A300 vs. pacman auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 132 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Finale - A300 vs. pacman auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 132 ],
+      "options" : {
+        "zzz" : 61,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Finale - A300 vs. pacman auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 132 ],
+      "options" : {
+        "zzz" : 78,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    } ],
+    "KO.roundOf4" : [ {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - eisbaer04 vs. KaBotte auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 2822 ],
+      "options" : {
+        "zzz" : 13,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - eisbaer04 vs. KaBotte auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 2822 ],
+      "options" : {
+        "zzz" : 30,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - eisbaer04 vs. KaBotte auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 2822 ],
+      "options" : {
+        "zzz" : 85,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - eisbaer04 vs. KaBotte auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 2822 ],
+      "options" : {
+        "zzz" : 46,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - eisbaer04 vs. KaBotte auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 2822 ],
+      "options" : {
+        "zzz" : 79,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - pacman vs. A300 auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1823 ],
+      "options" : {
+        "zzz" : 73,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - pacman vs. A300 auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1823 ],
+      "options" : {
+        "zzz" : 81,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - pacman vs. A300 auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1823 ],
+      "options" : {
+        "zzz" : 52,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - pacman vs. A300 auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1823 ],
+      "options" : {
+        "zzz" : 89,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Halbfinale - pacman vs. A300 auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 132, 1823 ],
+      "options" : {
+        "zzz" : 84,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    } ],
+    "KO.roundOf8" : [ {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - cachito vs. Madeleine auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 563 ],
+      "options" : {
+        "zzz" : 41,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - cachito vs. Madeleine auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 563 ],
+      "options" : {
+        "zzz" : 84,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - cachito vs. Madeleine auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 563 ],
+      "options" : {
+        "zzz" : 32,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - cachito vs. Madeleine auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 563 ],
+      "options" : {
+        "zzz" : 37,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - cachito vs. Madeleine auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 563 ],
+      "options" : {
+        "zzz" : 79,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - A300 vs. gerd 1 2 3 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 519 ],
+      "options" : {
+        "zzz" : 92,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - A300 vs. gerd 1 2 3 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 519 ],
+      "options" : {
+        "zzz" : 56,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - A300 vs. gerd 1 2 3 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 519 ],
+      "options" : {
+        "zzz" : 40,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - A300 vs. gerd 1 2 3 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 519 ],
+      "options" : {
+        "zzz" : 91,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - A300 vs. gerd 1 2 3 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 519 ],
+      "options" : {
+        "zzz" : 43,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - Icky vs. KaBotte auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 766, 2822 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - Icky vs. KaBotte auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 766, 2822 ],
+      "options" : {
+        "zzz" : 85,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - Icky vs. KaBotte auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 766, 2822 ],
+      "options" : {
+        "zzz" : 44,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - Icky vs. KaBotte auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 766, 2822 ],
+      "options" : {
+        "zzz" : 27,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - Icky vs. KaBotte auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 766, 2822 ],
+      "options" : {
+        "zzz" : 33,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - eisbaer04 vs. pacman auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 132 ],
+      "options" : {
+        "zzz" : 38,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - eisbaer04 vs. pacman auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 132 ],
+      "options" : {
+        "zzz" : 17,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - eisbaer04 vs. pacman auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 132 ],
+      "options" : {
+        "zzz" : 32,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - eisbaer04 vs. pacman auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 132 ],
+      "options" : {
+        "zzz" : 49,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "Karopapier TESTmeisterschaft 20xx - Viertelfinale - eisbaer04 vs. pacman auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 132 ],
+      "options" : {
+        "zzz" : 23,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    } ]
+  },
+  "teams" : [ {
+    "name" : "A300",
+    "members" : [ 1823 ],
+    "homeMap" : 1
+  }, {
+    "name" : "Balteatus",
+    "members" : [ 1912 ],
+    "homeMap" : 2
+  }, {
+    "name" : "cachito",
+    "members" : [ 1175 ],
+    "homeMap" : 3
+  }, {
+    "name" : "DeepGray",
+    "members" : [ 410 ],
+    "homeMap" : 4
+  }, {
+    "name" : "eisbaer04",
+    "members" : [ 326 ],
+    "homeMap" : 5
+  }, {
+    "name" : "fiete",
+    "members" : [ 557 ],
+    "homeMap" : 6
+  }, {
+    "name" : "gerd 1 2 3",
+    "members" : [ 519 ],
+    "homeMap" : 7
+  }, {
+    "name" : "wolle",
+    "members" : [ 220 ],
+    "homeMap" : 8
+  }, {
+    "name" : "haeckler",
+    "members" : [ 1505 ],
+    "homeMap" : 9
+  }, {
+    "name" : "Icky",
+    "members" : [ 766 ],
+    "homeMap" : 10
+  }, {
+    "name" : "joe",
+    "members" : [ 805 ],
+    "homeMap" : 11
+  }, {
+    "name" : "KaBotte",
+    "members" : [ 2822 ],
+    "homeMap" : 12
+  }, {
+    "name" : "Leonard",
+    "members" : [ 1690 ],
+    "homeMap" : 13
+  }, {
+    "name" : "Madeleine",
+    "members" : [ 563 ],
+    "homeMap" : 14
+  }, {
+    "name" : "Nebresh",
+    "members" : [ 678 ],
+    "homeMap" : 15
+  }, {
+    "name" : "pacman",
+    "members" : [ 132 ],
+    "homeMap" : 16
+  } ],
+  "maps" : [ 200, 201, 202, 203, 204, 205 ],
+  "rules" : {
+    "minZzz" : 0,
+    "maxZzz" : 99,
+    "crashallowed" : "random",
+    "cps" : null,
+    "startdirection" : "random"
+  },
+  "teamsByKey" : {
+    "roundOf16" : [ {
+      "name" : "A300",
+      "members" : [ 1823 ],
+      "homeMap" : 1
+    }, {
+      "name" : "Balteatus",
+      "members" : [ 1912 ],
+      "homeMap" : 2
+    }, {
+      "name" : "cachito",
+      "members" : [ 1175 ],
+      "homeMap" : 3
+    }, {
+      "name" : "DeepGray",
+      "members" : [ 410 ],
+      "homeMap" : 4
+    }, {
+      "name" : "eisbaer04",
+      "members" : [ 326 ],
+      "homeMap" : 5
+    }, {
+      "name" : "fiete",
+      "members" : [ 557 ],
+      "homeMap" : 6
+    }, {
+      "name" : "gerd 1 2 3",
+      "members" : [ 519 ],
+      "homeMap" : 7
+    }, {
+      "name" : "wolle",
+      "members" : [ 220 ],
+      "homeMap" : 8
+    }, {
+      "name" : "haeckler",
+      "members" : [ 1505 ],
+      "homeMap" : 9
+    }, {
+      "name" : "Icky",
+      "members" : [ 766 ],
+      "homeMap" : 10
+    }, {
+      "name" : "joe",
+      "members" : [ 805 ],
+      "homeMap" : 11
+    }, {
+      "name" : "KaBotte",
+      "members" : [ 2822 ],
+      "homeMap" : 12
+    }, {
+      "name" : "Leonard",
+      "members" : [ 1690 ],
+      "homeMap" : 13
+    }, {
+      "name" : "Madeleine",
+      "members" : [ 563 ],
+      "homeMap" : 14
+    }, {
+      "name" : "Nebresh",
+      "members" : [ 678 ],
+      "homeMap" : 15
+    }, {
+      "name" : "pacman",
+      "members" : [ 132 ],
+      "homeMap" : 16
+    } ],
+    "roundOf2" : [ {
+      "name" : "A300",
+      "members" : [ 1823 ],
+      "homeMap" : 1
+    }, {
+      "name" : "pacman",
+      "members" : [ 132 ],
+      "homeMap" : 16
+    } ],
+    "roundOf4" : [ {
+      "name" : "A300",
+      "members" : [ 1823 ],
+      "homeMap" : 1
+    }, {
+      "name" : "eisbaer04",
+      "members" : [ 326 ],
+      "homeMap" : 5
+    }, {
+      "name" : "KaBotte",
+      "members" : [ 2822 ],
+      "homeMap" : 12
+    }, {
+      "name" : "pacman",
+      "members" : [ 132 ],
+      "homeMap" : 16
+    } ],
+    "roundOf8" : [ {
+      "name" : "A300",
+      "members" : [ 1823 ],
+      "homeMap" : 1
+    }, {
+      "name" : "cachito",
+      "members" : [ 1175 ],
+      "homeMap" : 3
+    }, {
+      "name" : "eisbaer04",
+      "members" : [ 326 ],
+      "homeMap" : 5
+    }, {
+      "name" : "gerd 1 2 3",
+      "members" : [ 519 ],
+      "homeMap" : 7
+    }, {
+      "name" : "Icky",
+      "members" : [ 766 ],
+      "homeMap" : 10
+    }, {
+      "name" : "KaBotte",
+      "members" : [ 2822 ],
+      "homeMap" : 12
+    }, {
+      "name" : "Madeleine",
+      "members" : [ 563 ],
+      "homeMap" : 14
+    }, {
+      "name" : "pacman",
+      "members" : [ 132 ],
+      "homeMap" : 16
+    } ]
+  },
+  "settings" : {
+    "allowMultipleTeams" : false,
+    "autoNameTeams" : true,
+    "defaultTitle" : "Karopapier Weltmeisterschaft 20xx - ${runde} - ${teams} auf Karte ${karte.id}",
+    "gamesPerPair" : 5,
+    "maxPlayersPerTeam" : 1,
+    "maxRounds" : 5,
+    "maxTeams" : 16,
+    "minPlayersPerTeam" : 1,
+    "round" : 2,
+    "shuffleTeams" : false,
+    "smallFinal" : false,
+    "teams" : 16,
+    "useCreatorTeam" : false,
+    "useHomeMaps" : true
+  },
+  "loaded" : true
+}

@@ -195,6 +195,8 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		if(direction == EnumNavigation.previous)
 			return "navigation.summary.previous";
+		else if(gamesToCreate() && next instanceof StartScreen)
+			return "navigation.summary.final";
 		else if(gamesToCreate())
 			return "navigation.summary.next";
 		else

@@ -484,13 +484,14 @@ public class PlayersScreen extends Screen implements ActionListener
 						teamList = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + teams);
 					else
 						teamList = gameSeries.getTeams();
-					for(int t = 0; t < teams && t < teamList.size(); t++)
-					{
-						team = teamList.get(t);
-						for(User player : team.getMembers())
-							preselectPlayer(player, t);
-						teamNameTFList.get(t).setText(team.getName());
-					}
+					if(teamList != null)
+						for(int t = 0; t < teams && t < teamList.size(); t++)
+						{
+							team = teamList.get(t);
+							for(User player : team.getMembers())
+								preselectPlayer(player, t);
+							teamNameTFList.get(t).setText(team.getName());
+						}
 				}
 			}
 		}
