@@ -42,7 +42,7 @@ public class RulesScreen extends Screen
 
 	public RulesScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.rules.header", "screen.rules.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.rules.header");
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
@@ -50,6 +50,12 @@ public class RulesScreen extends Screen
 		this.gbc.anchor = GridBagConstraints.LINE_START;
 		this.gbc.insets = new Insets(insetsV, insetsH, insetsV, insetsH);
 		this.gbc.fill = GridBagConstraints.HORIZONTAL;
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.rules.next";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -99,7 +105,7 @@ public class RulesScreen extends Screen
 		EnumGameTC crashingAllowedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCrashallowed() : EnumGameTC.forbidden);
 		this.crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowedInit, true));
 		
-		Boolean checkpointsActivatedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCps() : true);
+		Boolean checkpointsActivatedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCps() : Boolean.TRUE);
 		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, true));
 
 		EnumGameDirection directionInit = (gameSeries.getRules() != null ? gameSeries.getRules().getStartdirection() : EnumGameDirection.classic);

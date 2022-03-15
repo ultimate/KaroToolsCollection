@@ -1458,7 +1458,7 @@ public abstract class Planner
 
 		if(count >= 0)
 		{
-			tmp.append(",");
+			tmp.append(", ");
 			if(round == 2 || round == 4 || round == 8 || group <= 0)
 				tmp.append(Language.getString("titlepatterns.match") + " " + count);
 			else

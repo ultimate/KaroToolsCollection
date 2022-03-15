@@ -40,78 +40,78 @@ public class GameSeries
 	// relevant game series types
 	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
-	public static final String					NUMBER_OF_GAMES				= "games";				// ______________________X__
-	public static final String					NUMBER_OF_MAPS				= "maps";				// ______X__________________
-	public static final String					NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
-	public static final String					NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
-	public static final String					NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
-	public static final String					CURRENT_ROUND				= "round";				// __________X___X__________
-	public static final String					MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
-	public static final String					MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
-	public static final String					MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
-	public static final String					MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
+	public static final String							NUMBER_OF_GAMES				= "games";				// ______________________X__
+	public static final String							NUMBER_OF_MAPS				= "maps";				// ______X__________________
+	public static final String							NUMBER_OF_TEAMS				= "teams";				// __X_______X_______X______
+	public static final String							NUMBER_OF_TEAMS_PER_MATCH	= "teamsPerMatch";		// __X______________________
+	public static final String							NUMBER_OF_GAMES_PER_PAIR	= "gamesPerPair";		// __X_______X_______X______
+	public static final String							CURRENT_ROUND				= "round";				// __________X___X__________
+	public static final String							MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
+	public static final String							MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
+	public static final String							MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
+	public static final String							MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
 	// boolean
-	public static final String					USE_HOME_MAPS				= "useHomeMaps";		// __X_______X_______X______
-	public static final String					USE_CREATOR_TEAM			= "useCreatorTeam";		// __X_______X_______X______
-	public static final String					SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
-	public static final String					AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
-	public static final String					ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
-	public static final String					SMALL_FINAL					= "smallFinal";			// __________X______________
-	public static final String					V2_TEAM_BASED				= "teamBased";			// __X___X___X___X___X___X__
+	public static final String							USE_HOME_MAPS				= "useHomeMaps";		// __X_______X_______X______
+	public static final String							USE_CREATOR_TEAM			= "useCreatorTeam";		// __X_______X_______X______
+	public static final String							SHUFFLE_TEAMS				= "shuffleTeams";		// __X_______X_______X______
+	public static final String							AUTO_NAME_TEAMS				= "autoNameTeams";		// __X_______X_______X______
+	public static final String							ALLOW_MULTIPLE_TEAMS		= "allowMultipleTeams";	// __X_______X_______X______
+	public static final String							SMALL_FINAL					= "smallFinal";			// __________X______________
+	public static final String							V2_TEAM_BASED				= "teamBased";			// __X___X___X___X___X___X__
 
 	// keys for type specific configuration: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types
 	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
-	public static final String					CONF_MAX_TEAMS				= "maxTeams";			// __X_______X_______X______
-	public static final String					CONF_MAX_ROUNDS				= "maxRounds";			// __X_______X_______X______
-	public static final String					CONF_MAX_GAMES				= "maxGames";			// ______________________X__
-	public static final String					CONF_MAX_GAMES_PER_PLAYER	= "maxGamesPerPlayer";	// ______X__________________
-	public static final String					CONF_MAX_MAPS				= "maxMaps";			// ______X__________________
-	public static final String					CONF_KLC_GROUPS				= "groups";				// ______________X__________
-	public static final String					CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
-	public static final String					CONF_KLC_PLAYERS_PER_LEAGUE	= "playersPerLeague";	// ______________X__________
-	public static final String					CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
+	public static final String							CONF_MAX_TEAMS				= "maxTeams";			// __X_______X_______X______
+	public static final String							CONF_MAX_ROUNDS				= "maxRounds";			// __X_______X_______X______
+	public static final String							CONF_MAX_GAMES				= "maxGames";			// ______________________X__
+	public static final String							CONF_MAX_GAMES_PER_PLAYER	= "maxGamesPerPlayer";	// ______X__________________
+	public static final String							CONF_MAX_MAPS				= "maxMaps";			// ______X__________________
+	public static final String							CONF_KLC_GROUPS				= "groups";				// ______________X__________
+	public static final String							CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
+	public static final String							CONF_KLC_PLAYERS_PER_LEAGUE	= "playersPerLeague";	// ______________X__________
+	public static final String							CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
 
 	// keys for type specific lists: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types
 	// _________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
-	public static final String					KEY_LEAGUE					= "league";				// ______________X__________
-	public static final String					KEY_GROUP					= "group";				// ______________X__________
-	public static final String					KEY_ROUND					= "roundOf";			// ______________X__________
+	public static final String							KEY_LEAGUE					= "league";				// ______________X__________
+	public static final String							KEY_GROUP					= "group";				// ______________X__________
+	public static final String							KEY_ROUND					= "roundOf";			// ______________X__________
 
 	// universal settings
 	/**
 	 * the type of the gameseries
 	 */
-	protected EnumGameSeriesType				type;
+	protected EnumGameSeriesType						type;
 	/**
 	 * the gameseries title (including placeholders)
 	 */
-	protected String							title;
+	protected String									title;
 	/**
 	 * the creator
 	 */
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = User.FromIDConverter.class)
-	protected User								creator;
+	protected User										creator;
 
 	/**
 	 * shall the creator leave all games?
 	 */
 	@JsonInclude(value = Include.NON_DEFAULT)
-	protected boolean							creatorGiveUp;
+	protected boolean									creatorGiveUp;
 	/**
 	 * shall the game limits and invitable status be ignored?
 	 */
 	@JsonInclude(value = Include.NON_DEFAULT)
-	protected boolean							ignoreInvitable;
+	protected boolean									ignoreInvitable;
 
 	/**
-	 * the list of games (planned & created in one list)
+	 * the list of games (planned & created in a map by key)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected List<PlannedGame>					games;
+	protected java.util.Map<String, List<PlannedGame>>	games;
 
 	// default lists
 	/**
@@ -120,24 +120,24 @@ public class GameSeries
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = User.FromIDListConverter.class)
-	protected List<User>						players;
+	protected List<User>								players;
 	/**
 	 * the list of all team participating (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected List<Team>						teams;
+	protected List<Team>								teams;
 	/**
 	 * the list of maps used (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDListConverter.class)
 	@JsonDeserialize(converter = Map.FromIDListConverter.class)
-	protected List<Map>							maps;
+	protected List<Map>									maps;
 	/**
 	 * the general rules used
 	 */
 	@JsonInclude(value = Include.NON_NULL)
-	protected Rules								rules;
+	protected Rules										rules;
 
 	// parameterized lists
 	/**
@@ -146,35 +146,35 @@ public class GameSeries
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDMapConverter.class)
 	@JsonDeserialize(converter = User.FromIDMapConverter.class)
-	protected java.util.Map<String, List<User>>	playersByKey;
+	protected java.util.Map<String, List<User>>			playersByKey;
 	/**
 	 * additional team lists by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected java.util.Map<String, List<Team>>	teamsByKey;
+	protected java.util.Map<String, List<Team>>			teamsByKey;
 	/**
 	 * additional map lists by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(converter = ToIDMapConverter.class)
 	@JsonDeserialize(converter = Map.FromIDMapConverter.class)
-	protected java.util.Map<String, List<Map>>	mapsByKey;
+	protected java.util.Map<String, List<Map>>			mapsByKey;
 	/**
 	 * additional rules by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	protected java.util.Map<String, Rules>		rulesByKey;
+	protected java.util.Map<String, Rules>				rulesByKey;
 
 	/**
 	 * type specific settings
 	 */
-	protected java.util.Map<String, Object>		settings;
+	protected java.util.Map<String, Object>				settings;
 
 	/**
 	 * was the gameseries loaded from file?
 	 */
 	@JsonInclude(value = Include.NON_DEFAULT)
-	protected transient boolean					loaded;
+	protected transient boolean							loaded;
 
 	/**
 	 * Create a new GameSeries
@@ -188,7 +188,7 @@ public class GameSeries
 			throw new IllegalArgumentException("type must not be null");
 		this.type = type;
 
-		this.games = new LinkedList<>();
+		this.games = new HashMap<>();
 
 		this.players = new LinkedList<>();
 		this.teams = new LinkedList<>();
@@ -283,17 +283,17 @@ public class GameSeries
 	}
 
 	/**
-	 * @return the list of games (planned & created in one list)
+	 * @return the list of games (planned & created in a map by key)
 	 */
-	public List<PlannedGame> getGames()
+	public java.util.Map<String, List<PlannedGame>> getGames()
 	{
 		return games;
 	}
 
 	/**
-	 * @param games - the list of games (planned & created in one list)
+	 * @param games - the list of games (planned & created in a map by key)
 	 */
-	public void setGames(List<PlannedGame> games)
+	public void setGames(java.util.Map<String, List<PlannedGame>> games)
 	{
 		this.games = games;
 	}

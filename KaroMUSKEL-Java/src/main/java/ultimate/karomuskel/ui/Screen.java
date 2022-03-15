@@ -39,14 +39,12 @@ public abstract class Screen extends JPanel
 	protected Screen					previous;
 	protected Screen					next;
 
-	protected String					nextKey;
-
 	protected String					headerKey;
 
 	protected boolean					skip				= false;
 	protected boolean					firstShow			= true;
 
-	public Screen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey, String nextKey)
+	public Screen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey)
 	{
 		super();
 		this.gui = gui;
@@ -56,10 +54,6 @@ public abstract class Screen extends JPanel
 		this.karoAPICache = karoAPICache;
 		this.previousButton = previousButton;
 		this.nextButton = nextButton;
-		if(nextKey == null)
-			this.nextKey = "navigation.next";
-		else
-			this.nextKey = nextKey;
 		this.headerKey = headerKey;
 	}
 
@@ -80,12 +74,7 @@ public abstract class Screen extends JPanel
 
 	public String getNextKey()
 	{
-		return nextKey;
-	}
-
-	public void setNextKey(String nextKey)
-	{
-		this.nextKey = nextKey;
+		return "navigation.next";
 	}
 
 	public String getHeaderKey()

@@ -44,9 +44,15 @@ public class MapsScreen extends Screen implements ActionListener
 
 	public MapsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header", "screen.maps.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.maps.next";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -129,8 +135,31 @@ public class MapsScreen extends Screen implements ActionListener
 			this.allMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, this.maps));
 			this.selectedMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, new TreeMap<Integer, Map>()));
 		}
-		
-		// TODO NAVIGATION preselect values from gameseries
+
+		if(this.firstShow)
+		{
+			// preselect values from gameseries
+			for(Map map : gameSeries.getMaps())
+				preselectMap(map);
+		}
+
+		this.firstShow = false;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void preselectMap(Map map)
+	{
+		logger.debug("preselect map: " + map.getId());
+		// check map is present in list, if not, add first
+		if(!((GenericListModel<Integer, Map>) allMapsLI.getModel()).containsKey(map.getId()))
+		{
+			logger.warn("map not present in list: " + map.getId() + " -> adding");
+			((GenericListModel<Integer, Map>) allMapsLI.getModel()).addElement(map.getId(), map);
+			allMapsLI.setModel(allMapsLI.getModel());
+		}
+		// select map, then add
+		allMapsLI.setSelectedValue(map, false);
+		actionPerformed(new ActionEvent(this, 0, "add"));
 	}
 
 	@SuppressWarnings("unchecked")

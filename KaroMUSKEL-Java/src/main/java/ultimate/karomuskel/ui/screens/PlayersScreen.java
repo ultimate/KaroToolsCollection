@@ -58,9 +58,15 @@ public class PlayersScreen extends Screen implements ActionListener
 
 	public PlayersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.players.header", "screen.players.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.players.header");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.players.next";
 	}
 
 	@SuppressWarnings("unchecked")
@@ -165,7 +171,6 @@ public class PlayersScreen extends Screen implements ActionListener
 
 		if(this.firstShow)
 		{
-			this.firstShow = false;
 			this.teamLIList = new LinkedList<>();
 			this.teamNameTFList = new LinkedList<>();
 			this.addButtonList = new LinkedList<>();
@@ -344,7 +349,7 @@ public class PlayersScreen extends Screen implements ActionListener
 					String key;
 					for(User player : players)
 					{
-						key = player.getLogin().toLowerCase();
+						key = player.getLoginLowerCase();
 						((GenericListModel<String, User>) teamPlayersLI.getModel()).removeElement(key);
 						teamPlayersLI.setModel(teamPlayersLI.getModel());
 						((GenericListModel<String, User>) this.allPlayersLI.getModel()).addElement(key, player);
@@ -383,7 +388,7 @@ public class PlayersScreen extends Screen implements ActionListener
 					{
 						if(!this.ignoreInvitable && !player.isInvitable(false))
 						{
-							key = player.getLogin().toLowerCase();
+							key = player.getLoginLowerCase();
 							((GenericListModel<String, User>) teamPlayersLI.getModel()).removeElement(key);
 							teamPlayersLI.setModel(teamPlayersLI.getModel());
 							((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(key, player);
@@ -409,7 +414,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
-			String key = gameSeries.getCreator().getLogin().toLowerCase();
+			String key = gameSeries.getCreator().getLoginLowerCase();
 			if((boolean) gameSeries.get(GameSeries.USE_CREATOR_TEAM))
 			{
 				if(!this.allPlayers.containsKey(key))
@@ -441,35 +446,51 @@ public class PlayersScreen extends Screen implements ActionListener
 					String key;
 					for(User player : players)
 					{
-						key = player.getLogin().toLowerCase();
+						key = player.getLoginLowerCase();
 						allPlayersTmp.remove(key);
 					}
 				}
 			}
 			this.allPlayersLI.setModel(new GenericListModel<String, User>(User.class, allPlayersTmp));
 		}
-		
-		// TODO NAVIGATION preselect values from gameseries
-		if(teams == 1)
+
+		if(this.firstShow)
 		{
-			for(User player: gameSeries.getPlayers())
-				preselectPlayer(player, 0);
-		}
-		else
-		{
-			for(int t = 0; t < teams; t++)
+			// preselect values from gameseries
+			if(teams == 1)
 			{
-				for(User player: gameSeries.getPlayers())
-					preselectPlayer(player, t);
-				// TODO set team name
+				for(User player : gameSeries.getPlayers())
+					preselectPlayer(player, 0);
+			}
+			else
+			{
+				Team team;
+				for(int t = 0; t < teams && t < gameSeries.getTeams().size(); t++)
+				{
+					team = gameSeries.getTeams().get(t);
+					for(User player : team.getMembers())
+						preselectPlayer(player, t);
+					teamNameTFList.get(t).setText(team.getName());
+				}
 			}
 		}
+
+		this.firstShow = false;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	private void preselectPlayer(User player, int teamIndex)
 	{
+		logger.debug("preselect player: " + player.getLogin());
+		// check user is present in list, if not (not invitable), add first
+		if(!((GenericListModel<String, User>) allPlayersLI.getModel()).containsKey(player.getLogin()))
+		{
+			logger.warn("player  not present in list: " + player.getLogin() + " -> adding");
+			((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(player.getLoginLowerCase(), player);
+			allPlayersLI.setModel(allPlayersLI.getModel());
+		}
 		// select player, then add
-		// if not present in list (not invitable), then add first
+		allPlayersLI.setSelectedValue(player, false);
 		actionPerformed(new ActionEvent(this, 0, "add" + teamIndex));
 	}
 
@@ -499,7 +520,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				String key;
 				for(User player : players)
 				{
-					key = player.getLogin().toLowerCase();
+					key = player.getLoginLowerCase();
 					if(!this.multipleTeams)
 						((GenericListModel<String, User>) allPlayersLI.getModel()).removeElement(key);
 					((GenericListModel<String, User>) teamLI.getModel()).addElement(key, player);
@@ -511,7 +532,7 @@ public class PlayersScreen extends Screen implements ActionListener
 				String key;
 				for(User player : players)
 				{
-					key = player.getLogin().toLowerCase();
+					key = player.getLoginLowerCase();
 					((GenericListModel<String, User>) teamLI.getModel()).removeElement(key);
 					if(!this.multipleTeams)
 						((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(key, player);

@@ -38,8 +38,14 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 	public KOWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header", "screen.kowinners.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.kowinners.next";
 	}
 
 	@Override
@@ -105,7 +111,6 @@ public class KOWinnersScreen extends Screen implements ActionListener
 		
 		if(this.firstShow)
 		{
-			this.firstShow = false;
 			int numBefore = 0;
 			List<String> names = null;
 			if(GameSeriesManager.isTeamBased(gameSeries))
@@ -117,8 +122,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-				numBefore = round * 2;
+				numBefore = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 				names = new ArrayList<String>(numBefore);
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + numBefore))
 					names.add(p.getLogin());
@@ -167,6 +171,8 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				contentPanel.add(radioButton, gbc);
 			}
 		}
+		// TODO NAVIGATION preselect values from gameseries
+		this.firstShow = false;
 	}
 
 	@Override

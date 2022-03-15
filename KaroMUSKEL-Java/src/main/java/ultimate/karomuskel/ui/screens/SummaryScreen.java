@@ -57,8 +57,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private Screen				startScreen;
 
 	private boolean				skipPlan;
-
-	private List<PlannedGame>	gamesBackup;
+	private String				key;
 
 	private List<PlannedGame>	gamesCreated;
 	private List<PlannedGame>	gamesLeft;
@@ -84,9 +83,9 @@ public class SummaryScreen extends Screen implements ActionListener
 	private static final int	LEAVING				= 3;
 	private static final int	LEFT				= 4;
 
-	public SummaryScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan)
+	public SummaryScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.summary.header", "screen.summary.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.summary.header");
 		this.startScreen = this;
 		while(startScreen.getPrevious() != null)
 		{
@@ -100,6 +99,16 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gamesToLeave = new LinkedList<PlannedGame>();
 
 		this.skipPlan = skipPlan;
+		this.key = key;
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		if(this.next instanceof StartScreen)
+			return "screen.summary.next";
+ 		else
+			return "screen.summary.nextko";
 	}
 
 	public boolean isSkipPlan()
@@ -114,7 +123,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void resetPlannedGames()
 	{
-		this.gameSeries.getGames().removeIf(g -> { return !gamesBackup.contains(g); });
+		this.gameSeries.getGames().get(this.key).clear(); //removeIf(g -> { return !gamesBackup.contains(g); });
 		Planner.resetPlannedGames(this.gameSeries.getPlayers());
 	}
 
@@ -123,15 +132,12 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		this.gameSeries = gameSeries;
 
-		if(this.firstShow)
-			this.gamesBackup = new ArrayList<>(gameSeries.getGames());
-
 		if(!this.skipPlan)
 		{
 			if(!firstShow)
 				resetPlannedGames();
 
-			this.gameSeries.getGames().addAll(Planner.planSeries(gameSeries));
+			this.gameSeries.getGames().put(this.key, Planner.planSeries(gameSeries));
 
 			this.gamesCreated.clear();
 			this.gamesLeft.clear();
@@ -140,7 +146,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else
 		{
-			for(PlannedGame game : gameSeries.getGames())
+			for(PlannedGame game : gameSeries.getGames().get(this.key))
 			{
 				if(game.isCreated())
 					this.gamesCreated.add(game);
@@ -148,8 +154,6 @@ public class SummaryScreen extends Screen implements ActionListener
 					this.gamesLeft.add(game);
 			}
 		}
-
-		this.firstShow = false;
 
 		this.removeAll();
 		this.setLayout(new BorderLayout());
@@ -181,6 +185,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.add(this.tableSP, BorderLayout.CENTER);
 
 		enableButtons();
+
+		this.firstShow = false;
 	}
 
 	@Override
@@ -446,7 +452,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 		});
 
-		for(PlannedGame game : this.gameSeries.getGames())
+		for(PlannedGame game : this.gameSeries.getGames().get(this.key))
 		{
 			this.model.addRow(game);
 		}

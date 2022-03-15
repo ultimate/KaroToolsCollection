@@ -42,8 +42,14 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 	public GroupWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header", "screen.groupwinners.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.groupwinners.next";
 	}
 
 	@Override
@@ -104,7 +110,6 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		
 		if(this.firstShow)
 		{
-			this.firstShow = false;
 			int groups = 0;
 			List<List<String>> names = null;
 			List<String> namesInGroup;
@@ -178,6 +183,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			}
 		}
 		// TODO NAVIGATION preselect values from gameseries
+		this.firstShow = false;
 	}
 
 	@Override

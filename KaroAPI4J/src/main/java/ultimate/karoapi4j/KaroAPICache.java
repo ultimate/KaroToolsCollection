@@ -927,7 +927,7 @@ public class KaroAPICache implements IDLookUp
 		m.setCols(random.nextInt(30) + 5);
 		m.setRows(random.nextInt(20) + 5);
 		m.setRating(random.nextDouble() * 4 + 1);
-		m.setPlayers(id % 20 + 1);
+		m.setPlayers(id % 20 + 2);
 		m.setCps(new int[] {});
 		m.setActive(random.nextDouble() < 0.95);
 		m.setNight(random.nextDouble() < 0.10);
