@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
@@ -64,14 +63,18 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				List<Team> teams = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + previousRound);
+				List<Team> teamList;
+				if(gameSeries.getType() == EnumGameSeriesType.KO)
+					teamList = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + previousRound);
+				else
+					teamList = gameSeries.getTeams();
 
 				List<Team> winnerTeams = new LinkedList<Team>();
 				for(int i = 0; i < this.winners.length; i++)
 				{
 					if(this.winners[i])
 					{
-						winnerTeams.add(teams.get(i));
+						winnerTeams.add(teamList.get(i));
 					}
 				}
 				if(winnerTeams.size() != round)
@@ -131,7 +134,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + numBefore))
 					names.add(p.getLogin());
 			}
-			
+
 			this.winners = new boolean[numBefore];
 			this.buttonList = new ArrayList<>(numBefore);
 			this.buttonGroupList = new ArrayList<>(numBefore / 2);
@@ -172,7 +175,6 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				radioButton = new JRadioButton(names.get(i + 1));
 				radioButton.setActionCommand("" + (i + 1));
 				radioButton.addActionListener(this);
-				radioButton.setHorizontalTextPosition(SwingConstants.LEFT);
 				setIcons(radioButton, 30);
 				buttonList.add(radioButton);
 				buttonGroup.add(radioButton);
@@ -187,15 +189,21 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			List<String> namesNextRound = new ArrayList<String>(nextRound);
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				for(Team t : gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + nextRound))
-					namesNextRound.add(t.getName());
+				List<Team> teamList;
+				if(gameSeries.getType() == EnumGameSeriesType.KO)
+					teamList = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + nextRound);
+				else
+					teamList = gameSeries.getTeams();
+				if(teamList != null)
+					for(Team t : teamList)
+						namesNextRound.add(t.getName());
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
 					namesNextRound.add(p.getLogin());
 			}
-			
+
 			ButtonGroup bg;
 			Enumeration<AbstractButton> bgButtons;
 			AbstractButton b;
@@ -205,11 +213,16 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				{
 					bg = buttonGroupList.get(i);
 					bgButtons = bg.getElements();
+					int bi = 0;
 					while(bgButtons.hasMoreElements())
 					{
 						b = bgButtons.nextElement();
 						if(b.getText().equals(name))
+						{
 							b.setSelected(true);
+							actionPerformed(new ActionEvent(b, i, "" + (i * 2 + bi)));
+						}
+						bi++;
 					}
 				}
 			}
