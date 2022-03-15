@@ -107,7 +107,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		if(this.next instanceof StartScreen)
 			return "screen.summary.next";
- 		else
+		else
 			return "screen.summary.nextko";
 	}
 
@@ -123,7 +123,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void resetPlannedGames()
 	{
-		this.gameSeries.getGames().get(this.key).clear(); //removeIf(g -> { return !gamesBackup.contains(g); });
+		this.gameSeries.getGames().put(this.key, null); // removeIf(g -> { return !gamesBackup.contains(g); });
 		Planner.resetPlannedGames(this.gameSeries.getPlayers());
 	}
 
@@ -146,13 +146,14 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 		else
 		{
-			for(PlannedGame game : gameSeries.getGames().get(this.key))
-			{
-				if(game.isCreated())
-					this.gamesCreated.add(game);
-				if(game.isLeft())
-					this.gamesLeft.add(game);
-			}
+			if(gameSeries.getGames().get(this.key) != null)
+				for(PlannedGame game : gameSeries.getGames().get(this.key))
+				{
+					if(game.isCreated())
+						this.gamesCreated.add(game);
+					if(game.isLeft())
+						this.gamesLeft.add(game);
+				}
 		}
 
 		this.removeAll();
@@ -452,10 +453,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 		});
 
-		for(PlannedGame game : this.gameSeries.getGames().get(this.key))
-		{
-			this.model.addRow(game);
-		}
+		if(this.gameSeries.getGames().get(this.key) != null)
+			for(PlannedGame game : this.gameSeries.getGames().get(this.key))
+				this.model.addRow(game);
 	}
 
 	private void batchUpdateBoolean(int column, String label)
