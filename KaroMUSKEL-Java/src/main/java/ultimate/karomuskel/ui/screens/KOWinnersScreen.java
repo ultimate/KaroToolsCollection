@@ -181,29 +181,25 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 				buttonGroupList.add(buttonGroup);
 			}
-		}
 
-		if(this.firstShow)
-		{
 			// preselect values from gameseries
-			int numBefore = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			int nextRound = numBefore / 2;
-			List<String> names = new ArrayList<String>(nextRound);
+			List<String> namesNextRound = new ArrayList<String>(nextRound);
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
 				for(Team t : gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + nextRound))
-					names.add(t.getName());
+					namesNextRound.add(t.getName());
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
-					names.add(p.getLogin());
+					namesNextRound.add(p.getLogin());
 			}
 			
 			ButtonGroup bg;
 			Enumeration<AbstractButton> bgButtons;
 			AbstractButton b;
-			for(String name : names)
+			for(String name : namesNextRound)
 			{
 				for(int i = 0; i < numBefore / 2; i++)
 				{
