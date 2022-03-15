@@ -594,6 +594,11 @@ public abstract class GameSeriesManager
 			gs.set(GameSeries.USE_CREATOR_TEAM, ((TeamBasedGameSeries) gs2).creatorTeam);
 			gs.setTeams(convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
 			gs.getTeamsByKey().put("shuffled", convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
+			
+			if(gs2 instanceof KOGameSeries)
+			{
+				gs.getTeamsByKey().put(GameSeries.KEY_ROUND + ((TeamBasedGameSeries) gs2).numberOfTeams, gs.getTeams());
+			}
 		}
 		else
 		{
@@ -666,7 +671,7 @@ public abstract class GameSeriesManager
 			list.add(pg);
 		}
 
-		// then split into a map
+		// then put them into the right key of the map
 		HashMap<String, List<PlannedGame>> map = new HashMap<>();
 		String key;
 		switch(gs.getType())
@@ -689,6 +694,7 @@ public abstract class GameSeriesManager
 				break;
 		}
 		map.put(key, list);
+		
 		return map;
 	}
 
@@ -918,8 +924,8 @@ public abstract class GameSeriesManager
 					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString() + "." + GameSeries.KEY_GROUP + "phase"));
 					// Note: skip those who are too many those when applying the SettingsScreen!
-					int groups = (int) gs.get(GameSeries.CONF_KLC_GROUPS);
-					int leagues = (int) gs.get(GameSeries.CONF_KLC_LEAGUES);
+					int groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
+					int leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
 					int players = groups * leagues;
 					int klcround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : players);
 					if(gs.isLoaded() && players == klcround)

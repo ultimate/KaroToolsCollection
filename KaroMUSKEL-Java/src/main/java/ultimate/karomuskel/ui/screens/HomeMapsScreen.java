@@ -3,6 +3,7 @@ package ultimate.karomuskel.ui.screens;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -74,7 +75,7 @@ public class HomeMapsScreen extends Screen
 			{
 				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
 				player = gameSeries.getPlayers().get(i);
-				gameSeries.getMapsByKey().get("" + player.getId()).add(homeMap);
+				gameSeries.getMapsByKey().put("" + player.getId(), Arrays.asList(homeMap));
 			}
 		}
 		return gameSeries;
@@ -92,8 +93,8 @@ public class HomeMapsScreen extends Screen
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			int groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
-			int leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
+			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
+			int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 			numberOfTeamsTmp = groups * leagues;
 		}
 
@@ -208,10 +209,10 @@ public class HomeMapsScreen extends Screen
 
 			for(int i = 0; i < this.mapCBList.size(); i++)
 			{
-				((DefaultComboBoxModel<Map>)this.mapCBList.get(i).getModel()).addElement(map);
+				((DefaultComboBoxModel<Map>) this.mapCBList.get(i).getModel()).addElement(map);
 			}
 		}
 		// select map, then add
-		((DefaultComboBoxModel<Map>)this.mapCBList.get(index).getModel()).setSelectedItem(map);
+		((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).setSelectedItem(map);
 	}
 }

@@ -464,13 +464,27 @@ public class PlayersScreen extends Screen implements ActionListener
 			}
 			else
 			{
-				Team team;
-				for(int t = 0; t < teams && t < gameSeries.getTeams().size(); t++)
+				if(gameSeries.getType() == EnumGameSeriesType.KLC)
 				{
-					team = gameSeries.getTeams().get(t);
-					for(User player : team.getMembers())
-						preselectPlayer(player, t);
-					teamNameTFList.get(t).setText(team.getName());
+					List<User> playerList;
+					for(int l = 0; l < teams; l++)
+					{
+						playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (l+1));
+						for(User player : playerList)
+							preselectPlayer(player, l);
+					}
+				}
+				else if(GameSeriesManager.isTeamBased(gameSeries))
+				{
+					Team team;
+					List<Team> teamList = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + teams);
+					for(int t = 0; t < teams && t < teamList.size(); t++)
+					{
+						team = teamList.get(t);
+						for(User player : team.getMembers())
+							preselectPlayer(player, t);
+						teamNameTFList.get(t).setText(team.getName());
+					}
 				}
 			}
 		}

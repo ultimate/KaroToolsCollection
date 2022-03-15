@@ -6,9 +6,11 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -36,6 +38,9 @@ public class KOWinnersScreen extends Screen implements ActionListener
 
 	private boolean[]			winners;
 
+	private List<JRadioButton>	buttonList;
+	private List<ButtonGroup>	buttonGroupList;
+
 	public KOWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header");
@@ -56,11 +61,11 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			int round = previousRound / 2;
 			gameSeries.set(GameSeries.CURRENT_ROUND, round);
-			
+
 			if(GameSeriesManager.isTeamBased(gameSeries))
-			{				
+			{
 				List<Team> teams = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + previousRound);
-	
+
 				List<Team> winnerTeams = new LinkedList<Team>();
 				for(int i = 0; i < this.winners.length; i++)
 				{
@@ -71,7 +76,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				}
 				if(winnerTeams.size() != round)
 					throw new GameSeriesException("screen.kowinners.notenoughwinners");
-	
+
 				if(gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + round) == null)
 					gameSeries.getTeamsByKey().put(GameSeries.KEY_ROUND + round, new ArrayList<>(round));
 				else
@@ -80,9 +85,9 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				gameSeries.set(GameSeries.SHUFFLE_TEAMS, false);
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
-			{	
+			{
 				List<User> players = gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + previousRound);
-	
+
 				List<User> winnerPlayers = new LinkedList<User>();
 				for(int i = 0; i < this.winners.length; i++)
 				{
@@ -93,18 +98,12 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				}
 				if(winnerPlayers.size() != round)
 					throw new GameSeriesException("screen.kowinners.notenoughwinners");
-				
+
 				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
 				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
 			}
 		}
-		else
-		{
-			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-			int previousRound = round * 2;
-			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
-		}
-		
+
 		return gameSeries;
 	}
 
@@ -117,24 +116,25 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			int previousRound = round * 2;
 			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
 		}
-		
+
 		if(this.firstShow)
 		{
 			int numBefore = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-			List<String> names = null;
+			List<String> names = new ArrayList<String>(numBefore);
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				names = new ArrayList<String>(gameSeries.getTeams().size());
-				for(Team t : gameSeries.getTeams())
+				for(Team t : gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + numBefore))
 					names.add(t.getName());
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				names = new ArrayList<String>(numBefore);
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + numBefore))
 					names.add(p.getLogin());
 			}
+			
 			this.winners = new boolean[numBefore];
+			this.buttonList = new ArrayList<>(numBefore);
+			this.buttonGroupList = new ArrayList<>(numBefore / 2);
 
 			JPanel contentPanel = new JPanel();
 			JScrollPane contentSP = new JScrollPane(contentPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -160,6 +160,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				radioButton.setActionCommand("" + i);
 				radioButton.addActionListener(this);
 				setIcons(radioButton, 30);
+				buttonList.add(radioButton);
 				buttonGroup.add(radioButton);
 				gbc.gridx = 0;
 				contentPanel.add(radioButton, gbc);
@@ -173,13 +174,52 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				radioButton.addActionListener(this);
 				radioButton.setHorizontalTextPosition(SwingConstants.LEFT);
 				setIcons(radioButton, 30);
+				buttonList.add(radioButton);
 				buttonGroup.add(radioButton);
 				gbc.gridx = 2;
 				contentPanel.add(radioButton, gbc);
+
+				buttonGroupList.add(buttonGroup);
 			}
 		}
-		// TODO NAVIGATION preselect values from gameseries
+
+		if(this.firstShow)
+		{
+			// preselect values from gameseries
+			int numBefore = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int nextRound = numBefore / 2;
+			List<String> names = new ArrayList<String>(nextRound);
+			if(GameSeriesManager.isTeamBased(gameSeries))
+			{
+				for(Team t : gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + nextRound))
+					names.add(t.getName());
+			}
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
+			{
+				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
+					names.add(p.getLogin());
+			}
+			
+			ButtonGroup bg;
+			Enumeration<AbstractButton> bgButtons;
+			AbstractButton b;
+			for(String name : names)
+			{
+				for(int i = 0; i < numBefore / 2; i++)
+				{
+					bg = buttonGroupList.get(i);
+					bgButtons = bg.getElements();
+					while(bgButtons.hasMoreElements())
+					{
+						b = bgButtons.nextElement();
+						if(b.getText().equals(name))
+							b.setSelected(true);
+					}
+				}
+			}
+		}
 		this.firstShow = false;
+
 	}
 
 	@Override
