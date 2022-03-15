@@ -2212,6 +2212,5 @@
     "maps" : 9,
     "maxGamesPerPlayer" : 5,
     "maxMaps" : 10
-  },
-  "loaded" : true
+  }
 }

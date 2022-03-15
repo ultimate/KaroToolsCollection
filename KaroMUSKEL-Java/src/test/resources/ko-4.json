@@ -912,6 +912,5 @@
     "teams" : 16,
     "useCreatorTeam" : false,
     "useHomeMaps" : true
-  },
-  "loaded" : true
+  }
 }
