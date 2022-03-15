@@ -33,7 +33,7 @@ public class StartScreen extends Screen implements ActionListener
 
 	public StartScreen(JFrame gui, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, null, karoAPICache, previousButton, nextButton, "screen.start.header", "screen.start.next");
+		super(gui, null, karoAPICache, previousButton, nextButton, "screen.start.header");
 
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -111,6 +111,12 @@ public class StartScreen extends Screen implements ActionListener
 		gbc.gridx = 0;
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.start.next";
 	}
 
 	@Override

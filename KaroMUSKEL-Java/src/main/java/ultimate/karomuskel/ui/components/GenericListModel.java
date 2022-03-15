@@ -12,12 +12,12 @@ import javax.swing.event.ListDataListener;
 
 public class GenericListModel<K, V> implements ListModel<V>
 {
-	private List<ListDataListener> listDataListeners;
-	
-	private Class<V> valueClass;
-	private TreeMap<K, V> entries;
-	private V[] entryArray;
-	
+	private List<ListDataListener>	listDataListeners;
+
+	private Class<V>				valueClass;
+	private TreeMap<K, V>			entries;
+	private V[]						entryArray;
+
 	public GenericListModel(Class<V> valueClass, Map<K, V> entries)
 	{
 		this.valueClass = valueClass;
@@ -31,7 +31,6 @@ public class GenericListModel<K, V> implements ListModel<V>
 	{
 		this.listDataListeners.add(l);
 	}
-	
 	public void addElement(K k, V v)
 	{
 		this.entries.put(k, v);
@@ -46,18 +45,28 @@ public class GenericListModel<K, V> implements ListModel<V>
 		fireListeners();
 		return v;
 	}
-	
+
+	public boolean containsElement(V v)
+	{
+		return this.entries.containsValue(v);
+	}
+
+	public boolean containsKey(K k)
+	{
+		return this.entries.containsKey(k);
+	}
+
 	private void fireListeners()
 	{
-		for(ListDataListener l: listDataListeners)
+		for(ListDataListener l : listDataListeners)
 		{
-			l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, entries.size()-1));
+			l.contentsChanged(new ListDataEvent(this, ListDataEvent.CONTENTS_CHANGED, 0, entries.size() - 1));
 		}
 	}
 
 	@Override
 	public V getElementAt(int index)
-	{		
+	{
 		return (V) entryArray[index];
 	}
 
@@ -72,20 +81,21 @@ public class GenericListModel<K, V> implements ListModel<V>
 	{
 		this.listDataListeners.remove(l);
 	}
-	
+
 	public V[] getEntryArray()
 	{
 		return entryArray;
 	}
 
 	@SuppressWarnings("unchecked")
-	private void mapToArray() {
+	private void mapToArray()
+	{
 		this.entryArray = (V[]) Array.newInstance(valueClass, entries.size());
-		
+
 		int i = 0;
-		for(V v: entries.values())
+		for(V v : entries.values())
 		{
 			entryArray[i++] = v;
-		}		
+		}
 	}
 }

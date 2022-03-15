@@ -89,13 +89,19 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 	public SettingsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.settings.header", "screen.settings.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.settings.header");
 
 		GridBagLayout layout = new GridBagLayout();
 		this.setLayout(layout);
 		this.gbc = new GridBagConstraints();
 		this.gbc.anchor = GridBagConstraints.LINE_START;
 		this.gbc.insets = new Insets(insetsV, insetsH, insetsV, insetsH);
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.settings.next";
 	}
 
 	@Override
@@ -181,7 +187,8 @@ public class SettingsScreen extends Screen implements ChangeListener
 				{
 					int numberOfTeamsInit = (gameSeries.get(GameSeries.NUMBER_OF_TEAMS) != null ? (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS) : 8);
 					numberOfTeamsLabel = new JLabel(Language.getString("screen.settings.numberofteams", cellWidth));
-					numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(numberOfTeamsInit, 4, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS), 2));
+					int stepSize = (gameSeries.getType() == EnumGameSeriesType.AllCombinations ? 1 : 2);
+					numberOfTeamsSpinner = new JSpinner(new SpinnerNumberModel(numberOfTeamsInit, 4, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS), stepSize));
 					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					((DefaultEditor) this.numberOfTeamsSpinner.getEditor()).getTextField().setEditable(true);
 

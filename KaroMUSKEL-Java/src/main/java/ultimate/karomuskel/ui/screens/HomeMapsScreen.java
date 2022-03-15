@@ -41,8 +41,17 @@ public class HomeMapsScreen extends Screen
 
 	public HomeMapsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.homemaps.header", "screen.homemaps.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.homemaps.header");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		if(this.next.isSkip())
+			return "screen.homemaps.nextskip";
+		else
+			return "screen.homemaps.next";
 	}
 
 	@Override
@@ -131,7 +140,6 @@ public class HomeMapsScreen extends Screen
 
 		if(this.firstShow || this.numberOfTeams != numberOfTeamsTmp || this.minSupportedPlayersPerMap != minSupportedPlayersPerMapTmp)
 		{
-			this.firstShow = false;
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
@@ -175,6 +183,35 @@ public class HomeMapsScreen extends Screen
 			this.mapCBList.get(i).setEnabled(enabled);
 		}
 
-		// TODO NAVIGATION preselect values from gameseries
+		// preselect values from gameseries
+		if(this.firstShow)
+		{
+			// preselect values from gameseries
+			for(int i = 0; i < gameSeries.getTeams().size(); i++)
+			{
+				if(gameSeries.getTeams().get(i).getHomeMap() == null)
+					continue;
+				preselectMap(gameSeries.getTeams().get(i).getHomeMap(), i);
+			}
+		}
+
+		this.firstShow = false;
+	}
+
+	private void preselectMap(Map map, int index)
+	{
+		logger.debug("preselect map: " + map.getId() + " for team " + this.teamNameLabelList.get(index).getText());
+		// check map is present in model, if not, add first
+		if(((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).getIndexOf(map.getId()) == -1)
+		{
+			logger.warn("map not present in list: " + map.getId() + " -> adding");
+
+			for(int i = 0; i < this.mapCBList.size(); i++)
+			{
+				((DefaultComboBoxModel<Map>)this.mapCBList.get(i).getModel()).addElement(map);
+			}
+		}
+		// select map, then add
+		((DefaultComboBoxModel<Map>)this.mapCBList.get(index).getModel()).setSelectedItem(map);
 	}
 }

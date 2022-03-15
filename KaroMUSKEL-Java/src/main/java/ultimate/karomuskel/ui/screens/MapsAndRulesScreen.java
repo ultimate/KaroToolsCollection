@@ -66,9 +66,15 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 
 	public MapsAndRulesScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
-		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.mapsAndRules.header", "screen.mapsAndRules.next");
+		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.mapsAndRules.header");
 
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+	}
+
+	@Override
+	public String getNextKey()
+	{
+		return "screen.mapsAndRules.next";
 	}
 
 	@Override
@@ -158,6 +164,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				rules = gameSeries.getRulesByKey().get("" + i);
 				if(rules != null)
 				{
+					// preselect values from gameseries
 					checkpointsActivated = rules.getCps();
 					crashingAllowed = rules.getCrashallowed();
 					startDirection = rules.getStartdirection();
@@ -273,11 +280,14 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				this.checkpointsActivatedCBList.add(checkpointsActivatedCB);
 				this.directionCBList.add(directionCB);
 				this.mapCBList.add(mapCB);
+				
+				actionPerformed(new ActionEvent(gamesPerPlayerSpinner, j, ACTION_RECALC_NUMBER_OF_GAMES + j));
 			}
 		}
-		// TODO NAVIGATION preselect values from gameseries
+		
+		this.firstShow = false;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	private Rules createRules(int i) throws GameSeriesException
 	{
