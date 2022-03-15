@@ -16,6 +16,5 @@
       <AppenderRef ref="FILE"/>
     </Root>
     <Logger name="ultimate" level="info"/>
-    <Logger name="ultimate.karomuskel.ui.screens" level="debug"/>
   </Loggers>
 </Configuration>
