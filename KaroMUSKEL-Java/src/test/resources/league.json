@@ -1,0 +1,832 @@
+{
+  "type" : "League",
+  "title" : "KaroLiga Saison TEST - Spieltag ${spieltag} - ${teams} auf Karte ${karte.id} ",
+  "creator" : 2241,
+  "games" : {
+    "League" : [ {
+      "name" : "KaroLiga Saison TEST - Spieltag 1 - eisbaer04 vs. cachito auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 1175 ],
+      "options" : {
+        "zzz" : 0,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 1 - A300 vs. fiete auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 557 ],
+      "options" : {
+        "zzz" : 66,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 1 - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 2 - A300 vs. eisbaer04 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 326 ],
+      "options" : {
+        "zzz" : 60,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 2 - cachito vs. DeepGray auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 410 ],
+      "options" : {
+        "zzz" : 97,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 2 - fiete vs. Balteatus auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 1912 ],
+      "options" : {
+        "zzz" : 48,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 3 - eisbaer04 vs. DeepGray auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 410 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 3 - Balteatus vs. A300 auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 1823 ],
+      "options" : {
+        "zzz" : 83,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 3 - fiete vs. cachito auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 1175 ],
+      "options" : {
+        "zzz" : 80,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 4 - Balteatus vs. eisbaer04 auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 326 ],
+      "options" : {
+        "zzz" : 48,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 4 - DeepGray vs. fiete auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 557 ],
+      "options" : {
+        "zzz" : 50,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 4 - cachito vs. A300 auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 1823 ],
+      "options" : {
+        "zzz" : 28,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 5 - eisbaer04 vs. fiete auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 557 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 5 - cachito vs. Balteatus auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 1912 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 5 - DeepGray vs. A300 auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 1823 ],
+      "options" : {
+        "zzz" : 55,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 6 - cachito vs. eisbaer04 auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 326 ],
+      "options" : {
+        "zzz" : 63,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 6 - fiete vs. A300 auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 1823 ],
+      "options" : {
+        "zzz" : 78,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 6 - DeepGray vs. Balteatus auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 1912 ],
+      "options" : {
+        "zzz" : 43,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 7 - eisbaer04 vs. A300 auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 1823 ],
+      "options" : {
+        "zzz" : 69,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 7 - DeepGray vs. cachito auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 1175 ],
+      "options" : {
+        "zzz" : 78,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 7 - Balteatus vs. fiete auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 557 ],
+      "options" : {
+        "zzz" : 62,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 8 - DeepGray vs. eisbaer04 auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 326 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 8 - A300 vs. Balteatus auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 1912 ],
+      "options" : {
+        "zzz" : 33,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 8 - cachito vs. fiete auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 557 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 9 - eisbaer04 vs. Balteatus auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 1912 ],
+      "options" : {
+        "zzz" : 81,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 9 - fiete vs. DeepGray auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 410 ],
+      "options" : {
+        "zzz" : 45,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 9 - A300 vs. cachito auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 1175 ],
+      "options" : {
+        "zzz" : 27,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 10 - fiete vs. eisbaer04 auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 326 ],
+      "options" : {
+        "zzz" : 24,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 10 - Balteatus vs. cachito auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 1175 ],
+      "options" : {
+        "zzz" : 67,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 10 - A300 vs. DeepGray auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 410 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 11 - eisbaer04 vs. cachito auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 1175 ],
+      "options" : {
+        "zzz" : 96,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 11 - A300 vs. fiete auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 557 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 11 - Balteatus vs. DeepGray auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 62,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 12 - A300 vs. eisbaer04 auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 326 ],
+      "options" : {
+        "zzz" : 91,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 12 - cachito vs. DeepGray auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 410 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 12 - fiete vs. Balteatus auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 1912 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 13 - eisbaer04 vs. DeepGray auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 410 ],
+      "options" : {
+        "zzz" : 40,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 13 - Balteatus vs. A300 auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 1823 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 13 - fiete vs. cachito auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 1175 ],
+      "options" : {
+        "zzz" : 47,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 14 - Balteatus vs. eisbaer04 auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 326 ],
+      "options" : {
+        "zzz" : 62,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 14 - DeepGray vs. fiete auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 557 ],
+      "options" : {
+        "zzz" : 60,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 14 - cachito vs. A300 auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 1823 ],
+      "options" : {
+        "zzz" : 37,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 15 - eisbaer04 vs. fiete auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 557 ],
+      "options" : {
+        "zzz" : 17,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 15 - cachito vs. Balteatus auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 1912 ],
+      "options" : {
+        "zzz" : 68,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 15 - DeepGray vs. A300 auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 1823 ],
+      "options" : {
+        "zzz" : 16,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 16 - cachito vs. eisbaer04 auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 326 ],
+      "options" : {
+        "zzz" : 47,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 16 - fiete vs. A300 auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 1823 ],
+      "options" : {
+        "zzz" : 42,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 16 - DeepGray vs. Balteatus auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 1912 ],
+      "options" : {
+        "zzz" : 94,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 17 - eisbaer04 vs. A300 auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 1823 ],
+      "options" : {
+        "zzz" : 19,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 17 - DeepGray vs. cachito auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 1175 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 17 - Balteatus vs. fiete auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 557 ],
+      "options" : {
+        "zzz" : 98,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 18 - DeepGray vs. eisbaer04 auf Karte 4",
+      "map" : 4,
+      "players" : [ 2241, 410, 326 ],
+      "options" : {
+        "zzz" : 41,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 18 - A300 vs. Balteatus auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 1912 ],
+      "options" : {
+        "zzz" : 96,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 18 - cachito vs. fiete auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1175, 557 ],
+      "options" : {
+        "zzz" : 33,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 19 - eisbaer04 vs. Balteatus auf Karte 5",
+      "map" : 5,
+      "players" : [ 2241, 326, 1912 ],
+      "options" : {
+        "zzz" : 69,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 19 - fiete vs. DeepGray auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 410 ],
+      "options" : {
+        "zzz" : 50,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 19 - A300 vs. cachito auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 1175 ],
+      "options" : {
+        "zzz" : 32,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 20 - fiete vs. eisbaer04 auf Karte 6",
+      "map" : 6,
+      "players" : [ 2241, 557, 326 ],
+      "options" : {
+        "zzz" : 41,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 20 - Balteatus vs. cachito auf Karte 2",
+      "map" : 2,
+      "players" : [ 2241, 1912, 1175 ],
+      "options" : {
+        "zzz" : 94,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 20 - A300 vs. DeepGray auf Karte 1",
+      "map" : 1,
+      "players" : [ 2241, 1823, 410 ],
+      "options" : {
+        "zzz" : 71,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 21 - eisbaer04 vs. cachito auf Karte 10004",
+      "map" : 10004,
+      "players" : [ 2241, 326, 1175 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 21 - A300 vs. fiete auf Karte 10001",
+      "map" : 10001,
+      "players" : [ 2241, 1823, 557 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 21 - Balteatus vs. DeepGray auf Karte 10000",
+      "map" : 10000,
+      "players" : [ 2241, 1912, 410 ],
+      "options" : {
+        "zzz" : 92,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 22 - A300 vs. eisbaer04 auf Karte 10001",
+      "map" : 10001,
+      "players" : [ 2241, 1823, 326 ],
+      "options" : {
+        "zzz" : 82,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 22 - cachito vs. DeepGray auf Karte 10000",
+      "map" : 10000,
+      "players" : [ 2241, 1175, 410 ],
+      "options" : {
+        "zzz" : 54,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 22 - fiete vs. Balteatus auf Karte 10005",
+      "map" : 10005,
+      "players" : [ 2241, 557, 1912 ],
+      "options" : {
+        "zzz" : 26,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 23 - eisbaer04 vs. DeepGray auf Karte 10003",
+      "map" : 10003,
+      "players" : [ 2241, 326, 410 ],
+      "options" : {
+        "zzz" : 42,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 23 - Balteatus vs. A300 auf Karte 10005",
+      "map" : 10005,
+      "players" : [ 2241, 1912, 1823 ],
+      "options" : {
+        "zzz" : 81,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 23 - fiete vs. cachito auf Karte 10001",
+      "map" : 10001,
+      "players" : [ 2241, 557, 1175 ],
+      "options" : {
+        "zzz" : 76,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 24 - Balteatus vs. eisbaer04 auf Karte 10005",
+      "map" : 10005,
+      "players" : [ 2241, 1912, 326 ],
+      "options" : {
+        "zzz" : 41,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 24 - DeepGray vs. fiete auf Karte 10000",
+      "map" : 10000,
+      "players" : [ 2241, 410, 557 ],
+      "options" : {
+        "zzz" : 69,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 24 - cachito vs. A300 auf Karte 10003",
+      "map" : 10003,
+      "players" : [ 2241, 1175, 1823 ],
+      "options" : {
+        "zzz" : 27,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 25 - eisbaer04 vs. fiete auf Karte 10000",
+      "map" : 10000,
+      "players" : [ 2241, 326, 557 ],
+      "options" : {
+        "zzz" : 45,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 25 - cachito vs. Balteatus auf Karte 10000",
+      "map" : 10000,
+      "players" : [ 2241, 1175, 1912 ],
+      "options" : {
+        "zzz" : 33,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KaroLiga Saison TEST - Spieltag 25 - DeepGray vs. A300 auf Karte 10000",
+      "map" : 10000,
+      "players" : [ 2241, 410, 1823 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    } ]
+  },
+  "teams" : [ {
+    "name" : "A300",
+    "members" : [ 1823 ],
+    "homeMap" : 1
+  }, {
+    "name" : "Balteatus",
+    "members" : [ 1912 ],
+    "homeMap" : 2
+  }, {
+    "name" : "cachito",
+    "members" : [ 1175 ],
+    "homeMap" : 3
+  }, {
+    "name" : "DeepGray",
+    "members" : [ 410 ],
+    "homeMap" : 4
+  }, {
+    "name" : "eisbaer04",
+    "members" : [ 326 ],
+    "homeMap" : 5
+  }, {
+    "name" : "fiete",
+    "members" : [ 557 ],
+    "homeMap" : 6
+  } ],
+  "maps" : [ 10000, 10001, 10003, 10004, 10005 ],
+  "rules" : {
+    "minZzz" : 0,
+    "maxZzz" : 99,
+    "crashallowed" : "random",
+    "cps" : null,
+    "startdirection" : "random"
+  },
+  "teamsByKey" : {
+    "roundOf6" : [ {
+      "name" : "A300",
+      "members" : [ 1823 ],
+      "homeMap" : 1
+    }, {
+      "name" : "Balteatus",
+      "members" : [ 1912 ],
+      "homeMap" : 2
+    }, {
+      "name" : "cachito",
+      "members" : [ 1175 ],
+      "homeMap" : 3
+    }, {
+      "name" : "DeepGray",
+      "members" : [ 410 ],
+      "homeMap" : 4
+    }, {
+      "name" : "eisbaer04",
+      "members" : [ 326 ],
+      "homeMap" : 5
+    }, {
+      "name" : "fiete",
+      "members" : [ 557 ],
+      "homeMap" : 6
+    } ]
+  },
+  "settings" : {
+    "allowMultipleTeams" : false,
+    "autoNameTeams" : true,
+    "defaultTitle" : "KaroLiga Saison xx - Spieltag ${spieltag} - ${teams} auf Karte ${karte.id} ",
+    "gamesPerPair" : 5,
+    "maxPlayersPerTeam" : 1,
+    "maxRounds" : 8,
+    "maxTeams" : 8,
+    "minPlayersPerTeam" : 1,
+    "shuffleTeams" : false,
+    "teams" : 6,
+    "useCreatorTeam" : false,
+    "useHomeMaps" : true
+  }
+}
