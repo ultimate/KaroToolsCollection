@@ -469,7 +469,7 @@ public class PlayersScreen extends Screen implements ActionListener
 					List<User> playerList;
 					for(int l = 0; l < teams; l++)
 					{
-						playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (l+1));
+						playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (l + 1));
 						for(User player : playerList)
 							preselectPlayer(player, l);
 					}
@@ -477,7 +477,11 @@ public class PlayersScreen extends Screen implements ActionListener
 				else if(GameSeriesManager.isTeamBased(gameSeries))
 				{
 					Team team;
-					List<Team> teamList = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + teams);
+					List<Team> teamList;
+					if(gameSeries.getType() == EnumGameSeriesType.KO)
+						teamList = gameSeries.getTeamsByKey().get(GameSeries.KEY_ROUND + teams);
+					else
+						teamList = gameSeries.getTeams();
 					for(int t = 0; t < teams && t < teamList.size(); t++)
 					{
 						team = teamList.get(t);
