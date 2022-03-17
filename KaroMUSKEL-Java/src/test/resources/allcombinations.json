@@ -1,0 +1,550 @@
+{
+  "type" : "AllCombinations",
+  "title" : "${spieler.ersteller}s Jeder-gegen-Jeden-Testserie - Spiel ${i} - ${spieler.namen.x} auf Karte ${karte.id}, ${regeln.x}",
+  "creator" : 2241,
+  "games" : {
+    "AllCombinations" : [ {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 1 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 102, ZZZ=60, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 102,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 60,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 2 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 104, ZZZ=54, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 104,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 54,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 3 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 103, ZZZ=13, Checkpoints deaktiviert",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 13,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 4 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=75, Checkpoints deaktiviert",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 75,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 5 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=72, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 104,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 72,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 6 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 102, ZZZ=68, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 102,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 68,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 7 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 102, ZZZ=70, TC: Erlaubt, Richtungsmodus: Egal",
+      "map" : 102,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 70,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 8 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 101, ZZZ=73, TC: Egal, Checkpoints deaktiviert",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 73,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 9 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 103, ZZZ=73",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 73,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 10 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 102, ZZZ=65, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 102,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 65,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 11 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=39, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 39,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 12 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=42, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 104,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 42,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 13 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 103, ZZZ=22, TC: Egal, Richtungsmodus: Egal",
+      "map" : 103,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 14 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=17, TC: Egal, Richtungsmodus: Formula 1",
+      "map" : 104,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 17,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 15 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 103, ZZZ=59, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 59,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 16 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 103, ZZZ=55, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 55,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 17 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 100, ZZZ=47, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 47,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 18 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 103, ZZZ=96, Checkpoints deaktiviert",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 96,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 19 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=23, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 104,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 23,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 20 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=23, TC: Egal, Richtungsmodus: Egal",
+      "map" : 104,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 23,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 21 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 100, ZZZ=90, Checkpoints deaktiviert",
+      "map" : 100,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 90,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 22 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 102, ZZZ=44, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 102,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 44,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 23 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 102, ZZZ=87, Richtungsmodus: Formula 1",
+      "map" : 102,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 24 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 101, ZZZ=45, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 45,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 25 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=58, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 58,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 26 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 100, ZZZ=97, Checkpoints deaktiviert",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 97,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 27 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=74, Richtungsmodus: Formula 1",
+      "map" : 101,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 74,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 28 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=92, Checkpoints deaktiviert",
+      "map" : 104,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 92,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 29 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 100, ZZZ=98, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 98,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 30 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 100, ZZZ=10, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 31 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 101, ZZZ=20, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 32 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=34, TC: Erlaubt",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 34,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 33 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=43, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 43,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 34 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=17",
+      "map" : 104,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 17,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 35 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 102, ZZZ=63",
+      "map" : 102,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 63,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 36 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 103, ZZZ=63, TC: Erlaubt, Richtungsmodus: Formula 1",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 63,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 37 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 100, ZZZ=82, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 82,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 38 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 101, ZZZ=47, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 47,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 39 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 100, ZZZ=71, Richtungsmodus: Egal",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 71,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 40 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 103, ZZZ=93, TC: Egal, Richtungsmodus: Egal",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 93,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 41 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 103, ZZZ=80, TC: Erlaubt, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 103,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 80,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 42 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 104, ZZZ=69, TC: Erlaubt, Richtungsmodus: Egal",
+      "map" : 104,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 69,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 43 - eris, Botrix, Didi, Akari, Foley und goodygoody auf Karte 104, ZZZ=55, Richtungsmodus: Formula 1",
+      "map" : 104,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2730 ],
+      "options" : {
+        "zzz" : 55,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 44 - eris, Botrix, Didi, Akari, Foley und CarpeNoctem auf Karte 101, ZZZ=17, TC: Erlaubt, Checkpoints deaktiviert",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1, 1168, 1722, 2501 ],
+      "options" : {
+        "zzz" : 17,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 45 - eris, Botrix, Didi, Akari, goodygoody und CarpeNoctem auf Karte 100, ZZZ=58, TC: Erlaubt, Richtungsmodus: Egal",
+      "map" : 100,
+      "players" : [ 2241, 2937, 773, 1, 1168, 2730, 2501 ],
+      "options" : {
+        "zzz" : 58,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 46 - eris, Botrix, Didi, Foley, goodygoody und CarpeNoctem auf Karte 103, ZZZ=38, TC: Erlaubt",
+      "map" : 103,
+      "players" : [ 2241, 2937, 773, 1, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 38,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 47 - eris, Botrix, Akari, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=53, TC: Egal, Checkpoints deaktiviert, Richtungsmodus: Formula 1",
+      "map" : 101,
+      "players" : [ 2241, 2937, 773, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 53,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 48 - eris, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 101, ZZZ=4, Richtungsmodus: Egal",
+      "map" : 101,
+      "players" : [ 2241, 2937, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "CraZZZys Jeder-gegen-Jeden-Testserie - Spiel 49 - Botrix, Didi, Akari, Foley, goodygoody und CarpeNoctem auf Karte 103, ZZZ=53, Checkpoints deaktiviert, Richtungsmodus: Egal",
+      "map" : 103,
+      "players" : [ 2241, 773, 1, 1168, 1722, 2730, 2501 ],
+      "options" : {
+        "zzz" : 53,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    } ]
+  },
+  "teams" : [ {
+    "name" : "Akari",
+    "members" : [ 1168 ],
+    "homeMap" : null
+  }, {
+    "name" : "Botrix",
+    "members" : [ 773 ],
+    "homeMap" : null
+  }, {
+    "name" : "CarpeNoctem",
+    "members" : [ 2501 ],
+    "homeMap" : null
+  }, {
+    "name" : "Didi",
+    "members" : [ 1 ],
+    "homeMap" : null
+  }, {
+    "name" : "eris",
+    "members" : [ 2937 ],
+    "homeMap" : null
+  }, {
+    "name" : "Foley",
+    "members" : [ 1722 ],
+    "homeMap" : null
+  }, {
+    "name" : "goodygoody",
+    "members" : [ 2730 ],
+    "homeMap" : null
+  } ],
+  "maps" : [ 100, 101, 102, 103, 104 ],
+  "rules" : {
+    "minZzz" : 0,
+    "maxZzz" : 99,
+    "crashallowed" : "random",
+    "cps" : null,
+    "startdirection" : "random"
+  },
+  "settings" : {
+    "allowMultipleTeams" : false,
+    "autoNameTeams" : true,
+    "defaultTitle" : "${spieler.ersteller}s Jeder-gegen-Jeden-Spieleserie - Spiel ${i} - ${spieler.namen.x} auf Karte ${karte.id}, ${regeln.x}",
+    "gamesPerPair" : 7,
+    "maxPlayersPerTeam" : 1,
+    "maxRounds" : 8,
+    "maxTeams" : 8,
+    "minPlayersPerTeam" : 1,
+    "shuffleTeams" : false,
+    "teams" : 7,
+    "teamsPerMatch" : 6,
+    "useCreatorTeam" : false,
+    "useHomeMaps" : false
+  }
+}
