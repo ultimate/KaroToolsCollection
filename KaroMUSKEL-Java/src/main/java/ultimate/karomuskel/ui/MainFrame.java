@@ -30,29 +30,29 @@ import ultimate.karomuskel.ui.screens.StartScreen;
 
 public class MainFrame extends JFrame implements WindowListener, ActionListener
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
 	protected transient final Logger	logger				= LogManager.getLogger(getClass());
 
-	private static final Dimension	size				= new Dimension(1200, 900);
-	private static final Dimension	aboutSize			= new Dimension(700, 500);
+	private static final Dimension		size				= new Dimension(1200, 900);
+	private static final Dimension		aboutSize			= new Dimension(700, 500);
 
-	private KaroAPICache			karoAPICache;
+	private KaroAPICache				karoAPICache;
 
-	private BorderLayout			layout;
+	private BorderLayout				layout;
 
-	private JLabel					descriptionLabel;
-	private JPanel					screenPanel;
-	private JPanel					navigationPanel;
+	private JLabel						descriptionLabel;
+	private JPanel						screenPanel;
+	private JPanel						navigationPanel;
 
-	private Screen					currentScreen;
-	private Screen					startScreen;
+	private Screen						currentScreen;
+	private Screen						startScreen;
 
-	private JButton					previousButton;
-	private JButton					nextButton;
-	private JButton					aboutButton;
+	private JButton						previousButton;
+	private JButton						nextButton;
+	private JButton						aboutButton;
 
-	private GameSeries				gameSeries;
+	private GameSeries					gameSeries;
 
 	public MainFrame(String titleKey, KaroAPICache karoAPICache)
 	{
@@ -128,14 +128,39 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		repaint();
 	}
 
-	private boolean confirm(String messageKey)
+	public boolean confirm(String messageKey)
 	{
 		if(messageKey == null)
 			return true;
-		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey, Screen.totalWidth * 2 / 3), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 		if(result == JOptionPane.OK_OPTION)
 			return true;
 		return false;
+	}
+
+	public void notify(GameSeriesException e, int type)
+	{
+		String titleKey;
+		switch(type)
+		{
+			case JOptionPane.INFORMATION_MESSAGE:
+				titleKey = "information.title";
+				break;
+			case JOptionPane.WARNING_MESSAGE:
+				titleKey = "warning.title";
+				break;
+			case JOptionPane.QUESTION_MESSAGE:
+				titleKey = "question.title";
+				break;
+			case JOptionPane.ERROR_MESSAGE:
+			default:
+				titleKey = "error.title";
+				break;
+		}
+
+		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString(titleKey),
+				type);
 	}
 
 	private void navigate(EnumNavigation direction)
@@ -170,15 +195,9 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		}
 		catch(GameSeriesException e)
 		{
-			showError(e);
+			notify(e, JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-	}
-
-	private void showError(GameSeriesException e)
-	{
-		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString("error.title"),
-				JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**

@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 import ultimate.karoapi4j.KaroAPICache;
@@ -19,6 +19,7 @@ import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 
 public class StartScreen extends Screen implements ActionListener
@@ -31,7 +32,7 @@ public class StartScreen extends Screen implements ActionListener
 
 	private GameSeries			gameSeries;
 
-	public StartScreen(JFrame gui, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public StartScreen(MainFrame gui, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, null, karoAPICache, previousButton, nextButton, "screen.start.header");
 
@@ -145,6 +146,8 @@ public class StartScreen extends Screen implements ActionListener
 			this.gameSeries = FileDialog.getInstance().showLoad(this, karoAPICache);
 			if(this.gameSeries == null)
 				this.buttonGroup.clearSelection();
+			if(this.gameSeries.getCreator() != karoAPICache.getCurrentUser())
+				this.gui.notify(new GameSeriesException("error.load.wrongCreator", null, this.gameSeries.getCreator().toShortString()), JOptionPane.WARNING_MESSAGE);
 		}
 		else
 		{

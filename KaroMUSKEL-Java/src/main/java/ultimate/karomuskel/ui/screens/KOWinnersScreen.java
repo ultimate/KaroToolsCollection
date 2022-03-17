@@ -14,7 +14,6 @@ import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -29,6 +28,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 
 public class KOWinnersScreen extends Screen implements ActionListener
@@ -40,7 +40,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	private List<JRadioButton>	buttonList;
 	private List<ButtonGroup>	buttonGroupList;
 
-	public KOWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public KOWinnersScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.kowinners.header");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

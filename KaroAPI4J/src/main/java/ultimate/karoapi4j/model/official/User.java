@@ -374,4 +374,10 @@ public class User extends Identifiable
 		return this.login + " (ID=" + this.id + ") [ " + this.signup + " | "
 				+ this.lastVisit + " @ " + this.activeGames + " / " + this.maxGames + (this.isAcceptsNightGames() ? "" : " , keine Nachtrennen") + " ]";
 	}
+
+	@JsonIgnore
+	public String toShortString()
+	{
+		return this.login + " (ID=" + this.id + ")";
+	}
 }

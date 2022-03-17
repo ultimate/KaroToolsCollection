@@ -14,7 +14,6 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -29,6 +28,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GroupWinnersRenderer;
 
@@ -43,7 +43,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	@SuppressWarnings("unused")
 	private JSpinner			numberOfWinnersPerGroupSpinner;
 
-	public GroupWinnersScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public GroupWinnersScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.groupwinners.header");
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));

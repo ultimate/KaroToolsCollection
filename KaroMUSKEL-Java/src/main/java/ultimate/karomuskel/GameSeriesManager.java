@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +48,7 @@ import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karomuskel.ui.EnumNavigation;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.screens.GroupWinnersScreen;
 import ultimate.karomuskel.ui.screens.HomeMapsScreen;
@@ -594,7 +594,7 @@ public abstract class GameSeriesManager
 			gs.set(GameSeries.USE_CREATOR_TEAM, ((TeamBasedGameSeries) gs2).creatorTeam);
 			gs.setTeams(convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
 			gs.getTeamsByKey().put("shuffled", convertTeams(((TeamBasedGameSeries) gs2).teams, karoAPICache));
-			
+
 			if(gs2 instanceof KOGameSeries)
 			{
 				gs.getTeamsByKey().put(GameSeries.KEY_ROUND + ((TeamBasedGameSeries) gs2).numberOfTeams, gs.getTeams());
@@ -694,7 +694,7 @@ public abstract class GameSeriesManager
 				break;
 		}
 		map.put(key, list);
-		
+
 		return map;
 	}
 
@@ -819,143 +819,103 @@ public abstract class GameSeriesManager
 	 */
 	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton)
 	{
-		JFrame gui = startScreen.getGui();
+		MainFrame gui = startScreen.getGui();
 		LinkedList<Screen> screens = new LinkedList<>();
-		// if(gs.isLoaded())
-		// {
-		// SummaryScreen s = new SummaryScreen(gui, startScreen, karoAPICache, previousButton, nextButton, true);
-		// screens.add(s);
-		//
-		// if(gs.getType() == EnumGameSeriesType.KLC)
-		// {
-		// int groups = getIntConfig(GameSeries.CONF_KLC_GROUPS);
-		// int leagues = getIntConfig(GameSeries.CONF_KLC_LEAGUES);
-		// int players = groups * leagues;
-		//
-		// int round = (int) gs.get(GameSeries.CURRENT_ROUND);
-		// screens.getLast().setNextKey("screen.summary.nextko");
-		// if(round == players)
-		// {
-		// screens.add(new GroupWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-		// screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false));
-		// }
-		// else if(round > 2)
-		// {
-		// screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-		// screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false));
-		// }
-		// round = round / 2;
-		// gs.set(GameSeries.CURRENT_ROUND, round);
-		// }
-		// else if(gs.getType() == EnumGameSeriesType.KO)
-		// {
-		// int round = (int) gs.get(GameSeries.CURRENT_ROUND);
-		//
-		// screens.getLast().setNextKey("screen.summary.nextko");
-		// if(round > 2)
-		// {
-		// screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-		// screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false));
-		// }
-		// }
-		// }
-		// else
+
+		switch(gs.getType())
 		{
-			switch(gs.getType())
-			{
-				// TEAM-BASED
-				case AllCombinations:
-					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
-					if(gs.isLoaded())
-						startScreen.setNext(screens.getLast()); // jump to summary
-					break;
-				case KO:
-					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					// Note: skip those who are too many those when applying the SettingsScreen!
-					int teams = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_MAX_TEAMS);
-					int koround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : teams * 2);
-					while(teams > 1)
-					{
-						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams == koround,
-								gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
+			// TEAM-BASED
+			case AllCombinations:
+				screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				if(gs.isLoaded())
+					startScreen.setNext(screens.getLast()); // jump to summary
+				break;
+			case KO:
+				screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				// Note: skip those who are too many those when applying the SettingsScreen!
+				int teams = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_MAX_TEAMS);
+				int koround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : teams * 2);
+				while(teams > 1)
+				{
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams == koround,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
 
-						if(gs.isLoaded() && teams == koround)
-							startScreen.setNext(screens.getLast()); // jump to summary
-
-						if(teams > 2)
-							screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-
-						teams /= 2;
-					}
-					break;
-				case League:
-					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
-					if(gs.isLoaded())
+					if(gs.isLoaded() && teams == koround)
 						startScreen.setNext(screens.getLast()); // jump to summary
-					break;
-				// PLAYER-BASED
-				case Balanced:
-					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsAndRulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
-					if(gs.isLoaded())
-						startScreen.setNext(screens.getLast()); // jump to summary
-					break;
-				case KLC:
-					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString() + "." + GameSeries.KEY_GROUP + "phase"));
-					// Note: skip those who are too many those when applying the SettingsScreen!
-					int groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
-					int leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
-					int players = groups * leagues;
-					int klcround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : players);
+
+					if(teams > 2)
+						screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+
+					teams /= 2;
+				}
+				break;
+			case League:
+				screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				if(gs.isLoaded())
+					startScreen.setNext(screens.getLast()); // jump to summary
+				break;
+			// PLAYER-BASED
+			case Balanced:
+				screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new MapsAndRulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				if(gs.isLoaded())
+					startScreen.setNext(screens.getLast()); // jump to summary
+				break;
+			case KLC:
+				screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString() + "." + GameSeries.KEY_GROUP + "phase"));
+				// Note: skip those who are too many those when applying the SettingsScreen!
+				int groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
+				int leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
+				int players = groups * leagues;
+				int klcround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : players);
+				if(gs.isLoaded() && players == klcround)
+					startScreen.setNext(screens.getLast());
+				screens.add(new GroupWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				players /= 2;
+				while(players > 1)
+				{
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players == klcround,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
+
 					if(gs.isLoaded() && players == klcround)
-						startScreen.setNext(screens.getLast());
-					screens.add(new GroupWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					players /= 2;
-					while(players > 1)
-					{
-						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players == klcround,
-								gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
-
-						if(gs.isLoaded() && players == klcround)
-							startScreen.setNext(screens.getLast()); // jump to summary
-
-						if(players > 2)
-							screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-
-						players /= 2;
-					}
-					break;
-				case Simple:
-					screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
-					screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
-					if(gs.isLoaded())
 						startScreen.setNext(screens.getLast()); // jump to summary
-					break;
-			}
+
+					if(players > 2)
+						screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+
+					players /= 2;
+				}
+				break;
+			case Simple:
+				screens.add(new SettingsScreen(gui, startScreen, karoAPICache, previousButton, nextButton));
+				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
+				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				if(gs.isLoaded())
+					startScreen.setNext(screens.getLast()); // jump to summary
+				break;
 		}
 
 		if(GameSeriesManager.isTeamBased(gs))
