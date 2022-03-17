@@ -102,7 +102,10 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				if(winnerPlayers.size() != round)
 					throw new GameSeriesException("screen.kowinners.notenoughwinners");
 
-				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
+				if(gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round) == null)
+					gameSeries.getPlayersByKey().put(GameSeries.KEY_ROUND + round, new ArrayList<>(round));
+				else
+					gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).clear();
 				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
 			}
 		}
@@ -200,8 +203,9 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
-					namesNextRound.add(p.getLogin());
+				if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_ROUND + nextRound))
+					for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
+						namesNextRound.add(p.getLogin());
 			}
 
 			ButtonGroup bg;

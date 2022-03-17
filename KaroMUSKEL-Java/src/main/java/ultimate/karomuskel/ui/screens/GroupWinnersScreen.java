@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -61,14 +60,20 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			// TODO IDEA for future use
+			// TODO IDEA make numberOfWinnersPerGroup selectable
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			List<User> winnerPlayers = new LinkedList<User>();
-
 			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
 			int firstKORound = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND);
-			// TODO IDEA make numberOfWinnersPerGroup selectable
+			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
+			int nextRound = previousRound / 2;
+
+			if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_ROUND + nextRound))
+				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound).clear();
+			else
+				gameSeries.getPlayersByKey().put(GameSeries.KEY_ROUND + nextRound, new ArrayList<>(nextRound));
+			
 			int winnersPerGroup = firstKORound / groups;
 			for(int g = 1; g <= groups; g++)
 			{
@@ -88,14 +93,11 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 							break;
 						}
 					}
-					winnerPlayers.add(player);
+					gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound).add(player);
 				}
 			}
 
-			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-			int round = previousRound / 2;
-			gameSeries.set(GameSeries.CURRENT_ROUND, round);
-			gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + round).addAll(winnerPlayers);
+			gameSeries.set(GameSeries.CURRENT_ROUND, nextRound);
 		}
 		return gameSeries;
 	}
@@ -199,8 +201,9 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			{
 				playersPerGroup = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 				int nextRound = round / 2;
-				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
-					namesNextRound.add(p.getLogin());
+				if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_ROUND + nextRound))
+					for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
+						namesNextRound.add(p.getLogin());
 			}
 
 			JList<String> groupList;

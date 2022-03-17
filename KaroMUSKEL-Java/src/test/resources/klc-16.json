@@ -1,0 +1,635 @@
+{
+  "type" : "KLC",
+  "title" : "KLC TEST xx - ${runde.x} - ${teams} auf Karte ${karte.id}",
+  "creator" : 2241,
+  "games" : {
+    "KLC.groupphase" : [ {
+      "name" : "KLC TEST xx - Gruppe 1, Spieltag 1 - DeepPink vs. Balteatus auf Karte 24",
+      "map" : 24,
+      "players" : [ 2241, 411, 1912 ],
+      "options" : {
+        "zzz" : 36,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 1, Spieltag 1 - Didi vs. A300 auf Karte 26",
+      "map" : 26,
+      "players" : [ 2241, 1, 1823 ],
+      "options" : {
+        "zzz" : 9,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 1, Spieltag 2 - Didi vs. Balteatus auf Karte 26",
+      "map" : 26,
+      "players" : [ 2241, 1, 1912 ],
+      "options" : {
+        "zzz" : 87,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 1, Spieltag 2 - DeepPink vs. A300 auf Karte 24",
+      "map" : 24,
+      "players" : [ 2241, 411, 1823 ],
+      "options" : {
+        "zzz" : 65,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 1, Spieltag 3 - Balteatus vs. A300 auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 1912, 1823 ],
+      "options" : {
+        "zzz" : 26,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 1, Spieltag 3 - Didi vs. DeepPink auf Karte 26",
+      "map" : 26,
+      "players" : [ 2241, 1, 411 ],
+      "options" : {
+        "zzz" : 67,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 2, Spieltag 1 - coffee vs. [lunatic]suicide auf Karte 21",
+      "map" : 21,
+      "players" : [ 2241, 2445, 239 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 2, Spieltag 1 - fiete vs. BertiPlusP auf Karte 31",
+      "map" : 31,
+      "players" : [ 2241, 557, 2779 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 2, Spieltag 2 - coffee vs. BertiPlusP auf Karte 21",
+      "map" : 21,
+      "players" : [ 2241, 2445, 2779 ],
+      "options" : {
+        "zzz" : 97,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 2, Spieltag 2 - fiete vs. [lunatic]suicide auf Karte 31",
+      "map" : 31,
+      "players" : [ 2241, 557, 239 ],
+      "options" : {
+        "zzz" : 86,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 2, Spieltag 3 - fiete vs. coffee auf Karte 31",
+      "map" : 31,
+      "players" : [ 2241, 557, 2445 ],
+      "options" : {
+        "zzz" : 42,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 2, Spieltag 3 - BertiPlusP vs. [lunatic]suicide auf Karte 11",
+      "map" : 11,
+      "players" : [ 2241, 2779, 239 ],
+      "options" : {
+        "zzz" : 73,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 3, Spieltag 1 - eris vs. Atomy auf Karte 30",
+      "map" : 30,
+      "players" : [ 2241, 2937, 723 ],
+      "options" : {
+        "zzz" : 62,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 3, Spieltag 1 - DeepGray vs. Anthropophagos auf Karte 23",
+      "map" : 23,
+      "players" : [ 2241, 410, 3182 ],
+      "options" : {
+        "zzz" : 61,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 3, Spieltag 2 - eris vs. DeepGray auf Karte 30",
+      "map" : 30,
+      "players" : [ 2241, 2937, 410 ],
+      "options" : {
+        "zzz" : 44,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 3, Spieltag 2 - Atomy vs. Anthropophagos auf Karte 9",
+      "map" : 9,
+      "players" : [ 2241, 723, 3182 ],
+      "options" : {
+        "zzz" : 64,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 3, Spieltag 3 - eris vs. Anthropophagos auf Karte 30",
+      "map" : 30,
+      "players" : [ 2241, 2937, 3182 ],
+      "options" : {
+        "zzz" : 74,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 3, Spieltag 3 - DeepGray vs. Atomy auf Karte 23",
+      "map" : 23,
+      "players" : [ 2241, 410, 723 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 4, Spieltag 1 - Dr. Watson vs. Anaxaros auf Karte 27",
+      "map" : 27,
+      "players" : [ 2241, 222, 1578 ],
+      "options" : {
+        "zzz" : 52,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 4, Spieltag 1 - Calypso vs. Botrix auf Karte 17",
+      "map" : 17,
+      "players" : [ 2241, 1543, 773 ],
+      "options" : {
+        "zzz" : 26,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 4, Spieltag 2 - Botrix vs. Anaxaros auf Karte 14",
+      "map" : 14,
+      "players" : [ 2241, 773, 1578 ],
+      "options" : {
+        "zzz" : 51,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 4, Spieltag 2 - Dr. Watson vs. Calypso auf Karte 27",
+      "map" : 27,
+      "players" : [ 2241, 222, 1543 ],
+      "options" : {
+        "zzz" : 23,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 4, Spieltag 3 - Calypso vs. Anaxaros auf Karte 17",
+      "map" : 17,
+      "players" : [ 2241, 1543, 1578 ],
+      "options" : {
+        "zzz" : 49,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 4, Spieltag 3 - Dr. Watson vs. Botrix auf Karte 27",
+      "map" : 27,
+      "players" : [ 2241, 222, 773 ],
+      "options" : {
+        "zzz" : 29,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 5, Spieltag 1 - chaos vs. Blindschleiche auf Karte 19",
+      "map" : 19,
+      "players" : [ 2241, 127, 1448 ],
+      "options" : {
+        "zzz" : 65,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 5, Spieltag 1 - eisbaer04 vs. aristarch auf Karte 29",
+      "map" : 29,
+      "players" : [ 2241, 326, 2231 ],
+      "options" : {
+        "zzz" : 12,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 5, Spieltag 2 - Blindschleiche vs. aristarch auf Karte 13",
+      "map" : 13,
+      "players" : [ 2241, 1448, 2231 ],
+      "options" : {
+        "zzz" : 20,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 5, Spieltag 2 - eisbaer04 vs. chaos auf Karte 29",
+      "map" : 29,
+      "players" : [ 2241, 326, 127 ],
+      "options" : {
+        "zzz" : 72,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 5, Spieltag 3 - eisbaer04 vs. Blindschleiche auf Karte 29",
+      "map" : 29,
+      "players" : [ 2241, 326, 1448 ],
+      "options" : {
+        "zzz" : 39,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 5, Spieltag 3 - chaos vs. aristarch auf Karte 19",
+      "map" : 19,
+      "players" : [ 2241, 127, 2231 ],
+      "options" : {
+        "zzz" : 28,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 6, Spieltag 1 - DrHoliday vs. Akari auf Karte 28",
+      "map" : 28,
+      "players" : [ 2241, 88, 1168 ],
+      "options" : {
+        "zzz" : 48,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 6, Spieltag 1 - Cpxy vs. buttertasse auf Karte 22",
+      "map" : 22,
+      "players" : [ 2241, 2985, 1991 ],
+      "options" : {
+        "zzz" : 93,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 6, Spieltag 2 - Cpxy vs. Akari auf Karte 22",
+      "map" : 22,
+      "players" : [ 2241, 2985, 1168 ],
+      "options" : {
+        "zzz" : 75,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 6, Spieltag 2 - DrHoliday vs. buttertasse auf Karte 28",
+      "map" : 28,
+      "players" : [ 2241, 88, 1991 ],
+      "options" : {
+        "zzz" : 32,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 6, Spieltag 3 - buttertasse vs. Akari auf Karte 15",
+      "map" : 15,
+      "players" : [ 2241, 1991, 1168 ],
+      "options" : {
+        "zzz" : 83,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 6, Spieltag 3 - DrHoliday vs. Cpxy auf Karte 28",
+      "map" : 28,
+      "players" : [ 2241, 88, 2985 ],
+      "options" : {
+        "zzz" : 76,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 7, Spieltag 1 - christoph82 vs. andreu73 auf Karte 20",
+      "map" : 20,
+      "players" : [ 2241, 2740, 2321 ],
+      "options" : {
+        "zzz" : 54,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 7, Spieltag 1 - DerFlieger vs. cachito auf Karte 25",
+      "map" : 25,
+      "players" : [ 2241, 2235, 1175 ],
+      "options" : {
+        "zzz" : 82,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 7, Spieltag 2 - DerFlieger vs. christoph82 auf Karte 25",
+      "map" : 25,
+      "players" : [ 2241, 2235, 2740 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 7, Spieltag 2 - cachito vs. andreu73 auf Karte 16",
+      "map" : 16,
+      "players" : [ 2241, 1175, 2321 ],
+      "options" : {
+        "zzz" : 22,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 7, Spieltag 3 - christoph82 vs. cachito auf Karte 20",
+      "map" : 20,
+      "players" : [ 2241, 2740, 1175 ],
+      "options" : {
+        "zzz" : 21,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 7, Spieltag 3 - DerFlieger vs. andreu73 auf Karte 25",
+      "map" : 25,
+      "players" : [ 2241, 2235, 2321 ],
+      "options" : {
+        "zzz" : 14,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 8, Spieltag 1 - CarpeNoctem vs. anton auf Karte 18",
+      "map" : 18,
+      "players" : [ 2241, 2501, 1717 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 8, Spieltag 1 - FinalD vs. blackrog auf Karte 32",
+      "map" : 32,
+      "players" : [ 2241, 2915, 1327 ],
+      "options" : {
+        "zzz" : 24,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 8, Spieltag 2 - blackrog vs. anton auf Karte 12",
+      "map" : 12,
+      "players" : [ 2241, 1327, 1717 ],
+      "options" : {
+        "zzz" : 32,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 8, Spieltag 2 - FinalD vs. CarpeNoctem auf Karte 32",
+      "map" : 32,
+      "players" : [ 2241, 2915, 2501 ],
+      "options" : {
+        "zzz" : 5,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 8, Spieltag 3 - FinalD vs. anton auf Karte 32",
+      "map" : 32,
+      "players" : [ 2241, 2915, 1717 ],
+      "options" : {
+        "zzz" : 96,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - Gruppe 8, Spieltag 3 - CarpeNoctem vs. blackrog auf Karte 18",
+      "map" : 18,
+      "players" : [ 2241, 2501, 1327 ],
+      "options" : {
+        "zzz" : 49,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    } ],
+    "KLC.roundOf16" : [ {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 1 - DerFlieger vs. Didi auf Karte 25",
+      "map" : 25,
+      "players" : [ 2241, 2235, 1 ],
+      "options" : {
+        "zzz" : 56,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 2 - Cpxy vs. aristarch auf Karte 22",
+      "map" : 22,
+      "players" : [ 2241, 2985, 2231 ],
+      "options" : {
+        "zzz" : 63,
+        "cps" : false,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 3 - christoph82 vs. Blindschleiche auf Karte 20",
+      "map" : 20,
+      "players" : [ 2241, 2740, 1448 ],
+      "options" : {
+        "zzz" : 78,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 4 - coffee vs. Botrix auf Karte 21",
+      "map" : 21,
+      "players" : [ 2241, 2445, 773 ],
+      "options" : {
+        "zzz" : 86,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 5 - DeepGray vs. blackrog auf Karte 23",
+      "map" : 23,
+      "players" : [ 2241, 410, 1327 ],
+      "options" : {
+        "zzz" : 44,
+        "cps" : false,
+        "startdirection" : "formula1",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 6 - eris vs. BertiPlusP auf Karte 30",
+      "map" : 30,
+      "players" : [ 2241, 2937, 2779 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "free"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 7 - Akari vs. Anaxaros auf Karte 3",
+      "map" : 3,
+      "players" : [ 2241, 1168, 1578 ],
+      "options" : {
+        "zzz" : 96,
+        "cps" : true,
+        "startdirection" : "formula1",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "KLC TEST xx - 8-tel Finale, Spiel 8 - Balteatus vs. anton auf Karte 10",
+      "map" : 10,
+      "players" : [ 2241, 1912, 1717 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : false,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    } ]
+  },
+  "players" : [ 239, 1823, 1168, 1578, 2321, 3182, 1717, 2231, 723, 1912, 2779, 1327, 1448, 773, 1991, 1175, 1543, 2501, 127, 2740, 2445, 2985, 410, 411, 2235, 1, 222, 88, 326, 2937, 557, 2915 ],
+  "rules" : {
+    "minZzz" : 0,
+    "maxZzz" : 99,
+    "crashallowed" : "random",
+    "cps" : null,
+    "startdirection" : "random"
+  },
+  "playersByKey" : {
+    "group1" : [ 1912, 1, 411, 1823 ],
+    "group2" : [ 2445, 2779, 239, 557 ],
+    "group3" : [ 2937, 410, 723, 3182 ],
+    "group4" : [ 1578, 773, 222, 1543 ],
+    "group5" : [ 1448, 2231, 127, 326 ],
+    "group6" : [ 1168, 2985, 88, 1991 ],
+    "group7" : [ 2740, 2235, 2321, 1175 ],
+    "group8" : [ 1717, 1327, 2501, 2915 ],
+    "league1" : [ 1823, 239, 3182, 1578, 2231, 1168, 2321, 1717 ],
+    "league2" : [ 1912, 2779, 723, 773, 1448, 1991, 1175, 1327 ],
+    "league3" : [ 411, 2445, 410, 1543, 127, 2985, 2740, 2501 ],
+    "league4" : [ 1, 557, 2937, 222, 326, 88, 2235, 2915 ],
+    "roundOf16" : [ 1912, 1, 2445, 2779, 2937, 410, 1578, 773, 1448, 2231, 1168, 2985, 2740, 2235, 1717, 1327 ]
+  },
+  "mapsByKey" : {
+    "1" : [ 26 ],
+    "1168" : [ 3 ],
+    "1175" : [ 16 ],
+    "127" : [ 19 ],
+    "1327" : [ 12 ],
+    "1448" : [ 13 ],
+    "1543" : [ 17 ],
+    "1578" : [ 4 ],
+    "1717" : [ 7 ],
+    "1823" : [ 2 ],
+    "1912" : [ 10 ],
+    "1991" : [ 15 ],
+    "222" : [ 27 ],
+    "2231" : [ 8 ],
+    "2235" : [ 25 ],
+    "2321" : [ 5 ],
+    "239" : [ 1 ],
+    "2445" : [ 21 ],
+    "2501" : [ 18 ],
+    "2740" : [ 20 ],
+    "2779" : [ 11 ],
+    "2915" : [ 32 ],
+    "2937" : [ 30 ],
+    "2985" : [ 22 ],
+    "3182" : [ 6 ],
+    "326" : [ 29 ],
+    "410" : [ 23 ],
+    "411" : [ 24 ],
+    "557" : [ 31 ],
+    "723" : [ 9 ],
+    "773" : [ 14 ],
+    "88" : [ 28 ]
+  },
+  "settings" : {
+    "defaultTitle" : "KLC Saison xx - ${runde.x} - ${teams} auf Karte ${karte.id}",
+    "firstKORound" : 16,
+    "groups" : 8,
+    "leagues" : 4,
+    "numberOfWinnersPerGroup" : 2,
+    "playersPerLeague" : 8,
+    "round" : 16
+  }
+}
