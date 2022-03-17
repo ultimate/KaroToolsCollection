@@ -139,50 +139,8 @@ public abstract class GameSeriesManager
 	}
 
 	/**
-	 * Get a string config by key
+	 * Get a string config by key for a given {@link EnumGameSeriesType}.
 	 * 
-	 * @param key - the key
-	 * @return the config value as String
-	 */
-	public static String getStringConfig(String key)
-	{
-		return config.getProperty(key);
-	}
-
-	/**
-	 * Get a int config by key
-	 * 
-	 * @param key - the key
-	 * @return the config value as int
-	 */
-	public static int getIntConfig(String key)
-	{
-		try
-		{
-			return Integer.parseInt(getStringConfig(key));
-		}
-		catch(NumberFormatException e)
-		{
-			return 0;
-		}
-	}
-
-	/**
-	 * Get a boolean config by key
-	 * 
-	 * @param key - the key
-	 * @return the config value as boolean
-	 */
-	public static boolean getBooleanConfig(String key)
-	{
-		return Boolean.parseBoolean(getStringConfig(key));
-	}
-
-	/**
-	 * Get a string config by key for a given {@link EnumGameSeriesType}. This is convienence for
-	 * <code>getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key);</code>
-	 * 
-	 * @see GameSeriesManager#getStringConfig(String)
 	 * @param gs - the {@link GameSeries}
 	 * @param key - the key
 	 * @return the config value as String
@@ -190,19 +148,19 @@ public abstract class GameSeriesManager
 	public static String getStringConfig(GameSeries gs, String key)
 	{
 		if(gs == null || gs.getType() == null)
-			throw new IllegalArgumentException("invalid GameSeries");
+			return config.getProperty(key);
 
 		if(gs.getSettings().containsKey(key)) // default to settings first
 			return gs.get(key).toString();
 
-		return getStringConfig(CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + gs.getType().toString().toLowerCase() + CONFIG_DELIMITER + key);
+		return config.getProperty(CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + gs.getType().toString().toLowerCase() + CONFIG_DELIMITER + key);
 	}
 
 	/**
 	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
-	 * <code>Integer.parseInt(getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key));</code>
+	 * <code>Integer.parseInt(getStringConfig(gameseries, key));</code>
 	 * 
-	 * @see GameSeriesManager#getIntConfig(String)
+	 * @see GameSeriesManager#getStringConfig(GameSeries, String)
 	 * @param gs - the {@link GameSeries}
 	 * @param key - the key
 	 * @return the config value as int
@@ -221,9 +179,9 @@ public abstract class GameSeriesManager
 
 	/**
 	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
-	 * <code>Integer.parseInt(getStringConfig("gameseries." + gsType.toString().toLowerCase() + "." + key));</code>
+	 * <code>Integer.parseInt(getStringConfig(gameseries, key));</code>
 	 * 
-	 * @see GameSeriesManager#getIntConfig(String)
+	 * @see GameSeriesManager#getStringConfig(GameSeries, String)
 	 * @param gs - the {@link GameSeries}
 	 * @param key - the key
 	 * @return the config value as boolean

@@ -121,6 +121,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			List<User> playerList;
+			gameSeries.getPlayers().clear();
 			for(int i = 0; i < this.teams; i++)
 			{
 				String teamName = this.teamNameTFList.get(i).getText();
@@ -472,8 +473,9 @@ public class PlayersScreen extends Screen implements ActionListener
 					for(int l = 0; l < teams; l++)
 					{
 						playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (l + 1));
-						for(User player : playerList)
-							preselectPlayer(player, l);
+						if(playerList != null)
+							for(User player : playerList)
+								preselectPlayer(player, l);
 					}
 				}
 				else if(GameSeriesManager.isTeamBased(gameSeries))

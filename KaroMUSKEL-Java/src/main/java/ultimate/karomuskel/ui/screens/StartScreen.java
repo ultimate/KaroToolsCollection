@@ -146,7 +146,7 @@ public class StartScreen extends Screen implements ActionListener
 			this.gameSeries = FileDialog.getInstance().showLoad(this, karoAPICache);
 			if(this.gameSeries == null)
 				this.buttonGroup.clearSelection();
-			if(this.gameSeries.getCreator() != karoAPICache.getCurrentUser())
+			else if(this.gameSeries.getCreator() != karoAPICache.getCurrentUser())
 				this.gui.notify(new GameSeriesException("error.load.wrongCreator", null, this.gameSeries.getCreator().toShortString()), JOptionPane.WARNING_MESSAGE);
 		}
 		else
