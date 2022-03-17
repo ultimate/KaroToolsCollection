@@ -54,6 +54,16 @@
 					<trimStackTrace>false</trimStackTrace>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven.jar.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**cache**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -62,6 +72,7 @@
 
 		<maven.compiler.source>9</maven.compiler.source>
 		<maven.compiler.target>9</maven.compiler.target>
+		<maven.jar.version>3.2.2</maven.jar.version>
 		<maven.assembly.version>2.1</maven.assembly.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
 
