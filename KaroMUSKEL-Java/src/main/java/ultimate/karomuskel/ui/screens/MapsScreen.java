@@ -11,7 +11,6 @@ import java.util.TreeMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -25,6 +24,7 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.components.MapRenderer;
@@ -42,7 +42,7 @@ public class MapsScreen extends Screen implements ActionListener
 
 	private TreeMap<Integer, Map>	maps;
 
-	public MapsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public MapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header");
 

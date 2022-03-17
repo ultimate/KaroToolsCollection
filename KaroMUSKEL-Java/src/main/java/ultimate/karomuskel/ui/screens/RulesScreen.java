@@ -6,7 +6,6 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -22,6 +21,7 @@ import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
@@ -40,7 +40,7 @@ public class RulesScreen extends Screen
 	private JComboBox<Label<Boolean>>			creatorGiveUpCB;
 	private JComboBox<Label<Boolean>>			ignoreInvitableCB;
 
-	public RulesScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public RulesScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.rules.header");
 

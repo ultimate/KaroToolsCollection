@@ -7,7 +7,6 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
@@ -27,6 +26,7 @@ import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.AllCombinationsNumberModel;
 import ultimate.karomuskel.ui.components.BooleanModel;
@@ -88,7 +88,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JLabel						maxPlayersPerTeamLabel;
 	private JSpinner					maxPlayersPerTeamSpinner;
 
-	public SettingsScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
+	public SettingsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.settings.header");
 

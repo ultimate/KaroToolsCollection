@@ -5,7 +5,6 @@ import java.util.function.Predicate;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -31,7 +30,7 @@ public abstract class Screen extends JPanel
 
 	protected KaroAPICache				karoAPICache;
 
-	protected JFrame					gui;
+	protected MainFrame					gui;
 
 	protected JButton					previousButton;
 	protected JButton					nextButton;
@@ -44,7 +43,7 @@ public abstract class Screen extends JPanel
 	protected boolean					skip				= false;
 	protected boolean					firstShow			= true;
 
-	public Screen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey)
+	public Screen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey)
 	{
 		super();
 		this.gui = gui;
@@ -57,7 +56,7 @@ public abstract class Screen extends JPanel
 		this.headerKey = headerKey;
 	}
 
-	public JFrame getGui()
+	public MainFrame getGui()
 	{
 		return gui;
 	}

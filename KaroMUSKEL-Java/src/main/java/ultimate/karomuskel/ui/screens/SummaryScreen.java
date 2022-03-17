@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -44,6 +42,7 @@ import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
+import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.SpinnerCellEditor;
@@ -83,7 +82,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private static final int	LEAVING				= 3;
 	private static final int	LEFT				= 4;
 
-	public SummaryScreen(JFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
+	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.summary.header");
 		this.startScreen = this;
@@ -544,8 +543,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private void batchUpdatePlayers(int column, String label)
 	{
-		Collection<User> players = karoAPICache.getUsers();
-		players.remove(gameSeries.getCreator());
+		List<User> players = new ArrayList<>(karoAPICache.getUsersByLogin().values());
+		// players.remove(gameSeries.getCreator()); // don't prohibit removing the creator, display a warning instead
 		JComboBox<User> combobox = new JComboBox<>(new DefaultComboBoxModel<User>(players.toArray(new User[0])));
 
 		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"),
@@ -558,7 +557,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(result == 0) // add
 		{
 			User value = (User) combobox.getSelectedItem();
-			logger.info("F�ge Spieler " + value + " hinzu");
+			logger.info("adding player: " + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
@@ -570,7 +569,13 @@ public class SummaryScreen extends Screen implements ActionListener
 		else if(result == 1) // remove
 		{
 			User value = (User) combobox.getSelectedItem();
-			logger.info("Entferne Spieler " + value);
+			if(value == gameSeries.getCreator())
+			{
+				// show warning
+				if(!this.gui.confirm("screen.summary.batchUpdate.players.warnCreator"))
+					return;
+			}
+			logger.info("removing player: " + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
