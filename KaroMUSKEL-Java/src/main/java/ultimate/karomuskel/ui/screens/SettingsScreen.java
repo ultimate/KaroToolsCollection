@@ -418,14 +418,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			{
 				gameSeries.set(GameSeries.SMALL_FINAL, ((Label<Boolean>) smallFinalCB.getSelectedItem()).getValue());
 				gameSeries.set(GameSeries.CURRENT_ROUND, gameSeries.get(GameSeries.NUMBER_OF_TEAMS));
-			}
-			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
-			{
-				int groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
-				int leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
-				int totalPlayers = groups * leagues;
-				gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
-			}			
+			}		
 			gameSeries.set(GameSeries.AUTO_NAME_TEAMS, ((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.USE_CREATOR_TEAM, !((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.ALLOW_MULTIPLE_TEAMS, ((Label<Boolean>) multipleTeamsCB.getSelectedItem()).getValue());
@@ -457,6 +450,13 @@ public class SettingsScreen extends Screen implements ChangeListener
 		{
 			gameSeries.set(GameSeries.NUMBER_OF_MAPS, (Integer) numberOfMapsSpinner.getValue());
 		}
+		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
+		{
+			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
+			int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
+			int totalPlayers = groups * leagues;
+			gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
+		}	
 		return gameSeries;
 	}
 

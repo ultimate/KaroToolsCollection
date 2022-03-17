@@ -197,7 +197,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				playersPerGroup = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
+				playersPerGroup = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 				int nextRound = round / 2;
 				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound))
 					namesNextRound.add(p.getLogin());

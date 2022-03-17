@@ -94,8 +94,8 @@ public abstract class Planner
 				return planSeriesBalanced(gs.getTitle(), creator, gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey());
 			case KLC:
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
-				groups = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_GROUPS);
-				leagues = GameSeriesManager.getIntConfig(GameSeries.CONF_KLC_LEAGUES);
+				groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
+				leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
 				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
 			case KO:
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
@@ -658,7 +658,10 @@ public abstract class Planner
 			// Bilde Gruppe aus je 1 Spieler pro Liga
 			// die Ligen sind 1mal initial durchgemischt, deshalb k�nnen wir einfach f�r Gruppe
 			// X jeweils den X-ten Spieler pro Gruppe nehmen
-			playersByKey.get(GameSeries.KEY_GROUP + g).clear();
+			if(playersByKey.containsKey(GameSeries.KEY_GROUP + g))
+				playersByKey.get(GameSeries.KEY_GROUP + g).clear();
+			else
+				playersByKey.put(GameSeries.KEY_GROUP + g, new ArrayList<>(leagues));
 			for(int l = 1; l <= leagues; l++)
 				playersByKey.get(GameSeries.KEY_GROUP + g).add(playersByKey.get(GameSeries.KEY_LEAGUE + l).get(g - 1));
 			Collections.shuffle(playersByKey.get(GameSeries.KEY_GROUP + g), random);
@@ -666,7 +669,7 @@ public abstract class Planner
 			// create a temporarily list of single player teams to be able to use the LeaguePlanner
 			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get(GameSeries.KEY_GROUP + g).size());
 			for(User p : playersByKey.get(GameSeries.KEY_GROUP + g))
-				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p)));
+				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p), homeMaps.get("" + p.getId()).get(0)));
 
 			List<List<Match>> matches = planMatchesLeague(teamsTmp);
 

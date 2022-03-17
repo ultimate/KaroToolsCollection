@@ -49,7 +49,7 @@ public class HomeMapsScreen extends Screen
 	@Override
 	public String getNextKey()
 	{
-		if(this.next.isSkip())
+		if(this.next.isSkip() || this.next instanceof SummaryScreen)
 			return "screen.homemaps.nextskip";
 		else
 			return "screen.homemaps.next";
@@ -188,11 +188,25 @@ public class HomeMapsScreen extends Screen
 		if(this.firstShow)
 		{
 			// preselect values from gameseries
-			for(int i = 0; i < gameSeries.getTeams().size(); i++)
+			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
-				if(gameSeries.getTeams().get(i).getHomeMap() == null)
-					continue;
-				preselectMap(gameSeries.getTeams().get(i).getHomeMap(), i);
+				for(int i = 0; i < gameSeries.getTeams().size(); i++)
+				{
+					if(gameSeries.getTeams().get(i).getHomeMap() == null)
+						continue;
+					preselectMap(gameSeries.getTeams().get(i).getHomeMap(), i);
+				}
+			}
+			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
+			{
+				String playerKey;
+				for(int i = 0; i < gameSeries.getPlayers().size(); i++)
+				{
+					playerKey = "" + gameSeries.getPlayers().get(i).getId();
+					if(!gameSeries.getMapsByKey().containsKey(playerKey) || gameSeries.getMapsByKey().get(playerKey).isEmpty())
+						continue;
+					preselectMap(gameSeries.getMapsByKey().get(playerKey).get(0), i);
+				}
 			}
 		}
 
