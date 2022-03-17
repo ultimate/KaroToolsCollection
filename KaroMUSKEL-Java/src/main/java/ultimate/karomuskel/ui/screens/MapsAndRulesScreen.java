@@ -43,10 +43,10 @@ import ultimate.karomuskel.ui.components.MapRenderer;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener, ChangeListener
 {
-	private static final long							serialVersionUID	= 1L;
-	
-	private static final String ACTION_MAP_SELECT = "mapSelect";
-	private static final String ACTION_RECALC_NUMBER_OF_GAMES = "recalcNumberOfGames";
+	private static final long							serialVersionUID				= 1L;
+
+	private static final String							ACTION_MAP_SELECT				= "mapSelect";
+	private static final String							ACTION_RECALC_NUMBER_OF_GAMES	= "recalcNumberOfGames";
 
 	private List<JComboBox<Map>>						mapCBList;
 	private List<JSpinner>								gamesPerPlayerSpinnerList;
@@ -60,7 +60,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 
 	private int											numberOfMaps;
 
-	private static final int							rowsPerMap			= 5;
+	private static final int							rowsPerMap						= 5;
 
 	private GameSeries									gameSeries;
 
@@ -151,7 +151,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 			for(int i = 0; i < this.numberOfMaps; i++)
 			{
 				final int j = i;
-				
+
 				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
 				LinkedList<Map> maps = new LinkedList<Map>(karoAPICache.getMaps());
 				maps.removeIf(m -> { return m.getPlayers() < 3; });
@@ -208,16 +208,18 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				gbc.gridx = 1;
 				contentPanel.add(label, gbc);
 				gamesPerPlayerSpinner = new JSpinner(new SpinnerNumberModel(Math.min(gamesPerPlayer, maxGamesPerPlayer), 1, maxGamesPerPlayer, 1));
-				gamesPerPlayerSpinner.addChangeListener(e -> {actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j));});
+				gamesPerPlayerSpinner.addChangeListener(e -> { actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j)); });
 				gbc.gridx++;
 				contentPanel.add(gamesPerPlayerSpinner, gbc);
 
 				label = new JLabel(Language.getString("screen.mapsAndRules.numberOfPlayers"));
 				gbc.gridx++;
 				contentPanel.add(label, gbc);
-				numberOfPlayersSpinner = new JSpinner(
-						new SpinnerNumberModel(Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers), 2, Math.min(gameSeries.getPlayers().size() + 1, map.getPlayers() - 1), 1));
-				numberOfPlayersSpinner.addChangeListener(e -> {actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j));});
+				int value = Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers);
+				int max = Math.min(gameSeries.getPlayers().size() + 1, map.getPlayers() - 1);
+				value = Math.min(value, max); // usually value should not be > max; but with manipulation this can lead to an error, so handle it here
+				numberOfPlayersSpinner = new JSpinner(new SpinnerNumberModel(value, 2, max, 1));
+				numberOfPlayersSpinner.addChangeListener(e -> { actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j)); });
 				gbc.gridx++;
 				contentPanel.add(numberOfPlayersSpinner, gbc);
 
@@ -280,14 +282,14 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				this.checkpointsActivatedCBList.add(checkpointsActivatedCB);
 				this.directionCBList.add(directionCB);
 				this.mapCBList.add(mapCB);
-				
+
 				actionPerformed(new ActionEvent(gamesPerPlayerSpinner, j, ACTION_RECALC_NUMBER_OF_GAMES + j));
 			}
 		}
-		
+
 		this.firstShow = false;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Rules createRules(int i) throws GameSeriesException
 	{
