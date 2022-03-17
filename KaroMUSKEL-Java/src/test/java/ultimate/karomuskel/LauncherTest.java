@@ -11,7 +11,7 @@ import ultimate.karoapi4j.KaroAPI;
 
 public class LauncherTest
 {
-	private static final String	apiVersion	= "1.0.0";
+	private static final String	apiVersion	= "1.1.0";
 	private static final String	appVersion	= "3.0.0";
 
 	@Test

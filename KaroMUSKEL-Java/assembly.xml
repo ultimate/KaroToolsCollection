@@ -11,8 +11,9 @@
 		<fileSet>
 			<directory>${project.build.directory}</directory>
 			<outputDirectory>/</outputDirectory>
-			<excludes>
-			</excludes>
+			<includes>
+				<include>*</include>
+			</includes>
 		</fileSet>
 	</fileSets>
 	<dependencySets>
