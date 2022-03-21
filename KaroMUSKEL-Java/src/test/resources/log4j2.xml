@@ -6,6 +6,7 @@
   </Appenders>
   <Loggers>
     <Logger name="ultimate" level="debug"/>
+    <Logger name="ultimate.karoapi4j.KaroAPICache" level="info"/>
     <Root level="info">
       <AppenderRef ref="STDOUT"/>
     </Root>
