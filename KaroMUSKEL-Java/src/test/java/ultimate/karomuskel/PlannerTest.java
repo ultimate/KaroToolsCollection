@@ -19,6 +19,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Match;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
@@ -55,37 +56,43 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		// test planning
 		List<List<Match>> matches;
-		
+
 		// without dummy matches
 
 		logger.debug("league-test for " + teamCount + " teams WITHOUT dummy matches");
-		
+
 		matches = Planner.planMatchesLeague(teams, false);
 		checkLeagueMatches(teamCount, teams, matches, false);
 
 		// with dummy matches
-		
+
 		logger.debug("league-test for " + teamCount + " teams WITH dummy matches");
 
 		matches = Planner.planMatchesLeague(teams, true);
 		checkLeagueMatches(teamCount, teams, matches, true);
 	}
-	
+
 	private void checkLeagueMatches(int teamCount, List<Team> teams, List<List<Match>> matches, boolean dummyMatches)
 	{
 		assertEquals(teamCount, teams.size());
-		
-		int expectedNumberOfDays = (teamCount - 1);
-		int expectedNumberOfMatches = expectedNumberOfDays * teamCount / 2;
-		
+
+		int teamCountForCalc = (teamCount % 2 == 0 ? teamCount : teamCount + 1);
+
+		int expectedNumberOfDays = teamCountForCalc - 1;
+		int expectedNumberOfMatches = expectedNumberOfDays * teamCountForCalc / 2;
+		if(teamCount % 2 == 1 && !dummyMatches)
+			expectedNumberOfMatches -= teamCount;
+
 		assertEquals(expectedNumberOfDays, matches.size());
-		
+
 		int[][] check;
-		int home, day, matchCount, totalHome, expectedHomePerPlayer;
+		int home, day, matchCount, totalHome, expectedHomePerPlayerMin, expectedHomePerPlayerMax;
+		int i1, i2;
+		Team dummy = null;
 
 		StringBuilder sb;
 
-		check = new int[teamCount][teamCount];
+		check = new int[teamCountForCalc][teamCountForCalc];
 		day = 1;
 		matchCount = 0;
 		for(List<Match> dayList : matches)
@@ -96,33 +103,61 @@ public class PlannerTest extends KaroMUSKELTestcase
 			{
 				matchCount++;
 				sb.append(match.getTeam(0).getName() + "-" + match.getTeam(1).getName() + "\t");
-				check[Integer.parseInt(match.getTeam(0).getName().substring(1)) - 1][Integer.parseInt(match.getTeam(1).getName().substring(1)) - 1]++;
-				check[Integer.parseInt(match.getTeam(1).getName().substring(1)) - 1][Integer.parseInt(match.getTeam(0).getName().substring(1)) - 1]++;
+				if(dummyMatches && match.getTeam(0).getName().equalsIgnoreCase(GameSeriesManager.getStringConfig(EnumGameSeriesType.League, GameSeries.CONF_LEAGUE_DUMMY_TEAM)))
+				{
+					dummy = match.getTeam(0);
+					i1 = teamCountForCalc;
+				}
+				else
+					i1 = Integer.parseInt(match.getTeam(0).getName().substring(1));
+				if(dummyMatches && match.getTeam(1).getName().equalsIgnoreCase(GameSeriesManager.getStringConfig(EnumGameSeriesType.League, GameSeries.CONF_LEAGUE_DUMMY_TEAM)))
+				{
+					dummy = match.getTeam(1);
+					i2 = teamCountForCalc;
+				}
+				else
+					i2 = Integer.parseInt(match.getTeam(1).getName().substring(1));
+				check[i1 - 1][i2 - 1]++;
+				check[i2 - 1][i1 - 1]++;
 			}
 			logger.debug(sb.toString());
 		}
 
 		assertEquals(expectedNumberOfMatches, matchCount);
 
-		for(int i1 = 0; i1 < teamCount; i1++)
+		for(i1 = 1; i1 <= teamCountForCalc; i1++)
 		{
-			for(int i2 = 0; i2 < teamCount; i2++)
+			for(i2 = 1; i2 <= teamCountForCalc; i2++)
 			{
-				if(i1 == i2)
-					assertEquals(0, check[i1][i2], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1][i2]);
+				if(i1 == i2 || (teamCount % 2 == 1 && !dummyMatches && (i1 == teamCountForCalc || i2 == teamCountForCalc)))
+					assertEquals(0, check[i1-1][i2-1], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1-1][i2-1]);
 				else
-					assertEquals(1, check[i1][i2], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1][i2]);
+					assertEquals(1, check[i1-1][i2-1], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1-1][i2-1]);
 			}
 		}
 		totalHome = 0;
-		expectedHomePerPlayer = (teamCount - 1) / 2;
-		logger.debug("expecting home counr = " + expectedHomePerPlayer + " or " + (expectedHomePerPlayer + 1));
+		expectedHomePerPlayerMin = (teamCount - 1) / 2;
+		if(teamCount % 2 == 0)
+			expectedHomePerPlayerMax = expectedHomePerPlayerMin + 1;
+		else
+			expectedHomePerPlayerMax = expectedHomePerPlayerMin;
+		logger.debug("expecting home count = " + expectedHomePerPlayerMin + " - " + expectedHomePerPlayerMax);
 		for(Team t : teams)
 		{
 			home = Planner.countHomeMatches(matches, t);
 			totalHome += home;
+			if(teamCount % 2 == 1 && dummyMatches)
+				home--;
 			logger.debug(t.getName() + ": home=" + home + ", guest=" + (teamCount - 1 - home));
-			assertTrue(home == expectedHomePerPlayer || home == (expectedHomePerPlayer + 1), "invalid home match count for " + t.getName() + ": " + home);
+			assertTrue(home >= expectedHomePerPlayerMin && home <= expectedHomePerPlayerMax, "invalid home match count for " + t.getName() + ": " + home);
+		}
+		if(teamCount % 2 == 1 && dummyMatches)
+		{
+			Team t = dummy;
+			home = Planner.countHomeMatches(matches, t);
+			totalHome += home;
+			logger.debug(t.getName() + ": home=" + home + ", guest=" + (teamCount - 1 - home));
+			assertEquals(0, home, "invalid home match count for " + t.getName() + ": " + home);
 		}
 		assertEquals(expectedNumberOfMatches, totalHome);
 	}

@@ -80,16 +80,17 @@ public abstract class Planner
 			throw new IllegalArgumentException("gameseries & type must not be null!");
 
 		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, numberOfGames, maxPlayersPerGame;
-		boolean useHomeMaps, loserRound;
+		boolean useHomeMaps, loserRound, shuffle, dummyMatches;
 
 		User creator = gs.getCreator();
 
 		switch(gs.getType())
 		{
 			case AllCombinations:
+				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				numberOfTeamsPerMatch = (int) gs.get(GameSeries.NUMBER_OF_TEAMS_PER_MATCH);
-				return planSeriesAllCombinations(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), numberOfGamesPerPair, numberOfTeamsPerMatch);
+				return planSeriesAllCombinations(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), shuffle, numberOfGamesPerPair, numberOfTeamsPerMatch);
 			case Balanced:
 				return planSeriesBalanced(gs.getTitle(), creator, gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey());
 			case KLC:
@@ -98,6 +99,7 @@ public abstract class Planner
 				leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
 				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
 			case KO:
+				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
@@ -109,11 +111,13 @@ public abstract class Planner
 					losers = new ArrayList<>(gs.getTeamsByKey().get(GameSeries.KEY_ROUND + (round * 2)));
 					losers.removeAll(winners);
 				}
-				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), useHomeMaps, true, numberOfGamesPerPair);
+				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), useHomeMaps, shuffle, numberOfGamesPerPair);
 			case League:
+				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
+				dummyMatches = (boolean) gs.get(GameSeries.DUMMY_MATCHES);
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
-				return planSeriesLeague(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, numberOfGamesPerPair);
+				return planSeriesLeague(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), useHomeMaps, shuffle, numberOfGamesPerPair, dummyMatches);
 			case Simple:
 				numberOfGames = (int) gs.get(GameSeries.NUMBER_OF_GAMES);
 				maxPlayersPerGame = (int) gs.get(GameSeries.MAX_PLAYERS_PER_GAME);
@@ -132,15 +136,18 @@ public abstract class Planner
 	 * @param rules - the {@link Rules}
 	 * @param numberOfGamesPerPair - the number of games per pair/combination
 	 * @param numberOfTeamsPerMatch - the number of {@link Team}s per match
+	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, int numberOfGamesPerPair, int numberOfTeamsPerMatch)
+	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, boolean shuffle, int numberOfGamesPerPair,
+			int numberOfTeamsPerMatch)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		// create local copy of the input list
 		List<Team> tmp = new LinkedList<>(teams);
-		Collections.shuffle(tmp, random);
+		if(shuffle)
+			Collections.shuffle(tmp, random);
 
 		List<Match> matches = planMatchesAllCombinations(tmp, numberOfTeamsPerMatch);
 
@@ -671,7 +678,7 @@ public abstract class Planner
 			for(User p : playersByKey.get(GameSeries.KEY_GROUP + g))
 				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p), homeMaps.get("" + p.getId()).get(0)));
 
-			List<List<Match>> matches = planMatchesLeague(teamsTmp);
+			List<List<Match>> matches = planMatchesLeague(teamsTmp, false);
 
 			int day = 0;
 			PlannedGame game;
@@ -781,17 +788,21 @@ public abstract class Planner
 	 * @param rules - the {@link Rules} to use
 	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
 	 * @param numberOfGamesPerPair - the number of games per pair (usually this is 2 = one for the first and one for the second half of the season)
+	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
+	 * @param planFreeMatches - include "free" matches in case of an uneven number of teams
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, int numberOfGamesPerPair)
+	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair,
+			boolean planFreeMatches)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
 		// create local copy of the input list
 		List<Team> tmp = new ArrayList<>(teams);
-		Collections.shuffle(tmp, random);
+		if(shuffle)
+			Collections.shuffle(tmp, random);
 
-		List<List<Match>> matches = planMatchesLeague(tmp);
+		List<List<Match>> matches = planMatchesLeague(tmp, planFreeMatches);
 
 		int day = 0;
 		PlannedGame game;
@@ -935,7 +946,11 @@ public abstract class Planner
 
 		placeholderValues.put("teams", toPlaceholderString(home, guest));
 
-		return planGame(title, creator, (overwriteMap != null ? overwriteMap : home.getHomeMap()), gamePlayers, rules, placeholderValues);
+		Map map = (overwriteMap != null ? overwriteMap : home.getHomeMap());
+		if(map == null) // can happen for dummyMatches
+			map = guest.getHomeMap();
+
+		return planGame(title, creator, map, gamePlayers, rules, placeholderValues);
 	}
 
 	/**
@@ -1047,165 +1062,71 @@ public abstract class Planner
 	 * Logic used by {@link Planner#planSeriesLeague(String, List, List, Rules, boolean, int)} and
 	 * {@link Planner#planGroupphase(String, java.util.Map, java.util.Map, int, int, BiFunction, Rules, int)}
 	 * 
+	 * @see https://stackoverflow.com/a/1039500/4090157
 	 * @param teams - the list of {@link Team}s
+	 * @param planFreeMatches - include "free" matches in case of an uneven number of teams
 	 * @return the list of {@link Match}es per game day
 	 */
-	public static List<List<Match>> planMatchesLeague(List<Team> teams)
+	public static List<List<Match>> planMatchesLeague(List<Team> teams, boolean planFreeMatches)
 	{
-		if(teams.size() % 2 == 1)
-			throw new IllegalArgumentException("equal number of teams required");
-		// oder Team "frei" hinzuf�gen
+		// https://stackoverflow.com/a/1039500/4090157
+		int fixPoint, days;
+		if(teams.size() % 2 == 0)
+		{
+			fixPoint = 1;
+			days = teams.size() - 1;
+		}
+		else
+		{
+			fixPoint = 0;
+			days = teams.size();
+		}
 
-		int teamcount = teams.size(); // Anzahl der Teams
-		int matchcount = teamcount / 2; // Anzahl der m�glichen Spielpaare
-		int days = teamcount - 1; // Anzahl der Spieltage pro Runde
+		// init 2 lists
+		LinkedList<Team> homes = new LinkedList<>();
+		LinkedList<Team> guests = new LinkedList<>();
+		int ti = 0;
+		for(Team team : teams)
+		{
+			if(ti % 2 == 0)
+				homes.add(team);
+			else
+				guests.add(team);
+			ti++;
+		}
+
+		// plan days
+		Team dummy = new Team(GameSeriesManager.getStringConfig(EnumGameSeriesType.League, GameSeries.CONF_LEAGUE_DUMMY_TEAM), new ArrayList<>());
 		List<List<Match>> matches = new LinkedList<List<Match>>(); // Spielplan
-		int gamenr = 0; // Z�hler f�r Spielnummer
-
-		Team team1, team2;
 		List<Match> dayList;
+		Match m;
+
 		for(int day = 0; day < days; day++)
 		{
 			dayList = new LinkedList<Match>();
-			teams.add(1, teams.remove(teamcount - 1)); // letztes Team an stelle 1
-			for(int matchnr = 0; matchnr < matchcount; matchnr++)
+
+			for(int i = 0; i < homes.size(); i++)
 			{
-				gamenr++;
-				if((gamenr % teamcount != 1) && (gamenr % 2 == 0))
+				if(i < guests.size())
 				{
-					team1 = teams.get(matchnr);
-					team2 = teams.get(teamcount - 1 - matchnr);
+					if(fixPoint == 1 && day % 2 == 1 && i == 0)
+						// swap every second game of the first team to have the home games evenly distributed 
+						m = new Match(guests.get(i), homes.get(i));
+					else
+						m = new Match(homes.get(i), guests.get(i));
 				}
+				else if(planFreeMatches)
+					m = new Match(homes.get(i), dummy);
 				else
-				{
-					team2 = teams.get(matchnr);
-					team1 = teams.get(teamcount - 1 - matchnr);
-				}
-				dayList.add(new Match(team1, team2));
+					continue;
+
+				dayList.add(m);
 			}
 			matches.add(dayList);
-		}
 
-		int maxHomeMatches;
-		List<Team> maxHomeTeams;
-		int minHomeMatches;
-		List<Team> minHomeTeams;
-		int homeMatches;
-		boolean swapped;
-		Team t1, t2;
-		Random r = new Random();
-		int minSwappable;
-		Team minSwappableTeam;
-		List<Team> minSwappableList;
-		int swappable;
-		while(true)
-		{
-			maxHomeMatches = 0;
-			maxHomeTeams = new LinkedList<Team>();
-			minHomeMatches = teamcount - 1;
-			minHomeTeams = new LinkedList<Team>();
-			swapped = false;
-
-			for(Team t : teams)
-			{
-				homeMatches = countHomeMatches(matches, t);
-				if(homeMatches > maxHomeMatches)
-				{
-					maxHomeMatches = homeMatches;
-					maxHomeTeams = new LinkedList<Team>();
-					maxHomeTeams.add(t);
-				}
-				else if(homeMatches == maxHomeMatches)
-				{
-					maxHomeTeams.add(t);
-				}
-				if(homeMatches < minHomeMatches)
-				{
-					minHomeMatches = homeMatches;
-					minHomeTeams = new LinkedList<Team>();
-					minHomeTeams.add(t);
-				}
-				else if(homeMatches == minHomeMatches)
-				{
-					minHomeTeams.add(t);
-				}
-			}
-
-			if(maxHomeMatches - minHomeMatches < 2)
-				break;
-
-			while(maxHomeTeams.size() > 0 && minHomeTeams.size() > 0)
-			{
-				minSwappable = Math.min(minHomeTeams.size(), maxHomeTeams.size()) + 1;
-				minSwappableTeam = null;
-				minSwappableList = null;
-				for(Team t : maxHomeTeams)
-				{
-					swappable = 0;
-					for(List<Match> ms : matches)
-					{
-						for(Match m : ms)
-						{
-							if(m.getTeam(0).equals(t) && minHomeTeams.contains(m.getTeam(1)))
-								swappable++;
-						}
-					}
-					if(swappable < minSwappable)
-					{
-						minSwappable = swappable;
-						minSwappableTeam = t;
-						minSwappableList = maxHomeTeams;
-					}
-				}
-				for(Team t : minHomeTeams)
-				{
-					swappable = 0;
-					for(List<Match> ms : matches)
-					{
-						for(Match m : ms)
-						{
-							if(m.getTeam(1).equals(t) && maxHomeTeams.contains(m.getTeam(0)))
-								swappable++;
-						}
-					}
-					if(swappable < minSwappable)
-					{
-						minSwappable = swappable;
-						minSwappableTeam = t;
-						minSwappableList = minHomeTeams;
-					}
-				}
-				if(minSwappable == 0)
-				{
-					minSwappableList.remove(minSwappableTeam);
-					continue;
-				}
-				if(maxHomeTeams.contains(minSwappableTeam))
-				{
-					t1 = minSwappableTeam;
-					t2 = minHomeTeams.get(r.nextInt(minHomeTeams.size()));
-				}
-				else
-				{
-					t1 = maxHomeTeams.get(r.nextInt(maxHomeTeams.size()));
-					t2 = minSwappableTeam;
-				}
-				for(List<Match> ms : matches)
-				{
-					for(Match m : ms)
-					{
-						if(m.getTeam(0).equals(t1) && m.getTeam(1).equals(t2))
-						{
-							m.rotateTeams();
-							swapped = true;
-							maxHomeTeams.remove(t1);
-							minHomeTeams.remove(t2);
-						}
-					}
-				}
-				if(!swapped && maxHomeTeams.size() == 1 && minHomeTeams.size() == 1)
-					break;
-			}
+			// rotate lists clockwise
+			guests.addFirst(homes.remove(fixPoint));
+			homes.add(guests.removeLast());
 		}
 
 		return matches;
