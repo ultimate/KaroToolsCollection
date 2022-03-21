@@ -365,8 +365,8 @@ public class KaroAPITest extends KaroAPITestcase
 			map = karoAPI.getMap(id).get();
 			logger.debug("loaded map: " + map.getId() + " = " + map.getName() + " (by " + map.getAuthor() + ")");
 			assertEquals(id, map.getId());
-			assertEquals("Nadelöhr", map.getName());
-			assertEquals("Wolfgang Preiß", map.getAuthor());
+			assertEquals("NadelÃ¶hr", map.getName());
+			assertEquals("Wolfgang PreiÃŸ", map.getAuthor());
 			assertFalse(map.isActive());
 			assertFalse(map.isNight());
 		}
@@ -771,7 +771,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(properties.getProperty("karoapi.user"), user1.getLogin());
 
 		String str1 = "Hallo " + user2.getLogin() + ", das ist ein API-Test!";
-		String str2 = "Danke und Gruß zurück!";
+		String str2 = "Danke und Gruï¿½ zurï¿½ck!";
 
 		UserMessage msg, lastMsg;
 		List<UserMessage> messages;

@@ -170,7 +170,7 @@ public class KaroWikiAPITest
 
 				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY", Locale.GERMAN);
 				String dateString = df.format(date);
-				dateString = dateString.replace("März", "Mär.");
+				dateString = dateString.replace("MÃ¤rz", "MÃ¤r.");
 				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
 
 				String updatedContent = wl.getContent(PAGE_EXISTING).get();
