@@ -80,6 +80,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JLabel						smallFinalLabel;
 	private JComboBox<Label<Boolean>>	smallFinalCB;
 
+	private JLabel						dummyMatchesLabel;
+	private JComboBox<Label<Boolean>>	dummyMatchesCB;
+
 	private JLabel						numberOfTeamsPerMatchLabel;
 	private JSpinner					numberOfTeamsPerMatchSpinner;
 
@@ -116,6 +119,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			switch(gameSeries.getType())
 			{
 				case KO:
+				case League:
 					gridwidth = 6;
 					break;
 				default:
@@ -188,7 +192,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				{
 					int numberOfTeamsInit = (gameSeries.get(GameSeries.NUMBER_OF_TEAMS) != null ? (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS) : 8);
 					numberOfTeamsLabel = new JLabel(Language.getString("screen.settings.numberofteams", cellWidth));
-					int stepSize = (gameSeries.getType() == EnumGameSeriesType.AllCombinations ? 1 : 2);
+					int stepSize = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_TEAM_STEP_SIZE);
 					if(gameSeries.getType() == EnumGameSeriesType.KO)
 						numberOfTeamsSpinner = new JSpinner(new KORoundNumberModel(numberOfTeamsInit, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS)));
 					else
@@ -278,6 +282,20 @@ public class SettingsScreen extends Screen implements ChangeListener
 						gbc.fill = GridBagConstraints.HORIZONTAL;
 						gbc.gridy = 5;
 						this.add(smallFinalCB, gbc);
+					}
+					else if(gameSeries.getType() == EnumGameSeriesType.League)
+					{
+						dummyMatchesLabel = new JLabel(Language.getString("screen.settings.dummyMatches", cellWidth));
+						boolean dummyMatchesInit = (gameSeries.get(GameSeries.DUMMY_MATCHES) != null ? (boolean) gameSeries.get(GameSeries.DUMMY_MATCHES) : false);
+						dummyMatchesCB = new JComboBox<>(new BooleanModel(dummyMatchesInit, false));
+						dummyMatchesCB.addActionListener(e -> { stateChanged(null); } );
+						gbc.gridwidth = 1;
+						gbc.gridx = 5;
+						gbc.gridy = 4;
+						this.add(dummyMatchesLabel, gbc);
+						gbc.fill = GridBagConstraints.HORIZONTAL;
+						gbc.gridy = 5;
+						this.add(dummyMatchesCB, gbc);
 					}
 
 					this.stateChanged(null);
@@ -418,7 +436,14 @@ public class SettingsScreen extends Screen implements ChangeListener
 			{
 				gameSeries.set(GameSeries.SMALL_FINAL, ((Label<Boolean>) smallFinalCB.getSelectedItem()).getValue());
 				gameSeries.set(GameSeries.CURRENT_ROUND, gameSeries.get(GameSeries.NUMBER_OF_TEAMS));
-			}		
+			}
+			else if(gameSeries.getType() == EnumGameSeriesType.League)
+			{
+				if((int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS) % 2 == 1)
+					gameSeries.set(GameSeries.DUMMY_MATCHES, ((Label<Boolean>) dummyMatchesCB.getSelectedItem()).getValue());
+				else
+					gameSeries.set(GameSeries.DUMMY_MATCHES, false);
+			}	
 			gameSeries.set(GameSeries.AUTO_NAME_TEAMS, ((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.USE_CREATOR_TEAM, !((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.ALLOW_MULTIPLE_TEAMS, ((Label<Boolean>) multipleTeamsCB.getSelectedItem()).getValue());
@@ -471,7 +496,14 @@ public class SettingsScreen extends Screen implements ChangeListener
 			int numberOfGamesPerPair = (Integer) numberOfGamesPerPairSpinner.getValue();
 			if(gameSeries.getType() == EnumGameSeriesType.League)
 			{
-				numberOfGames = (numberOfTeams - 1) * (numberOfTeams / 2) * numberOfGamesPerPair;
+				dummyMatchesCB.setEnabled(numberOfTeams % 2 == 1);
+				boolean dummyMatches = ((Label<Boolean>) dummyMatchesCB.getSelectedItem()).getValue();
+				int tmp = numberOfTeams;
+				if(tmp % 2 == 1)
+					tmp++;
+				numberOfGames = (tmp - 1) * (tmp / 2) * numberOfGamesPerPair;
+				if(numberOfTeams % 2 == 1 && !dummyMatches)
+					numberOfGames -= numberOfTeams * numberOfGamesPerPair;
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KO)
 			{

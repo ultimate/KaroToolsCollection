@@ -58,6 +58,7 @@ public class GameSeries
 	public static final String							AUTO_NAME_TEAMS						= "autoNameTeams";				// __X_______X_______X______
 	public static final String							ALLOW_MULTIPLE_TEAMS				= "allowMultipleTeams";			// __X_______X_______X______
 	public static final String							SMALL_FINAL							= "smallFinal";					// __________X______________
+	public static final String							DUMMY_MATCHES						= "dummyMatches";				// __________________X______
 	public static final String							V2_TEAM_BASED						= "teamBased";					// __X___X___X___X___X___X__
 
 	// keys for type specific configuration: these are MAX values to prevent misuse (unless config is edited)
@@ -65,6 +66,7 @@ public class GameSeries
 	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
 	public static final String							CONF_MAX_TEAMS						= "maxTeams";					// __X_______X_______X______
+	public static final String							CONF_TEAM_STEP_SIZE					= "teamStepSize";				// __X_______X_______X______
 	public static final String							CONF_MAX_ROUNDS						= "maxRounds";					// __X_______X_______X______
 	public static final String							CONF_MAX_GAMES						= "maxGames";					// ______________________X__
 	public static final String							CONF_MAX_GAMES_PER_PLAYER			= "maxGamesPerPlayer";			// ______X__________________
@@ -74,6 +76,7 @@ public class GameSeries
 	public static final String							CONF_KLC_LEAGUES					= "leagues";					// ______________X__________
 	public static final String							CONF_KLC_PLAYERS_PER_LEAGUE			= "playersPerLeague";			// ______________X__________
 	public static final String							CONF_KLC_FIRST_KO_ROUND				= "firstKORound";				// ______________X__________
+	public static final String							CONF_LEAGUE_DUMMY_TEAM				= "dummyTeam";					// __________________X______
 
 	// keys for type specific lists: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types

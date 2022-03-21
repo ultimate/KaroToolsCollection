@@ -44,7 +44,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 	@Test
 	public void test_getConfig()
 	{
-		assertEquals("de", GameSeriesManager.getStringConfig(null, "language"));
+		assertEquals("de", GameSeriesManager.getStringConfig((GameSeries) null, "language"));
 		assertEquals(10, GameSeriesManager.getIntConfig(null, "karoAPI.maxThreads"));
 
 		assertEquals(16, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_TEAMS));
