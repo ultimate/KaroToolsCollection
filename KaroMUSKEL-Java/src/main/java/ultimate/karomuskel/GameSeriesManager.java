@@ -153,7 +153,22 @@ public abstract class GameSeriesManager
 		if(gs.getSettings().containsKey(key)) // default to settings first
 			return gs.get(key).toString();
 
-		return config.getProperty(CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + gs.getType().toString().toLowerCase() + CONFIG_DELIMITER + key);
+		return getStringConfig(gs.getType(), key);
+	}
+
+	/**
+	 * Get a string config by key for a given {@link EnumGameSeriesType}.
+	 * 
+	 * @param type - the {@link EnumGameSeriesType}
+	 * @param key - the key
+	 * @return the config value as String
+	 */
+	public static String getStringConfig(EnumGameSeriesType type, String key)
+	{
+		if(type == null)
+			return config.getProperty(key);
+
+		return config.getProperty(CONFIG_GAMESERIES_PREFIX + CONFIG_DELIMITER + type.toString().toLowerCase() + CONFIG_DELIMITER + key);
 	}
 
 	/**

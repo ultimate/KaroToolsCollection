@@ -44,13 +44,9 @@ public class PlannerTest extends KaroMUSKELTestcase
 	 * This covers {@link EnumGameSeriesType#League} and {@link EnumGameSeriesType#KLC} (group phase)
 	 */
 	@ParameterizedTest
-	@ValueSource(ints = { 4, 6, 8, 10, 12, 14, 16 })
+	@ValueSource(ints = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 })
 	public void test_planMatchesLeague(int teamCount)
 	{
-		logger.debug("league-test for " + teamCount + " teams");
-
-		int expectedNumberOfDays = (teamCount - 1);
-		int expectedNumberOfMatches = expectedNumberOfDays * teamCount / 2;
 
 		// create teams
 		List<Team> teams = new LinkedList<Team>();
@@ -59,17 +55,39 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		// test planning
 		List<List<Match>> matches;
+		
+		// without dummy matches
+
+		logger.debug("league-test for " + teamCount + " teams WITHOUT dummy matches");
+		
+		matches = Planner.planMatchesLeague(teams, false);
+		checkLeagueMatches(teamCount, teams, matches, false);
+
+		// with dummy matches
+		
+		logger.debug("league-test for " + teamCount + " teams WITH dummy matches");
+
+		matches = Planner.planMatchesLeague(teams, true);
+		checkLeagueMatches(teamCount, teams, matches, true);
+	}
+	
+	private void checkLeagueMatches(int teamCount, List<Team> teams, List<List<Match>> matches, boolean dummyMatches)
+	{
+		assertEquals(teamCount, teams.size());
+		
+		int expectedNumberOfDays = (teamCount - 1);
+		int expectedNumberOfMatches = expectedNumberOfDays * teamCount / 2;
+		
+		assertEquals(expectedNumberOfDays, matches.size());
+		
 		int[][] check;
-		int home;
+		int home, day, matchCount, totalHome, expectedHomePerPlayer;
 
 		StringBuilder sb;
-		matches = Planner.planMatchesLeague(teams);
-
-		assertEquals(expectedNumberOfDays, matches.size());
 
 		check = new int[teamCount][teamCount];
-		int day = 1;
-		int matchCount = 0;
+		day = 1;
+		matchCount = 0;
 		for(List<Match> dayList : matches)
 		{
 			sb = new StringBuilder();
@@ -96,8 +114,8 @@ public class PlannerTest extends KaroMUSKELTestcase
 					assertEquals(1, check[i1][i2], "invalid match count for T" + i1 + " vs. T" + i2 + ": " + check[i1][i2]);
 			}
 		}
-		int totalHome = 0;
-		int expectedHomePerPlayer = (teamCount - 1) / 2;
+		totalHome = 0;
+		expectedHomePerPlayer = (teamCount - 1) / 2;
 		logger.debug("expecting home counr = " + expectedHomePerPlayer + " or " + (expectedHomePerPlayer + 1));
 		for(Team t : teams)
 		{

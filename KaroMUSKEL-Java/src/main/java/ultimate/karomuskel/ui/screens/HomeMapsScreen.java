@@ -84,18 +84,21 @@ public class HomeMapsScreen extends Screen
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
+		int maxTeams = 0;
 		int numberOfTeamsTmp = 0;
 		int minSupportedPlayersPerMapTmp = GameSeriesManager.getMinSupportedPlayersPerMap(gameSeries);
 
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			numberOfTeamsTmp = (int) gameSeries.get(GameSeries.NUMBER_OF_TEAMS);
+			maxTeams = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_TEAMS);
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
 			int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 			numberOfTeamsTmp = groups * leagues;
+			maxTeams = numberOfTeamsTmp;
 		}
 
 		if(this.firstShow)
@@ -121,7 +124,7 @@ public class HomeMapsScreen extends Screen
 			JLabel teamLabel;
 			JComboBox<Map> mapCB;
 
-			for(int i = 0; i < this.numberOfTeams; i++)
+			for(int i = 0; i < maxTeams; i++)
 			{
 				gbc.gridy = i;
 
