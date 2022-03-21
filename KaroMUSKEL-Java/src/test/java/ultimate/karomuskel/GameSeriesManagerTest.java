@@ -50,7 +50,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(16, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_TEAMS));
 		assertEquals(5, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.KO), GameSeries.CONF_MAX_ROUNDS));
 
-		assertEquals(8, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_TEAMS));
+		assertEquals(12, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_TEAMS));
 		assertEquals(8, GameSeriesManager.getIntConfig(new GameSeries(EnumGameSeriesType.League), GameSeries.CONF_MAX_ROUNDS));
 	}
 
