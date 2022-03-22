@@ -7,133 +7,71 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karopapier.utils.WikiUtil;
 
-public class CCCEval implements Eval
+public class CCCEval extends Eval<GameSeries>
 {
-	/**
-	 * Logger-Instance
-	 */
-	private static transient final Logger	logger			= LogManager.getLogger(CCCEval.class);
+	protected static final String[]				mapTableHead	= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
+	protected static final String[]				raceTableHead	= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge", "Punkte" };
 
-	private static final String				DEFAULT_FOLDER	= "";
-	private static final int[]				ALL_COLUMNS;
+	protected int								cccx;
+	protected int[][]							gids;
+	protected ChallengeInfo[]					challenges;
+	protected GameSeries						gs;
 
-	static
-	{
-		ALL_COLUMNS = new int[100];
-		for(int i = 0; i < ALL_COLUMNS.length; i++)
-			ALL_COLUMNS[i] = i;
-	}
+	private Properties							gidProperties;
 
-	private Properties						gidProperties;
+	private int									stats_racesPerPlayer;
+	private int									stats_racesPerPlayerPerChallenge;
+	private int									stats_races;
+	private int									stats_moves;
+	private int									stats_crashs;
+	private int									stats_players;
 
-	private int[][]							gids;
-	private int[]							races;
-	private int[]							numberOfPlayers;
-	private int[]							maps;
-	private String[]						mapNames;
-	private int[]							zzz;
-	private boolean[]						cps;
-	private String[][]						pages;
-	private String[][]						logs;
+	private TreeMap<String, List<Double>[]>		real_points;
+	private TreeMap<String, List<Integer>[]>	real_crashs;
+	private TreeMap<String, List<Integer>[]>	real_crashs_allraces;
+	private TreeMap<String, Double[]>			expected_points;
+	private TreeMap<String, Double>				expected_total_points;
 
-	private int								stats_racesPerPlayer;
-	private int								stats_racesPerPlayerPerChallenge;
-	private int								stats_races;
-	private int								stats_moves;
-	private int								stats_crashs;
-	private int								stats_players;
+	private String[][][][]						tables;
+	private String[][][]						totalTables;
+	private String[][]							finalTable;
 
-	private Map<String, List<Double>[]>		real_points;
-	private Map<String, List<Integer>[]>	real_crashs;
-	private Map<String, List<Integer>[]>	real_crashs_allraces;
-	private Map<String, Double[]>			expected_points;
-	private Map<String, Double>				expected_total_points;
+	private String[][]							whoOnWho;
 
-	private String[][][][]					tables;
-	private String[][][]					totalTables;
-	private String[][]						finalTable;
+	private Properties							p;
 
-	private String[][]						whoOnWho;
+	private String[]							finalTableHead;
+	private String[][]							totalTableHeads;
 
-	private Properties						p;
+	private final int							maxCols			= 7;
 
-	private int								cccx;
-	private String							folder;
-
-	private final String[]					mapTableHead			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
-	private final String[]					raceTableHead			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Z�ge", "Punkte" };
-	private String[]						finalTableHead;
-	private String[][]						totalTableHeads;
-
-	private final String					start_playerName		= "&nbsp</TD><TD>";
-	private final String					start_moves				= "</TD><TD ALIGN=CENTER>";
-	private final String					end_moves				= "</TD><TD>&nbsp;";
-
-	private final String					start_playerName_Log	= ": ";
-	private final String					end_playerName_Log		= " -> ";
-
-	private final int						maxCols					= 7;
-
-	public static void main(String[] args) throws Exception
-	{
-
-		int cccx = Integer.parseInt(args[0]);
-
-		CCCEval e = new CCCEval(cccx, DEFAULT_FOLDER);
-
-		// {
-		// JFileChooser fileChooser = new JFileChooser();
-		// int result = fileChooser.showOpenDialog(null);
-		// if(result != JFileChooser.APPROVE_OPTION)
-		// return;
-		// File file = fileChooser.getSelectedFile();
-		//
-		// Main.main(new String[] { "-l=debug" });
-		// Main.getGui().setVisible(false);
-		//
-		// FileInputStream fis = new FileInputStream(file);
-		// BufferedInputStream bis = new BufferedInputStream(fis);
-		// ObjectInputStream ois = new ObjectInputStream(bis);
-		//
-		// GameSeries gs = (GameSeries) ois.readObject();
-		//
-		// ois.close();
-		// bis.close();
-		// fis.close();
-		//
-		// e.prepare(gs, 20);
-		// }
-		e.doEvaluation();
-
-		System.exit(0);
-	}
-
-	public CCCEval(int cccx, String folder)
+	public CCCEval(int cccx)
 	{
 		this.cccx = cccx;
-		this.folder = folder;
 	}
 
 	public String doEvaluation() throws IOException, InterruptedException
 	{
+		// load gameseries
+
 		long start;
 		logger.info("reading properties (" + cccx + ")... ");
 		start = System.currentTimeMillis();
@@ -278,25 +216,25 @@ public class CCCEval implements Eval
 		String[][] totalTable;
 		String[] totalTableHead;
 		String player;
-		List<String> challengePlayers = getChallengePlayersFromLog(1);
+		List<String> challengePlayers = this.challenges[c].games[r].getPlayers()FromLog(1);
 		stats_players = challengePlayers.size();
 
-		Map<String, Double> sum_pointsUnskaled;
-		Map<String, Double> sum_basePoints;
-		Map<String, Integer> sum_crashs;
-		Map<String, Integer> sum_moves;
-		Map<String, Double> total_sum_basePoints = new TreeMapX<String, Double>(challengePlayers, 0.0);
-		Map<String, Integer> total_sum_crashs = new TreeMapX<String, Integer>(challengePlayers, 0);
-		Map<String, Integer> total_sum_moves = new TreeMapX<String, Integer>(challengePlayers, 0);
-		Map<String, Double> total_sum_pointsSkaled = new TreeMapX<String, Double>(challengePlayers, 0.0);
-		Map<String, Integer> total_sum_races = new TreeMapX<String, Integer>(challengePlayers, 0);
-		Map<String, Integer> total_sum_bonus = new TreeMapX<String, Integer>(challengePlayers, 0);
-		Map<String, Integer> final_sum_bonus = new TreeMapX<String, Integer>(challengePlayers, 0);
-		Map<String, Integer[]> total_sum_races_bychallenge = new TreeMapXArray<String, Integer>(challengePlayers, new Integer[tables.length], 0);
+		TreeMap<String, Double> sum_pointsUnskaled;
+		TreeMap<String, Double> sum_basePoints;
+		TreeMap<String, Integer> sum_crashs;
+		TreeMap<String, Integer> sum_moves;
+		TreeMap<String, Double> total_sum_basePoints = createMap(challengePlayers, 0.0);
+		TreeMap<String, Integer> total_sum_crashs = createMap(challengePlayers, (Integer) 0);
+		TreeMap<String, Integer> total_sum_moves = createMap(challengePlayers, (Integer) 0);
+		TreeMap<String, Double> total_sum_pointsSkaled = createMap(challengePlayers, 0.0);
+		TreeMap<String, Integer> total_sum_races = createMap(challengePlayers, (Integer) 0);
+		TreeMap<String, Integer> total_sum_bonus = createMap(challengePlayers, (Integer) 0);
+		TreeMap<String, Integer> final_sum_bonus = createMap(challengePlayers, (Integer) 0);
+		TreeMap<String, Integer[]> total_sum_races_bychallenge = createMap(challengePlayers, new Integer[tables.length], 0);
 
-		real_points = new TreeMapX2<String, Double>(challengePlayers);
-		real_crashs = new TreeMapX2<String, Integer>(challengePlayers);
-		real_crashs_allraces = new TreeMapX2<String, Integer>(challengePlayers);
+		real_points = createMap(challengePlayers, this.tables.length);
+		real_crashs = createMap(challengePlayers, this.tables.length);
+		real_crashs_allraces = createMap(challengePlayers, this.tables.length);
 
 		initWhoOnWho(challengePlayers);
 
@@ -330,10 +268,10 @@ public class CCCEval implements Eval
 
 			totalTable = new String[challengePlayers.size()][totalTableHead.length];
 
-			sum_pointsUnskaled = new TreeMapX<String, Double>(challengePlayers, 0.0);
-			sum_basePoints = new TreeMapX<String, Double>(challengePlayers, 0.0);
-			sum_crashs = new TreeMapX<String, Integer>(challengePlayers, 0);
-			sum_moves = new TreeMapX<String, Integer>(challengePlayers, 0);
+			sum_pointsUnskaled = createMap(challengePlayers, 0.0);
+			sum_basePoints = createMap(challengePlayers, 0.0);
+			sum_crashs = createMap(challengePlayers, (Integer) 0);
+			sum_moves = createMap(challengePlayers, (Integer) 0);
 
 			for(String p : challengePlayers)
 			{
@@ -489,7 +427,7 @@ public class CCCEval implements Eval
 
 	private void createWhoOnWho(int c, int r, List<String> challengePlayers)
 	{
-		List<String> racePlayers = getChallengePlayersFromLog(c, r);
+		List<String> racePlayers = this.challenges[c].games[r].getPlayers()FromLog(c, r);
 		int ci1, ci2;
 		// String tmp;
 		for(int i1 = 0; i1 < racePlayers.size(); i1++)
@@ -555,7 +493,7 @@ public class CCCEval implements Eval
 				}
 			}
 		}
-		List<String> challengePlayers = getChallengePlayersFromLog(1);
+		List<String> challengePlayers = this.challenges[c].games[r].getPlayers()FromLog(1);
 		StringBuilder ret = new StringBuilder();
 		ret.append(maxMin + " mal ");
 		for(int i = 0; i < maxMinList.size(); i++)
@@ -571,9 +509,10 @@ public class CCCEval implements Eval
 		return ret.toString();
 	}
 
-	private String[][] createRaceTableFromLog(int c, int r, String[][] totalTable, List<String> challengePlayers, Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints,
-			Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves,
-			Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
+	private String[][] createRaceTableFromLog(int c, int r, String[][] totalTable, List<String> challengePlayers, TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints,
+			TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
+			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Double> total_sum_pointsSkaled, TreeMap<String, Integer> total_sum_races, TreeMap<String, Integer> total_sum_bonus,
+			TreeMap<String, Integer[]> total_sum_races_bychallenge)
 	{
 		String[][] table = new String[numberOfPlayers[c]][raceTableHead.length];
 		int last = numberOfPlayers[c];
@@ -581,10 +520,10 @@ public class CCCEval implements Eval
 		while(intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + lastRankWithPoints)) == 0)
 			lastRankWithPoints--;
 
-		final Map<String, Integer> playerMoves = new HashMap<String, Integer>();
-		final Map<String, Integer> playerCrashs = new HashMap<String, Integer>();
-		final Map<String, Integer> playerPosition = new HashMap<String, Integer>();
-		final Map<String, Double> playerPoints = new HashMap<String, Double>();
+		final TreeMap<String, Integer> playerMoves = new HashTreeMap<String, Integer>();
+		final TreeMap<String, Integer> playerCrashs = new HashTreeMap<String, Integer>();
+		final TreeMap<String, Integer> playerPosition = new HashTreeMap<String, Integer>();
+		final TreeMap<String, Double> playerPoints = new HashTreeMap<String, Double>();
 		int moves;
 		int crashs;
 		double points;
@@ -592,7 +531,7 @@ public class CCCEval implements Eval
 		int crashsAfterLastRankWithoutPointsThrown;
 		String log = getLog(c, r);
 
-		List<String> players = getChallengePlayersFromLog(c, r);
+		List<String> players = this.challenges[c].games[r].getPlayers()FromLog(c, r);
 
 		int maxMoves = 0;
 		for(String player : players)
@@ -789,9 +728,10 @@ public class CCCEval implements Eval
 		return table;
 	}
 
-	private String[][] createRaceTable(int c, int r, String[][] totalTable, List<String> challengePlayers, Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints,
-			Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves,
-			Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races, Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
+	private String[][] createRaceTable(int c, int r, String[][] totalTable, List<String> challengePlayers, TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints,
+			TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
+			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Double> total_sum_pointsSkaled, TreeMap<String, Integer> total_sum_races, TreeMap<String, Integer> total_sum_bonus,
+			TreeMap<String, Integer[]> total_sum_races_bychallenge)
 	{
 		String[][] table = new String[numberOfPlayers[c]][raceTableHead.length];
 		int last = numberOfPlayers[c];
@@ -871,9 +811,9 @@ public class CCCEval implements Eval
 	}
 
 	private void fillRaceTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r, int position, double points, int crashs, int moves,
-			Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs, Map<String, Integer> sum_moves, Map<String, Double> total_sum_basePoints,
-			Map<String, Integer> total_sum_crashs, Map<String, Integer> total_sum_moves, Map<String, Double> total_sum_pointsSkaled, Map<String, Integer> total_sum_races,
-			Map<String, Integer> total_sum_bonus, Map<String, Integer[]> total_sum_races_bychallenge)
+			TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints, TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves,
+			TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs, TreeMap<String, Integer> total_sum_moves, TreeMap<String, Double> total_sum_pointsSkaled,
+			TreeMap<String, Integer> total_sum_races, TreeMap<String, Integer> total_sum_bonus, TreeMap<String, Integer[]> total_sum_races_bychallenge)
 	{
 
 		String racePoints = (points < 0 ? (points == -1 ? "?" : "" + round(points)) : "" + round(crashs * points));
@@ -913,8 +853,8 @@ public class CCCEval implements Eval
 			Arrays.sort(finalTable, new FinalTableRowSorter(-4)); // sort by Endergebnis
 	}
 
-	private double addBonus(int c, List<String> challengePlayers, String[][] totalTable, Map<String, Double> sum_pointsUnskaled, Map<String, Double> sum_basePoints, Map<String, Integer> sum_crashs,
-			Map<String, Integer> sum_moves, Map<String, Integer> total_sum_bonus)
+	private double addBonus(int c, List<String> challengePlayers, String[][] totalTable, TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints,
+			TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves, TreeMap<String, Integer> total_sum_bonus)
 	{
 		String player;
 
@@ -988,7 +928,7 @@ public class CCCEval implements Eval
 		return maxPointsUnskaled;
 	}
 
-	private void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers, Map<String, Integer> total_sum_bonus)
+	private void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers, TreeMap<String, Integer> total_sum_bonus)
 	{
 		for(int i : indexes)
 		{
@@ -1013,8 +953,8 @@ public class CCCEval implements Eval
 		}
 	}
 
-	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, Map<String, Double> total_sum_basePoints, Map<String, Integer> total_sum_crashs,
-			Map<String, Integer> total_sum_moves, Map<String, Integer> final_sum_bonus)
+	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
+			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Integer> final_sum_bonus)
 	{
 		String player;
 
@@ -1067,7 +1007,7 @@ public class CCCEval implements Eval
 		addFinalBonus(index_maxBasePoints, pages.length + 1, finalTable, challengePlayers, final_sum_bonus);
 	}
 
-	private void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers, Map<String, Integer> final_sum_bonus)
+	private void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers, TreeMap<String, Integer> final_sum_bonus)
 	{
 		for(int i : indexes)
 		{
@@ -1096,8 +1036,8 @@ public class CCCEval implements Eval
 
 	private void calculateExpected(List<String> challengePlayers)
 	{
-		expected_points = new TreeMapXArray<String, Double>(challengePlayers, new Double[tables.length], 0.0);
-		expected_total_points = new TreeMapX<String, Double>(challengePlayers, 0.0);
+		expected_points = createMap(challengePlayers, new Double[tables.length], 0.0);
+		expected_total_points = createMap(challengePlayers, 0.0);
 
 		double crash_count, crash_players;
 		double crash_allraces_count, crash_allraces_players;
@@ -1213,186 +1153,6 @@ public class CCCEval implements Eval
 		}
 	}
 
-	private List<String> getChallengePlayersFromLog(int c)
-	{
-		TreeMap<String, String> players = new TreeMap<String, String>();
-		for(int r = 1; r < pages[c].length; r++)
-		{
-			for(String player : getChallengePlayersFromLog(c, r))
-			{
-				players.put(player.toLowerCase(), player);
-			}
-		}
-		return new LinkedList<String>(players.values());
-	}
-
-	private List<String> getChallengePlayersFromLog(int c, int r)
-	{
-		List<String> players = new LinkedList<String>();
-		int index = 0;
-		int end, end1, end2, end3, end4, end5;
-		String player;
-		String log = getLog(c, r);
-		int firstMovePartEnd = log.indexOf(": -----------------------------------");
-		if(firstMovePartEnd == -1)
-		{
-			// logger.info("First round not yet completed: need to look in page instead of
-			// log: " + c + "." + r);
-			return getChallengePlayers(c, r);
-		}
-		// es kommt vor, dass Ausstiege und "---" vertauscht sind, wenn der Ausstieg die letzte Aktion in der ersten Runde war
-		// --> einfach das ganze File parsen
-		// String firstMovePart = log.substring(log.indexOf("von " + p.getProperty("creator") + " erstellt"), firstMovePartEnd);
-		String firstMovePart = log.substring(log.indexOf("von " + p.getProperty("creator") + " erstellt"));
-		while(true)
-		{
-			index = firstMovePart.indexOf(start_playerName_Log, index + 1) + start_playerName_Log.length();
-			if(index == start_playerName_Log.length() - 1)
-				break;
-			end1 = firstMovePart.indexOf(end_playerName_Log, index + 1);
-			end2 = firstMovePart.indexOf(" wird ", index + 1);
-			end3 = firstMovePart.indexOf(" steigt aus ", index + 1);
-			end4 = firstMovePart.indexOf(" CRASHT!!!", index + 1);
-			end5 = firstMovePart.indexOf("-----------------------------------", index); // do not use +1 here, since string starts right-away
-
-			if(end1 == -1)
-				end1 = Integer.MAX_VALUE;
-			if(end2 == -1)
-				end2 = Integer.MAX_VALUE;
-			if(end3 == -1)
-				end3 = Integer.MAX_VALUE;
-			if(end4 == -1)
-				end4 = Integer.MAX_VALUE;
-			if(end5 == -1)
-				end5 = Integer.MAX_VALUE;
-			end = Math.min(end1, Math.min(end2, Math.min(end3, Math.min(end4, end5))));
-
-			if(end == Integer.MAX_VALUE)
-				break; // end of string
-
-			player = firstMovePart.substring(index, end);
-
-			if(player.equalsIgnoreCase(""))
-				continue; // happens on "---" line
-			if(player.equals(p.getProperty("creator")))
-				continue;
-			if(players.contains(player))
-				continue; // Beim Ausstiegs-Bug kann es zu Doppeleintr�gen (Ausstieg + Crash) in der
-							// ersten Runde kommen
-			players.add(player);
-		}
-		return players;
-	}
-
-	private List<String> getChallengePlayers(int c)
-	{
-		TreeMap<String, String> players = new TreeMap<String, String>();
-		for(int r = 1; r < pages[c].length; r++)
-		{
-			for(String player : getChallengePlayersFromLog(c, r))
-			{
-				players.put(player.toLowerCase(), player);
-			}
-		}
-		return new LinkedList<String>(players.values());
-	}
-
-	private List<String> getChallengePlayers(int c, int r)
-	{
-		List<String> players = new LinkedList<String>();
-		int index = 0;
-		String player;
-		String page = getPage(c, r);
-		while(true)
-		{
-			if(page == null)
-				logger.info("ERROR: page is null");
-			index = page.indexOf(start_playerName, index + 1) + start_playerName.length();
-			if(index == start_playerName.length() - 1)
-				break;
-			player = page.substring(index, page.indexOf(start_moves, index + 1));
-
-			if(player.equals(p.getProperty("creator")))
-				continue;
-			players.add(player);
-		}
-		return players;
-	}
-
-	private void readContent() throws MalformedURLException, InterruptedException
-	{
-		if(loadType.equals("logs"))
-			readLogs();
-		else
-			readPages();
-	}
-
-	private void readPages() throws MalformedURLException, InterruptedException
-	{
-		for(int c = 1; c < pages.length; c++)
-		{
-			for(int r = 1; r < pages[c].length; r++)
-			{
-				queue.addThread(new GameLoaderThread(c, r, "page"));
-			}
-		}
-		queue.begin();
-		queue.waitForFinished();
-		// logger.info("all pages loaded");
-	}
-
-	private void readLogs() throws MalformedURLException, InterruptedException
-	{
-		for(int c = 1; c < logs.length; c++)
-		{
-			for(int r = 1; r < logs[c].length; r++)
-			{
-				queue.addThread(new GameLoaderThread(c, r, "log"));
-			}
-		}
-		queue.begin();
-		queue.waitForFinished();
-		// logger.info("all logs loaded");
-	}
-
-	private String getPage(int c, int r)
-	{
-		if(pages[c][r] == null)
-		{
-			// logger.info("page null: loading: " + c + "." + r);
-			try
-			{
-				queue.addThread(new GameLoaderThread(c, r, "page"));
-				queue.begin();
-				queue.waitForFinished();
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-			// logger.info(pages[c][r]);
-		}
-		return pages[c][r];
-	}
-
-	private String getLog(int c, int r)
-	{
-		if(logs[c][r] == null)
-		{
-			try
-			{
-				queue.addThread(new GameLoaderThread(c, r, "log"));
-				queue.begin();
-				queue.waitForFinished();
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return logs[c][r];
-	}
-
 	private Properties readProperties(String file) throws IOException
 	{
 		p = PropertiesUtil.loadProperties(new File(file));
@@ -1446,7 +1206,7 @@ public class CCCEval implements Eval
 
 		Properties p;
 
-		File file = new File(fileName);
+		File file = new File(folder, fileName);
 		if(file.exists())
 		{
 			// load points from predefined properties
@@ -1505,127 +1265,20 @@ public class CCCEval implements Eval
 		logger.info("number of challenges: " + challenges);
 		p.setProperty("challenges", "" + challenges);
 
-		PropertiesUtil.storeProperties(file, p, "");
+		writeProperties(file.getName(), p);
 	}
 
-	private String raceToLink(int challenge, int race)
+	protected class ChallengeInfo
 	{
-		return "{{Rennen|" + gids[challenge][race] + "|" + challenge + "." + race + "}}";
+		int		races;
+		int		numberOfPlayers;
+		Map		map;
+		boolean	cps;
+		int		zzz;
+		Game[]	games;
 	}
 
-	private String challengeToLink(int c, boolean text)
-	{
-		return "[[CraZZZy Crash Challenge " + cccx + " - Detailwertung Challenge " + c + "|" + (text ? "Challenge " : "") + c + "]]";
-	}
-
-	private String playerToLink(String player, boolean bold)
-	{
-		String tmp;
-		if(player.startsWith("Deep"))
-			tmp = "[[" + player + "]]";
-		else if(player.equals("OleOCrasher"))
-			tmp = "[[Benutzer:OleOJumper|OleOCrasher]]";
-		else
-			tmp = "[[Benutzer:" + player + "|" + player + "]]";
-		if(bold)
-			tmp = highlight(tmp);
-		return tmp;
-	}
-
-	private int countOccurrences(String source, String part)
-	{
-		return countOccurrences(source, part, true, 0, source.length());
-	}
-
-	private int countOccurrences(String source, String part, int from)
-	{
-		return countOccurrences(source, part, true, from, source.length());
-	}
-
-	private int countOccurrences(String source, String part, boolean ignoreDuplicates, int from, int to)
-	{
-		int lastIndex = from;
-		int index = from;
-		int count = 0;
-		while(true)
-		{
-			index = source.indexOf(part, index);
-			if(index == -1 || index >= to)
-				break;
-			if(!(ignoreDuplicates && countOccurrences(source, "\n", false, lastIndex, index) == 1 && lastIndex != from))
-				count++;
-			lastIndex = index;
-			index++;
-		}
-		return count;
-	}
-
-	private void toFile(String filename, String content) throws IOException
-	{
-		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filename));
-
-		bos.write(content.getBytes());
-
-		bos.flush();
-		bos.close();
-	}
-
-	private double round(double d)
-	{
-		return Math.round(d * 100) / 100.0;
-	}
-
-	private int intFromString(String s)
-	{
-		return Integer.parseInt(s.replace(highlight, ""));
-	}
-
-	private boolean booleanFromString(String s)
-	{
-		return Boolean.valueOf(s.replace(highlight, ""));
-	}
-
-	private double doubleFromString(String s)
-	{
-		return Double.parseDouble(s.replace(highlight, ""));
-	}
-
-	private class GameLoaderThread extends URLLoaderThread<String>
-	{
-		private int		challenge;
-		private int		race;
-		private String	type;
-
-		public GameLoaderThread(int challenge, int race, String type) throws MalformedURLException
-		{
-			super(new URL(type.equals("log") ? "http://www.karopapier.de/logs/" + gids[challenge][race] + ".log" : "http://www.karopapier.de/showmap.php"), type.equals("log") ? "GET" : "POST",
-					type.equals("log") ? "" : "GID=" + gids[challenge][race], 10000);
-			this.challenge = challenge;
-			this.race = race;
-			this.type = type;
-		}
-
-		@Override
-		public void innerRun()
-		{
-			while(result == null || !result.contains("CraZZZy"))
-			{
-				super.innerRun();
-			}
-			if(type.equals("log"))
-				logs[challenge][race] = result;
-			else
-				pages[challenge][race] = result;
-		}
-
-		@Override
-		public String parse(String refreshed)
-		{
-			return refreshed;
-		}
-	}
-
-	private class FinalTableRowSorter implements Comparator<String[]>
+	protected class FinalTableRowSorter implements Comparator<Object[]>
 	{
 		private int mainColumnOffset;
 
@@ -1635,28 +1288,29 @@ public class CCCEval implements Eval
 		}
 
 		@Override
-		public int compare(String[] o1, String[] o2)
+		public int compare(Object[] o1, Object[] o2)
 		{
-			double val1 = doubleFromString(o1[o1.length + mainColumnOffset]);
-			double val2 = doubleFromString(o2[o2.length + mainColumnOffset]);
+			// punkte
+			double val1 = (double) o1[o1.length + mainColumnOffset];
+			double val2 = (double) o2[o2.length + mainColumnOffset];
 			if(val2 != val1)
 				return (int) Math.signum(val2 - val1);
 
 			// mehr crashs
-			int c1 = intFromString(o1[o1.length - 9]);
-			int c2 = intFromString(o2[o2.length - 9]);
+			int c1 = (int) o1[o1.length - 9];
+			int c2 = (int) o2[o2.length - 9];
 			if(c2 != c1)
 				return (int) Math.signum(c2 - c1);
 
 			// mehr grundpunkte
-			double b1 = doubleFromString(o1[o1.length - 10]);
-			double b2 = doubleFromString(o2[o2.length - 10]);
+			double b1 = (double) o1[o1.length - 10];
+			double b2 = (double) o2[o2.length - 10];
 			if(b2 != b1)
 				return (int) Math.signum(b2 - b1);
 
-			// weniger Z�ge
-			int m1 = intFromString(o1[o1.length - 8]);
-			int m2 = intFromString(o2[o2.length - 8]);
+			// weniger Züge
+			int m1 = (int) o1[o1.length - 8];
+			int m2 = (int) o2[o2.length - 8];
 			if(m2 != m1)
 				return (int) Math.signum(m1 - m2);
 
@@ -1664,55 +1318,58 @@ public class CCCEval implements Eval
 		}
 	}
 
-	private class TreeMapX<K, V> extends TreeMap<K, V>
+	protected <K, V> TreeMap<K, V> createMap(List<K> keys, V defaultValue)
 	{
-		private static final long serialVersionUID = 1L;
-
-		public TreeMapX(List<K> keys, V defaultValue)
-		{
-			for(K k : keys)
-			{
-				put(k, defaultValue);
-			}
-		}
+		TreeMap<K, V> map = new TreeMap<>();
+		for(K k : keys)
+			map.put(k, defaultValue);
+		return map;
 	}
 
-	private class TreeMapX2<K, V> extends TreeMap<K, List<V>[]>
+	protected <K, V> TreeMap<K, List<V>[]> createMap(List<K> keys, int arraySize)
 	{
-		private static final long serialVersionUID = 1L;
-
-		@SuppressWarnings("unchecked")
-		public TreeMapX2(List<K> keys)
+		TreeMap<K, List<V>[]> map = new TreeMap<>();
+		List<?>[] array;
+		List<V> list;
+		for(K k : keys)
 		{
-			List<?>[] array;
-			List<V> list;
-			for(K k : keys)
+			array = new ArrayList<?>[arraySize];
+			for(int i = 0; i < arraySize; i++)
 			{
-				array = new ArrayList<?>[tables.length];
-				for(int i = 0; i < array.length; i++)
-				{
-					list = new ArrayList<V>();
-					array[i] = list;
-				}
-				put(k, (List<V>[]) array);
+				list = new ArrayList<V>();
+				array[i] = list;
 			}
+			map.put(k, (List<V>[]) array);
 		}
+		return map;
 	}
 
-	private class TreeMapXArray<K, V> extends TreeMap<K, V[]>
+	protected <K, V> TreeMap<K, V[]> createMap(List<K> keys, V[] array, V defaultValue)
 	{
-		private static final long serialVersionUID = 1L;
-
-		public TreeMapXArray(List<K> keys, V[] array, V defaultValue)
+		TreeMap<K, V[]> map = new TreeMap<>();
+		for(K k : keys)
 		{
-			for(K k : keys)
-			{
-				V[] arrayClone = array.clone();
-				if(defaultValue != null)
-					for(int i = 0; i < arrayClone.length; i++)
-						arrayClone[i] = defaultValue;
-				put(k, arrayClone);
-			}
+			V[] arrayClone = array.clone();
+			if(defaultValue != null)
+				for(int i = 0; i < arrayClone.length; i++)
+					arrayClone[i] = defaultValue;
+			map.put(k, arrayClone);
 		}
+		return map;
+	}
+
+	protected String mapToLink(int challenge, boolean includeName)
+	{
+		return WikiUtil.createLink(this.challenges[challenge].map, includeName);
+	}
+
+	protected String raceToLink(int challenge, int race)
+	{
+		return WikiUtil.createLink(this.challenges[challenge].games[race], challenge + "." + race);
+	}
+
+	protected String challengeToLink(int challenge, boolean text)
+	{
+		return WikiUtil.createLink("CraZZZy Crash Challenge " + this.cccx + " - Detailwertung Challenge " + challenge, (text ? "Challenge " : "") + challenge);
 	}
 }

@@ -51,19 +51,23 @@ public abstract class WikiUtil
 			}
 			sb.append("\n|-\n");
 		}
-		for(Object[] row : table.getRows())
+		for(int ri = 0; ri < table.getRows().size(); ri++)
 		{
+			Object[] row = table.getRow(ri);
 			sb.append("|");
-			for(int i = 0; i < columnConfig.length; i++)
+			for(int ci = 0; ci < columnConfig.length; ci++)
 			{
-				col = columnConfig[i];
+				col = columnConfig[ci];
 				if(col >= row.length)
 					continue;
 
-				if(i > 0)
+				if(ci > 0)
 					sb.append("||");
 
-				sb.append(row[col]);
+				if(table.isHighlight(ri, col))
+					sb.append(highlight(row[col]));
+				else
+					sb.append(row[col]);
 			}
 			sb.append("\n|-\n");
 		}
@@ -72,22 +76,32 @@ public abstract class WikiUtil
 		return sb.toString();
 	}
 
-	public static String highlight(String s)
+	public static String highlight(Object o)
 	{
-		return HIGHLIGHT + s + HIGHLIGHT;
+		return HIGHLIGHT + String.valueOf(o) + HIGHLIGHT;
 	}
 
-	public static String gameToLink(Game game)
+	public static String createLink(String text, String target)
+	{
+		return "[[" + target + "|" + text + "]]";
+	}
+
+	public static String createLink(Game game, String overwriteTitle)
 	{
 		return "{{Rennen|" + game.getId() + "|" + game.getName() + "}}";
 	}
 
-	public static String mapToLink(Map map, boolean includeName)
+	public static String createLink(Game game)
+	{
+		return createLink(game, game.getName());
+	}
+
+	public static String createLink(Map map, boolean includeName)
 	{
 		return "{{Karte|" + map.getId() + "}}" + (includeName ? " " + map.getName() : "");
 	}
 
-	public static String playerToLink(User user, boolean bold)
+	public static String createLink(User user, boolean bold)
 	{
 		String tmp;
 		if(user.getLogin().startsWith("Deep"))
@@ -99,5 +113,33 @@ public abstract class WikiUtil
 		if(bold)
 			tmp = highlight(tmp);
 		return tmp;
+	}
+
+	public static int countOccurrences(String source, String part)
+	{
+		return countOccurrences(source, part, true, 0, source.length());
+	}
+
+	public static int countOccurrences(String source, String part, int from)
+	{
+		return countOccurrences(source, part, true, from, source.length());
+	}
+
+	public static int countOccurrences(String source, String part, boolean ignoreDuplicates, int from, int to)
+	{
+		int lastIndex = from;
+		int index = from;
+		int count = 0;
+		while(true)
+		{
+			index = source.indexOf(part, index);
+			if(index == -1 || index >= to)
+				break;
+			if(!(ignoreDuplicates && countOccurrences(source, "\n", false, lastIndex, index) == 1 && lastIndex != from))
+				count++;
+			lastIndex = index;
+			index++;
+		}
+		return count;
 	}
 }
