@@ -8,19 +8,21 @@ public class Table
 	protected String[]			header;
 	final int					columns;
 	protected List<Object[]>	rows;
+	protected List<boolean[]>	highlights;
 
 	public Table(String[] header)
 	{
 		this.header = header;
 		this.columns = header.length;
 		this.rows = new ArrayList<>();
+		this.highlights = new ArrayList<>();
 	}
 
 	public Table(int columns)
 	{
 		this.header = null;
 		this.columns = columns;
-		this.rows = new ArrayList<>();
+		this.highlights = new ArrayList<>();
 	}
 
 	public void addRow(Object... row)
@@ -28,6 +30,7 @@ public class Table
 		if(row.length != columns)
 			throw new IllegalArgumentException("invalid number of columns: " + row.length + ", expected: " + columns);
 		this.rows.add(row);
+		this.highlights.add(new boolean[row.length]);
 	}
 
 	public String[] getHeader()
@@ -48,6 +51,16 @@ public class Table
 	public Object[] getRow(int row)
 	{
 		return rows.get(row);
+	}
+
+	public void setHighlight(int row, int column, boolean highlight)
+	{
+		highlights.get(row)[column] = highlight;
+	}
+
+	public boolean isHighlight(int row, int column)
+	{
+		return highlights.get(row)[column];
 	}
 
 	public Object getValue(int row, int column)
