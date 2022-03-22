@@ -1,5 +1,6 @@
 package ultimate.karomuskel.ui.screens;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -127,9 +128,11 @@ public class SettingsScreen extends Screen implements ChangeListener
 			}
 			
 			this.titleLabel = new JLabel(Language.getString("screen.settings.title"));
-			this.titleTF = new JTextField((int) (totalWidth / 8.5));
+			this.titleTF = new JTextField();//(int) (totalWidth / 8.5));
 			this.titleTF.setText(gameSeries.getTitle() != null ? gameSeries.getTitle() : GameSeriesManager.getDefaultTitle(this.gameSeries));
 			this.titleTF.setToolTipText(Language.getString("titlepatterns"));
+			this.titleTF.setMinimumSize(new Dimension(totalWidth, lineHeight));
+			this.titleTF.setPreferredSize(new Dimension(totalWidth*31/24, lineHeight)); // don't know why factor is necessary, but otherwise it's not full width
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
@@ -157,10 +160,11 @@ public class SettingsScreen extends Screen implements ChangeListener
 					}
 					else if(GameSeriesManager.isTeamBased(gameSeries))
 					{
-						numberOfGamesTF = new JTextField();
+						numberOfGamesTF = new JTextField();//spinnerColumns + 2);
 						numberOfGamesTF.setEditable(false);
 						numberOfGamesTF.setHorizontalAlignment(SwingConstants.RIGHT);
-						numberOfGamesTF.setColumns(spinnerColumns + 2);
+						numberOfGamesTF.setMinimumSize(new Dimension(cellWidth/2, lineHeight));
+						numberOfGamesTF.setPreferredSize(new Dimension(cellWidth, lineHeight));
 						numberComp = numberOfGamesTF;
 					}
 					numberLabel = new JLabel(Language.getString("screen.settings.numberofgames", cellWidth));

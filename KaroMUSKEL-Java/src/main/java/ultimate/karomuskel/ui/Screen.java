@@ -27,6 +27,7 @@ public abstract class Screen extends JPanel
 
 	protected static final int			cellWidth			= 200;
 	protected static final int			totalWidth			= 800;
+	protected static final int			lineHeight			= 20;
 
 	protected KaroAPICache				karoAPICache;
 
