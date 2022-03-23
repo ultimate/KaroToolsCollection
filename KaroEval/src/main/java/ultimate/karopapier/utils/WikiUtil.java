@@ -2,6 +2,7 @@ package ultimate.karopapier.utils;
 
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 
 public abstract class WikiUtil
@@ -21,12 +22,12 @@ public abstract class WikiUtil
 		return columnConfig;
 	}
 
-	public static String toWikiString(Table table, String cssClasses)
+	public static String toString(Table table, String cssClasses)
 	{
-		return toWikiString(table, cssClasses, getDefaultColumnConfig(table.getColumns()));
+		return toString(table, cssClasses, getDefaultColumnConfig(table.getColumns()));
 	}
 
-	public static String toWikiString(Table table, String cssClasses, int[] columnConfig)
+	public static String toString(Table table, String cssClasses, int[] columnConfig)
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("{|class=\"wikitable");
@@ -64,7 +65,9 @@ public abstract class WikiUtil
 				if(ci > 0)
 					sb.append("||");
 
-				if(table.isHighlight(ri, col))
+				if(row[col] == null)
+					sb.append("");
+				else if(table.isHighlight(ri, col))
 					sb.append(highlight(row[col]));
 				else
 					sb.append(row[col]);
@@ -86,14 +89,24 @@ public abstract class WikiUtil
 		return "[[" + target + "|" + text + "]]";
 	}
 
+	public static String createLink(Game game)
+	{
+		return createLink(game, game.getName());
+	}
+
 	public static String createLink(Game game, String overwriteTitle)
 	{
 		return "{{Rennen|" + game.getId() + "|" + game.getName() + "}}";
 	}
 
-	public static String createLink(Game game)
+	public static String createLink(PlannedGame game)
 	{
-		return createLink(game, game.getName());
+		return createLink(game.getGame());
+	}
+
+	public static String createLink(PlannedGame game, String overwriteTitle)
+	{
+		return createLink(game.getGame(), overwriteTitle);
 	}
 
 	public static String createLink(Map map, boolean includeName)
