@@ -195,7 +195,7 @@ public class CCCEval extends Eval<GameSeries>
 		logger.info("  challengeOffsets           = " + Arrays.asList(this.challengeOffsets));
 	}
 
-	public int doEvaluation() throws IOException, InterruptedException
+	public List<File> doEvaluation() throws IOException, InterruptedException
 	{
 		long start;
 
@@ -209,25 +209,31 @@ public class CCCEval extends Eval<GameSeries>
 		boolean finished = createTables();
 		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
+		logger.info("reading schema... ");
+		start = System.currentTimeMillis();
+		String schema = readFile("czzzcc" + cccx + "-schema.txt");
+		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
+
 		logger.info("creating WIKI... ");
 		start = System.currentTimeMillis();
-		String wiki = createWiki(folder + "czzzcc" + cccx + "-schema.txt", finished);
+		List<File> filesUpdated = createWiki(schema, finished);
 		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		if(logger.isDebugEnabled())
 		{
+			String wiki = readFile("czzzcc" + cccx + "-wiki-overview.txt");
 			logger.debug("-----------------------------------------------------------------------------");
 			logger.debug("-----------------------------------------------------------------------------");
 			logger.debug("\n" + wiki);
 		}
 
-		// TODO what to return?
-
-		return wiki;
+		return filesUpdated;
 	}
 
-	protected String createWiki(String schemaFile, boolean finished) throws IOException
+	protected List<File> createWiki(String schema, boolean finished) throws IOException
 	{
+		List<File> filesUpdated = new LinkedList<>();
+
 		StringBuilder detail = new StringBuilder();
 		StringBuilder detailLinks = new StringBuilder();
 
@@ -267,7 +273,7 @@ public class CCCEval extends Eval<GameSeries>
 			detail.append(WikiUtil.toString(totalTables[c], null, "-"));
 			detail.append("\n");
 
-			writeFile("czzzcc" + cccx + "-wiki-challenge" + (c + 1) + ".txt", detail.toString());
+			filesUpdated.add(writeFile("czzzcc" + cccx + "-wiki-challenge" + (c + 1) + ".txt", detail.toString()));
 			detailLinks.append("*" + challengeToLink(c, true) + "\n");
 		}
 
@@ -294,101 +300,22 @@ public class CCCEval extends Eval<GameSeries>
 		stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
 		stats.append(WikiUtil.toString(whoOnWho, null));
 
-		StringBuilder schema = new StringBuilder();
-
-		BufferedReader br = new BufferedReader(new FileReader(schemaFile));
-		String tmp;
-		while((tmp = br.readLine()) != null)
-		{
-			schema.append(tmp);
-			schema.append("\n");
-		}
-		br.close();
-
-		String s = schema.toString();
+		String s = new String(schema);
 		s = s.replace("${MAPS}", WikiUtil.toString(mapTable, null));
 		s = s.replace("${DETAIL}", detailLinks.toString());
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
 
-		writeFile("czzzcc" + cccx + "-wiki-overview.txt", s.toString());
+		filesUpdated.add(writeFile("czzzcc" + cccx + "-wiki-overview.txt", s.toString()));
 
-		return s;
+		return filesUpdated;
 	}
 
 	protected boolean createTables()
 	{
-		String[] totalTableHead;
-		Object[] row;
-		int col;
-		UserStats mins, maxs;
-
 		for(int c = 0; c < this.stats_challengesCreated; c++)
 		{
-			// init the total table for this challenge
-			totalTableHead = new String[challengeGames[c] + 6];
-			col = 0;
-			totalTableHead[col++] = "Spieler";
-			for(int g = 0; g < challengeGames[c]; g++)
-				totalTableHead[col++] = gameToLink(c, g);
-			totalTableHead[col++] = "Grundpunkte (gesamt)";
-			totalTableHead[col++] = "Crashs (gesamt)";
-			totalTableHead[col++] = "Züge (gesamt)";
-			totalTableHead[col++] = "Gesamtpunkte (unskaliert)";
-			totalTableHead[col++] = "Gesamtpunkte (skaliert)";
-			totalTableHead[col++] = "Challenge-Bonus";
-			totalTables[c] = new Table(totalTableHead);
-
-			calcMetrics(c);
-
-			for(int g = 0; g < challengeGames[c]; g++)
-			{
-				tables[c][g] = createTable(c, g);
-
-				createWhoOnWho(c, r, challengePlayers);
-			}
-
-			mins = getMins(userChallengeStats[c].values());
-			maxs = getMaxs(userChallengeStats[c].values());
-
-			addBonus(c, mins, maxs);
-
-			double scaled;
-			for(User user : usersByLogin)
-			{
-				scaled = userChallengeStats[c].get(user.getId()).unscaled * 100 / maxs.unscaled;
-				userChallengeStats[c].get(user.getId()).scaled = scaled;
-				userStats.get(user.getId()).scaled += scaled;
-
-				row = new Object[totalTables[c].getColumns()];
-				col = 0;
-				row[col++] = WikiUtil.createLink(user, true);
-				for(int g = 0; g < challengeGames[c]; g++)
-				{
-					if(getGame(c, g) == null)
-						continue;
-					if(getGame(c, g).getPlayers().contains(user))
-					{
-						for(Object[] tableRow : tables[c][g].getRows())
-						{
-							if(((String) tableRow[1]).contains(user.getLogin()))
-							{
-								row[col++] = tableRow[tables[c][g].getColumns() - 1]; // the points are in the last column
-								break;
-							}
-						}
-					}
-					else
-						row[col++] = null;
-				}
-				row[col++] = userChallengeStats[c].get(user.getId()).basic;
-				row[col++] = userChallengeStats[c].get(user.getId()).crashs;
-				row[col++] = userChallengeStats[c].get(user.getId()).moves;
-				row[col++] = userChallengeStats[c].get(user.getId()).unscaled;
-				row[col++] = userChallengeStats[c].get(user.getId()).scaled;
-				row[col++] = userChallengeStats[c].get(user.getId()).bonus1;
-				totalTables[c].addRow(row);
-			}
+			createTables(c);
 		}
 
 		calculateExpected(challengePlayers);
@@ -428,7 +355,12 @@ public class CCCEval extends Eval<GameSeries>
 			finalTable[i][tables.length + 6] = "-";
 			finalTable[i][tables.length + 8] = "" + total_sum_games.get(player);
 		}
-		addFinalBonus(challengePlayers, finalTable, total_sum_basePoints, total_sum_crashs, total_sum_moves, final_sum_bonus);
+		
+		UserStats mins = getMins(userStats.values());
+		UserStats maxs = getMaxs(userStats.values());
+
+		addFinalBonus(mins, maxs);
+		
 		for(int i = 0; i < challengePlayers.size(); i++)
 		{
 			player = challengePlayers.get(i);
@@ -446,27 +378,76 @@ public class CCCEval extends Eval<GameSeries>
 
 		sortFinalTable(finished);
 
-		for(int i = 0; i < finalTable.length; i++)
-		{
-			if(i > 0 && finalTable[i][finalTable[i].length - 1].equals(finalTable[i - 1][finalTable[i].length - 1])
-					&& finalTable[i][finalTable[i].length - 7].equals(finalTable[i - 1][finalTable[i].length - 7])
-					&& finalTable[i][finalTable[i].length - 8].equals(finalTable[i - 1][finalTable[i].length - 8])
-					&& finalTable[i][finalTable[i].length - 6].equals(finalTable[i - 1][finalTable[i].length - 6]))
-			{
-				finalTable[i][0] = " ";
-			}
-			else
-			{
-				finalTable[i][0] = (i + 1) + ".";
-			}
-		}
-
 		return finished;
 	}
 
 	protected void createTables(int c)
 	{
+		// init the total table for this challenge
+		String[] totalTableHead = new String[challengeGames[c] + 6];
+		int col = 0;
+		totalTableHead[col++] = "Spieler";
+		for(int g = 0; g < challengeGames[c]; g++)
+			totalTableHead[col++] = gameToLink(c, g);
+		totalTableHead[col++] = "Grundpunkte (gesamt)";
+		totalTableHead[col++] = "Crashs (gesamt)";
+		totalTableHead[col++] = "Züge (gesamt)";
+		totalTableHead[col++] = "Gesamtpunkte (unskaliert)";
+		totalTableHead[col++] = "Gesamtpunkte (skaliert)";
+		totalTableHead[col++] = "Challenge-Bonus";
+		totalTables[c] = new Table(totalTableHead);
 
+		calcMetrics(c);
+
+		for(int g = 0; g < challengeGames[c]; g++)
+		{
+			tables[c][g] = createTable(c, g);
+
+			createWhoOnWho(c, r, challengePlayers);
+		}
+
+		UserStats mins = getMins(userChallengeStats[c].values());
+		UserStats maxs = getMaxs(userChallengeStats[c].values());
+
+		addBonus(c, mins, maxs);
+
+		Object[] row;
+		double scaled;
+		for(User user : usersByLogin)
+		{
+			scaled = userChallengeStats[c].get(user.getId()).unscaled * 100 / maxs.unscaled;
+			userChallengeStats[c].get(user.getId()).scaled = scaled;
+			userStats.get(user.getId()).scaled += scaled;
+
+			row = new Object[totalTables[c].getColumns()];
+			col = 0;
+			row[col++] = WikiUtil.createLink(user, true);
+			for(int g = 0; g < challengeGames[c]; g++)
+			{
+				if(getGame(c, g) == null)
+					continue;
+				if(getGame(c, g).getPlayers().contains(user))
+				{
+					for(Object[] tableRow : tables[c][g].getRows())
+					{
+						if(((String) tableRow[1]).contains(user.getLogin()))
+						{
+							row[col++] = tableRow[tables[c][g].getColumns() - 1]; // the points are in the last column
+							break;
+						}
+					}
+				}
+				else
+					row[col++] = null;
+			}
+			row[col++] = userChallengeStats[c].get(user.getId()).basic;
+			row[col++] = userChallengeStats[c].get(user.getId()).crashs;
+			row[col++] = userChallengeStats[c].get(user.getId()).moves;
+			row[col++] = userChallengeStats[c].get(user.getId()).unscaled;
+			row[col++] = userChallengeStats[c].get(user.getId()).scaled;
+			row[col++] = userChallengeStats[c].get(user.getId()).bonus1;
+			totalTables[c].addRow(row);
+		}
 	}
 
 	protected Table createTable(int c, int g)
@@ -615,7 +596,6 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected void addBonus(int c, UserStats mins, UserStats maxs)
 	{
-		int u = 0;
 		for(User user : usersByLogin)
 		{
 			if(userChallengeStats[c].get(user.getId()).unscaled == maxs.unscaled)
@@ -635,6 +615,21 @@ public class CCCEval extends Eval<GameSeries>
 				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
 				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
 			}
+		}
+	}
+	
+	protected void addFinalBonus(UserStats mins, UserStats maxs)
+	{
+		for(User user : usersByLogin)
+		{
+			if(userStats.get(user.getId()).unscaled == maxs.unscaled)
+				userStats.get(user.getId()).bonus2 += BONUS_CHALLENGE;
+
+			if(userStats.get(user.getId()).crashs == maxs.crashs)
+				userStats.get(user.getId()).bonus2 += BONUS_CHALLENGE;
+
+			if(userStats.get(user.getId()).moves == mins.moves)
+				userStats.get(user.getId()).bonus2 += BONUS_CHALLENGE;
 		}
 	}
 
@@ -709,60 +704,6 @@ public class CCCEval extends Eval<GameSeries>
 			ret.append(playerToLink(challengePlayers.get(maxMinList.get(i)[1]), false));
 		}
 		return ret.toString();
-	}
-	
-	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
-			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Integer> final_sum_bonus)
-	{
-		String player;
-
-		int minMoves = Integer.MAX_VALUE;
-		int maxCrashs = -1;
-		double maxBasePoints = -1;
-		List<Integer> index_minMoves = new ArrayList<Integer>();
-		List<Integer> index_maxCrashs = new ArrayList<Integer>();
-		List<Integer> index_maxBasePoints = new ArrayList<Integer>();
-		for(int i = 0; i < challengePlayers.size(); i++)
-		{
-			player = challengePlayers.get(i);
-			if(total_sum_basePoints.get(player) > maxBasePoints)
-			{
-				maxBasePoints = total_sum_basePoints.get(player);
-				index_maxBasePoints.clear();
-				index_maxBasePoints.add(i);
-			}
-			else if(total_sum_basePoints.get(player) == maxBasePoints)
-			{
-				maxBasePoints = total_sum_basePoints.get(player);
-				index_maxBasePoints.add(i);
-			}
-			if(total_sum_crashs.get(player) > maxCrashs)
-			{
-				maxCrashs = total_sum_crashs.get(player);
-				index_maxCrashs.clear();
-				index_maxCrashs.add(i);
-			}
-			else if(total_sum_crashs.get(player) == maxCrashs)
-			{
-				maxCrashs = total_sum_crashs.get(player);
-				index_maxCrashs.add(i);
-			}
-			if(total_sum_moves.get(player) < minMoves)
-			{
-				minMoves = total_sum_moves.get(player);
-				index_minMoves.clear();
-				index_minMoves.add(i);
-			}
-			else if(total_sum_moves.get(player) == minMoves)
-			{
-				minMoves = total_sum_moves.get(player);
-				index_minMoves.add(i);
-			}
-		}
-
-		addFinalBonus(index_minMoves, pages.length + 3, finalTable, challengePlayers, final_sum_bonus);
-		addFinalBonus(index_maxCrashs, pages.length + 2, finalTable, challengePlayers, final_sum_bonus);
-		addFinalBonus(index_maxBasePoints, pages.length + 1, finalTable, challengePlayers, final_sum_bonus);
 	}
 
 	private void calculateExpected(List<String> challengePlayers)
@@ -927,6 +868,21 @@ public class CCCEval extends Eval<GameSeries>
 			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-2)); // sort by Erwartungswert
 		else
 			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-4)); // sort by Endergebnis
+		
+		for(int i = 0; i < finalTable.getRows().size(); i++)
+		{
+			if(i > 0 && finalTable.getValue(i, finalTable.getColumns() - 1).equals(finalTable.getValue(i-1, finalTable.getColumns() - 1))
+					&& finalTable.getValue(i, finalTable.getColumns() - 7).equals(finalTable.getValue(i-1, finalTable.getColumns() - 7))
+					&& finalTable.getValue(i, finalTable.getColumns() - 8).equals(finalTable.getValue(i-1, finalTable.getColumns() - 8))
+					&& finalTable.getValue(i, finalTable.getColumns() - 6).equals(finalTable.getValue(i-1, finalTable.getColumns() - 6)))
+			{
+				finalTable.setValue(i, 0, " ");
+			}
+			else
+			{
+				finalTable.setValue(i, 0, (i + 1) + ".");
+			}
+		}
 	}
 
 	protected class UserStats
@@ -1006,7 +962,7 @@ public class CCCEval extends Eval<GameSeries>
 			if(s.scaled > min.scaled)
 				min.scaled = s.scaled;
 			if(s.bonus1 > min.bonus1)
-				min.bonus = s.bonus;
+				min.bonus1 = s.bonus1;
 			if(s.bonus2 > min.bonus2)
 				min.bonus2 = s.bonus2;
 			if(s.total > min.total)
@@ -1016,38 +972,6 @@ public class CCCEval extends Eval<GameSeries>
 		}
 		return min;
 	}
-
-	// protected <K, V> TreeMap<K, List<V>[]> createMap(Collection<K> keys, int arraySize)
-	// {
-	// TreeMap<K, List<V>[]> map = new TreeMap<>();
-	// List<?>[] array;
-	// List<V> list;
-	// for(K k : keys)
-	// {
-	// array = new ArrayList<?>[arraySize];
-	// for(int i = 0; i < arraySize; i++)
-	// {
-	// list = new ArrayList<V>();
-	// array[i] = list;
-	// }
-	// map.put(k, (List<V>[]) array);
-	// }
-	// return map;
-	// }
-	//
-	// protected <K, V> TreeMap<K, V[]> createMap(Collection<K> keys, V[] array, V defaultValue)
-	// {
-	// TreeMap<K, V[]> map = new TreeMap<>();
-	// for(K k : keys)
-	// {
-	// V[] arrayClone = array.clone();
-	// if(defaultValue != null)
-	// for(int i = 0; i < arrayClone.length; i++)
-	// arrayClone[i] = defaultValue;
-	// map.put(k, arrayClone);
-	// }
-	// return map;
-	// }
 
 	protected Rules getRules(int challenge)
 	{
