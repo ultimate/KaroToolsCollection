@@ -85,9 +85,4 @@ public abstract class Eval<T>
 		bos.flush();
 		bos.close();
 	}
-
-	protected static double round(double d)
-	{
-		return Math.round(d * 100) / 100.0;
-	}
 }

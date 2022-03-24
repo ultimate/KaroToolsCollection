@@ -6,63 +6,66 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.function.Supplier;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
+import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
-import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karopapier.utils.Table;
 import ultimate.karopapier.utils.WikiUtil;
 
 public class CCCEval extends Eval<GameSeries>
 {
-	protected static final String				GAMES_KEY			= "Balanced";
-	protected static final String[]				TABLE_HEAD_MAPS		= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
-	protected static final String[]				TABLE_HEAD_GAME		= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge", "Punkte" };
+	protected static final String							GAMES_KEY				= "Balanced";
+	protected static final String[]							TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
+	protected static final String[]							TABLE_HEAD_GAME			= new String[] { "Platz", "Spieler", "Grundpunkte", "Crashs", "Züge", "Punkte" };
+	protected static final int								BONUS_CHALLENGE			= 10;
+	protected static final int								BONUS_FINAL				= 100;
+	protected static final int								METRICS_GAME_MAXMOVES	= 0;
 
-	protected final int							TABLE_TABLE_COLUMNS	= 7;
+	protected final int										TABLE_TABLE_COLUMNS		= 7;
 
-	protected int								cccx;
+	protected int											cccx;
 	// stats
-	protected int								stats_challengesTotal;
-	protected int								stats_challengesCreated;
-	protected int								stats_gamesPerPlayer;
-	protected int								stats_gamesPerPlayerPerChallenge;
-	protected int								stats_gamesTotal;
-	protected int								stats_gamesCreated;
-	protected int								stats_moves;
-	protected int								stats_crashs;
-	protected int								stats_players;
+	protected int											stats_challengesTotal;
+	protected int											stats_challengesCreated;
+	protected int											stats_gamesPerPlayer;
+	protected int											stats_gamesPerPlayerPerChallenge;
+	protected int											stats_gamesTotal;
+	protected int											stats_gamesCreated;
+	protected int											stats_moves;
+	protected int											stats_crashs;
+	protected int											stats_players;
 	// helpers
-	protected Integer[]							challengeGames;
-	protected Integer[]							challengeOffsets;
-	protected List<User>						usersByLogin;
+	protected Integer[]										challengeGames;
+	protected Integer[]										challengeOffsets;
+	protected List<User>									usersByLogin;
+	protected HashMap<Integer, HashMap<Integer, Integer>>	pointsPerRank;
 	// evaluation
-	protected Table[][]							tables;
-	protected Table[]							totalTables;
-	protected Table								finalTable;
-	protected Table								whoOnWho;
-
-	// old
-
-	private TreeMap<String, List<Double>[]>		real_points;
-	private TreeMap<String, List<Integer>[]>	real_crashs;
-	private TreeMap<String, List<Integer>[]>	real_crashs_allgames;
-	private TreeMap<String, Double[]>			expected_points;
-	private TreeMap<String, Double>				expected_total_points;
-	protected String[][]						totalTableHeads;
-
-	private Properties							p;
+	protected Table[][]										tables;
+	protected Table[]										totalTables;
+	protected Table											finalTable;
+	protected Table											whoOnWho;
+	// user stats & metrics
+	protected TreeMap<Integer, UserStats>					userStats;
+	protected TreeMap<Integer, UserStats>[]					userChallengeStats;
+	protected double[][]									challengeMetrics;
+	protected double[][][]									gameMetrics;
 
 	public CCCEval(int cccx)
 	{
@@ -77,18 +80,23 @@ public class CCCEval extends Eval<GameSeries>
 		if(gameSeries.getType() != EnumGameSeriesType.Balanced)
 			return;
 
-		// since all information is stored in the gameseries, we don't need the gid-properties anymore
+		// since all information is stored in the gameseries or the cron-properties, we don't need the gid-properties any more
+		// but we init some other values for convenience and later usage
 
-		// but we init some other values for convenience
+		// stats
 		this.stats_challengesTotal = (int) gameSeries.get(GameSeries.NUMBER_OF_MAPS);
 		this.stats_players = gameSeries.getPlayers().size();
 		this.stats_gamesTotal = gameSeries.getGames().size();
 		this.stats_gamesPerPlayerPerChallenge = this.getRules(0).getGamesPerPlayer();
 		this.stats_gamesPerPlayer = this.stats_gamesPerPlayerPerChallenge * this.stats_challengesTotal;
-
+		// users
+		this.usersByLogin = gameSeries.getPlayers();
+		this.usersByLogin.sort((u1, u2) -> { return u1.getLoginLowerCase().compareTo(u2.getLoginLowerCase()); });
 		// all games are stored in 1 list - to be able to access them easier we calculate offsets
 		this.challengeGames = new Integer[this.stats_challengesTotal];
 		this.challengeOffsets = new Integer[this.stats_challengesTotal];
+		this.challengeMetrics = new double[this.stats_challengesTotal][];
+		this.gameMetrics = new double[this.stats_challengesTotal][][];
 		this.stats_challengesCreated = 0;
 		this.stats_gamesCreated = 0;
 		boolean allCreated;
@@ -99,6 +107,7 @@ public class CCCEval extends Eval<GameSeries>
 		{
 			this.challengeOffsets[c] = offset;
 			this.challengeGames[c] = this.stats_gamesPerPlayerPerChallenge * this.stats_players / this.getRules(c).getNumberOfPlayers();
+			this.gameMetrics[c] = new double[this.challengeGames[c]][];
 			// check if all games in this challenge have been created
 			allCreated = true;
 			for(int g = 0; g < this.challengeGames[c]; g++)
@@ -112,11 +121,26 @@ public class CCCEval extends Eval<GameSeries>
 				this.stats_challengesCreated++;
 			offset += this.challengeGames[c];
 		}
-		
-		// some more helpful variables
-		usersByLogin = new ArrayList<>(gameSeries.getPlayers());
-		Collections.sort(usersByLogin, (u1, u2) -> {return u1.getLoginLowerCase().compareTo(u2.getLoginLowerCase()); });
-		
+		// points
+		this.pointsPerRank = new HashMap<>();
+		String keyS;
+		int number, place, points, i1, i2;
+		for(Object key : properties.keySet())
+		{
+			keyS = (String) key;
+			if(keyS.startsWith("points."))
+			{
+				i1 = keyS.indexOf(".");
+				i2 = keyS.indexOf(".", i1 + 1);
+				number = Integer.parseInt(keyS.substring(i1 + 1, i2));
+				place = Integer.parseInt(keyS.substring(i2));
+				points = Integer.parseInt(properties.getProperty(keyS));
+				if(!this.pointsPerRank.containsKey(number))
+					this.pointsPerRank.put(number, new HashMap<>());
+				this.pointsPerRank.get(number).put(place, points);
+			}
+		}
+
 		// create the header for the final table
 		String[] finalTableHead = new String[this.stats_challengesCreated + 11];
 		int col = 0;
@@ -126,7 +150,7 @@ public class CCCEval extends Eval<GameSeries>
 			finalTableHead[col++] = challengeToLink(c, false);
 		finalTableHead[col++] = "Grundpunkte (gesamt)";
 		finalTableHead[col++] = "Crashs (gesamt)";
-		finalTableHead[col++] = "Z�ge (gesamt)";
+		finalTableHead[col++] = "Züge (gesamt)";
 		finalTableHead[col++] = "Skalierte Punkte (gesamt)";
 		finalTableHead[col++] = "Challenge-Bonus (gesamt)";
 		finalTableHead[col++] = "Bonus (Gesamtwertung)";
@@ -134,18 +158,22 @@ public class CCCEval extends Eval<GameSeries>
 		finalTableHead[col++] = "Abgeschlossene Rennen";
 		finalTableHead[col++] = "Erwartungswert";
 		finalTableHead[col++] = "Erwartungswert (alt)";
-		
-		// init table variables
+
+		// init variables
 		this.tables = new Table[stats_challengesTotal][];
 		this.totalTables = new Table[stats_challengesTotal];
 		this.finalTable = new Table(finalTableHead);
+		this.userStats = createStatsMap(usersByLogin);
+		this.userChallengeStats = new TreeMap[stats_challengesTotal];
+		for(int c = 0; c < this.stats_challengesTotal; c++)
+			this.userChallengeStats[c] = createStatsMap(usersByLogin);
 
-				// create the header for the whoOnWho
+		// init the whoOnWho
 		String[] whoOnWhoHead = new String[this.stats_players + 1];
 		this.whoOnWho = new Table(whoOnWhoHead);
 		col = 1; // leave first column empty
 		Object[] row;
-		for(User user: usersByLogin)
+		for(User user : usersByLogin)
 		{
 			whoOnWhoHead[col++] = WikiUtil.createLink(user, false);
 			row = new Object[whoOnWhoHead.length];
@@ -236,7 +264,7 @@ public class CCCEval extends Eval<GameSeries>
 			detail.append(WikiUtil.toString(tableTable, null));
 			detail.append("\n");
 			detail.append("== Tabellarische Auswertung ==\n");
-			detail.append(WikiUtil.toString(totalTables[c], null));
+			detail.append(WikiUtil.toString(totalTables[c], null, "-"));
 			detail.append("\n");
 
 			writeFile("czzzcc" + cccx + "-wiki-challenge" + (c + 1) + ".txt", detail.toString());
@@ -246,14 +274,14 @@ public class CCCEval extends Eval<GameSeries>
 		StringBuilder total = new StringBuilder();
 
 		if(!finished)
-			total.append(WikiUtil.toString(finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length - 1)));
+			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
 		else
-			total.append(WikiUtil.toString(finalTable, "alignedright", Arrays.copyOf(ALL_COLUMNS, finalTableHead.length - 3)));
+			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 2)));
 
 		StringBuilder stats = new StringBuilder();
 
 		stats.append("== Zahlen & Fakten ==\n");
-		stats.append("*Rennen insgesamt: '''" + stats_games + "'''\n");
+		stats.append("*Rennen insgesamt: '''" + stats_gamesTotal + "'''\n");
 		stats.append("*Teilnehmer: '''" + stats_players + "'''\n");
 		stats.append("*Rennen pro Spieler: '''" + stats_gamesPerPlayer + "'''\n");
 		stats.append("*Rennen pro Spieler pro Challenge: '''" + stats_gamesPerPlayerPerChallenge + "'''\n");
@@ -264,7 +292,7 @@ public class CCCEval extends Eval<GameSeries>
 
 		stats.append("== Wer gegen wen? ==\n");
 		stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
-		stats.append(WikiUtil.toString(null, whoOnWho, null, ALL_COLUMNS));
+		stats.append(WikiUtil.toString(whoOnWho, null));
 
 		StringBuilder schema = new StringBuilder();
 
@@ -278,7 +306,7 @@ public class CCCEval extends Eval<GameSeries>
 		br.close();
 
 		String s = schema.toString();
-		s = s.replace("${MAPS}", WikiUtil.toString(TABLE_HEAD_MAPS, mapTable, null, ALL_COLUMNS));
+		s = s.replace("${MAPS}", WikiUtil.toString(mapTable, null));
 		s = s.replace("${DETAIL}", detailLinks.toString());
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
@@ -288,129 +316,80 @@ public class CCCEval extends Eval<GameSeries>
 		return s;
 	}
 
-	private boolean createTables()
+	protected boolean createTables()
 	{
-		String[][] totalTable;
 		String[] totalTableHead;
-		String player;
-		List<String> challengePlayers = this.challenges[c].games[r].getPlayers()FromLog(1);
-		stats_players = challengePlayers.size();
+		Object[] row;
+		int col;
+		UserStats mins, maxs;
 
-		TreeMap<String, Double> sum_pointsUnskaled;
-		TreeMap<String, Double> sum_basePoints;
-		TreeMap<String, Integer> sum_crashs;
-		TreeMap<String, Integer> sum_moves;
-		TreeMap<String, Double> total_sum_basePoints = createMap(challengePlayers, 0.0);
-		TreeMap<String, Integer> total_sum_crashs = createMap(challengePlayers, (Integer) 0);
-		TreeMap<String, Integer> total_sum_moves = createMap(challengePlayers, (Integer) 0);
-		TreeMap<String, Double> total_sum_pointsSkaled = createMap(challengePlayers, 0.0);
-		TreeMap<String, Integer> total_sum_games = createMap(challengePlayers, (Integer) 0);
-		TreeMap<String, Integer> total_sum_bonus = createMap(challengePlayers, (Integer) 0);
-		TreeMap<String, Integer> final_sum_bonus = createMap(challengePlayers, (Integer) 0);
-		TreeMap<String, Integer[]> total_sum_games_bychallenge = createMap(challengePlayers, new Integer[tables.length], 0);
-
-		real_points = createMap(challengePlayers, this.tables.length);
-		real_crashs = createMap(challengePlayers, this.tables.length);
-		real_crashs_allgames = createMap(challengePlayers, this.tables.length);
-
-		initWhoOnWho(challengePlayers);
-
-		finalTableHead = new String[pages.length + 11];
-		finalTableHead[0] = "Platz";
-		finalTableHead[1] = "Spieler";
-		finalTableHead[pages.length + 1] = "Grundpunkte (gesamt)";
-		finalTableHead[pages.length + 2] = "Crashs (gesamt)";
-		finalTableHead[pages.length + 3] = "Z�ge (gesamt)";
-		finalTableHead[pages.length + 4] = "Skalierte Punkte (gesamt)";
-		finalTableHead[pages.length + 5] = "Challenge-Bonus (gesamt)";
-		finalTableHead[pages.length + 6] = "Bonus (Gesamtwertung)";
-		finalTableHead[pages.length + 7] = "Endergebnis";
-		finalTableHead[pages.length + 8] = "Abgeschlossene Rennen";
-		finalTableHead[pages.length + 9] = "Erwartungswert";
-		finalTableHead[pages.length + 10] = "Erwartungswert (alt)";
-		finalTable = new String[challengePlayers.size()][finalTableHead.length];
-
-		for(int c = 1; c < pages.length; c++)
+		for(int c = 0; c < this.stats_challengesCreated; c++)
 		{
-			totalTableHead = new String[pages[c].length + 6];
-			totalTableHead[0] = "Spieler";
-			totalTableHead[pages[c].length + 0] = "Grundpunkte (gesamt)";
-			totalTableHead[pages[c].length + 1] = "Crashs (gesamt)";
-			totalTableHead[pages[c].length + 2] = "Z�ge (gesamt)";
-			totalTableHead[pages[c].length + 3] = "Gesamtpunkte (unskaliert)";
-			totalTableHead[pages[c].length + 4] = "Gesamtpunkte (skaliert)";
-			totalTableHead[pages[c].length + 5] = "Challenge-Bonus";
+			// init the total table for this challenge
+			totalTableHead = new String[challengeGames[c] + 6];
+			col = 0;
+			totalTableHead[col++] = "Spieler";
+			for(int g = 0; g < challengeGames[c]; g++)
+				totalTableHead[col++] = gameToLink(c, g);
+			totalTableHead[col++] = "Grundpunkte (gesamt)";
+			totalTableHead[col++] = "Crashs (gesamt)";
+			totalTableHead[col++] = "Züge (gesamt)";
+			totalTableHead[col++] = "Gesamtpunkte (unskaliert)";
+			totalTableHead[col++] = "Gesamtpunkte (skaliert)";
+			totalTableHead[col++] = "Challenge-Bonus";
+			totalTables[c] = new Table(totalTableHead);
 
-			finalTableHead[c + 1] = challengeToLink(c, false);
+			calcMetrics(c);
 
-			totalTable = new String[challengePlayers.size()][totalTableHead.length];
-
-			sum_pointsUnskaled = createMap(challengePlayers, 0.0);
-			sum_basePoints = createMap(challengePlayers, 0.0);
-			sum_crashs = createMap(challengePlayers, (Integer) 0);
-			sum_moves = createMap(challengePlayers, (Integer) 0);
-
-			for(String p : challengePlayers)
+			for(int g = 0; g < challengeGames[c]; g++)
 			{
-				totalTable[challengePlayers.indexOf(p)][0] = playerToLink(p, true);
-				for(int i = 1; i < totalTable[challengePlayers.indexOf(p)].length; i++)
-				{
-					totalTable[challengePlayers.indexOf(p)][i] = "-";
-				}
-			}
-
-			for(int r = 1; r < pages[c].length; r++)
-			{
-				stats_games++;
-
-				totalTableHead[r] = gameToLink(c, r);
-				try
-				{
-					tables[c][r] = creategameTableFromLog(c, r, totalTable, challengePlayers, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints, total_sum_crashs,
-							total_sum_moves, total_sum_pointsSkaled, total_sum_games, total_sum_bonus, total_sum_games_bychallenge);
-				}
-				catch(Exception e)
-				{
-					logger.info("----------------------------------------------");
-					logger.info("----------------------------------------------");
-					logger.info("----------------------------------------------");
-					logger.info("ERROR for game " + c + "." + r);
-					logger.info(getLog(c, r));
-					logger.info("----------------------------------------------");
-					logger.info("----------------------------------------------");
-					logger.info("----------------------------------------------");
-					throw new RuntimeException(e);
-				}
+				tables[c][g] = createTable(c, g);
 
 				createWhoOnWho(c, r, challengePlayers);
 			}
 
-			double maxPointsUnskaled = addBonus(c, challengePlayers, totalTable, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_bonus);
-			if(maxPointsUnskaled == 0.0)
-				maxPointsUnskaled = 100;
+			mins = getMins(userChallengeStats[c].values());
+			maxs = getMaxs(userChallengeStats[c].values());
 
-			double skaledPoints;
-			for(int i = 0; i < challengePlayers.size(); i++)
+			addBonus(c, mins, maxs);
+
+			double scaled;
+			for(User user : usersByLogin)
 			{
-				if(!totalTable[i][pages[c].length + 3].equals("?") && !totalTable[i][pages[c].length + 3].equals("-"))
+				scaled = userChallengeStats[c].get(user.getId()).unscaled * 100 / maxs.unscaled;
+				userChallengeStats[c].get(user.getId()).scaled = scaled;
+				userStats.get(user.getId()).scaled += scaled;
+
+				row = new Object[totalTables[c].getColumns()];
+				col = 0;
+				row[col++] = WikiUtil.createLink(user, true);
+				for(int g = 0; g < challengeGames[c]; g++)
 				{
-					skaledPoints = round(doubleFromString(totalTable[i][pages[c].length + 3]) * 100 / maxPointsUnskaled);
-					totalTable[i][pages[c].length + 4] = "" + skaledPoints;
-					if(totalTable[i][pages[c].length + 4].equals("100.0"))
+					if(getGame(c, g) == null)
+						continue;
+					if(getGame(c, g).getPlayers().contains(user))
 					{
-						totalTable[i][pages[c].length + 3] = highlight(totalTable[i][pages[c].length + 3]);
-						totalTable[i][pages[c].length + 4] = highlight(totalTable[i][pages[c].length + 4]);
+						for(Object[] tableRow : tables[c][g].getRows())
+						{
+							if(((String) tableRow[1]).contains(user.getLogin()))
+							{
+								row[col++] = tableRow[tables[c][g].getColumns() - 1]; // the points are in the last column
+								break;
+							}
+						}
 					}
-					total_sum_pointsSkaled.put(challengePlayers.get(i), total_sum_pointsSkaled.get(challengePlayers.get(i)) + skaledPoints);
+					else
+						row[col++] = null;
 				}
+				row[col++] = userChallengeStats[c].get(user.getId()).basic;
+				row[col++] = userChallengeStats[c].get(user.getId()).crashs;
+				row[col++] = userChallengeStats[c].get(user.getId()).moves;
+				row[col++] = userChallengeStats[c].get(user.getId()).unscaled;
+				row[col++] = userChallengeStats[c].get(user.getId()).scaled;
+				row[col++] = userChallengeStats[c].get(user.getId()).bonus1;
+				totalTables[c].addRow(row);
 			}
-
-			totalTableHeads[c] = totalTableHead;
-			totalTables[c] = totalTable;
 		}
-
-		stats_gamesPerPlayerPerChallenge = intFromString(p.getProperty("games.per.player.per.challenge"));
-		stats_gamesPerPlayer = stats_gamesPerPlayerPerChallenge * (pages.length - 1);
 
 		calculateExpected(challengePlayers);
 
@@ -484,7 +463,181 @@ public class CCCEval extends Eval<GameSeries>
 
 		return finished;
 	}
-	
+
+	protected void createTables(int c)
+	{
+
+	}
+
+	protected Table createTable(int c, int g)
+	{
+		Table table = new Table(TABLE_HEAD_GAME);
+		Game game = getGame(c, g).getGame();
+		if(game == null)
+			return table;
+
+		int highestMoveCount = 0;
+
+		List<Player> players = game.getPlayers();
+		sortPlayers(players);
+
+		int p = 0;
+		for(Player player : players)
+		{
+			if(player.getName().equals(gameSeries.getCreator().getLogin()))
+				continue;
+			p++;
+
+			if(player.getMoveCount() > highestMoveCount)
+				highestMoveCount = player.getMoveCount();
+
+			tables[c][g].addRow(createRow(c, g, game, player, p));
+		}
+
+		return table;
+	}
+
+	protected Object[] createRow(int c, int g, Game game, Player player, int position)
+	{
+		Object[] row = new Object[TABLE_HEAD_GAME.length];
+		row[0] = position + ".";
+		row[1] = WikiUtil.createLink(player, false);
+
+		Integer crashs = null;
+		Integer moves = null;
+		Integer basicPoints = null;
+		Double points = null;
+
+		if(properties.containsKey(c + "." + g + "." + player.getName()))
+		{
+			String s = properties.getProperty(c + "." + g + "." + player);
+			logger.info("correcting crash count for " + player.getName() + " @ " + c + "." + g + " by " + s);
+			crashs = player.getCrashCount() - parseInt(s);
+		}
+		else
+		{
+			crashs = player.getCrashCount();
+		}
+		if(player.getStatus() == EnumPlayerStatus.ok)
+		{
+			moves = player.getMoveCount(); // moves
+			if(player.getRank() > 0)
+			{
+				basicPoints = pointsPerRank.get(game.getPlayers().size()).get(position);
+				points = calcGamePoints(game, player, row);
+			}
+		}
+		else
+		{
+			basicPoints = -game.getPlayers().size();
+			points = calcGamePoints(game, player, row);
+			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1);
+		}
+
+		row[2] = basicPoints; // grundpunkte
+		if(basicPoints != null)
+		{
+			userStats.get(player.getId()).basic += basicPoints;
+			userChallengeStats[c].get(player.getId()).basic += basicPoints;
+		}
+
+		row[3] = crashs; // crashs
+		if(crashs != null)
+		{
+			userStats.get(player.getId()).crashs += crashs;
+			userChallengeStats[c].get(player.getId()).crashs += crashs;
+		}
+
+		row[4] = moves; // moves
+		if(moves != null)
+		{
+			userStats.get(player.getId()).moves += moves;
+			userChallengeStats[c].get(player.getId()).moves += moves;
+		}
+
+		row[5] = points; // points
+		if(points != null)
+		{
+			userStats.get(player.getId()).unscaled += points;
+			userChallengeStats[c].get(player.getId()).unscaled += points;
+		}
+
+		return row;
+	}
+
+	protected void sortPlayers(List<Player> players)
+	{
+		Collections.sort(players, (p1, p2) -> {
+			if(p1.getRank() > 0 && p2.getRank() > 0)
+			{
+				return (int) Math.signum(p1.getRank() - p2.getRank());
+			}
+			else if(p1.getRank() > 0)
+			{
+				return -1;
+			}
+			else if(p2.getRank() > 0)
+			{
+				return +1;
+			}
+			else
+			{
+				return (int) -Math.signum(p1.getMoveCount() - p2.getMoveCount());
+			}
+		});
+	}
+
+	protected void calcMetrics(int c)
+	{
+		// for inheritence
+		this.challengeMetrics[c] = new double[0];
+	}
+
+	protected void calcMetrics(int c, int g)
+	{
+		// for inheritence
+		this.gameMetrics[c][g] = new double[1];
+
+		for(Player p : getGame(c, g).getGame().getPlayers())
+		{
+			if(p.getMoveCount() > this.gameMetrics[c][g][METRICS_GAME_MAXMOVES])
+				this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] = p.getMoveCount();
+		}
+	}
+
+	protected double calcGamePoints(Game game, Player player, Object[] row)
+	{
+		if(player.getStatus() == EnumPlayerStatus.ok)
+			return (int) row[2] * (int) row[3];
+		else
+			return -(game.getPlayers().size() - 1);
+	}
+
+	protected void addBonus(int c, UserStats mins, UserStats maxs)
+	{
+		int u = 0;
+		for(User user : usersByLogin)
+		{
+			if(userChallengeStats[c].get(user.getId()).unscaled == maxs.unscaled)
+			{
+				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
+			}
+
+			if(userChallengeStats[c].get(user.getId()).crashs == maxs.crashs)
+			{
+				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
+			}
+
+			if(userChallengeStats[c].get(user.getId()).moves == mins.moves)
+			{
+				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
+			}
+		}
+	}
+
 	private void createWhoOnWho(int c, int r, List<String> challengePlayers)
 	{
 		List<String> gamePlayers = this.challenges[c].games[r].getPlayers()FromLog(c, r);
@@ -496,18 +649,7 @@ public class CCCEval extends Eval<GameSeries>
 			{
 				ci1 = challengePlayers.indexOf(gamePlayers.get(i1));
 				ci2 = challengePlayers.indexOf(gamePlayers.get(i2));
-				whoOnWho[ci1 + 1][ci2 + 1] = "" + (intFromString(whoOnWho[ci1 + 1][ci2 + 1]) + 1);
-				// if(whoOnWho[ci1 + 1][ci2 + 1].equals("0"))
-				// whoOnWho[ci1 + 1][ci2 + 1] = "0 ()";
-				// tmp = whoOnWho[ci1 + 1][ci2 + 1].substring(0, whoOnWho[ci1 +
-				// 1][ci2 +
-				// 1].indexOf(" "));
-				// whoOnWho[ci1 + 1][ci2 + 1] = (intFromString(tmp) + 1) +
-				// whoOnWho[ci1 + 1][ci2
-				// + 1].substring(tmp.length());
-				// whoOnWho[ci1 + 1][ci2 + 1] = whoOnWho[ci1 + 1][ci2 +
-				// 1].replace(")",
-				// gameToLink(c, r) + ")");
+				whoOnWho.[ci1 + 1][ci2 + 1] = whoOnWho[ci1 + 1][ci2 + 1] + 1;
 				whoOnWho[ci2 + 1][ci1 + 1] = whoOnWho[ci1 + 1][ci2 + 1];
 			}
 		}
@@ -568,451 +710,7 @@ public class CCCEval extends Eval<GameSeries>
 		}
 		return ret.toString();
 	}
-
-	private String[][] creategameTableFromLog(int c, int r, String[][] totalTable, List<String> challengePlayers, TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints,
-			TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
-			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Double> total_sum_pointsSkaled, TreeMap<String, Integer> total_sum_games, TreeMap<String, Integer> total_sum_bonus,
-			TreeMap<String, Integer[]> total_sum_games_bychallenge)
-	{
-		String[][] table = new String[numberOfPlayers[c]][gameTableHead.length];
-		int last = numberOfPlayers[c];
-		int lastRankWithPoints = last;
-		while(intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + lastRankWithPoints)) == 0)
-			lastRankWithPoints--;
-
-		final TreeMap<String, Integer> playerMoves = new HashTreeMap<String, Integer>();
-		final TreeMap<String, Integer> playerCrashs = new HashTreeMap<String, Integer>();
-		final TreeMap<String, Integer> playerPosition = new HashTreeMap<String, Integer>();
-		final TreeMap<String, Double> playerPoints = new HashTreeMap<String, Double>();
-		int moves;
-		int crashs;
-		double points;
-		int position;
-		int crashsAfterLastRankWithoutPointsThrown;
-		String log = getLog(c, r);
-
-		List<String> players = this.challenges[c].games[r].getPlayers()FromLog(c, r);
-
-		int maxMoves = 0;
-		for(String player : players)
-		{
-			moves = countOccurrences(log, player + " -> ");
-			if(moves > maxMoves)
-				maxMoves = moves;
-		}
-
-		int thrown = 0;
-		List<Integer> thrownIndexes = new ArrayList<Integer>(numberOfPlayers[c]);
-		int lastRankWithoutPointsThrownIndex = -1;
-		for(String player : players)
-		{
-			position = log.lastIndexOf(player);
-			if(position == -1)
-			{
-			}
-			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position || log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
-					|| log.lastIndexOf(player + " steigt aus dem Spiel aus") == position)
-			{
-				thrown++;
-				thrownIndexes.add(position);
-			}
-		}
-		last = last - thrown;
-		if((last >= lastRankWithPoints) && (thrownIndexes.size() >= (numberOfPlayers[c] - lastRankWithPoints)))
-		{
-			// mehr oder genauso viele rausschmisse, wie 0-Raenge
-			Integer[] indexes = thrownIndexes.toArray(new Integer[thrownIndexes.size()]);
-			Arrays.sort(indexes);
-			lastRankWithoutPointsThrownIndex = indexes[numberOfPlayers[c] - lastRankWithPoints - 1];
-		}
-		if(lastRankWithoutPointsThrownIndex > 0)
-			logger.info("  Challenge " + c + "." + r);
-
-		for(String player : players)
-		{
-			moves = countOccurrences(log, player + " -> ");
-			if(moves < 0)
-				moves = 0;
-			crashs = countOccurrences(log, player + " CRASHT!!!");
-			crashsAfterLastRankWithoutPointsThrown = countOccurrences(log, player + " CRASHT!!!", lastRankWithoutPointsThrownIndex);
-
-			if(cccx == 1 && c == 9 && r == 24 && player.equals("sparrows bruder"))
-			{
-				crashs -= 15;
-			}
-			else if(cccx == 1 && c == 6 && r == 22 && player.equals("aristarch"))
-			{
-				crashs -= 1;
-			}
-			else if(cccx == 2 && c == 1 && r == 36 && player.equals("ImThinkin"))
-			{
-				crashs -= 60;
-			}
-			else if(cccx == 2 && c == 4 && r == 58 && player.equals("KingT"))
-			{
-				crashs -= 42;
-			}
-			else if(cccx >= 4 && gidProperties.containsKey(c + "." + r + "." + player))
-			{
-				logger.info("    correcting crash count for " + player + " @ " + c + "." + r);
-				try
-				{
-					crashs += intFromString(gidProperties.getProperty(c + "." + r + "." + player));
-					logger.info(" >> OK");
-				}
-				catch(NumberFormatException e)
-				{
-					logger.info(" >> ERROR: " + e.getMessage());
-				}
-			}
-			// if(crashsAfterLastRankWithoutPointsThrown > 0)
-			// logger.info(" " + player + ": " + crashsAfterLastRankWithoutPointsThrown);
-
-			position = log.lastIndexOf(player + " ");
-			if(position == -1)
-			{
-				position = last--;
-				points = -1;
-			}
-			else if(log.lastIndexOf(player + " wird von Didi aus dem Spiel geworfen") == position || log.lastIndexOf(player + " wird von KaroMAMA aus dem Spiel geworfen") == position
-					|| log.lastIndexOf(player + " steigt aus dem Spiel aus") == position)
-			{
-				position = players.size();
-				points = -players.size();
-				moves = maxMoves + 1;
-			}
-			else if(log.lastIndexOf(player + " CRASHT!!!") == position && log.indexOf(player + " steigt aus dem Spiel aus") >= 0 && log.indexOf(player + " steigt aus dem Spiel aus") < position)
-			{
-				// Ausstiegs-Bug abfangen: Nach dem Ausstieg wurde gecrasht...
-				// dann ist in der Zeile vor dem CRASH der Ausstieg
-				position = players.size();
-				points = -players.size();
-				moves = maxMoves + 1;
-			}
-			else if(log.lastIndexOf(player + " wird") == position)
-			{
-				position = position + (player + " wird ").length();
-				position = intFromString(log.substring(position, log.indexOf(".", position + 1)));
-				if((lastRankWithoutPointsThrownIndex > 0) && (position == lastRankWithPoints) && (crashsAfterLastRankWithoutPointsThrown > 0))
-					logger.info("    " + player + ": " + crashsAfterLastRankWithoutPointsThrown + " (" + crashs + ")");
-				points = intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + position));
-				// points = intFromString(p.getProperty("points." + (numberOfPlayers[c]-thrown) +
-				// "." + position));
-			}
-			else
-			{
-				position = last--;
-				points = -1;
-			}
-
-			// store in maps for later use
-			playerMoves.put(player, moves);
-			playerCrashs.put(player, crashs);
-			playerPoints.put(player, points);
-			playerPosition.put(player, position);
-		}
-
-		// sort players by position
-		// logger.info("before: " + players);
-		players.sort(new Comparator<String>() {
-			@Override
-			public int compare(String o1, String o2)
-			{
-				return playerPosition.get(o1) - playerPosition.get(o2);
-			}
-		});
-		// logger.info("after: " + players);
-
-		// check players for finishing in same round (only CCC6+)
-		if(cccx > 5)
-		{
-			String player1, player2;
-			List<String> playersWithSameAmountOfMoves;
-			for(int i = 0; i < players.size(); i++)
-			{
-				player1 = players.get(i);
-				moves = playerMoves.get(player1);
-				points = playerPoints.get(player1);
-
-				// Player has finished
-				if(points != -1)
-				{
-					playersWithSameAmountOfMoves = new ArrayList<String>(players.size());
-					playersWithSameAmountOfMoves.add(player1);
-
-					double totalPoints = points;
-
-					for(int j = i + 1; j < players.size(); j++)
-					{
-						player2 = players.get(j);
-						// Check same amount of moves
-						if(playerMoves.get(player2) == moves)
-						{
-							playersWithSameAmountOfMoves.add(player2);
-							totalPoints += playerPoints.get(player2);
-						}
-					}
-
-					if(playersWithSameAmountOfMoves.size() > 1)
-					{
-						i += (playersWithSameAmountOfMoves.size() - 1);
-						points = totalPoints / playersWithSameAmountOfMoves.size();
-						for(String player : playersWithSameAmountOfMoves)
-						{
-							playerPoints.put(player, points);
-						}
-						logger.info("  Challenge " + c + "." + r + " > Zuggleichheit (" + moves + " Z�ge, " + points + " Punkte): " + playersWithSameAmountOfMoves);
-					}
-				}
-			}
-		}
-
-		// process maps
-		for(String player : players)
-		{
-			moves = playerMoves.get(player);
-			crashs = playerCrashs.get(player);
-			points = playerPoints.get(player);
-			position = playerPosition.get(player);
-
-			if(points != -1)
-			{
-				real_points.get(player)[c].add(points);
-				real_crashs.get(player)[c].add(crashs);
-			}
-			real_crashs_allgames.get(player)[c].add(crashs);
-
-			fillgameTable(table, totalTable, player, challengePlayers, c, r, position, points, crashs, moves, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints,
-					total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_games, total_sum_bonus, total_sum_games_bychallenge);
-		}
-		return table;
-	}
-
-	private String[][] creategameTable(int c, int r, String[][] totalTable, List<String> challengePlayers, TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints,
-			TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
-			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Double> total_sum_pointsSkaled, TreeMap<String, Integer> total_sum_games, TreeMap<String, Integer> total_sum_bonus,
-			TreeMap<String, Integer[]> total_sum_games_bychallenge)
-	{
-		String[][] table = new String[numberOfPlayers[c]][gameTableHead.length];
-		int last = numberOfPlayers[c];
-		int index = 0;
-
-		String player;
-		String tmp;
-		int moves;
-		int crashs;
-		int position;
-		int points;
-		String page = getPage(c, r);
-
-		while(true)
-		{
-			index = page.indexOf(start_playerName, index + 1) + start_playerName.length();
-			if(index == start_playerName.length() - 1)
-				break;
-			player = page.substring(index, page.indexOf(start_moves, index + 1));
-
-			if(player.equals(p.getProperty("creator")))
-				continue;
-
-			index = page.indexOf(start_moves, index + 1) + start_moves.length();
-			tmp = page.substring(index, page.indexOf(end_moves, index + 1));
-			if(tmp.contains("Crash"))
-			{
-				moves = intFromString(tmp.substring(0, tmp.indexOf(" ")));
-				crashs = intFromString(tmp.substring(tmp.indexOf("+") + 2, tmp.indexOf(" Crash")));
-			}
-			else if(tmp.contains("X"))
-			{
-				moves = 0;
-				crashs = 0;
-			}
-			else
-			{
-				moves = intFromString(tmp);
-				crashs = 0;
-			}
-
-			index = page.indexOf(end_moves, index + 1) + end_moves.length();
-			if(page.charAt(index) == '<')
-			{
-				index = page.indexOf(">", index + 1) + 1;
-			}
-			tmp = page.substring(index, page.indexOf("<", index + 1));
-			if(tmp.equals("kommt noch"))
-				position = -1;
-			else if(tmp.equals("rausgeworfen"))
-				position = -1;
-			else if(tmp.equals("war schon"))
-				position = -1;
-			else if(tmp.equals("dran"))
-				position = -1;
-			else if(tmp.startsWith("wurde"))
-				position = intFromString(tmp.substring(tmp.indexOf(" ") + 1, tmp.indexOf(".")));
-			else
-			{
-				position = -1;
-				logger.info("unbekannter Status: " + tmp);
-			}
-			if(position < 0)
-			{
-				position = last--;
-				points = -1;
-			}
-			else
-			{
-				points = intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + position));
-			}
-
-			fillgameTable(table, totalTable, player, challengePlayers, c, r, position, points, crashs, moves, sum_pointsUnskaled, sum_basePoints, sum_crashs, sum_moves, total_sum_basePoints,
-					total_sum_crashs, total_sum_moves, total_sum_pointsSkaled, total_sum_games, total_sum_bonus, total_sum_games_bychallenge);
-		}
-		return table;
-	}
-
-	private void fillgameTable(String[][] table, String totalTable[][], String player, List<String> challengePlayers, int c, int r, int position, double points, int crashs, int moves,
-			TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints, TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves,
-			TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs, TreeMap<String, Integer> total_sum_moves, TreeMap<String, Double> total_sum_pointsSkaled,
-			TreeMap<String, Integer> total_sum_games, TreeMap<String, Integer> total_sum_bonus, TreeMap<String, Integer[]> total_sum_games_bychallenge)
-	{
-
-		String gamePoints = (points < 0 ? (points == -1 ? "?" : "" + round(points)) : "" + round(crashs * points));
-
-		while(table[position - 1][0] != null)
-		{
-			position--;
-		}
-		table[position - 1][0] = position + ".";
-		table[position - 1][1] = playerToLink(player, false);
-		table[position - 1][2] = (points == -1 ? "?" : "" + round(points));
-		table[position - 1][3] = "" + crashs;
-		table[position - 1][4] = "" + moves;
-		table[position - 1][5] = gamePoints;
-
-		totalTable[challengePlayers.indexOf(player)][r] = gamePoints;
-
-		sum_pointsUnskaled.put(player, sum_pointsUnskaled.get(player) + (points < 0 ? (points == -1 ? 0 : points) : (crashs * points)));
-		if(points != -1)
-		{
-			sum_basePoints.put(player, sum_basePoints.get(player) + points);
-			total_sum_basePoints.put(player, total_sum_basePoints.get(player) + points);
-			total_sum_games.put(player, total_sum_games.get(player) + 1);
-			total_sum_games_bychallenge.get(player)[c] += 1;
-		}
-		sum_crashs.put(player, sum_crashs.get(player) + crashs);
-		total_sum_crashs.put(player, total_sum_crashs.get(player) + crashs);
-		sum_moves.put(player, sum_moves.get(player) + moves);
-		total_sum_moves.put(player, total_sum_moves.get(player) + moves);
-	}
-
-	private void sortFinalTable(boolean finished)
-	{
-		if(!finished)
-			Arrays.sort(finalTable, new FinalTableRowSorter(-2)); // sort by Erwartungswert
-		else
-			Arrays.sort(finalTable, new FinalTableRowSorter(-4)); // sort by Endergebnis
-	}
-
-	private double addBonus(int c, List<String> challengePlayers, String[][] totalTable, TreeMap<String, Double> sum_pointsUnskaled, TreeMap<String, Double> sum_basePoints,
-			TreeMap<String, Integer> sum_crashs, TreeMap<String, Integer> sum_moves, TreeMap<String, Integer> total_sum_bonus)
-	{
-		String player;
-
-		int minMoves = Integer.MAX_VALUE;
-		int maxCrashs = -1;
-		double maxBasePoints = -1;
-		double maxPointsUnskaled = -1;
-		List<Integer> index_minMoves = new ArrayList<Integer>();
-		List<Integer> index_maxCrashs = new ArrayList<Integer>();
-		List<Integer> index_maxBasePoints = new ArrayList<Integer>();
-		List<Integer> index_maxPointsUnskaled = new ArrayList<Integer>();
-		for(int i = 0; i < challengePlayers.size(); i++)
-		{
-			player = challengePlayers.get(i);
-			totalTable[i][pages[c].length + 3] = "" + round(sum_pointsUnskaled.get(player));
-			if(sum_pointsUnskaled.get(player) > maxPointsUnskaled)
-			{
-				maxPointsUnskaled = sum_pointsUnskaled.get(player);
-				index_maxPointsUnskaled.clear();
-				index_maxPointsUnskaled.add(i);
-			}
-			else if(sum_pointsUnskaled.get(player) == maxPointsUnskaled)
-			{
-				maxPointsUnskaled = sum_pointsUnskaled.get(player);
-				index_maxPointsUnskaled.add(i);
-			}
-			totalTable[i][pages[c].length + 0] = "" + round(sum_basePoints.get(player));
-			if(sum_basePoints.get(player) > maxBasePoints)
-			{
-				maxBasePoints = sum_basePoints.get(player);
-				index_maxBasePoints.clear();
-				index_maxBasePoints.add(i);
-			}
-			else if(sum_basePoints.get(player) == maxBasePoints)
-			{
-				maxBasePoints = sum_basePoints.get(player);
-				index_maxBasePoints.add(i);
-			}
-			totalTable[i][pages[c].length + 1] = "" + sum_crashs.get(player);
-			if(sum_crashs.get(player) > maxCrashs)
-			{
-				maxCrashs = sum_crashs.get(player);
-				index_maxCrashs.clear();
-				index_maxCrashs.add(i);
-			}
-			else if(sum_crashs.get(player) == maxCrashs)
-			{
-				maxCrashs = sum_crashs.get(player);
-				index_maxCrashs.add(i);
-			}
-			totalTable[i][pages[c].length + 2] = "" + sum_moves.get(player);
-			if(sum_moves.get(player) < minMoves)
-			{
-				minMoves = sum_moves.get(player);
-				index_minMoves.clear();
-				index_minMoves.add(i);
-			}
-			else if(sum_moves.get(player) == minMoves)
-			{
-				minMoves = sum_moves.get(player);
-				index_minMoves.add(i);
-			}
-		}
-
-		addBonus(c, index_minMoves, pages[c].length + 2, totalTable, challengePlayers, total_sum_bonus);
-		addBonus(c, index_maxCrashs, pages[c].length + 1, totalTable, challengePlayers, total_sum_bonus);
-		addBonus(c, index_maxBasePoints, pages[c].length + 0, totalTable, challengePlayers, total_sum_bonus);
-		// addBonus(c, index_maxPointsUnskaled, totalTable, challengePlayers,
-		// total_sum_bonus);
-
-		return maxPointsUnskaled;
-	}
-
-	private void addBonus(int c, List<Integer> indexes, int column, String[][] totalTable, List<String> challengePlayers, TreeMap<String, Integer> total_sum_bonus)
-	{
-		for(int i : indexes)
-		{
-			if(totalTable[i][pages[c].length + 5].equals("?") || totalTable[i][pages[c].length + 5].equals("-"))
-			{
-				totalTable[i][pages[c].length + 5] = highlight("+10");
-				total_sum_bonus.put(challengePlayers.get(i), total_sum_bonus.get(challengePlayers.get(i)) + 10);
-			}
-			else
-			{
-				for(int b = 10; b <= 100; b = b + 10)
-				{
-					if(totalTable[i][pages[c].length + 5].equals(highlight("+" + b)))
-					{
-						totalTable[i][pages[c].length + 5] = highlight("+" + (b + 10));
-						total_sum_bonus.put(challengePlayers.get(i), total_sum_bonus.get(challengePlayers.get(i)) + 10);
-						break;
-					}
-				}
-			}
-			totalTable[i][column] = highlight(totalTable[i][column]);
-		}
-	}
-
+	
 	private void addFinalBonus(List<String> challengePlayers, String[][] finalTable, TreeMap<String, Double> total_sum_basePoints, TreeMap<String, Integer> total_sum_crashs,
 			TreeMap<String, Integer> total_sum_moves, TreeMap<String, Integer> final_sum_bonus)
 	{
@@ -1067,38 +765,8 @@ public class CCCEval extends Eval<GameSeries>
 		addFinalBonus(index_maxBasePoints, pages.length + 1, finalTable, challengePlayers, final_sum_bonus);
 	}
 
-	private void addFinalBonus(List<Integer> indexes, int column, String[][] finalTable, List<String> challengePlayers, TreeMap<String, Integer> final_sum_bonus)
-	{
-		for(int i : indexes)
-		{
-			if(finalTable[i][pages.length + 6].equals("?") || finalTable[i][pages.length + 6].equals("-"))
-			{
-				finalTable[i][pages.length + 6] = highlight("+100");
-				final_sum_bonus.put(challengePlayers.get(i), final_sum_bonus.get(challengePlayers.get(i)) + 100);
-			}
-			else
-			{
-				for(int b = 100; b <= 1000; b = b + 100)
-				{
-					if(finalTable[i][pages.length + 6].equals(highlight("+" + b)))
-					{
-						finalTable[i][pages.length + 6] = highlight("+" + (b + 100));
-						final_sum_bonus.put(challengePlayers.get(i), final_sum_bonus.get(challengePlayers.get(i)) + 100);
-						break;
-					}
-				}
-			}
-
-			// fett machen
-			finalTable[i][column] = highlight(finalTable[i][column]);
-		}
-	}
-
 	private void calculateExpected(List<String> challengePlayers)
 	{
-		expected_points = createMap(challengePlayers, new Double[tables.length], 0.0);
-		expected_total_points = createMap(challengePlayers, 0.0);
-
 		double crash_count, crash_players;
 		double crash_allgames_count, crash_allgames_players;
 		double avg_crashs;
@@ -1139,7 +807,7 @@ public class CCCEval extends Eval<GameSeries>
 			else
 				avg_crashs = avg_crashs_allgames;
 
-			avg_points = intFromString(p.getProperty("points." + numberOfPlayers[c] + "." + (int) (numberOfPlayers[c] / 2)));
+			avg_points = intFromString(p.getProperty("points." + getRules(c).getNumberOfPlayers() + "." + (int) (getRules(c).getNumberOfPlayers() / 2)));
 
 			for(String player : challengePlayers)
 			{
@@ -1253,45 +921,133 @@ public class CCCEval extends Eval<GameSeries>
 		}
 	}
 
-	protected <K, V> TreeMap<K, V> createMap(List<K> keys, V defaultValue)
+	protected void sortFinalTable(boolean finished)
 	{
-		TreeMap<K, V> map = new TreeMap<>();
-		for(K k : keys)
-			map.put(k, defaultValue);
+		if(!finished)
+			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-2)); // sort by Erwartungswert
+		else
+			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-4)); // sort by Endergebnis
+	}
+
+	protected class UserStats
+	{
+		public int		moves;
+		public int		crashs;
+		public int		basic;
+		public double	unscaled;
+		public double	scaled;
+		public int		bonus1;
+		public int		bonus2;
+		public double	total;
+		public double	expected;
+
+		public UserStats(int init)
+		{
+			this.moves = init;
+			this.crashs = init;
+			this.basic = init;
+			this.unscaled = init;
+			this.scaled = init;
+			this.bonus1 = init;
+			this.bonus2 = init;
+			this.total = init;
+			this.expected = init;
+		}
+	}
+
+	protected TreeMap<Integer, UserStats> createStatsMap(Collection<User> users)
+	{
+		TreeMap<Integer, UserStats> map = new TreeMap<>();
+		for(User u : users)
+			map.put(u.getId(), new UserStats(0));
 		return map;
 	}
 
-	protected <K, V> TreeMap<K, List<V>[]> createMap(List<K> keys, int arraySize)
+	protected UserStats getMins(Collection<UserStats> stats)
 	{
-		TreeMap<K, List<V>[]> map = new TreeMap<>();
-		List<?>[] array;
-		List<V> list;
-		for(K k : keys)
+		UserStats min = new UserStats(Integer.MAX_VALUE);
+		for(UserStats s : stats)
 		{
-			array = new ArrayList<?>[arraySize];
-			for(int i = 0; i < arraySize; i++)
-			{
-				list = new ArrayList<V>();
-				array[i] = list;
-			}
-			map.put(k, (List<V>[]) array);
+			if(s.moves < min.moves)
+				min.moves = s.moves;
+			if(s.crashs < min.crashs)
+				min.crashs = s.crashs;
+			if(s.basic < min.basic)
+				min.basic = s.basic;
+			if(s.unscaled < min.unscaled)
+				min.unscaled = s.unscaled;
+			if(s.scaled < min.scaled)
+				min.scaled = s.scaled;
+			if(s.bonus1 < min.bonus1)
+				min.bonus1 = s.bonus1;
+			if(s.bonus2 < min.bonus2)
+				min.bonus2 = s.bonus2;
+			if(s.total < min.total)
+				min.total = s.total;
+			if(s.expected < min.expected)
+				min.expected = s.expected;
 		}
-		return map;
+		return min;
 	}
 
-	protected <K, V> TreeMap<K, V[]> createMap(List<K> keys, V[] array, V defaultValue)
+	protected UserStats getMaxs(Collection<UserStats> stats)
 	{
-		TreeMap<K, V[]> map = new TreeMap<>();
-		for(K k : keys)
+		UserStats min = new UserStats(0);
+		for(UserStats s : stats)
 		{
-			V[] arrayClone = array.clone();
-			if(defaultValue != null)
-				for(int i = 0; i < arrayClone.length; i++)
-					arrayClone[i] = defaultValue;
-			map.put(k, arrayClone);
+			if(s.moves > min.moves)
+				min.moves = s.moves;
+			if(s.crashs > min.crashs)
+				min.crashs = s.crashs;
+			if(s.basic > min.basic)
+				min.basic = s.basic;
+			if(s.unscaled > min.unscaled)
+				min.unscaled = s.unscaled;
+			if(s.scaled > min.scaled)
+				min.scaled = s.scaled;
+			if(s.bonus1 > min.bonus1)
+				min.bonus = s.bonus;
+			if(s.bonus2 > min.bonus2)
+				min.bonus2 = s.bonus2;
+			if(s.total > min.total)
+				min.total = s.total;
+			if(s.expected > min.expected)
+				min.expected = s.expected;
 		}
-		return map;
+		return min;
 	}
+
+	// protected <K, V> TreeMap<K, List<V>[]> createMap(Collection<K> keys, int arraySize)
+	// {
+	// TreeMap<K, List<V>[]> map = new TreeMap<>();
+	// List<?>[] array;
+	// List<V> list;
+	// for(K k : keys)
+	// {
+	// array = new ArrayList<?>[arraySize];
+	// for(int i = 0; i < arraySize; i++)
+	// {
+	// list = new ArrayList<V>();
+	// array[i] = list;
+	// }
+	// map.put(k, (List<V>[]) array);
+	// }
+	// return map;
+	// }
+	//
+	// protected <K, V> TreeMap<K, V[]> createMap(Collection<K> keys, V[] array, V defaultValue)
+	// {
+	// TreeMap<K, V[]> map = new TreeMap<>();
+	// for(K k : keys)
+	// {
+	// V[] arrayClone = array.clone();
+	// if(defaultValue != null)
+	// for(int i = 0; i < arrayClone.length; i++)
+	// arrayClone[i] = defaultValue;
+	// map.put(k, arrayClone);
+	// }
+	// return map;
+	// }
 
 	protected Rules getRules(int challenge)
 	{
@@ -1321,5 +1077,18 @@ public class CCCEval extends Eval<GameSeries>
 	protected String challengeToLink(int challenge, boolean text)
 	{
 		return WikiUtil.createLink("CraZZZy Crash Challenge " + this.cccx + " - Detailwertung Challenge " + challenge, (text ? "Challenge " : "") + challenge);
+	}
+
+	protected int parseInt(String s)
+	{
+		try
+		{
+			return Integer.parseInt(s);
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			return 0;
+		}
 	}
 }

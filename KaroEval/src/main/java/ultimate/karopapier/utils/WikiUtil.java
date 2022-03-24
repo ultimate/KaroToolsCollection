@@ -3,6 +3,7 @@ package ultimate.karopapier.utils;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
 
 public abstract class WikiUtil
@@ -24,11 +25,24 @@ public abstract class WikiUtil
 
 	public static String toString(Table table, String cssClasses)
 	{
-		return toString(table, cssClasses, getDefaultColumnConfig(table.getColumns()));
+		return toString(table, cssClasses, "");
+	}
+
+	public static String toString(Table table, String cssClasses, String nullValue)
+	{
+		return toString(table, cssClasses, getDefaultColumnConfig(table.getColumns()), nullValue);
 	}
 
 	public static String toString(Table table, String cssClasses, int[] columnConfig)
 	{
+		return toString(table, cssClasses, columnConfig, "");
+	}
+
+	public static String toString(Table table, String cssClasses, int[] columnConfig, String nullValue)
+	{
+		if(nullValue == null)
+			nullValue = "";
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("{|class=\"wikitable");
 		if(cssClasses != null)
@@ -66,11 +80,17 @@ public abstract class WikiUtil
 					sb.append("||");
 
 				if(row[col] == null)
-					sb.append("");
-				else if(table.isHighlight(ri, col))
-					sb.append(highlight(row[col]));
+					sb.append(nullValue);
 				else
-					sb.append(row[col]);
+				{
+					Object value = row[col];
+					if(value instanceof Double)
+						value = round((double) value);
+					if(table.isHighlight(ri, col))
+						sb.append(highlight(value));
+					else
+						sb.append(value);
+				}
 			}
 			sb.append("\n|-\n");
 		}
@@ -116,13 +136,23 @@ public abstract class WikiUtil
 
 	public static String createLink(User user, boolean bold)
 	{
+		return createLink(user.getLogin(), bold);
+	}
+
+	public static String createLink(Player player, boolean bold)
+	{
+		return createLink(player.getName(), bold);
+	}
+
+	private static String createLink(String login, boolean bold)
+	{
 		String tmp;
-		if(user.getLogin().startsWith("Deep"))
-			tmp = "[[" + user.getLogin() + "]]";
-		else if(user.getLogin().equals("OleOCrasher"))
+		if(login.startsWith("Deep"))
+			tmp = "[[" + login + "]]";
+		else if(login.equals("OleOCrasher"))
 			tmp = "[[Benutzer:OleOJumper|OleOCrasher]]";
 		else
-			tmp = "[[Benutzer:" + user.getLogin() + "|" + user.getLogin() + "]]";
+			tmp = "[[Benutzer:" + login + "|" + login + "]]";
 		if(bold)
 			tmp = highlight(tmp);
 		return tmp;
@@ -154,5 +184,10 @@ public abstract class WikiUtil
 			index++;
 		}
 		return count;
+	}
+
+	private static double round(double d)
+	{
+		return Math.round(d * 100) / 100.0;
 	}
 }
