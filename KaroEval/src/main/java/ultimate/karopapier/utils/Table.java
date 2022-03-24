@@ -67,4 +67,9 @@ public class Table
 	{
 		return getRow(row)[column];
 	}
+
+	public void setValue(int row, int column, Object value)
+	{
+		getRow(row)[column] = value;
+	}
 }
