@@ -620,7 +620,7 @@ public abstract class Planner
 			for(User user : playersWhoLost)
 				losers.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
 
-			return planSeriesKO(title, creator, winners, losers, null, null, rules, true, true, 2);
+			return planSeriesKO(title, creator, winners, losers, null, null, rules, true, false, 2);
 		}
 		else
 		{

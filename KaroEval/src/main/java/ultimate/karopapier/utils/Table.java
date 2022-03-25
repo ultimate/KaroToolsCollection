@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Table
 {
-	protected String[]			header;
+	protected Object[]			header;
 	final int					columns;
 	protected List<Object[]>	rows;
 	protected List<boolean[]>	highlights;
 
-	public Table(String[] header)
+	public Table(Object[] header)
 	{
 		this.header = header;
 		this.columns = header.length;
@@ -22,6 +22,7 @@ public class Table
 	{
 		this.header = null;
 		this.columns = columns;
+		this.rows = new ArrayList<>();
 		this.highlights = new ArrayList<>();
 	}
 
@@ -33,7 +34,7 @@ public class Table
 		this.highlights.add(new boolean[row.length]);
 	}
 
-	public String[] getHeader()
+	public Object[] getHeader()
 	{
 		return header;
 	}
