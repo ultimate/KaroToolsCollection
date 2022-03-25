@@ -41,6 +41,7 @@ public class EvalRunner
 		System.out.print("loading GameSeries...");
 		String gameSeriesFileName = properties.getProperty("gameseries.file");
 		GameSeries gs = GameSeriesManager.load(new File(folder, gameSeriesFileName), karoAPICache);
+		GameSeriesManager.store(gs, new File(folder, "tmp.json"));
 		System.out.println("OK");
 
 		System.out.print("preparing...");

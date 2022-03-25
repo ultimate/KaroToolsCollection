@@ -42,7 +42,7 @@ public abstract class WikiUtil
 	{
 		if(nullValue == null)
 			nullValue = "";
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("{|class=\"wikitable");
 		if(cssClasses != null)
@@ -62,7 +62,7 @@ public abstract class WikiUtil
 				if(i > 0)
 					sb.append("||");
 
-				sb.append(table.getHeader()[col]);
+				sb.append(preprocess(table.getHeader()[col]));
 			}
 			sb.append("\n|-\n");
 		}
@@ -81,22 +81,27 @@ public abstract class WikiUtil
 
 				if(row[col] == null)
 					sb.append(nullValue);
+				else if(table.isHighlight(ri, col))
+					sb.append(highlight(preprocess(row[col])));
 				else
-				{
-					Object value = row[col];
-					if(value instanceof Double)
-						value = round((double) value);
-					if(table.isHighlight(ri, col))
-						sb.append(highlight(value));
-					else
-						sb.append(value);
-				}
+					sb.append(preprocess(row[col]));
 			}
 			sb.append("\n|-\n");
 		}
 		sb.append("|}");
 
 		return sb.toString();
+	}
+
+	private static Object preprocess(Object value)
+	{
+		if(value instanceof Double)
+			return round((double) value);
+		else if(value instanceof Player)
+			return createLink((Player) value);
+		else if(value instanceof User)
+			return createLink((User) value);
+		return value;
 	}
 
 	public static String highlight(Object o)
@@ -116,7 +121,7 @@ public abstract class WikiUtil
 
 	public static String createLink(Game game, String overwriteTitle)
 	{
-		return "{{Rennen|" + game.getId() + "|" + game.getName() + "}}";
+		return "{{Rennen|" + game.getId() + "|" + overwriteTitle + "}}";
 	}
 
 	public static String createLink(PlannedGame game)
@@ -134,17 +139,17 @@ public abstract class WikiUtil
 		return "{{Karte|" + map.getId() + "}}" + (includeName ? " " + map.getName() : "");
 	}
 
-	public static String createLink(User user, boolean bold)
+	public static String createLink(User user)
 	{
-		return createLink(user.getLogin(), bold);
+		return createLink(user.getLogin());
 	}
 
-	public static String createLink(Player player, boolean bold)
+	public static String createLink(Player player)
 	{
-		return createLink(player.getName(), bold);
+		return createLink(player.getName());
 	}
 
-	public static String createLink(String login, boolean bold)
+	public static String createLink(String login)
 	{
 		String tmp;
 		if(login.startsWith("Deep"))
@@ -153,8 +158,6 @@ public abstract class WikiUtil
 			tmp = "[[Benutzer:OleOJumper|OleOCrasher]]";
 		else
 			tmp = "[[Benutzer:" + login + "|" + login + "]]";
-		if(bold)
-			tmp = highlight(tmp);
 		return tmp;
 	}
 

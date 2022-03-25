@@ -108,7 +108,7 @@ public abstract class GameSeriesManager
 	/**
 	 * The config file to use
 	 */
-	private static Properties				config;
+	private static Properties				config							= new Properties();
 
 	/**
 	 * Prevent instantiation

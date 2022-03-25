@@ -56,7 +56,7 @@ public class CCCEval extends Eval<GameSeries>
 	protected Integer[]										challengeGames;
 	protected Integer[]										challengeOffsets;
 	protected List<User>									usersByLogin;
-	protected HashMap<Integer, HashMap<Integer, Integer>>	pointsPerRank;
+	protected HashMap<Integer, HashMap<Integer, Double>>	pointsPerRank;
 	// evaluation
 	protected Table[][]										tables;
 	protected Table[]										totalTables;
@@ -83,7 +83,7 @@ public class CCCEval extends Eval<GameSeries>
 		// stats
 		this.stats_challengesTotal = (int) gameSeries.get(GameSeries.NUMBER_OF_MAPS);
 		this.stats_players = gameSeries.getPlayers().size();
-		this.stats_gamesTotal = gameSeries.getGames().size();
+		this.stats_gamesTotal = gameSeries.getGames().get(GAMES_KEY).size();
 		this.stats_gamesPerPlayerPerChallenge = this.getRules(0).getGamesPerPlayer();
 		this.stats_gamesPerPlayer = this.stats_gamesPerPlayerPerChallenge * this.stats_challengesTotal;
 		// users
@@ -108,7 +108,7 @@ public class CCCEval extends Eval<GameSeries>
 			allCreated = true;
 			for(int g = 0; g < this.challengeGames[c]; g++)
 			{
-				if(games.get(offset + g).isCreated())
+				if(games.get(offset + g).getGame() != null)
 					this.stats_gamesCreated++;
 				else
 					allCreated = false;
@@ -120,7 +120,8 @@ public class CCCEval extends Eval<GameSeries>
 		// points
 		this.pointsPerRank = new HashMap<>();
 		String keyS;
-		int number, place, points, i1, i2;
+		int number, place, i1, i2;
+		double points;
 		for(Object key : properties.keySet())
 		{
 			keyS = (String) key;
@@ -129,8 +130,8 @@ public class CCCEval extends Eval<GameSeries>
 				i1 = keyS.indexOf(".");
 				i2 = keyS.indexOf(".", i1 + 1);
 				number = Integer.parseInt(keyS.substring(i1 + 1, i2));
-				place = Integer.parseInt(keyS.substring(i2+1));
-				points = Integer.parseInt(properties.getProperty(keyS));
+				place = Integer.parseInt(keyS.substring(i2 + 1));
+				points = Double.parseDouble(properties.getProperty(keyS));
 				if(!this.pointsPerRank.containsKey(number))
 					this.pointsPerRank.put(number, new HashMap<>());
 				this.pointsPerRank.get(number).put(place, points);
@@ -175,15 +176,18 @@ public class CCCEval extends Eval<GameSeries>
 		}
 
 		// init the whoOnWho
-		String[] whoOnWhoHead = new String[this.stats_players + 1];
-		this.whoOnWho = new Table(whoOnWhoHead);
+		Object[] whoOnWhoHead = new Object[this.stats_players + 1];
+		this.whoOnWho = new Table(whoOnWhoHead.length);
+		this.whoOnWho.addRow(whoOnWhoHead); // don't add this as a header
 		col = 1; // leave first column empty
 		Object[] row;
 		for(User user : usersByLogin)
 		{
-			whoOnWhoHead[col++] = WikiUtil.createLink(user, false);
+			if(user == data.getCreator())
+				continue;
+			whoOnWhoHead[col++] = user;
 			row = new Object[whoOnWhoHead.length];
-			row[0] = WikiUtil.createLink(user, false);
+			row[0] = user;
 			for(int ci = 1; ci < whoOnWhoHead.length; ci++)
 				row[ci] = 0;
 			this.whoOnWho.addRow(row);
@@ -250,7 +254,8 @@ public class CCCEval extends Eval<GameSeries>
 		Table mapTable = new Table(TABLE_HEAD_MAPS);
 		Rules rules;
 		Object[] row;
-		for(int c = 0; c < stats_challengesTotal; c++)
+		PlannedGame game;
+		for(int c = 0; c < stats_challengesCreated; c++)
 		{
 			rules = this.getRules(c);
 			row = new Object[TABLE_HEAD_MAPS.length];
@@ -271,10 +276,17 @@ public class CCCEval extends Eval<GameSeries>
 			for(int g = 0; g < tables[c].length; g++)
 			{
 				if(g % TABLE_TABLE_COLUMNS == 0)
+				{
+					if(g != 0)
+						tableTable.addRow(row);
 					row = new Object[TABLE_TABLE_COLUMNS];
+				}
+				game = getGame(c, g);
+				if(game.getGame() == null)
+					continue;
 				row[g % TABLE_TABLE_COLUMNS] = "\nChallenge " + gameToLink(c, g) + "\n" + WikiUtil.toString(tables[c][g], null) + "\n";
-				tableTable.addRow(row);
 			}
+			tableTable.addRow(row);
 
 			detail.append(WikiUtil.toString(tableTable, null));
 			detail.append("\n");
@@ -338,6 +350,7 @@ public class CCCEval extends Eval<GameSeries>
 		boolean finished = true;
 		Object[] row;
 		int col;
+		int rows = 0;
 		UserStats us;
 		for(User user : usersByLogin)
 		{
@@ -345,19 +358,21 @@ public class CCCEval extends Eval<GameSeries>
 
 			row = new Object[finalTable.getColumns()];
 			col = 1;
-			row[col++] = WikiUtil.createLink(user, true);
+			row[col++] = user;
 			for(int c = 0; c < stats_challengesCreated; c++)
 			{
-				row[col++] = userChallengeStats[c].get(user.getId()).scaled;
+				row[col] = userChallengeStats[c].get(user.getId()).scaled;
 
 				if(userChallengeStats[c].get(user.getId()).scaled >= 100.0)
-					row[col++] = WikiUtil.highlight(row[col++]);
+					row[col] = WikiUtil.highlight(row[col]);
 
 				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
 				{
-					row[col++] = row[col++] + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
+					row[col] = row[col] + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
 					finished = false;
 				}
+
+				col++;
 			}
 			row[col++] = us.basic;
 			row[col++] = us.crashs;
@@ -371,17 +386,20 @@ public class CCCEval extends Eval<GameSeries>
 
 			finalTable.addRow(row);
 
+			// set highlights
+			finalTable.setHighlight(rows, 1, true);
 			if(us.basic == maxs.basic)
-				finalTable.setHighlight(col, stats_challengesCreated + 3, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 3, true);
 			if(us.crashs == maxs.crashs)
-				finalTable.setHighlight(col, stats_challengesCreated + 4, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 4, true);
 			if(us.moves == mins.moves)
-				finalTable.setHighlight(col, stats_challengesCreated + 5, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 5, true);
 			if(us.bonus2 > 0)
-				finalTable.setHighlight(col, stats_challengesCreated + 8, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 8, true);
+			finalTable.setHighlight(rows, stats_challengesCreated + 9, true); // total
+			finalTable.setHighlight(rows, stats_challengesCreated + 11, true); // totalExpected
 
-			finalTable.setHighlight(col, stats_challengesCreated + 9, true); // total
-			finalTable.setHighlight(col, stats_challengesCreated + 11, true); // totalExpected
+			rows++;
 		}
 
 		logger.info("finished=" + finished);
@@ -412,7 +430,7 @@ public class CCCEval extends Eval<GameSeries>
 		for(int g = 0; g < challengeGames[c]; g++)
 		{
 			calcMetrics(c, g);
-			
+
 			tables[c][g] = createTable(c, g);
 
 			updateWhoOnWho(c, g);
@@ -420,11 +438,13 @@ public class CCCEval extends Eval<GameSeries>
 
 		UserStats mins = getMins(userChallengeStats[c].values());
 		UserStats maxs = getMaxs(userChallengeStats[c].values());
+		maxs.scaled = 100.0;
 
 		addBonus(c, mins, maxs);
 
 		Object[] row;
 		double scaled;
+		int rows = 0;
 		for(User user : usersByLogin)
 		{
 			scaled = userChallengeStats[c].get(user.getId()).unscaled * 100 / maxs.unscaled;
@@ -436,7 +456,7 @@ public class CCCEval extends Eval<GameSeries>
 
 			row = new Object[totalTables[c].getColumns()];
 			col = 0;
-			row[col++] = WikiUtil.createLink(user, true);
+			row[col++] = user;
 			for(int g = 0; g < challengeGames[c]; g++)
 			{
 				if(getGame(c, g) == null)
@@ -445,7 +465,7 @@ public class CCCEval extends Eval<GameSeries>
 				{
 					for(Object[] tableRow : tables[c][g].getRows())
 					{
-						if(((String) tableRow[1]).contains(user.getLogin()))
+						if(((Player) tableRow[1]).getName().equals(user.getLogin()))
 						{
 							row[col++] = tableRow[tables[c][g].getColumns() - 1]; // the points are in the last column
 							break;
@@ -460,8 +480,27 @@ public class CCCEval extends Eval<GameSeries>
 			row[col++] = userChallengeStats[c].get(user.getId()).moves;
 			row[col++] = userChallengeStats[c].get(user.getId()).unscaled;
 			row[col++] = userChallengeStats[c].get(user.getId()).scaled;
-			row[col++] = userChallengeStats[c].get(user.getId()).bonus1;
+			if(userChallengeStats[c].get(user.getId()).bonus1 != 0)
+				row[col++] = "+" + userChallengeStats[c].get(user.getId()).bonus1;
+			else
+				row[col++] = "-";
 			totalTables[c].addRow(row);
+			
+			totalTables[c].setHighlight(rows, 0, true);
+			if(userChallengeStats[c].get(user.getId()).basic == maxs.basic)
+				totalTables[c].setHighlight(rows, challengeGames[c] + 1, true);
+			if(userChallengeStats[c].get(user.getId()).crashs == maxs.crashs)
+				totalTables[c].setHighlight(rows, challengeGames[c] + 2, true);
+			if(userChallengeStats[c].get(user.getId()).moves == mins.moves)
+				totalTables[c].setHighlight(rows, challengeGames[c] + 3, true);
+			if(userChallengeStats[c].get(user.getId()).unscaled == maxs.unscaled)
+				totalTables[c].setHighlight(rows, challengeGames[c] + 4, true);
+			if(userChallengeStats[c].get(user.getId()).scaled == maxs.scaled)
+				totalTables[c].setHighlight(rows, challengeGames[c] + 5, true);
+			if(userChallengeStats[c].get(user.getId()).bonus1 > 0)
+				totalTables[c].setHighlight(rows, challengeGames[c] + 6, true);
+			
+			rows++;
 		}
 	}
 
@@ -497,11 +536,11 @@ public class CCCEval extends Eval<GameSeries>
 	{
 		Object[] row = new Object[TABLE_HEAD_GAME.length];
 		row[0] = position + ".";
-		row[1] = WikiUtil.createLink(player, false);
+		row[1] = player;
 
 		Integer crashs = null;
 		Integer moves = null;
-		Integer basicPoints = null;
+		Double basicPoints = null;
 		Double points = null;
 
 		// crashs
@@ -523,8 +562,10 @@ public class CCCEval extends Eval<GameSeries>
 		row[3] = crashs;
 
 		// moves
-		if(player.getStatus() == EnumPlayerStatus.ok)
+		if(player.getStatus() == EnumPlayerStatus.ok && player.getRank() == 0)
 			moves = player.getMoveCount();
+		else if(player.getStatus() == EnumPlayerStatus.ok)
+			moves = player.getMoveCount() - 1; // parf ferme
 		else
 			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1);
 
@@ -615,25 +656,30 @@ public class CCCEval extends Eval<GameSeries>
 		// for inheritence
 		this.gameMetrics[c][g] = new double[1];
 
+		int moves;
 		for(Player p : getGame(c, g).getGame().getPlayers())
 		{
-			if(p.getMoveCount() > this.gameMetrics[c][g][METRICS_GAME_MAXMOVES])
-				this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] = p.getMoveCount();
+			moves = p.getMoveCount();
+			if(p.getRank() > 0)
+				moves--; // parf ferme
+
+			if(moves > this.gameMetrics[c][g][METRICS_GAME_MAXMOVES])
+				this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] = moves;
 		}
 	}
 
-	protected int calcBasicPoints(int players, int rank, int moves, int crashs)
+	protected double calcBasicPoints(int players, int rank, int moves, int crashs)
 	{
 		if(rank > 0)
 			return pointsPerRank.get(players).get(rank);
 		else
-			return -(players - 1);
+			return -players;
 	}
 
 	protected double calcGamePoints(Game game, Player player, Object[] row)
 	{
 		if(player.getStatus() == EnumPlayerStatus.ok)
-			return (int) row[2] * (int) row[3];
+			return (double) row[2] * (int) row[3];
 		else
 			return -(game.getPlayers().size() - 1);
 	}
@@ -698,37 +744,35 @@ public class CCCEval extends Eval<GameSeries>
 		if(game.getGame() == null)
 			return;
 
-		List<Player> gamePlayers = new LinkedList<>(game.getGame().getPlayers());
-		int ci1, ci2, value;
-		// String tmp;
-		for(int i1 = 0; i1 < gamePlayers.size(); i1++)
+		int value;
+		int u = 1;
+		User user2;
+		for(User user1 : usersByLogin)
 		{
-			if(gamePlayers.get(i1).getName().equals(data.getCreator().getLogin()))
-				continue;
-			for(int i2 = i1 + 2; i2 < gamePlayers.size(); i2++)
+			for(int col = 1; col < u; col++)
 			{
-				logger.debug(gamePlayers.get(i1).getName() + " vs. " + gamePlayers.get(i2).getName());
-				ci1 = indexOf(usersByLogin, gamePlayers.get(i1));
-				ci2 = indexOf(usersByLogin, gamePlayers.get(i2));
-				value = ((int) whoOnWho.getValue(ci1, ci2)) + 1;
-				whoOnWho.setValue(ci1, ci2 + 1, value);
-				whoOnWho.setValue(ci2, ci1 + 1, value);
+				user2 = (User) whoOnWho.getValue(0, col);
+				logger.debug(user1.getLogin() + " vs. " + user2.getLogin() + "     u=" + u + ", col=" + col);
+				value = ((int) whoOnWho.getValue(u, col)) + 1;
+				whoOnWho.setValue(u, col, value);
+				whoOnWho.setValue(col, u, value);
 			}
+			u++;
 		}
 	}
 
 	protected String getMaxMinWhoOnWho(String type)
 	{
-		List<String[]> maxMinList = new LinkedList<String[]>();
+		List<Object[]> maxMinList = new LinkedList<Object[]>();
 		int maxMin = (type.equals("max") ? Integer.MIN_VALUE : Integer.MAX_VALUE);
 		int val;
-		String[] pair;
+		Object[] pair;
 		for(int ci = 1; ci < whoOnWho.getColumns(); ci++)
 		{
 			for(int ri = ci; ri < whoOnWho.getRows().size(); ri++)
 			{
 				val = (int) whoOnWho.getValue(ri, ci);
-				pair = new String[] { (String) whoOnWho.getValue(ri, 0), (String) whoOnWho.getValue(ci - 1, 0) };
+				pair = new Object[] { whoOnWho.getValue(ri, 0), whoOnWho.getValue(0, ci) };
 				if(type.equals("max"))
 				{
 					if(val > maxMin)
@@ -767,9 +811,9 @@ public class CCCEval extends Eval<GameSeries>
 				ret.append(", ");
 			else if(i > 0 && i == maxMinList.size() - 1)
 				ret.append(" und ");
-			ret.append(WikiUtil.createLink(maxMinList.get(i)[0], false));
+			ret.append(WikiUtil.createLink((User) maxMinList.get(i)[0]));
 			ret.append(" '''vs.''' ");
-			ret.append(WikiUtil.createLink(maxMinList.get(i)[1], false));
+			ret.append(WikiUtil.createLink((User) maxMinList.get(i)[1]));
 		}
 		return ret.toString();
 	}
@@ -949,10 +993,10 @@ public class CCCEval extends Eval<GameSeries>
 
 		for(int i = 0; i < finalTable.getRows().size(); i++)
 		{
-			if(i > 0 && finalTable.getValue(i, finalTable.getColumns() - 1).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 1))
-					&& finalTable.getValue(i, finalTable.getColumns() - 7).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 7))
-					&& finalTable.getValue(i, finalTable.getColumns() - 8).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 8))
-					&& finalTable.getValue(i, finalTable.getColumns() - 6).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 6)))
+			if(i > 0 && finalTable.getValue(i, finalTable.getColumns() - 1) == finalTable.getValue(i - 1, finalTable.getColumns() - 1)
+					&& finalTable.getValue(i, finalTable.getColumns() - 7) == finalTable.getValue(i - 1, finalTable.getColumns() - 7)
+					&& finalTable.getValue(i, finalTable.getColumns() - 8) == finalTable.getValue(i - 1, finalTable.getColumns() - 8)
+					&& finalTable.getValue(i, finalTable.getColumns() - 6) == finalTable.getValue(i - 1, finalTable.getColumns() - 6))
 			{
 				finalTable.setValue(i, 0, " ");
 			}
@@ -969,7 +1013,7 @@ public class CCCEval extends Eval<GameSeries>
 		public int		left;
 		public int		moves;
 		public int		crashs;
-		public int		basic;
+		public double	basic;
 		public double	unscaled;
 		public double	scaled;
 		public int		bonus1;
