@@ -200,7 +200,8 @@ public class CCCEval extends Eval<GameSeries>
 		logger.info("  challengeGames             = " + Arrays.asList(this.challengeGames));
 		logger.info("  challengeOffsets           = " + Arrays.asList(this.challengeOffsets));
 		for(int i = 2; i < 10; i++)
-		logger.info("  pointsPerRank(" + i + ")           = " + pointsPerRank.get(i).values());
+			if(pointsPerRank.containsKey(i))
+				logger.info("  pointsPerRank(" + i + ")           = " + pointsPerRank.get(i).values());
 	}
 
 	public List<File> evaluate() throws IOException, InterruptedException
@@ -468,7 +469,7 @@ public class CCCEval extends Eval<GameSeries>
 		Game game = getGame(c, g).getGame();
 		if(game == null)
 			return table;
-		
+
 		int highestMoveCount = 0;
 
 		List<Player> players = game.getPlayers();
@@ -878,7 +879,7 @@ public class CCCEval extends Eval<GameSeries>
 				}
 				userChallengeStats[c].get(user.getId()).unscaledExpected = expected;
 				userStats.get(user.getId()).unscaledExpected += expected;
-				
+
 				if(expected > expected_max)
 					expected_max = expected;
 			}
