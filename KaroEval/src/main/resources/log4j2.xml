@@ -16,5 +16,6 @@
       <AppenderRef ref="FILE"/>
     </Root>
     <Logger name="ultimate" level="info"/>
+    <Logger name="ultimate.karopapier.eval" level="debug"/>
   </Loggers>
 </Configuration>
