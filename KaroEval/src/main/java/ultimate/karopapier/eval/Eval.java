@@ -28,7 +28,7 @@ public abstract class Eval<T>
 	protected transient final Logger	logger	= LogManager.getLogger(getClass());
 
 	protected KaroAPICache				karoAPICache;
-	protected GameSeries				gameSeries;
+	protected T							data;
 	protected Properties				properties;
 	protected File						folder;
 	protected int						execution;
@@ -37,16 +37,16 @@ public abstract class Eval<T>
 	{
 	}
 
-	public void prepare(KaroAPICache karoAPICache, GameSeries gameSeries, Properties properties, File folder, int execution)
+	public void prepare(KaroAPICache karoAPICache, T data, Properties properties, File folder, int execution)
 	{
 		this.karoAPICache = karoAPICache;
-		this.gameSeries = gameSeries;
+		this.data = data;
 		this.properties = properties;
 		this.folder = folder;
 		this.execution = execution;
 	}
 
-	public abstract List<File> doEvaluation() throws Exception;
+	public abstract List<File> evaluate() throws Exception;
 
 	public void loadGameDetails(List<Game> gamesToLoad)
 	{
@@ -70,7 +70,7 @@ public abstract class Eval<T>
 		}
 		loadGameDetails(gamesToLoad);
 	}
-	
+
 	// HELPERS
 
 	protected String readFile(String filename) throws IOException

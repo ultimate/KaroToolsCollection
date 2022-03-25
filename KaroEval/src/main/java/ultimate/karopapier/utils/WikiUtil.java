@@ -144,7 +144,7 @@ public abstract class WikiUtil
 		return createLink(player.getName(), bold);
 	}
 
-	private static String createLink(String login, boolean bold)
+	public static String createLink(String login, boolean bold)
 	{
 		String tmp;
 		if(login.startsWith("Deep"))

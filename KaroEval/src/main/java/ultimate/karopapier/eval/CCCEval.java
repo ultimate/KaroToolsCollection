@@ -1,10 +1,7 @@
 package ultimate.karopapier.eval;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.TreeMap;
-import java.util.function.Supplier;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
@@ -41,16 +37,21 @@ public class CCCEval extends Eval<GameSeries>
 	protected final int										TABLE_TABLE_COLUMNS		= 7;
 
 	protected int											cccx;
-	// stats
+	// stats & metrics
 	protected int											stats_challengesTotal;
 	protected int											stats_challengesCreated;
 	protected int											stats_gamesPerPlayer;
 	protected int											stats_gamesPerPlayerPerChallenge;
 	protected int											stats_gamesTotal;
 	protected int											stats_gamesCreated;
-	protected int											stats_moves;
-	protected int											stats_crashs;
 	protected int											stats_players;
+	protected UserStats										totalStats;
+	protected UserStats[]									challengeStats;
+	protected TreeMap<Integer, UserStats>					userStats;
+	protected TreeMap<Integer, UserStats>[]					userChallengeStats;
+	protected TreeMap<Integer, UserStats>[][]				userGameStats;
+	protected double[][]									challengeMetrics;
+	protected double[][][]									gameMetrics;
 	// helpers
 	protected Integer[]										challengeGames;
 	protected Integer[]										challengeOffsets;
@@ -61,17 +62,13 @@ public class CCCEval extends Eval<GameSeries>
 	protected Table[]										totalTables;
 	protected Table											finalTable;
 	protected Table											whoOnWho;
-	// user stats & metrics
-	protected TreeMap<Integer, UserStats>					userStats;
-	protected TreeMap<Integer, UserStats>[]					userChallengeStats;
-	protected double[][]									challengeMetrics;
-	protected double[][][]									gameMetrics;
 
 	public CCCEval(int cccx)
 	{
 		this.cccx = cccx;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void prepare(KaroAPICache karoAPICache, GameSeries gameSeries, Properties properties, File folder, int execution)
 	{
@@ -101,7 +98,6 @@ public class CCCEval extends Eval<GameSeries>
 		this.stats_gamesCreated = 0;
 		boolean allCreated;
 		int offset = 0;
-		int gamesInThisChallenge;
 		List<PlannedGame> games = gameSeries.getGames().get(GAMES_KEY);
 		for(int c = 0; c < this.stats_challengesTotal; c++)
 		{
@@ -142,7 +138,7 @@ public class CCCEval extends Eval<GameSeries>
 		}
 
 		// create the header for the final table
-		String[] finalTableHead = new String[this.stats_challengesCreated + 11];
+		String[] finalTableHead = new String[this.stats_challengesCreated + 12];
 		int col = 0;
 		finalTableHead[col++] = "Platz";
 		finalTableHead[col++] = "Spieler";
@@ -163,10 +159,20 @@ public class CCCEval extends Eval<GameSeries>
 		this.tables = new Table[stats_challengesTotal][];
 		this.totalTables = new Table[stats_challengesTotal];
 		this.finalTable = new Table(finalTableHead);
+		this.totalStats = new UserStats(0);
 		this.userStats = createStatsMap(usersByLogin);
-		this.userChallengeStats = new TreeMap[stats_challengesTotal];
+		this.challengeStats = new UserStats[stats_challengesTotal];
+		this.userChallengeStats = (TreeMap<Integer, UserStats>[]) new TreeMap[stats_challengesTotal];
+		this.userGameStats = (TreeMap<Integer, UserStats>[][]) new TreeMap[stats_challengesTotal][];
 		for(int c = 0; c < this.stats_challengesTotal; c++)
+		{
+			this.tables[c] = new Table[challengeGames[c]];
+			this.challengeStats[c] = new UserStats(0);
 			this.userChallengeStats[c] = createStatsMap(usersByLogin);
+			this.userGameStats[c] = (TreeMap<Integer, UserStats>[]) new TreeMap[challengeGames[c]];
+			for(int g = 0; g < challengeGames[c]; g++)
+				this.userGameStats[c][g] = createStatsMap(usersByLogin);
+		}
 
 		// init the whoOnWho
 		String[] whoOnWhoHead = new String[this.stats_players + 1];
@@ -193,9 +199,11 @@ public class CCCEval extends Eval<GameSeries>
 		logger.info("  gamesPerPlayerPerChallenge = " + this.stats_gamesPerPlayerPerChallenge);
 		logger.info("  challengeGames             = " + Arrays.asList(this.challengeGames));
 		logger.info("  challengeOffsets           = " + Arrays.asList(this.challengeOffsets));
+		for(int i = 2; i < 10; i++)
+		logger.info("  pointsPerRank(" + i + ")           = " + pointsPerRank.get(i).values());
 	}
 
-	public List<File> doEvaluation() throws IOException, InterruptedException
+	public List<File> evaluate() throws IOException, InterruptedException
 	{
 		long start;
 
@@ -291,9 +299,9 @@ public class CCCEval extends Eval<GameSeries>
 		stats.append("*Teilnehmer: '''" + stats_players + "'''\n");
 		stats.append("*Rennen pro Spieler: '''" + stats_gamesPerPlayer + "'''\n");
 		stats.append("*Rennen pro Spieler pro Challenge: '''" + stats_gamesPerPlayerPerChallenge + "'''\n");
-		stats.append("*Z�ge insgesamt: '''" + stats_moves + "'''\n");
-		stats.append("*Crashs insgesamt: '''" + stats_crashs + "'''\n");
-		stats.append("*H�ufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\n");
+		stats.append("*Züge insgesamt: '''" + totalStats.moves + "'''\n");
+		stats.append("*Crashs insgesamt: '''" + totalStats.crashs + "'''\n");
+		stats.append("*Häufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\n");
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\n");
 
 		stats.append("== Wer gegen wen? ==\n");
@@ -314,69 +322,70 @@ public class CCCEval extends Eval<GameSeries>
 	protected boolean createTables()
 	{
 		for(int c = 0; c < this.stats_challengesCreated; c++)
-		{
 			createTables(c);
-		}
 
-		calculateExpected(challengePlayers);
+		calculateExpected();
 
-		double expected_bonus, expected_old, total;
-		String tmp, tmp2;
-		boolean finished = true;
-		for(int i = 0; i < challengePlayers.size(); i++)
-		{
-			player = challengePlayers.get(i);
-			finalTable[i][1] = playerToLink(player, true);
-			for(int c = 1; c < tables.length; c++)
-			{
-				tmp = totalTables[c][i][totalTables[c][i].length - 2];
-				// tmp2 = "&nbsp;<span style=\"font-size:50%\">(" +
-				// total_sum_games_bychallenge.get(player)[c] + "/" +
-				// stats_gamesPerPlayerPerChallenge + ")</span>";
-				if(stats_gamesPerPlayerPerChallenge - total_sum_games_bychallenge.get(player)[c] > 0)
-				{
-					tmp2 = "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - total_sum_games_bychallenge.get(player)[c]) + ")</span>";
-					finished = false;
-				}
-				else
-					tmp2 = "";
-				if(tmp.equals("100.0"))
-					finalTable[i][c + 1] = highlight(tmp) + tmp2;
-				else
-					finalTable[i][c + 1] = tmp + tmp2;
-			}
-			finalTable[i][tables.length + 1] = "" + round(total_sum_basePoints.get(player));
-			finalTable[i][tables.length + 2] = "" + total_sum_crashs.get(player);
-			stats_crashs += total_sum_crashs.get(player);
-			finalTable[i][tables.length + 3] = "" + total_sum_moves.get(player);
-			stats_moves += total_sum_moves.get(player);
-			finalTable[i][tables.length + 4] = "" + round(total_sum_pointsSkaled.get(player));
-			finalTable[i][tables.length + 5] = "+" + total_sum_bonus.get(player);
-			finalTable[i][tables.length + 6] = "-";
-			finalTable[i][tables.length + 8] = "" + total_sum_games.get(player);
-		}
-		
 		UserStats mins = getMins(userStats.values());
 		UserStats maxs = getMaxs(userStats.values());
 
 		addFinalBonus(mins, maxs);
-		
-		for(int i = 0; i < challengePlayers.size(); i++)
+
+		// recalculate maxs to identify the players with the highest bonus
+		maxs = getMaxs(userStats.values());
+
+		boolean finished = true;
+		Object[] row;
+		int col;
+		UserStats us;
+		for(User user : usersByLogin)
 		{
-			player = challengePlayers.get(i);
-			total = round(total_sum_pointsSkaled.get(player) + total_sum_bonus.get(player) + final_sum_bonus.get(player));
+			us = userStats.get(user.getId());
 
-			expected_old = round(total_sum_pointsSkaled.get(player) / total_sum_games.get(player) * stats_gamesPerPlayer);
-			expected_bonus = total_sum_bonus.get(player) + final_sum_bonus.get(player);
+			row = new Object[finalTable.getColumns()];
+			col = 1;
+			row[col++] = WikiUtil.createLink(user, true);
+			for(int c = 0; c < stats_challengesCreated; c++)
+			{
+				row[col++] = userChallengeStats[c].get(user.getId()).scaled;
 
-			finalTable[i][tables.length + 7] = highlight("" + total);
-			finalTable[i][tables.length + 9] = highlight("" + round(round(expected_total_points.get(player) + expected_bonus)));
-			finalTable[i][tables.length + 10] = ("" + round(round(expected_old + expected_bonus)));
+				if(userChallengeStats[c].get(user.getId()).scaled >= 100.0)
+					row[col++] = WikiUtil.highlight(row[col++]);
+
+				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
+				{
+					row[col++] = row[col++] + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
+					finished = false;
+				}
+			}
+			row[col++] = us.basic;
+			row[col++] = us.crashs;
+			row[col++] = us.moves;
+			row[col++] = us.scaled;
+			row[col++] = us.bonus1;
+			row[col++] = us.bonus2;
+			row[col++] = us.total;
+			row[col++] = us.finished;
+			row[col++] = us.totalExpected;
+
+			finalTable.addRow(row);
+
+			if(us.basic == maxs.basic)
+				finalTable.setHighlight(col, stats_challengesCreated + 3, true);
+			if(us.crashs == maxs.crashs)
+				finalTable.setHighlight(col, stats_challengesCreated + 4, true);
+			if(us.moves == mins.moves)
+				finalTable.setHighlight(col, stats_challengesCreated + 5, true);
+			if(us.bonus2 > 0)
+				finalTable.setHighlight(col, stats_challengesCreated + 8, true);
+
+			finalTable.setHighlight(col, stats_challengesCreated + 9, true); // total
+			finalTable.setHighlight(col, stats_challengesCreated + 11, true); // totalExpected
 		}
 
 		logger.info("finished=" + finished);
 
-		sortFinalTable(finished);
+		sortAndRankFinalTable(finished);
 
 		return finished;
 	}
@@ -384,7 +393,7 @@ public class CCCEval extends Eval<GameSeries>
 	protected void createTables(int c)
 	{
 		// init the total table for this challenge
-		String[] totalTableHead = new String[challengeGames[c] + 6];
+		String[] totalTableHead = new String[challengeGames[c] + 7];
 		int col = 0;
 		totalTableHead[col++] = "Spieler";
 		for(int g = 0; g < challengeGames[c]; g++)
@@ -403,7 +412,7 @@ public class CCCEval extends Eval<GameSeries>
 		{
 			tables[c][g] = createTable(c, g);
 
-			createWhoOnWho(c, r, challengePlayers);
+			updateWhoOnWho(c, g);
 		}
 
 		UserStats mins = getMins(userChallengeStats[c].values());
@@ -416,8 +425,11 @@ public class CCCEval extends Eval<GameSeries>
 		for(User user : usersByLogin)
 		{
 			scaled = userChallengeStats[c].get(user.getId()).unscaled * 100 / maxs.unscaled;
-			userChallengeStats[c].get(user.getId()).scaled = scaled;
+
+			totalStats.scaled += scaled;
+			challengeStats[c].scaled += scaled;
 			userStats.get(user.getId()).scaled += scaled;
+			userChallengeStats[c].get(user.getId()).scaled = scaled;
 
 			row = new Object[totalTables[c].getColumns()];
 			col = 0;
@@ -456,7 +468,7 @@ public class CCCEval extends Eval<GameSeries>
 		Game game = getGame(c, g).getGame();
 		if(game == null)
 			return table;
-
+		
 		int highestMoveCount = 0;
 
 		List<Player> players = game.getPlayers();
@@ -465,14 +477,14 @@ public class CCCEval extends Eval<GameSeries>
 		int p = 0;
 		for(Player player : players)
 		{
-			if(player.getName().equals(gameSeries.getCreator().getLogin()))
+			if(player.getName().equals(data.getCreator().getLogin()))
 				continue;
 			p++;
 
 			if(player.getMoveCount() > highestMoveCount)
 				highestMoveCount = player.getMoveCount();
 
-			tables[c][g].addRow(createRow(c, g, game, player, p));
+			table.addRow(createRow(c, g, game, player, p));
 		}
 
 		return table;
@@ -489,6 +501,7 @@ public class CCCEval extends Eval<GameSeries>
 		Integer basicPoints = null;
 		Double points = null;
 
+		// crashs
 		if(properties.containsKey(c + "." + g + "." + player.getName()))
 		{
 			String s = properties.getProperty(c + "." + g + "." + player);
@@ -496,52 +509,72 @@ public class CCCEval extends Eval<GameSeries>
 			crashs = player.getCrashCount() - parseInt(s);
 		}
 		else
-		{
 			crashs = player.getCrashCount();
-		}
-		if(player.getStatus() == EnumPlayerStatus.ok)
-		{
-			moves = player.getMoveCount(); // moves
-			if(player.getRank() > 0)
-			{
-				basicPoints = pointsPerRank.get(game.getPlayers().size()).get(position);
-				points = calcGamePoints(game, player, row);
-			}
-		}
-		else
-		{
-			basicPoints = -game.getPlayers().size();
-			points = calcGamePoints(game, player, row);
-			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1);
-		}
 
-		row[2] = basicPoints; // grundpunkte
-		if(basicPoints != null)
+		totalStats.crashs += crashs;
+		challengeStats[c].crashs += crashs;
+		userStats.get(player.getId()).crashs += crashs;
+		userChallengeStats[c].get(player.getId()).crashs += crashs;
+		userGameStats[c][g].get(player.getId()).crashs += crashs;
+
+		row[3] = crashs;
+
+		// moves
+		if(player.getStatus() == EnumPlayerStatus.ok)
+			moves = player.getMoveCount();
+		else
+			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1);
+
+		totalStats.moves += moves;
+		challengeStats[c].moves += moves;
+		userStats.get(player.getId()).moves += moves;
+		userChallengeStats[c].get(player.getId()).moves += moves;
+		userGameStats[c][g].get(player.getId()).moves += moves;
+
+		row[4] = moves;
+
+		if((player.getStatus() == EnumPlayerStatus.ok && player.getRank() > 0) || (player.getStatus() != EnumPlayerStatus.ok))
 		{
+			basicPoints = calcBasicPoints(game.getPlayers().size() - 1, player.getRank(), moves, crashs);
+
+			totalStats.basic += basicPoints;
+			challengeStats[c].basic += basicPoints;
 			userStats.get(player.getId()).basic += basicPoints;
 			userChallengeStats[c].get(player.getId()).basic += basicPoints;
+			userGameStats[c][g].get(player.getId()).basic += basicPoints;
+
+			totalStats.finished++;
+			challengeStats[c].finished++;
+			userStats.get(player.getId()).finished++;
+			userChallengeStats[c].get(player.getId()).finished++;
+			userGameStats[c][g].get(player.getId()).finished++;
+
+			if(player.getStatus() != EnumPlayerStatus.ok)
+			{
+				totalStats.left++;
+				challengeStats[c].left++;
+				userStats.get(player.getId()).left++;
+				userChallengeStats[c].get(player.getId()).left++;
+				userGameStats[c][g].get(player.getId()).left++;
+			}
 		}
 
-		row[3] = crashs; // crashs
-		if(crashs != null)
-		{
-			userStats.get(player.getId()).crashs += crashs;
-			userChallengeStats[c].get(player.getId()).crashs += crashs;
-		}
+		// grundpunkte
+		row[2] = basicPoints;
 
-		row[4] = moves; // moves
-		if(moves != null)
+		// points
+		if((player.getStatus() == EnumPlayerStatus.ok && player.getRank() > 0) || (player.getStatus() != EnumPlayerStatus.ok))
 		{
-			userStats.get(player.getId()).moves += moves;
-			userChallengeStats[c].get(player.getId()).moves += moves;
-		}
+			points = calcGamePoints(game, player, row);
 
-		row[5] = points; // points
-		if(points != null)
-		{
+			totalStats.unscaled += points;
+			challengeStats[c].unscaled += points;
 			userStats.get(player.getId()).unscaled += points;
 			userChallengeStats[c].get(player.getId()).unscaled += points;
+			userGameStats[c][g].get(player.getId()).unscaled += points;
 		}
+
+		row[5] = points;
 
 		return row;
 	}
@@ -586,6 +619,14 @@ public class CCCEval extends Eval<GameSeries>
 		}
 	}
 
+	protected int calcBasicPoints(int players, int rank, int moves, int crashs)
+	{
+		if(rank > 0)
+			return pointsPerRank.get(players).get(rank);
+		else
+			return -(players - 1);
+	}
+
 	protected double calcGamePoints(Game game, Player player, Object[] row)
 	{
 		if(player.getStatus() == EnumPlayerStatus.ok)
@@ -600,77 +641,99 @@ public class CCCEval extends Eval<GameSeries>
 		{
 			if(userChallengeStats[c].get(user.getId()).unscaled == maxs.unscaled)
 			{
-				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				totalStats.bonus1 += BONUS_CHALLENGE;
+				challengeStats[c].bonus1 += BONUS_CHALLENGE;
 				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
 			}
 
 			if(userChallengeStats[c].get(user.getId()).crashs == maxs.crashs)
 			{
-				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				totalStats.bonus1 += BONUS_CHALLENGE;
+				challengeStats[c].bonus1 += BONUS_CHALLENGE;
 				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
 			}
 
 			if(userChallengeStats[c].get(user.getId()).moves == mins.moves)
 			{
-				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				totalStats.bonus1 += BONUS_CHALLENGE;
+				challengeStats[c].bonus1 += BONUS_CHALLENGE;
 				userStats.get(user.getId()).bonus1 += BONUS_CHALLENGE;
+				userChallengeStats[c].get(user.getId()).bonus1 += BONUS_CHALLENGE;
 			}
 		}
 	}
-	
+
 	protected void addFinalBonus(UserStats mins, UserStats maxs)
 	{
 		for(User user : usersByLogin)
 		{
 			if(userStats.get(user.getId()).unscaled == maxs.unscaled)
-				userStats.get(user.getId()).bonus2 += BONUS_CHALLENGE;
+			{
+				totalStats.bonus2 += BONUS_FINAL;
+				userStats.get(user.getId()).bonus2 += BONUS_FINAL;
+			}
 
 			if(userStats.get(user.getId()).crashs == maxs.crashs)
-				userStats.get(user.getId()).bonus2 += BONUS_CHALLENGE;
+			{
+				totalStats.bonus2 += BONUS_FINAL;
+				userStats.get(user.getId()).bonus2 += BONUS_FINAL;
+			}
 
 			if(userStats.get(user.getId()).moves == mins.moves)
-				userStats.get(user.getId()).bonus2 += BONUS_CHALLENGE;
+			{
+				totalStats.bonus2 += BONUS_FINAL;
+				userStats.get(user.getId()).bonus2 += BONUS_FINAL;
+			}
 		}
 	}
 
-	private void createWhoOnWho(int c, int r, List<String> challengePlayers)
+	protected void updateWhoOnWho(int c, int g)
 	{
-		List<String> gamePlayers = this.challenges[c].games[r].getPlayers()FromLog(c, r);
-		int ci1, ci2;
+		PlannedGame game = getGame(c, g);
+		if(game.getGame() == null)
+			return;
+
+		List<Player> gamePlayers = game.getGame().getPlayers();
+		int ci1, ci2, value;
 		// String tmp;
 		for(int i1 = 0; i1 < gamePlayers.size(); i1++)
 		{
 			for(int i2 = i1 + 1; i2 < gamePlayers.size(); i2++)
 			{
-				ci1 = challengePlayers.indexOf(gamePlayers.get(i1));
-				ci2 = challengePlayers.indexOf(gamePlayers.get(i2));
-				whoOnWho.[ci1 + 1][ci2 + 1] = whoOnWho[ci1 + 1][ci2 + 1] + 1;
-				whoOnWho[ci2 + 1][ci1 + 1] = whoOnWho[ci1 + 1][ci2 + 1];
+				ci1 = indexOf(usersByLogin, gamePlayers.get(i1));
+				ci2 = indexOf(usersByLogin, gamePlayers.get(i2));
+				value = ((int) whoOnWho.getValue(ci1, ci2)) + 1;
+				whoOnWho.setValue(ci1, ci2 + 1, value);
+				whoOnWho.setValue(ci2, ci1 + 1, value);
 			}
 		}
 	}
 
-	private String getMaxMinWhoOnWho(String type)
+	protected String getMaxMinWhoOnWho(String type)
 	{
-		List<int[]> maxMinList = new LinkedList<int[]>();
+		List<String[]> maxMinList = new LinkedList<String[]>();
 		int maxMin = (type.equals("max") ? Integer.MIN_VALUE : Integer.MAX_VALUE);
 		int val;
-		for(int i1 = 1; i1 < whoOnWho.length; i1++)
+		String[] pair;
+		for(int ci = 1; ci < whoOnWho.getColumns(); ci++)
 		{
-			for(int i2 = i1 + 1; i2 < whoOnWho.length; i2++)
+			for(int ri = ci; ri < whoOnWho.getRows().size(); ri++)
 			{
-				val = intFromString(whoOnWho[i1][i2]);
+				val = (int) whoOnWho.getValue(ri, ci);
+				pair = new String[] { (String) whoOnWho.getValue(ri, 0), (String) whoOnWho.getValue(ci - 1, 0) };
 				if(type.equals("max"))
 				{
 					if(val > maxMin)
 					{
 						maxMinList.clear();
-						maxMinList.add(new int[] { i1 - 1, i2 - 1 });
+						maxMinList.add(pair);
 						maxMin = val;
 					}
 					else if(val == maxMin)
 					{
-						maxMinList.add(new int[] { i1 - 1, i2 - 1 });
+						maxMinList.add(pair);
 						maxMin = val;
 					}
 				}
@@ -679,18 +742,17 @@ public class CCCEval extends Eval<GameSeries>
 					if(val < maxMin)
 					{
 						maxMinList.clear();
-						maxMinList.add(new int[] { i1 - 1, i2 - 1 });
+						maxMinList.add(pair);
 						maxMin = val;
 					}
 					else if(val == maxMin)
 					{
-						maxMinList.add(new int[] { i1 - 1, i2 - 1 });
+						maxMinList.add(pair);
 						maxMin = val;
 					}
 				}
 			}
 		}
-		List<String> challengePlayers = this.challenges[c].games[r].getPlayers()FromLog(1);
 		StringBuilder ret = new StringBuilder();
 		ret.append(maxMin + " mal ");
 		for(int i = 0; i < maxMinList.size(); i++)
@@ -699,125 +761,135 @@ public class CCCEval extends Eval<GameSeries>
 				ret.append(", ");
 			else if(i > 0 && i == maxMinList.size() - 1)
 				ret.append(" und ");
-			ret.append(playerToLink(challengePlayers.get(maxMinList.get(i)[0]), false));
+			ret.append(WikiUtil.createLink(maxMinList.get(i)[0], false));
 			ret.append(" '''vs.''' ");
-			ret.append(playerToLink(challengePlayers.get(maxMinList.get(i)[1]), false));
+			ret.append(WikiUtil.createLink(maxMinList.get(i)[1], false));
 		}
 		return ret.toString();
 	}
 
-	private void calculateExpected(List<String> challengePlayers)
+	protected void calculateExpected()
 	{
-		double crash_count, crash_players;
-		double crash_allgames_count, crash_allgames_players;
+		int players_crashed;
+		int players_crashed_allgames = 0;
+		int players_finished;
+		@SuppressWarnings("unused")
+		int players_finished_allgames = 0;
+
+		for(UserStats us : userStats.values())
+		{
+			// count how many players had a crash (all games)
+			if(us.crashs > 0)
+				players_crashed_allgames++;
+			// count how many players are finished (all games)
+			if(us.finished == stats_gamesPerPlayer)
+				players_finished_allgames++;
+		}
+
 		double avg_crashs;
-		double avg_crashs_allgames;
 		double avg_points;
 		double expected;
 		double expected_max;
 		double actual_positive;
 		double actual_negative;
-		int negative_count;
+		int positive_count, negative_count;
 		double player_avg_crashs;
 		double player_avg_points;
-		int total_players_finished;
-		for(int c = 1; c < tables.length; c++)
+		UserStats ugs;
+		for(int c = 0; c < this.stats_challengesCreated; c++)
 		{
-			total_players_finished = 0;
 			expected_max = 0;
-			crash_count = 0;
-			crash_players = 0;
-			crash_allgames_count = 0;
-			crash_allgames_players = 0;
-			for(String player : challengePlayers)
+
+			players_crashed = 0;
+			players_finished = 0;
+			for(UserStats us : userChallengeStats[c].values())
 			{
-				for(int crashs : real_crashs.get(player)[c])
-				{
-					crash_count += crashs;
-					crash_players++;
-				}
-				for(int crashs : real_crashs_allgames.get(player)[c])
-				{
-					crash_allgames_count += crashs;
-					crash_allgames_players++;
-				}
+				// count how many players had a crash (this challenge)
+				if(us.crashs > 0)
+					players_crashed++;
+				// count how many players are finished (this challenge)
+				if(us.finished == stats_gamesPerPlayer)
+					players_finished++;
 			}
-			avg_crashs_allgames = crash_allgames_count / crash_allgames_players;
-			if(crash_players != 0)
-				avg_crashs = crash_count / crash_players;
+			// if there are crashs in this challenge --> use local average, otherwise total
+			if(players_crashed != 0)
+				avg_crashs = challengeStats[c].crashs / players_crashed;
+			else if(players_crashed_allgames != 0)
+				avg_crashs = totalStats.crashs / players_crashed_allgames;
 			else
-				avg_crashs = avg_crashs_allgames;
+				avg_crashs = 0;
 
-			avg_points = intFromString(p.getProperty("points." + getRules(c).getNumberOfPlayers() + "." + (int) (getRules(c).getNumberOfPlayers() / 2)));
+			// get the average points = points for the mid rank
+			avg_points = pointsPerRank.get(getRules(c).getNumberOfPlayers()).get(getRules(c).getNumberOfPlayers() / 2);
 
-			for(String player : challengePlayers)
+			for(User user : usersByLogin)
 			{
 				player_avg_crashs = 0;
 				player_avg_points = 0;
 				actual_positive = 0;
 				actual_negative = 0;
+				positive_count = 0;
 				negative_count = 0;
 
-				for(int i = 0; i < real_points.get(player)[c].size(); i++)
+				for(int g = 0; g < challengeGames[c]; g++)
 				{
-					if(real_points.get(player)[c].get(i) > 0)
+					ugs = userGameStats[c][g].get(user.getId());
+					if(ugs.moves == 0)
+						continue;
+
+					if(ugs.unscaled > 0)
 					{
-						actual_positive += real_crashs.get(player)[c].get(i) * real_points.get(player)[c].get(i);
-						player_avg_crashs += real_crashs.get(player)[c].get(i);
-						player_avg_points += real_points.get(player)[c].get(i);
-						total_players_finished++;
+						actual_positive += ugs.crashs * ugs.unscaled;
+						player_avg_crashs += ugs.crashs;
+						player_avg_points += ugs.unscaled;
+						positive_count++;
 					}
 					else
 					{
-						actual_negative += real_points.get(player)[c].get(i);
+						actual_negative += ugs.unscaled;
 						negative_count++;
 					}
 				}
 
-				if(real_points.get(player)[c].size() - negative_count > 0)
+				if(positive_count > 0)
 				{
-					player_avg_crashs /= real_points.get(player)[c].size();
-					player_avg_points /= real_points.get(player)[c].size();
-				}
-				else
-				{
-					player_avg_points = 0;
+					player_avg_crashs /= (positive_count + negative_count);
+					player_avg_points /= (positive_count + negative_count);
 				}
 
-				if(real_points.get(player)[c].size() == stats_gamesPerPlayerPerChallenge)
+				if(userChallengeStats[c].get(user.getId()).finished == stats_gamesPerPlayerPerChallenge)
 				{
 					// spieler hat alle Rennen beendet
 					expected = actual_positive + actual_negative;
 				}
-				else if(real_points.get(player)[c].size() - negative_count > 0)
+				else if(positive_count > 0)
 				{
 					// spieler hat ein paar Rennen regulaer beendet (ohne rauswurf)
 					// eigene durchschnittliche Punkte und Crashs verwenden
 					expected = actual_positive + actual_negative;
-					expected += player_avg_crashs * player_avg_points * (stats_gamesPerPlayerPerChallenge - real_points.get(player)[c].size());
-					// expected = player_avg_crashs * player_avg_points *
-					// (stats_gamesPerPlayerPerChallenge - negative_count ) + expected_negative;
+					expected += player_avg_crashs * player_avg_points * (stats_gamesPerPlayerPerChallenge - positive_count);
 				}
 				else
 				{
 					// spieler hat noch keine Rennen beendet regulaer beendet
 					// allgemeine durchschnittliche Punkte und Crashs verwenden
 					expected = actual_positive + actual_negative;
-					expected += avg_crashs * avg_points * (stats_gamesPerPlayerPerChallenge - real_points.get(player)[c].size());
-					// expected = avg_crashs * avg_points * stats_gamesPerPlayerPerChallenge;
+					expected += avg_crashs * avg_points * stats_gamesPerPlayerPerChallenge;
 				}
-				expected_points.get(player)[c] = expected;
+				userChallengeStats[c].get(user.getId()).unscaledExpected = expected;
+				userStats.get(user.getId()).unscaledExpected += expected;
+				
 				if(expected > expected_max)
 					expected_max = expected;
 			}
 
-			for(String player : challengePlayers)
+			for(User user : usersByLogin)
 			{
-				if(total_players_finished != 0 || expected_points.get(player)[c] < 0)
-					expected_points.get(player)[c] = round(expected_points.get(player)[c] / expected_max * 100);
+				if(players_finished > 0)
+					userChallengeStats[c].get(user.getId()).scaledExpected = userChallengeStats[c].get(user.getId()).unscaledExpected * 100 / expected_max;
 				else
-					expected_points.get(player)[c] = 50.0;
-				expected_total_points.put(player, expected_total_points.get(player) + expected_points.get(player)[c]);
+					userChallengeStats[c].get(user.getId()).scaledExpected = 50.0;
+				userStats.get(user.getId()).scaledExpected += userChallengeStats[c].get(user.getId()).scaledExpected;
 			}
 		}
 	}
@@ -862,19 +934,19 @@ public class CCCEval extends Eval<GameSeries>
 		}
 	}
 
-	protected void sortFinalTable(boolean finished)
+	protected void sortAndRankFinalTable(boolean finished)
 	{
 		if(!finished)
 			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-2)); // sort by Erwartungswert
 		else
 			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-4)); // sort by Endergebnis
-		
+
 		for(int i = 0; i < finalTable.getRows().size(); i++)
 		{
-			if(i > 0 && finalTable.getValue(i, finalTable.getColumns() - 1).equals(finalTable.getValue(i-1, finalTable.getColumns() - 1))
-					&& finalTable.getValue(i, finalTable.getColumns() - 7).equals(finalTable.getValue(i-1, finalTable.getColumns() - 7))
-					&& finalTable.getValue(i, finalTable.getColumns() - 8).equals(finalTable.getValue(i-1, finalTable.getColumns() - 8))
-					&& finalTable.getValue(i, finalTable.getColumns() - 6).equals(finalTable.getValue(i-1, finalTable.getColumns() - 6)))
+			if(i > 0 && finalTable.getValue(i, finalTable.getColumns() - 1).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 1))
+					&& finalTable.getValue(i, finalTable.getColumns() - 7).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 7))
+					&& finalTable.getValue(i, finalTable.getColumns() - 8).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 8))
+					&& finalTable.getValue(i, finalTable.getColumns() - 6).equals(finalTable.getValue(i - 1, finalTable.getColumns() - 6)))
 			{
 				finalTable.setValue(i, 0, " ");
 			}
@@ -887,6 +959,8 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected class UserStats
 	{
+		public int		finished;
+		public int		left;
 		public int		moves;
 		public int		crashs;
 		public int		basic;
@@ -895,10 +969,14 @@ public class CCCEval extends Eval<GameSeries>
 		public int		bonus1;
 		public int		bonus2;
 		public double	total;
-		public double	expected;
+		public double	unscaledExpected;
+		public double	scaledExpected;
+		public double	totalExpected;
 
 		public UserStats(int init)
 		{
+			this.finished = init;
+			this.left = init;
 			this.moves = init;
 			this.crashs = init;
 			this.basic = init;
@@ -907,7 +985,9 @@ public class CCCEval extends Eval<GameSeries>
 			this.bonus1 = init;
 			this.bonus2 = init;
 			this.total = init;
-			this.expected = init;
+			this.unscaledExpected = init;
+			this.scaledExpected = init;
+			this.totalExpected = init;
 		}
 	}
 
@@ -924,6 +1004,10 @@ public class CCCEval extends Eval<GameSeries>
 		UserStats min = new UserStats(Integer.MAX_VALUE);
 		for(UserStats s : stats)
 		{
+			if(s.finished < min.finished)
+				min.finished = s.finished;
+			if(s.left < min.left)
+				min.left = s.left;
 			if(s.moves < min.moves)
 				min.moves = s.moves;
 			if(s.crashs < min.crashs)
@@ -940,8 +1024,12 @@ public class CCCEval extends Eval<GameSeries>
 				min.bonus2 = s.bonus2;
 			if(s.total < min.total)
 				min.total = s.total;
-			if(s.expected < min.expected)
-				min.expected = s.expected;
+			if(s.unscaledExpected < min.unscaledExpected)
+				min.unscaledExpected = s.unscaledExpected;
+			if(s.scaledExpected < min.scaledExpected)
+				min.scaledExpected = s.scaledExpected;
+			if(s.totalExpected < min.totalExpected)
+				min.totalExpected = s.totalExpected;
 		}
 		return min;
 	}
@@ -951,6 +1039,10 @@ public class CCCEval extends Eval<GameSeries>
 		UserStats min = new UserStats(0);
 		for(UserStats s : stats)
 		{
+			if(s.finished > min.finished)
+				min.finished = s.finished;
+			if(s.left > min.left)
+				min.left = s.left;
 			if(s.moves > min.moves)
 				min.moves = s.moves;
 			if(s.crashs > min.crashs)
@@ -967,25 +1059,29 @@ public class CCCEval extends Eval<GameSeries>
 				min.bonus2 = s.bonus2;
 			if(s.total > min.total)
 				min.total = s.total;
-			if(s.expected > min.expected)
-				min.expected = s.expected;
+			if(s.unscaledExpected > min.unscaledExpected)
+				min.unscaledExpected = s.unscaledExpected;
+			if(s.scaledExpected < min.scaledExpected)
+				min.scaledExpected = s.scaledExpected;
+			if(s.totalExpected < min.totalExpected)
+				min.totalExpected = s.totalExpected;
 		}
 		return min;
 	}
 
 	protected Rules getRules(int challenge)
 	{
-		return this.gameSeries.getRulesByKey().get("" + challenge);
+		return this.data.getRulesByKey().get("" + challenge);
 	}
 
 	protected Map getMap(int challenge)
 	{
-		return this.gameSeries.getMapsByKey().get("" + challenge).get(0);
+		return this.data.getMapsByKey().get("" + challenge).get(0);
 	}
 
 	protected PlannedGame getGame(int challenge, int game)
 	{
-		return this.gameSeries.getGames().get(GAMES_KEY).get(this.challengeOffsets[challenge] + game);
+		return this.data.getGames().get(GAMES_KEY).get(this.challengeOffsets[challenge] + game);
 	}
 
 	protected String mapToLink(int challenge, boolean includeName)
@@ -1014,5 +1110,15 @@ public class CCCEval extends Eval<GameSeries>
 			logger.error(e);
 			return 0;
 		}
+	}
+
+	protected int indexOf(List<User> users, Player player)
+	{
+		for(int i = 0; i < users.size(); i++)
+		{
+			if(users.get(i).getLogin().equals(player.getName()))
+				return i;
+		}
+		return -1;
 	}
 }
