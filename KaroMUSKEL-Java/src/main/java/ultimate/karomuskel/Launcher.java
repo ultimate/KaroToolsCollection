@@ -239,9 +239,22 @@ public class Launcher
 					logger.warn("login failed!");
 				}
 			}
-			catch(InterruptedException | ExecutionException | KaroAPIException e)
+			catch(KaroAPIException e)
 			{
-				logger.error("login failed!", e.getMessage());
+				Throwable ioex = e;
+				do
+				{
+					ioex = ioex.getCause();
+				} while(ioex != null && !(ioex instanceof IOException));
+				
+				if(ioex != null)
+					logger.error("login failed: " + ioex.getMessage());	
+				else
+					logger.error("login failed: " + e.getMessage());	
+			}
+			catch(InterruptedException | ExecutionException e)
+			{
+				logger.error("login failed: " + e.getMessage());	
 			}
 		}
 		return api;
