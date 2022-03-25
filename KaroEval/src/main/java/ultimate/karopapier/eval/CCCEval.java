@@ -129,7 +129,7 @@ public class CCCEval extends Eval<GameSeries>
 				i1 = keyS.indexOf(".");
 				i2 = keyS.indexOf(".", i1 + 1);
 				number = Integer.parseInt(keyS.substring(i1 + 1, i2));
-				place = Integer.parseInt(keyS.substring(i2));
+				place = Integer.parseInt(keyS.substring(i2+1));
 				points = Integer.parseInt(properties.getProperty(keyS));
 				if(!this.pointsPerRank.containsKey(number))
 					this.pointsPerRank.put(number, new HashMap<>());
@@ -411,6 +411,8 @@ public class CCCEval extends Eval<GameSeries>
 
 		for(int g = 0; g < challengeGames[c]; g++)
 		{
+			calcMetrics(c, g);
+			
 			tables[c][g] = createTable(c, g);
 
 			updateWhoOnWho(c, g);
@@ -696,13 +698,16 @@ public class CCCEval extends Eval<GameSeries>
 		if(game.getGame() == null)
 			return;
 
-		List<Player> gamePlayers = game.getGame().getPlayers();
+		List<Player> gamePlayers = new LinkedList<>(game.getGame().getPlayers());
 		int ci1, ci2, value;
 		// String tmp;
 		for(int i1 = 0; i1 < gamePlayers.size(); i1++)
 		{
-			for(int i2 = i1 + 1; i2 < gamePlayers.size(); i2++)
+			if(gamePlayers.get(i1).getName().equals(data.getCreator().getLogin()))
+				continue;
+			for(int i2 = i1 + 2; i2 < gamePlayers.size(); i2++)
 			{
+				logger.debug(gamePlayers.get(i1).getName() + " vs. " + gamePlayers.get(i2).getName());
 				ci1 = indexOf(usersByLogin, gamePlayers.get(i1));
 				ci2 = indexOf(usersByLogin, gamePlayers.get(i2));
 				value = ((int) whoOnWho.getValue(ci1, ci2)) + 1;
