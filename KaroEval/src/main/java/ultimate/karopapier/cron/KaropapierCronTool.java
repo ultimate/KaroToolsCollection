@@ -187,7 +187,7 @@ public class KaropapierCronTool
 				Eval e = (Eval) Class.forName(evalClass).getDeclaredConstructor().newInstance();
 				if(gs != null)
 					e.prepare(gs, executions);
-				e.doEvaluation();
+				e.evaluate();
 				logger.info("OK");
 			}
 			catch(Exception e)

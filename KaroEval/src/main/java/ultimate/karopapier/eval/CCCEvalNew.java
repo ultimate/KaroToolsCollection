@@ -126,7 +126,7 @@ public class CCCEvalNew implements Eval
 		//
 		// e.prepare(gs, 20);
 		// }
-		e.doEvaluation();
+		e.evaluate();
 	}
 
 	public CCCEvalNew(int cccx, String folder)
@@ -135,7 +135,7 @@ public class CCCEvalNew implements Eval
 		this.folder = folder;
 	}
 
-	public String doEvaluation() throws IOException, InterruptedException
+	public String evaluate() throws IOException, InterruptedException
 	{
 		long start;
 		logger.info("reading properties (" + cccx + ")... ");

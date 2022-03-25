@@ -12,7 +12,7 @@ public class DummyEval implements Eval
 {
 
 	@Override
-	public String doEvaluation() throws Exception
+	public String evaluate() throws Exception
 	{
 		String content = "Test fuer Automatische Auswertung " + Math.random() + " --~~~~";
 		writeFile(new File("dummy.txt"), content);

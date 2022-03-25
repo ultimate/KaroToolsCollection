@@ -6,6 +6,6 @@ public class CCC5Eval extends CCCEval
 {
 	public CCC5Eval()
 	{
-		super(5, "");
+		super(5);
 	}
 }

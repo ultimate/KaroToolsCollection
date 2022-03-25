@@ -17,3 +17,4 @@ RemoteSystemsTempFiles
 target/
 bin/
 cache/
+logs/
