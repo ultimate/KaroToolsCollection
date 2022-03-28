@@ -786,7 +786,7 @@ public abstract class Planner
 				placeholderValues.put("runde", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, -1));
 				placeholderValues.put("runde.x", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, count));
 
-				if(!useHomeMaps || ((numberOfGamesPerPair % 2 == 1) && (j == numberOfGamesPerPair - 1)))
+				if((!useHomeMaps || ((numberOfGamesPerPair % 2 == 1) && (j == numberOfGamesPerPair - 1))) && maps != null && maps.size() > 0)
 					overwriteMap = maps.get(random.nextInt(maps.size()));
 
 				if(j % 2 == 0)

@@ -123,11 +123,13 @@ public class PlayersScreen extends Screen implements ActionListener
 			if(direction == EnumNavigation.next)
 			{
 				// count & check amount of players first
-				int playerCount = 0;
+				int totalPlayers = 0;
 				for(int i = 0; i < this.teams; i++)
-					playerCount += ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray().length;
-				if(playerCount <= GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND))
+					totalPlayers += ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray().length;
+				if(totalPlayers <= GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND))
 					throw new GameSeriesException("screen.players.notenoughplayers.KLC", null, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND));
+
+				gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
 				
 				List<User> playerList;
 				gameSeries.getPlayers().clear();

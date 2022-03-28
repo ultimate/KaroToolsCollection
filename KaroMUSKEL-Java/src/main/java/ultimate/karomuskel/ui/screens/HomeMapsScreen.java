@@ -95,9 +95,7 @@ public class HomeMapsScreen extends Screen
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
-			int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
-			numberOfTeamsTmp = groups * leagues;
+			numberOfTeamsTmp = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			maxTeams = numberOfTeamsTmp;
 		}
 

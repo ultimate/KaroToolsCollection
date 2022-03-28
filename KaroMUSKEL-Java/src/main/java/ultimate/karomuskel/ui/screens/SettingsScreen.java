@@ -485,10 +485,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
-			int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
-			int totalPlayers = groups * leagues;
-			gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
+			// set current round after player selection
 		}
 		return gameSeries;
 	}
