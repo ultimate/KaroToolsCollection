@@ -79,7 +79,7 @@ public abstract class Planner
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("gameseries & type must not be null!");
 
-		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, numberOfGames, maxPlayersPerGame;
+		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, firstKO, numberOfGames, maxPlayersPerGame;
 		boolean useHomeMaps, loserRound, shuffle, dummyMatches;
 
 		User creator = gs.getCreator();
@@ -97,7 +97,8 @@ public abstract class Planner
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
 				groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
 				leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
-				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, gs.getRules(), round);
+				firstKO = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_FIRST_KO_ROUND);
+				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, firstKO, gs.getRules(), round);
 			case KO:
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
@@ -576,15 +577,14 @@ public abstract class Planner
 	 * @param homeMaps - the home {@link Map}s for the {@link User}s
 	 * @param leagues - the number of leagues
 	 * @param groups - the number of groups
+	 * @param firstKO - the number of players for the first KO round
 	 * @param rules - the {@link Rules} to use
 	 * @param round - the round to plan
 	 * @return the list of {@link PlannedGame}s
 	 */
 	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups,
-			Rules rules, int round)
+			int firstKO, Rules rules, int round)
 	{
-		int totalPlayers = groups * leagues;
-
 		BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
 			int league1 = -1;
 			int league2 = -1;
@@ -605,7 +605,7 @@ public abstract class Planner
 			return (random.nextBoolean() ? team1 : team2); // beide sind in der gleichen Liga -> zufall
 		};
 
-		if(round == totalPlayers)
+		if(round > firstKO)
 			return planGroupphase(title, creator, playersByKey, homeMaps, leagues, groups, whoIsHome, rules, round);
 		else if(round == 2)
 		{
@@ -654,26 +654,46 @@ public abstract class Planner
 			BiFunction<Team, Team, Team> whoIsHome, Rules rules, int round)
 	{
 		List<PlannedGame> games = new LinkedList<>();
+		List<User> allPlayers = new LinkedList<>();
 
-		// Liegen durchmischen
+		// Liegen durchmischen & zur Liste hinzufügen
+		List<User> leaguePlayers;
 		for(int l = 1; l <= leagues; l++)
-			Collections.shuffle(playersByKey.get(GameSeries.KEY_LEAGUE + l));
+		{
+			leaguePlayers = playersByKey.get(GameSeries.KEY_LEAGUE + l);
+			Collections.shuffle(leaguePlayers, random);
+			allPlayers.addAll(leaguePlayers);
+		}
+		
+		// die Liste enthält nur erst alle 1.-Ligisten, dann alle 2.-Ligisten, usw., also z. B. bei 8 Spielern pro Liga und drei Ligen
+		// allPlayers = L11, L12, L13, L14, L15, L16, L17, L18, L21, L22, L23, L24, L25, L26, L27, L28, L31, L32, L33, L34, L35, L36, L37, L38
 
 		// Gruppenphase
+		// Erst die gruppen alle bilden: dazu werden die Spieler aus der Liste rotierend auf die Gruppen verteilt 
+		// damit ergibt sich z. B. bei 3 Gruppen
+		// G1 = L11, L14, L17, L22, L25, L28, L33, L36
+		// G2 = L12, L15, L18, L23, L26, L31, L34, L37
+		// G3 = L13, L16, L21, L24, L27, L32, L35, L38
+		// gruppen initialisieren
 		for(int g = 1; g <= groups; g++)
 		{
-			// Bilde Gruppe aus je 1 Spieler pro Liga
-			// die Ligen sind 1mal initial durchgemischt, deshalb k�nnen wir einfach f�r Gruppe
-			// X jeweils den X-ten Spieler pro Gruppe nehmen
 			if(playersByKey.containsKey(GameSeries.KEY_GROUP + g))
 				playersByKey.get(GameSeries.KEY_GROUP + g).clear();
 			else
 				playersByKey.put(GameSeries.KEY_GROUP + g, new ArrayList<>(leagues));
-			for(int l = 1; l <= leagues; l++)
-				playersByKey.get(GameSeries.KEY_GROUP + g).add(playersByKey.get(GameSeries.KEY_LEAGUE + l).get(g - 1));
-			Collections.shuffle(playersByKey.get(GameSeries.KEY_GROUP + g), random);
-
+		}
+		// spieler zuweisen
+		int g0 = 0;
+		for(User player: allPlayers)
+		{
+			playersByKey.get(GameSeries.KEY_GROUP + (g0 % groups + 1)).add(player);
+			g0++;
+		}
+		// dann dazu die Spiele planen
+		for(int g = 1; g <= groups; g++)
+		{
 			// create a temporarily list of single player teams to be able to use the LeaguePlanner
+			Collections.shuffle(playersByKey.get(GameSeries.KEY_GROUP + g), random);
 			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get(GameSeries.KEY_GROUP + g).size());
 			for(User p : playersByKey.get(GameSeries.KEY_GROUP + g))
 				teamsTmp.add(new Team(p.getLogin(), Arrays.asList(p), homeMaps.get("" + p.getId()).get(0)));
