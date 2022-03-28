@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,6 +121,20 @@ public class KOWinnersScreen extends Screen implements ActionListener
 		{
 			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			int previousRound = round * 2;
+			if(gameSeries.getType() == EnumGameSeriesType.KLC)
+			{
+				int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
+				List<User> allPlayers = new LinkedList<>();
+				// Liegen durchmischen & zur Liste hinzufügen
+				List<User> leaguePlayers;
+				for(int l = 1; l <= leagues; l++)
+				{
+					leaguePlayers = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + l);
+					allPlayers.addAll(leaguePlayers);
+				}
+				if(allPlayers.size() < previousRound)
+					previousRound = allPlayers.size();
+			}
 			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
 		}
 
