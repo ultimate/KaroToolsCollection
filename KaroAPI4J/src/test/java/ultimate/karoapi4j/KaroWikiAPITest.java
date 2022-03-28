@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.TimeZone;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,14 +29,14 @@ public class KaroWikiAPITest
 	 */
 	protected transient static final Logger	logger				= LogManager.getLogger(KaroWikiAPITest.class);
 
-	private static String				username;
-	private static String				password;
+	private static String					username;
+	private static String					password;
 
-	public static final String			PAGE_EXISTING		= "Test";
-	public static final String			PAGE_TEST_SECTION	= "== Ultimates Test Section ==";
-	public static final String			PAGE_NEXT_HEADLINE	= "==";
-	public static final String			PAGE_MISSING		= "Asdfasdfasdfasdf";
-	private static final int			EDIT_TESTS			= 1;
+	public static final String				PAGE_EXISTING		= "Test";
+	public static final String				PAGE_TEST_SECTION	= "== Ultimates Test Section ==";
+	public static final String				PAGE_NEXT_HEADLINE	= "==";
+	public static final String				PAGE_MISSING		= "Asdfasdfasdfasdf";
+	private static final int				EDIT_TESTS			= 1;
 
 	static
 	{
@@ -171,7 +172,11 @@ public class KaroWikiAPITest
 				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY", Locale.GERMAN);
 				String dateString = df.format(date);
 				dateString = dateString.replace("März", "Mär.");
-				String expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
+				String expectedContent;
+				if(TimeZone.getDefault().inDaylightTime(new Date()))
+					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CEST)");
+				else
+					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
 
 				String updatedContent = wl.getContent(PAGE_EXISTING).get();
 				assertEquals(expectedContent, updatedContent);
