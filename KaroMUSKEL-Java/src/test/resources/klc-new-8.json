@@ -1,0 +1,1073 @@
+{
+  "type" : "KLC",
+  "title" : "KLC Saison xx - ${runde.x} - ${teams} auf Karte ${karte.id}",
+  "creator" : 1,
+  "ignoreInvitable" : true,
+  "games" : {
+    "KLC.groupphase" : [ {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 1 - user #33 vs. user #16 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1949922567,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 1 - user #24 vs. user #25 auf Karte 13",
+      "map" : 13,
+      "players" : [ 1, 24, 25 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 311170211,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 1 - user #32 vs. user #38 auf Karte 19",
+      "map" : 19,
+      "players" : [ 1, 32, 38 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 268695302,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 2 - user #25 vs. user #16 auf Karte 14",
+      "map" : 14,
+      "players" : [ 1, 25, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 2056325235,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 2 - user #33 vs. user #38 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 38 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1948145972,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 2 - user #24 vs. user #13 auf Karte 13",
+      "map" : 13,
+      "players" : [ 1, 24, 13 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 988129283,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 3 - user #38 vs. user #25 auf Karte 26",
+      "map" : 26,
+      "players" : [ 1, 38, 25 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 294301618,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 3 - user #16 vs. user #13 auf Karte 7",
+      "map" : 7,
+      "players" : [ 1, 16, 13 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1557876146,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 3 - user #33 vs. user #32 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 32 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 63421487,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 4 - user #38 vs. user #13 auf Karte 26",
+      "map" : 26,
+      "players" : [ 1, 38, 13 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 78103019,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 4 - user #32 vs. user #25 auf Karte 19",
+      "map" : 19,
+      "players" : [ 1, 32, 25 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1027385986,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 4 - user #24 vs. user #16 auf Karte 13",
+      "map" : 13,
+      "players" : [ 1, 24, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 874660143,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 5 - user #32 vs. user #13 auf Karte 19",
+      "map" : 19,
+      "players" : [ 1, 32, 13 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 218124839,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 5 - user #38 vs. user #24 auf Karte 26",
+      "map" : 26,
+      "players" : [ 1, 38, 24 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 155178847,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 5 - user #33 vs. user #25 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 25 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1951856977,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 6 - user #32 vs. user #24 auf Karte 19",
+      "map" : 19,
+      "players" : [ 1, 32, 24 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 872108885,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 6 - user #33 vs. user #13 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 13 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 474740866,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 6 - user #38 vs. user #16 auf Karte 26",
+      "map" : 26,
+      "players" : [ 1, 38, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1899396295,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 7 - user #33 vs. user #24 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 24 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 516164470,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 7 - user #32 vs. user #16 auf Karte 19",
+      "map" : 19,
+      "players" : [ 1, 32, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 410288083,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 1, Spieltag 7 - user #25 vs. user #13 auf Karte 14",
+      "map" : 14,
+      "players" : [ 1, 25, 13 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 807256947,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 1 - user #37 vs. user #14 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 14 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 2061085127,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 1 - user #30 vs. user #23 auf Karte 17",
+      "map" : 17,
+      "players" : [ 1, 30, 23 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 525161459,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 1 - user #27 vs. user #17 auf Karte 16",
+      "map" : 16,
+      "players" : [ 1, 27, 17 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1377613913,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 2 - user #37 vs. user #30 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 30 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1279088668,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 2 - user #17 vs. user #14 auf Karte 8",
+      "map" : 8,
+      "players" : [ 1, 17, 14 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1885954819,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 2 - user #39 vs. user #23 auf Karte 27",
+      "map" : 27,
+      "players" : [ 1, 39, 23 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1951214041,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 3 - user #30 vs. user #17 auf Karte 17",
+      "map" : 17,
+      "players" : [ 1, 30, 17 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 935641586,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 3 - user #37 vs. user #39 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 39 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1923462000,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 3 - user #27 vs. user #14 auf Karte 16",
+      "map" : 16,
+      "players" : [ 1, 27, 14 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 174079759,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 4 - user #39 vs. user #17 auf Karte 27",
+      "map" : 27,
+      "players" : [ 1, 39, 17 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1445144258,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 4 - user #30 vs. user #27 auf Karte 17",
+      "map" : 17,
+      "players" : [ 1, 30, 27 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 452697206,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 4 - user #37 vs. user #23 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 23 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1964985108,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 5 - user #39 vs. user #27 auf Karte 27",
+      "map" : 27,
+      "players" : [ 1, 39, 27 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 896267114,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 5 - user #23 vs. user #17 auf Karte 12",
+      "map" : 12,
+      "players" : [ 1, 23, 17 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 320975458,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 5 - user #30 vs. user #14 auf Karte 17",
+      "map" : 17,
+      "players" : [ 1, 30, 14 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1610154317,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 6 - user #23 vs. user #27 auf Karte 12",
+      "map" : 12,
+      "players" : [ 1, 23, 27 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1568076473,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 6 - user #39 vs. user #14 auf Karte 27",
+      "map" : 27,
+      "players" : [ 1, 39, 14 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 241150619,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 6 - user #37 vs. user #17 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 17 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 2129015364,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 7 - user #23 vs. user #14 auf Karte 12",
+      "map" : 12,
+      "players" : [ 1, 23, 14 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 353487721,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 7 - user #37 vs. user #27 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 27 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1004839932,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 2, Spieltag 7 - user #39 vs. user #30 auf Karte 27",
+      "map" : 27,
+      "players" : [ 1, 39, 30 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 2101040745,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 1 - user #35 vs. user #10 auf Karte 23",
+      "map" : 23,
+      "players" : [ 1, 35, 10 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1264399668,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 1 - user #20 vs. user #12 auf Karte 9",
+      "map" : 9,
+      "players" : [ 1, 20, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 460506306,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 1 - user #31 vs. user #21 auf Karte 18",
+      "map" : 18,
+      "players" : [ 1, 31, 21 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 406121906,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 2 - user #35 vs. user #20 auf Karte 23",
+      "map" : 23,
+      "players" : [ 1, 35, 20 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 799923384,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 2 - user #21 vs. user #10 auf Karte 10",
+      "map" : 10,
+      "players" : [ 1, 21, 10 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 172614590,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 2 - user #31 vs. user #12 auf Karte 18",
+      "map" : 18,
+      "players" : [ 1, 31, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1647136772,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 3 - user #35 vs. user #21 auf Karte 23",
+      "map" : 23,
+      "players" : [ 1, 35, 21 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1142971991,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 3 - user #31 vs. user #20 auf Karte 18",
+      "map" : 18,
+      "players" : [ 1, 31, 20 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1925601646,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 3 - user #10 vs. user #12 auf Karte 1",
+      "map" : 1,
+      "players" : [ 1, 10, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 452467707,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 4 - user #35 vs. user #31 auf Karte 23",
+      "map" : 23,
+      "players" : [ 1, 35, 31 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1196140324,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 4 - user #21 vs. user #12 auf Karte 10",
+      "map" : 10,
+      "players" : [ 1, 21, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1347249779,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 4 - user #20 vs. user #10 auf Karte 9",
+      "map" : 9,
+      "players" : [ 1, 20, 10 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1584421320,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 5 - user #35 vs. user #12 auf Karte 23",
+      "map" : 23,
+      "players" : [ 1, 35, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1818340903,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 5 - user #31 vs. user #10 auf Karte 18",
+      "map" : 18,
+      "players" : [ 1, 31, 10 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1464917663,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 3, Spieltag 5 - user #20 vs. user #21 auf Karte 9",
+      "map" : 9,
+      "players" : [ 1, 20, 21 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 586704866,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 1 - user #22 vs. user #15 auf Karte 11",
+      "map" : 11,
+      "players" : [ 1, 22, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1852594359,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 1 - user #36 vs. user #11 auf Karte 24",
+      "map" : 24,
+      "players" : [ 1, 36, 11 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1909398829,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 1 - user #34 vs. user #26 auf Karte 22",
+      "map" : 22,
+      "players" : [ 1, 34, 26 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1029246454,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 2 - user #22 vs. user #11 auf Karte 11",
+      "map" : 11,
+      "players" : [ 1, 22, 11 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 712414478,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 2 - user #34 vs. user #15 auf Karte 22",
+      "map" : 22,
+      "players" : [ 1, 34, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1035311693,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 2 - user #36 vs. user #26 auf Karte 24",
+      "map" : 24,
+      "players" : [ 1, 36, 26 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 76825325,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 3 - user #34 vs. user #22 auf Karte 22",
+      "map" : 22,
+      "players" : [ 1, 34, 22 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 664417022,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 3 - user #26 vs. user #11 auf Karte 15",
+      "map" : 15,
+      "players" : [ 1, 26, 11 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 674390304,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 3 - user #36 vs. user #15 auf Karte 24",
+      "map" : 24,
+      "players" : [ 1, 36, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 739419987,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 4 - user #22 vs. user #26 auf Karte 11",
+      "map" : 11,
+      "players" : [ 1, 22, 26 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 169188269,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 4 - user #34 vs. user #36 auf Karte 22",
+      "map" : 22,
+      "players" : [ 1, 34, 36 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 2061294684,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 4 - user #11 vs. user #15 auf Karte 2",
+      "map" : 2,
+      "players" : [ 1, 11, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 355513435,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 5 - user #36 vs. user #22 auf Karte 24",
+      "map" : 24,
+      "players" : [ 1, 36, 22 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 449022603,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 5 - user #26 vs. user #15 auf Karte 15",
+      "map" : 15,
+      "players" : [ 1, 26, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1063143431,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Gruppe 4, Spieltag 5 - user #34 vs. user #11 auf Karte 22",
+      "map" : 22,
+      "players" : [ 1, 34, 11 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1132333806,
+      "created" : true
+    } ],
+    "KLC.roundOf16" : [ {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 1 - user #37 vs. user #16 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1169095865,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 2 - user #25 vs. user #22 auf Karte 14",
+      "map" : 14,
+      "players" : [ 1, 25, 22 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1378129954,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 3 - user #33 vs. user #23 auf Karte 21",
+      "map" : 21,
+      "players" : [ 1, 33, 23 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 2094026489,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 4 - user #36 vs. user #11 auf Karte 24",
+      "map" : 24,
+      "players" : [ 1, 36, 11 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1945354130,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 5 - user #30 vs. user #12 auf Karte 17",
+      "map" : 17,
+      "players" : [ 1, 30, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1877246187,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 6 - user #20 vs. user #10 auf Karte 9",
+      "map" : 9,
+      "players" : [ 1, 20, 10 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1071054338,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 7 - user #14 vs. user #15 auf Karte 5",
+      "map" : 5,
+      "players" : [ 1, 14, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1830961225,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - 8-tel Finale, Spiel 8 - user #35 vs. user #24 auf Karte 23",
+      "map" : 23,
+      "players" : [ 1, 35, 24 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1703453326,
+      "created" : true
+    } ],
+    "KLC.roundOf8" : [ {
+      "name" : "KLC Saison xx - Viertelfinale, Spiel 1 - user #36 vs. user #15 auf Karte 24",
+      "map" : 24,
+      "players" : [ 1, 36, 15 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1415325595,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Viertelfinale, Spiel 2 - user #30 vs. user #10 auf Karte 17",
+      "map" : 17,
+      "players" : [ 1, 30, 10 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 488753106,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Viertelfinale, Spiel 3 - user #37 vs. user #12 auf Karte 25",
+      "map" : 25,
+      "players" : [ 1, 37, 12 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1656556801,
+      "created" : true
+    }, {
+      "name" : "KLC Saison xx - Viertelfinale, Spiel 4 - user #25 vs. user #16 auf Karte 14",
+      "map" : 14,
+      "players" : [ 1, 25, 16 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 1540054195,
+      "created" : true
+    } ]
+  },
+  "players" : [ 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 ],
+  "rules" : {
+    "minZzz" : 2,
+    "maxZzz" : 2,
+    "crashallowed" : "forbidden",
+    "cps" : true,
+    "startdirection" : "classic"
+  },
+  "playersByKey" : {
+    "group1" : [ 16, 33, 25, 24, 38, 32, 13 ],
+    "group2" : [ 37, 14, 30, 23, 17, 27, 39 ],
+    "group3" : [ 35, 10, 20, 12, 21, 31 ],
+    "group4" : [ 22, 15, 11, 36, 34, 26 ],
+    "league1" : [ 13, 17, 12, 11, 16, 14, 10, 15 ],
+    "league2" : [ 24, 23, 21, 22, 25, 27, 20, 26 ],
+    "league3" : [ 38, 30, 35, 36, 32, 39, 31, 34, 33, 37 ],
+    "roundOf16" : [ 16, 33, 25, 24, 37, 14, 30, 23, 35, 10, 20, 12, 22, 15, 11, 36 ],
+    "roundOf8" : [ 16, 25, 37, 30, 10, 12, 15, 36 ]
+  },
+  "mapsByKey" : {
+    "10" : [ 1 ],
+    "11" : [ 2 ],
+    "12" : [ 3 ],
+    "13" : [ 4 ],
+    "14" : [ 5 ],
+    "15" : [ 6 ],
+    "16" : [ 7 ],
+    "17" : [ 8 ],
+    "20" : [ 9 ],
+    "21" : [ 10 ],
+    "22" : [ 11 ],
+    "23" : [ 12 ],
+    "24" : [ 13 ],
+    "25" : [ 14 ],
+    "26" : [ 15 ],
+    "27" : [ 16 ],
+    "30" : [ 17 ],
+    "31" : [ 18 ],
+    "32" : [ 19 ],
+    "33" : [ 21 ],
+    "34" : [ 22 ],
+    "35" : [ 23 ],
+    "36" : [ 24 ],
+    "37" : [ 25 ],
+    "38" : [ 26 ],
+    "39" : [ 27 ]
+  },
+  "settings" : {
+    "defaultTitle" : "KLC Saison xx - ${runde.x} - ${teams} auf Karte ${karte.id}",
+    "firstKORound" : 16,
+    "groups" : 4,
+    "leagues" : 3,
+    "round" : 8
+  }
+}

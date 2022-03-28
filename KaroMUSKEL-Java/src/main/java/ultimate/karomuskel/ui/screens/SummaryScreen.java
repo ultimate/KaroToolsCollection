@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
@@ -34,6 +35,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
@@ -51,6 +53,7 @@ import ultimate.karomuskel.ui.components.UserCellEditor;
 public class SummaryScreen extends Screen implements ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
+	private static final int	MAX_DEBUG_SLEEP_TIME = 0x1FF;
 
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
@@ -229,18 +232,27 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		if(this.gamesToCreate.size() > 0)
 		{
-			for(PlannedGame plannedGame : this.gamesToCreate)
+			synchronized(this.gamesToCreate)
 			{
-				this.model.setStatus(plannedGame, CREATING);
-				//@formatter:off
-				this.karoAPICache.getKaroAPI()
-					.createGame(plannedGame)
-					.thenAcceptAsync(createdGame -> {
+				CompletableFuture<Game> createCF;
+				for(PlannedGame plannedGame : this.gamesToCreate)
+				{
+					this.model.setStatus(plannedGame, CREATING);
+					//@formatter:off
+					if(this.karoAPICache.getKaroAPI() != null)
+						createCF = this.karoAPICache.getKaroAPI().createGame(plannedGame);
+					else
+						createCF = CompletableFuture.supplyAsync(() -> {
+							try	{ Thread.sleep(plannedGame.hashCode() & MAX_DEBUG_SLEEP_TIME); } catch(InterruptedException e) { }
+							return new Game(plannedGame.hashCode());
+						});
+					createCF.thenAcceptAsync(createdGame -> {
 						plannedGame.setCreated(true);
 						plannedGame.setGame(createdGame);
 						notifyGameCreated(plannedGame);
-				});
-				//@formatter:on
+					});
+					//@formatter:on
+				}
 			}
 		}
 		else
@@ -273,20 +285,32 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		if(this.gamesToLeaveTmp.size() > 0)
 		{
-			for(PlannedGame plannedGame : this.gamesToLeaveTmp)
+			synchronized(this.gamesToLeaveTmp)
 			{
-				if(plannedGame.getGame() == null)
-					continue;
+				CompletableFuture<Boolean> kickCF;
+				for(PlannedGame plannedGame : this.gamesToLeaveTmp)
+				{
+					if(plannedGame.getGame() == null)
+						continue;
 
-				this.model.setStatus(plannedGame, LEAVING);
-				//@formatter:off
-				this.karoAPICache.getKaroAPI()
-					.kick(plannedGame.getGame().getId(), karoAPICache.getCurrentUser().getId())
-					.thenAcceptAsync(leftGame -> {
-						plannedGame.setLeft(true);
-						notifyGameLeft(plannedGame);
-				});
-				//@formatter:on
+					this.model.setStatus(plannedGame, LEAVING);
+					if(this.karoAPICache.getKaroAPI() != null)
+						kickCF = this.karoAPICache.getKaroAPI().kick(plannedGame.getGame().getId(), karoAPICache.getCurrentUser().getId());
+					else
+						kickCF = CompletableFuture.supplyAsync(() -> {
+							try	{ Thread.sleep(plannedGame.hashCode() & MAX_DEBUG_SLEEP_TIME); } catch(InterruptedException e) { }
+							return true;
+						});
+					//@formatter:off
+					kickCF.thenAcceptAsync(leftGame -> {
+						if(leftGame)
+						{
+							plannedGame.setLeft(true);
+							notifyGameLeft(plannedGame);
+						}
+					});
+					//@formatter:on
+				}
 			}
 		}
 		else
@@ -296,36 +320,42 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 	}
 
-	public synchronized void notifyGameCreated(PlannedGame game)
+	public void notifyGameCreated(PlannedGame game)
 	{
-		if(game != null)
+		synchronized(this.gamesToCreate)
 		{
-			this.gamesToCreate.remove(game);
-			this.gamesCreated.add(game);
-			this.model.setStatus(game, CREATED);
-			logger.info("Spiele verbleibend: " + this.gamesToCreate.size());
-		}
-		if(this.gamesToCreate.size() == 0)
-		{
-			this.inProgress = false;
-			enableButtons();
+			if(game != null)
+			{
+				this.gamesToCreate.remove(game);
+				this.gamesCreated.add(game);
+				this.model.setStatus(game, CREATED);
+				logger.info("Spiele verbleibend: " + this.gamesToCreate.size());
+			}
+			if(this.gamesToCreate.size() == 0)
+			{
+				this.inProgress = false;
+				enableButtons();
+			}
 		}
 	}
 
-	public synchronized void notifyGameLeft(PlannedGame game)
+	public void notifyGameLeft(PlannedGame game)
 	{
-		if(game != null)
+		synchronized(this.gamesToLeaveTmp)
 		{
-			this.gamesToLeave.remove(game);
-			this.gamesToLeaveTmp.remove(game);
-			this.gamesLeft.add(game);
-			this.model.setStatus(game, LEFT);
-			logger.info("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
-		}
-		if(this.gamesToLeaveTmp.size() == 0)
-		{
-			this.inProgress = false;
-			enableButtons();
+			if(game != null)
+			{
+				this.gamesToLeave.remove(game);
+				this.gamesToLeaveTmp.remove(game);
+				this.gamesLeft.add(game);
+				this.model.setStatus(game, LEFT);
+				logger.info("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
+			}
+			if(this.gamesToLeaveTmp.size() == 0)
+			{
+				this.inProgress = false;
+				enableButtons();
+			}
 		}
 	}
 
