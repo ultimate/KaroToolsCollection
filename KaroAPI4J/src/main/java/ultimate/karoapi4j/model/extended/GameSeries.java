@@ -71,10 +71,8 @@ public class GameSeries
 	public static final String							CONF_MAX_GAMES						= "maxGames";					// ______________________X__
 	public static final String							CONF_MAX_GAMES_PER_PLAYER			= "maxGamesPerPlayer";			// ______X__________________
 	public static final String							CONF_MAX_MAPS						= "maxMaps";					// ______X__________________
-	public static final String							CONF_NUMBER_OF_WINNERS_PER_GROUP	= "numberOfWinnersPerGroup";	// ______________X__________
 	public static final String							CONF_KLC_GROUPS						= "groups";						// ______________X__________
 	public static final String							CONF_KLC_LEAGUES					= "leagues";					// ______________X__________
-	public static final String							CONF_KLC_PLAYERS_PER_LEAGUE			= "playersPerLeague";			// ______________X__________
 	public static final String							CONF_KLC_FIRST_KO_ROUND				= "firstKORound";				// ______________X__________
 	public static final String							CONF_LEAGUE_DUMMY_TEAM				= "dummyTeam";					// __________________X______
 

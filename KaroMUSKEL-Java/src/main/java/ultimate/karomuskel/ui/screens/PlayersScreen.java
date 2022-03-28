@@ -120,30 +120,37 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			List<User> playerList;
-			gameSeries.getPlayers().clear();
-			for(int i = 0; i < this.teams; i++)
+			if(direction == EnumNavigation.next)
 			{
-				String teamName = this.teamNameTFList.get(i).getText();
-				if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_LEAGUE + (i + 1)))
+				// count & check amount of players first
+				int playerCount = 0;
+				for(int i = 0; i < this.teams; i++)
+					playerCount += ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray().length;
+				if(playerCount < GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND))
+					throw new GameSeriesException("screen.players.notenoughplayers.KLC", null, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND));
+				
+				List<User> playerList;
+				gameSeries.getPlayers().clear();
+				for(int i = 0; i < this.teams; i++)
 				{
-					playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1));
-					playerList.clear();
+					if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_LEAGUE + (i + 1)))
+					{
+						playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1));
+						playerList.clear();
+					}
+					else
+					{
+						playerList = new ArrayList<>();
+						gameSeries.getPlayersByKey().put(GameSeries.KEY_LEAGUE + (i + 1), playerList);
+					}
+					User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
+					for(User player : players)
+					{
+						playerList.add(player);
+						gameSeries.getPlayers().add(player);
+					}
 				}
-				else
-				{
-					playerList = new ArrayList<>(GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE));
-					gameSeries.getPlayersByKey().put(GameSeries.KEY_LEAGUE + (i + 1), playerList);
-				}
-				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
-				if(direction == EnumNavigation.next && players.length != GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE))
-					throw new GameSeriesException("screen.players.invalidplayersperleague", teamName, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE));
-				for(User player : players)
-				{
-					playerList.add(player);
-					gameSeries.getPlayers().add(player);
-				}
-			}
+			}			
 		}
 		return gameSeries;
 	}
@@ -165,7 +172,7 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			teamsTmp = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
-			maxPlayersPerTeamTmp = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_PLAYERS_PER_LEAGUE);
+			maxPlayersPerTeamTmp = 12; // only for displaying
 			this.autoNameTeams = false;
 			multipleTeamsTmp = false;
 		}
