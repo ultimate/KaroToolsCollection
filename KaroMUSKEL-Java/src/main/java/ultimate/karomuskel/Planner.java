@@ -596,7 +596,7 @@ public abstract class Planner
 					league2 = l;
 			}
 			if(league1 == -1 || league2 == -1)
-				logger.error("should not happen!");
+				logger.error("should not happen: league1=" + league1 + ", league2=" + league2);
 
 			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= h�here Liga Nummer)
 				return team1;
@@ -610,7 +610,7 @@ public abstract class Planner
 		else if(round == 2)
 		{
 			// create tmp list of teams so we can use planTeamGame
-			List<Team> winners = new ArrayList<>(playersByKey.get(GameSeries.KEY_ROUND + round).size());
+			List<Team> winners = new ArrayList<>(round);
 			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
 				winners.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
 
@@ -624,8 +624,25 @@ public abstract class Planner
 		}
 		else
 		{
+			// if the group phase was skipped, the ko-players is empty
+			// instead init a list of all players and set it for this round
+			List<User> allPlayers = new LinkedList<>();
+			// Liegen durchmischen & zur Liste hinzufügen
+			List<User> leaguePlayers;
+			for(int l = 1; l <= leagues; l++)
+			{
+				leaguePlayers = playersByKey.get(GameSeries.KEY_LEAGUE + l);
+				Collections.shuffle(leaguePlayers, random);
+				allPlayers.addAll(leaguePlayers);
+			}
+			if(allPlayers.size() == round) // only if the group phase was skipped -> allplayers == round
+			{
+				logger.info("skipping group phase");
+				playersByKey.put(GameSeries.KEY_ROUND + round, allPlayers);
+			}
+
 			// create tmp list of teams so we can use planTeamGame
-			List<Team> teams = new ArrayList<>(playersByKey.get(GameSeries.KEY_ROUND + round).size());
+			List<Team> teams = new ArrayList<>(round);
 			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
 				teams.add(new Team(user.getLogin(), Arrays.asList(user), homeMaps.get("" + user.getId()).get(0)));
 
@@ -664,12 +681,12 @@ public abstract class Planner
 			Collections.shuffle(leaguePlayers, random);
 			allPlayers.addAll(leaguePlayers);
 		}
-		
+
 		// die Liste enthält nur erst alle 1.-Ligisten, dann alle 2.-Ligisten, usw., also z. B. bei 8 Spielern pro Liga und drei Ligen
 		// allPlayers = L11, L12, L13, L14, L15, L16, L17, L18, L21, L22, L23, L24, L25, L26, L27, L28, L31, L32, L33, L34, L35, L36, L37, L38
 
 		// Gruppenphase
-		// Erst die gruppen alle bilden: dazu werden die Spieler aus der Liste rotierend auf die Gruppen verteilt 
+		// Erst die gruppen alle bilden: dazu werden die Spieler aus der Liste rotierend auf die Gruppen verteilt
 		// damit ergibt sich z. B. bei 3 Gruppen
 		// G1 = L11, L14, L17, L22, L25, L28, L33, L36
 		// G2 = L12, L15, L18, L23, L26, L31, L34, L37
@@ -684,7 +701,7 @@ public abstract class Planner
 		}
 		// spieler zuweisen
 		int g0 = 0;
-		for(User player: allPlayers)
+		for(User player : allPlayers)
 		{
 			playersByKey.get(GameSeries.KEY_GROUP + (g0 % groups + 1)).add(player);
 			g0++;

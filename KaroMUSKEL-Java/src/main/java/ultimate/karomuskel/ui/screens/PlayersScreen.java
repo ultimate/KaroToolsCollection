@@ -126,8 +126,13 @@ public class PlayersScreen extends Screen implements ActionListener
 				int totalPlayers = 0;
 				for(int i = 0; i < this.teams; i++)
 					totalPlayers += ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray().length;
-				if(totalPlayers <= GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND))
+				if(totalPlayers < GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND))
 					throw new GameSeriesException("screen.players.notenoughplayers.KLC", null, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND));
+
+				boolean skipGroups = (totalPlayers == GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND));
+				// skip one SummaryScreen and the GroupWinnersScreen 
+				findScreen(s -> { return s instanceof SummaryScreen; }, EnumNavigation.next).setSkip(skipGroups);
+				findScreen(s -> { return s instanceof GroupWinnersScreen; }, EnumNavigation.next).setSkip(skipGroups);
 
 				gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
 				
