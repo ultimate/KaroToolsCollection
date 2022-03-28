@@ -36,11 +36,12 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 	private static final long	serialVersionUID	= 1L;
 
 	private JList<String>[]		groupLists;
+	private int[]				numberOfWinnersPerGroup;
 
-	// TODO IDEA make numberOfWinnersPerGroup selectable
+	// TODO IDEA make numberOfWinners selectable
 
 	@SuppressWarnings("unused")
-	private JSpinner			numberOfWinnersPerGroupSpinner;
+	private JSpinner			numberOfWinnersSpinner;
 
 	public GroupWinnersScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -66,22 +67,21 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		{
 			int groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
 			int firstKORound = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND);
-			int previousRound = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
-			int nextRound = previousRound / 2;
+			int nextRound = firstKORound;
 
 			if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_ROUND + nextRound))
 				gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + nextRound).clear();
 			else
 				gameSeries.getPlayersByKey().put(GameSeries.KEY_ROUND + nextRound, new ArrayList<>(nextRound));
 			
-			int winnersPerGroup = firstKORound / groups;
+			// get winning players from group
 			for(int g = 1; g <= groups; g++)
 			{
 				DefaultListModel<String> model = (DefaultListModel<String>) groupLists[g - 1].getModel();
 				String name;
 				User player;
 
-				for(int i = 0; i < winnersPerGroup; i++)
+				for(int i = 0; i < numberOfWinnersPerGroup[g-1]; i++)
 				{
 					name = model.get(i);
 					player = null;
@@ -116,7 +116,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		if(this.firstShow)
 		{
 			int groups = 0;
-			int numberOfWinnersPerGroup = 0;
+			numberOfWinnersPerGroup = null;
 			List<List<String>> names = null;
 			if(GameSeriesManager.isTeamBased(gameSeries))
 			{
@@ -124,8 +124,9 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				numberOfWinnersPerGroup = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_NUMBER_OF_WINNERS_PER_GROUP);
+				int playersNextRound = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND);
 				groups = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_GROUPS);
+				numberOfWinnersPerGroup = new int[groups];
 				names = new ArrayList<List<String>>(groups);
 				for(int g = 1; g <= groups; g++)
 				{
@@ -133,6 +134,14 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 					for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_GROUP + g))
 						namesInGroup.add(p.getLogin());
 					names.add(namesInGroup);
+				}
+				// playersNextRound als Winner auf die groups verteilen
+				int g0 = 0;
+				while(playersNextRound > 0)
+				{
+					numberOfWinnersPerGroup[g0 % groups]++;
+					playersNextRound--;
+					g0++;
 				}
 			}
 
@@ -168,7 +177,7 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 
 				groupLists[i] = new JList<>(model);
 				groupLists[i].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-				groupLists[i].setCellRenderer(new GroupWinnersRenderer(numberOfWinnersPerGroup));
+				groupLists[i].setCellRenderer(new GroupWinnersRenderer(numberOfWinnersPerGroup[i]));
 				gbc.gridx = 1;
 				gbc.gridheight = 2;
 				contentPanel.add(groupLists[i], gbc);
