@@ -859,13 +859,20 @@ public abstract class GameSeriesManager
 				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString() + "." + GameSeries.KEY_GROUP + "phase"));
 				// Note: skip those who are too many those when applying the SettingsScreen!
 				int groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
-				int leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
-				int players = groups * leagues;
+				int firstKO = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_FIRST_KO_ROUND);
+				int estimatedPlayers = firstKO * 2; // just an estimation, cannot tell it now
+				int loadedPlayers = 0;
+				for(int g = 1; g <= groups; g++)
+				{
+					if(gs.getPlayersByKey().containsKey(GameSeries.KEY_GROUP + g))
+						loadedPlayers += gs.getPlayersByKey().get(GameSeries.KEY_GROUP + g).size();
+				}
+				int players = (gs.isLoaded() ? loadedPlayers : estimatedPlayers);
 				int klcround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : players);
 				if(gs.isLoaded() && players == klcround)
 					startScreen.setNext(screens.getLast());
 				screens.add(new GroupWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-				players /= 2;
+				players = firstKO;
 				while(players > 1)
 				{
 					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players == klcround,

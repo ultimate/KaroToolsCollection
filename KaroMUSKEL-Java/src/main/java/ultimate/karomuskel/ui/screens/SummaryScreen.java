@@ -131,7 +131,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		this.gameSeries = gameSeries;
 
-		if(!this.skipPlan)
+		if(!this.skipPlan && direction == EnumNavigation.next)
 		{
 			if(!firstShow)
 				resetPlannedGames();
