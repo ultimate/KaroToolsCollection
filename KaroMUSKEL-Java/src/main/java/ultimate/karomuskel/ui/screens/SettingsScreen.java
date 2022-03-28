@@ -115,7 +115,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 		if(this.gameSeries != gameSeries)
 		{
 			this.gameSeries = gameSeries;
-			
+
 			int gridwidth;
 			switch(gameSeries.getType())
 			{
@@ -126,13 +126,14 @@ public class SettingsScreen extends Screen implements ChangeListener
 				default:
 					gridwidth = 5;
 			}
-			
+
 			this.titleLabel = new JLabel(Language.getString("screen.settings.title"));
-			this.titleTF = new JTextField();//(int) (totalWidth / 8.5));
+			this.titleTF = new JTextField();// (int) (totalWidth / 8.5));
 			this.titleTF.setText(gameSeries.getTitle() != null ? gameSeries.getTitle() : GameSeriesManager.getDefaultTitle(this.gameSeries));
 			this.titleTF.setToolTipText(Language.getString("titlepatterns"));
 			this.titleTF.setMinimumSize(new Dimension(totalWidth, lineHeight));
-			this.titleTF.setPreferredSize(new Dimension(totalWidth*31/24, lineHeight)); // don't know why factor is necessary, but otherwise it's not full width
+			this.titleTF.setPreferredSize(new Dimension(totalWidth * 31 / 24, lineHeight)); // don't know why factor is necessary, but otherwise it's
+																							// not full width
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
@@ -160,10 +161,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 					}
 					else if(GameSeriesManager.isTeamBased(gameSeries))
 					{
-						numberOfGamesTF = new JTextField();//spinnerColumns + 2);
+						numberOfGamesTF = new JTextField();// spinnerColumns + 2);
 						numberOfGamesTF.setEditable(false);
 						numberOfGamesTF.setHorizontalAlignment(SwingConstants.RIGHT);
-						numberOfGamesTF.setMinimumSize(new Dimension(cellWidth/2, lineHeight));
+						numberOfGamesTF.setMinimumSize(new Dimension(cellWidth / 2, lineHeight));
 						numberOfGamesTF.setPreferredSize(new Dimension(cellWidth, lineHeight));
 						numberComp = numberOfGamesTF;
 					}
@@ -273,7 +274,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gbc.fill = GridBagConstraints.HORIZONTAL;
 					gbc.gridy = 5;
 					this.add(shuffleTeamsCB, gbc);
-					
+
 					if(gameSeries.getType() == EnumGameSeriesType.KO)
 					{
 						smallFinalLabel = new JLabel(Language.getString("screen.settings.smallFinal", cellWidth));
@@ -292,7 +293,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 						dummyMatchesLabel = new JLabel(Language.getString("screen.settings.dummyMatches", cellWidth));
 						boolean dummyMatchesInit = (gameSeries.get(GameSeries.DUMMY_MATCHES) != null ? (boolean) gameSeries.get(GameSeries.DUMMY_MATCHES) : false);
 						dummyMatchesCB = new JComboBox<>(new BooleanModel(dummyMatchesInit, false));
-						dummyMatchesCB.addActionListener(e -> { stateChanged(null); } );
+						dummyMatchesCB.addActionListener(e -> { stateChanged(null); });
 						gbc.gridwidth = 1;
 						gbc.gridx = 5;
 						gbc.gridy = 4;
@@ -433,7 +434,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 			}
 			else
 			{
-				gameSeries.set(GameSeries.USE_HOME_MAPS, ((Label<Boolean>) useHomeMapsCB.getSelectedItem()).getValue());
+				if(gameSeries.getType() == EnumGameSeriesType.KO && (int) gameSeries.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR) == 1)
+					gameSeries.set(GameSeries.USE_HOME_MAPS, false); // home maps do not make sense here
+				else
+					gameSeries.set(GameSeries.USE_HOME_MAPS, ((Label<Boolean>) useHomeMapsCB.getSelectedItem()).getValue());
 			}
 			gameSeries.set(GameSeries.SHUFFLE_TEAMS, ((Label<Boolean>) shuffleTeamsCB.getSelectedItem()).getValue());
 			if(gameSeries.getType() == EnumGameSeriesType.KO)
@@ -447,7 +451,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gameSeries.set(GameSeries.DUMMY_MATCHES, ((Label<Boolean>) dummyMatchesCB.getSelectedItem()).getValue());
 				else
 					gameSeries.set(GameSeries.DUMMY_MATCHES, false);
-			}	
+			}
 			gameSeries.set(GameSeries.AUTO_NAME_TEAMS, ((Label<Boolean>) autoNameTeamsCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.USE_CREATOR_TEAM, !((Label<Boolean>) creatorTeamCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.ALLOW_MULTIPLE_TEAMS, ((Label<Boolean>) multipleTeamsCB.getSelectedItem()).getValue());
@@ -485,7 +489,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 			int totalPlayers = groups * leagues;
 			gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
-		}	
+		}
 		return gameSeries;
 	}
 
@@ -513,6 +517,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			{
 				boolean smallFinal = ((Label<Boolean>) smallFinalCB.getSelectedItem()).getValue();
 				numberOfGames = (numberOfTeams - (smallFinal ? 0 : 1)) * numberOfGamesPerPair;
+				useHomeMapsCB.setEnabled(numberOfGamesPerPair > 1);
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
 			{

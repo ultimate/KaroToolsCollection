@@ -766,10 +766,13 @@ public abstract class Planner
 				placeholderValues.put("runde", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, -1));
 				placeholderValues.put("runde.x", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, count));
 
-				if(!useHomeMaps)
+				if(!useHomeMaps || ((numberOfGamesPerPair % 2 == 1) && (j == numberOfGamesPerPair - 1)))
 					overwriteMap = maps.get(random.nextInt(maps.size()));
 
-				game = planTeamGame(title, creator, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
+				if(j % 2 == 0)
+					game = planTeamGame(title, creator, ti, ti1, whoIsHome, overwriteMap, rules, placeholderValues);
+				else
+					game = planTeamGame(title, creator, ti1, ti, whoIsHome, overwriteMap, rules, placeholderValues);
 
 				games.add(game);
 				count++;
@@ -1110,7 +1113,7 @@ public abstract class Planner
 				if(i < guests.size())
 				{
 					if(fixPoint == 1 && day % 2 == 1 && i == 0)
-						// swap every second game of the first team to have the home games evenly distributed 
+						// swap every second game of the first team to have the home games evenly distributed
 						m = new Match(guests.get(i), homes.get(i));
 					else
 						m = new Match(homes.get(i), guests.get(i));
