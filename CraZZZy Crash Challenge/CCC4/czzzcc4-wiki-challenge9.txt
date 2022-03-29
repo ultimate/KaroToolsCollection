@@ -411,9 +411,9 @@ Challenge {{Rennen|114078|9.29}}
 |-
 |2.||[[Benutzer:eisbaer04|eisbaer04]]||2.0||9||94||18.0
 |-
-|3.||[[Benutzer:Kev|Kev]]||-4.0||10||95||-4.0
+|3.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||8||95||-4.0
 |-
-|4.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||8||95||-4.0
+|4.||[[Benutzer:Kev|Kev]]||-4.0||10||95||-4.0
 |-
 |}
 ||
@@ -601,8 +601,6 @@ Challenge {{Rennen|114088|9.42}}
 |-
 |}
 
-|-
-|||||||||||||
 |-
 |}
 == Tabellarische Auswertung ==

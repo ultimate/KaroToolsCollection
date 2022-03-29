@@ -81,9 +81,9 @@ Challenge {{Rennen|115349|19.6}}
 |-
 |2.||[[Benutzer:Foley|Foley]]||2.0||5||36||10.0
 |-
-|3.||[[Benutzer:Kev|Kev]]||-4.0||3||37||-4.0
+|3.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||3||37||-4.0
 |-
-|4.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||3||37||-4.0
+|4.||[[Benutzer:Kev|Kev]]||-4.0||3||37||-4.0
 |-
 |}
 ||
@@ -601,8 +601,6 @@ Challenge {{Rennen|115385|19.42}}
 |-
 |}
 
-|-
-|||||||||||||
 |-
 |}
 == Tabellarische Auswertung ==

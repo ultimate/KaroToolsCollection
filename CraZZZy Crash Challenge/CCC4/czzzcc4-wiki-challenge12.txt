@@ -514,8 +514,6 @@ Challenge {{Rennen|114501|12.28}}
 |}
 
 |-
-|||||||||||||
-|-
 |}
 == Tabellarische Auswertung ==
 {|class="wikitable"

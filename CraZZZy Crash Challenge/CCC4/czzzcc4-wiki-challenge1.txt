@@ -319,11 +319,11 @@ Challenge {{Rennen|113054|1.16}}
 |-
 |4.||[[Benutzer:coffee|coffee]]||3.0||8||70||24.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-7.0||0||71||-7.0
+|5.||[[Benutzer:Kev|Kev]]||-7.0||4||71||-7.0
 |-
-|6.||[[Benutzer:KaBotte|KaBotte]]||-7.0||0||71||-7.0
+|6.||[[Benutzer:Kamik|Kamik]]||-7.0||0||71||-7.0
 |-
-|7.||[[Benutzer:Kev|Kev]]||-7.0||4||71||-7.0
+|7.||[[Benutzer:KaBotte|KaBotte]]||-7.0||0||71||-7.0
 |-
 |}
 ||
@@ -463,9 +463,9 @@ Challenge {{Rennen|113059|1.23}}
 |-
 |5.||[[Benutzer:Cpxy|Cpxy]]||2.0||6||52||12.0
 |-
-|6.||[[Benutzer:KaBotte|KaBotte]]||-7.0||0||53||-7.0
+|6.||[[Benutzer:Kamik|Kamik]]||-7.0||1||53||-7.0
 |-
-|7.||[[Benutzer:Kamik|Kamik]]||-7.0||1||53||-7.0
+|7.||[[Benutzer:KaBotte|KaBotte]]||-7.0||0||53||-7.0
 |-
 |}
 ||
