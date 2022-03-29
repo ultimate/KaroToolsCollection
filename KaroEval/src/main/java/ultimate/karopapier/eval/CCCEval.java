@@ -370,15 +370,15 @@ public class CCCEval extends Eval<GameSeries>
 		UserStats us = null;
 		User user;
 		List<Entry<Integer, UserStats>> userStatsList = new LinkedList<>(userStats.entrySet());
-		
+
 		for(Entry<Integer, UserStats> use : userStatsList)
 		{
 			us = use.getValue();
 			user = karoAPICache.getUser(use.getKey());
-			
-			us.total = us.scaled + us.bonus1 + us.bonus2; 
-			us.totalExpected = us.scaledExpected + us.bonus1 + us.bonus2;			
-			
+
+			us.total = us.scaled + us.bonus1 + us.bonus2;
+			us.totalExpected = us.scaledExpected + us.bonus1 + us.bonus2;
+
 			for(int c = 0; c < stats_challengesCreated; c++)
 			{
 				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
@@ -594,16 +594,23 @@ public class CCCEval extends Eval<GameSeries>
 		Double basicPoints = null;
 		Double points = null;
 
-		// crashs
+		// crashs --> need to count them, because of possible duplicates
+		crashs = 0;
+		for(int i = 0; i < player.getMoves().size(); i++)
+		{
+			if(!player.getMoves().get(i).isCrash()) // not a crash
+				continue;
+			if(player.getMoves().get(i - 1).isCrash() && player.getMoves().get(i).getT().equals(player.getMoves().get(i - 1).getT())) // doppel-crash
+				continue;
+			crashs++;
+		}
 		String key = (c + 1) + "." + (g + 1) + "." + player.getName();
 		if(properties.containsKey(key))
 		{
 			String s = properties.getProperty(key);
-			logger.info("correcting crash count for " + key + " by " + s);
-			crashs = player.getCrashCount() + parseInt(s);
+			logger.info("correcting crash count " + crashs + " for " + key + " by " + s);
+			crashs += parseInt(s);
 		}
-		else
-			crashs = player.getCrashCount();
 
 		totalStats.crashs += crashs;
 		challengeStats[c].crashs += crashs;
@@ -984,7 +991,7 @@ public class CCCEval extends Eval<GameSeries>
 					expected = actual_positive + actual_negative;
 					expected += avg_crashs * avg_points * stats_gamesPerPlayerPerChallenge;
 				}
-//				logger.debug(user.getLogin() + ": unscaledExpected=" + expected);
+				// logger.debug(user.getLogin() + ": unscaledExpected=" + expected);
 				userChallengeStats[c].get(user.getId()).unscaledExpected = expected;
 				userStats.get(user.getId()).unscaledExpected += expected;
 
