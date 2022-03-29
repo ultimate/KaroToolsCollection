@@ -638,7 +638,7 @@ public class CCCEval extends Eval<GameSeries>
 
 		if((player.getStatus() == EnumPlayerStatus.ok && player.getRank() > 0) || (player.getStatus() != EnumPlayerStatus.ok))
 		{
-			basicPoints = calcBasicPoints(game.getPlayers().size() - 1, player.getRank(), moves, crashs);
+			basicPoints = calcBasicPoints(game.getPlayers().size() - 1, player.getStatus(), player.getRank(), moves, crashs);
 
 			totalStats.basic += basicPoints;
 			challengeStats[c].basic += basicPoints;
@@ -727,9 +727,9 @@ public class CCCEval extends Eval<GameSeries>
 		}
 	}
 
-	protected double calcBasicPoints(int players, int rank, int moves, int crashs)
+	protected double calcBasicPoints(int players, EnumPlayerStatus status, int rank, int moves, int crashs)
 	{
-		if(rank > 0)
+		if(status == EnumPlayerStatus.ok && rank > 0)
 			return pointsPerRank.get(players).get(rank);
 		else
 			return -players;
