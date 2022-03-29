@@ -189,7 +189,7 @@ public abstract class WikiUtil
 		return count;
 	}
 
-	private static double round(double d)
+	public static double round(double d)
 	{
 		return Math.round(d * 100) / 100.0;
 	}
