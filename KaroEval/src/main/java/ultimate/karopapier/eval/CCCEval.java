@@ -411,6 +411,8 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected void createTables(int c)
 	{
+		logger.info("creating tables for challenge #" + (c + 1));
+
 		// init the total table for this challenge
 		String[] totalTableHead = new String[challengeGames[c] + 7];
 		int col = 0;
@@ -485,7 +487,7 @@ public class CCCEval extends Eval<GameSeries>
 			else
 				row[col++] = "-";
 			totalTables[c].addRow(row);
-			
+
 			totalTables[c].setHighlight(rows, 0, true);
 			if(userChallengeStats[c].get(user.getId()).basic == maxs.basic)
 				totalTables[c].setHighlight(rows, challengeGames[c] + 1, true);
@@ -499,13 +501,15 @@ public class CCCEval extends Eval<GameSeries>
 				totalTables[c].setHighlight(rows, challengeGames[c] + 5, true);
 			if(userChallengeStats[c].get(user.getId()).bonus1 > 0)
 				totalTables[c].setHighlight(rows, challengeGames[c] + 6, true);
-			
+
 			rows++;
 		}
 	}
 
 	protected Table createTable(int c, int g)
 	{
+		logger.info("creating tables for challenge #" + (c + 1) + "." + (g + 1));
+
 		Table table = new Table(TABLE_HEAD_GAME);
 		Game game = getGame(c, g).getGame();
 		if(game == null)
@@ -544,11 +548,12 @@ public class CCCEval extends Eval<GameSeries>
 		Double points = null;
 
 		// crashs
-		if(properties.containsKey(c + "." + g + "." + player.getName()))
+		String key = (c + 1) + "." + (g + 1) + "." + player.getName();
+		if(properties.containsKey(key))
 		{
-			String s = properties.getProperty(c + "." + g + "." + player);
-			logger.info("correcting crash count for " + player.getName() + " @ " + c + "." + g + " by " + s);
-			crashs = player.getCrashCount() - parseInt(s);
+			String s = properties.getProperty(key);
+			logger.info("correcting crash count for " + key + " by " + s);
+			crashs = player.getCrashCount() + parseInt(s);
 		}
 		else
 			crashs = player.getCrashCount();
@@ -749,13 +754,19 @@ public class CCCEval extends Eval<GameSeries>
 		User user2;
 		for(User user1 : usersByLogin)
 		{
-			for(int col = 1; col < u; col++)
+			if(game.getPlayers().contains(user1))
 			{
-				user2 = (User) whoOnWho.getValue(0, col);
-				logger.debug(user1.getLogin() + " vs. " + user2.getLogin() + "     u=" + u + ", col=" + col);
-				value = ((int) whoOnWho.getValue(u, col)) + 1;
-				whoOnWho.setValue(u, col, value);
-				whoOnWho.setValue(col, u, value);
+				for(int col = 1; col < u; col++)
+				{
+					user2 = (User) whoOnWho.getValue(0, col);
+					if(!game.getPlayers().contains(user2))
+						continue;
+
+					logger.debug(user1.getLogin() + " vs. " + user2.getLogin() + "     u=" + u + ", col=" + col);
+					value = ((int) whoOnWho.getValue(u, col)) + 1;
+					whoOnWho.setValue(u, col, value);
+					whoOnWho.setValue(col, u, value);
+				}
 			}
 			u++;
 		}
@@ -769,7 +780,7 @@ public class CCCEval extends Eval<GameSeries>
 		Object[] pair;
 		for(int ci = 1; ci < whoOnWho.getColumns(); ci++)
 		{
-			for(int ri = ci; ri < whoOnWho.getRows().size(); ri++)
+			for(int ri = ci + 1; ri < whoOnWho.getRows().size(); ri++)
 			{
 				val = (int) whoOnWho.getValue(ri, ci);
 				pair = new Object[] { whoOnWho.getValue(ri, 0), whoOnWho.getValue(0, ci) };
@@ -1146,7 +1157,7 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected String challengeToLink(int challenge, boolean text)
 	{
-		return WikiUtil.createLink("CraZZZy Crash Challenge " + this.cccx + " - Detailwertung Challenge " + challenge, (text ? "Challenge " : "") + challenge);
+		return WikiUtil.createLink("CraZZZy Crash Challenge " + this.cccx + " - Detailwertung Challenge " + (challenge + 1), (text ? "Challenge " : "") + (challenge + 1));
 	}
 
 	protected int parseInt(String s)

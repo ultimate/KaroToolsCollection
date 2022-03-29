@@ -111,7 +111,7 @@ public abstract class WikiUtil
 
 	public static String createLink(String text, String target)
 	{
-		return "[[" + target + "|" + text + "]]";
+		return "[[" + text + "|" + target + "]]";
 	}
 
 	public static String createLink(Game game)
