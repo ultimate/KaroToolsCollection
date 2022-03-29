@@ -47,7 +47,7 @@ public abstract class WikiUtil
 		sb.append("{|class=\"wikitable");
 		if(cssClasses != null)
 			sb.append(" " + cssClasses);
-		sb.append("\"\n");
+		sb.append("\"\r\n");
 
 		int col;
 		if(table.getHeader() != null)
@@ -64,7 +64,7 @@ public abstract class WikiUtil
 
 				sb.append(preprocess(table.getHeader()[col]));
 			}
-			sb.append("\n|-\n");
+			sb.append("\r\n|-\r\n");
 		}
 		for(int ri = 0; ri < table.getRows().size(); ri++)
 		{
@@ -86,7 +86,7 @@ public abstract class WikiUtil
 				else
 					sb.append(preprocess(row[col]));
 			}
-			sb.append("\n|-\n");
+			sb.append("\r\n|-\r\n");
 		}
 		sb.append("|}");
 
@@ -181,7 +181,7 @@ public abstract class WikiUtil
 			index = source.indexOf(part, index);
 			if(index == -1 || index >= to)
 				break;
-			if(!(ignoreDuplicates && countOccurrences(source, "\n", false, lastIndex, index) == 1 && lastIndex != from))
+			if(!(ignoreDuplicates && countOccurrences(source, "\r\n", false, lastIndex, index) == 1 && lastIndex != from))
 				count++;
 			lastIndex = index;
 			index++;

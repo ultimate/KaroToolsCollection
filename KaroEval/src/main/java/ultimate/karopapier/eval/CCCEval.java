@@ -189,7 +189,12 @@ public class CCCEval extends Eval<GameSeries>
 			row = new Object[whoOnWhoHead.length];
 			row[0] = user;
 			for(int ci = 1; ci < whoOnWhoHead.length; ci++)
-				row[ci] = 0;
+			{
+				if(ci == this.whoOnWho.getRows().size())
+					row[ci] = "-";
+				else
+					row[ci] = 0;
+			}
 			this.whoOnWho.addRow(row);
 		}
 
@@ -237,7 +242,7 @@ public class CCCEval extends Eval<GameSeries>
 			String wiki = readFile("czzzcc" + cccx + "-wiki-overview.txt");
 			logger.debug("-----------------------------------------------------------------------------");
 			logger.debug("-----------------------------------------------------------------------------");
-			logger.debug("\n" + wiki);
+			logger.debug("\r\n" + wiki);
 		}
 
 		return filesUpdated;
@@ -268,9 +273,9 @@ public class CCCEval extends Eval<GameSeries>
 			mapTable.addRow(row);
 
 			detail = new StringBuilder();
-			detail.append("= Challenge " + (c + 1) + " =\n");
-			detail.append("Strecke: " + mapToLink(c, false) + "\n");
-			detail.append("== Rennergebnisse ==\n");
+			detail.append("= Challenge " + (c + 1) + " =\r\n");
+			detail.append("Strecke: " + mapToLink(c, false) + "\r\n");
+			detail.append("== Rennergebnisse ==\r\n");
 
 			tableTable = new Table(TABLE_TABLE_COLUMNS);
 			for(int g = 0; g < tables[c].length; g++)
@@ -284,18 +289,18 @@ public class CCCEval extends Eval<GameSeries>
 				game = getGame(c, g);
 				if(game.getGame() == null)
 					continue;
-				row[g % TABLE_TABLE_COLUMNS] = "\nChallenge " + gameToLink(c, g) + "\n" + WikiUtil.toString(tables[c][g], null) + "\n";
+				row[g % TABLE_TABLE_COLUMNS] = "\r\nChallenge " + gameToLink(c, g) + "\r\n" + WikiUtil.toString(tables[c][g], null) + "\r\n";
 			}
 			tableTable.addRow(row);
 
 			detail.append(WikiUtil.toString(tableTable, null));
-			detail.append("\n");
-			detail.append("== Tabellarische Auswertung ==\n");
+			detail.append("\r\n");
+			detail.append("== Tabellarische Auswertung ==\r\n");
 			detail.append(WikiUtil.toString(totalTables[c], null, "-"));
-			detail.append("\n");
+			detail.append("\r\n");
 
 			filesUpdated.add(writeFile("czzzcc" + cccx + "-wiki-challenge" + (c + 1) + ".txt", detail.toString()));
-			detailLinks.append("*" + challengeToLink(c, true) + "\n");
+			detailLinks.append("*" + challengeToLink(c, true) + "\r\n");
 		}
 
 		StringBuilder total = new StringBuilder();
@@ -307,18 +312,18 @@ public class CCCEval extends Eval<GameSeries>
 
 		StringBuilder stats = new StringBuilder();
 
-		stats.append("== Zahlen & Fakten ==\n");
-		stats.append("*Rennen insgesamt: '''" + stats_gamesTotal + "'''\n");
-		stats.append("*Teilnehmer: '''" + stats_players + "'''\n");
-		stats.append("*Rennen pro Spieler: '''" + stats_gamesPerPlayer + "'''\n");
-		stats.append("*Rennen pro Spieler pro Challenge: '''" + stats_gamesPerPlayerPerChallenge + "'''\n");
-		stats.append("*Züge insgesamt: '''" + totalStats.moves + "'''\n");
-		stats.append("*Crashs insgesamt: '''" + totalStats.crashs + "'''\n");
-		stats.append("*Häufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\n");
-		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\n");
+		stats.append("== Zahlen & Fakten ==\r\n");
+		stats.append("*Rennen insgesamt: '''" + stats_gamesTotal + "'''\r\n");
+		stats.append("*Teilnehmer: '''" + stats_players + "'''\r\n");
+		stats.append("*Rennen pro Spieler: '''" + stats_gamesPerPlayer + "'''\r\n");
+		stats.append("*Rennen pro Spieler pro Challenge: '''" + stats_gamesPerPlayerPerChallenge + "'''\r\n");
+		stats.append("*Züge insgesamt: '''" + totalStats.moves + "'''\r\n");
+		stats.append("*Crashs insgesamt: '''" + totalStats.crashs + "'''\r\n");
+		stats.append("*Häufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\r\n");
+		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\r\n");
 
-		stats.append("== Wer gegen wen? ==\n");
-		stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\n");
+		stats.append("== Wer gegen wen? ==\r\n");
+		stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\r\n");
 		stats.append(WikiUtil.toString(whoOnWho, null));
 
 		String s = new String(schema);
@@ -783,7 +788,7 @@ public class CCCEval extends Eval<GameSeries>
 			for(int ri = ci + 1; ri < whoOnWho.getRows().size(); ri++)
 			{
 				val = (int) whoOnWho.getValue(ri, ci);
-				pair = new Object[] { whoOnWho.getValue(ri, 0), whoOnWho.getValue(0, ci) };
+				pair = new Object[] { whoOnWho.getValue(0, ci), whoOnWho.getValue(ri, 0) };
 				if(type.equals("max"))
 				{
 					if(val > maxMin)
