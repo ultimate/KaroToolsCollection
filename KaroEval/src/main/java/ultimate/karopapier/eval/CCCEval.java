@@ -308,7 +308,7 @@ public class CCCEval extends Eval<GameSeries>
 		if(!finished)
 			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
 		else
-			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 2)));
+			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 1))); // without expected
 
 		StringBuilder stats = new StringBuilder();
 
@@ -383,8 +383,8 @@ public class CCCEval extends Eval<GameSeries>
 			row[col++] = us.crashs;
 			row[col++] = us.moves;
 			row[col++] = us.scaled;
-			row[col++] = us.bonus1;
-			row[col++] = us.bonus2;
+			row[col++] = "+" + us.bonus1;
+			row[col++] = "+" + us.bonus2;
 			row[col++] = us.total;
 			row[col++] = us.finished;
 			row[col++] = us.totalExpected;
@@ -394,11 +394,11 @@ public class CCCEval extends Eval<GameSeries>
 			// set highlights
 			finalTable.setHighlight(rows, 1, true);
 			if(us.basic == maxs.basic)
-				finalTable.setHighlight(rows, stats_challengesCreated + 3, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 2, true);
 			if(us.crashs == maxs.crashs)
-				finalTable.setHighlight(rows, stats_challengesCreated + 4, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 3, true);
 			if(us.moves == mins.moves)
-				finalTable.setHighlight(rows, stats_challengesCreated + 5, true);
+				finalTable.setHighlight(rows, stats_challengesCreated + 4, true);
 			if(us.bonus2 > 0)
 				finalTable.setHighlight(rows, stats_challengesCreated + 8, true);
 			finalTable.setHighlight(rows, stats_challengesCreated + 9, true); // total
