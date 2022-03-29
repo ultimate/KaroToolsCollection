@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.TreeMap;
 
@@ -308,7 +309,8 @@ public class CCCEval extends Eval<GameSeries>
 		if(!finished)
 			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
 		else
-			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 1))); // without expected
+			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 1))); // without
+																																		// expected
 
 		StringBuilder stats = new StringBuilder();
 
@@ -352,17 +354,59 @@ public class CCCEval extends Eval<GameSeries>
 		// recalculate maxs to identify the players with the highest bonus
 		maxs = getMaxs(userStats.values());
 
+		logger.debug("              min\t| max: ");
+		logger.debug("  finished  = " + mins.finished + "\t| " + maxs.finished);
+		logger.debug("  left      = " + mins.left + "\t| " + maxs.left);
+		logger.debug("  moves     = " + mins.moves + "\t| " + maxs.moves);
+		logger.debug("  crashs    = " + mins.crashs + "\t| " + maxs.crashs);
+		logger.debug("  basic     = " + mins.basic + "\t| " + maxs.basic);
+		logger.debug("  unscaled  = " + mins.unscaled + "\t| " + maxs.unscaled);
+		logger.debug("  scaled    = " + WikiUtil.round(mins.scaled) + "\t| " + WikiUtil.round(maxs.scaled));
+		logger.debug("  bonus1    = " + mins.bonus1 + "\t| " + maxs.bonus1);
+		logger.debug("  bonus2    = " + mins.bonus2 + "\t| " + maxs.bonus2);
+		logger.debug("  total     = " + mins.total + "\t| " + maxs.total);
+
 		boolean finished = true;
+		UserStats us = null;
+		User user;
+		List<Entry<Integer, UserStats>> userStatsList = new LinkedList<>(userStats.entrySet());
+		
+		for(Entry<Integer, UserStats> use : userStatsList)
+		{
+			us = use.getValue();
+			user = karoAPICache.getUser(use.getKey());
+			
+			us.total = us.scaled + us.bonus1 + us.bonus2; 
+			us.totalExpected = us.scaledExpected + us.bonus1 + us.bonus2;			
+			
+			for(int c = 0; c < stats_challengesCreated; c++)
+			{
+				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
+					finished = false;
+			}
+		}
+
+		Collections.sort(userStatsList, new FinalTableSorter(finished));
+
 		Object[] row;
 		int col;
+		String rank;
 		int rows = 0;
-		UserStats us;
-		for(User user : usersByLogin)
+		UserStats usLast;
+		for(Entry<Integer, UserStats> use : userStatsList)
 		{
-			us = userStats.get(user.getId());
+			usLast = us;
+			us = use.getValue();
+			user = karoAPICache.getUser(use.getKey());
+
+			if(rows > 0 && (finished ? us.total == usLast.total : us.totalExpected == usLast.totalExpected) && us.crashs == usLast.crashs && us.basic == usLast.basic && us.moves == usLast.moves)
+				rank = " ";
+			else
+				rank = (rows + 1) + ".";
 
 			row = new Object[finalTable.getColumns()];
-			col = 1;
+			col = 0;
+			row[col++] = rank;
 			row[col++] = user;
 			for(int c = 0; c < stats_challengesCreated; c++)
 			{
@@ -383,8 +427,8 @@ public class CCCEval extends Eval<GameSeries>
 			row[col++] = us.crashs;
 			row[col++] = us.moves;
 			row[col++] = us.scaled;
-			row[col++] = "+" + us.bonus1;
-			row[col++] = "+" + us.bonus2;
+			row[col++] = (us.bonus1 > 0 ? "+" + us.bonus1 : "-");
+			row[col++] = (us.bonus2 > 0 ? "+" + us.bonus2 : "-");
 			row[col++] = us.total;
 			row[col++] = us.finished;
 			row[col++] = us.totalExpected;
@@ -400,16 +444,14 @@ public class CCCEval extends Eval<GameSeries>
 			if(us.moves == mins.moves)
 				finalTable.setHighlight(rows, stats_challengesCreated + 4, true);
 			if(us.bonus2 > 0)
-				finalTable.setHighlight(rows, stats_challengesCreated + 8, true);
-			finalTable.setHighlight(rows, stats_challengesCreated + 9, true); // total
-			finalTable.setHighlight(rows, stats_challengesCreated + 11, true); // totalExpected
+				finalTable.setHighlight(rows, stats_challengesCreated + 7, true);
+			finalTable.setHighlight(rows, stats_challengesCreated + 8, true); // total
+			finalTable.setHighlight(rows, stats_challengesCreated + 10, true); // totalExpected
 
 			rows++;
 		}
 
 		logger.info("finished=" + finished);
-
-		sortAndRankFinalTable(finished);
 
 		return finished;
 	}
@@ -942,6 +984,7 @@ public class CCCEval extends Eval<GameSeries>
 					expected = actual_positive + actual_negative;
 					expected += avg_crashs * avg_points * stats_gamesPerPlayerPerChallenge;
 				}
+//				logger.debug(user.getLogin() + ": unscaledExpected=" + expected);
 				userChallengeStats[c].get(user.getId()).unscaledExpected = expected;
 				userStats.get(user.getId()).unscaledExpected += expected;
 
@@ -955,71 +998,36 @@ public class CCCEval extends Eval<GameSeries>
 					userChallengeStats[c].get(user.getId()).scaledExpected = userChallengeStats[c].get(user.getId()).unscaledExpected * 100 / expected_max;
 				else
 					userChallengeStats[c].get(user.getId()).scaledExpected = 50.0;
+				logger.debug(user.getLogin() + ": scaledExpected=" + userChallengeStats[c].get(user.getId()).scaledExpected);
 				userStats.get(user.getId()).scaledExpected += userChallengeStats[c].get(user.getId()).scaledExpected;
 			}
 		}
 	}
 
-	protected class FinalTableRowSorter implements Comparator<Object[]>
+	protected class FinalTableSorter implements Comparator<Entry<Integer, UserStats>>
 	{
-		private int mainColumnOffset;
+		private boolean finished;
 
-		public FinalTableRowSorter(int mainColumnOffset)
+		public FinalTableSorter(boolean finished)
 		{
-			this.mainColumnOffset = mainColumnOffset;
+			super();
+			this.finished = finished;
 		}
 
 		@Override
-		public int compare(Object[] o1, Object[] o2)
+		public int compare(Entry<Integer, UserStats> o1, Entry<Integer, UserStats> o2)
 		{
-			// punkte
-			double val1 = (double) o1[o1.length + mainColumnOffset];
-			double val2 = (double) o2[o2.length + mainColumnOffset];
-			if(val2 != val1)
-				return (int) Math.signum(val2 - val1);
-
-			// mehr crashs
-			int c1 = (int) o1[o1.length - 9];
-			int c2 = (int) o2[o2.length - 9];
-			if(c2 != c1)
-				return (int) Math.signum(c2 - c1);
-
-			// mehr grundpunkte
-			double b1 = (double) o1[o1.length - 10];
-			double b2 = (double) o2[o2.length - 10];
-			if(b2 != b1)
-				return (int) Math.signum(b2 - b1);
-
-			// weniger Züge
-			int m1 = (int) o1[o1.length - 8];
-			int m2 = (int) o2[o2.length - 8];
-			if(m2 != m1)
-				return (int) Math.signum(m1 - m2);
-
+			if(finished && o2.getValue().total != o1.getValue().total)
+				return (int) Math.signum(o2.getValue().total - o1.getValue().total); // mehr
+			else if(!finished && o2.getValue().scaledExpected != o1.getValue().scaledExpected)
+				return (int) Math.signum(o2.getValue().scaledExpected - o1.getValue().scaledExpected); // mehr
+			if(o2.getValue().crashs != o1.getValue().crashs)
+				return (int) Math.signum(o2.getValue().crashs - o1.getValue().crashs); // mehr
+			if(o2.getValue().basic != o1.getValue().basic)
+				return (int) Math.signum(o2.getValue().basic - o1.getValue().basic); // mehr
+			if(o2.getValue().moves != o1.getValue().moves)
+				return (int) Math.signum(o1.getValue().moves - o2.getValue().moves); // weniger!
 			return 0;
-		}
-	}
-
-	protected void sortAndRankFinalTable(boolean finished)
-	{
-		if(!finished)
-			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-2)); // sort by Erwartungswert
-		else
-			Collections.sort(finalTable.getRows(), new FinalTableRowSorter(-4)); // sort by Endergebnis
-
-		for(int i = 0; i < finalTable.getRows().size(); i++)
-		{
-			if(i > 0 && finalTable.getValue(i, finalTable.getColumns() - 1) == finalTable.getValue(i - 1, finalTable.getColumns() - 1)
-					&& finalTable.getValue(i, finalTable.getColumns() - 7) == finalTable.getValue(i - 1, finalTable.getColumns() - 7)
-					&& finalTable.getValue(i, finalTable.getColumns() - 8) == finalTable.getValue(i - 1, finalTable.getColumns() - 8)
-					&& finalTable.getValue(i, finalTable.getColumns() - 6) == finalTable.getValue(i - 1, finalTable.getColumns() - 6))
-			{
-				finalTable.setValue(i, 0, " ");
-			}
-			else
-			{
-				finalTable.setValue(i, 0, (i + 1) + ".");
-			}
 		}
 	}
 
@@ -1102,37 +1110,37 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected UserStats getMaxs(Collection<UserStats> stats)
 	{
-		UserStats min = new UserStats(0);
+		UserStats max = new UserStats(0);
 		for(UserStats s : stats)
 		{
-			if(s.finished > min.finished)
-				min.finished = s.finished;
-			if(s.left > min.left)
-				min.left = s.left;
-			if(s.moves > min.moves)
-				min.moves = s.moves;
-			if(s.crashs > min.crashs)
-				min.crashs = s.crashs;
-			if(s.basic > min.basic)
-				min.basic = s.basic;
-			if(s.unscaled > min.unscaled)
-				min.unscaled = s.unscaled;
-			if(s.scaled > min.scaled)
-				min.scaled = s.scaled;
-			if(s.bonus1 > min.bonus1)
-				min.bonus1 = s.bonus1;
-			if(s.bonus2 > min.bonus2)
-				min.bonus2 = s.bonus2;
-			if(s.total > min.total)
-				min.total = s.total;
-			if(s.unscaledExpected > min.unscaledExpected)
-				min.unscaledExpected = s.unscaledExpected;
-			if(s.scaledExpected < min.scaledExpected)
-				min.scaledExpected = s.scaledExpected;
-			if(s.totalExpected < min.totalExpected)
-				min.totalExpected = s.totalExpected;
+			if(s.finished > max.finished)
+				max.finished = s.finished;
+			if(s.left > max.left)
+				max.left = s.left;
+			if(s.moves > max.moves)
+				max.moves = s.moves;
+			if(s.crashs > max.crashs)
+				max.crashs = s.crashs;
+			if(s.basic > max.basic)
+				max.basic = s.basic;
+			if(s.unscaled > max.unscaled)
+				max.unscaled = s.unscaled;
+			if(s.scaled > max.scaled)
+				max.scaled = s.scaled;
+			if(s.bonus1 > max.bonus1)
+				max.bonus1 = s.bonus1;
+			if(s.bonus2 > max.bonus2)
+				max.bonus2 = s.bonus2;
+			if(s.total > max.total)
+				max.total = s.total;
+			if(s.unscaledExpected > max.unscaledExpected)
+				max.unscaledExpected = s.unscaledExpected;
+			if(s.scaledExpected < max.scaledExpected)
+				max.scaledExpected = s.scaledExpected;
+			if(s.totalExpected > max.totalExpected)
+				max.totalExpected = s.totalExpected;
 		}
-		return min;
+		return max;
 	}
 
 	protected Rules getRules(int challenge)
