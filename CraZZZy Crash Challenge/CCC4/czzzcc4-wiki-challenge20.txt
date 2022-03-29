@@ -690,8 +690,6 @@ Challenge {{Rennen|115524|20.56}}
 |}
 
 |-
-|||||||||||||
-|-
 |}
 == Tabellarische Auswertung ==
 {|class="wikitable"

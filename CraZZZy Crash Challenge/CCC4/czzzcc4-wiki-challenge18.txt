@@ -281,9 +281,9 @@ Challenge {{Rennen|115246|18.20}}
 |-
 |2.||[[Benutzer:Yashem|Yashem]]||2.0||4||55||8.0
 |-
-|3.||[[Benutzer:Kamik|Kamik]]||-4.0||0||56||-4.0
+|3.||[[Benutzer:Kev|Kev]]||-4.0||1||56||-4.0
 |-
-|4.||[[Benutzer:Kev|Kev]]||-4.0||1||56||-4.0
+|4.||[[Benutzer:Kamik|Kamik]]||-4.0||0||56||-4.0
 |-
 |}
 ||
@@ -601,8 +601,6 @@ Challenge {{Rennen|115265|18.42}}
 |-
 |}
 
-|-
-|||||||||||||
 |-
 |}
 == Tabellarische Auswertung ==

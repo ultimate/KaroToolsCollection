@@ -1,4 +1,4 @@
-= Challenge 2 =
+= Challenge 2 = 
 Strecke: {{Karte|62}}
 == Rennergebnisse ==
 {|class="wikitable"

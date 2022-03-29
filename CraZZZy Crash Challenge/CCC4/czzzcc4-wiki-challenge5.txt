@@ -489,9 +489,9 @@ Challenge {{Rennen|113464|5.27}}
 |-
 |4.||[[Benutzer:Kinvarra|Kinvarra]]||2.0||2||65||4.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-6.0||0||66||-6.0
+|5.||[[Benutzer:Kev|Kev]]||-6.0||2||66||-6.0
 |-
-|6.||[[Benutzer:Kev|Kev]]||-6.0||2||66||-6.0
+|6.||[[Benutzer:Kamik|Kamik]]||-6.0||0||66||-6.0
 |-
 |}
 ||
@@ -513,8 +513,6 @@ Challenge {{Rennen|113463|5.28}}
 |-
 |}
 
-|-
-|||||||||||||
 |-
 |}
 == Tabellarische Auswertung ==

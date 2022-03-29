@@ -233,9 +233,9 @@ Challenge {{Rennen|115125|17.13}}
 |-
 |4.||[[Benutzer:Sly|Sly]]||2.0||5||52||10.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-6.0||0||53||-6.0
+|5.||[[Benutzer:Kev|Kev]]||-6.0||3||53||-6.0
 |-
-|6.||[[Benutzer:Kev|Kev]]||-6.0||3||53||-6.0
+|6.||[[Benutzer:Kamik|Kamik]]||-6.0||0||53||-6.0
 |-
 |}
 ||
@@ -489,9 +489,9 @@ Challenge {{Rennen|115138|17.27}}
 |-
 |4.||[[Benutzer:Didi|Didi]]||2.0||5||56||10.0
 |-
-|5.||[[Benutzer:Kev|Kev]]||-6.0||0||57||-6.0
+|5.||[[Benutzer:mAvErICk|mAvErICk]]||-6.0||0||57||-6.0
 |-
-|6.||[[Benutzer:mAvErICk|mAvErICk]]||-6.0||0||57||-6.0
+|6.||[[Benutzer:Kev|Kev]]||-6.0||0||57||-6.0
 |-
 |}
 ||
@@ -513,8 +513,6 @@ Challenge {{Rennen|115139|17.28}}
 |-
 |}
 
-|-
-|||||||||||||
 |-
 |}
 == Tabellarische Auswertung ==

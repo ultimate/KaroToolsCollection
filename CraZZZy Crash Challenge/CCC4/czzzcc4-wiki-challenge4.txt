@@ -343,9 +343,9 @@ Challenge {{Rennen|113283|4.19}}
 |-
 |4.||[[Benutzer:sir tobi|sir tobi]]||2.0||4||73||8.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-6.0||0||74||-6.0
+|5.||[[Benutzer:Kev|Kev]]||-6.0||2||74||-6.0
 |-
-|6.||[[Benutzer:Kev|Kev]]||-6.0||2||74||-6.0
+|6.||[[Benutzer:Kamik|Kamik]]||-6.0||0||74||-6.0
 |-
 |}
 ||
@@ -513,8 +513,6 @@ Challenge {{Rennen|113292|4.28}}
 |-
 |}
 
-|-
-|||||||||||||
 |-
 |}
 == Tabellarische Auswertung ==
