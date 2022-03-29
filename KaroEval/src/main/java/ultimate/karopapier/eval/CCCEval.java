@@ -747,7 +747,7 @@ public class CCCEval extends Eval<GameSeries>
 	{
 		for(User user : usersByLogin)
 		{
-			if(userChallengeStats[c].get(user.getId()).unscaled == maxs.unscaled)
+			if(userChallengeStats[c].get(user.getId()).basic == maxs.basic)
 			{
 				totalStats.bonus1 += BONUS_CHALLENGE;
 				challengeStats[c].bonus1 += BONUS_CHALLENGE;
@@ -777,7 +777,7 @@ public class CCCEval extends Eval<GameSeries>
 	{
 		for(User user : usersByLogin)
 		{
-			if(userStats.get(user.getId()).unscaled == maxs.unscaled)
+			if(userStats.get(user.getId()).basic == maxs.basic)
 			{
 				totalStats.bonus2 += BONUS_FINAL;
 				userStats.get(user.getId()).bonus2 += BONUS_FINAL;
