@@ -425,9 +425,9 @@ Challenge {{Rennen|116827|21.30}}
 |-
 |2.||[[Benutzer:coffee|coffee]]||2.0||2||35||4.0
 |-
-|3.||[[Benutzer:goodygoody|goodygoody]]||-4.0||0||36||-4.0
+|3.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||36||-4.0
 |-
-|4.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||36||-4.0
+|4.||[[Benutzer:goodygoody|goodygoody]]||-4.0||0||36||-4.0
 |-
 |}
 ||
@@ -581,9 +581,9 @@ Challenge {{Rennen|116831|21.41}}
 |-
 |2.||[[Benutzer:aristarch|aristarch]]||2.0||2||36||4.0
 |-
-|3.||[[Benutzer:Kev|Kev]]||-4.0||0||37||-4.0
+|3.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||37||-4.0
 |-
-|4.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||37||-4.0
+|4.||[[Benutzer:Kev|Kev]]||-4.0||0||37||-4.0
 |-
 |}
 ||

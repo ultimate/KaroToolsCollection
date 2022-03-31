@@ -159,9 +159,9 @@ Challenge {{Rennen|114327|7.10}}
 |-
 |3.||[[Benutzer:Graf_Zahl|Graf_Zahl]]||2.0||7||83||14.0
 |-
-|4.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||3||84||-5.0
+|4.||[[Benutzer:MasterLex515|MasterLex515]]||-5.0||2||84||-5.0
 |-
-|5.||[[Benutzer:MasterLex515|MasterLex515]]||-5.0||2||84||-5.0
+|5.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||3||84||-5.0
 |-
 |}
 ||
@@ -241,9 +241,9 @@ Challenge {{Rennen|114331|7.15}}
 |-
 |3.||[[Benutzer:eris|eris]]||2.0||7||84||14.0
 |-
-|4.||[[Benutzer:Kev|Kev]]||-5.0||2||85||-5.0
+|4.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||2||85||-5.0
 |-
-|5.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||2||85||-5.0
+|5.||[[Benutzer:Kev|Kev]]||-5.0||2||85||-5.0
 |-
 |}
 ||

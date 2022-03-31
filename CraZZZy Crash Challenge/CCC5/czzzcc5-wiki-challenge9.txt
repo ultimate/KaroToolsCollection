@@ -197,9 +197,9 @@ Challenge {{Rennen|114542|9.11}}
 |-
 |4.||[[Benutzer:goodygoody|goodygoody]]||2.0||1||93||2.0
 |-
-|5.||[[Benutzer:Kev|Kev]]||-6.0||0||94||-6.0
+|5.||[[Benutzer:MasterLex515|MasterLex515]]||-6.0||0||94||-6.0
 |-
-|6.||[[Benutzer:MasterLex515|MasterLex515]]||-6.0||0||94||-6.0
+|6.||[[Benutzer:Kev|Kev]]||-6.0||0||94||-6.0
 |-
 |}
 ||
@@ -231,11 +231,11 @@ Challenge {{Rennen|114547|9.13}}
 |-
 |3.||[[Benutzer:ultimate|ultimate]]||3.0||1||81||3.0
 |-
-|4.||[[Benutzer:Kev|Kev]]||-6.0||0||82||-6.0
+|4.||[[Benutzer:mAvErICk|mAvErICk]]||-6.0||1||82||-6.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-6.0||0||82||-6.0
+|5.||[[Benutzer:Kev|Kev]]||-6.0||0||82||-6.0
 |-
-|6.||[[Benutzer:mAvErICk|mAvErICk]]||-6.0||1||82||-6.0
+|6.||[[Benutzer:Kamik|Kamik]]||-6.0||0||82||-6.0
 |-
 |}
 ||

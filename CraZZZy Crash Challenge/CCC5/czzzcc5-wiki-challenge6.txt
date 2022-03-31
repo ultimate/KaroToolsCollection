@@ -517,9 +517,9 @@ Challenge {{Rennen|114158|6.32}}
 |-
 |3.||[[Benutzer:coffee|coffee]]||2.0||5||118||10.0
 |-
-|4.||[[Benutzer:Kamik|Kamik]]||-5.0||0||119||-5.0
+|4.||[[Benutzer:MasterLex515|MasterLex515]]||-5.0||0||119||-5.0
 |-
-|5.||[[Benutzer:MasterLex515|MasterLex515]]||-5.0||0||119||-5.0
+|5.||[[Benutzer:Kamik|Kamik]]||-5.0||0||119||-5.0
 |-
 |}
 ||
@@ -549,9 +549,9 @@ Challenge {{Rennen|114161|6.34}}
 |-
 |3.||[[Benutzer:aristarch|aristarch]]||2.0||5||124||10.0
 |-
-|4.||[[Benutzer:Kev|Kev]]||-5.0||0||125||-5.0
+|4.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||0||125||-5.0
 |-
-|5.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||0||125||-5.0
+|5.||[[Benutzer:Kev|Kev]]||-5.0||0||125||-5.0
 |-
 |}
 ||

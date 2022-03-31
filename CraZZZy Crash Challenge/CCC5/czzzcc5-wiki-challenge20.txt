@@ -167,9 +167,9 @@ Challenge {{Rennen|116641|20.14}}
 |-
 |1.||[[Benutzer:Foley|Foley]]||3.0||4||77||12.0
 |-
-|2.||[[Benutzer:Kev|Kev]]||-3.0||0||78||-3.0
+|2.||[[Benutzer:Kamik|Kamik]]||-3.0||0||78||-3.0
 |-
-|3.||[[Benutzer:Kamik|Kamik]]||-3.0||0||78||-3.0
+|3.||[[Benutzer:Kev|Kev]]||-3.0||0||78||-3.0
 |-
 |}
 
@@ -597,9 +597,9 @@ Challenge {{Rennen|116678|20.49}}
 |-
 |1.||[[Benutzer:Yashem|Yashem]]||3.0||4||76||12.0
 |-
-|2.||[[Benutzer:goodygoody|goodygoody]]||-3.0||0||77||-3.0
+|2.||[[Benutzer:Kev|Kev]]||-3.0||0||77||-3.0
 |-
-|3.||[[Benutzer:Kev|Kev]]||-3.0||0||77||-3.0
+|3.||[[Benutzer:goodygoody|goodygoody]]||-3.0||0||77||-3.0
 |-
 |}
 
