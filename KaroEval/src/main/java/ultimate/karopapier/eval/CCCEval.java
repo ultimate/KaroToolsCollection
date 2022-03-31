@@ -140,7 +140,7 @@ public class CCCEval extends Eval<GameSeries>
 		}
 
 		// create the header for the final table
-		String[] finalTableHead = new String[this.stats_challengesCreated + 12];
+		String[] finalTableHead = new String[this.stats_challengesCreated + 11];
 		int col = 0;
 		finalTableHead[col++] = "Platz";
 		finalTableHead[col++] = "Spieler";
@@ -155,7 +155,6 @@ public class CCCEval extends Eval<GameSeries>
 		finalTableHead[col++] = "Endergebnis";
 		finalTableHead[col++] = "Abgeschlossene Rennen";
 		finalTableHead[col++] = "Erwartungswert";
-		finalTableHead[col++] = "Erwartungswert (alt)";
 
 		// init variables
 		this.tables = new Table[stats_challengesTotal][];
@@ -306,11 +305,11 @@ public class CCCEval extends Eval<GameSeries>
 
 		StringBuilder total = new StringBuilder();
 
-		if(!finished)
-			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
+		if(finished) // without "Abgeschlossene Rennen" & "Erwartungswert"
+			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 2))); 
 		else
-			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 1))); // without
-																																		// expected
+			total.append(WikiUtil.toString(finalTable, "alignedright", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
+		//
 
 		StringBuilder stats = new StringBuilder();
 
@@ -939,9 +938,9 @@ public class CCCEval extends Eval<GameSeries>
 			logger.debug("  crash_allraces_players = " + crash_allraces_players);
 			logger.debug("  avg_crashs             = " + avg_crashs);
 			logger.debug("  avg_points             = " + avg_points);
-			
+
 			double expected_max = 0;
-			
+
 			for(User user : usersByLogin)
 			{
 				double player_avg_crashs = 0;
@@ -1014,9 +1013,11 @@ public class CCCEval extends Eval<GameSeries>
 				userStats.get(user.getId()).scaledExpected += userChallengeStats[c].get(user.getId()).scaledExpected;
 
 				logger.trace("  " + user.getLogin() + "\t: unscaled = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaled) + "\t -> expected = "
-						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaledExpected) + "\t -> delta = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaledExpected - userChallengeStats[c].get(user.getId()).unscaled));
+						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaledExpected) + "\t -> delta = "
+						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaledExpected - userChallengeStats[c].get(user.getId()).unscaled));
 				logger.trace("  " + user.getLogin() + "\t: scaled   = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).scaled) + "\t -> expected = "
-						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).scaledExpected) + "\t -> delta = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).scaledExpected - userChallengeStats[c].get(user.getId()).scaled));
+						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).scaledExpected) + "\t -> delta = "
+						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).scaledExpected - userChallengeStats[c].get(user.getId()).scaled));
 			}
 		}
 	}
