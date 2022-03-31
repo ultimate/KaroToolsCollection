@@ -412,11 +412,11 @@ public class CCCEval extends Eval<GameSeries>
 				row[col] = userChallengeStats[c].get(user.getId()).scaled;
 
 				if(userChallengeStats[c].get(user.getId()).scaled >= 100.0)
-					row[col] = WikiUtil.highlight(row[col]);
+					row[col] = WikiUtil.highlight(WikiUtil.preprocess(row[col]));
 
 				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
 				{
-					row[col] = row[col] + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
+					row[col] = WikiUtil.preprocess(row[col]) + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
 					finished = false;
 				}
 
