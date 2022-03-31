@@ -86,6 +86,7 @@ public class KaroCronTool
 		String wikiUsername = properties.getProperty("wiki.username");
 		String wikiPassword = properties.getProperty("wiki.password");
 		boolean wikiBot = Boolean.valueOf(properties.getProperty("wiki.bot"));
+		boolean wikiUpload = Boolean.valueOf(properties.getProperty("wiki.upload"));
 
 		executions++;
 		logger.info("current execution: " + executions);
@@ -193,7 +194,7 @@ public class KaroCronTool
 		}
 
 		// upload wiki
-		if(wikiFiles != null && wikiFiles.size() > 0)
+		if(wikiUpload && wikiFiles != null && wikiFiles.size() > 0)
 		{
 			logger.info("initating wiki API... ");
 			KaroWikiAPI karoWikiAPI = new KaroWikiAPI();

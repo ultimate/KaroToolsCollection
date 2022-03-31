@@ -93,7 +93,7 @@ public abstract class WikiUtil
 		return sb.toString();
 	}
 
-	private static Object preprocess(Object value)
+	public static Object preprocess(Object value)
 	{
 		if(value instanceof Double)
 			return round((double) value);
