@@ -217,11 +217,6 @@ public class CCCEval extends Eval<GameSeries>
 	{
 		long start;
 
-		// logger.info("buffering games... ");
-		// start = System.currentTimeMillis();
-		// loadGameDetails(gameSeries);
-		// logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
-
 		logger.info("creating tables... ");
 		start = System.currentTimeMillis();
 		boolean finished = createTables();
