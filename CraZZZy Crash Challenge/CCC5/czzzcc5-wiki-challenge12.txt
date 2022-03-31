@@ -1,4 +1,4 @@
-= Challenge 12 =
+= Challenge 12 = 
 Strecke: {{Karte|122}}
 == Rennergebnisse ==
 {|class="wikitable"

@@ -79,11 +79,11 @@ Challenge {{Rennen|117066|23.6}}
 |-
 |1.||[[Benutzer:Foley|Foley]]||4.0||5||36||20.0
 |-
-|2.||[[Benutzer:Kev|Kev]]||-4.0||0||37||-4.0
+|2.||[[Benutzer:Kamik|Kamik]]||-4.0||0||37||-4.0
 |-
 |3.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||3||37||-4.0
 |-
-|4.||[[Benutzer:Kamik|Kamik]]||-4.0||0||37||-4.0
+|4.||[[Benutzer:Kev|Kev]]||-4.0||0||37||-4.0
 |-
 |}
 ||
@@ -239,9 +239,9 @@ Challenge {{Rennen|117082|23.17}}
 |-
 |2.||[[Benutzer:Slybotone|Slybotone]]||2.0||4||34||8.0
 |-
-|3.||[[Benutzer:goodygoody|goodygoody]]||-4.0||0||35||-4.0
+|3.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||35||-4.0
 |-
-|4.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||35||-4.0
+|4.||[[Benutzer:goodygoody|goodygoody]]||-4.0||0||35||-4.0
 |-
 |}
 ||
@@ -367,9 +367,9 @@ Challenge {{Rennen|117098|23.26}}
 |-
 |2.||[[Benutzer:Yashem|Yashem]]||2.0||4||37||8.0
 |-
-|3.||[[Benutzer:Kev|Kev]]||-4.0||0||38||-4.0
+|3.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||38||-4.0
 |-
-|4.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||38||-4.0
+|4.||[[Benutzer:Kev|Kev]]||-4.0||0||38||-4.0
 |-
 |}
 ||
@@ -567,9 +567,9 @@ Challenge {{Rennen|117102|23.40}}
 |-
 |2.||[[Benutzer:recke|recke]]||2.0||5||36||10.0
 |-
-|3.||[[Benutzer:KaBotte|KaBotte]]||-4.0||0||37||-4.0
+|3.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||37||-4.0
 |-
-|4.||[[Benutzer:MasterLex515|MasterLex515]]||-4.0||0||37||-4.0
+|4.||[[Benutzer:KaBotte|KaBotte]]||-4.0||0||37||-4.0
 |-
 |}
 ||
@@ -595,9 +595,9 @@ Challenge {{Rennen|117100|23.42}}
 |-
 |2.||[[Benutzer:Sly|Sly]]||2.0||3||38||6.0
 |-
-|3.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||0||39||-4.0
+|3.||[[Benutzer:Kamik|Kamik]]||-4.0||0||39||-4.0
 |-
-|4.||[[Benutzer:Kamik|Kamik]]||-4.0||0||39||-4.0
+|4.||[[Benutzer:mAvErICk|mAvErICk]]||-4.0||0||39||-4.0
 |-
 |}
 

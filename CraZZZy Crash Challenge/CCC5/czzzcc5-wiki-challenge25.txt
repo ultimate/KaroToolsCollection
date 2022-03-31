@@ -1,4 +1,4 @@
-= Challenge 25 =
+= Challenge 25 = 
 Strecke: {{Karte|10014}}
 == Rennergebnisse ==
 {|class="wikitable"

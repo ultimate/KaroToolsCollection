@@ -61,9 +61,9 @@ Challenge {{Rennen|116223|17.4}}
 |-
 |3.||[[Benutzer:eisbaer04|eisbaer04]]||2.0||7||63||14.0
 |-
-|4.||[[Benutzer:yeahpopdoll|yeahpopdoll]]||-5.0||1||64||-5.0
+|4.||[[Benutzer:Kev|Kev]]||-5.0||2||64||-5.0
 |-
-|5.||[[Benutzer:Kev|Kev]]||-5.0||2||64||-5.0
+|5.||[[Benutzer:yeahpopdoll|yeahpopdoll]]||-5.0||1||64||-5.0
 |-
 |}
 ||
@@ -93,9 +93,9 @@ Challenge {{Rennen|116225|17.6}}
 |-
 |3.||[[Benutzer:Foley|Foley]]||2.0||7||62||14.0
 |-
-|4.||[[Benutzer:Kamik|Kamik]]||-5.0||0||63||-5.0
+|4.||[[Benutzer:MasterLex515|MasterLex515]]||-5.0||0||63||-5.0
 |-
-|5.||[[Benutzer:MasterLex515|MasterLex515]]||-5.0||0||63||-5.0
+|5.||[[Benutzer:Kamik|Kamik]]||-5.0||0||63||-5.0
 |-
 |}
 ||
@@ -501,9 +501,9 @@ Challenge {{Rennen|116251|17.31}}
 |-
 |3.||[[Benutzer:sir tobi|sir tobi]]||2.0||6||68||12.0
 |-
-|4.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||1||69||-5.0
+|4.||[[Benutzer:Kamik|Kamik]]||-5.0||0||69||-5.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-5.0||0||69||-5.0
+|5.||[[Benutzer:mAvErICk|mAvErICk]]||-5.0||1||69||-5.0
 |-
 |}
 ||
@@ -565,9 +565,9 @@ Challenge {{Rennen|116255|17.35}}
 |-
 |3.||[[Benutzer:aristarch|aristarch]]||2.0||7||70||14.0
 |-
-|4.||[[Benutzer:goodygoody|goodygoody]]||-5.0||0||71||-5.0
+|4.||[[Benutzer:Kamik|Kamik]]||-5.0||0||71||-5.0
 |-
-|5.||[[Benutzer:Kamik|Kamik]]||-5.0||0||71||-5.0
+|5.||[[Benutzer:goodygoody|goodygoody]]||-5.0||0||71||-5.0
 |-
 |}
 
