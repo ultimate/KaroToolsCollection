@@ -555,7 +555,7 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected Table createTable(int c, int g)
 	{
-		logger.info("creating tables for challenge #" + (c + 1) + "." + (g + 1));
+		logger.debug("creating tables for challenge #" + (c + 1) + "." + (g + 1));
 
 		Table table = new Table(TABLE_HEAD_GAME);
 		Game game = getGame(c, g).getGame();
@@ -816,7 +816,7 @@ public class CCCEval extends Eval<GameSeries>
 					if(!game.getPlayers().contains(user2))
 						continue;
 
-					logger.debug(user1.getLogin() + " vs. " + user2.getLogin() + "     u=" + u + ", col=" + col);
+					// logger.debug(user1.getLogin() + " vs. " + user2.getLogin() + " u=" + u + ", col=" + col);
 					value = ((int) whoOnWho.getValue(u, col)) + 1;
 					whoOnWho.setValue(u, col, value);
 					whoOnWho.setValue(col, u, value);
@@ -885,66 +885,72 @@ public class CCCEval extends Eval<GameSeries>
 
 	protected void calculateExpected()
 	{
-		int players_crashed;
-		int players_crashed_allgames = 0;
-		int players_finished;
-		@SuppressWarnings("unused")
-		int players_finished_allgames = 0;
-
-		for(UserStats us : userStats.values())
-		{
-			// count how many players had a crash (all games)
-			if(us.crashs > 0)
-				players_crashed_allgames++;
-			// count how many players are finished (all games)
-			if(us.finished == stats_gamesPerPlayer)
-				players_finished_allgames++;
-		}
-
-		double avg_crashs;
-		double avg_points;
-		double expected;
-		double expected_max;
-		double actual_positive;
-		double actual_negative;
-		int positive_count, negative_count;
-		double player_avg_crashs;
-		double player_avg_points;
 		UserStats ugs;
 		for(int c = 0; c < this.stats_challengesCreated; c++)
 		{
-			expected_max = 0;
+			logger.debug("calculating expected for challenge #" + (c + 1));
 
-			players_crashed = 0;
-			players_finished = 0;
-			for(UserStats us : userChallengeStats[c].values())
-			{
-				// count how many players had a crash (this challenge)
-				if(us.crashs > 0)
-					players_crashed++;
-				// count how many players are finished (this challenge)
-				if(us.finished == stats_gamesPerPlayer)
-					players_finished++;
-			}
-			// if there are crashs in this challenge --> use local average, otherwise total
-			if(players_crashed != 0)
-				avg_crashs = challengeStats[c].crashs / players_crashed;
-			else if(players_crashed_allgames != 0)
-				avg_crashs = totalStats.crashs / players_crashed_allgames;
-			else
-				avg_crashs = 0;
-
-			// get the average points = points for the mid rank
-			avg_points = pointsPerRank.get(getRules(c).getNumberOfPlayers()).get(getRules(c).getNumberOfPlayers() / 2);
+			double crash_finished_count = 0;
+			double crash_finished_players = 0;
+			double crash_allraces_count = 0;
+			double crash_allraces_players = 0;
+			double total_finished_players = 0;
 
 			for(User user : usersByLogin)
 			{
-				player_avg_crashs = 0;
-				player_avg_points = 0;
-				actual_positive = 0;
-				actual_negative = 0;
-				positive_count = 0;
-				negative_count = 0;
+				for(int g = 0; g < challengeGames[c]; g++)
+				{
+					ugs = userGameStats[c][g].get(user.getId());
+
+					if(ugs.crashs > 0)
+					{
+						// count how often players have crashed in this challenge (in all games)
+						crash_allraces_count += ugs.crashs;
+						crash_allraces_players++;
+
+						// count how often players have crashed in this challenge (in finished games only)
+						if(ugs.basic > 0)
+						{
+							crash_finished_count += ugs.crashs;
+							crash_finished_players++;
+						}
+					}
+					// count how many players have finished a game
+					if(ugs.basic > 0)
+					{
+						total_finished_players++;
+					}
+				}
+			}
+			// if there are finished games in this challenge --> use crash average for those
+			double avg_crashs = 0;
+			if(crash_finished_players != 0)
+				avg_crashs = crash_finished_count / crash_finished_players;
+			// otherwise use the crash average for all games in this challenge
+			else if(crash_allraces_players != 0)
+				avg_crashs = crash_allraces_count / crash_allraces_players;
+
+			// get the average points = points for the mid rank
+			double avg_points = pointsPerRank.get(getRules(c).getNumberOfPlayers()).get(getRules(c).getNumberOfPlayers() / 2);
+
+			logger.debug("  crash_finished_count   = " + crash_finished_count);
+			logger.debug("  crash_finished_players = " + crash_finished_players);
+			logger.debug("  crash_allraces_count   = " + crash_allraces_count);
+			logger.debug("  crash_allraces_players = " + crash_allraces_players);
+			logger.debug("  avg_crashs             = " + avg_crashs);
+			logger.debug("  avg_points             = " + avg_points);
+			
+			double expected_max = 0;
+			
+			for(User user : usersByLogin)
+			{
+				double player_avg_crashs = 0;
+				double player_avg_points = 0;
+				double actual_positive = 0;
+				double actual_negative = 0;
+				int positive_count = 0;
+				int negative_count = 0;
+				double expected;
 
 				for(int g = 0; g < challengeGames[c]; g++)
 				{
@@ -954,9 +960,9 @@ public class CCCEval extends Eval<GameSeries>
 
 					if(ugs.unscaled > 0)
 					{
-						actual_positive += ugs.crashs * ugs.unscaled;
+						actual_positive += ugs.unscaled;
 						player_avg_crashs += ugs.crashs;
-						player_avg_points += ugs.unscaled;
+						player_avg_points += ugs.basic;
 						positive_count++;
 					}
 					else
@@ -991,7 +997,6 @@ public class CCCEval extends Eval<GameSeries>
 					expected = actual_positive + actual_negative;
 					expected += avg_crashs * avg_points * stats_gamesPerPlayerPerChallenge;
 				}
-				// logger.debug(user.getLogin() + ": unscaledExpected=" + expected);
 				userChallengeStats[c].get(user.getId()).unscaledExpected = expected;
 				userStats.get(user.getId()).unscaledExpected += expected;
 
@@ -1001,12 +1006,17 @@ public class CCCEval extends Eval<GameSeries>
 
 			for(User user : usersByLogin)
 			{
-				if(players_finished > 0)
+				if(total_finished_players > 0)
 					userChallengeStats[c].get(user.getId()).scaledExpected = userChallengeStats[c].get(user.getId()).unscaledExpected * 100 / expected_max;
 				else
 					userChallengeStats[c].get(user.getId()).scaledExpected = 50.0;
-				logger.debug(user.getLogin() + ": scaledExpected=" + userChallengeStats[c].get(user.getId()).scaledExpected);
+
 				userStats.get(user.getId()).scaledExpected += userChallengeStats[c].get(user.getId()).scaledExpected;
+
+				logger.trace("  " + user.getLogin() + "\t: unscaled = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaled) + "\t -> expected = "
+						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaledExpected) + "\t -> delta = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).unscaledExpected - userChallengeStats[c].get(user.getId()).unscaled));
+				logger.trace("  " + user.getLogin() + "\t: scaled   = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).scaled) + "\t -> expected = "
+						+ WikiUtil.round(userChallengeStats[c].get(user.getId()).scaledExpected) + "\t -> delta = " + WikiUtil.round(userChallengeStats[c].get(user.getId()).scaledExpected - userChallengeStats[c].get(user.getId()).scaled));
 			}
 		}
 	}
