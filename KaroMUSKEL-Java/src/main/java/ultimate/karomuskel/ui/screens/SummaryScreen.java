@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
@@ -35,10 +34,10 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
-import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karomuskel.Creator;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.FileDialog;
@@ -53,7 +52,8 @@ import ultimate.karomuskel.ui.components.UserCellEditor;
 public class SummaryScreen extends Screen implements ActionListener
 {
 	private static final long	serialVersionUID	= 1L;
-	private static final int	MAX_DEBUG_SLEEP_TIME = 0x1FF;
+
+	private Creator				creator;
 
 	private GameSeries			gameSeries;
 	private Screen				startScreen;
@@ -102,6 +102,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.skipPlan = skipPlan;
 		this.key = key;
+
+		this.creator = new Creator(karoAPICache);
 	}
 
 	@Override
@@ -234,24 +236,10 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToCreate)
 			{
-				CompletableFuture<Game> createCF;
 				for(PlannedGame plannedGame : this.gamesToCreate)
 				{
 					this.model.setStatus(plannedGame, CREATING);
-					//@formatter:off
-					if(this.karoAPICache.getKaroAPI() != null)
-						createCF = this.karoAPICache.getKaroAPI().createGame(plannedGame);
-					else
-						createCF = CompletableFuture.supplyAsync(() -> {
-							try	{ Thread.sleep(plannedGame.hashCode() & MAX_DEBUG_SLEEP_TIME); } catch(InterruptedException e) { }
-							return new Game(plannedGame.hashCode());
-						});
-					createCF.thenAcceptAsync(createdGame -> {
-						plannedGame.setCreated(true);
-						plannedGame.setGame(createdGame);
-						notifyGameCreated(plannedGame);
-					});
-					//@formatter:on
+					this.creator.createGame(plannedGame).thenAcceptAsync(v -> { notifyGameCreated(plannedGame); });
 				}
 			}
 		}
@@ -287,29 +275,13 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToLeaveTmp)
 			{
-				CompletableFuture<Boolean> kickCF;
 				for(PlannedGame plannedGame : this.gamesToLeaveTmp)
 				{
 					if(plannedGame.getGame() == null)
 						continue;
 
 					this.model.setStatus(plannedGame, LEAVING);
-					if(this.karoAPICache.getKaroAPI() != null)
-						kickCF = this.karoAPICache.getKaroAPI().kick(plannedGame.getGame().getId(), karoAPICache.getCurrentUser().getId());
-					else
-						kickCF = CompletableFuture.supplyAsync(() -> {
-							try	{ Thread.sleep(plannedGame.hashCode() & MAX_DEBUG_SLEEP_TIME); } catch(InterruptedException e) { }
-							return true;
-						});
-					//@formatter:off
-					kickCF.thenAcceptAsync(leftGame -> {
-						if(leftGame)
-						{
-							plannedGame.setLeft(true);
-							notifyGameLeft(plannedGame);
-						}
-					});
-					//@formatter:on
+					this.creator.leaveGame(plannedGame).thenAcceptAsync(v -> { notifyGameLeft(plannedGame); });
 				}
 			}
 		}

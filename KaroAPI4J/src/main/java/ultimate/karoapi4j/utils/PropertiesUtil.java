@@ -8,7 +8,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -133,11 +139,23 @@ public abstract class PropertiesUtil
 	 */
 	public static void storeProperties(File file, Properties properties, String comments, boolean zipped) throws IOException
 	{
+		// sort keys
+		// https://stackoverflow.com/a/54355584/4090157
+		Properties tmp = new Properties() {
+			private static final long serialVersionUID = 1L;
+
+			public synchronized Set<Map.Entry<Object, Object>> entrySet()
+			{
+				return Collections.synchronizedSet(super.entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().toString())).collect(Collectors.toCollection(LinkedHashSet::new)));
+			}
+		};
+		tmp.putAll(properties);
+
 		OutputStream os = new FileOutputStream(file);
 		if(zipped)
 			os = new GZIPOutputStream(os);
 		os = new BufferedOutputStream(os);
-		properties.store(os, comments);
+		tmp.store(os, comments);
 		os.flush();
 		os.close();
 	}
