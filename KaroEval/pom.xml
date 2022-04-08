@@ -41,7 +41,7 @@
 					</descriptors>
 					<archive>
 						<manifest>
-							<mainClass>ultimate.karomuskel.Launcher</mainClass>
+							<mainClass>ultimate.karopapier.cron.KaroCronTool</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
