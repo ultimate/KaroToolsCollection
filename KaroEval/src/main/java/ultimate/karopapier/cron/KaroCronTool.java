@@ -360,7 +360,6 @@ public class KaroCronTool
 			logger.info("reason: " + message);
 		if(e != null)
 			logger.error("cause: ", e);
-		e.printStackTrace();
 		System.exit(0);
 	}
 }
