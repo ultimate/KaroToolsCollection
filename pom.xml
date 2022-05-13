@@ -16,7 +16,6 @@
 		<module>KaroMUSKEL-Java</module>
 		<module>KaroEval</module>
 		<module>KaroExperiments</module>
-		<module>Recycle-Bin</module>
 	</modules>
 
 	<developers>
