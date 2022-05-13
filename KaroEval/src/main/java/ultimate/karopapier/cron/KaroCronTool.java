@@ -359,7 +359,7 @@ public class KaroCronTool
 		if(message != null)
 			logger.info("reason: " + message);
 		if(e != null)
-			logger.error(e);
+			logger.error("cause: ", e);
 		System.exit(0);
 	}
 }
