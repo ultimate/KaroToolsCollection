@@ -24,6 +24,40 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<configuration>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+					<archive>
+						<manifest>
+							<mainClass>ultimate.karopapier.cron.KaroCronTool</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-archive</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<properties>
 	</properties>
 </project>
