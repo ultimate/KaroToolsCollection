@@ -90,7 +90,18 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				List<User> players = gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + previousRound);
+				List<User> players = new ArrayList<User>(previousRound);
+				// see issue #131:
+				// we cannot just take the players from the "roundOfX" list, since they have been shuffled on creation
+				// (players are converted to temporary teams and they are shuffled, but the shuffling is not reflected back to the player list)
+				// hence we need to take the players from the actually created games instead
+				for(PlannedGame g : gameSeries.getGames().get(gameSeries.getType().toString() + "." + GameSeries.KEY_ROUND + previousRound))
+				{
+					// add the 2 players from each match
+					// index 0 = creator; index 1 and 2 = players
+					players.add(g.getPlayers().get(1));
+					players.add(g.getPlayers().get(2));
+				}
 
 				List<User> winnerPlayers = new LinkedList<User>();
 				for(int i = 0; i < this.winners.length; i++)
@@ -125,7 +136,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			{
 				int leagues = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_LEAGUES);
 				List<User> allPlayers = new LinkedList<>();
-				// Liegen durchmischen & zur Liste hinzufügen
+				// Ligen durchmischen & zur Liste hinzufügen
 				List<User> leaguePlayers;
 				for(int l = 1; l <= leagues; l++)
 				{
