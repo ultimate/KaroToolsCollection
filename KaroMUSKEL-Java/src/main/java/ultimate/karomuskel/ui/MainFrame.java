@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Launcher;
 import ultimate.karomuskel.ui.screens.StartScreen;
 
@@ -132,8 +133,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 	{
 		if(messageKey == null)
 			return true;
-		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey, Screen.totalWidth * 2 / 3), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey, Screen.totalWidth * 2 / 3), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if(result == JOptionPane.OK_OPTION)
 			return true;
 		return false;
@@ -159,8 +159,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 				break;
 		}
 
-		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString(titleKey),
-				type);
+		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString(titleKey), type);
 	}
 
 	private void navigate(EnumNavigation direction)
@@ -170,6 +169,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		try
 		{
 			this.gameSeries = this.currentScreen.applySettings(this.gameSeries, direction);
+
+			GameSeriesManager.autosave(this.gameSeries);
 
 			Screen newScreen = this.currentScreen;
 

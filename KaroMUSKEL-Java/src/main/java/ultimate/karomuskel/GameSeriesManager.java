@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectStreamClass;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -90,6 +93,22 @@ public abstract class GameSeriesManager
 	 */
 	public static final String				CHARSET							= "UTF-8";
 	/**
+	 * Date format for the autosave feature
+	 */
+	public static final DateFormat			AUTOSAVE_DATEFORMAT				= new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+	/**
+	 * The folder for the autosave
+	 */
+	public static final String				AUTOSAVE_FOLDER					= "autosaves";
+	/**
+	 * The filename pattern for the autosave
+	 */
+	public static final String				AUTOSAVE_PREFIX					= "gameseries ";
+	/**
+	 * The filename pattern for the autosave
+	 */
+	public static final String				AUTOSAVE_SUFFIX					= ".json";
+	/**
 	 * The prefix for the GameSeries configurations
 	 */
 	public static final String				CONFIG_GAMESERIES_PREFIX		= "gameseries";
@@ -97,6 +116,10 @@ public abstract class GameSeriesManager
 	 * The config delimiter ('.')
 	 */
 	public static final char				CONFIG_DELIMITER				= '.';
+	/**
+	 * The config key for "autosaves"
+	 */
+	public static final String				CONFIG_AUTOSAVES				= "autosaves";
 	/**
 	 * The config key for "allow creator give up"
 	 */
@@ -316,6 +339,52 @@ public abstract class GameSeriesManager
 		bos.flush();
 		bos.close();
 		fos.close();
+	}
+
+	/**
+	 * Autosave the current state of the gameseries
+	 * 
+	 * @param gs - the {@link GameSeries}
+	 */
+	public static boolean autosave(GameSeries gs)
+	{
+		int autosaves = getIntConfig(null, CONFIG_AUTOSAVES);
+		if(autosaves <= 0)
+			return false;
+
+		File autosaveFolder = new File(AUTOSAVE_FOLDER);
+		File autosaveFile = new File(autosaveFolder, AUTOSAVE_PREFIX + AUTOSAVE_DATEFORMAT.format(new Date()) + AUTOSAVE_SUFFIX);
+		try
+		{
+			if(!autosaveFolder.exists())
+				autosaveFolder.mkdirs();
+			
+			GameSeriesManager.store(gs, autosaveFile);
+
+			File[] existingAutosaves = autosaveFolder.listFiles((dir, name) -> {
+				return name.startsWith(AUTOSAVE_PREFIX) && name.endsWith(AUTOSAVE_SUFFIX);
+			});
+			Arrays.sort(existingAutosaves, (file1, file2) -> {
+				return file1.getName().compareTo(file2.getName());
+			});
+
+			for(int i = 0; i < existingAutosaves.length - autosaves; i++)
+			{
+				existingAutosaves[i].delete();
+			}
+
+			return true;
+		}
+		catch(IOException e)
+		{
+			logger.error("error creating autosave: " + autosaveFile.getAbsolutePath(), e);
+			return false;
+		}
+		catch(SecurityException e)
+		{
+			logger.error("error deleting previous autosave", e);
+			return true;
+		}
 	}
 
 	/**
@@ -722,8 +791,7 @@ public abstract class GameSeriesManager
 	 * @param karoAPICache
 	 * @return
 	 */
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
-			KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls, KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
 			return null;
@@ -819,8 +887,7 @@ public abstract class GameSeriesManager
 				int koround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : teams * 2);
 				while(teams > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams == koround,
-							gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams == koround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
 
 					if(gs.isLoaded() && teams == koround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -875,8 +942,7 @@ public abstract class GameSeriesManager
 				players = firstKO;
 				while(players > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players == klcround,
-							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players == klcround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
 
 					if(gs.isLoaded() && players == klcround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -904,8 +970,12 @@ public abstract class GameSeriesManager
 			boolean homeMaps = (gs.isLoaded() ? ((boolean) gs.get(GameSeries.USE_HOME_MAPS)) && (numberOfGamesPerPair > 1) : true);
 			boolean otherMaps = (numberOfGamesPerPair % 2 == 1) || (!homeMaps);
 
-			screens.getLast().findScreen(s -> { return s instanceof HomeMapsScreen; }, EnumNavigation.previous).setSkip(!homeMaps);
-			screens.getLast().findScreen(s -> { return s instanceof MapsScreen; }, EnumNavigation.previous).setSkip(!otherMaps);
+			screens.getLast().findScreen(s -> {
+				return s instanceof HomeMapsScreen;
+			}, EnumNavigation.previous).setSkip(!homeMaps);
+			screens.getLast().findScreen(s -> {
+				return s instanceof MapsScreen;
+			}, EnumNavigation.previous).setSkip(!otherMaps);
 		}
 
 		return screens;

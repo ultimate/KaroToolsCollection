@@ -38,6 +38,7 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.Creator;
+import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.FileDialog;
@@ -159,6 +160,8 @@ public class SummaryScreen extends Screen implements ActionListener
 						this.gamesLeft.add(game);
 				}
 		}
+		
+		GameSeriesManager.autosave(this.gameSeries);
 
 		this.removeAll();
 		this.setLayout(new BorderLayout());
@@ -220,6 +223,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void createGames()
 	{
+		GameSeriesManager.autosave(this.gameSeries);
+		
 		int amount = this.gamesToCreate.size();
 		logger.info("Spiele zu erstellen: " + amount);
 
@@ -252,6 +257,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void leaveGames()
 	{
+		GameSeriesManager.autosave(this.gameSeries);
+		
 		this.gamesToLeaveTmp = new LinkedList<PlannedGame>();
 		for(PlannedGame game : this.gamesToLeave)
 		{
@@ -306,6 +313,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.gamesToCreate.size() == 0)
 			{
 				this.inProgress = false;
+				
+				GameSeriesManager.autosave(this.gameSeries);
+				
 				enableButtons();
 			}
 		}
@@ -326,6 +336,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.gamesToLeaveTmp.size() == 0)
 			{
 				this.inProgress = false;
+				
+				GameSeriesManager.autosave(this.gameSeries);
+				
 				enableButtons();
 			}
 		}
