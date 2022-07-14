@@ -24,6 +24,7 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
@@ -148,8 +149,17 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
-				for(User p : gameSeries.getPlayersByKey().get(GameSeries.KEY_ROUND + numBefore))
-					names.add(p.getLogin());
+				// see issue #131:
+				// we cannot just take the players from the "roundOfX" list, since they have been shuffled on creation
+				// (players are converted to temporary teams and they are shuffled, but the shuffling is not reflected back to the player list)
+				// hence we need to take the players from the actually created games instead
+				for(PlannedGame g : gameSeries.getGames().get(gameSeries.getType().toString() + "." + GameSeries.KEY_ROUND + numBefore))
+				{
+					// add the 2 players from each match
+					// index 0 = creator; index 1 and 2 = players
+					names.add(g.getPlayers().get(1).getLogin());
+					names.add(g.getPlayers().get(2).getLogin());
+				}
 			}
 
 			this.winners = new boolean[numBefore];
