@@ -52,7 +52,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals("1.1.2", KaroAPI.getVersion());
+		assertEquals("1.1.3", KaroAPI.getVersion());
 	}
 
 	@Test
@@ -594,6 +594,51 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNull(game.getPlayers().get(0).getPossibles());
 		assertTrue(game.isFinished());
+	}
+
+	@Test
+	public void test_createAndLeaveGame() throws InterruptedException, ExecutionException
+	{
+
+		int sleep = 500;
+		
+		User user = karoAPI.check().get();
+
+		PlannedGame plannedGame = new PlannedGame();
+		plannedGame.setMap(new Map(105));
+		plannedGame.getPlayers().add(user);
+		plannedGame.setName("KaroAPI-Test-Game");
+		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
+
+		Game game = karoAPI.createGame(plannedGame).get();
+		assertNotNull(game);
+		assertNotNull(game.getId());
+		assertEquals(plannedGame.getName(), game.getName());
+
+		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
+		int gameId = game.getId();
+		int moves = 0;
+		int crashs = 0;
+		
+		Thread.sleep(sleep);
+
+		// load full game -> check players and moves
+		game = karoAPI.getGame(gameId, false, true, true).get();
+		assertNotNull(game);
+		assertNotNull(game.getId());
+		assertNotNull(game.getPlayers());
+		assertEquals(1, game.getPlayers().size());
+		assertEquals(user.getId(), game.getPlayers().get(0).getId());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertNotNull(game.getPlayers().get(0).getPossibles());
+		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
+		
+		Thread.sleep(sleep);
+		
+		boolean left = karoAPI.leaveGame(gameId).get();
+		assertTrue(left);
 	}
 
 	@Test

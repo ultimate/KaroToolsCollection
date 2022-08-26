@@ -69,7 +69,6 @@ public class PlayersScreen extends Screen implements ActionListener
 		return "screen.players.next";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
@@ -162,7 +161,6 @@ public class PlayersScreen extends Screen implements ActionListener
 		return gameSeries;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
@@ -515,7 +513,6 @@ public class PlayersScreen extends Screen implements ActionListener
 		this.firstShow = false;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void preselectPlayer(User player, int teamIndex)
 	{
 		logger.debug("preselect player: " + player.getLogin());
@@ -531,7 +528,6 @@ public class PlayersScreen extends Screen implements ActionListener
 		actionPerformed(new ActionEvent(this, 0, "add" + teamIndex));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -585,7 +581,6 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private String createTeamName(int teamIndex)
 	{
 		User[] teamPlayers = ((GenericListModel<String, User>) teamLIList.get(teamIndex).getModel()).getEntryArray();
