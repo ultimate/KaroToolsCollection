@@ -237,6 +237,7 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													GAME_CREATE					= API.relative("/game");
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
+	@Deprecated(since = "3.0.7")
 	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
 	protected final URLLoader													GAME_REFRESH				= KAROPAPIER.relative("/showmap.php?GID=" + PLACEHOLDER);
 	// maps
@@ -798,16 +799,25 @@ public class KaroAPI implements IDLookUp
 	 * Note: kicking foreign players will fail if you are not Didi ;-)
 	 * 
 	 * @param gameId - the game
-	 * @param move - the move to make
+	 * @param userId - the user to kick
 	 * @return true if the operation was successful, false otherwise
 	 */
+	@Deprecated(since = "3.0.7")
 	public CompletableFuture<Boolean> kick(int gameId, int userId)
 	{
-		HashMap<String, Object> args = new HashMap<>();
-		args.put("GID", "" + gameId);
-		args.put("UID", "" + userId);
-		args.put("sicher", "1");
-		return loadAsync(GAME_KICK.doGet(args), (result) -> { return result != null && result.contains("Fertig, Du bist draussen..."); });
+		return leaveGame(gameId);
+	}
+
+
+	/**
+	 * Leave a game.<br>
+	 * 
+	 * @param gameId - the game
+	 * @return true if the operation was successful, false otherwise
+	 */
+	public CompletableFuture<Boolean> leaveGame(int gameId)
+	{
+		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doDelete(), (result) -> { return result != null && result.contains("[]"); });
 	}
 
 	///////////////////////
