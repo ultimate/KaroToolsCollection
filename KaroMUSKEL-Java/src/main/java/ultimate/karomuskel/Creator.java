@@ -55,7 +55,7 @@ public class Creator
 
 		CompletableFuture<Boolean> cf;
 		if(this.karoAPICache.getKaroAPI() != null)
-			cf = this.karoAPICache.getKaroAPI().kick(plannedGame.getGame().getId(), karoAPICache.getCurrentUser().getId());
+			cf = this.karoAPICache.getKaroAPI().leaveGame(plannedGame.getGame().getId());
 		else
 			cf = CompletableFuture.supplyAsync(() -> { randomSleep(); return true; });
 		return cf.thenAcceptAsync(leftGame -> {

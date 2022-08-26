@@ -55,7 +55,6 @@ public class MapsScreen extends Screen implements ActionListener
 		return "screen.maps.next";
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
@@ -146,7 +145,6 @@ public class MapsScreen extends Screen implements ActionListener
 		this.firstShow = false;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void preselectMap(Map map)
 	{
 		logger.debug("preselect map: " + map.getId());
@@ -162,7 +160,6 @@ public class MapsScreen extends Screen implements ActionListener
 		actionPerformed(new ActionEvent(this, 0, "add"));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
