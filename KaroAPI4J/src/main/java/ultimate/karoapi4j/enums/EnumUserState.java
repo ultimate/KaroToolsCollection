@@ -18,4 +18,8 @@ public enum EnumUserState
 	 * inactive
 	 */
 	inactive,
+	/**
+	 * pending
+	 */
+	pending,
 }
