@@ -268,7 +268,7 @@ public class CCCEval2 extends Eval<GameSeries>
 			 * detail.append("\r\n");
 			 */
 			detail.append("== Tabellarische Auswertung ==\r\n");
-			detail.append(WikiUtil.toString(totalTables[c], "alignedright sortable", "-"));
+			detail.append(WikiUtil.toString(totalTables[c], "alignedright sortable", ""));
 			detail.append("\r\n");
 
 			filesUpdated.add(writeFile("czzzcc" + cccx + "-wiki-challenge" + (c + 1) + ".txt", detail.toString()));
@@ -417,7 +417,9 @@ public class CCCEval2 extends Eval<GameSeries>
 		String[] totalTableHead1 = new String[challengeGames[c] * COLS_PER_RACE + 6];
 		String[] totalTableHead2 = new String[challengeGames[c] * COLS_PER_RACE + 6];
 		int col = 0;
+		
 		totalTableHead2[col++] = "Spieler";
+		
 		for(int g = 0; g < challengeGames[c]; g++)
 		{
 			totalTableHead1[col] = gameToLink(c, g);
@@ -430,12 +432,23 @@ public class CCCEval2 extends Eval<GameSeries>
 			totalTableHead2[col] = "S";
 			col++;
 		}
-		totalTableHead2[col++] = "Züge";
-		totalTableHead2[col++] = "Punkte (Züge)";
-		totalTableHead2[col++] = "Crashs";
-		totalTableHead2[col++] = "Punkte (Crashs)";
-		totalTableHead2[col++] = "Gesamtpunkte";
+		
+		totalTableHead1[col] = "Züge";
+		totalTableHead2[col++] = "Gesamt";
+		totalTableHead2[col++] = "Punkte";
+
+		totalTableHead1[col] = "Crashs";
+		totalTableHead2[col++] = "Gesamt";
+		totalTableHead2[col++] = "Punkte";
+		
+		totalTableHead2[col++] = "Gesamtergebnis";
+		
 		totalTables[c] = new Table(totalTableHead1, totalTableHead2);
+		
+		for(int g = 0; g < challengeGames[c]; g++)
+			totalTables[c].getHeaders().get(0)[g*COLS_PER_RACE + 1].colspan = COLS_PER_RACE;
+		totalTables[c].getHeaders().get(0)[challengeGames[c]*COLS_PER_RACE + 1].colspan = 2;
+		totalTables[c].getHeaders().get(0)[challengeGames[c]*COLS_PER_RACE + 3].colspan = 2;
 
 		calcMetrics(c);
 
@@ -557,10 +570,14 @@ public class CCCEval2 extends Eval<GameSeries>
 			userChallengeStats[c].get(user.getId()).total = totalPoints;
 			userStats.get(user.getId()).total += totalPoints;
 		}
-		// sort by total points
-		totalTables[c].sort(totalTables[c].getColumns() - 1, (Comparator<Double>) (m1, m2) -> {
-			return (int) Math.signum(m2 - m1);
+		// resort by name (was resorted in assignPoints)
+		totalTables[c].sort(0, (Comparator<User>) (m1, m2) -> {
+			return m1.getLoginLowerCase().compareTo(m2.getLoginLowerCase());
 		});
+//		// sort by total points
+//		totalTables[c].sort(totalTables[c].getColumns() - 1, (Comparator<Double>) (m1, m2) -> {
+//			return (int) Math.signum(m2 - m1);
+//		});
 	}
 
 	protected void assignPoints(Table table, int valueColumn, int pointColumn, int sortMode)
