@@ -5,10 +5,12 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karopapier.utils.Table.Cell;
 
 public abstract class WikiUtil
 {
 	public static final String HIGHLIGHT = "'''";
+	public static final String SORTABLE = "sortable";
 
 	private WikiUtil()
 	{
@@ -50,25 +52,27 @@ public abstract class WikiUtil
 		sb.append("\"\r\n");
 
 		int col;
-		if(table.getHeader() != null)
+
+		for(int hi = 0; hi < table.getHeaders().size(); hi++)
 		{
+			Object[] header = table.getHeader(hi);
 			sb.append("!");
 			for(int i = 0; i < columnConfig.length; i++)
 			{
 				col = columnConfig[i];
-				if(col >= table.getHeader().length)
+				if(col >= header.length)
 					continue;
 
 				if(i > 0)
 					sb.append("||");
 
-				sb.append(preprocess(table.getHeader()[col]));
+				sb.append(preprocess(header[col]));
 			}
 			sb.append("\r\n|-\r\n");
 		}
 		for(int ri = 0; ri < table.getRows().size(); ri++)
 		{
-			Object[] row = table.getRow(ri);
+			Cell[] row = table.getRow(ri);
 			sb.append("|");
 			for(int ci = 0; ci < columnConfig.length; ci++)
 			{
@@ -79,12 +83,12 @@ public abstract class WikiUtil
 				if(ci > 0)
 					sb.append("||");
 
-				if(row[col] == null)
+				if(row[col] == null || row[col].value == null)
 					sb.append(nullValue);
-				else if(table.isHighlight(ri, col))
-					sb.append(highlight(preprocess(row[col])));
+				else if(row[col].highlight)
+					sb.append(highlight(preprocess(row[col].value)));
 				else
-					sb.append(preprocess(row[col]));
+					sb.append(preprocess(row[col].value));
 			}
 			sb.append("\r\n|-\r\n");
 		}
