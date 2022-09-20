@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -29,9 +28,9 @@ import ultimate.karopapier.utils.WikiUtil;
 
 public class CCCEval2 extends Eval<GameSeries>
 {
-	private static final String				GAMES_KEY				= "Balanced";
-	private static final String[]			TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
-	private static final int				METRICS_GAME_MAXMOVES	= 0;
+	protected static final String				GAMES_KEY				= "Balanced";
+	protected static final String[]			TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
+	protected static final int				METRICS_GAME_MAXMOVES	= 0;
 
 	protected static final String			STATUS_RACING			= "&#127950;";																	// race car
 	protected static final String			STATUS_FINISHED			= "&#127937;";																	// race flag
@@ -39,37 +38,35 @@ public class CCCEval2 extends Eval<GameSeries>
 	protected static final String			STATUS_FORBIDDEN		= "&#128683;";																	// forbidden
 
 	// TODO read from file
-	private static final int				CLUSTER_SIZE			= 6;
-	private static final double				MAX_CHALLENGE_POINTS	= 5;
-	private static final boolean			APPLY_SQRT				= true;
-	private static final boolean			CAP_NEGATIVE			= true;
-	private static final int				NO_CRASH_PENALTY_OFFSET	= 100;
-	private static final int				NO_CRASH_PENALTY_FACTOR	= 1;
+	protected static final int				CLUSTER_SIZE			= 6;
+	protected static final double				MAX_CHALLENGE_POINTS	= 5;
+	protected static final boolean			APPLY_SQRT				= true;
+	protected static final boolean			CAP_NEGATIVE			= true;
 
-	private int								cccx;
+	protected int								cccx;
 	// stats & metrics
-	private int								stats_challengesTotal;
-	private int								stats_challengesCreated;
-	private int								stats_gamesPerPlayer;
-	private int								stats_gamesPerPlayerPerChallenge;
-	private int								stats_gamesTotal;
-	private int								stats_gamesCreated;
-	private int								stats_players;
-	private UserStats						totalStats;
-	private UserStats[]						challengeStats;
-	private TreeMap<Integer, UserStats>		userStats;
-	private TreeMap<Integer, UserStats>[]	userChallengeStats;
-	private TreeMap<Integer, UserStats>[][]	userGameStats;
-	private double[][]						challengeMetrics;
-	private double[][][]					gameMetrics;
+	protected int								stats_challengesTotal;
+	protected int								stats_challengesCreated;
+	protected int								stats_gamesPerPlayer;
+	protected int								stats_gamesPerPlayerPerChallenge;
+	protected int								stats_gamesTotal;
+	protected int								stats_gamesCreated;
+	protected int								stats_players;
+	protected UserStats						totalStats;
+	protected UserStats[]						challengeStats;
+	protected TreeMap<Integer, UserStats>		userStats;
+	protected TreeMap<Integer, UserStats>[]	userChallengeStats;
+	protected TreeMap<Integer, UserStats>[][]	userGameStats;
+	protected double[][]						challengeMetrics;
+	protected double[][][]					gameMetrics;
 	// helpers
-	private Integer[]						challengeGames;
-	private Integer[]						challengeOffsets;
-	private List<User>						usersByLogin;
+	protected Integer[]						challengeGames;
+	protected Integer[]						challengeOffsets;
+	protected List<User>						usersByLogin;
 	// evaluation
-	private Table[]							totalTables;
-	private Table							finalTable;
-	private Table							whoOnWho;
+	protected Table[]							totalTables;
+	protected Table							finalTable;
+	protected Table							whoOnWho;
 
 	public CCCEval2(int cccx)
 	{
@@ -223,7 +220,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return filesUpdated;
 	}
 
-	private List<File> createWiki(String schema, boolean finished) throws IOException
+	protected List<File> createWiki(String schema, boolean finished) throws IOException
 	{
 		List<File> filesUpdated = new LinkedList<>();
 
@@ -315,7 +312,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return filesUpdated;
 	}
 
-	private boolean createTables()
+	protected boolean createTables()
 	{
 		for(int c = 0; c < this.stats_challengesCreated; c++)
 			createTables(c);
@@ -411,7 +408,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return finished;
 	}
 
-	private void createTables(int c)
+	protected void createTables(int c)
 	{
 		int COLS_PER_RACE = 3;
 		logger.info("creating tables for challenge #" + (c + 1));
@@ -566,7 +563,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		});
 	}
 
-	private void assignPoints(Table table, int valueColumn, int pointColumn, int sortMode)
+	protected void assignPoints(Table table, int valueColumn, int pointColumn, int sortMode)
 	{
 		// sort
 		if(sortMode == CollectionsUtil.DESCENDING)
@@ -606,7 +603,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		}
 	}
 
-	private int getCrashs(int c, int g, Game game, Player player)
+	protected int getCrashs(int c, int g, Game game, Player player)
 	{
 		// crashs --> need to count them, because of possible duplicates
 		int crashs = 0;
@@ -628,7 +625,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return crashs;
 	}
 
-	private int getMoves(int c, int g, Game game, Player player, boolean forbidden)
+	protected int getMoves(int c, int g, Game game, Player player, boolean forbidden)
 	{
 		// moves
 		int moves = 0;
@@ -641,7 +638,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return moves;
 	}
 
-	private double calculatePoints(double movesPoints, double crashPoints, double offset)
+	protected double calculatePoints(double movesPoints, double crashPoints, double offset)
 	{
 		double points = movesPoints * crashPoints + offset;
 		if(APPLY_SQRT)
@@ -651,13 +648,13 @@ public class CCCEval2 extends Eval<GameSeries>
 		return points;
 	}
 
-	private void calcMetrics(int c)
+	protected void calcMetrics(int c)
 	{
 		// for inheritence
 		this.challengeMetrics[c] = new double[0];
 	}
 
-	private void calcMetrics(int c, int g)
+	protected void calcMetrics(int c, int g)
 	{
 		// for inheritence
 		this.gameMetrics[c][g] = new double[1];
@@ -674,7 +671,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		}
 	}
 
-	private void updateWhoOnWho(int c, int g)
+	protected void updateWhoOnWho(int c, int g)
 	{
 		PlannedGame game = getGame(c, g);
 		if(game.getGame() == null)
@@ -703,7 +700,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		}
 	}
 
-	private String getMaxMinWhoOnWho(String type)
+	protected String getMaxMinWhoOnWho(String type)
 	{
 		List<Object[]> maxMinList = new LinkedList<Object[]>();
 		int maxMin = (type.equals("max") ? Integer.MIN_VALUE : Integer.MAX_VALUE);
@@ -760,7 +757,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return ret.toString();
 	}
 
-	private void calculateExpected()
+	protected void calculateExpected()
 	{
 		double maxPoints = (int) Math.ceil(stats_players / (double) CLUSTER_SIZE);
 		double midPoints = (maxPoints - 1) / 2.0 + 1;
@@ -771,8 +768,6 @@ public class CCCEval2 extends Eval<GameSeries>
 
 		UserStats ugs, mins, maxs;
 		List<UserStats> allFinishedStats;
-
-		int gpppc = stats_gamesPerPlayerPerChallenge;
 
 		for(int c = 0; c < this.stats_challengesCreated; c++)
 		{
@@ -837,9 +832,9 @@ public class CCCEval2 extends Eval<GameSeries>
 		}
 	}
 
-	private class FinalTableSorter implements Comparator<Entry<Integer, UserStats>>
+	protected class FinalTableSorter implements Comparator<Entry<Integer, UserStats>>
 	{
-		private boolean finished;
+		protected boolean finished;
 
 		public FinalTableSorter(boolean finished)
 		{
@@ -862,7 +857,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		}
 	}
 
-	private class UserStats
+	protected class UserStats
 	{
 		public int		finished;
 		public int		left;
@@ -882,7 +877,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		}
 	}
 
-	private TreeMap<Integer, UserStats> createStatsMap(Collection<User> users)
+	protected TreeMap<Integer, UserStats> createStatsMap(Collection<User> users)
 	{
 		TreeMap<Integer, UserStats> map = new TreeMap<>();
 		for(User u : users)
@@ -890,7 +885,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return map;
 	}
 
-	private UserStats getMins(Collection<UserStats> stats)
+	protected UserStats getMins(Collection<UserStats> stats)
 	{
 		UserStats min = new UserStats(Integer.MAX_VALUE);
 		for(UserStats s : stats)
@@ -911,7 +906,7 @@ public class CCCEval2 extends Eval<GameSeries>
 		return min;
 	}
 
-	private UserStats getMaxs(Collection<UserStats> stats)
+	protected UserStats getMaxs(Collection<UserStats> stats)
 	{
 		UserStats max = new UserStats(0);
 		for(UserStats s : stats)
@@ -932,37 +927,37 @@ public class CCCEval2 extends Eval<GameSeries>
 		return max;
 	}
 
-	private Rules getRules(int challenge)
+	protected Rules getRules(int challenge)
 	{
 		return this.data.getRulesByKey().get("" + challenge);
 	}
 
-	private Map getMap(int challenge)
+	protected Map getMap(int challenge)
 	{
 		return this.data.getMapsByKey().get("" + challenge).get(0);
 	}
 
-	private PlannedGame getGame(int challenge, int game)
+	protected PlannedGame getGame(int challenge, int game)
 	{
 		return this.data.getGames().get(GAMES_KEY).get(this.challengeOffsets[challenge] + game);
 	}
 
-	private String mapToLink(int challenge, boolean includeName)
+	protected String mapToLink(int challenge, boolean includeName)
 	{
 		return WikiUtil.createLink(getMap(challenge), includeName);
 	}
 
-	private String gameToLink(int challenge, int game)
+	protected String gameToLink(int challenge, int game)
 	{
 		return WikiUtil.createLink(getGame(challenge, game), (challenge + 1) + "." + (game + 1));
 	}
 
-	private String challengeToLink(int challenge, boolean text)
+	protected String challengeToLink(int challenge, boolean text)
 	{
 		return WikiUtil.createLink("CraZZZy Crash Challenge " + this.cccx + " - Detailwertung Challenge " + (challenge + 1), (text ? "Challenge " : "") + (challenge + 1));
 	}
 
-	private int parseInt(String s)
+	protected int parseInt(String s)
 	{
 		try
 		{
