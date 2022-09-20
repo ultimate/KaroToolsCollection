@@ -178,14 +178,14 @@ public class CCCEval extends Eval<GameSeries>
 		// init the whoOnWho
 		Object[] whoOnWhoHead = new Object[this.stats_players + 1];
 		this.whoOnWho = new Table(whoOnWhoHead.length);
-		this.whoOnWho.addRow(whoOnWhoHead); // don't add this as a header
+		this.whoOnWho.addRow(whoOnWhoHead); // don't add this as a header, but as the first row
 		col = 1; // leave first column empty
 		Object[] row;
 		for(User user : usersByLogin)
 		{
 			if(user == data.getCreator())
 				continue;
-			whoOnWhoHead[col++] = user;
+			this.whoOnWho.setValue(0, col++, user);
 			row = new Object[whoOnWhoHead.length];
 			row[0] = user;
 			for(int ci = 1; ci < whoOnWhoHead.length; ci++)
@@ -618,7 +618,7 @@ public class CCCEval extends Eval<GameSeries>
 		if(player.getStatus() == EnumPlayerStatus.ok && player.getRank() == 0)
 			moves = player.getMoveCount();
 		else if(player.getStatus() == EnumPlayerStatus.ok)
-			moves = player.getMoveCount() - 1; // parf ferme
+			moves = player.getMoveCount() - 1; // parc ferme
 		else
 			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1);
 
@@ -1197,15 +1197,5 @@ public class CCCEval extends Eval<GameSeries>
 			logger.error(e);
 			return 0;
 		}
-	}
-
-	protected int indexOf(List<User> users, Player player)
-	{
-		for(int i = 0; i < users.size(); i++)
-		{
-			if(users.get(i).getLogin().equals(player.getName()))
-				return i;
-		}
-		return -1;
 	}
 }
