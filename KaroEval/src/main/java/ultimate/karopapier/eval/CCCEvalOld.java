@@ -26,7 +26,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karopapier.utils.Table;
 import ultimate.karopapier.utils.WikiUtil;
 
-public class CCCEval extends Eval<GameSeries>
+public class CCCEvalOld extends Eval<GameSeries>
 {
 	protected static final String							GAMES_KEY				= "Balanced";
 	protected static final String[]							TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
@@ -64,7 +64,7 @@ public class CCCEval extends Eval<GameSeries>
 	protected Table											finalTable;
 	protected Table											whoOnWho;
 
-	public CCCEval(int cccx)
+	public CCCEvalOld(int cccx)
 	{
 		this.cccx = cccx;
 	}
