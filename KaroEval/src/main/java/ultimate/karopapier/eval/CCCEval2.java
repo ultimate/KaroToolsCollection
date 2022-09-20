@@ -29,19 +29,19 @@ import ultimate.karopapier.utils.WikiUtil;
 public class CCCEval2 extends Eval<GameSeries>
 {
 	protected static final String				GAMES_KEY				= "Balanced";
-	protected static final String[]			TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
-	protected static final int				METRICS_GAME_MAXMOVES	= 0;
+	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
+	protected static final int					METRICS_GAME_MAXMOVES	= 0;
 
-	protected static final String			STATUS_RACING			= "&#127950;";																	// race car
-	protected static final String			STATUS_FINISHED			= "&#127937;";																	// race flag
-	protected static final String			STATUS_LEFT				= "&#128128;";																	// skull
-	protected static final String			STATUS_FORBIDDEN		= "&#128683;";																	// forbidden
+	protected static final String				STATUS_RACING			= "&#127950;";																	// race car
+	protected static final String				STATUS_FINISHED			= "&#127937;";																	// race flag
+	protected static final String				STATUS_LEFT				= "&#128128;";																	// skull
+	protected static final String				STATUS_FORBIDDEN		= "&#128683;";																	// forbidden
 
 	// TODO read from file
-	protected static final int				CLUSTER_SIZE			= 6;
+	protected static final int					CLUSTER_SIZE			= 6;
 	protected static final double				MAX_CHALLENGE_POINTS	= 5;
-	protected static final boolean			APPLY_SQRT				= true;
-	protected static final boolean			CAP_NEGATIVE			= true;
+	protected static final boolean				APPLY_SQRT				= true;
+	protected static final boolean				CAP_NEGATIVE			= true;
 
 	protected int								cccx;
 	// stats & metrics
@@ -52,21 +52,21 @@ public class CCCEval2 extends Eval<GameSeries>
 	protected int								stats_gamesTotal;
 	protected int								stats_gamesCreated;
 	protected int								stats_players;
-	protected UserStats						totalStats;
+	protected UserStats							totalStats;
 	protected UserStats[]						challengeStats;
 	protected TreeMap<Integer, UserStats>		userStats;
-	protected TreeMap<Integer, UserStats>[]	userChallengeStats;
+	protected TreeMap<Integer, UserStats>[]		userChallengeStats;
 	protected TreeMap<Integer, UserStats>[][]	userGameStats;
 	protected double[][]						challengeMetrics;
-	protected double[][][]					gameMetrics;
+	protected double[][][]						gameMetrics;
 	// helpers
-	protected Integer[]						challengeGames;
-	protected Integer[]						challengeOffsets;
+	protected Integer[]							challengeGames;
+	protected Integer[]							challengeOffsets;
 	protected List<User>						usersByLogin;
 	// evaluation
 	protected Table[]							totalTables;
-	protected Table							finalTable;
-	protected Table							whoOnWho;
+	protected Table								finalTable;
+	protected Table								whoOnWho;
 
 	public CCCEval2(int cccx)
 	{
@@ -247,26 +247,26 @@ public class CCCEval2 extends Eval<GameSeries>
 			detail = new StringBuilder();
 			detail.append("= Challenge " + (c + 1) + " =\r\n");
 			detail.append("Strecke: " + mapToLink(c, false) + "\r\n");
-			/*
-			 * detail.append("== Rennergebnisse ==\r\n");
-			 * tableTable = new Table(TABLE_TABLE_COLUMNS);
-			 * for(int g = 0; g < tables[c].length; g++)
-			 * {
-			 * if(g % TABLE_TABLE_COLUMNS == 0)
-			 * {
-			 * if(g != 0)
-			 * tableTable.addRow(row);
-			 * row = new Object[TABLE_TABLE_COLUMNS];
-			 * }
-			 * game = getGame(c, g);
-			 * if(game.getGame() == null)
-			 * continue;
-			 * row[g % TABLE_TABLE_COLUMNS] = "\r\nChallenge " + gameToLink(c, g) + "\r\n" + WikiUtil.toString(tables[c][g], null) + "\r\n";
-			 * }
-			 * tableTable.addRow(row);
-			 * detail.append(WikiUtil.toString(tableTable, null));
-			 * detail.append("\r\n");
-			 */
+
+			// detail.append("== Rennergebnisse ==\r\n");
+			// tableTable = new Table(TABLE_TABLE_COLUMNS);
+			// for(int g = 0; g < tables[c].length; g++)
+			// {
+			// if(g % TABLE_TABLE_COLUMNS == 0)
+			// {
+			// if(g != 0)
+			// tableTable.addRow(row);
+			// row = new Object[TABLE_TABLE_COLUMNS];
+			// }
+			// game = getGame(c, g);
+			// if(game.getGame() == null)
+			// continue;
+			// row[g % TABLE_TABLE_COLUMNS] = "\r\nChallenge " + gameToLink(c, g) + "\r\n" + WikiUtil.toString(tables[c][g], null) + "\r\n";
+			// }
+			// tableTable.addRow(row);
+			// detail.append(WikiUtil.toString(tableTable, null));
+			// detail.append("\r\n");
+
 			detail.append("== Tabellarische Auswertung ==\r\n");
 			detail.append(WikiUtil.toString(totalTables[c], "alignedright sortable", ""));
 			detail.append("\r\n");
@@ -417,9 +417,9 @@ public class CCCEval2 extends Eval<GameSeries>
 		String[] totalTableHead1 = new String[challengeGames[c] * COLS_PER_RACE + 6];
 		String[] totalTableHead2 = new String[challengeGames[c] * COLS_PER_RACE + 6];
 		int col = 0;
-		
+
 		totalTableHead2[col++] = "Spieler";
-		
+
 		for(int g = 0; g < challengeGames[c]; g++)
 		{
 			totalTableHead1[col] = gameToLink(c, g);
@@ -432,7 +432,7 @@ public class CCCEval2 extends Eval<GameSeries>
 			totalTableHead2[col] = "S";
 			col++;
 		}
-		
+
 		totalTableHead1[col] = "Züge";
 		totalTableHead2[col++] = "Gesamt";
 		totalTableHead2[col++] = "Punkte";
@@ -440,15 +440,15 @@ public class CCCEval2 extends Eval<GameSeries>
 		totalTableHead1[col] = "Crashs";
 		totalTableHead2[col++] = "Gesamt";
 		totalTableHead2[col++] = "Punkte";
-		
+
 		totalTableHead2[col++] = "Gesamtergebnis";
-		
+
 		totalTables[c] = new Table(totalTableHead1, totalTableHead2);
-		
+
 		for(int g = 0; g < challengeGames[c]; g++)
-			totalTables[c].getHeaders().get(0)[g*COLS_PER_RACE + 1].colspan = COLS_PER_RACE;
-		totalTables[c].getHeaders().get(0)[challengeGames[c]*COLS_PER_RACE + 1].colspan = 2;
-		totalTables[c].getHeaders().get(0)[challengeGames[c]*COLS_PER_RACE + 3].colspan = 2;
+			totalTables[c].getHeaders().get(0)[g * COLS_PER_RACE + 1].colspan = COLS_PER_RACE;
+		totalTables[c].getHeaders().get(0)[challengeGames[c] * COLS_PER_RACE + 1].colspan = 2;
+		totalTables[c].getHeaders().get(0)[challengeGames[c] * COLS_PER_RACE + 3].colspan = 2;
 
 		calcMetrics(c);
 
@@ -574,10 +574,10 @@ public class CCCEval2 extends Eval<GameSeries>
 		totalTables[c].sort(0, (Comparator<User>) (m1, m2) -> {
 			return m1.getLoginLowerCase().compareTo(m2.getLoginLowerCase());
 		});
-//		// sort by total points
-//		totalTables[c].sort(totalTables[c].getColumns() - 1, (Comparator<Double>) (m1, m2) -> {
-//			return (int) Math.signum(m2 - m1);
-//		});
+		// // sort by total points
+		// totalTables[c].sort(totalTables[c].getColumns() - 1, (Comparator<Double>) (m1, m2) -> {
+		// return (int) Math.signum(m2 - m1);
+		// });
 	}
 
 	protected void assignPoints(Table table, int valueColumn, int pointColumn, int sortMode)
@@ -799,7 +799,7 @@ public class CCCEval2 extends Eval<GameSeries>
 			});
 			mins = getMins(allFinishedStats);
 			maxs = getMaxs(allFinishedStats);
-			
+
 			logger.debug(" - moves:   min=" + mins.moves + ", max=" + maxs.moves);
 			logger.debug(" - crashes: min=" + mins.crashs + ", max=" + maxs.crashs);
 
@@ -837,8 +837,10 @@ public class CCCEval2 extends Eval<GameSeries>
 					relativeCrashPosition = (playerAvgCrashsInFinishedGames - mins.crashs) / (maxs.crashs - mins.crashs);
 					expectedCrashPoints = relativeCrashPosition * (maxPoints - 1) + 1;
 
-					logger.debug(" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgMoves= " + WikiUtil.round(playerAvgMovesInFinishedGames) +  "\t-> expectedPoints=" + WikiUtil.round(expectedMovesPoints));
-					logger.debug(" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgCrashs=" + WikiUtil.round(playerAvgCrashsInFinishedGames) + "\t-> expectedPoints=" + WikiUtil.round(expectedCrashPoints));
+					logger.debug(
+							" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgMoves= " + WikiUtil.round(playerAvgMovesInFinishedGames) + "\t-> expectedPoints=" + WikiUtil.round(expectedMovesPoints));
+					logger.debug(
+							" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgCrashs=" + WikiUtil.round(playerAvgCrashsInFinishedGames) + "\t-> expectedPoints=" + WikiUtil.round(expectedCrashPoints));
 				}
 
 				expected = calculatePoints(expectedMovesPoints, expectedCrashPoints, 0);
