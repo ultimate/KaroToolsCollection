@@ -7,15 +7,15 @@ import java.util.List;
 
 public class Table
 {
-	protected List<Object[]>	headers;
-	final int					columns;
-	protected List<Cell[]>		rows;
+	protected List<Cell[]>	headers;
+	final int				columns;
+	protected List<Cell[]>	rows;
 
 	public Table(Object[]... headers)
 	{
 		this.headers = new ArrayList<>();
 		for(Object[] h : headers)
-			this.headers.add(h);
+			this.headers.add(toCells(h));
 		this.columns = headers[0].length;
 		this.rows = new ArrayList<>();
 	}
@@ -26,23 +26,28 @@ public class Table
 		this.columns = columns;
 		this.rows = new ArrayList<>();
 	}
+	
+	private Cell[] toCells(Object... values)
+	{
+		Cell[] cells = new Cell[values.length];
+		for(int c = 0; c < values.length; c++)
+			cells[c] = new Cell(values[c]);
+		return cells;
+	}
 
 	public void addRow(Object... row)
 	{
 		if(row.length != columns)
 			throw new IllegalArgumentException("invalid number of columns: " + row.length + ", expected: " + columns);
-		Cell[] cells = new Cell[row.length];
-		for(int c = 0; c < row.length; c++)
-			cells[c] = new Cell(row[c]);
-		this.rows.add(cells);
+		this.rows.add(toCells(row));
 	}
 
-	public List<Object[]> getHeaders()
+	public List<Cell[]> getHeaders()
 	{
 		return headers;
 	}
 
-	public Object[] getHeader(int header)
+	public Cell[] getHeader(int header)
 	{
 		return headers.get(header);
 	}
@@ -94,6 +99,7 @@ public class Table
 	{
 		public Object	value;
 		public boolean	highlight;
+		public int		colspan	= 1;
 
 		public Cell()
 		{

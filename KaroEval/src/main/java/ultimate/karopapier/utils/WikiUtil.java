@@ -9,8 +9,10 @@ import ultimate.karopapier.utils.Table.Cell;
 
 public abstract class WikiUtil
 {
-	public static final String HIGHLIGHT = "'''";
-	public static final String SORTABLE = "sortable";
+	public static final String	HIGHLIGHT		= "'''";
+	public static final String	SORTABLE		= "sortable";
+	public static final String	START_CELL		= "|";
+	public static final String	START_HEADER	= "!";
 
 	private WikiUtil()
 	{
@@ -49,52 +51,44 @@ public abstract class WikiUtil
 		sb.append("{|class=\"wikitable");
 		if(cssClasses != null)
 			sb.append(" " + cssClasses);
-		sb.append("\"\r\n");
-
-		int col;
+		sb.append("\"");
 
 		for(int hi = 0; hi < table.getHeaders().size(); hi++)
-		{
-			Object[] header = table.getHeader(hi);
-			sb.append("!");
-			for(int i = 0; i < columnConfig.length; i++)
-			{
-				col = columnConfig[i];
-				if(col >= header.length)
-					continue;
-
-				if(i > 0)
-					sb.append("||");
-
-				sb.append(preprocess(header[col]));
-			}
-			sb.append("\r\n|-\r\n");
-		}
+			toString(sb, table.getHeader(hi), columnConfig, nullValue, true);
 		for(int ri = 0; ri < table.getRows().size(); ri++)
-		{
-			Cell[] row = table.getRow(ri);
-			sb.append("|");
-			for(int ci = 0; ci < columnConfig.length; ci++)
-			{
-				col = columnConfig[ci];
-				if(col >= row.length)
-					continue;
-
-				if(ci > 0)
-					sb.append("||");
-
-				if(row[col] == null || row[col].value == null)
-					sb.append(nullValue);
-				else if(row[col].highlight)
-					sb.append(highlight(preprocess(row[col].value)));
-				else
-					sb.append(preprocess(row[col].value));
-			}
-			sb.append("\r\n|-\r\n");
-		}
+			toString(sb, table.getRow(ri), columnConfig, nullValue, false);
+		
 		sb.append("|}");
 
 		return sb.toString();
+	}
+
+	private static void toString(StringBuilder sb, Cell[] row, int[] columnConfig, String nullValue, boolean isHeader)
+	{
+		int col;
+		for(int ci = 0; ci < columnConfig.length; ci++)
+		{
+			col = columnConfig[ci];
+			if(col >= row.length)
+				continue;
+
+			sb.append("\r\n");
+			sb.append(isHeader ? START_HEADER : START_CELL);
+			if(row[col].colspan > 1)
+			{
+				sb.append("colspan=" + row[col].colspan);
+				ci += (row[col].colspan - 1);
+			}
+			sb.append("|");
+
+			if(row[col] == null || row[col].value == null)
+				sb.append(nullValue);
+			else if(row[col].highlight)
+				sb.append(highlight(preprocess(row[col].value)));
+			else
+				sb.append(preprocess(row[col].value));
+		}
+		sb.append("\r\n|-\r\n");
 	}
 
 	public static Object preprocess(Object value)
