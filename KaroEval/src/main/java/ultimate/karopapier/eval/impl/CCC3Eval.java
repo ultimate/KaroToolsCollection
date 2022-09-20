@@ -1,8 +1,8 @@
 package ultimate.karopapier.eval.impl;
 
-import ultimate.karopapier.eval.CCCEval;
+import ultimate.karopapier.eval.CCCEvalOld;
 
-public class CCC3Eval extends CCCEval
+public class CCC3Eval extends CCCEvalOld
 {
 	public CCC3Eval()
 	{
