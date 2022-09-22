@@ -343,13 +343,10 @@ public class CCCEvalNew extends CCCEval
 			userStats.get(user.getId()).total += totalPoints;
 		}
 		// resort by name (was resorted in assignPoints)
+		// users can sort the table by their need since it is "sortable", but a fixed order by name, makes it easier to identify changes
 		totalTables[c].sort(0, (Comparator<User>) (m1, m2) -> {
 			return m1.getLoginLowerCase().compareTo(m2.getLoginLowerCase());
 		});
-		// // sort by total points
-		// totalTables[c].sort(totalTables[c].getColumns() - 1, (Comparator<Double>) (m1, m2) -> {
-		// return (int) Math.signum(m2 - m1);
-		// });
 	}
 
 	protected void assignPoints(Table table, int valueColumn, int pointColumn, int sortMode)
