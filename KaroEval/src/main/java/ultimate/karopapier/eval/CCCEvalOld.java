@@ -16,6 +16,7 @@ import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karopapier.utils.Table;
+import ultimate.karopapier.utils.Table.Cell;
 import ultimate.karopapier.utils.WikiUtil;
 
 public class CCCEvalOld extends CCCEval
@@ -49,6 +50,8 @@ public class CCCEvalOld extends CCCEval
 			{
 				i1 = keyS.indexOf(".");
 				i2 = keyS.indexOf(".", i1 + 1);
+				if(i2 < 0) // only process "points.x.y"
+					continue;
 				number = Integer.parseInt(keyS.substring(i1 + 1, i2));
 				place = Integer.parseInt(keyS.substring(i2 + 1));
 				points = Double.parseDouble(properties.getProperty(keyS));
@@ -257,9 +260,9 @@ public class CCCEvalOld extends CCCEval
 					continue;
 				if(getGame(c, g).getPlayers().contains(user))
 				{
-					for(Object[] tableRow : tables[c][g].getRows())
+					for(Cell[] tableRow : tables[c][g].getRows())
 					{
-						if(((Player) tableRow[1]).getName().equals(user.getLogin()))
+						if(((Player) tableRow[1].value).getName().equals(user.getLogin()))
 						{
 							row[col++] = tableRow[tables[c][g].getColumns() - 1]; // the points are in the last column
 							break;
