@@ -26,12 +26,12 @@ public class CCCEvalNew extends CCCEval
 	protected static final String	STATUS_FORBIDDEN		= "&#128683;";			// forbidden
 
 	protected static final String	PROPERTY_CLUSTER_SIZE	= "points.clusterSize";
-	protected static final String	PROPERTY_APPLY_SQRT		= "points.applySqrt";
+	protected static final String	PROPERTY_CALC_MODE		= "points.calcMode";
 	protected static final String	PROPERTY_CAP_NEGATIVE	= "points.capNegative";
 
 	// read from file
 	protected int					CLUSTER_SIZE;
-	protected boolean				APPLY_SQRT;
+	protected String				CALC_MODE;
 	protected boolean				CAP_NEGATIVE;
 
 	// calculated
@@ -51,7 +51,7 @@ public class CCCEvalNew extends CCCEval
 
 		// points & calculation settings (read from properties)
 		this.CLUSTER_SIZE = Integer.valueOf(properties.getProperty(PROPERTY_CLUSTER_SIZE));
-		this.APPLY_SQRT = Boolean.valueOf(properties.getProperty(PROPERTY_APPLY_SQRT));
+		this.CALC_MODE = properties.getProperty(PROPERTY_CALC_MODE);
 		this.CAP_NEGATIVE = Boolean.valueOf(properties.getProperty(PROPERTY_CAP_NEGATIVE));
 
 		this.stats_challengePointsMax = (int) Math.ceil(this.stats_players / (double) this.CLUSTER_SIZE);
@@ -59,7 +59,7 @@ public class CCCEvalNew extends CCCEval
 		this.stats_challengePointsMid = (this.stats_challengePointsMax - this.stats_challengePointsMin) / 2.0 + this.stats_challengePointsMin;
 
 		logger.info("  " + PROPERTY_CLUSTER_SIZE + "         = " + this.CLUSTER_SIZE);
-		logger.info("  " + PROPERTY_APPLY_SQRT + "           = " + this.APPLY_SQRT);
+		logger.info("  " + PROPERTY_CALC_MODE + "            = " + this.CALC_MODE);
 		logger.info("  " + PROPERTY_CAP_NEGATIVE + "         = " + this.CAP_NEGATIVE);
 		logger.info("  challengePointsMax         = " + this.stats_challengePointsMax);
 		logger.info("  challengePointsMid         = " + this.stats_challengePointsMid);
@@ -335,7 +335,7 @@ public class CCCEvalNew extends CCCEval
 			movesPoints = (int) totalTables[c].getValue(r, challengeGames[c] * COLS_PER_RACE + 2);
 			crashPoints = (int) totalTables[c].getValue(r, challengeGames[c] * COLS_PER_RACE + 4);
 
-			totalPoints = calculatePoints(movesPoints, crashPoints, 0);
+			totalPoints = calculatePoints(movesPoints, crashPoints);
 
 			totalTables[c].setValue(r, totalTables[c].getColumns() - 1, totalPoints);
 
@@ -424,11 +424,24 @@ public class CCCEvalNew extends CCCEval
 		return moves;
 	}
 
-	protected double calculatePoints(double movesPoints, double crashPoints, double offset)
+	protected double calculatePoints(double movesPoints, double crashPoints)
 	{
-		double points = movesPoints * crashPoints + offset;
-		if(APPLY_SQRT)
-			points = Math.sqrt(points);
+		double points = 0;
+		
+		switch(CALC_MODE)
+		{
+			case "multiply":
+				points = movesPoints * crashPoints;
+				break;
+				
+			case "add":
+				points = movesPoints + crashPoints;
+				break;
+				
+			case "sqrt":
+				points = Math.sqrt(movesPoints * crashPoints);
+				break;
+		}
 		if(CAP_NEGATIVE && points < 0)
 			return 0;
 		return points;
@@ -501,7 +514,7 @@ public class CCCEvalNew extends CCCEval
 							" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgCrashs=" + WikiUtil.round(playerAvgCrashsInFinishedGames) + "\t-> expectedPoints=" + WikiUtil.round(expectedCrashPoints));
 				}
 
-				expected = calculatePoints(expectedMovesPoints, expectedCrashPoints, 0);
+				expected = calculatePoints(expectedMovesPoints, expectedCrashPoints);
 
 				userChallengeStats[c].get(user.getId()).totalExpected = expected;
 				userStats.get(user.getId()).totalExpected += expected;
