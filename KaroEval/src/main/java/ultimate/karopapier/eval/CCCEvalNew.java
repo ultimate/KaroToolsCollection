@@ -55,8 +55,12 @@ public class CCCEvalNew extends CCCEval
 		this.CAP_NEGATIVE = Boolean.valueOf(properties.getProperty(PROPERTY_CAP_NEGATIVE));
 
 		this.stats_challengePointsMax = (int) Math.ceil(this.stats_players / (double) this.CLUSTER_SIZE);
-		this.stats_challengePointsMin = 1;
 		this.stats_challengePointsMid = (this.stats_challengePointsMax - this.stats_challengePointsMin) / 2.0 + this.stats_challengePointsMin;
+		this.stats_challengePointsMin = 1;
+		
+		this.stats_challengePointsMax = calculatePoints(this.stats_challengePointsMax, this.stats_challengePointsMax);
+		this.stats_challengePointsMid = calculatePoints(this.stats_challengePointsMid, this.stats_challengePointsMid);
+		this.stats_challengePointsMin = calculatePoints(this.stats_challengePointsMin, this.stats_challengePointsMin);
 
 		logger.info("  " + PROPERTY_CLUSTER_SIZE + "         = " + this.CLUSTER_SIZE);
 		logger.info("  " + PROPERTY_CALC_MODE + "            = " + this.CALC_MODE);
