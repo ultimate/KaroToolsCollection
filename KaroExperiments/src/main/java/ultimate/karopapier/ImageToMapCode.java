@@ -3,7 +3,9 @@ package ultimate.karopapier;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -37,10 +39,15 @@ public class ImageToMapCode
 					sb.append("\n");
 				}
 				System.out.println(sb.toString());
+				
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(chooser.getSelectedFile().getAbsolutePath().replace(".png", ".txt"))));
+				bos.write(sb.toString().getBytes());
+				bos.flush();
+				bos.close();
 			}
 			catch(IOException e)
 			{
-				System.out.println("Cloud not read image: " + chooser.getSelectedFile().getAbsolutePath());
+				System.out.println("IOException: " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
