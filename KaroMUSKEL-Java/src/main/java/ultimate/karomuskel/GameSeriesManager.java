@@ -884,10 +884,10 @@ public abstract class GameSeriesManager
 				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				// Note: skip those who are too many those when applying the SettingsScreen!
 				int teams = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_MAX_TEAMS);
-				int koround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : teams * 2);
+				int koround = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.CURRENT_ROUND) : teams * 2);
 				while(teams > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams == koround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams >= koround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
 
 					if(gs.isLoaded() && teams == koround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -935,14 +935,15 @@ public abstract class GameSeriesManager
 						loadedPlayers += gs.getPlayersByKey().get(GameSeries.KEY_GROUP + g).size();
 				}
 				int players = (gs.isLoaded() ? loadedPlayers : estimatedPlayers);
-				int klcround = (gs.isLoaded() ? (int) gs.get(GameSeries.CURRENT_ROUND) : players);
+				int klcround = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.CURRENT_ROUND) : players);
+				int repeat = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.CURRENT_REPEAT) : 0);
 				if(gs.isLoaded() && players == klcround)
 					startScreen.setNext(screens.getLast());
 				screens.add(new GroupWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				players = firstKO;
 				while(players > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players == klcround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players >= klcround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
 
 					if(gs.isLoaded() && players == klcround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -951,6 +952,18 @@ public abstract class GameSeriesManager
 						screens.add(new KOWinnersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 
 					players /= 2;
+				}
+				// repeats for the final
+				players = 2;
+				if(gs.isLoaded())
+				{
+					// create previous repeat screens
+					for(int i = 1; i <= repeat; i++)
+						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, true, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + i));
+					if(klcround == 2)
+						startScreen.setNext(screens.getLast()); // jump to summary
+					// add another final repeat 
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + (repeat+1)));
 				}
 				break;
 			case Simple:
@@ -966,8 +979,8 @@ public abstract class GameSeriesManager
 
 		if(GameSeriesManager.isTeamBased(gs))
 		{
-			int numberOfGamesPerPair = (gs.isLoaded() ? (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR) : 2);
-			boolean homeMaps = (gs.isLoaded() ? ((boolean) gs.get(GameSeries.USE_HOME_MAPS)) && (numberOfGamesPerPair > 1) : true);
+			int numberOfGamesPerPair = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.NUMBER_OF_GAMES_PER_PAIR) : 2);
+			boolean homeMaps = (gs.isLoaded() ? (GameSeriesManager.getBooleanConfig(gs, GameSeries.USE_HOME_MAPS)) && (numberOfGamesPerPair > 1) : true);
 			boolean otherMaps = (numberOfGamesPerPair % 2 == 1) || (!homeMaps);
 
 			screens.getLast().findScreen(s -> {
