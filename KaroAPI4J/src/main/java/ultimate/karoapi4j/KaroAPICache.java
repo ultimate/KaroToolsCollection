@@ -664,7 +664,7 @@ public class KaroAPICache implements IDLookUp
 		});
 	}
 
-	@Deprecated(since = "only used for dummy creation")
+	@Deprecated//(since = "only used for dummy creation")
 	protected static BufferedImage createSingleColorImage(int width, int height, Color color)
 	{
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -680,7 +680,7 @@ public class KaroAPICache implements IDLookUp
 	 * @param image - the original image
 	 * @return the specialized image
 	 */
-	@Deprecated(since = "only used for dummy creation")
+	@Deprecated//(since = "only used for dummy creation")
 	protected static BufferedImage createSpecialImage(BufferedImage image)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);

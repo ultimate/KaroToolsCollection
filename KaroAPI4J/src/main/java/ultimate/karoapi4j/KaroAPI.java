@@ -237,7 +237,7 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													GAME_CREATE					= API.relative("/game");
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
-	@Deprecated(since = "3.0.7")
+	@Deprecated//(since = "3.0.7")
 	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
 	protected final URLLoader													GAME_REFRESH				= KAROPAPIER.relative("/showmap.php?GID=" + PLACEHOLDER);
 	// maps
@@ -420,7 +420,13 @@ public class KaroAPI implements IDLookUp
 					if(remainingTries > 0)
 						return loadAsync(backgroundLoader, parser, remainingTries - 1);
 					else
-						return CompletableFuture.failedFuture(t);
+					{
+						// return CompletableFuture.failedFuture(t);
+						// Java 8 compatibility
+						CompletableFuture<T> cf = new CompletableFuture<T>();
+						cf.completeExceptionally(t);
+						return cf;
+					}
 				};
 			}).thenCompose(Function.identity());
 		}
@@ -802,7 +808,7 @@ public class KaroAPI implements IDLookUp
 	 * @param userId - the user to kick
 	 * @return true if the operation was successful, false otherwise
 	 */
-	@Deprecated(since = "3.0.7")
+	@Deprecated//(since = "3.0.7")
 	public CompletableFuture<Boolean> kick(int gameId, int userId)
 	{
 		return leaveGame(gameId);
@@ -1142,7 +1148,7 @@ public class KaroAPI implements IDLookUp
 	 * @param userId - the other user
 	 * @return TODO currently PATCH is not supported by {@link HttpURLConnection}
 	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	@Deprecated//(since = "PATCH IS NOT SUPPORTED")
 	CompletableFuture<String> readUserMessage(int userId)
 	{
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(), PARSER_RAW);

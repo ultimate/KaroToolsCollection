@@ -1,10 +1,11 @@
 package ultimate.karoapi4j.utils;
 
-import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -57,7 +58,7 @@ public class URLLoader
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger(URLLoader.class);
+	protected static transient final Logger	logger						= LogManager.getLogger(URLLoader.class);
 
 	/**
 	 * Constant for use in {@link URLLoader#relative(String)}
@@ -114,16 +115,25 @@ public class URLLoader
 		else
 		{
 			StringBuilder sb = new StringBuilder();
-			Entry<String, Object> param;
-			Iterator<Entry<String, Object>> paramIterator = parameters.entrySet().iterator();
-			while(paramIterator.hasNext())
+			try
 			{
-				param = paramIterator.next();
-				sb.append(param.getKey());
-				sb.append("=");
-				sb.append(URLEncoder.encode("" + param.getValue(), StandardCharsets.UTF_8));
-				if(paramIterator.hasNext())
-					sb.append("&");
+				Entry<String, Object> param;
+				Iterator<Entry<String, Object>> paramIterator = parameters.entrySet().iterator();
+				while(paramIterator.hasNext())
+				{
+					param = paramIterator.next();
+					sb.append(param.getKey());
+					sb.append("=");
+					// sb.append(URLEncoder.encode("" + param.getValue(), StandardCharsets.UTF_8));
+					// Java 8 compatibility
+					sb.append(URLEncoder.encode("" + param.getValue(), StandardCharsets.UTF_8.name()));
+					if(paramIterator.hasNext())
+						sb.append("&");
+				}
+			}
+			catch(UnsupportedEncodingException e)
+			{
+				logger.error(e);
 			}
 			return sb.toString();
 		}
@@ -171,8 +181,8 @@ public class URLLoader
 
 		connection.connect();
 		InputStream is = connection.getInputStream();
-		BufferedInputStream bis = new BufferedInputStream(is);
-		String result = new String(bis.readAllBytes(), charset);
+		// updated for Java 8 compatibility
+		String result = new String(readAllBytes(is), charset);
 
 		if(logger.isDebugEnabled())
 		{
@@ -183,6 +193,21 @@ public class URLLoader
 		}
 
 		return result;
+	}
+
+	private static byte[] readAllBytes(InputStream is) throws IOException
+	{
+
+		// https://stackoverflow.com/questions/1264709/convert-inputstream-to-byte-array-in-java
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+		int nRead;
+		byte[] data = new byte[16384];
+		while((nRead = is.read(data, 0, data.length)) != -1)
+			buffer.write(data, 0, nRead);
+		is.close();
+
+		return buffer.toByteArray();
 	}
 
 	/////////////////
@@ -707,7 +732,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link BackgroundLoader} that can be used to load the content
 	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	@Deprecated // (since = "PATCH IS NOT SUPPORTED")
 	public BackgroundLoader doPatch()
 	{
 		// TODO currently PATCH is not supported
@@ -723,7 +748,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link BackgroundLoader} that can be used to load the content
 	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	@Deprecated // (since = "PATCH IS NOT SUPPORTED")
 	public BackgroundLoader doPatch(String output)
 	{
 		// TODO currently PATCH is not supported
@@ -740,7 +765,7 @@ public class URLLoader
 	 * @param parser - the {@link Parser} for the result
 	 * @return the {@link BackgroundLoader} that can be used to load the content
 	 */
-	@Deprecated(since = "PATCH IS NOT SUPPORTED")
+	@Deprecated // (since = "PATCH IS NOT SUPPORTED")
 	public BackgroundLoader doPatch(Map<String, Object> parameters, EnumContentType contentType)
 	{
 		// TODO currently PATCH is not supported
