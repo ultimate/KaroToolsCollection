@@ -47,6 +47,7 @@ public class GameSeries
 	public static final String							NUMBER_OF_TEAMS_PER_MATCH			= "teamsPerMatch";				// __X______________________
 	public static final String							NUMBER_OF_GAMES_PER_PAIR			= "gamesPerPair";				// __X_______X_______X______
 	public static final String							CURRENT_ROUND						= "round";						// __________X___X__________
+	public static final String							CURRENT_REPEAT						= "repeat";						// ______________X__________
 	public static final String							MIN_PLAYERS_PER_GAME				= "minPlayersPerGame";			// ______________________X__
 	public static final String							MAX_PLAYERS_PER_GAME				= "maxPlayersPerGame";			// ______________________X__
 	public static final String							MIN_PLAYERS_PER_TEAM				= "minPlayersPerTeam";			// __X_______X_______X______
@@ -82,6 +83,7 @@ public class GameSeries
 	public static final String							KEY_LEAGUE							= "league";						// ______________X__________
 	public static final String							KEY_GROUP							= "group";						// ______________X__________
 	public static final String							KEY_ROUND							= "roundOf";					// ______________X__________
+	public static final String							KEY_REPEAT							= "repeat";						// ______________X__________
 
 	// universal settings
 	/**

@@ -110,21 +110,23 @@ public class SummaryScreen extends Screen implements ActionListener
 	@Override
 	public String getNextKey()
 	{
-		if(this.next instanceof StartScreen)
-			return "screen.summary.next";
-		else
+		if(this.next instanceof KOWinnersScreen)
 			return "screen.summary.nextko";
+		else if(this.next instanceof SummaryScreen)
+			return "screen.summary.nextrepeat";
+		else // if(this.next instanceof StartScreen)
+			return "screen.summary.next";
 	}
 
-	public boolean isSkipPlan()
-	{
-		return skipPlan;
-	}
-
-	public void setSkipPlan(boolean skipPlan)
-	{
-		this.skipPlan = skipPlan;
-	}
+	// public boolean isSkipPlan()
+	// {
+	// return skipPlan;
+	// }
+	//
+	// public void setSkipPlan(boolean skipPlan)
+	// {
+	// this.skipPlan = skipPlan;
+	// }
 
 	public void resetPlannedGames()
 	{
@@ -139,6 +141,9 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		if(!this.skipPlan && direction == EnumNavigation.next)
 		{
+			if(this.key.contains(GameSeries.KEY_REPEAT))
+				this.gameSeries.set(GameSeries.CURRENT_REPEAT, this.key.substring(CREATED));
+
 			if(!firstShow)
 				resetPlannedGames();
 
@@ -160,7 +165,7 @@ public class SummaryScreen extends Screen implements ActionListener
 						this.gamesLeft.add(game);
 				}
 		}
-		
+
 		GameSeriesManager.autosave(this.gameSeries);
 
 		this.removeAll();
@@ -200,7 +205,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	@Override
 	public String confirm(EnumNavigation direction)
 	{
-		if(direction == EnumNavigation.previous)
+		if(direction == EnumNavigation.previous && !this.skipPlan)
 			return "navigation.summary.previous";
 		else if(gamesToCreate() && next instanceof StartScreen)
 			return "navigation.summary.final";
@@ -224,7 +229,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	public void createGames()
 	{
 		GameSeriesManager.autosave(this.gameSeries);
-		
+
 		int amount = this.gamesToCreate.size();
 		logger.info("Spiele zu erstellen: " + amount);
 
@@ -244,7 +249,9 @@ public class SummaryScreen extends Screen implements ActionListener
 				for(PlannedGame plannedGame : this.gamesToCreate)
 				{
 					this.model.setStatus(plannedGame, CREATING);
-					this.creator.createGame(plannedGame).thenAcceptAsync(v -> { notifyGameCreated(plannedGame); });
+					this.creator.createGame(plannedGame).thenAcceptAsync(v -> {
+						notifyGameCreated(plannedGame);
+					});
 				}
 			}
 		}
@@ -258,7 +265,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	public void leaveGames()
 	{
 		GameSeriesManager.autosave(this.gameSeries);
-		
+
 		this.gamesToLeaveTmp = new LinkedList<PlannedGame>();
 		for(PlannedGame game : this.gamesToLeave)
 		{
@@ -288,7 +295,9 @@ public class SummaryScreen extends Screen implements ActionListener
 						continue;
 
 					this.model.setStatus(plannedGame, LEAVING);
-					this.creator.leaveGame(plannedGame).thenAcceptAsync(v -> { notifyGameLeft(plannedGame); });
+					this.creator.leaveGame(plannedGame).thenAcceptAsync(v -> {
+						notifyGameLeft(plannedGame);
+					});
 				}
 			}
 		}
@@ -313,9 +322,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.gamesToCreate.size() == 0)
 			{
 				this.inProgress = false;
-				
+
 				GameSeriesManager.autosave(this.gameSeries);
-				
+
 				enableButtons();
 			}
 		}
@@ -336,9 +345,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.gamesToLeaveTmp.size() == 0)
 			{
 				this.inProgress = false;
-				
+
 				GameSeriesManager.autosave(this.gameSeries);
-				
+
 				enableButtons();
 			}
 		}
@@ -477,8 +486,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdateBoolean(int column, String label)
 	{
 		JCheckBox checkbox = new JCheckBox(label);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -501,8 +509,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		panel.setLayout(new FlowLayout());
 		((FlowLayout) panel.getLayout()).setAlignment(FlowLayout.LEFT);
 
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -522,8 +529,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		JTextField textfield = new JTextField(50);
 		panel.add(new JLabel(label));
 		panel.add(textfield);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -541,8 +547,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdateSelection(int column, String label, ComboBoxModel<?> comboBoxModel)
 	{
 		JComboBox<?> combobox = new JComboBox<>(comboBoxModel);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -562,11 +567,9 @@ public class SummaryScreen extends Screen implements ActionListener
 		// players.remove(gameSeries.getCreator()); // don't prohibit removing the creator, display a warning instead
 		JComboBox<User> combobox = new JComboBox<>(new DefaultComboBoxModel<User>(players.toArray(new User[0])));
 
-		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"),
-				Language.getString("option.cancel") };
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"), Language.getString("option.cancel") };
 
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null,
-				options, null);
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
 
 		List<User> updatedPlayers;
 		if(result == 0) // add
@@ -822,14 +825,14 @@ public class SummaryScreen extends Screen implements ActionListener
 					break;
 				case CREATED:
 					game.setCreated(true);
-					setValueAt(Language.getString("screen.summary.table.status.created"), rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ")", rowIndex, columnIndex);
 					break;
 				case LEAVING:
-					setValueAt(Language.getString("screen.summary.table.status.leaving"), rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ")", rowIndex, columnIndex);
 					break;
 				case LEFT:
 					game.setLeft(true);
-					setValueAt(Language.getString("screen.summary.table.status.left"), rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ")", rowIndex, columnIndex);
 					break;
 			}
 		}
