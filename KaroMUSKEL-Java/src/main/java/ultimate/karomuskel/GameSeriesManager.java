@@ -3,6 +3,7 @@ package ultimate.karomuskel;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -358,7 +359,7 @@ public abstract class GameSeriesManager
 		{
 			if(!autosaveFolder.exists())
 				autosaveFolder.mkdirs();
-			
+
 			GameSeriesManager.store(gs, autosaveFile);
 
 			File[] existingAutosaves = autosaveFolder.listFiles((dir, name) -> {
@@ -402,11 +403,11 @@ public abstract class GameSeriesManager
 	{
 		logger.info("loading GameSeries from file: " + file.getAbsolutePath());
 
-		FileInputStream fis = new FileInputStream(file);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		byte[] bytes = bis.readAllBytes();
-		bis.close();
-		fis.close();
+		// updated for java 8 compatibility
+		byte[] bytes = new byte[(int) file.length()];
+		DataInputStream dis = new DataInputStream(new FileInputStream(file));
+		dis.readFully(bytes);
+		dis.close();
 
 		boolean v2 = (bytes[0] != '{');
 		if(v2)
@@ -479,10 +480,11 @@ public abstract class GameSeriesManager
 	 */
 	public static muskel2.model.GameSeries loadV2_serialVersionUID1(File file) throws IOException, ClassNotFoundException
 	{
-		FileInputStream fis = new FileInputStream(file);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-
-		byte[] bytes = bis.readAllBytes();
+		// updated for java 8 compatibility
+		byte[] bytes = new byte[(int) file.length()];
+		DataInputStream dis = new DataInputStream(new FileInputStream(file));
+		dis.readFully(bytes);
+		dis.close();
 
 		replaceSerialVersionUID(bytes, muskel2.model.GameSeries.class);
 
@@ -496,8 +498,6 @@ public abstract class GameSeriesManager
 		finally
 		{
 			ois.close();
-			bis.close();
-			fis.close();
 		}
 
 		return gs2;

@@ -1,7 +1,7 @@
 package ultimate.karopapier.eval;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -76,10 +76,14 @@ public abstract class Eval<T>
 	protected String readFile(String filename) throws IOException
 	{
 		File file = new File(folder, filename);
-		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-		String content = new String(bis.readAllBytes());
-		bis.close();
-		return content;
+
+		// updated for java 8 compatibility
+		byte[] bytes = new byte[(int) file.length()];
+		DataInputStream dis = new DataInputStream(new FileInputStream(file));
+		dis.readFully(bytes);
+		dis.close();
+		
+		return new String(bytes);
 	}
 
 	protected File writeFile(String filename, String content) throws IOException

@@ -1,6 +1,6 @@
 package ultimate.karopapier.cron;
 
-import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -100,7 +100,7 @@ public class KaroCronTool
 			logger.info("initiating KaroAPI + cache... ");
 			karoAPI = new KaroAPI(karoUsername, karoPassword);
 			karoAPICache = new KaroAPICache(karoAPI);
-			creator = new Creator(null);//karoAPICache);
+			creator = new Creator(null);// karoAPICache);
 		}
 		catch(KaroAPIException e)
 		{
@@ -279,10 +279,14 @@ public class KaroCronTool
 			gamesTmp.addAll(gs.getGames().get(key));
 			logger.debug("  all games                =" + gamesTmp.size());
 			if(pattern != null)
-				gamesTmp.removeIf(pg -> { return !pg.getName().contains(pattern); });
+				gamesTmp.removeIf(pg -> {
+					return !pg.getName().contains(pattern);
+				});
 			logger.debug("  matching pattern         =" + gamesTmp.size());
 			if(pattern != null)
-				gamesTmp.removeIf(pg -> { return pg.isCreated() && pg.isLeft(); });
+				gamesTmp.removeIf(pg -> {
+					return pg.isCreated() && pg.isLeft();
+				});
 			logger.debug("  neither created nor left =" + gamesTmp.size());
 
 			games.addAll(gamesTmp);
@@ -329,11 +333,15 @@ public class KaroCronTool
 	public static boolean upload(KaroWikiAPI karoWikiAPI, File wikiFile, String target, String summary, boolean bot)
 	{
 		String content;
-		BufferedInputStream bis = null;
+		DataInputStream dis = null;
 		try
 		{
-			bis = new BufferedInputStream(new FileInputStream(wikiFile));
-			content = new String(bis.readAllBytes());
+			// updated for java 8 compatibility
+			byte[] bytes = new byte[(int) wikiFile.length()];
+			dis = new DataInputStream(new FileInputStream(wikiFile));
+			dis.readFully(bytes);
+			
+			content = new String(bytes);
 			return karoWikiAPI.edit(target, content, summary, true, bot).join();
 		}
 		catch(IOException e)
@@ -345,7 +353,7 @@ public class KaroCronTool
 		{
 			try
 			{
-				bis.close();
+				dis.close();
 			}
 			catch(Exception e)
 			{
