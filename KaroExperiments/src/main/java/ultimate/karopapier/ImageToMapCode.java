@@ -1,12 +1,13 @@
 package ultimate.karopapier;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -29,16 +30,34 @@ public class ImageToMapCode
 				BufferedImage image = ImageIO.read(chooser.getSelectedFile());
 				
 				StringBuilder sb = new StringBuilder();
+				char field;
+				Map<Character, Integer> counts = new HashMap<>();
 			
 				for(int y = 0; y < image.getHeight(); y++)
 				{
 					for(int x = 0; x < image.getWidth(); x++)
 					{
-						sb.append(colorToChar(image.getRGB(x, y)));
+						field = colorToChar(image.getRGB(x, y));
+						
+						if(counts.containsKey(field))
+							counts.put(field, counts.get(field)+1);
+						else
+							counts.put(field, 1);
+						
+						sb.append(field);
 					}
 					sb.append("\n");
 				}
+				System.out.println("");
+				System.out.println("--------------------------------------------------------------------------------------------");
+				System.out.println("");
 				System.out.println(sb.toString());
+				System.out.println("");
+				System.out.println("--------------------------------------------------------------------------------------------");
+				System.out.println("");
+				
+				for(Entry<Character, Integer> e: counts.entrySet())
+					System.out.println(e.getKey() + " = " + e.getValue());
 				
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(chooser.getSelectedFile().getAbsolutePath().replace(".png", ".txt"))));
 				bos.write(sb.toString().getBytes());
