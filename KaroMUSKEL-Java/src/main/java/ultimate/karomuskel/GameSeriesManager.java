@@ -955,13 +955,12 @@ public abstract class GameSeriesManager
 				}
 				// repeats for the final
 				players = 2;
-				if(gs.isLoaded())
+				if(gs.isLoaded() && klcround == 2)
 				{
 					// create previous repeat screens
 					for(int i = 1; i <= repeat; i++)
 						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, true, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + i));
-					if(klcround == 2)
-						startScreen.setNext(screens.getLast()); // jump to summary
+					startScreen.setNext(screens.getLast()); // jump to the last summary
 					// add another final repeat 
 					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + (repeat+1)));
 				}
