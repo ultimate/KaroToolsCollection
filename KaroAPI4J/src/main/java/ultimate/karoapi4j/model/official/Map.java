@@ -16,8 +16,8 @@ public class Map extends Identifiable
 {
 	//@formatter:off
 	public static class FromIDConverter extends JSONUtil.FromIDConverter<Map> { public FromIDConverter() { super(Map.class); } };
-	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<Map> { public FromIDListConverter() { super(Map.class); } };
-	public static class FromIDMapConverter extends JSONUtil.FromIDMapConverter<Map> { public FromIDMapConverter() { super(Map.class); } };
+	public static class FromIDArrayToListConverter extends JSONUtil.FromIDArrayToListConverter<Map> { public FromIDArrayToListConverter() { super(Map.class); } };
+	public static class FromIDMapToListConverter extends JSONUtil.FromIDMapToListConverter<Map> { public FromIDMapToListConverter() { super(Map.class); } };
 	//@formatter:on
 	/**
 	 * the row delimeter used in the map code

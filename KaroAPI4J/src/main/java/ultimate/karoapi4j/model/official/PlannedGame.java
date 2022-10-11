@@ -1,7 +1,7 @@
 package ultimate.karoapi4j.model.official;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
-import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 
 /**
  * POJO PlannedGame (or game that shall be created) as defined by the {@link KaroAPI}
@@ -32,9 +32,9 @@ public class PlannedGame
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = Map.FromIDConverter.class)
 	private Map								map;
-	@JsonSerialize(converter = ToIDListConverter.class)
-	@JsonDeserialize(converter = User.FromIDListConverter.class)
-	private List<User>						players	= new LinkedList<>();
+	@JsonSerialize(converter = ToIDArrayConverter.class)
+	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)
+	private Set<User>						players	= new HashSet<>();
 	private Options							options;
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonSerialize(converter = ToIDConverter.class)
@@ -55,7 +55,7 @@ public class PlannedGame
 		this.left = false;
 	}
 
-	public PlannedGame(String name, Map map, List<User> players, Options options)
+	public PlannedGame(String name, Map map, Set<User> players, Options options)
 	{
 		this();
 		this.name = name;
@@ -64,7 +64,7 @@ public class PlannedGame
 		this.options = options;
 	}
 
-	public PlannedGame(String name, Map map, List<User> players, Options options, java.util.Map<String, String> placeHolderValues)
+	public PlannedGame(String name, Map map, Set<User> players, Options options, java.util.Map<String, String> placeHolderValues)
 	{
 		this(name, map, players, options);
 		this.placeHolderValues = placeHolderValues;
@@ -90,12 +90,12 @@ public class PlannedGame
 		this.map = map;
 	}
 
-	public List<User> getPlayers()
+	public Set<User> getPlayers()
 	{
 		return players;
 	}
 
-	public void setPlayers(List<User> players)
+	public void setPlayers(Set<User> players)
 	{
 		this.players = players;
 	}

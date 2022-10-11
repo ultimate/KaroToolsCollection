@@ -1,15 +1,15 @@
 package ultimate.karoapi4j.model.extended;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
-import ultimate.karoapi4j.utils.JSONUtil.ToIDListConverter;
 
 /**
  * Simple POJO that defines a team.<br>
@@ -33,9 +33,9 @@ public class Team
 	 * 
 	 * @see User
 	 */
-	@JsonSerialize(converter = ToIDListConverter.class)
-	@JsonDeserialize(converter = User.FromIDListConverter.class)
-	private List<User>			members;
+	@JsonSerialize(converter = ToIDArrayConverter.class)
+	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)
+	private Set<User>			members;
 	/**
 	 * the (optional) home {@link Map}
 	 */
@@ -55,10 +55,38 @@ public class Team
 	 * Create a new team (without home {@link Map})
 	 * 
 	 * @param name - the team name
+	 * @param member - the only members
+	 * @see User
+	 */
+	public Team(String name, User member)
+	{
+		this(name, member, null);
+	}
+
+	/**
+	 * Create a new team (with home {@link Map})
+	 * 
+	 * @param name - the team name
+	 * @param member - the only members
+	 * @param homeMap - the home {@link Map}
+	 * @see User
+	 */
+	public Team(String name, User member, Map homeMap)
+	{
+		this.name = name;
+		this.members = new HashSet<User>();
+		this.members.add(member);
+		this.homeMap = homeMap;
+	}
+	
+	/**
+	 * Create a new team (without home {@link Map})
+	 * 
+	 * @param name - the team name
 	 * @param members - the list of members
 	 * @see User
 	 */
-	public Team(String name, List<User> members)
+	public Team(String name, Set<User> members)
 	{
 		this(name, members, null);
 	}
@@ -71,10 +99,10 @@ public class Team
 	 * @param homeMap - the home {@link Map}
 	 * @see User
 	 */
-	public Team(String name, List<User> members, Map homeMap)
+	public Team(String name, Set<User> members, Map homeMap)
 	{
 		this.name = name;
-		this.members = new LinkedList<User>(members);
+		this.members = new HashSet<User>(members);
 		this.homeMap = homeMap;
 	}
 
@@ -103,7 +131,7 @@ public class Team
 	 * 
 	 * @return the list of members
 	 */
-	public List<User> getMembers()
+	public Set<User> getMembers()
 	{
 		return members;
 	}
@@ -113,7 +141,7 @@ public class Team
 	 * 
 	 * @param name - the list of members
 	 */
-	public void setMembers(List<User> members)
+	public void setMembers(Set<User> members)
 	{
 		this.members = members;
 	}

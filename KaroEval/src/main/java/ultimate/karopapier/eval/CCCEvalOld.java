@@ -264,7 +264,7 @@ public class CCCEvalOld extends CCCEval
 					{
 						if(((Player) tableRow[1].value).getName().equals(user.getLogin()))
 						{
-							row[col++] = tableRow[tables[c][g].getColumns() - 1]; // the points are in the last column
+							row[col++] = tableRow[tables[c][g].getColumns() - 1].value; // the points are in the last column
 							break;
 						}
 					}

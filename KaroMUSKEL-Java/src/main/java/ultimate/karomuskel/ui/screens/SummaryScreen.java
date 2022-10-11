@@ -31,6 +31,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
@@ -649,11 +650,11 @@ public class SummaryScreen extends Screen implements ActionListener
 			row[5] = game.getOptions().isCps();
 			row[6] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
 			row[7] = true;
-			row[8] = gameSeries.isCreatorGiveUp() || game.isLeft();
+			row[8] = (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave) || game.isLeft();
 
 			if(!game.isCreated())
 				gamesToCreate.add(game);
-			if(!game.isLeft() && gameSeries.isCreatorGiveUp())
+			if(!game.isLeft() && (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave))
 				gamesToLeave.add(game);
 
 			this.rows.add(row);
@@ -734,8 +735,8 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(getRow(rowIndex).isCreated() && columnIndex < 8)
 				return false;
 
-			// if(columnIndex == getColumnCount() - 2) // leave
-			// return karoAPICache.getCurrentUser().isSuperCreator();
+			if(columnIndex == getColumnCount() - 2) // leave
+				return getRow(rowIndex).getPlayers().contains(karoAPICache.getCurrentUser());
 
 			return true;
 		}

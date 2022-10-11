@@ -27,11 +27,11 @@ public abstract class CollectionsUtil
 	 */
 	protected static transient final Logger logger = LogManager.getLogger(CollectionsUtil.class);
 	/**
-	 * Orientierung für aufsteigende Sortierung
+	 * Orientierung fï¿½r aufsteigende Sortierung
 	 */
 	public static final int					ASCENDING	= 1;
 	/**
-	 * Orientierung für abfsteigende Sortierung
+	 * Orientierung fï¿½r abfsteigende Sortierung
 	 */
 	public static final int					DESCENDING	= -1;
 	
@@ -44,8 +44,8 @@ public abstract class CollectionsUtil
 	}
 
 	/**
-	 * Sortiert eine Liste aufsteigend. Die übergebene Liste wird direkt sortiert und für die
-	 * einfachere Verwendung zusätzlich zurückgegeben.
+	 * Sortiert eine Liste aufsteigend. Die ï¿½bergebene Liste wird direkt sortiert und fï¿½r die
+	 * einfachere Verwendung zusï¿½tzlich zurï¿½ckgegeben.
 	 * 
 	 * @see MethodComparator
 	 * @param <T> - der Typ der Liste
@@ -59,8 +59,8 @@ public abstract class CollectionsUtil
 	}
 
 	/**
-	 * Sortiert eine Liste absteigend. Die übergebene Liste wird direkt sortiert und für die
-	 * einfachere Verwendung zusätzlich zurückgegeben.
+	 * Sortiert eine Liste absteigend. Die ï¿½bergebene Liste wird direkt sortiert und fï¿½r die
+	 * einfachere Verwendung zusï¿½tzlich zurï¿½ckgegeben.
 	 * 
 	 * @see CollectionsUtil#ASCENDING
 	 * @see CollectionsUtil#DESCENDING
@@ -76,8 +76,8 @@ public abstract class CollectionsUtil
 	}
 
 	/**
-	 * Sortiert eine Liste auf oder absteigend. Die übergebene Liste wird direkt sortiert und für
-	 * die einfachere Verwendung zusätzlich zurückgegeben.
+	 * Sortiert eine Liste auf oder absteigend. Die ï¿½bergebene Liste wird direkt sortiert und fï¿½r
+	 * die einfachere Verwendung zusï¿½tzlich zurï¿½ckgegeben.
 	 * 
 	 * @see MethodComparator
 	 * @param <T> - der Typ der Liste
@@ -197,7 +197,7 @@ public abstract class CollectionsUtil
 	 * @return the map of ids & values
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> Map<Integer, T> toMap(List<Map<String, Object>> idList, String idKey, String valueKey)
+	public static <T> Map<Integer, T> toMap(Collection<Map<String, Object>> idList, String idKey, String valueKey)
 	{
 		HashMap<Integer, T> map = new HashMap<>();
 		for(Map<String, Object> m : idList)
@@ -216,7 +216,7 @@ public abstract class CollectionsUtil
 	 * @param list - the list to convert
 	 * @return the id-map
 	 */
-	public static <T extends Identifiable> Map<Integer, T> toMap(List<T> list)
+	public static <T extends Identifiable> Map<Integer, T> toMap(Collection<T> list)
 	{
 		HashMap<Integer, T> map = new HashMap<>();
 		for(T object : list)
@@ -229,7 +229,7 @@ public abstract class CollectionsUtil
 		return map;
 	}
 	
-	public static int[] toIDArray(List<? extends Identifiable> list)
+	public static int[] toIDArray(Collection<? extends Identifiable> list)
 	{
 		int[] array = new int[list.size()];
 		int cursor = 0;

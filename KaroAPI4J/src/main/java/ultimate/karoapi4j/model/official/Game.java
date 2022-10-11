@@ -23,7 +23,7 @@ public class Game extends Identifiable
 {
 	//@formatter:off
 	public static class FromIDConverter extends JSONUtil.FromIDConverter<Game> { public FromIDConverter() { super(Game.class); } };
-	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<Game> { public FromIDListConverter() { super(Game.class); } };
+	public static class FromIDArrayToListConverter extends JSONUtil.FromIDArrayToListConverter<Game> { public FromIDArrayToListConverter() { super(Game.class); } };
 	//@formatter:on
 	
 	/*
