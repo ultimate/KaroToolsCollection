@@ -5,11 +5,14 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -49,23 +52,23 @@ public abstract class JSONUtil
 	/**
 	 * The date format used
 	 */
-	public static final String			DATE_FORMAT	= "yyyy-MM-dd HH:mm:ss";
+	public static final String				DATE_FORMAT	= "yyyy-MM-dd HH:mm:ss";
 	/**
 	 * Logger instance
 	 */
-	private static transient final Logger logger = LogManager.getLogger(JSONUtil.class);
+	private static transient final Logger	logger		= LogManager.getLogger(JSONUtil.class);
 	/**
 	 * the Jackson {@link ObjectWriter}
 	 */
-	private static final ObjectWriter	writer;
+	private static final ObjectWriter		writer;
 	/**
 	 * the Jackson {@link ObjectWriter} for formatted Output
 	 */
-	private static final ObjectWriter	prettyWriter;
+	private static final ObjectWriter		prettyWriter;
 	/**
 	 * the Jackson {@link ObjectReader}
 	 */
-	private static final ObjectReader	reader;
+	private static final ObjectReader		reader;
 
 	/**
 	 * prevent instantiation
@@ -428,10 +431,10 @@ public abstract class JSONUtil
 	 * 
 	 * @author ultimate
 	 */
-	public static class ToIDListConverter<T extends Identifiable> extends StdConverter<List<T>, int[]>
+	public static class ToIDArrayConverter<T extends Identifiable> extends StdConverter<Collection<T>, int[]>
 	{
 		@Override
-		public int[] convert(List<T> value)
+		public int[] convert(Collection<T> value)
 		{
 			if(value == null)
 				return null;
@@ -444,16 +447,16 @@ public abstract class JSONUtil
 	 * 
 	 * @author ultimate
 	 */
-	public static class ToIDMapConverter<T extends Identifiable> extends StdConverter<java.util.Map<String, List<T>>, java.util.Map<String, int[]>>
+	public static class ToIDMapConverter<T extends Identifiable> extends StdConverter<java.util.Map<String, ? extends Collection<T>>, java.util.Map<String, int[]>>
 	{
 		@Override
-		public java.util.Map<String, int[]> convert(java.util.Map<String, List<T>> value)
+		public java.util.Map<String, int[]> convert(java.util.Map<String, ? extends Collection<T>> value)
 		{
 			if(value == null)
 				return null;
 
 			HashMap<String, int[]> map = new HashMap<>();
-			for(Entry<String, List<T>> e : value.entrySet())
+			for(Entry<String, ? extends Collection<T>> e : value.entrySet())
 				map.put(e.getKey(), CollectionsUtil.toIDArray(e.getValue()));
 			return map;
 		}
@@ -499,29 +502,31 @@ public abstract class JSONUtil
 	}
 
 	/**
-	 * Custom converter that can be used to convert IDs back to a {@link List} of
+	 * Custom converter that can be used to convert IDs back to a {@link Collection} of
 	 * {@link Identifiable}
 	 * 
 	 * @author ultimate
 	 */
-	public static class FromIDListConverter<T extends Identifiable> extends StdConverter<int[], List<T>>
+	public static abstract class FromIDArrayConverter<T extends Identifiable, C extends Collection<T>> extends StdConverter<int[], C>
 	{
 		private FromIDConverter<T> fromIDConverter;
 
-		public FromIDListConverter(Class<T> classRef)
+		public FromIDArrayConverter(Class<T> classRef)
 		{
 			super();
 			this.fromIDConverter = new FromIDConverter<>(classRef);
 		}
 
 		@Override
-		public List<T> convert(int[] array)
+		public C convert(int[] array)
 		{
-			ArrayList<T> list = new ArrayList<>(array.length);
+			C list = initCollection(array);
 			for(int id : array)
 				list.add(fromIDConverter.convert(id));
 			return list;
 		}
+
+		protected abstract C initCollection(int[] array);
 	}
 
 	/**
@@ -530,23 +535,105 @@ public abstract class JSONUtil
 	 * 
 	 * @author ultimate
 	 */
-	public static class FromIDMapConverter<T extends Identifiable> extends StdConverter<java.util.Map<String, int[]>, java.util.Map<String, List<T>>>
+	public static class FromIDArrayToListConverter<T extends Identifiable> extends FromIDArrayConverter<T, List<T>>
 	{
-		private FromIDListConverter<T> fromIDListConverter;
-
-		public FromIDMapConverter(Class<T> classRef)
+		public FromIDArrayToListConverter(Class<T> classRef)
 		{
-			super();
-			this.fromIDListConverter = new FromIDListConverter<>(classRef);
+			super(classRef);
 		}
 
 		@Override
-		public java.util.Map<String, List<T>> convert(java.util.Map<String, int[]> arrayMap)
+		protected List<T> initCollection(int[] array)
 		{
-			HashMap<String, List<T>> map = new HashMap<>();
+			return new ArrayList<T>(array.length);
+		}
+	}
+
+	/**
+	 * Custom converter that can be used to convert IDs back to a {@link Set} of
+	 * {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static class FromIDArrayToSetConverter<T extends Identifiable> extends FromIDArrayConverter<T, Set<T>>
+	{
+		public FromIDArrayToSetConverter(Class<T> classRef)
+		{
+			super(classRef);
+		}
+
+		@Override
+		protected Set<T> initCollection(int[] array)
+		{
+			return new HashSet<>();
+		}
+	}
+
+	/**
+	 * Custom converter that can be used to convert IDs back to a {@link Map} of {@link Collection}s of
+	 * {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static abstract class FromIDMapConverter<T extends Identifiable, C extends Collection<T>> extends StdConverter<java.util.Map<String, int[]>, java.util.Map<String, C>>
+	{
+		private FromIDArrayConverter<T, C> fromIDArrayConverter;
+
+		public FromIDMapConverter(Class<T> classRef, FromIDArrayConverter<T, C> fromIDArrayConverter)
+		{
+			super();
+			this.fromIDArrayConverter = fromIDArrayConverter;
+		}
+
+		@Override
+		public java.util.Map<String, C> convert(java.util.Map<String, int[]> arrayMap)
+		{
+			HashMap<String, C> map = new HashMap<>();
 			for(Entry<String, int[]> e : arrayMap.entrySet())
-				map.put(e.getKey(), fromIDListConverter.convert(e.getValue()));
+				map.put(e.getKey(), fromIDArrayConverter.convert(e.getValue()));
 			return map;
+		}
+
+		protected abstract C initCollection(int[] array);
+	}
+
+	/**
+	 * Custom converter that can be used to convert IDs back to a {@link Map} of {@link List}s of
+	 * {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static class FromIDMapToListConverter<T extends Identifiable> extends FromIDMapConverter<T, List<T>>
+	{
+		public FromIDMapToListConverter(Class<T> classRef)
+		{
+			super(classRef, new FromIDArrayToListConverter<>(classRef));
+		}
+
+		@Override
+		protected List<T> initCollection(int[] array)
+		{
+			return new ArrayList<T>(array.length);
+		}
+	}
+
+	/**
+	 * Custom converter that can be used to convert IDs back to a {@link Map} of {@link Set}s of
+	 * {@link Identifiable}
+	 * 
+	 * @author ultimate
+	 */
+	public static class FromIDMapToSetConverter<T extends Identifiable> extends FromIDMapConverter<T, Set<T>>
+	{
+		public FromIDMapToSetConverter(Class<T> classRef)
+		{
+			super(classRef, new FromIDArrayToSetConverter<>(classRef));
+		}
+
+		@Override
+		protected Set<T> initCollection(int[] array)
+		{
+			return new HashSet<>();
 		}
 	}
 }
