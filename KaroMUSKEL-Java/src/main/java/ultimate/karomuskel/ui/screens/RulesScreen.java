@@ -3,6 +3,7 @@ package ultimate.karomuskel.ui.screens;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.function.Predicate;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -11,6 +12,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
@@ -28,17 +30,17 @@ import ultimate.karomuskel.ui.components.GenericEnumModel;
 
 public class RulesScreen extends Screen
 {
-	private static final long					serialVersionUID	= 1L;
+	private static final long							serialVersionUID	= 1L;
 
-	private GridBagConstraints					gbc;
+	private GridBagConstraints							gbc;
 
-	private JSpinner							minZzzSpinner;
-	private JSpinner							maxZzzSpinner;
-	private JComboBox<Label<EnumGameTC>>		crashingAllowedCB;
-	private JComboBox<Label<Boolean>>			checkpointsActivatedCB;
-	private JComboBox<Label<EnumGameDirection>>	directionCB;
-	private JComboBox<Label<Boolean>>			creatorGiveUpCB;
-	private JComboBox<Label<Boolean>>			ignoreInvitableCB;
+	private JSpinner									minZzzSpinner;
+	private JSpinner									maxZzzSpinner;
+	private JComboBox<Label<EnumGameTC>>				crashingAllowedCB;
+	private JComboBox<Label<Boolean>>					checkpointsActivatedCB;
+	private JComboBox<Label<EnumGameDirection>>			directionCB;
+	private JComboBox<Label<EnumCreatorParticipation>>	creatorParticipationCB;
+	private JComboBox<Label<Boolean>>					ignoreInvitableCB;
 
 	public RulesScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -71,7 +73,7 @@ public class RulesScreen extends Screen
 		EnumGameTC crashingAllowed = ((Label<EnumGameTC>) crashingAllowedCB.getSelectedItem()).getValue();
 		Boolean checkpointsActivated = ((Label<Boolean>) checkpointsActivatedCB.getSelectedItem()).getValue();
 		EnumGameDirection direction = ((Label<EnumGameDirection>) directionCB.getSelectedItem()).getValue();
-		
+
 		return new Rules(minZzz, maxZzz, crashingAllowed, checkpointsActivated, direction);
 	}
 
@@ -82,8 +84,8 @@ public class RulesScreen extends Screen
 		Rules rules = createRules();
 		gameSeries.setRules(rules);
 
-		boolean creatorGiveUp = ((Label<Boolean>) creatorGiveUpCB.getSelectedItem()).getValue();
-		gameSeries.setCreatorGiveUp(creatorGiveUp);
+		EnumCreatorParticipation creatorParticipation = ((Label<EnumCreatorParticipation>) creatorParticipationCB.getSelectedItem()).getValue();
+		gameSeries.setCreatorParticipation(creatorParticipation);
 
 		boolean ignoreInvitable = ((Label<Boolean>) ignoreInvitableCB.getSelectedItem()).getValue();
 		gameSeries.setIgnoreInvitable(ignoreInvitable);
@@ -104,16 +106,17 @@ public class RulesScreen extends Screen
 
 		EnumGameTC crashingAllowedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCrashallowed() : EnumGameTC.forbidden);
 		this.crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowedInit, true));
-		
+
 		Boolean checkpointsActivatedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCps() : Boolean.TRUE);
 		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, true));
 
 		EnumGameDirection directionInit = (gameSeries.getRules() != null ? gameSeries.getRules().getStartdirection() : EnumGameDirection.classic);
 		this.directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, directionInit, true));
 
-		boolean creatorGiveUpInit = gameSeries.isCreatorGiveUp();
-		this.creatorGiveUpCB = new JComboBox<>(new BooleanModel(creatorGiveUpInit, false));
-		this.creatorGiveUpCB.setEnabled(GameSeriesManager.getBooleanConfig(null, GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
+		EnumCreatorParticipation creatorParticipationInit = (gameSeries.getCreatorParticipation() != null ? gameSeries.getCreatorParticipation() : EnumCreatorParticipation.normal);
+		Predicate<EnumCreatorParticipation> creatorParticipationPredicate = (e) -> { return e != EnumCreatorParticipation.not_participating || this.karoAPICache.getCurrentUser().isSuperCreator(); }; 
+		this.creatorParticipationCB = new JComboBox<>(new GenericEnumModel<EnumCreatorParticipation>(EnumCreatorParticipation.class, creatorParticipationInit, creatorParticipationPredicate ));
+		this.creatorParticipationCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(null, GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
 
 		boolean ignoreInvitableInit = gameSeries.isIgnoreInvitable();
 		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(ignoreInvitableInit, false));
@@ -167,7 +170,7 @@ public class RulesScreen extends Screen
 		this.add(new JLabel(Language.getString("screen.rules.creatorgiveup", cellWidth)), gbc);
 		gbc.gridx = 1;
 		gbc.gridwidth = 3;
-		this.add(this.creatorGiveUpCB, gbc);
+		this.add(this.creatorParticipationCB, gbc);
 		gbc.gridy++;
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;

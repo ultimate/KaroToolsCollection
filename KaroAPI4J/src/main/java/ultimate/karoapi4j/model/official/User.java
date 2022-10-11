@@ -22,8 +22,10 @@ public class User extends Identifiable
 {
 	//@formatter:off
 	public static class FromIDConverter extends JSONUtil.FromIDConverter<User> { public FromIDConverter() { super(User.class); } };
-	public static class FromIDListConverter extends JSONUtil.FromIDListConverter<User> { public FromIDListConverter() { super(User.class); } };
-	public static class FromIDMapConverter extends JSONUtil.FromIDMapConverter<User> { public FromIDMapConverter() { super(User.class); } };
+	public static class FromIDArrayToListConverter extends JSONUtil.FromIDArrayToListConverter<User> { public FromIDArrayToListConverter() { super(User.class); } };
+	public static class FromIDMapToListConverter extends JSONUtil.FromIDMapToListConverter<User> { public FromIDMapToListConverter() { super(User.class); } };
+	public static class FromIDArrayToSetConverter extends JSONUtil.FromIDArrayToSetConverter<User> { public FromIDArrayToSetConverter() { super(User.class); } };
+	public static class FromIDMapToSetConverter extends JSONUtil.FromIDMapToSetConverter<User> { public FromIDMapToSetConverter() { super(User.class); } };
 	//@formatter:on
 
 	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
@@ -95,6 +97,7 @@ public class User extends Identifiable
 		super(id);
 	}
 
+	@Deprecated
 	public User(String login)
 	{
 		this();

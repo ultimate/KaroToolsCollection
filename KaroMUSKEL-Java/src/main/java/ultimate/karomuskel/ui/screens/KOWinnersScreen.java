@@ -97,10 +97,14 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				// hence we need to take the players from the actually created games instead
 				for(PlannedGame g : gameSeries.getGames().get(gameSeries.getType().toString() + "." + GameSeries.KEY_ROUND + previousRound))
 				{
-					// add the 2 players from each match
-					// index 0 = creator; index 1 and 2 = players
-					players.add(g.getPlayers().get(1));
-					players.add(g.getPlayers().get(2));
+					// add the 2 players from each match (but without the creator)
+					if(g.getPlayers().size() > 2)
+						g.getPlayers().forEach(u -> {
+							if(u != gameSeries.getCreator())
+								players.add(u);
+						});
+					else // the creator is participating, too
+						players.addAll(g.getPlayers());
 				}
 
 				List<User> winnerPlayers = new LinkedList<User>();
@@ -166,10 +170,16 @@ public class KOWinnersScreen extends Screen implements ActionListener
 				// hence we need to take the players from the actually created games instead
 				for(PlannedGame g : gameSeries.getGames().get(gameSeries.getType().toString() + "." + GameSeries.KEY_ROUND + numBefore))
 				{
-					// add the 2 players from each match
-					// index 0 = creator; index 1 and 2 = players
-					names.add(g.getPlayers().get(1).getLogin());
-					names.add(g.getPlayers().get(2).getLogin());
+					// add the 2 players from each match (but without the creator)
+					if(g.getPlayers().size() > 2) // creator is a separate player
+						g.getPlayers().forEach(u -> {
+							if(u != gameSeries.getCreator())
+								names.add(u.getLogin());
+						});
+					else // the creator is participating in KLC, too
+						g.getPlayers().forEach(u -> {
+							names.add(u.getLogin());
+						});
 				}
 			}
 

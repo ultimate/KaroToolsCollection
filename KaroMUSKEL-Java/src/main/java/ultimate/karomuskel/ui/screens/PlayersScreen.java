@@ -7,9 +7,12 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
@@ -75,22 +78,18 @@ public class PlayersScreen extends Screen implements ActionListener
 		if(GameSeriesManager.isTeamBased(gameSeries))
 		{
 			Team team;
-			List<User> playerList;
+			Set<User> playerSet;
 			gameSeries.getTeams().clear();
 			for(int i = 0; i < this.teams; i++)
 			{
 				String teamName = this.teamNameTFList.get(i).getText();
-				playerList = new LinkedList<User>();
 				User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
 				if(direction == EnumNavigation.next && players.length < (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.minplayersperteam", teamName);
 				if(direction == EnumNavigation.next && players.length > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.maxplayersperteam", teamName);
-				for(User player : players)
-				{
-					playerList.add(player);
-				}
-				team = new Team(teamName, playerList);
+				playerSet = new HashSet<User>(Arrays.asList(players));
+				team = new Team(teamName, playerSet);
 				gameSeries.getTeams().add(team);
 			}
 

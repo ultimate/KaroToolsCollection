@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -165,15 +165,12 @@ public class KaroWikiAPITest
 					newContent = content + "\n\nsome new line --~~~~";
 				}
 
-				Date date = new Date();
+				LocalDateTime date = LocalDateTime.now();
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
-
-				DateFormat df = new SimpleDateFormat("HH:mm, d. MMM YYYY", Locale.GERMAN);
-				String dateString = df.format(date);
-				dateString = dateString.replace("März", "Mär.");
-				dateString = dateString.replace("Juni", "Jun.");
-				dateString = dateString.replace("Juli", "Jul.");
+				
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm, d. MMM. YYYY", Locale.GERMAN);
+				String dateString = dateFormatter.format(date);
 				String expectedContent;
 				if(TimeZone.getDefault().inDaylightTime(new Date()))
 					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CEST)");
