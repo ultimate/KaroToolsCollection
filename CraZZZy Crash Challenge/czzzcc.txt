@@ -42,7 +42,7 @@ Die CraZZZy Crash Challenge gibt es in mehreren Ausführungen:
 |-
 |[[CraZZZy Crash Challenge 5]]||30.05.2019||16.07.2019||läuft noch...||25||30||6||150||999||?||?||{{Benutzer|quabla}}||MaxP: {{Benutzer|hasi}}<br/>MaxC: {{Benutzer|quabla}}<br/>MinZ: {{Benutzer|Slybotone}}  
 |-
-|[[CraZZZy Crash Challenge 6]]||kommt noch...||kommt noch...||kommt noch...||20-25||?||6||?||?||?||?||{{Benutzer|???}}||MaxP: {{Benutzer|???}}<br/>MaxC: {{Benutzer|???}}<br/>MinZ: {{Benutzer|???}}  
+|[[CraZZZy Crash Challenge 6]]||kommt noch...||kommt noch...||kommt noch...||20-25||?||6||?||?||?||?||{{Benutzer|???}}||n/a<sup>5</sup>
 |-
 |}
 
@@ -52,6 +52,7 @@ Die CraZZZy Crash Challenge gibt es in mehreren Ausführungen:
 <sup>2</sup> Rennen pro Spieler<br/>
 <sup>3</sup> MaxP: Höchste Summe der Grundpunkte / MaxC: Meiste Crashs / MinZ: Kleinste Gesamtzugzahl<br/>
 <sup>4</sup> Nach der ersten Ankündigung ist die Sache leider in Vergessenheit geraten. Erneute Ankündigung und Eröffnung der Anmeldung gut 2 Jahre später...<br/>
+<sup>5</sup> Boni gibt es ab der CCC6 nicht mehr, details siehe [[#Punktevergabe|Punktevergabe]]<br/>
 
 = Organisation & Reglement =
 == Allgemeines ==
