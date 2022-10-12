@@ -167,14 +167,14 @@ public class RulesScreen extends Screen
 		gbc.gridy++;
 		gbc.gridx = 0;
 		gbc.gridwidth = 1;
-		this.add(new JLabel(Language.getString("screen.rules.creatorgiveup", cellWidth)), gbc);
+		this.add(new JLabel(Language.getString("screen.rules.creatorparticipation", cellWidth)), gbc);
 		gbc.gridx = 1;
 		gbc.gridwidth = 3;
 		this.add(this.creatorParticipationCB, gbc);
 		gbc.gridy++;
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;
-		this.add(new JLabel(Language.getString("screen.rules.creatorgiveup.description", totalWidth)), gbc);
+		this.add(new JLabel(Language.getString("screen.rules.creatorparticipation.description", totalWidth)), gbc);
 		gbc.gridy++;
 		gbc.gridx = 0;
 		gbc.gridwidth = 1;
