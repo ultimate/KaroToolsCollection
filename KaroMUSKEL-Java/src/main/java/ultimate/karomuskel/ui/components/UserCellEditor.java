@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 
 	private UserChooser			chooser;
 
-	private List<User>			users;
+	private Collection<User>	users;
 	private List<User>			allUsers;
 
 	private JFrame				gui;
@@ -79,7 +80,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 	}
 
 	@Override
-	public List<User> getCellEditorValue()
+	public Collection<User> getCellEditorValue()
 	{
 		return this.users;
 	}
@@ -88,13 +89,13 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 	{
-		this.users = (List<User>) value;
+		this.users = (Collection<User>) value;
 		this.game = model.getRow(row);
-		this.button.setText(userListToString((List<User>) value));
+		this.button.setText(userCollectionToString((Collection<User>) value));
 		return this.button;
 	}
 
-	private String userListToString(List<User> users)
+	private String userCollectionToString(Collection<User> users)
 	{
 		StringBuilder sb = new StringBuilder();
 		for(User user : users)
@@ -124,8 +125,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			{
 				if(this.chooser.users.size() >= map.getPlayers())
 				{
-					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getPlayers()),
-							Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getPlayers()), Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					break;
 				}
 				this.chooser.notSelectedUsers.remove(u);
@@ -138,12 +138,11 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		{
 			List<User> tmpUsers = this.chooser.usersLI.getSelectedValuesList();
 			this.chooser.usersLI.clearSelection();
-			for(User u  : tmpUsers)
+			for(User u : tmpUsers)
 			{
 				if(u.equals(karoAPICache.getCurrentUser()))
 				{
-					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.creatorremove"), Language.getString("screen.summary.useredit.errortitle"),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.creatorremove"), Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
 				this.chooser.users.remove(u);
@@ -178,7 +177,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			this.label.setBackground(table.getBackground());
 			this.label.setForeground(table.getForeground());
 		}
-		this.label.setText(userListToString((List<User>) value));
+		this.label.setText(userCollectionToString((Collection<User>) value));
 		return this.label;
 	}
 
@@ -299,7 +298,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			this.notSelectedUsersModel.fireContentChanged();
 		}
 
-		public void setUsers(PlannedGame game, List<User> users)
+		public void setUsers(PlannedGame game, Collection<User> users)
 		{
 			this.game = game;
 
