@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -764,7 +765,7 @@ public class SummaryScreen extends Screen implements ActionListener
 					break;
 				case 2:
 					game.getPlayers().clear();
-					game.getPlayers().addAll((List<User>) aValue);
+					game.getPlayers().addAll((Collection<User>) aValue);
 					break;
 				case 3:
 					game.getOptions().setZzz((Integer) aValue);
