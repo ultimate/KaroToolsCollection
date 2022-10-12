@@ -1,0 +1,70 @@
+[[Bild:Czzzcc6.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 6|6. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|???}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1147 Forum] und Teilnehmer vergangener CCCs sowie Addicts wurden auch noch per Spiel+Bordfunk eingeladen.
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
+
+${MAPS}
+
+== Gesamtwertung ==
+${TOTAL}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Im Gegensatz zu den vorherigen CCCs hat sich das Bewertungsschema geändert. Details gibt es auf der [[CraZZZy_Crash_Challenge#CCC6|CCC-Übersicht]]
+
+== Durchführungstatus ==
+
+
+* '''06.09.2022 ??:??''' Beginn der Planung im Hintergrund (Streckenauswahl, Überarbeitung Wertungssystem, etc.)
+* '''12.10.2022 15:53''' Eröffnung der Anmeldung im Forum
+* '''12.10.2022 18:22''' Wiki-Seite erstellt
+* '''??.??.2022 ??:??''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
+* '''??.??.2022 ??:??''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
+* '''??.??.2022 ??:??''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 1|Challenge 1]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 2|Challenge 2]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 3|Challenge 3]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 4|Challenge 4]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 5|Challenge 5]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 6|Challenge 6]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 7|Challenge 7]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 8|Challenge 8]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 9|Challenge 9]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 10|Challenge 10]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 11|Challenge 11]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 12|Challenge 12]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 13|Challenge 13]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 14|Challenge 14]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 15|Challenge 15]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 16|Challenge 16]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 17|Challenge 17]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 18|Challenge 18]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 19|Challenge 19]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 20|Challenge 20]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 21|Challenge 21]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 22|Challenge 22]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 23|Challenge 23]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 24|Challenge 24]]
+* '''??.??.2022 ??:??''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 6 - Detailwertung Challenge 25|Challenge 25]]
+
+= Statistik =
+${STATS}
+
+[[Kategorie:Meisterschaft]]
