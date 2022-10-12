@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
@@ -38,6 +40,7 @@ import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.test.KaroAPITestcase;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.MethodComparator;
+import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public class KaroAPITest extends KaroAPITestcase
 {
@@ -800,7 +803,7 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
-	public void test_multiInstanceAndMessaging() throws InterruptedException, ExecutionException
+	public void test_multiInstanceAndMessaging() throws InterruptedException, ExecutionException, IOException
 	{
 		// check the login
 		assertEquals(properties.getProperty("karoapi.user"), karoAPI.check().get().getLogin());
@@ -814,9 +817,11 @@ public class KaroAPITest extends KaroAPITestcase
 		// check if the other API is still valid
 		User user1 = karoAPI.check().get();
 		assertEquals(properties.getProperty("karoapi.user"), user1.getLogin());
+		
+		Properties testProperties = PropertiesUtil.loadProperties(new File("src/test/resources/test.properties"));
 
-		String str1 = "Hallo " + user2.getLogin() + ", das ist ein API-Test!";
-		String str2 = "Danke und Gru� zur�ck!";
+		String str1 = testProperties.getProperty("message1").replace("%user", user2.getLogin());
+		String str2 = testProperties.getProperty("message2").replace("%user", user1.getLogin());
 
 		UserMessage msg, lastMsg;
 		List<UserMessage> messages;
