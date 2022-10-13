@@ -334,7 +334,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 				expectedNumberOfMatches = teamCount / 2 * numberOfGamesPerPair;
 				logger.debug("testing teamCount = " + teamCount + ", numberOfGamesPerPair = " + numberOfGamesPerPair + ", expectedNumberOfMatches = " + expectedNumberOfMatches + ", creatorParticipation = " + creatorParticipation);
 
-				games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), winners, null, new ArrayList<Map>(dummyCache.getMaps()), null, rules, creatorParticipation, false, false, numberOfGamesPerPair);
+				games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), winners, null, new ArrayList<Map>(dummyCache.getMaps()), null, rules, creatorParticipation, false, false, numberOfGamesPerPair, 0);
 
 				assertEquals(expectedNumberOfMatches, games.size());
 				for(int i = 0; i < games.size(); i++)
@@ -359,7 +359,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 				expectedNumberOfMatches *= 2;
 				logger.debug("testing teamCount = " + teamCount + ", numberOfGamesPerPair = " + numberOfGamesPerPair + ", expectedNumberOfMatches = " + expectedNumberOfMatches + ", creatorParticipation = " + creatorParticipation + ", with losers");
 
-				games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), winners, losers, new ArrayList<Map>(dummyCache.getMaps()), null, rules, creatorParticipation, false, false, numberOfGamesPerPair);
+				games = Planner.planSeriesKO("test", dummyCache.getCurrentUser(), winners, losers, new ArrayList<Map>(dummyCache.getMaps()), null, rules, creatorParticipation, false, false, numberOfGamesPerPair, 0);
 
 				assertEquals(expectedNumberOfMatches, games.size());
 				int i = 0;
