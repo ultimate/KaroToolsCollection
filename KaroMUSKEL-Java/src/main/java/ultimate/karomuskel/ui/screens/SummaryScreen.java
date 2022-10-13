@@ -422,7 +422,12 @@ public class SummaryScreen extends Screen implements ActionListener
 		for(int i = 0; i < table.getColumnCount(); i++)
 		{
 			col = table.getColumnModel().getColumn(i);
-			col.setPreferredWidth(this.model.getColumnWidth(i));
+			if(this.model.getColumnWidth(i) > 0)
+			{
+				col.setMinWidth(this.model.getColumnWidth(i));
+				col.setMaxWidth(this.model.getColumnWidth(i));
+				col.setPreferredWidth(this.model.getColumnWidth(i));
+			}
 			if(table.getColumnClass(i).equals(Integer.class))
 			{
 				col.setCellEditor(new SpinnerCellEditor(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1)));
@@ -622,16 +627,16 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.games = new ArrayList<PlannedGame>(gameSeries.getGames().size());
 			this.rows = new ArrayList<Object[]>(gameSeries.getGames().size());
 
-			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 150);
-			this.addColumn(Language.getString("screen.summary.table.map"), Map.class, 150);
-			this.addColumn(Language.getString("screen.summary.table.players"), User.class, 100);
-			this.addColumn(Language.getString("screen.summary.table.zzz"), Integer.class, 30);
-			this.addColumn(Language.getString("screen.summary.table.crashs"), EnumGameTC.class, 30);
-			this.addColumn(Language.getString("screen.summary.table.cps"), Boolean.class, 30);
-			this.addColumn(Language.getString("screen.summary.table.direction"), EnumGameDirection.class, 70);
-			this.addColumn(Language.getString("screen.summary.table.createstatus"), Boolean.class, 40);
-			this.addColumn(Language.getString("screen.summary.table.leavestatus"), Boolean.class, 40);
-			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 70);
+			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 0);
+			this.addColumn(Language.getString("screen.summary.table.map"), Map.class, 0);
+			this.addColumn(Language.getString("screen.summary.table.players"), User.class, 0);
+			this.addColumn(Language.getString("screen.summary.table.zzz"), Integer.class, 40);
+			this.addColumn(Language.getString("screen.summary.table.crashs"), EnumGameTC.class, 90);
+			this.addColumn(Language.getString("screen.summary.table.cps"), Boolean.class, 40);
+			this.addColumn(Language.getString("screen.summary.table.direction"), EnumGameDirection.class, 90);
+			this.addColumn(Language.getString("screen.summary.table.createstatus"), Boolean.class, 70);
+			this.addColumn(Language.getString("screen.summary.table.leavestatus"), Boolean.class, 70);
+			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 100);
 		}
 
 		public void addRow(PlannedGame game)
