@@ -57,7 +57,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	public MainFrame(String titleKey, KaroAPICache karoAPICache)
 	{
-		super(Language.getString(titleKey));
+		super(Language.getString(titleKey) + (karoAPICache.getKaroAPI() == null ? " - DEBUG-MODE" : ""));
 		this.karoAPICache = karoAPICache;
 
 		this.layout = new BorderLayout();
