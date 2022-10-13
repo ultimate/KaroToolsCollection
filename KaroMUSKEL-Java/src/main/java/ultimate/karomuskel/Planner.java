@@ -83,7 +83,7 @@ public abstract class Planner
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("gameseries & type must not be null!");
 
-		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, groups, leagues, firstKO, numberOfGames, maxPlayersPerGame;
+		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, repeat, groups, leagues, firstKO, numberOfGames, maxPlayersPerGame;
 		boolean useHomeMaps, loserRound, shuffle, dummyMatches;
 
 		User creator = gs.getCreator();
@@ -100,10 +100,11 @@ public abstract class Planner
 				return planSeriesBalanced(gs.getTitle(), creator, gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey(), creatorParticipation);
 			case KLC:
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
+				repeat = (gs.getSettings().containsKey(GameSeries.CURRENT_REPEAT) ? (int) gs.get(GameSeries.CURRENT_REPEAT) : -1);
 				groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
 				leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
 				firstKO = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_FIRST_KO_ROUND);
-				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, firstKO, gs.getRules(), creatorParticipation, round);
+				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, firstKO, gs.getRules(), creatorParticipation, round, repeat);
 			case KO:
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
@@ -117,7 +118,7 @@ public abstract class Planner
 					losers = new ArrayList<>(gs.getTeamsByKey().get(GameSeries.KEY_ROUND + (round * 2)));
 					losers.removeAll(winners);
 				}
-				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair);
+				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, 0);
 			case League:
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				dummyMatches = (boolean) gs.get(GameSeries.DUMMY_MATCHES);
@@ -577,10 +578,11 @@ public abstract class Planner
 	 * @param firstKO - the number of players for the first KO round
 	 * @param rules - the {@link Rules} to use
 	 * @param round - the round to plan
+	 * @param repeat - the repeat number of the current round (for the final)
 	 * @return the list of {@link PlannedGame}s
 	 */
 	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, int firstKO, Rules rules,
-			EnumCreatorParticipation creatorParticipation, int round)
+			EnumCreatorParticipation creatorParticipation, int round, int repeat)
 	{
 		BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
 			int league1 = -1;
@@ -617,7 +619,7 @@ public abstract class Planner
 			for(User user : playersWhoLost)
 				losers.add(new Team(user.getLogin(), user, homeMaps.get("" + user.getId()).get(0)));
 
-			return planSeriesKO(title, creator, winners, losers, null, null, rules, creatorParticipation, true, true, 2);
+			return planSeriesKO(title, creator, winners, losers, null, null, rules, creatorParticipation, true, true, 2, repeat);
 		}
 		else
 		{
@@ -643,7 +645,7 @@ public abstract class Planner
 			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
 				teams.add(new Team(user.getLogin(), user, homeMaps.get("" + user.getId()).get(0)));
 
-			return planSeriesKO(title, creator, teams, null, null, whoIsHome, rules, creatorParticipation, true, true, 1);
+			return planSeriesKO(title, creator, teams, null, null, whoIsHome, rules, creatorParticipation, true, true, 1, repeat);
 		}
 	}
 
@@ -728,8 +730,8 @@ public abstract class Planner
 					placeholderValues.put("i", toString(count + 1, 1));
 					placeholderValues.put("spieltag", toString(day + 1, 1));
 					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
-					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1));
-					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count));
+					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1, -1));
+					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count, -1));
 
 					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, creatorParticipation, placeholderValues);
 
@@ -759,19 +761,19 @@ public abstract class Planner
 	 * @return the list of {@link PlannedGame}s
 	 */
 	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> winners, List<Team> losers, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, EnumCreatorParticipation creatorParticipation,
-			boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair)
+			boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair, int repeat)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
-		games.addAll(planSeriesKO0(title, creator, winners, maps, whoIsHome, rules, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, false));
+		games.addAll(planSeriesKO0(title, creator, winners, maps, whoIsHome, rules, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, false, repeat));
 		if(losers != null)
-			games.addAll(planSeriesKO0(title, creator, losers, maps, whoIsHome, rules, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, true));
+			games.addAll(planSeriesKO0(title, creator, losers, maps, whoIsHome, rules, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, true, repeat));
 
 		return games;
 	}
 
 	static List<PlannedGame> planSeriesKO0(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle,
-			int numberOfGamesPerPair, boolean losers)
+			int numberOfGamesPerPair, boolean losers, int repeat)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -797,8 +799,8 @@ public abstract class Planner
 				placeholderValues.put("i", toString(count + 1, 1));
 				// placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
 				// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
-				placeholderValues.put("runde", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, -1));
-				placeholderValues.put("runde.x", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, count));
+				placeholderValues.put("runde", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, -1, repeat));
+				placeholderValues.put("runde.x", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, count, repeat));
 
 				if((!useHomeMaps || ((numberOfGamesPerPair % 2 == 1) && (j == numberOfGamesPerPair - 1))) && maps != null && maps.size() > 0)
 					overwriteMap = maps.get(random.nextInt(maps.size()));
@@ -1402,9 +1404,10 @@ public abstract class Planner
 	 * @param group - the group (or -1 if not applicable)
 	 * @param day - the day
 	 * @param count - the game count (or -1 if not applicable)
+	 * @param repeat - the repeat number of the current round (or -1 if not applicable)
 	 * @return the placeholder value string
 	 */
-	private static String toPlaceholderString(int round, int group, int day, int count)
+	private static String toPlaceholderString(int round, int group, int day, int count, int repeat)
 	{
 		StringBuilder tmp = new StringBuilder();
 		if(round == 2)
@@ -1419,6 +1422,9 @@ public abstract class Planner
 			tmp.append(Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)));
 		else
 			tmp.append(Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
+		
+		if(repeat > 0)
+			tmp.append(" " + Language.getString("titlepatterns.repeat").replace("${i}", "" + (repeat)));
 
 		if(count >= 0)
 		{
