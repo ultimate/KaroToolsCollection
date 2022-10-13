@@ -140,21 +140,21 @@ public class SummaryScreen extends Screen implements ActionListener
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.gameSeries = gameSeries;
+		
+		this.gamesCreated.clear();
+		this.gamesLeft.clear();
+		this.gamesToCreate.clear();
+		this.gamesToLeave.clear();
 
 		if(!this.skipPlan && direction == EnumNavigation.next)
 		{
 			if(this.key.contains(GameSeries.KEY_REPEAT))
-				this.gameSeries.set(GameSeries.CURRENT_REPEAT, this.key.substring(CREATED));
+				this.gameSeries.set(GameSeries.CURRENT_REPEAT, Integer.parseInt(this.key.substring(this.key.indexOf(GameSeries.KEY_REPEAT) + GameSeries.KEY_REPEAT.length())));
 
 			if(!firstShow)
 				resetPlannedGames();
 
 			this.gameSeries.getGames().put(this.key, Planner.planSeries(gameSeries));
-
-			this.gamesCreated.clear();
-			this.gamesLeft.clear();
-			this.gamesToCreate.clear();
-			this.gamesToLeave.clear();
 		}
 		else
 		{
@@ -396,11 +396,6 @@ public class SummaryScreen extends Screen implements ActionListener
 		return this.gamesToLeave.size() > 0;
 	}
 
-	private boolean gamesCreated()
-	{
-		return (this.gamesCreated.size() > 0);
-	}
-
 	public boolean gamesToCreate()
 	{
 		return (this.gamesCreated.size() < this.gameSeries.getGames().size());
@@ -408,15 +403,15 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private void enableButtons()
 	{
-		createButton.setEnabled(gamesSelectedToCreate());
+		createButton.setEnabled(!this.inProgress && gamesSelectedToCreate());
 		createButton.setText(Language.getString("screen.summary.create", "" + this.gamesToCreate.size()));
-		leaveButton.setEnabled(gamesSelectedToLeave());
+		leaveButton.setEnabled(!this.inProgress && gamesSelectedToLeave());
 		leaveButton.setText(Language.getString("screen.summary.leave", "" + this.gamesToLeave.size()));
-		saveButton.setEnabled(true);
+		saveButton.setEnabled(!this.inProgress);
 		if(previousButton != null)
-			previousButton.setEnabled(!gamesCreated());
+			previousButton.setEnabled(!this.inProgress);
 		if(nextButton != null)
-			nextButton.setEnabled(true);
+			nextButton.setEnabled(!this.inProgress);
 	}
 
 	private void initTable(final JTable table)
