@@ -101,7 +101,7 @@ public class Launcher
 	{
 		logger.info("------------------------------------------------------------------------");
 		logger.info("                               KaroMUSKEL                               ");
-		logger.info("  Maschinelle-Ultimative-Spielserien-f�r-Karopapier-Erstellungs-L�sung  ");
+		logger.info("  Maschinelle-Ultimative-Spielserien-für-Karopapier-Erstellungs-Lösung  ");
 		logger.info("------------------------------------------------------------------------");
 		logger.info("------------------------------------------------------------------------");
 
@@ -121,7 +121,7 @@ public class Launcher
 
 		if(debug)
 		{
-			logger.info("                              DEBUG - MODE                              ");
+			logger.info("                               DEBUG-MODE                               ");
 			logger.info("------------------------------------------------------------------------");
 			logger.info("------------------------------------------------------------------------");
 		}
