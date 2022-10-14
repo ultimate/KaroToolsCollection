@@ -36,7 +36,7 @@ public class Creator
 		if(this.karoAPICache.getKaroAPI() != null)
 			cf = this.karoAPICache.getKaroAPI().createGame(plannedGame);
 		else
-			cf = CompletableFuture.supplyAsync(() -> { randomSleep(); return new Game(plannedGame.hashCode()); });
+			cf = CompletableFuture.supplyAsync(() -> { randomSleep(); return new Game(plannedGame.hashCode() & 0x7FFFF); });
 		return cf.thenAcceptAsync(createdGame -> { plannedGame.setCreated(true); plannedGame.setGame(createdGame); });
 	}
 

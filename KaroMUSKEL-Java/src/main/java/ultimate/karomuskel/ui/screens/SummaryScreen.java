@@ -425,9 +425,14 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.model.getColumnWidth(i) > 0)
 			{
 				col.setMinWidth(this.model.getColumnWidth(i));
-				col.setMaxWidth(this.model.getColumnWidth(i));
+//				col.setMaxWidth(this.model.getColumnWidth(i));
 				col.setPreferredWidth(this.model.getColumnWidth(i));
 			}
+			else
+			{
+				col.setPreferredWidth(1000);
+			}			
+			
 			if(table.getColumnClass(i).equals(Integer.class))
 			{
 				col.setCellEditor(new SpinnerCellEditor(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1)));
@@ -636,7 +641,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.addColumn(Language.getString("screen.summary.table.direction"), EnumGameDirection.class, 90);
 			this.addColumn(Language.getString("screen.summary.table.createstatus"), Boolean.class, 70);
 			this.addColumn(Language.getString("screen.summary.table.leavestatus"), Boolean.class, 70);
-			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 100);
+			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 165);
 		}
 
 		public void addRow(PlannedGame game)
