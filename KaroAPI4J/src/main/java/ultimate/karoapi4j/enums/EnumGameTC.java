@@ -1,5 +1,9 @@
 package ultimate.karoapi4j.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import ultimate.karoapi4j.KaroAPI;
 
 /**
@@ -17,7 +21,7 @@ public enum EnumGameTC
 	/**
 	 * TC is forbidden
 	 */
-	forbidden, 
+	forbidden,
 	/**
 	 * free choice
 	 */
@@ -60,5 +64,19 @@ public enum EnumGameTC
 				return e;
 		}
 		return null;
+	}
+
+	public static EnumGameTC[] values(boolean includeRandom)
+	{
+		EnumGameTC[] values = values();
+		if(!includeRandom)
+		{
+			List<EnumGameTC> tmp = new ArrayList<>(Arrays.asList(values));
+			tmp.removeIf(e -> {
+				return e != null && e.name().equals("random");
+			});
+			values = tmp.toArray(new EnumGameTC[0]);
+		}
+		return values;
 	}
 }
