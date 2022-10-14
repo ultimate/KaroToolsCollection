@@ -16,5 +16,8 @@ RemoteSystemsTempFiles
 .settings/
 target/
 bin/
+
+# KaroMUSKEL files
 cache/
 logs/
+autosaves/
