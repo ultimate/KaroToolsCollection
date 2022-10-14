@@ -49,6 +49,7 @@ import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
+import ultimate.karomuskel.ui.components.MapRenderer;
 import ultimate.karomuskel.ui.components.SpinnerCellEditor;
 import ultimate.karomuskel.ui.components.UserCellEditor;
 
@@ -140,7 +141,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.gameSeries = gameSeries;
-		
+
 		this.gamesCreated.clear();
 		this.gamesLeft.clear();
 		this.gamesToCreate.clear();
@@ -425,30 +426,33 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.model.getColumnWidth(i) > 0)
 			{
 				col.setMinWidth(this.model.getColumnWidth(i));
-//				col.setMaxWidth(this.model.getColumnWidth(i));
+				// col.setMaxWidth(this.model.getColumnWidth(i));
 				col.setPreferredWidth(this.model.getColumnWidth(i));
 			}
 			else
 			{
 				col.setPreferredWidth(1000);
-			}			
-			
+			}
+
 			if(table.getColumnClass(i).equals(Integer.class))
 			{
 				col.setCellEditor(new SpinnerCellEditor(new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1)));
 			}
 			else if(table.getColumnClass(i).equals(EnumGameTC.class))
 			{
-				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false))));
-			}
+				// issue #139 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
+				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false))));
+		}
 			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
-				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false))));
+				// issue #139 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
+				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false))));
 			}
 			else if(table.getColumnClass(i).equals(Map.class))
 			{
-				Map[] maps = karoAPICache.getMaps().toArray(new Map[0]);
-				col.setCellEditor(new DefaultCellEditor(new JComboBox<Map>(new DefaultComboBoxModel<Map>(maps))));
+				JComboBox<Map> cb = new JComboBox<Map>(new DefaultComboBoxModel<Map>(karoAPICache.getMaps().toArray(new Map[0])));
+				cb.setRenderer(new MapRenderer());
+				col.setCellEditor(new DefaultCellEditor(cb));
 			}
 			else if(table.getColumnClass(i).equals(User.class))
 			{

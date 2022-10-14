@@ -39,7 +39,6 @@ public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel<La
 		{
 			if(predicate == null || predicate.test(e))
 				this.addElement(new Label<E>(Language.getString(enumType, e), e));
-			;
 		}
 
 		for(int i = 0; i < this.getSize(); i++)
