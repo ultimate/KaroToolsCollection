@@ -1,5 +1,9 @@
 package ultimate.karoapi4j.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import ultimate.karoapi4j.KaroAPI;
 
 /**
@@ -60,5 +64,19 @@ public enum EnumGameDirection
 				return e;
 		}
 		return null;
+	}
+
+	public static EnumGameDirection[] values(boolean includeRandom)
+	{
+		EnumGameDirection[] values = values();
+		if(!includeRandom)
+		{
+			List<EnumGameDirection> tmp = new ArrayList<>(Arrays.asList(values));
+			tmp.removeIf(e -> {
+				return e != null && e.name().equals("random");
+			});
+			values = tmp.toArray(new EnumGameDirection[0]);
+		}
+		return values;
 	}
 }
