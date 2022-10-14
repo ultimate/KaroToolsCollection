@@ -440,12 +440,12 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(EnumGameTC.class))
 			{
-				// issue #139 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
+				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false))));
 		}
 			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
-				// issue #139 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
+				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false))));
 			}
 			else if(table.getColumnClass(i).equals(Map.class))
