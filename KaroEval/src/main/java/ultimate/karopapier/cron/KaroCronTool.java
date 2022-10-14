@@ -162,7 +162,7 @@ public class KaroCronTool
 
 		List<File> wikiFiles = null;
 		// do evaluation
-		if(evalClass != null)
+		if(evalClass != null && !evalClass.isEmpty())
 		{
 			Properties evalProperties = null;
 			if(evalPropertiesFile != null)
