@@ -148,7 +148,6 @@ public class KaroCronTool
 					backupFile.renameTo(new File(backupFile.getPath() + "." + System.currentTimeMillis()));
 				}
 				gameseriesFile.renameTo(backupFile);
-				gameseriesFile.renameTo(backupFile);
 				try
 				{
 					GameSeriesManager.store(gs, gameseriesFile);
