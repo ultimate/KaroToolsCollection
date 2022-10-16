@@ -41,7 +41,7 @@ public class CCCEvalNew extends CCCEval
 
 	public CCCEvalNew(int cccx)
 	{
-		super(cccx, false, false);
+		super(cccx, false);
 	}
 
 	@Override

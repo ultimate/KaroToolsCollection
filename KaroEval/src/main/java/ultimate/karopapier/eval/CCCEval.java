@@ -29,7 +29,6 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 	protected int								cccx;
 	protected boolean							includeTableTables;
-	protected boolean							includeWhoOnWho;
 	// stats & metrics
 	protected int								stats_challengesTotal;
 	protected int								stats_challengesCreated;
@@ -56,11 +55,10 @@ public abstract class CCCEval extends Eval<GameSeries>
 	protected String[]							finalTableHead;
 	protected Table								whoOnWho;
 
-	public CCCEval(int cccx, boolean includeTableTables, boolean includeWhoOnWho)
+	public CCCEval(int cccx, boolean includeTableTables)
 	{
 		this.cccx = cccx;
 		this.includeTableTables = includeTableTables;
-		this.includeWhoOnWho = includeWhoOnWho;
 	}
 
 	@Override
@@ -80,7 +78,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 		logger.info("creating WIKI... ");
 		start = System.currentTimeMillis();
-		List<File> filesUpdated = createWiki(schema, finished, includeTableTables, includeWhoOnWho);
+		List<File> filesUpdated = createWiki(schema, finished, includeTableTables);
 		logger.info("OK (" + (System.currentTimeMillis() - start) + ")");
 
 		if(logger.isDebugEnabled())
@@ -205,7 +203,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 	protected abstract String[] createFinalTableHead();
 
-	protected List<File> createWiki(String schema, boolean finished, boolean includeTableTables, boolean includeWhoOnWho) throws IOException
+	protected List<File> createWiki(String schema, boolean finished, boolean includeTableTables) throws IOException
 	{
 		List<File> filesUpdated = new LinkedList<>();
 
@@ -285,18 +283,16 @@ public abstract class CCCEval extends Eval<GameSeries>
 		stats.append("*Häufigste Begegnung: " + getMaxMinWhoOnWho("max") + "\r\n");
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\r\n");
 
-		if(includeWhoOnWho)
-		{
-			stats.append("== Wer gegen wen? ==\r\n");
-			stats.append("Eigentlich wollte ich hier noch die ganzen Links zu den Spielen reinschreiben, aber damit kam das Wiki nicht klar! Daher hier nur die Anzahl...\r\n");
-			stats.append(WikiUtil.toString(whoOnWho, null));
-		}
+		StringBuilder whoOnWhoString = new StringBuilder();
+		
+		whoOnWhoString.append(WikiUtil.toString(whoOnWho, null));
 
 		String s = new String(schema);
 		s = s.replace("${MAPS}", WikiUtil.toString(mapTable, null));
 		s = s.replace("${DETAIL}", detailLinks.toString());
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
+		s = s.replace("${WHOONWHO}", whoOnWhoString.toString());
 
 		filesUpdated.add(writeFile("czzzcc" + cccx + "-wiki-overview.txt", s.toString()));
 

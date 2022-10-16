@@ -30,7 +30,7 @@ public class CCCEvalOld extends CCCEval
 
 	public CCCEvalOld(int cccx)
 	{
-		super(cccx, true, true);
+		super(cccx, true);
 	}
 
 	@Override
