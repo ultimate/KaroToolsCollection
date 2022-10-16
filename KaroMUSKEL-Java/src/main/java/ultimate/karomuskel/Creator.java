@@ -33,18 +33,30 @@ public class Creator
 			return CompletableFuture.completedFuture(null);
 
 		CompletableFuture<Game> cf;
-		if(this.karoAPICache.getKaroAPI() != null)
+		if(this.karoAPICache != null && this.karoAPICache.getKaroAPI() != null)
 			cf = this.karoAPICache.getKaroAPI().createGame(plannedGame);
 		else
-			cf = CompletableFuture.supplyAsync(() -> { randomSleep(); return new Game(plannedGame.hashCode() & 0x7FFFF); });
-		return cf.thenAcceptAsync(createdGame -> { plannedGame.setCreated(true); plannedGame.setGame(createdGame); });
+			cf = CompletableFuture.supplyAsync(() -> {
+				randomSleep();
+				return new Game(plannedGame.hashCode() & 0x7FFFF);
+			});
+		return cf.thenAcceptAsync(createdGame -> {
+			if(createdGame != null)
+			{
+				plannedGame.setCreated(true);
+				plannedGame.setGame(createdGame);
+			}
+		});
 	}
 
 	public CompletableFuture<Void> createGames(List<PlannedGame> plannedGames, Consumer<PlannedGame> consumer)
 	{
 		List<CompletableFuture<Void>> cfs = new ArrayList<>(plannedGames.size());
 		for(PlannedGame plannedGame : plannedGames)
-			createGame(plannedGame).thenAcceptAsync(v -> { consumer.accept(plannedGame); });
+			cfs.add(createGame(plannedGame).thenAcceptAsync(v -> {
+				if(consumer != null)
+					consumer.accept(plannedGame);
+			}));
 		return CompletableFuture.allOf(cfs.toArray(new CompletableFuture[plannedGames.size()]));
 	}
 
@@ -54,10 +66,13 @@ public class Creator
 			return CompletableFuture.completedFuture(null);
 
 		CompletableFuture<Boolean> cf;
-		if(this.karoAPICache.getKaroAPI() != null)
+		if(this.karoAPICache != null && this.karoAPICache.getKaroAPI() != null)
 			cf = this.karoAPICache.getKaroAPI().leaveGame(plannedGame.getGame().getId());
 		else
-			cf = CompletableFuture.supplyAsync(() -> { randomSleep(); return true; });
+			cf = CompletableFuture.supplyAsync(() -> {
+				randomSleep();
+				return true;
+			});
 		return cf.thenAcceptAsync(leftGame -> {
 			if(leftGame)
 				plannedGame.setLeft(true);
@@ -68,7 +83,10 @@ public class Creator
 	{
 		List<CompletableFuture<Void>> cfs = new ArrayList<>(plannedGames.size());
 		for(PlannedGame plannedGame : plannedGames)
-			leaveGame(plannedGame).thenAcceptAsync(v -> { consumer.accept(plannedGame); });
+			cfs.add(leaveGame(plannedGame).thenAcceptAsync(v -> {
+				if(consumer != null)
+					consumer.accept(plannedGame);
+			}));
 		return CompletableFuture.allOf(cfs.toArray(new CompletableFuture[plannedGames.size()]));
 	}
 
