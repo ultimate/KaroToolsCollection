@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -139,11 +141,19 @@ public abstract class PropertiesUtil
 	 */
 	public static void storeProperties(File file, Properties properties, String comments, boolean zipped) throws IOException
 	{
-		// sort keys
-		// https://stackoverflow.com/a/54355584/4090157
+		// sort keys for better storing
 		Properties tmp = new Properties() {
 			private static final long serialVersionUID = 1L;
-
+			
+			@SuppressWarnings("unchecked")
+			public synchronized Enumeration<Object> keys()
+			{
+				ArrayList<Object> keys = Collections.list(super.keys());
+				Collections.sort((ArrayList<String>) (ArrayList<?>) keys);
+				return Collections.enumeration(keys);
+			}
+			
+			// https://stackoverflow.com/a/54355584/4090157
 			public synchronized Set<Map.Entry<Object, Object>> entrySet()
 			{
 				return Collections.synchronizedSet(super.entrySet().stream().sorted(Comparator.comparing(e -> e.getKey().toString())).collect(Collectors.toCollection(LinkedHashSet::new)));
