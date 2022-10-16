@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class KaroCronTool
 			logger.info("initiating KaroAPI + cache... ");
 			karoAPI = new KaroAPI(karoUsername, karoPassword);
 			karoAPICache = new KaroAPICache(karoAPI);
-			creator = new Creator(null);// karoAPICache);
+			creator = new Creator(karoAPICache);
 		}
 		catch(KaroAPIException e)
 		{
@@ -124,7 +125,7 @@ public class KaroCronTool
 		{
 			logger.info("checking for games to create / leave... ");
 			List<PlannedGame> gamesToCreate = findGamesToCreate(karoAPICache, gs, properties, executions);
-			logger.info("found: " + gamesToCreate.size());
+			logger.info("total to create: " + gamesToCreate.size());
 
 			// create games
 			if(gamesToCreate.size() > 0)
@@ -257,38 +258,55 @@ public class KaroCronTool
 		List<PlannedGame> games = new LinkedList<>();
 		List<PlannedGame> gamesTmp;
 		String keyS;
-		int i;
+
+		// do this extra step to have the keys sorted
+		List<String> entriesFound = new LinkedList<>();
 		for(Object keyO : p.keySet())
 		{
 			keyS = (String) keyO;
 			if(!(keyS.startsWith(PROP_CREATE_PREFIX) && keyS.endsWith(PROP_CREATE_WHEN)))
 				continue;
-			i = Integer.parseInt(keyS.substring(PROP_CREATE_PREFIX.length(), keyS.indexOf(".", PROP_CREATE_PREFIX.length() + 1)));
+			entriesFound.add(keyS.substring(PROP_CREATE_PREFIX.length(), keyS.indexOf(".", PROP_CREATE_PREFIX.length() + 1)));
+		}
+		Collections.sort(entriesFound);
 
+		// now check all the keys
+		int foundWithKey, foundWithPattern, foundToCreate;
+		for(String i : entriesFound)
+		{
 			final String when = p.getProperty(PROP_CREATE_PREFIX + i + PROP_CREATE_WHEN);
 			final String key = p.getProperty(PROP_CREATE_PREFIX + i + PROP_CREATE_KEY);
 			final String pattern = p.getProperty(PROP_CREATE_PREFIX + i + PROP_CREATE_PATTERN);
 
-			if(!isReady(when, execution, today))
-				logger.debug("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " \tpattern=" + pattern + " \t-> not yet reached");
-
-			logger.info("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " \tpattern=" + pattern);
+			logger.debug("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " \tpattern=" + pattern);
 
 			gamesTmp = new LinkedList<>();
 			gamesTmp.addAll(gs.getGames().get(key));
-			logger.debug("  all games                =" + gamesTmp.size());
+			foundWithKey = gamesTmp.size();
+			logger.debug("  games for this key       = " + foundWithKey);
 			if(pattern != null)
 				gamesTmp.removeIf(pg -> {
 					return !pg.getName().contains(pattern);
 				});
-			logger.debug("  matching pattern         =" + gamesTmp.size());
-			if(pattern != null)
-				gamesTmp.removeIf(pg -> {
-					return pg.isCreated() && pg.isLeft();
-				});
-			logger.debug("  neither created nor left =" + gamesTmp.size());
+			foundWithPattern = gamesTmp.size();
+			logger.debug("  matching pattern         = " + foundWithPattern);
+			gamesTmp.removeIf(pg -> {
+				return pg.isCreated() && pg.isLeft();
+			});
+			foundToCreate = gamesTmp.size();
+			logger.debug("  neither created nor left = " + foundToCreate);
 
-			games.addAll(gamesTmp);
+			if(isReady(when, execution, today))
+			{
+				logger.info("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " (" + foundWithKey + ") \tpattern=" + pattern + " (" + foundWithPattern + ") \t-> " + foundToCreate
+						+ " to create now");
+				games.addAll(gamesTmp);
+			}
+			else
+			{
+				logger.info("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " (" + foundWithKey + ") \tpattern=" + pattern + " (" + foundWithPattern + ") \t-> " + foundToCreate
+						+ " to be created later (date not yet reached)");
+			}
 		}
 		return games;
 	}
@@ -339,7 +357,7 @@ public class KaroCronTool
 			byte[] bytes = new byte[(int) wikiFile.length()];
 			dis = new DataInputStream(new FileInputStream(wikiFile));
 			dis.readFully(bytes);
-			
+
 			content = new String(bytes);
 			return karoWikiAPI.edit(target, content, summary, true, bot).join();
 		}
