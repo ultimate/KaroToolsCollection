@@ -40,7 +40,4 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''??.??.2022 ??:??''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
 * '''??.??.2022 ??:??''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten (und dann bald ziehen!) :)
 
-= Statistik =
-${STATS}
-
 [[Kategorie:Meisterschaft]]

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -23,7 +24,7 @@ import ultimate.karopapier.utils.WikiUtil;
 public abstract class CCCEval extends Eval<GameSeries>
 {
 	protected static final String				GAMES_KEY				= "Balanced";
-	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl" };
+	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele", "Abgeschlossene Spiele", "Letzter Zug", "Züge insgesamt", "Ø Züge p.S.p.R.", "Crashs insgesamt", "Ø Crashs p.S.p.R." };
 	protected static final int					METRICS_GAME_MAXMOVES	= 0;
 	protected final int							TABLE_TABLE_COLUMNS		= 7;
 
@@ -214,17 +215,42 @@ public abstract class CCCEval extends Eval<GameSeries>
 		Table mapTable = new Table(TABLE_HEAD_MAPS);
 		Rules rules;
 		Object[] row;
+		int col;
 		PlannedGame game;
+		
 		for(int c = 0; c < stats_challengesCreated; c++)
 		{
 			rules = this.getRules(c);
 			row = new Object[TABLE_HEAD_MAPS.length];
-			row[0] = challengeToLink(c, true);
-			row[1] = mapToLink(c, true);
-			row[2] = rules.getNumberOfPlayers();
-			row[3] = (rules.getMinZzz() == rules.getMaxZzz() ? rules.getMinZzz() : rules.getMinZzz() + "-" + rules.getMaxZzz());
-			row[4] = (rules.getCps() == null ? "Random" : (rules.getCps() ? "ja" : "nein"));
-			row[5] = challengeGames[c];
+			col = 0;
+			// Nr.
+			row[col++] = challengeToLink(c, true);
+			// Strecke
+			row[col++] = mapToLink(c, true);
+			// Spielerzahl
+			row[col++] = rules.getNumberOfPlayers();
+			// ZZZ
+			row[col++] = (rules.getMinZzz() == rules.getMaxZzz() ? rules.getMinZzz() : rules.getMinZzz() + "-" + rules.getMaxZzz());
+			// CPs
+			row[col++] = (rules.getCps() == null ? "Random" : (rules.getCps() ? "ja" : "nein"));
+			// Spielzahl
+			row[col++] = challengeGames[c];
+			// Startdatum
+			row[col++] = challengeStats[c].startedDate;
+			// Laufende Spiele
+			row[col++] = challengeGames[c] - challengeStats[c].finished;
+			// Abgeschlossene Spiele
+			row[col++] = challengeStats[c].finished;
+			// Letzter Zug
+			row[col++] = challengeStats[c].finishedDate;
+			// Züge insgesamt
+			row[col++] = challengeStats[c].moves;
+			// Ø Züge p.S.p.R.
+			row[col++] = challengeStats[c].moves / (double) (stats_gamesPerPlayerPerChallenge * stats_players);
+			// Crashs insgesamt
+			row[col++] = challengeStats[c].crashs;
+			// Ø Crashs p.S.p.R.
+			row[col++] = challengeStats[c].crashs / (double) (stats_gamesPerPlayerPerChallenge * stats_players);
 			mapTable.addRow(row);
 
 			detail = new StringBuilder();
@@ -263,14 +289,47 @@ public abstract class CCCEval extends Eval<GameSeries>
 			detailLinks.append("*" + challengeToLink(c, true) + "\r\n");
 		}
 
+		// add total row to the Map table
+		row = new Object[TABLE_HEAD_MAPS.length];
+		col = 0;
+		// Nr.
+		row[col++] = "Gesamt-Statistik";
+		// Strecke
+		row[col++] = "";
+		// Spielerzahl
+		row[col++] = "";
+		// ZZZ
+		row[col++] = "";
+		// CPs
+		row[col++] = "";
+		// Spielzahl
+		row[col++] = stats_gamesTotal;
+		// Startdatum
+		row[col++] = totalStats.startedDate;
+		// Laufende Spiele
+		row[col++] = totalStats.count - totalStats.finished;
+		// Abgeschlossene Spiele
+		row[col++] = totalStats.finished;
+		// Letzter Zug
+		row[col++] = totalStats.finishedDate;
+		// Züge insgesamt
+		row[col++] = totalStats.moves;
+		// Ø Züge p.S.p.R.
+		row[col++] = totalStats.moves / (double) (stats_gamesPerPlayerPerChallenge * stats_players * stats_challengesTotal);
+		// Crashs insgesamt
+		row[col++] = totalStats.crashs;
+		// Ø Crashs p.S.p.R.
+		row[col++] = totalStats.crashs / (double) (stats_gamesPerPlayerPerChallenge * stats_players * stats_challengesTotal);
+		mapTable.addRow(row);
+		mapTable.getRow(mapTable.getRows().size() - 1)[0].colspan = 5;
+
 		StringBuilder total = new StringBuilder();
 
 		if(finished) // without "Abgeschlossene Rennen" & "Erwartungswert"
 			total.append(WikiUtil.toString(finalTable, "alignedright sortable", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 2)));
 		else
 			total.append(WikiUtil.toString(finalTable, "alignedright sortable", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
-		//
-
+		
 		StringBuilder stats = new StringBuilder();
 
 		stats.append("== Zahlen & Fakten ==\r\n");
@@ -288,7 +347,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		whoOnWhoString.append(WikiUtil.toString(whoOnWho, null));
 
 		String s = new String(schema);
-		s = s.replace("${MAPS}", WikiUtil.toString(mapTable, null));
+		s = s.replace("${MAPS}", WikiUtil.toString(mapTable, "alignedright sortable"));
 		s = s.replace("${DETAIL}", detailLinks.toString());
 		s = s.replace("${TOTAL}", total.toString());
 		s = s.replace("${STATS}", stats.toString());
@@ -408,6 +467,26 @@ public abstract class CCCEval extends Eval<GameSeries>
 			if(moves > this.gameMetrics[c][g][METRICS_GAME_MAXMOVES])
 				this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] = moves;
 		}
+		
+		totalStats.count++;
+		
+		if(getGame(c,g).getGame().isFinished())
+		{
+			challengeStats[c].finished++;
+			totalStats.finished++;
+		}
+		
+		if(challengeStats[c].startedDate == null || challengeStats[c].startedDate.getTime() == 0 || (getGame(c,g).getGame().getStarteddate() != null && getGame(c,g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
+			challengeStats[c].startedDate = getGame(c,g).getGame().getStarteddate();
+		
+		if(totalStats.startedDate == null || totalStats.startedDate.getTime() == 0 || (getGame(c,g).getGame().getStarteddate() != null && getGame(c,g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
+			totalStats.startedDate = getGame(c,g).getGame().getStarteddate();
+		
+		if(challengeStats[c].finishedDate == null || challengeStats[c].finishedDate.getTime() == 0 || (getGame(c,g).getGame().getFinisheddate() != null && getGame(c,g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
+			challengeStats[c].finishedDate = getGame(c,g).getGame().getFinisheddate();
+		
+		if(totalStats.finishedDate == null || totalStats.finishedDate.getTime() == 0 || (getGame(c,g).getGame().getFinisheddate() != null && getGame(c,g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
+			totalStats.finishedDate = getGame(c,g).getGame().getFinisheddate();
 	}
 
 	protected Rules getRules(int challenge)
@@ -455,6 +534,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 	protected static class UserStats
 	{
+		public int 		count;
 		public int		finished;
 		public int		left;
 		public int		moves;
@@ -468,9 +548,12 @@ public abstract class CCCEval extends Eval<GameSeries>
 		public double	unscaledExpected;
 		public double	scaledExpected;
 		public double	totalExpected;
+		public Date		startedDate;
+		public Date		finishedDate;
 
 		public UserStats(int init)
 		{
+			this.count = init;
 			this.finished = init;
 			this.left = init;
 			this.moves = init;
@@ -484,6 +567,8 @@ public abstract class CCCEval extends Eval<GameSeries>
 			this.unscaledExpected = init;
 			this.scaledExpected = init;
 			this.totalExpected = init;
+			this.startedDate = new Date(init == Integer.MAX_VALUE ? Long.MAX_VALUE : init);
+			this.finishedDate = new Date(init == Integer.MAX_VALUE ? Long.MAX_VALUE : init);
 		}
 	}
 
@@ -500,6 +585,8 @@ public abstract class CCCEval extends Eval<GameSeries>
 		UserStats min = new UserStats(Integer.MAX_VALUE);
 		for(UserStats s : stats)
 		{
+			if(s.count < min.count)
+				min.count = s.count;
 			if(s.finished < min.finished)
 				min.finished = s.finished;
 			if(s.left < min.left)
@@ -526,6 +613,10 @@ public abstract class CCCEval extends Eval<GameSeries>
 				min.scaledExpected = s.scaledExpected;
 			if(s.totalExpected < min.totalExpected)
 				min.totalExpected = s.totalExpected;
+			if(s.startedDate.before(min.startedDate))
+				min.startedDate = s.startedDate;
+			if(s.finishedDate.before(min.finishedDate))
+				min.finishedDate = s.finishedDate;
 		}
 		return min;
 	}
@@ -535,6 +626,8 @@ public abstract class CCCEval extends Eval<GameSeries>
 		UserStats max = new UserStats(0);
 		for(UserStats s : stats)
 		{
+			if(s.count > max.count)
+				max.count = s.count;
 			if(s.finished > max.finished)
 				max.finished = s.finished;
 			if(s.left > max.left)
@@ -561,6 +654,10 @@ public abstract class CCCEval extends Eval<GameSeries>
 				max.scaledExpected = s.scaledExpected;
 			if(s.totalExpected > max.totalExpected)
 				max.totalExpected = s.totalExpected;
+			if(s.startedDate.after(max.startedDate))
+				max.startedDate = s.startedDate;
+			if(s.finishedDate.after(max.finishedDate))
+				max.finishedDate = s.finishedDate;
 		}
 		return max;
 	}

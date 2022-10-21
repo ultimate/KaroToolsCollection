@@ -35,11 +35,11 @@ public class Table
 		return cells;
 	}
 
-	public void addRow(Object... row)
+	public boolean addRow(Object... row)
 	{
 		if(row.length != columns)
 			throw new IllegalArgumentException("invalid number of columns: " + row.length + ", expected: " + columns);
-		this.rows.add(toCells(row));
+		return this.rows.add(toCells(row));
 	}
 
 	public List<Cell[]> getHeaders()

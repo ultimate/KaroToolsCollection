@@ -307,6 +307,12 @@ public class CCCEvalNew extends CCCEval
 					userStats.get(user.getId()).crashs += crashs;
 					userStats.get(user.getId()).finished += (finished ? 1 : 0);
 					userStats.get(user.getId()).left += (left ? 1 : 0);
+
+					challengeStats[c].moves += moves;
+					challengeStats[c].crashs += crashs;
+					
+					totalStats.moves += moves;
+					totalStats.crashs += crashs;
 				}
 				else
 				{
