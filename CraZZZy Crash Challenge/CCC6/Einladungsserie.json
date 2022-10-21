@@ -1,0 +1,85 @@
+{
+  "type" : "Balanced",
+  "title" : "CCC6-Werbung - Seid ihr (wieder mal) dabei?",
+  "creator" : 1411,
+  "creatorParticipation" : "normal",
+  "games" : {
+    "Balanced" : [ {
+      "name" : "CCC6-Werbung - Seid ihr (wieder mal) dabei?",
+      "map" : 10014,
+      "players" : [ 1, 1411, 1574, 3145, 875, 1644, 1629, 1597 ],
+      "options" : {
+        "zzz" : 6,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      },
+      "game" : 136052,
+      "created" : true
+    }, {
+      "name" : "CCC6-Werbung - Seid ihr (wieder mal) dabei?",
+      "map" : 10014,
+      "players" : [ 2321, 2226, 1411, 2501, 1448, 3097, 2894, 1823 ],
+      "options" : {
+        "zzz" : 10,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      },
+      "game" : 136051,
+      "created" : true
+    }, {
+      "name" : "CCC6-Werbung - Seid ihr (wieder mal) dabei?",
+      "map" : 10014,
+      "players" : [ 210, 2915, 1411, 3221, 1830, 1175, 2492, 220 ],
+      "options" : {
+        "zzz" : 0,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      },
+      "game" : 136049,
+      "created" : true
+    }, {
+      "name" : "CCC6-Werbung - Seid ihr (wieder mal) dabei?",
+      "map" : 10014,
+      "players" : [ 1505, 1411, 1989, 3048, 2985, 1722, 2445, 1230 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      },
+      "game" : 136050,
+      "created" : true
+    } ]
+  },
+  "players" : [ 1823, 2321, 1448, 1175, 2501, 2445, 2985, 1, 2915, 1722, 1644, 1505, 2226, 3145, 2894, 2492, 210, 1597, 3097, 1989, 3221, 1230, 1830, 875, 3048, 1574, 220, 1629 ],
+  "rules" : {
+    "minZzz" : 2,
+    "maxZzz" : 2,
+    "crashallowed" : "forbidden",
+    "cps" : true,
+    "startdirection" : "classic"
+  },
+  "mapsByKey" : {
+    "0" : [ 10014 ]
+  },
+  "rulesByKey" : {
+    "0" : {
+      "minZzz" : 0,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 7
+    }
+  },
+  "settings" : {
+    "defaultTitle" : "${spieler.ersteller}s Ausgewogene Spieleserie - Spiel ${i} - ${spieler.namen.x} auf Karte ${karte.id}, ${regeln.x}",
+    "maps" : 1,
+    "maxGamesPerPlayer" : 5,
+    "maxMaps" : 10
+  }
+}
