@@ -1,5 +1,9 @@
 package ultimate.karopapier.utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -9,10 +13,11 @@ import ultimate.karopapier.utils.Table.Cell;
 
 public abstract class WikiUtil
 {
-	public static final String	HIGHLIGHT		= "'''";
-	public static final String	SORTABLE		= "sortable";
-	public static final String	START_CELL		= "|";
-	public static final String	START_HEADER	= "!";
+	public static final String		HIGHLIGHT		= "'''";
+	public static final String		SORTABLE		= "sortable";
+	public static final String		START_CELL		= "|";
+	public static final String		START_HEADER	= "!";
+	public static final DateFormat	DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
 	private WikiUtil()
 	{
@@ -57,7 +62,7 @@ public abstract class WikiUtil
 			toString(sb, table.getHeader(hi), columnConfig, nullValue, true);
 		for(int ri = 0; ri < table.getRows().size(); ri++)
 			toString(sb, table.getRow(ri), columnConfig, nullValue, false);
-		
+
 		sb.append("|}");
 
 		return sb.toString();
@@ -99,6 +104,8 @@ public abstract class WikiUtil
 			return createLink((Player) value);
 		else if(value instanceof User)
 			return createLink((User) value);
+		else if(value instanceof Date)
+			return DATE_FORMAT.format((Date) value);
 		return value;
 	}
 

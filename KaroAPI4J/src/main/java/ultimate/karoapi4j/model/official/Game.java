@@ -25,7 +25,7 @@ public class Game extends Identifiable
 	public static class FromIDConverter extends JSONUtil.FromIDConverter<Game> { public FromIDConverter() { super(Game.class); } };
 	public static class FromIDArrayToListConverter extends JSONUtil.FromIDArrayToListConverter<Game> { public FromIDArrayToListConverter() { super(Game.class); } };
 	//@formatter:on
-	
+
 	/*
 	 * https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
 	 * "id": 132000,
@@ -38,13 +38,14 @@ public class Game extends Identifiable
 	 * "started": true,
 	 * "finished": false,
 	 * "starteddate": "2021-10-16 06:59:17",
+	 * "finisheddate": "2021-10-16 06:59:17",
 	 * "creator": "KaBotte",
 	 * "next": { "id": 1641, "name": "ImThinkin" }, // reduced user
 	 * "blocked": 1,
 	 * "players": [ ] // see type Player
 	 */
 	// for id see super class
-	// private int		id;	// see super class
+	// private int id; // see super class
 	@JsonProperty
 	private String				name;
 	private Map					map;
@@ -55,6 +56,7 @@ public class Game extends Identifiable
 	private boolean				started;
 	private boolean				finished;
 	private Date				starteddate;
+	private Date				finisheddate;
 	private String				creator;
 	private User				next;
 	private int					blocked;
@@ -158,6 +160,16 @@ public class Game extends Identifiable
 	public void setStarteddate(Date starteddate)
 	{
 		this.starteddate = starteddate;
+	}
+
+	public Date getFinisheddate()
+	{
+		return finisheddate;
+	}
+
+	public void setFinisheddate(Date finisheddate)
+	{
+		this.finisheddate = finisheddate;
 	}
 
 	public String getCreator()
