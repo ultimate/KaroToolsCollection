@@ -1,0 +1,1583 @@
+[[Bild:Czzzcc5.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 5|5. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|quabla}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1098 Forum] und Teilnehmer vergangener CCCs sowie Addicts wurden auch noch per Spiel+Bordfunk eingeladen.
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
+
+{|class="wikitable alignedright sortable"
+!|Nr.
+!|Strecke
+!|Spielerzahl
+!|ZZZ
+!|CPs
+!|Spielzahl
+!|Startdatum
+!|Laufende Spiele
+!|Abgeschlossene Spiele
+!|Letzter Zug
+!|Züge insgesamt
+!|Ø Züge p.S.p.R.
+!|Crashs insgesamt
+!|Ø Crashs p.S.p.R.
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 1|Challenge 1]]
+||{{Karte|96}} Wheel
+||5
+||13
+||ja
+||36
+||2019.07.16 05:00
+||0
+||36
+||2019.11.03 13:14
+||26997
+||149.98
+||920
+||5.11
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 2|Challenge 2]]
+||{{Karte|237}} Kart Wackersdorf
+||5
+||1
+||ja
+||36
+||2019.07.23 05:00
+||0
+||36
+||2019.10.24 18:49
+||26858
+||149.21
+||1669
+||9.27
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 3|Challenge 3]]
+||{{Karte|241}} Sym
+||5
+||11
+||ja
+||36
+||2019.07.30 05:00
+||0
+||36
+||2019.11.10 23:20
+||21588
+||119.93
+||1209
+||6.72
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 4|Challenge 4]]
+||{{Karte|238}} Cornered
+||6
+||0
+||ja
+||30
+||2019.08.06 05:00
+||0
+||30
+||2019.11.21 07:19
+||17287
+||96.04
+||1861
+||10.34
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 5|Challenge 5]]
+||{{Karte|125}} Luis Royo
+||6
+||15
+||ja
+||30
+||2019.08.13 05:00
+||0
+||30
+||2019.11.30 14:21
+||19766
+||109.81
+||498
+||2.77
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 6|Challenge 6]]
+||{{Karte|242}} Kart Zuera
+||5
+||27
+||ja
+||36
+||2019.08.20 05:00
+||0
+||36
+||2019.10.30 05:10
+||22128
+||122.93
+||929
+||5.16
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 7|Challenge 7]]
+||{{Karte|10008}} 9-Way
+||5
+||1
+||ja
+||36
+||2019.08.27 05:00
+||0
+||36
+||2019.11.07 18:50
+||15254
+||84.74
+||909
+||5.05
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 8|Challenge 8]]
+||{{Karte|230}} Karotubbie
+||4
+||42
+||ja
+||45
+||2019.09.03 05:00
+||1
+||44
+||2019.10.30 23:25
+||25952
+||144.18
+||649
+||3.61
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 9|Challenge 9]]
+||{{Karte|175}} Bananenmann
+||6
+||17
+||ja
+||30
+||2019.09.10 05:00
+||0
+||30
+||2019.12.18 07:46
+||15952
+||88.62
+||281
+||1.56
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 10|Challenge 10]]
+||{{Karte|234}} Slyway
+||4
+||4
+||ja
+||45
+||2019.09.17 05:00
+||0
+||45
+||2019.10.10 14:35
+||21468
+||119.27
+||940
+||5.22
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 11|Challenge 11]]
+||{{Karte|10006}} Simons Cat
+||5
+||11
+||ja
+||36
+||2019.09.24 05:00
+||0
+||36
+||2019.11.24 21:27
+||21245
+||118.03
+||1645
+||9.14
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 12|Challenge 12]]
+||{{Karte|122}} Bahrain
+||4
+||1
+||ja
+||45
+||2019.10.01 05:00
+||0
+||45
+||2019.10.31 23:52
+||17990
+||99.94
+||1009
+||5.61
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 13|Challenge 13]]
+||{{Karte|188}} Karo Wave
+||5
+||10
+||ja
+||36
+||2019.10.08 05:00
+||0
+||36
+||2019.11.15 07:16
+||15357
+||85.32
+||1014
+||5.63
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]]
+||{{Karte|173}} Schneeflocke
+||6
+||5
+||ja
+||30
+||2019.12.10 05:00
+||0
+||30
+||2020.01.14 00:30
+||9341
+||51.89
+||988
+||5.49
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]]
+||{{Karte|236}} Kart Buckmore Park
+||4
+||13
+||ja
+||45
+||2019.12.18 17:33
+||0
+||45
+||2020.01.30 17:54
+||19467
+||108.15
+||1240
+||6.89
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]]
+||{{Karte|10015}} Circles
+||6
+||7
+||ja
+||30
+||2019.12.24 05:00
+||0
+||30
+||2020.03.28 19:54
+||9967
+||55.37
+||506
+||2.81
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|Challenge 17]]
+||{{Karte|231}} Jack Skellington
+||5
+||9
+||ja
+||36
+||2019.12.31 05:00
+||0
+||36
+||2020.01.30 23:06
+||11114
+||61.74
+||825
+||4.58
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|Challenge 18]]
+||{{Karte|166}} Blume
+||6
+||6
+||ja
+||30
+||2020.01.07 05:00
+||0
+||30
+||2020.03.17 21:57
+||12052
+||66.96
+||699
+||3.88
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 19|Challenge 19]]
+||{{Karte|10001}} Sly
+||5
+||1
+||ja
+||36
+||2020.01.14 05:00
+||0
+||36
+||2020.02.05 23:31
+||9309
+||51.72
+||674
+||3.74
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 20|Challenge 20]]
+||{{Karte|10009}} HURZ
+||3
+||5
+||ja
+||60
+||2020.01.21 05:00
+||0
+||60
+||2020.01.23 22:46
+||13522
+||75.12
+||627
+||3.48
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 21|Challenge 21]]
+||{{Karte|240}} Tetrominos
+||4
+||2
+||ja
+||45
+||2020.01.28 05:00
+||0
+||45
+||2020.02.07 11:07
+||5408
+||30.04
+||412
+||2.29
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 22|Challenge 22]]
+||{{Karte|10016}} Teach.gif
+||3
+||6
+||ja
+||60
+||2020.02.04 05:00
+||0
+||60
+||2020.02.15 21:09
+||10884
+||60.47
+||821
+||4.56
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 23|Challenge 23]]
+||{{Karte|181}} Sandbowl
+||4
+||6
+||ja
+||45
+||2020.02.11 05:00
+||0
+||45
+||2020.02.26 06:53
+||6662
+||37.01
+||612
+||3.4
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 24|Challenge 24]]
+||{{Karte|229}} Karo Blatt
+||3
+||7
+||ja
+||60
+||2020.02.18 05:00
+||0
+||60
+||2020.02.23 08:43
+||6724
+||37.36
+||647
+||3.59
+|-
+
+||[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 25|Challenge 25]]
+||{{Karte|10014}} CraZZZy Crash Challenge - Wechselseitig
+||4
+||0-30
+||ja
+||45
+||2020.02.25 05:00
+||0
+||45
+||2020.03.03 21:10
+||6283
+||34.91
+||357
+||1.98
+|-
+
+|colspan=5|Gesamt-Statistik
+||999
+||2019.07.16 05:00
+||1
+||998
+||2020.08.02 15:58
+||388575
+||86.35
+||21941
+||4.88
+|-
+|}
+
+== Gesamtwertung ==
+{|class="wikitable alignedright sortable"
+!|Platz
+!|Spieler
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 1|1]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 2|2]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 3|3]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 4|4]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 5|5]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 6|6]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 7|7]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 8|8]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 9|9]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 10|10]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 11|11]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 12|12]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 13|13]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|14]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|15]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|16]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|17]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|18]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 19|19]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 20|20]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 21|21]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 22|22]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 23|23]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 24|24]]
+!|[[CraZZZy Crash Challenge 5 - Detailwertung Challenge 25|25]]
+!|Züge (gesamt)
+!|Crashs (gesamt)
+!|Endergebnis
+!|Abgeschlossene Rennen
+!|Erwartungswert
+|-
+
+||1.
+||'''[[Benutzer:quabla|quabla]]'''
+||10.0
+||11.0
+||11.0
+||10.0
+||11.0
+||'''12.0'''
+||9.0
+||'''12.0'''
+||9.0
+||'''12.0'''
+||11.0
+||11.0
+||'''12.0'''
+||'''12.0'''
+||'''12.0'''
+||9.0
+||11.0
+||10.0
+||'''12.0'''
+||11.0
+||11.0
+||11.0
+||9.0
+||'''12.0'''
+||10.0
+||11871
+||'''1224'''
+||'''271.0'''
+||150
+||'''271.0'''
+|-
+
+||2.
+||'''[[Benutzer:hasi|hasi]]'''
+||10.0
+||'''12.0'''
+||8.0
+||11.0
+||11.0
+||'''12.0'''
+||9.0
+||10.0
+||11.0
+||11.0
+||9.0
+||11.0
+||'''12.0'''
+||9.0
+||11.0
+||8.0
+||9.0
+||'''12.0'''
+||10.0
+||'''12.0'''
+||8.0
+||9.0
+||9.0
+||9.0
+||10.0
+||11769
+||975
+||'''253.0'''
+||150
+||'''253.0'''
+|-
+
+||3.
+||'''[[Benutzer:Graf_Zahl|Graf_Zahl]]'''
+||9.0
+||11.0
+||10.0
+||'''12.0'''
+||9.0
+||10.0
+||7.0
+||10.0
+||7.0
+||9.0
+||10.0
+||9.0
+||10.0
+||10.0
+||9.0
+||9.0
+||'''12.0'''
+||'''12.0'''
+||9.0
+||11.0
+||8.0
+||11.0
+||11.0
+||10.0
+||9.0
+||12479
+||1055
+||'''244.0'''
+||150
+||'''244.0'''
+|-
+
+||4.
+||'''[[Benutzer:ulli|ulli]]'''
+||9.0
+||11.0
+||11.0
+||10.0
+||11.0
+||11.0
+||8.0
+||9.0
+||9.0
+||11.0
+||8.0
+||10.0
+||10.0
+||9.0
+||11.0
+||8.0
+||11.0
+||10.0
+||'''12.0'''
+||11.0
+||8.0
+||8.0
+||8.0
+||11.0
+||9.0
+||11797
+||965
+||'''244.0'''
+||150
+||'''244.0'''
+|-
+
+||5.
+||'''[[Benutzer:Karaser|Karaser]]'''
+||8.0
+||11.0
+||'''12.0'''
+||11.0
+||10.0
+||9.0
+||7.0
+||11.0
+||7.0
+||9.0
+||10.0
+||11.0
+||11.0
+||6.0
+||'''12.0'''
+||8.0
+||9.0
+||11.0
+||10.0
+||11.0
+||8.0
+||9.0
+||10.0
+||10.0
+||11.0
+||12359
+||1098
+||'''242.0'''
+||150
+||'''242.0'''
+|-
+
+||6.
+||'''[[Benutzer:Yashem|Yashem]]'''
+||10.0
+||10.0
+||10.0
+||9.0
+||7.0
+||'''12.0'''
+||9.0
+||10.0
+||9.0
+||7.0
+||'''12.0'''
+||7.0
+||9.0
+||9.0
+||11.0
+||9.0
+||10.0
+||10.0
+||9.0
+||10.0
+||10.0
+||8.0
+||8.0
+||3.0
+||9.0
+||12734
+||1033
+||'''227.0'''
+||150
+||'''227.0'''
+|-
+
+||7.
+||'''[[Benutzer:ultimate|ultimate]]'''
+||8.0
+||10.0
+||9.0
+||10.0
+||9.0
+||9.0
+||9.0
+||11.0
+||8.0
+||6.0
+||10.0
+||10.0
+||8.0
+||10.0
+||8.0
+||10.0
+||6.0
+||9.0
+||9.0
+||11.0
+||8.0
+||10.0
+||7.0
+||10.0
+||9.0
+||12476
+||992
+||'''224.0'''
+||150
+||'''224.0'''
+|-
+
+||8.
+||'''[[Benutzer:Slybotone|Slybotone]]'''
+||9.0
+||10.0
+||11.0
+||9.0
+||8.0
+||9.0
+||7.0
+||8.0
+||8.0
+||10.0
+||8.0
+||8.0
+||9.0
+||11.0
+||9.0
+||8.0
+||8.0
+||'''12.0'''
+||10.0
+||11.0
+||8.0
+||11.0
+||7.0
+||7.0
+||8.0
+||'''11277'''
+||711
+||'''224.0'''
+||150
+||'''224.0'''
+|-
+
+||9.
+||'''[[Benutzer:Wobbel|Wobbel]]'''
+||8.0
+||8.0
+||11.0
+||9.0
+||7.0
+||10.0
+||9.0
+||8.0
+||8.0
+||8.0
+||9.0
+||11.0
+||7.0
+||9.0
+||7.0
+||9.0
+||7.0
+||9.0
+||11.0
+||10.0
+||7.0
+||6.0
+||9.0
+||8.0
+||7.0
+||13067
+||1024
+||'''212.0'''
+||150
+||'''212.0'''
+|-
+
+||10.
+||'''[[Benutzer:Foley|Foley]]'''
+||9.0
+||8.0
+||7.0
+||6.0
+||8.0
+||9.0
+||9.0
+||11.0
+||8.0
+||7.0
+||8.0
+||9.0
+||10.0
+||9.0
+||8.0
+||9.0
+||9.0
+||10.0
+||9.0
+||8.0
+||9.0
+||8.0
+||10.0
+||5.0
+||8.0
+||12582
+||818
+||'''211.0'''
+||150
+||'''211.0'''
+|-
+
+||11.
+||'''[[Benutzer:A300|A300]]'''
+||10.0
+||8.0
+||9.0
+||8.0
+||10.0
+||9.0
+||9.0
+||8.0
+||8.0
+||7.0
+||8.0
+||6.0
+||9.0
+||9.0
+||7.0
+||9.0
+||10.0
+||7.0
+||7.0
+||9.0
+||9.0
+||7.0
+||10.0
+||7.0
+||9.0
+||12606
+||873
+||'''209.0'''
+||150
+||'''209.0'''
+|-
+
+||12.
+||'''[[Benutzer:KaBotte|KaBotte]]'''
+||8.0
+||11.0
+||8.0
+||10.0
+||7.0
+||3.0
+||8.0
+||10.0
+||7.0
+||10.0
+||4.0
+||8.0
+||8.0
+||10.0
+||9.0
+||9.0
+||8.0
+||5.0
+||11.0
+||7.0
+||8.0
+||10.0
+||3.0
+||9.0
+||8.0
+||13340
+||667
+||'''199.0'''
+||150
+||'''199.0'''
+|-
+
+||13.
+||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
+||6.0
+||8.0
+||7.0
+||9.0
+||7.0
+||8.0
+||7.0
+||9.0
+||6.0
+||9.0
+||7.0
+||8.0
+||6.0
+||6.0
+||8.0
+||9.0
+||7.0
+||11.0
+||7.0
+||11.0
+||8.0
+||8.0
+||9.0
+||8.0
+||4.0
+||12454
+||688
+||'''193.0'''
+||150
+||'''193.0'''
+|-
+
+||14.
+||'''[[Benutzer:aristarch|aristarch]]'''
+||7.0
+||7.0
+||6.0
+||3.0
+||7.0
+||7.0
+||8.0
+||7.0
+||9.0
+||6.0
+||10.0
+||11.0
+||9.0
+||8.0
+||5.0
+||9.0
+||7.0
+||9.0
+||7.0
+||8.0
+||8.0
+||7.0
+||4.0
+||7.0
+||8.0
+||13300
+||923
+||'''184.0'''
+||150
+||'''185.0'''
+|-
+
+||15.
+||'''[[DeepPink]]'''
+||9.0
+||9.0
+||7.0
+||10.0
+||5.0
+||3.0
+||8.0
+||3.0
+||7.0
+||8.0
+||2.0
+||8.0
+||6.0
+||9.0
+||7.0
+||8.0
+||8.0
+||8.0
+||11.0
+||11.0
+||8.0
+||6.0
+||7.0
+||6.0
+||8.0
+||12153
+||468
+||'''182.0'''
+||150
+||'''182.0'''
+|-
+
+||16.
+||'''[[Benutzer:eisbaer04|eisbaer04]]'''
+||8.0
+||7.0
+||6.0
+||9.0
+||8.0
+||6.0
+||8.0
+||7.0
+||6.0
+||5.0
+||8.0
+||8.0
+||8.0
+||6.0
+||5.0
+||8.0
+||10.0
+||7.0
+||4.0
+||9.0
+||7.0
+||8.0
+||8.0
+||7.0
+||7.0
+||13375
+||883
+||'''180.0'''
+||150
+||'''180.0'''
+|-
+
+||17.
+||'''[[Benutzer:Sly|Sly]]'''
+||9.0
+||6.0
+||4.0
+||3.0
+||9.0
+||9.0
+||7.0
+||8.0
+||7.0
+||9.0
+||7.0
+||5.0
+||9.0
+||9.0
+||6.0
+||7.0
+||8.0
+||7.0
+||5.0
+||6.0
+||9.0
+||5.0
+||7.0
+||7.0
+||9.0
+||12908
+||728
+||'''177.0'''
+||150
+||'''177.0'''
+|-
+
+||18.
+||'''[[Benutzer:eris|eris]]'''
+||9.0
+||4.0
+||7.0
+||3.0
+||8.0
+||5.0
+||9.0
+||10.0
+||7.0
+||6.0
+||9.0
+||7.0
+||6.0
+||10.0
+||6.0
+||7.0
+||4.0
+||3.0
+||7.0
+||7.0
+||8.0
+||7.0
+||10.0
+||7.0
+||9.0
+||13021
+||782
+||'''175.0'''
+||150
+||'''175.0'''
+|-
+
+||19.
+||'''[[Benutzer:Kinvarra|Kinvarra]]'''
+||5.0
+||7.0
+||7.0
+||5.0
+||4.0
+||7.0
+||9.0
+||5.0
+||7.0
+||8.0
+||8.0
+||5.0
+||5.0
+||8.0
+||9.0
+||6.0
+||7.0
+||4.0
+||6.0
+||9.0
+||6.0
+||6.0
+||10.0
+||9.0
+||7.0
+||13057
+||751
+||'''169.0'''
+||150
+||'''169.0'''
+|-
+
+||20.
+||'''[[Benutzer:recke|recke]]'''
+||6.0
+||3.0
+||8.0
+||6.0
+||9.0
+||7.0
+||7.0
+||5.0
+||8.0
+||7.0
+||6.0
+||4.0
+||7.0
+||7.0
+||6.0
+||10.0
+||9.0
+||4.0
+||6.0
+||8.0
+||7.0
+||7.0
+||7.0
+||5.0
+||9.0
+||13055
+||767
+||'''168.0'''
+||150
+||'''168.0'''
+|-
+
+||21.
+||'''[[Benutzer:Cpxy|Cpxy]]'''
+||4.0
+||5.0
+||6.0
+||9.0
+||6.0
+||7.0
+||8.0
+||6.0
+||7.0
+||7.0
+||7.0
+||6.0
+||6.0
+||7.0
+||6.0
+||6.0
+||8.0
+||9.0
+||7.0
+||7.0
+||7.0
+||5.0
+||8.0
+||6.0
+||5.0
+||13308
+||792
+||'''165.0'''
+||150
+||'''165.0'''
+|-
+
+||22.
+||'''[[Benutzer:cachito|cachito]]'''
+||6.0
+||6.0
+||7.0
+||7.0
+||5.0
+||7.0
+||9.0
+||8.0
+||9.0
+||9.0
+||5.0
+||6.0
+||5.0
+||5.0
+||5.0
+||5.0
+||7.0
+||6.0
+||6.0
+||8.0
+||7.0
+||5.0
+||8.0
+||6.0
+||5.0
+||13140
+||687
+||'''162.0'''
+||150
+||'''162.0'''
+|-
+
+||23.
+||'''[[Benutzer:sir tobi|sir tobi]]'''
+||9.0
+||4.0
+||3.0
+||5.0
+||6.0
+||7.0
+||7.0
+||7.0
+||7.0
+||8.0
+||3.0
+||5.0
+||6.0
+||6.0
+||3.0
+||4.0
+||8.0
+||11.0
+||5.0
+||7.0
+||7.0
+||10.0
+||11.0
+||6.0
+||7.0
+||13290
+||629
+||'''162.0'''
+||150
+||'''162.0'''
+|-
+
+||24.
+||'''[[Benutzer:andreu73|andreu73]]'''
+||7.0
+||6.0
+||4.0
+||8.0
+||8.0
+||4.0
+||8.0
+||3.0
+||8.0
+||8.0
+||5.0
+||2.0
+||6.0
+||7.0
+||6.0
+||5.0
+||6.0
+||5.0
+||5.0
+||10.0
+||9.0
+||7.0
+||10.0
+||5.0
+||6.0
+||12851
+||554
+||'''158.0'''
+||150
+||'''158.0'''
+|-
+
+||25.
+||'''[[Benutzer:coffee|coffee]]'''
+||4.0
+||3.0
+||6.0
+||3.0
+||6.0
+||3.0
+||4.0
+||6.0&nbsp;<span style="font-size:50%">(1)</span>
+||6.0
+||2.0
+||7.0
+||3.0
+||4.0
+||8.0
+||4.0
+||7.0
+||6.0
+||5.0
+||4.0
+||3.0
+||4.0
+||6.0
+||6.0
+||10.0
+||5.0
+||13730
+||709
+||'''125.0'''
+||149
+||'''125.0'''
+|-
+
+||26.
+||'''[[Benutzer:goodygoody|goodygoody]]'''
+||8.0
+||5.0
+||5.0
+||6.0
+||7.0
+||6.0
+||9.0
+||5.0&nbsp;<span style="font-size:50%">(1)</span>
+||7.0
+||8.0
+||8.0
+||4.0
+||4.0
+||8.0
+||5.0
+||2.0
+||2.0
+||3.0
+||3.0
+||2.0
+||2.0
+||2.0
+||3.0
+||3.0
+||6.0
+||13235
+||505
+||'''123.0'''
+||149
+||'''122.0'''
+|-
+
+||27.
+||'''[[Benutzer:mAvErICk|mAvErICk]]'''
+||4.0
+||3.0
+||3.0
+||2.0
+||2.0
+||2.0
+||4.0
+||2.0
+||4.0
+||2.0
+||5.0
+||5.0
+||3.0
+||2.0
+||4.0
+||4.0
+||3.0
+||2.0
+||2.0
+||3.0
+||6.0
+||4.0
+||4.0
+||5.0
+||2.0
+||14939
+||369
+||'''82.0'''
+||150
+||'''82.0'''
+|-
+
+||28.
+||'''[[Benutzer:Kev|Kev]]'''
+||2.0
+||3.0
+||6.0
+||3.0
+||3.0
+||2.0
+||2.0
+||2.0
+||3.0
+||3.0
+||3.0
+||6.0
+||2.0
+||3.0
+||4.0
+||2.0
+||2.0
+||3.0
+||3.0
+||2.0
+||4.0
+||2.0
+||2.0
+||7.0
+||2.0
+||13795
+||216
+||'''76.0'''
+||150
+||'''76.0'''
+|-
+
+||29.
+||'''[[Benutzer:Kamik|Kamik]]'''
+||3.0
+||2.0
+||3.0
+||3.0
+||2.0
+||4.0
+||3.0
+||4.0
+||2.0
+||4.0
+||2.0
+||4.0
+||2.0
+||2.0
+||3.0
+||3.0
+||2.0
+||2.0
+||2.0
+||3.0
+||3.0
+||4.0
+||2.0
+||7.0
+||3.0
+||14795
+||11
+||'''74.0'''
+||150
+||'''74.0'''
+|-
+
+||30.
+||'''[[Benutzer:MasterLex515|MasterLex515]]'''
+||2.0
+||2.0
+||2.0
+||2.0
+||2.0
+||3.0
+||2.0
+||3.0
+||2.0
+||5.0
+||2.0
+||2.0
+||3.0
+||2.0
+||4.0
+||3.0
+||2.0
+||3.0
+||3.0
+||4.0
+||2.0
+||4.0
+||4.0
+||3.0
+||3.0
+||13812
+||44
+||'''69.0'''
+||150
+||'''69.0'''
+|-
+|}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Der "Erwartungswert" ist recht komplex und wird in mehreren Schritten berechnet: 
+** 1. Für jede Challenge:
+*** Wenn Spieler mind. 1 Rennen beendet hat: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche (unskalierte) Punktzahl des Spielers pro Rennen" * 6 / "Anzahl der beendeten Rennen des Spielers in dieser Challenge"''
+*** Wenn nicht: ''"Erwartete unskalierte Punkte für diese Challenge" = "Durchschnittliche Crashs über alle Zieleinläufe" * "Punktzahl des mittleren Platzes"''
+** 1b. Wenn es noch keine Zieleinläufe gab, bekommen alle Spieler 50 ''"Erwartete unskalierte Punkte"''
+** 2. ''"Erwartete skalierte Punkte pro Challenge"'' = Skalierung der jeweiligen Challenge anhand der ''"Erwarteten unskalierten Punkte"'' für alle Spieler
+** 3. ''"Erwartungswert" = Summe der "Erwarteten skalierten Punkte pro Challenge" + "aktuell erhaltene Boni"'' 
+
+== Durchführungstatus ==
+
+
+* '''27.05.2019 12:??''' Idee zur Parallelplanung der CCC5 zur CCC4
+* '''30.05.2019 15:52''' Wiki-Seite erstellt
+* '''30.05.2019 16:07''' Eröffnung der Anmeldung im Forum
+* '''12.06.2019 17:00''' Test, Bug-Fix und Erweiterung des Cron-Tools für die automatische Erstellung und Auswertung der Spiele
+* '''05.07.2019 ??:??''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
+* '''08.07.2019 16:00''' Wiki etwas aufgeräumt und übersichtlicher gestaltet
+* '''12.07.2019 09:55''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
+* '''12.07.2019 10:41''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten :)
+* '''16.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 1|Challenge 1]]
+* '''23.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 2|Challenge 2]]
+* '''24.07.2019 09:00''' Aus unbekannten Gründen ist CraZZZy nicht korrekt aus allen Spielen der 2. Challenge ausgestiegen. Die Ausstiege wurden manuell nachgeholt...
+* '''25.07.2019 10:00''' Folgefehler vom Aussteige-Fehler behoben, der eine Auswertung der 2. Challenge verhinderte
+* '''30.07.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 3|Challenge 3]]
+* '''06.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 4|Challenge 4]]
+* '''13.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 5|Challenge 5]]
+* '''16.08.2019 18:00''' Folgen des Ausstiegs-Bugs von {{Benutzer|Didi}} behoben
+* '''20.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 6|Challenge 6]]
+* '''21.08.2019 22:00''' Behandlung des Ausstiegs-Bugs im Auswerte-Skript korrigiert
+* '''27.08.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 7|Challenge 7]]
+* '''03.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 8|Challenge 8]]
+* '''06.09.2019 18:50''' Bug-Fix des in der [[CraZZZy Crash Challenge 4]] erwähnten Fehlers: es konnte durch Timeouts dazu kommen, dass das Skript die GIDs des Spiele nicht korrekt ermittelt hat, wodurch das Aussteigen in eine Endlosschleife lief.
+* '''10.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 9|Challenge 9]]
+* '''17.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 10|Challenge 10]]
+* '''24.09.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 11|Challenge 11]]
+* '''01.10.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 12|Challenge 12]]
+* '''08.10.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 13|Challenge 13]]
+* '''10.10.2019 20:00''' Wegen der hohen Spieleauslastung gibt es eine kleine Pause von ca. 2 Monaten (mehr dazu im [[https://www.karopapier.de/showthread.php?thread=1098|Forum]]). Weiter geht es dann voraussichtlich zu den folgenden Terminen:
+* '''26.12.2019 12:00''' Kleine Auswertungs-Pause wegen Urlaub...
+* '''09.12.2019 04:00''' Ende der Auswertungs-Pause
+* '''10.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 14|Challenge 14]]
+* '''13.12.2019 ??:??''' Unbekannter Fehler führt dazu, dass Cron-Job und damit Eval-Script nicht mehr ausgeführt werden... Dies verhindert auch die planmäßige Erstellung der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]]
+* '''18.12.2019 17:30''' Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 15|Challenge 15]] nachgeholt
+* '''24.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 16|Challenge 16]]
+* '''31.12.2019 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 17|Challenge 17]]
+* '''07.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 18|Challenge 18]]
+* '''14.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 19|Challenge 19]]
+* '''21.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 20|Challenge 20]]
+* '''28.01.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 21|Challenge 21]]
+* '''04.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 22|Challenge 22]]
+* '''11.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 23|Challenge 23]]
+* '''18.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 24|Challenge 24]]
+* '''25.02.2020 05:00''' Automatische Erstellung der Spiele der [[CraZZZy Crash Challenge 5 - Detailwertung Challenge 25|Challenge 25]]
+* '''29.09.2021 10:00''' Bug in der Auswertung behoben, bei dem Ausstiege am Ende der ersten Runde teilweise nicht richtig erkannt wurden
+* '''29.09.2021 10:30''' Bug in der Auswertung behoben, bei dem in Spielen mit {{Benutzer|Sly}} und {{Benutzer|Slybotone}} die Erkennung der Platzierung von {{Benutzer|Sly}} fehlschlug
+* '''29.09.2021 10:40''' Damit werden nun mehr Spiele als abgeschlossen erkannt...
+* '''31.03.2022 13:00''' Auswertung auf die KaroAPI umgestellt, damit es wieder geht...
+* '''12.10.2022 18:00''' Auch wenn noch 2 Spiele laufen, am Ergebnis wird sich nichts mehr ändern: the winner is {{Benutzer|quabla}}
+
+= Statistik =
+== Zahlen & Fakten ==
+*Rennen insgesamt: '''999'''
+*Teilnehmer: '''30'''
+*Rennen pro Spieler: '''150'''
+*Rennen pro Spieler pro Challenge: '''6'''
+*Züge insgesamt: '''388575'''
+*Crashs insgesamt: '''21941'''
+*Häufigste Begegnung: 21 mal [[Benutzer:Wobbel|Wobbel]] '''vs.''' [[Benutzer:Yashem|Yashem]]
+*Seltenste Begegnung: 18 mal [[Benutzer:Graf_Zahl|Graf_Zahl]] '''vs.''' [[Benutzer:Wobbel|Wobbel]]
+
+
+[[Kategorie:Meisterschaft]]
