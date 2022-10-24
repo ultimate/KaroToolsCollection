@@ -96,6 +96,36 @@ public abstract class WikiUtil
 		sb.append("\r\n|-\r\n");
 	}
 
+	public static String toDebugString(Table table, int columnWidth)
+	{
+		if(columnWidth < 4)
+			columnWidth = 4;
+		
+		StringBuilder sb = new StringBuilder();
+
+		for(int hi = 0; hi < table.getHeaders().size(); hi++)
+			toDebugString(sb, table.getHeader(hi), columnWidth, true);
+		for(int ri = 0; ri < table.getRows().size(); ri++)
+			toDebugString(sb, table.getRow(ri), columnWidth, false);
+
+		return sb.toString();
+	}
+
+	private static void toDebugString(StringBuilder sb, Cell[] row, int columnWidth, boolean isHeader)
+	{
+		for(int col = 0; col < row.length; col++)
+		{
+			sb.append(isHeader ? START_HEADER : START_CELL);
+			sb.append("|");
+
+			if(row[col] == null || row[col].value == null)
+				sb.append(fixedLength("<null>", columnWidth));
+			else
+				sb.append(fixedLength(preprocess(row[col].value).toString(), columnWidth));
+		}
+		sb.append("|-\r\n");
+	}
+
 	public static Object preprocess(Object value)
 	{
 		if(value instanceof Double)
@@ -197,5 +227,18 @@ public abstract class WikiUtil
 	public static double round(double d)
 	{
 		return Math.round(d * 100) / 100.0;
+	}
+	
+	public static String fixedLength(String s, int length)
+	{
+		if(s.length() > length)
+			return s.substring(0, length - 3) + "...";
+		else
+		{
+			StringBuilder sb = new StringBuilder(s);
+			while(sb.length() < length)
+				sb.append(" ");
+			return sb.toString();
+		}
 	}
 }
