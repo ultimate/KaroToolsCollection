@@ -57,7 +57,7 @@ public class CCCEvalNew extends CCCEval
 		this.stats_challengePointsMax = (int) Math.ceil(this.stats_players / (double) this.CLUSTER_SIZE);
 		this.stats_challengePointsMid = (this.stats_challengePointsMax - this.stats_challengePointsMin) / 2.0 + this.stats_challengePointsMin;
 		this.stats_challengePointsMin = 1;
-		
+
 		this.stats_challengePointsMax = calculatePoints(this.stats_challengePointsMax, this.stats_challengePointsMax);
 		this.stats_challengePointsMid = calculatePoints(this.stats_challengePointsMid, this.stats_challengePointsMid);
 		this.stats_challengePointsMin = calculatePoints(this.stats_challengePointsMin, this.stats_challengePointsMin);
@@ -310,7 +310,7 @@ public class CCCEvalNew extends CCCEval
 
 					challengeStats[c].moves += moves;
 					challengeStats[c].crashs += crashs;
-					
+
 					totalStats.moves += moves;
 					totalStats.crashs += crashs;
 				}
@@ -330,31 +330,45 @@ public class CCCEvalNew extends CCCEval
 
 			totalTables[c].addRow(row);
 		}
+		
+		int offset = challengeGames[c] * COLS_PER_RACE;
+		assignPointsAndSort(totalTables[c], c, offset + 1, offset + 2, offset + 3, offset + 4, totalTables[c].getColumns() - 1, false);
+	}
 
+	protected void assignPointsAndSort(Table table, int c, int movesColumn, int movesPointsColumn, int crashsColumn, int crashPointsColumn, int resultColumn, boolean isExpected)
+	{
 		// apply points by moves
-		assignPoints(totalTables[c], challengeGames[c] * COLS_PER_RACE + 1, challengeGames[c] * COLS_PER_RACE + 2, CollectionsUtil.ASCENDING);
+		assignPoints(table, movesColumn, movesPointsColumn, CollectionsUtil.ASCENDING);
 		// apply points by crashs
-		assignPoints(totalTables[c], challengeGames[c] * COLS_PER_RACE + 3, challengeGames[c] * COLS_PER_RACE + 4, CollectionsUtil.DESCENDING);
+		assignPoints(table, crashsColumn, crashPointsColumn, CollectionsUtil.DESCENDING);
 		// calculate product
 		int movesPoints, crashPoints;
 		double totalPoints;
 		User user;
-		for(int r = 0; r < totalTables[c].getRows().size(); r++)
+		for(int r = 0; r < table.getRows().size(); r++)
 		{
-			user = (User) totalTables[c].getValue(r, 0);
-			movesPoints = (int) totalTables[c].getValue(r, challengeGames[c] * COLS_PER_RACE + 2);
-			crashPoints = (int) totalTables[c].getValue(r, challengeGames[c] * COLS_PER_RACE + 4);
+			user = (User) table.getValue(r, 0);
+			movesPoints = (int) table.getValue(r, movesPointsColumn);
+			crashPoints = (int) table.getValue(r, crashPointsColumn);
 
 			totalPoints = calculatePoints(movesPoints, crashPoints);
 
-			totalTables[c].setValue(r, totalTables[c].getColumns() - 1, totalPoints);
+			table.setValue(r, resultColumn, totalPoints);
 
-			userChallengeStats[c].get(user.getId()).total = totalPoints;
-			userStats.get(user.getId()).total += totalPoints;
+			if(!isExpected)
+			{
+				userChallengeStats[c].get(user.getId()).total = totalPoints;
+				userStats.get(user.getId()).total += totalPoints;
+			}
+			else
+			{
+				userChallengeStats[c].get(user.getId()).totalExpected = totalPoints;
+				userStats.get(user.getId()).totalExpected += totalPoints;
+			}
 		}
 		// resort by name (was resorted in assignPoints)
 		// users can sort the table by their need since it is "sortable", but a fixed order by name, makes it easier to identify changes
-		totalTables[c].sort(0, (Comparator<User>) (m1, m2) -> {
+		table.sort(0, (Comparator<User>) (m1, m2) -> {
 			return m1.getLoginLowerCase().compareTo(m2.getLoginLowerCase());
 		});
 	}
@@ -437,17 +451,17 @@ public class CCCEvalNew extends CCCEval
 	protected double calculatePoints(double movesPoints, double crashPoints)
 	{
 		double points = 0;
-		
+
 		switch(CALC_MODE)
 		{
 			case "multiply":
 				points = movesPoints * crashPoints;
 				break;
-				
+
 			case "add":
 				points = movesPoints + crashPoints;
 				break;
-				
+
 			case "sqrt":
 				points = Math.sqrt(movesPoints * crashPoints);
 				break;
@@ -460,9 +474,9 @@ public class CCCEvalNew extends CCCEval
 	protected void calculateExpected()
 	{
 
-		double playerAvgMovesInFinishedGames, playerAvgCrashsInFinishedGames;
-		double expectedMovesPoints, expectedCrashPoints;
-		double relativeMovesPosition, relativeCrashPosition, expected;
+		int actualMoves, actualCrashs;
+		int expectedMoves, expectedCrashs;
+		int avgMoves, avgCrashs;
 
 		UserStats ugs, mins, maxs;
 		List<UserStats> allFinishedStats;
@@ -484,18 +498,48 @@ public class CCCEvalNew extends CCCEval
 			logger.debug(" - moves:   min=" + mins.moves + ", max=" + maxs.moves);
 			logger.debug(" - crashes: min=" + mins.crashs + ", max=" + maxs.crashs);
 
+			Table tmpTable = new Table(new String[] { "User", "Finished Games", "Moves Actual", "Moves Expected", "Points", "Crashs Actual", "Crashs Expected", "Points", "Erwartungswert", "Aktuelle Punkte" });
+
+			if(challengeStats[c].finished > 0)
+			{
+				avgMoves = 0;
+				avgCrashs = 0;
+
+				for(int g = 0; g < challengeGames[c]; g++)
+				{
+					for(UserStats ugs2 : userGameStats[c][g].values())
+					{
+						if(ugs2.finished == 1)
+						{
+							avgMoves += ugs2.moves;
+							avgCrashs += ugs2.crashs;
+						}
+					}
+				}
+
+				avgMoves /= challengeStats[c].finished;
+				avgCrashs /= challengeStats[c].finished;
+			}
+			else
+			{
+				avgMoves = 100;
+				avgCrashs = 100;
+			}
+
 			for(User user : usersByLogin)
 			{
 				if(userChallengeStats[c].get(user.getId()).finished == 0)
 				{
-					logger.debug(" - " + user.getLogin() + "\t finished=0");
-					expectedMovesPoints = this.stats_challengePointsMid;
-					expectedCrashPoints = this.stats_challengePointsMid;
+					actualMoves = 0;
+					actualCrashs = 0;
+
+					expectedMoves = avgMoves;
+					expectedCrashs = avgCrashs;
 				}
 				else
 				{
-					playerAvgMovesInFinishedGames = 0;
-					playerAvgCrashsInFinishedGames = 0;
+					actualMoves = 0;
+					actualCrashs = 0;
 
 					for(int g = 0; g < challengeGames[c]; g++)
 					{
@@ -503,32 +547,21 @@ public class CCCEvalNew extends CCCEval
 
 						if(ugs.finished == 1)
 						{
-							playerAvgMovesInFinishedGames += ugs.moves;
-							playerAvgCrashsInFinishedGames += ugs.crashs;
+							actualMoves += ugs.moves;
+							actualCrashs += ugs.crashs;
 						}
 					}
 
-					playerAvgMovesInFinishedGames /= (double) userChallengeStats[c].get(user.getId()).finished;
-					playerAvgCrashsInFinishedGames /= (double) userChallengeStats[c].get(user.getId()).finished;
+					expectedMoves = actualMoves * stats_gamesPerPlayerPerChallenge / userChallengeStats[c].get(user.getId()).finished;
+					expectedCrashs = actualCrashs * stats_gamesPerPlayerPerChallenge / userChallengeStats[c].get(user.getId()).finished;
 
-					// moves
-					relativeMovesPosition = 1 - (playerAvgMovesInFinishedGames - mins.moves) / (maxs.moves - mins.moves);
-					expectedMovesPoints = relativeMovesPosition * (this.stats_challengePointsMax - 1) + 1;
-					// crashs
-					relativeCrashPosition = (playerAvgCrashsInFinishedGames - mins.crashs) / (maxs.crashs - mins.crashs);
-					expectedCrashPoints = relativeCrashPosition * (this.stats_challengePointsMax - 1) + 1;
-
-					logger.debug(
-							" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgMoves= " + WikiUtil.round(playerAvgMovesInFinishedGames) + "\t-> expectedPoints=" + WikiUtil.round(expectedMovesPoints));
-					logger.debug(
-							" - " + user.getLogin() + "\t finished=" + userChallengeStats[c].get(user.getId()).finished + "\tavgCrashs=" + WikiUtil.round(playerAvgCrashsInFinishedGames) + "\t-> expectedPoints=" + WikiUtil.round(expectedCrashPoints));
 				}
-
-				expected = calculatePoints(expectedMovesPoints, expectedCrashPoints);
-
-				userChallengeStats[c].get(user.getId()).totalExpected = expected;
-				userStats.get(user.getId()).totalExpected += expected;
+				tmpTable.addRow(user, userChallengeStats[c].get(user.getId()).finished, actualMoves, expectedMoves, null, actualCrashs, expectedCrashs, null, null, userChallengeStats[c].get(user.getId()).total);
 			}
+
+			assignPointsAndSort(tmpTable, c, 3, 4, 6, 7, tmpTable.getColumns() - 2, true);
+
+			logger.debug("\n" + WikiUtil.toDebugString(tmpTable, 20));
 		}
 	}
 
