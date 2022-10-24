@@ -130,7 +130,7 @@ Neu erfolgt daher die Bewertung nach folgendem Schema:
 Anmerkungen:
 
 * Bei Ausstieg oder Rausschmiss bekommt man "Strafzüge" und zwar soviele, dass man immer mehr hat als der letzte in dem Rennen 
-* Bei Zug- bzw. Crashgleichheit in einer Challenge werden die Punkte anteilig aufgeteilt: z. B. 2 Spieler mit Gleichheit -> x,5 Punkte für jeden (statt x & x+1)
+* Bei Zug- bzw. Crashgleichheit in einer Challenge werden die Punkte des besseren Platzes an alle wertgleichen Spieler vergeben ("aufrunden")
 * Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt: 1. mehr Crashs, 2. weniger Züge
 * Boni gibt es nicht mehr (weder in der Challenge noch insgesamt)
 
