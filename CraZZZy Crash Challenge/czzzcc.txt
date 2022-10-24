@@ -42,7 +42,7 @@ Die CraZZZy Crash Challenge gibt es in mehreren Ausführungen:
 |-
 |[[CraZZZy Crash Challenge 5]]||30.05.2019||16.07.2019||läuft noch...||25||30||6||150||999||?||?||{{Benutzer|quabla}}||MaxP: {{Benutzer|hasi}}<br/>MaxC: {{Benutzer|quabla}}<br/>MinZ: {{Benutzer|Slybotone}}  
 |-
-|[[CraZZZy Crash Challenge 6]]||kommt noch...||kommt noch...||kommt noch...||20-25||?||6||?||?||?||?||{{Benutzer|???}}||n/a<sup>5</sup>
+|[[CraZZZy Crash Challenge 6]]||12.10.2022||kommt noch...||kommt noch...||20-25||?||5-6||?||?||?||?||{{Benutzer|???}}||n/a<sup>5</sup>
 |-
 |}
 
@@ -87,7 +87,52 @@ Die Meisterschaft besteht aus mehreren Challenges, als eine Challenge bezeichne 
 
 === CCC6 ===
 
-kommt in Kürze
+Die Punktevergabe wurde mit der CCC6 überarbeitet mit den folgenden Zielen, die folgenden Probleme des bisherigen Schema (CCC1-CCC5, siehe unten) zu beheben (mehr dazu in der [[Diskussion:CraZZZy_Crash_Challenge#Änderung_der_Punkteverteilung?|Diskussion]]):
+
+* Teilnehmer ohne Crash nehmen anderen die Punkte wegnehmen - dies kommt insbesondere gerne auf Strecken vor, wo crashen ungünstig ist und/oder bei den Bots...
+* Bei Zuggleichheit entscheidet der Zufi, wer mehr Grund-Punkte bekommt
+* Bei Aussteigern / Rauswürfen kriegt der letzte auch Grundpunkte und kann sich theoretisch ins unermessliche crashen (das könnte durch Absprachen ausgenutzt werden) - auch wenn mir das nicht als tatsächliches Problem bekannt ist
+* Eine extrem breite Streuung der Punkte erschwert "aufholen"
+
+Neu erfolgt daher die Bewertung nach folgendem Schema:
+
+{|class="wikitable"
+!Schritt!!Beschreibung!!Kurz-Fassung / Formel
+|-
+||1.
+||Alle Rennen einer Challenge werden zusammen gewertet. Dafür werden zunächst jeweils die Züge und Crashs aller Rennen je Spieler addiert. 
+||Challenge_Züge = &Sigma; Züge<br>Challenge_Crashs = &Sigma; Crashs
+|-
+||2.
+||Die Crashs und Züge werden in Punkte umgewandelt. Dafür erhält bei N Spielern jeweils unabhängig je Kategorie der Spieler mit dem besten Ergebnis (meiste Crashs bzw. wenigste Züge) N Punkte, der 2. N-1 Punkte usw. 
+||Challenge_Punkte_Züge bzw. Challenge_Punkte_Crashs =<br>
+{|class="wikitable"
+|'''Platz'''||1.||2.||...||N-1.||N.
+|-
+|'''Züge'''||min. Challenge_Züge||...||...||...||max. Challenge_Züge
+|-
+|'''Crashs'''||max. Challenge_Crashs||...||...||...||min. Challenge_Crashs
+|-
+|'''Punkte'''||N||N-1||...||2||1
+|-
+|}
+|-
+||3.
+||Für das Challenge-Ergebnis werden Zug-Punkte und Crash-Punkte einfach addiert
+||Challenge_Gesamtpunkte = Challenge_Punkte_Züge + Challenge_Punkte_Crashs
+|-
+||4.
+||Die  Ergebnisse aller Challenges werden zusammenaddiert.
+||Gesamtpunkte = &Sigma; Challenge_Gesamtpunkte
+|-
+|}
+
+Anmerkungen:
+
+* Bei Ausstieg oder Rausschmiss bekommt man "Strafzüge" und zwar soviele, dass man immer mehr hat als der letzte in dem Rennen 
+* Bei Zug- bzw. Crashgleichheit in einer Challenge werden die Punkte anteilig aufgeteilt: z. B. 2 Spieler mit Gleichheit -> x,5 Punkte für jeden (statt x & x+1)
+* Bei Punktgleichheit in der Gesamtwertung werden folgende Kriterien angewandt: 1. mehr Crashs, 2. weniger Züge
+* Boni gibt es nicht mehr (weder in der Challenge noch insgesamt)
 
 === CCC1 - CCC5 ===
 
