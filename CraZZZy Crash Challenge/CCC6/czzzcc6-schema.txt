@@ -37,7 +37,8 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''12.10.2022 15:53''' Eröffnung der Anmeldung im Forum
 * '''12.10.2022 18:22''' Wiki-Seite erstellt
 * '''21.10.2022 14:23''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
-* '''??.??.2022 ??:??''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL|KaroMUSKEL]] kann beginnen
+* '''27.10.2022 16:19''' {{Benutzer|ulli}} macht Werbung über die [[AndroidApp]]
+* '''??.??.2022 ??:??''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL]] kann beginnen
 * '''??.??.2022 ??:??''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten (und dann bald ziehen!) :)
 
 [[Kategorie:Meisterschaft]]
