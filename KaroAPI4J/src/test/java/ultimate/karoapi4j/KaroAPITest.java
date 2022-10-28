@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -55,7 +56,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals("1.2.0", KaroAPI.getVersion());
+		assertEquals("1.2.1", KaroAPI.getVersion());
 	}
 
 	@Test
@@ -1025,4 +1026,21 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("" + executionOrder);
 		assertEquals(Arrays.asList("1", "cf", "2"), executionOrder);
 	}
+
+	
+//	@Test
+//	public void test_createGameWithIllegalMap() throws InterruptedException, ExecutionException
+//	{
+//		// real test
+//		PlannedGame pg = new PlannedGame();
+//		pg.setPlayers(new HashSet<>(Arrays.asList(karoAPICache.getUser("ultimate"))));
+//		pg.setMap(karoAPICache.getMap(10056));
+//		pg.setOptions(new Options(0, false, EnumGameDirection.free, EnumGameTC.free));
+//		pg.setName("Test");
+//		
+//		Game g = karoAPI.createGame(pg).join();
+//		assertNotNull(g);
+//		assertEquals(pg.getName(), g.getName());
+//		assertEquals(pg.getMap(), g.getMap());
+//	}
 }
