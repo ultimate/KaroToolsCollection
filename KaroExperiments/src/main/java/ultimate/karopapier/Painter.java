@@ -77,10 +77,6 @@ public class Painter
 
 		Section section;
 
-		// printPath(grid, Arrays.asList(grid[0][0], grid[1][0], grid[1][1], grid[2][1], grid[2][0], grid[3][0], grid[4][0], grid[5][0], grid[5][1], grid[5][2], grid[5][3], grid[5][4], grid[5][5],
-		// grid[4][5], grid[3][5], grid[3][4], grid[2][4],
-		// grid[2][5], grid[1][5], grid[1][4], grid[0][4]));
-
 		map.reset();
 		section = new Section(0, 0, 1, 1);
 		System.out.println(section.contains(new Point(0, 0)));
