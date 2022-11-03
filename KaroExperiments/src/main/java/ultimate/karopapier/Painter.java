@@ -54,9 +54,9 @@ public class Painter
 							+ "XXXXXXXXX6OOOOOOOOOOOOOOOOXXXOOOOOOOOOOOXXXXXXXXXXXXXXXXXXXX\n"
 							+ "XXXXXXXXXXXXXXXXOOOOOOOOOO555OOOOOOOOOOXXXXXXXXXXXXXXXXXXXXX\n"
 							+ "XXXXXXXXXXXXXXXXXXXOOOOOOO555OOOOOOOOXXXXXXXXXXXXXXXXXXXXXXX\n"
-							+ "XXXXXXXXXXXXXXXXXXXXXOOOOO555OOOOOOXXXXXXXXXXXXXXXXXXXXXOXOX\n"
-							+ "XXXXXXXXXXXXXXXXXXXXXXXXXO555OOOXXXXXXXXXXXXXXXXXXXXXXXXXFXX\n"
-							+ "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXOX\n"
+							+ "XXXXXXXXXXXXXXXXXXXXXOOOOO555OOOOOOXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+							+ "XXXXXXXXXXXXXXXXXXXXXXXXXO555OOOXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+							+ "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
 							+ "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 		//@formatter:on
 
@@ -91,28 +91,28 @@ public class Painter
 
 		map.reset();
 		section = new Section(13, 1, 5, 5);
-		processSection(map, section, new Vector(13, 1, 0, 0), map.grid[17][5]);
+		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[17][5]);
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
 
 		map.reset();
 		section = new Section(13, 1, 36, 5);
-		processSection(map, section, new Vector(13, 1, 0, 0), map.grid[48][5]);
+		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[48][5]);
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
 
 		map.reset();
 		section = new Section(13, 0, 47, 25);
-		processSection(map, section, new Vector(13, 1, 0, 0), map.grid[13][18]);
+		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[13][18]);
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
 
 		map.reset();
 		section = new Section(27, 6, 11, 6);
-		processSection(map, section, new Vector(37, 7, 0, 0), map.grid[35][11]);
+		processSection(map, section, new Vector(map.grid, map.grid[37][7], 0, 0), map.grid[35][11]);
 		// printPath(grid, path);
 	}
 
@@ -127,51 +127,51 @@ public class Painter
 			return;
 
 		// start and target must be within the section
-		if(!section.contains(start))
+		if(!section.contains(start.start))
 			throw new IllegalArgumentException("start must be inside the section");
 		if(!section.contains(target))
 			throw new IllegalArgumentException("target must be inside the section");
 		// start and target must be roads
-		if(!map.grid[start.x][start.y].road)
-			throw new IllegalArgumentException("start must be road: " + map.grid[start.x][start.y].symbol);
+		if(!start.start.road)
+			throw new IllegalArgumentException("start must be road: " + start.start.symbol);
 		if(!target.road)
 			throw new IllegalArgumentException("target must be road: " + target.symbol);
 		// start and target must be on the edge of the section
-		if(!(start.x == section.getMinX() || start.x == section.getMaxX() - 1 || start.y == section.getMinY() || start.y == section.getMaxY() - 1))
+		if(!(start.start.x == section.getMinX() || start.start.x == section.getMaxX() - 1 || start.start.y == section.getMinY() || start.start.y == section.getMaxY() - 1))
 			throw new IllegalArgumentException("start must be on the edge of the section");
 		if(!(target.x == section.getMinX() || target.x == section.getMaxX() - 1 || target.y == section.getMinY() || target.y == section.getMaxY() - 1))
 			throw new IllegalArgumentException("target must be on the edge of the section");
 
-		if(start.x == target.x && start.y == target.y)
+		if(start.start.x == target.x && start.start.y == target.y)
 			throw new IllegalArgumentException("start and target must be different");
 
-		map.start = map.grid[start.x][start.y];
+		map.start = start.start;
 		map.target = target;
 		map.path = new LinkedList<>();
 
 		map.path.add(start);
-		map.grid[start.x][start.y].visited = true;
+		map.grid[start.start.x][start.start.y].visited = true;
 
 		Vector next;
 		int step = 0;
 		int targetSize = section.size(map.grid);
-		while(map.path.size() > 0 && (map.path.getLast().x + map.path.getLast().dx != target.x || map.path.getLast().y + map.path.getLast().dy != target.y || !section.isFilled(map.grid)))
+		while(map.path.size() > 0 && (map.path.getLast().end.x != target.x || map.path.getLast().end.y != target.y || !section.isFilled(map.grid)))
 		{
-			next = map.path.getLast().next(map.grid);
+			next = map.path.getLast().next(map);
 			// System.out.println((next != null ? next.x + "|" + next.y + "->" + next.dx + "|" + next.dy : "-"));
 			if(next == null)
 			{
 				Vector v = map.path.removeLast();
-				map.grid[v.x + v.dx][v.y + v.dy].visited = false;
+				v.end.visited = false;
 			}
-			else if(next.x + next.dx == target.x && next.y + next.dy == target.y && map.path.size() < targetSize - 1)
+			else if(next.end.x == target.x && next.end.y == target.y && map.path.size() < targetSize - 1)
 			{
 
 			}
-			else if(next.isValid(map.grid, section) && !map.grid[next.x + next.dx][next.y + next.dy].visited)
+			else if(next.isValid(map.grid, section) && !next.end.visited)
 			{
 				map.path.add(next);
-				map.grid[next.x + next.dx][next.y + next.dy].visited = true;
+				next.end.visited = true;
 			}
 			else if(next.dx == 0 && next.dy == 0)
 			{
@@ -191,26 +191,6 @@ public class Painter
 				e.printStackTrace();
 			}
 		}
-	}
-
-	protected static List<Field> processRect(Field[][] grid, Section section, Field /* vector */ start, Field target)
-	{
-		int dx = target.x - start.x;
-		int dy = target.y - start.y;
-
-		if(dx == 0)
-		{
-			// if(dy)
-		}
-		else if(dy == 0)
-		{
-
-		}
-		else
-		{
-
-		}
-		return null;
 	}
 
 	public static class Map extends Canvas
@@ -356,7 +336,7 @@ public class Painter
 				for(int i = 0; i < path.size(); i++)
 				{
 					v = path.get(i);
-					g.drawLine(v.x * gridSize + gridSize / 2, v.y * gridSize + gridSize / 2, (v.x + v.dx) * gridSize + gridSize / 2, (v.y + v.dy) * gridSize + gridSize / 2);
+					g.drawLine(v.start.x * gridSize + gridSize / 2, v.start.y * gridSize + gridSize / 2, v.end.x * gridSize + gridSize / 2, v.end.y * gridSize + gridSize / 2);
 				}
 			}
 			if(start != null)
@@ -383,41 +363,47 @@ public class Painter
 		}
 	}
 
-	public static class Vector extends Point
+	public static class Vector
 	{
+		private Field				start;
+		private Field				end;
 		private int					dx;
 		private int					dy;
 
 		private LinkedList<Vector>	successors;
 
-		public Vector(int x, int y, int dx, int dy)
+		public Vector(Field[][] grid, Field start, int dx, int dy)
 		{
-			super(x, y);
+			this.start = start;
+			this.end = grid[start.x + dx][start.y + dy];
 			this.dx = dx;
 			this.dy = dy;
 		}
 
-		public Vector next(Field[][] grid)
+		public Vector next(Map map)
 		{
 			if(this.successors == null)
 			{
 				this.successors = new LinkedList<>();
-				this.successors.add(new Vector(x + dx, y + dy, dx - 1, dy - 1));
-				this.successors.add(new Vector(x + dx, y + dy, dx - 1, dy + 0));
-				this.successors.add(new Vector(x + dx, y + dy, dx - 1, dy + 1));
-				this.successors.add(new Vector(x + dx, y + dy, dx + 0, dy - 1));
-				this.successors.add(new Vector(x + dx, y + dy, dx + 0, dy + 0));
-				this.successors.add(new Vector(x + dx, y + dy, dx + 0, dy + 1));
-				this.successors.add(new Vector(x + dx, y + dy, dx + 1, dy - 1));
-				this.successors.add(new Vector(x + dx, y + dy, dx + 1, dy + 0));
-				this.successors.add(new Vector(x + dx, y + dy, dx + 1, dy + 1));
-				// remove all that are 0
-				this.successors.removeIf(v -> {
-					return v.dx == 0 && v.dy == 0;
-				});
+				int newdx, newdy;
+				for(int ddx = -1; ddx <= 1; ddx++)
+				{
+					newdx = this.dx + ddx;
+					for(int ddy = -1; ddy <= 1; ddy++)
+					{
+						newdy = this.dy + ddy;
+						if(this.end.x + newdx < 0 || this.end.x + newdx >= map.width)
+							continue;
+						if(this.end.y + newdy < 0 || this.end.y + newdy >= map.height)
+							continue;
+						if(newdx == 0 && newdy == 0)
+							continue;
+						this.successors.add(new Vector(map.grid, end, newdx, newdy));
+					}
+				}
 				// remove all that are not road
 				this.successors.removeIf(v -> {
-					return !v.isValid(grid);
+					return !v.isValid(map.grid);
 				});
 				// TODO --> keep all?
 				// remove all that are longer than 1/1
@@ -430,10 +416,10 @@ public class Painter
 					int l2 = v2.dx * v2.dx + v2.dy * v2.dy;
 					if(l1 != l2)
 						return l1 - l2;
-					return -(grid[v1.x + v1.dx][v1.y + v1.dy].distanceToFinish - grid[v2.x + v2.dx][v2.y + v2.dy].distanceToFinish);
+					return -(v1.end.distanceToFinish - v2.end.distanceToFinish);
 				});
 				if(this.successors.size() == 0)
-					this.successors.add(new Vector(x + dx, y + dy, 0, 0)); // ZZZ=0
+					this.successors.add(new Vector(map.grid, end, 0, 0)); // ZZZ=0
 			}
 			return this.successors.poll();
 		}
@@ -445,17 +431,17 @@ public class Painter
 
 		public boolean isValid(Field[][] grid, Section section)
 		{
-			if(this.x < section.x || this.x >= section.x + section.width)
+			if(this.start.x < section.x || this.start.x >= section.x + section.width)
 				return false;
-			if(this.y < section.y || this.y >= section.y + section.height)
+			if(this.start.y < section.y || this.start.y >= section.y + section.height)
 				return false;
-			if(this.x + this.dx < section.x || this.x + this.dx >= section.x + section.width)
+			if(this.end.x < section.x || end.x >= section.x + section.width)
 				return false;
-			if(this.y + this.dy < section.y || this.y + this.dy >= section.y + section.height)
+			if(this.end.y < section.y || end.y >= section.y + section.height)
 				return false;
 			List<Field> fields = new LinkedList<>();
 			// fields.add(grid[this.x][this.y]); // start is already visited
-			fields.add(grid[this.x + this.dx][this.y + this.dy]); // end
+			fields.add(end); // end
 			// TODO add intermediate points
 			for(Field f : fields)
 			{
