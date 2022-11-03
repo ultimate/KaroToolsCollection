@@ -140,6 +140,8 @@ public class Painter
 		if(start.x == target.x && start.y == target.y)
 			throw new IllegalArgumentException("start and target must be different");
 
+		map.start = map.grid[start.x][start.y];
+		map.target = target;
 		map.path = new LinkedList<>();
 
 		map.path.add(start);
@@ -205,6 +207,8 @@ public class Painter
 	{
 		private Field[][]			grid;
 		private LinkedList<Vector>	path;
+		private Field				start;
+		private Field				target;
 
 		public Map(Field[][] grid)
 		{
@@ -237,11 +241,21 @@ public class Painter
 
 			if(path != null)
 			{
-				g.setColor(new Color(255, 0, 0));
+				g.setColor(new Color(0, 0, 255));
 				for(Vector v : path)
 				{
 					g.drawLine(v.x * gridSize + gridSize / 2, v.y * gridSize + gridSize / 2, (v.x + v.dx) * gridSize + gridSize / 2, (v.y + v.dy) * gridSize + gridSize / 2);
 				}
+			}
+			if(start != null)
+			{
+				g.setColor(new Color(0, 255, 0));
+				g.fillRect(start.x * gridSize + gridSize / 2 - 1, start.y * gridSize + gridSize / 2 - 1, 3, 3);
+			}
+			if(target != null)
+			{
+				g.setColor(new Color(255, 0, 0));
+				g.fillRect(target.x * gridSize + gridSize / 2 - 2, target.y * gridSize + gridSize / 2 - 2, 3, 3);
 			}
 		}
 	}
