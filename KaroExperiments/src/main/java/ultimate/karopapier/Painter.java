@@ -17,18 +17,19 @@ import javax.swing.JFrame;
 
 public class Painter
 {
-	public static final char	dr			= '┏';
-	public static final char	dl			= '┓';
-	public static final char	ur			= '┗';
-	public static final char	ul			= '┛';
-	public static final char	u			= '╹';
-	public static final char	d			= '╻';
-	public static final char	r			= '╺';
-	public static final char	l			= '╸';
-	public static final char	v			= '┃';
-	public static final char	h			= '━';
+	public static final char	dr						= '┏';
+	public static final char	dl						= '┓';
+	public static final char	ur						= '┗';
+	public static final char	ul						= '┛';
+	public static final char	u						= '╹';
+	public static final char	d						= '╻';
+	public static final char	r						= '╺';
+	public static final char	l						= '╸';
+	public static final char	v						= '┃';
+	public static final char	h						= '━';
 
-	public static final int		gridSize	= 20;
+	public static final int		gridSize				= 20;
+	public static final int		allowedDistanceOffset	= 2;
 
 	public static void main(String[] args)
 	{
@@ -151,10 +152,24 @@ public class Painter
 		Vector next;
 		int step = 0;
 		int targetSize = section.size(map.grid);
+		Field highestDistanceFieldNotVisited;
 		while(map.path.size() > 0 && (map.path.getLast().end.x != target.x || map.path.getLast().end.y != target.y || !section.isFilled(map.grid)))
 		{
 			next = map.path.getLast().next(map);
 			// System.out.println((next != null ? next.x + "|" + next.y + "->" + next.dx + "|" + next.dy : "-"));
+
+			highestDistanceFieldNotVisited = null;
+			for(int x = 0; x < map.width; x++)
+			{
+				for(int y = 0; y < map.height; y++)
+				{
+					if(highestDistanceFieldNotVisited == null || !map.grid[x][y].visited && map.grid[x][y].distanceToFinish > highestDistanceFieldNotVisited.distanceToFinish)
+						highestDistanceFieldNotVisited = map.grid[x][y];
+				}
+			}
+			
+//			System.out.println(highestDistanceNotVisited);
+
 			if(next == null)
 			{
 				Vector v = map.path.removeLast();
@@ -162,7 +177,11 @@ public class Painter
 			}
 			else if(next.end.x == target.x && next.end.y == target.y && map.path.size() < targetSize - 1)
 			{
-
+				// ignore target when we have other karos left
+			}
+			else if(next.end.distanceToFinish < highestDistanceNotVisited - allowedDistanceOffset)
+			{
+				// ignore vector if we have gaps far behing
 			}
 			else if(next.isValid(map.grid, section) && !next.end.visited)
 			{
