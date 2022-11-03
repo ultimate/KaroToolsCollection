@@ -28,7 +28,7 @@ public class Painter
 	public static final char	v			= '┃';
 	public static final char	h			= '━';
 
-	public static final int		gridSize	= 10;
+	public static final int		gridSize	= 20;
 
 	public static void main(String[] args)
 	{
@@ -54,9 +54,9 @@ public class Painter
 							+ "XXXXXXXXX6OOOOOOOOOOOOOOOOXXXOOOOOOOOOOOXXXXXXXXXXXXXXXXXXXX\n"
 							+ "XXXXXXXXXXXXXXXXOOOOOOOOOO555OOOOOOOOOOXXXXXXXXXXXXXXXXXXXXX\n"
 							+ "XXXXXXXXXXXXXXXXXXXOOOOOOO555OOOOOOOOXXXXXXXXXXXXXXXXXXXXXXX\n"
-							+ "XXXXXXXXXXXXXXXXXXXXXOOOOO555OOOOOOXXXXXXXXXXXXXXXXXXXXXXXXX\n"
-							+ "XXXXXXXXXXXXXXXXXXXXXXXXXO555OOOXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
-							+ "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"
+							+ "XXXXXXXXXXXXXXXXXXXXXOOOOO555OOOOOOXXXXXXXXXXXXXXXXXXXXXOXOX\n"
+							+ "XXXXXXXXXXXXXXXXXXXXXXXXXO555OOOXXXXXXXXXXXXXXXXXXXXXXXXXFXX\n"
+							+ "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOXOX\n"
 							+ "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 		//@formatter:on
 
@@ -71,20 +71,7 @@ public class Painter
 			}
 		});
 
-		String[] rows = mapString.split("\n");
-		Field[][] grid = new Field[rows[0].length()][];
-		for(int c = 0; c < rows[0].length(); c++)
-			grid[c] = new Field[rows.length];
-
-		int r = 0;
-		for(String row : rows)
-		{
-			for(int c = 0; c < row.length(); c++)
-				grid[c][r] = new Field(c, r, row.charAt(c));
-			r++;
-		}
-
-		Map map = new Map(grid);
+		Map map = new Map(mapString);
 		frame.getContentPane().add(map);
 		frame.requestFocus();
 
@@ -101,31 +88,31 @@ public class Painter
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
-		
+
 		map.reset();
 		section = new Section(13, 1, 5, 5);
-		processSection(map, section, new Vector(13, 1, 0, 0), grid[17][5]);
+		processSection(map, section, new Vector(13, 1, 0, 0), map.grid[17][5]);
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
 
 		map.reset();
 		section = new Section(13, 1, 36, 5);
-		processSection(map, section, new Vector(13, 1, 0, 0), grid[48][5]);
+		processSection(map, section, new Vector(13, 1, 0, 0), map.grid[48][5]);
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
 
 		map.reset();
 		section = new Section(13, 0, 47, 25);
-		processSection(map, section, new Vector(13, 1, 0, 0), grid[13][18]);
+		processSection(map, section, new Vector(13, 1, 0, 0), map.grid[13][18]);
 		// printPath(grid, map.path);
 
 		System.out.println("------------------------------------------");
-		
+
 		map.reset();
 		section = new Section(27, 6, 11, 6);
-		processSection(map, section, new Vector(37, 7, 0, 0), grid[35][11]);
+		processSection(map, section, new Vector(37, 7, 0, 0), map.grid[35][11]);
 		// printPath(grid, path);
 	}
 
@@ -232,11 +219,99 @@ public class Painter
 		private LinkedList<Vector>	path;
 		private Field				start;
 		private Field				target;
+		private int					width;
+		private int					height;
 
-		public Map(Field[][] grid)
+		private boolean				debug	= false;
+
+		public Map(String mapString)
 		{
 			super();
-			this.grid = grid;
+
+			String[] rows = mapString.split("\n");
+			this.grid = new Field[rows[0].length()][];
+			for(int c = 0; c < rows[0].length(); c++)
+				grid[c] = new Field[rows.length];
+
+			this.width = rows[0].length();
+			this.height = rows.length;
+
+			LinkedList<Field> startQueue = new LinkedList<>();
+			LinkedList<Field> finishQueue = new LinkedList<>();
+
+			int r = 0;
+			for(String row : rows)
+			{
+				for(int c = 0; c < row.length(); c++)
+				{
+					grid[c][r] = new Field(c, r, row.charAt(c));
+					if(row.charAt(c) == 'F')
+					{
+						grid[c][r].distanceToFinish = 0;
+						finishQueue.add(grid[c][r]);
+					}
+					if(row.charAt(c) == 'S')
+					{
+						grid[c][r].reachable = true;
+						startQueue.add(grid[c][r]);
+					}
+				}
+				r++;
+			}
+
+			Field current, candidate;
+			while(startQueue.size() > 0)
+			{
+				current = startQueue.poll();
+				for(int dx = -1; dx <= 1; dx++)
+				{
+					for(int dy = -1; dy <= 1; dy++)
+					{
+						if(current.x + dx < 0 || current.x + dx >= width)
+							continue; // out of bounds
+						if(current.y + dy < 0 || current.y + dy >= height)
+							continue; // out of bounds
+
+						candidate = grid[current.x + dx][current.y + dy];
+
+						if(!candidate.road)
+							continue;
+						if(candidate.reachable)
+							continue; // already handled
+
+						candidate.reachable = true;
+						startQueue.add(candidate);
+					}
+				}
+			}
+			while(finishQueue.size() > 0)
+			{
+				current = finishQueue.poll();
+				for(int dx = -1; dx <= 1; dx++)
+				{
+					for(int dy = -1; dy <= 1; dy++)
+					{
+						if(current.x + dx < 0 || current.x + dx >= width)
+							continue; // out of bounds
+						if(current.y + dy < 0 || current.y + dy >= height)
+							continue; // out of bounds
+
+						candidate = grid[current.x + dx][current.y + dy];
+
+						if(!candidate.road)
+							continue;
+						if(!candidate.reachable)
+							continue;
+						if(current.symbol == 'F' && candidate.symbol == 'S')
+							continue; // S next to F
+						if(candidate.distanceToFinish >= 0)
+							continue; // already handled
+
+						candidate.distanceToFinish = current.distanceToFinish + 1;
+						finishQueue.add(candidate);
+					}
+				}
+			}
 		}
 
 		@Override
@@ -250,23 +325,37 @@ public class Painter
 		{
 			super.paint(g);
 			g.setColor(new Color(0, 255, 0));
+			if(debug)
+				g.setColor(new Color(0, 0, 0));
 			g.fillRect(0, 0, grid.length * gridSize, grid[0].length * gridSize);
 
-			g.setColor(new Color(127, 127, 127));
 			for(int x = 0; x < grid.length; x++)
 			{
 				for(int y = 0; y < grid[x].length; y++)
 				{
 					if(grid[x][y].road)
+					{
+						g.setColor(new Color(127, 127, 127));
 						g.fillRect(x * gridSize, y * gridSize, gridSize - 1, gridSize - 1);
+					}
+
+					if(debug)
+					{
+						g.setColor(new Color(255, 255, 255));
+						g.drawString("" + grid[x][y].distanceToFinish, x * gridSize, (y + 1) * gridSize);
+						g.setColor(grid[x][y].reachable ? new Color(0, 255, 0) : new Color(255, 0, 0));
+						g.drawRect(x * gridSize, y * gridSize, gridSize - 1, gridSize - 1);
+					}
 				}
 			}
 
 			if(path != null)
 			{
 				g.setColor(new Color(0, 0, 255));
-				for(Vector v : path)
+				Vector v;
+				for(int i = 0; i < path.size(); i++)
 				{
+					v = path.get(i);
 					g.drawLine(v.x * gridSize + gridSize / 2, v.y * gridSize + gridSize / 2, (v.x + v.dx) * gridSize + gridSize / 2, (v.y + v.dy) * gridSize + gridSize / 2);
 				}
 			}
@@ -339,7 +428,9 @@ public class Painter
 				Collections.sort(this.successors, (v1, v2) -> {
 					int l1 = v1.dx * v1.dx + v1.dy * v1.dy;
 					int l2 = v2.dx * v2.dx + v2.dy * v2.dy;
-					return l1 - l2;
+					if(l1 != l2)
+						return l1 - l2;
+					return -(grid[v1.x + v1.dx][v1.y + v1.dy].distanceToFinish - grid[v2.x + v2.dx][v2.y + v2.dy].distanceToFinish);
 				});
 				if(this.successors.size() == 0)
 					this.successors.add(new Vector(x + dx, y + dy, 0, 0)); // ZZZ=0
@@ -384,14 +475,16 @@ public class Painter
 		private boolean	visited;
 		private char	symbol;
 		private boolean	road;
+		private int		distanceToFinish;
 
 		public Field(int x, int y, char symbol)
 		{
 			super(x, y);
 			this.symbol = symbol;
-			this.reachable = true;
+			this.reachable = false;
 			this.visited = false;
 			this.road = isRoad(this.symbol);
+			this.distanceToFinish = -1;
 		}
 	}
 
