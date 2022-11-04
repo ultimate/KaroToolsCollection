@@ -458,9 +458,16 @@ public class PlannerTest extends KaroMUSKELTestcase
 	@RepeatedTest(10)
 	public void test_planTeamGame()
 	{
-		int id0 = random.nextInt(dummyCache.getUsers().size());
-		int id1 = random.nextInt(dummyCache.getUsers().size());
-		int id2 = random.nextInt(dummyCache.getUsers().size());
+		int id0, id1, id2;
+		
+		do
+		{
+			id0 = random.nextInt(dummyCache.getUsers().size());
+			id1 = random.nextInt(dummyCache.getUsers().size());
+			id2 = random.nextInt(dummyCache.getUsers().size());
+			// must assure that all 3 IDs are different
+		}
+		while(id0 == id1 || id1 == id2 || id2 == id0);
 		
 		Team t1 = new Team("T" + id1, dummyCache.getUser(id1));
 		Team t2 = new Team("T" + id2, dummyCache.getUser(id2));
