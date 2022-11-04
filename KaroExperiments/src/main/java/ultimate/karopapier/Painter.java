@@ -30,6 +30,7 @@ public class Painter
 
 	public static final int		gridSize				= 20;
 	public static final int		allowedDistanceOffset	= 5;
+	public static final int		isolationDistance		= 2;
 
 	public static void main(String[] args)
 	{
@@ -153,45 +154,80 @@ public class Painter
 		int step = 0;
 		int targetSize = section.size(map.grid);
 		Field highestDistanceFieldNotVisited;
+		int isolatedFields;
+		boolean isolated;
 		while(map.path.size() > 0 && (map.path.getLast().end.x != target.x || map.path.getLast().end.y != target.y || !section.isFilled(map.grid)))
 		{
 			next = map.path.getLast().next(map);
 			// System.out.println((next != null ? next.x + "|" + next.y + "->" + next.dx + "|" + next.dy : "-"));
-
-			highestDistanceFieldNotVisited = null;
-			for(int x = 0; x < map.width; x++)
-			{
-				for(int y = 0; y < map.height; y++)
-				{
-					if(highestDistanceFieldNotVisited == null || !map.grid[x][y].visited && map.grid[x][y].distanceToFinish > highestDistanceFieldNotVisited.distanceToFinish)
-						highestDistanceFieldNotVisited = map.grid[x][y];
-				}
-			}
-
-			// System.out.println(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
-
 			if(next == null)
 			{
 				Vector v = map.path.removeLast();
 				v.end.visited = false;
 			}
-			else if(next.end.x == target.x && next.end.y == target.y && map.path.size() < targetSize - 1)
+			else
 			{
-				// ignore target when we have other karos left
-			}
-			else if(next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - allowedDistanceOffset)
-			{
-				// ignore vector if we have gaps far behing
-			}
-			else if(next.isValid(map.grid, section) && !next.end.visited)
-			{
-				map.path.add(next);
-				next.end.visited = true;
-			}
-			else if(next.dx == 0 && next.dy == 0)
-			{
-				// ZZZ = 0
-				map.path.add(next);
+				highestDistanceFieldNotVisited = null;
+				for(int x = 0; x < map.width; x++)
+				{
+					for(int y = 0; y < map.height; y++)
+					{
+						if(highestDistanceFieldNotVisited == null || !map.grid[x][y].visited && map.grid[x][y].distanceToFinish > highestDistanceFieldNotVisited.distanceToFinish)
+							highestDistanceFieldNotVisited = map.grid[x][y];
+					}
+				}
+
+				isolatedFields = 0;
+				for(int x = 0; x < map.width; x++)
+				{
+					for(int y = 0; y < map.height; y++)
+					{
+						isolated = true;
+						for(int dx = -isolationDistance; dx <= isolationDistance; dx++)
+						{
+							for(int dy = -isolationDistance; dy <= isolationDistance; dy++)
+							{
+								if(x + dx < 0 || x + dx >= map.width)
+									continue; // out of bounds
+								if(y + dy < 0 || y + dy >= map.height)
+									continue; // out of bounds
+								
+								if(next.end.x == x + dx && next.end.y == y + dy) // this is the field that we are heading to
+									continue;
+								if(map.grid[x + dx][y + dy].reachable && !map.grid[x + dx][y + dy].visited)
+								{
+									isolated = false;
+									break;
+								}
+							}
+						}
+					}
+				}
+
+				// System.out.println(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
+
+				if(next.end.x == target.x && next.end.y == target.y && map.path.size() < targetSize - 1)
+				{
+					// ignore target when we have other karos left
+				}
+				// else if(next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - allowedDistanceOffset)
+				// {
+				// // ignore vector if we have gaps far behing
+				// }
+				else if(isolatedFields > 0)
+				{
+					// ignore vector if we have isolated a field
+				}
+				else if(next.isValid(map.grid, section) && !next.end.visited)
+				{
+					map.path.add(next);
+					next.end.visited = true;
+				}
+				else if(next.dx == 0 && next.dy == 0)
+				{
+					// ZZZ = 0
+					map.path.add(next);
+				}
 			}
 			step++;
 
