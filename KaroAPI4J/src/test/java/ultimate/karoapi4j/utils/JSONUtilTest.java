@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -241,7 +241,7 @@ public class JSONUtilTest
 		PlannedGame game = new PlannedGame();
 		game.setName("Neues Spiel");
 		game.setMap(new Map(105));
-		game.setPlayers(new HashSet<>(Arrays.asList(new User(12), new User(34), new User(56))));
+		game.setPlayers(new LinkedHashSet<>(Arrays.asList(new User(12), new User(78), new User(34), new User(56))));
 		game.setOptions(options);
 
 		String expected = toJson(game);
@@ -252,6 +252,8 @@ public class JSONUtilTest
 		logger.debug("actual   = " + serialized);
 
 		assertEquals(expected, serialized);
+		// since we use a set for the players, additionally check that they are in the right order
+		assertTrue(serialized.contains("[12,78,34,56]"));
 
 		PlannedGame deserialized = JSONUtil.deserialize(serialized, new TypeReference<PlannedGame>() {});
 

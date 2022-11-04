@@ -1,5 +1,6 @@
 package ultimate.karomuskel;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,10 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -32,6 +36,8 @@ import ultimate.karomuskel.ui.Language;
 
 public class PlannerTest extends KaroMUSKELTestcase
 {
+	private Random random;
+	
 	@BeforeAll
 	public void setUpOnce() throws IOException
 	{
@@ -39,6 +45,9 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		// needed for the placeholder stuff
 		Language.load("de");
+		
+		// other  
+		random = new Random();
 	}
 
 	/**
@@ -444,5 +453,53 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 			Planner.resetPlannedGames(players);
 		}
+	}
+	
+	@RepeatedTest(10)
+	public void test_planTeamGame()
+	{
+		int id0 = random.nextInt(dummyCache.getUsers().size());
+		int id1 = random.nextInt(dummyCache.getUsers().size());
+		int id2 = random.nextInt(dummyCache.getUsers().size());
+		
+		Team t1 = new Team("T" + id1, dummyCache.getUser(id1));
+		Team t2 = new Team("T" + id2, dummyCache.getUser(id2));
+		
+		PlannedGame game;
+		List<User> expectedPlayers;
+		
+		// home = t1, with creator
+		game = Planner.planTeamGame("${teams}", dummyCache.getUser(id0), t1, t2, (ta, tb) -> { return ta; }, dummyCache.getMap(1), new Rules(), EnumCreatorParticipation.normal, new HashMap<>());
+		assertEquals(t1.getName() + " vs. " + t2.getName(), game.getName());
+		expectedPlayers = new ArrayList<>(3);
+		expectedPlayers.addAll(t1.getMembers());
+		expectedPlayers.addAll(t2.getMembers());
+		expectedPlayers.add(dummyCache.getUser(id0));
+		assertArrayEquals(expectedPlayers.toArray(), game.getPlayers().toArray());
+		
+		// home = t2, with creator
+		game = Planner.planTeamGame("${teams}", dummyCache.getUser(id0), t1, t2, (ta, tb) -> { return tb; }, dummyCache.getMap(1), new Rules(), EnumCreatorParticipation.normal, new HashMap<>());
+		assertEquals(t2.getName() + " vs. " + t1.getName(), game.getName());
+		expectedPlayers = new ArrayList<>(3);
+		expectedPlayers.addAll(t2.getMembers());
+		expectedPlayers.addAll(t1.getMembers());
+		expectedPlayers.add(dummyCache.getUser(id0));
+		assertArrayEquals(expectedPlayers.toArray(), game.getPlayers().toArray());
+		
+		// home = t1, without creator
+		game = Planner.planTeamGame("${teams}", dummyCache.getUser(id0), t1, t2, (ta, tb) -> { return ta; }, dummyCache.getMap(1), new Rules(), EnumCreatorParticipation.not_participating, new HashMap<>());
+		assertEquals(t1.getName() + " vs. " + t2.getName(), game.getName());
+		expectedPlayers = new ArrayList<>(2);
+		expectedPlayers.addAll(t1.getMembers());
+		expectedPlayers.addAll(t2.getMembers());
+		assertArrayEquals(expectedPlayers.toArray(), game.getPlayers().toArray());
+		
+		// home = t2, without creator
+		game = Planner.planTeamGame("${teams}", dummyCache.getUser(id0), t1, t2, (ta, tb) -> { return tb; }, dummyCache.getMap(1), new Rules(), EnumCreatorParticipation.not_participating, new HashMap<>());
+		assertEquals(t2.getName() + " vs. " + t1.getName(), game.getName());
+		expectedPlayers = new ArrayList<>(2);
+		expectedPlayers.addAll(t2.getMembers());
+		expectedPlayers.addAll(t1.getMembers());
+		assertArrayEquals(expectedPlayers.toArray(), game.getPlayers().toArray());
 	}
 }
