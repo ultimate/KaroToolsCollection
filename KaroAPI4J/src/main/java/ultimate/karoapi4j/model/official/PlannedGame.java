@@ -1,6 +1,6 @@
 package ultimate.karoapi4j.model.official;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,7 +34,7 @@ public class PlannedGame
 	private Map								map;
 	@JsonSerialize(converter = ToIDArrayConverter.class)
 	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)
-	private Set<User>						players	= new HashSet<>();
+	private Set<User>						players;
 	private Options							options;
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonSerialize(converter = ToIDConverter.class)
@@ -53,6 +53,7 @@ public class PlannedGame
 	{
 		this.created = false;
 		this.left = false;
+		this.players = new LinkedHashSet<>();
 	}
 
 	public PlannedGame(String name, Map map, Set<User> players, Options options)
@@ -60,7 +61,7 @@ public class PlannedGame
 		this();
 		this.name = name;
 		this.map = map;
-		this.players = players;
+		this.players = new LinkedHashSet<>(players);
 		this.options = options;
 	}
 

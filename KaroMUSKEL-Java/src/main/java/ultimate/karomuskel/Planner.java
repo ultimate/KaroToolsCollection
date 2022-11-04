@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -173,7 +173,7 @@ public abstract class Planner
 			{
 				map = maps.get(random.nextInt(maps.size()));
 
-				gamePlayers = new HashSet<User>();
+				gamePlayers = new LinkedHashSet<User>();
 				for(Team team : match.getTeams())
 					gamePlayers.addAll(team.getMembers());
 
@@ -226,7 +226,7 @@ public abstract class Planner
 
 			for(int g = 0; g < shuffledPlayers[day].length; g++)
 			{
-				gamePlayers = new HashSet<User>();
+				gamePlayers = new LinkedHashSet<User>();
 
 				for(int p = 0; p < shuffledPlayers[day][g].length; p++)
 				{
@@ -917,7 +917,7 @@ public abstract class Planner
 		{
 			map = maps.get(random.nextInt(maps.size()));
 
-			gamePlayers = new HashSet<User>();
+			gamePlayers = new LinkedHashSet<User>();
 			allPlayers = new LinkedList<User>(players);
 
 			// other than for the other series types, we need to add the creator here already, since otherwise he would be on top of the player count
@@ -974,7 +974,7 @@ public abstract class Planner
 			guest = team2;
 		}
 
-		Set<User> gamePlayers = new HashSet<User>();
+		Set<User> gamePlayers = new LinkedHashSet<User>();
 		gamePlayers.addAll(home.getMembers());
 		gamePlayers.addAll(guest.getMembers());
 
@@ -1133,7 +1133,7 @@ public abstract class Planner
 		}
 
 		// plan days
-		Team dummy = new Team(GameSeriesManager.getStringConfig(EnumGameSeriesType.League, GameSeries.CONF_LEAGUE_DUMMY_TEAM), new HashSet<>());
+		Team dummy = new Team(GameSeriesManager.getStringConfig(EnumGameSeriesType.League, GameSeries.CONF_LEAGUE_DUMMY_TEAM), new LinkedHashSet<>());
 		List<List<Match>> matches = new LinkedList<List<Match>>(); // Spielplan
 		List<Match> dayList;
 		Match m;

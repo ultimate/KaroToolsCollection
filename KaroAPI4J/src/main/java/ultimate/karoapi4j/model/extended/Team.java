@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.model.extended;
 
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -74,7 +75,7 @@ public class Team
 	public Team(String name, User member, Map homeMap)
 	{
 		this.name = name;
-		this.members = new HashSet<User>();
+		this.members = new LinkedHashSet<User>();
 		this.members.add(member);
 		this.homeMap = homeMap;
 	}
@@ -86,7 +87,7 @@ public class Team
 	 * @param members - the list of members
 	 * @see User
 	 */
-	public Team(String name, Set<User> members)
+	public Team(String name, Collection<User> members)
 	{
 		this(name, members, null);
 	}
@@ -99,10 +100,10 @@ public class Team
 	 * @param homeMap - the home {@link Map}
 	 * @see User
 	 */
-	public Team(String name, Set<User> members, Map homeMap)
+	public Team(String name, Collection<User> members, Map homeMap)
 	{
 		this.name = name;
-		this.members = new HashSet<User>(members);
+		this.members = new LinkedHashSet<User>(members);
 		this.homeMap = homeMap;
 	}
 

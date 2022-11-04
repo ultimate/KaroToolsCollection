@@ -17,7 +17,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -1033,7 +1032,7 @@ public class KaroAPITest extends KaroAPITestcase
 //	{
 //		// real test
 //		PlannedGame pg = new PlannedGame();
-//		pg.setPlayers(new HashSet<>(Arrays.asList(karoAPICache.getUser("ultimate"))));
+//		pg.setPlayers(new LinkedHashSet<>(Arrays.asList(karoAPICache.getUser("ultimate"))));
 //		pg.setMap(karoAPICache.getMap(10056));
 //		pg.setOptions(new Options(0, false, EnumGameDirection.free, EnumGameTC.free));
 //		pg.setName("Test");

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -707,7 +707,7 @@ public abstract class GameSeriesManager
 			pg.setName(g2.name);
 			pg.setCreated(g2.created);
 			pg.setLeft(g2.left);
-			pg.setPlayers(new HashSet<>(convert(g2.players, User.class, karoAPICache)));
+			pg.setPlayers(new LinkedHashSet<>(convert(g2.players, User.class, karoAPICache)));
 			pg.setGame(g);
 			pg.setMap(g != null ? g.getMap() : karoAPICache.getMap(g2.map.getId()));
 			pg.setOptions(convert(g2.rules).createOptions(null));
@@ -756,7 +756,7 @@ public abstract class GameSeriesManager
 		List<Team> list = new ArrayList<>(list2.size());
 		for(muskel2.model.help.Team t2 : list2)
 		{
-			Team t = new Team(t2.name, new HashSet<>(convert(t2.players, User.class, karoAPICache)));
+			Team t = new Team(t2.name, new LinkedHashSet<>(convert(t2.players, User.class, karoAPICache)));
 			if(t2.homeMap != null)
 				t.setHomeMap(karoAPICache.getMap(t2.homeMap.id));
 			list.add(t);
