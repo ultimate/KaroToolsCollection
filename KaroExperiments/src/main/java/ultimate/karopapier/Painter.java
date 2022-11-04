@@ -29,7 +29,7 @@ public class Painter
 	public static final char	h						= '━';
 
 	public static final int		gridSize				= 20;
-	public static final int		allowedDistanceOffset	= 2;
+	public static final int		allowedDistanceOffset	= 5;
 
 	public static void main(String[] args)
 	{
@@ -167,8 +167,8 @@ public class Painter
 						highestDistanceFieldNotVisited = map.grid[x][y];
 				}
 			}
-			
-//			System.out.println(highestDistanceNotVisited);
+
+			// System.out.println(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
 
 			if(next == null)
 			{
@@ -179,7 +179,7 @@ public class Painter
 			{
 				// ignore target when we have other karos left
 			}
-			else if(next.end.distanceToFinish < highestDistanceNotVisited - allowedDistanceOffset)
+			else if(next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - allowedDistanceOffset)
 			{
 				// ignore vector if we have gaps far behing
 			}
@@ -282,6 +282,7 @@ public class Painter
 			while(finishQueue.size() > 0)
 			{
 				current = finishQueue.poll();
+				int candidateDistance;
 				for(int dx = -1; dx <= 1; dx++)
 				{
 					for(int dy = -1; dy <= 1; dy++)
@@ -299,11 +300,20 @@ public class Painter
 							continue;
 						if(current.symbol == 'F' && candidate.symbol == 'S')
 							continue; // S next to F
-						if(candidate.distanceToFinish >= 0)
-							continue; // already handled
 
-						candidate.distanceToFinish = current.distanceToFinish + 1;
-						finishQueue.add(candidate);
+						candidateDistance = current.distanceToFinish + 1; // Math.abs(dx) + Math.abs(dy);
+
+						if(candidate.distanceToFinish >= 0)
+						{
+							// already handled
+							if(candidate.distanceToFinish > candidateDistance)
+								candidate.distanceToFinish = candidateDistance;
+						}
+						else
+						{
+							candidate.distanceToFinish = candidateDistance;
+							finishQueue.add(candidate);
+						}
 					}
 				}
 			}
@@ -352,6 +362,7 @@ public class Painter
 				{
 					v = path.get(i);
 					g.drawLine(v.start.x * gridSize + gridSize / 2, v.start.y * gridSize + gridSize / 2, v.end.x * gridSize + gridSize / 2, v.end.y * gridSize + gridSize / 2);
+					g.fillRect(v.start.x * gridSize + gridSize / 2 - 1, v.start.y * gridSize + gridSize / 2 - 1, 3, 3);
 				}
 			}
 			if(start != null)
@@ -427,11 +438,21 @@ public class Painter
 				// });
 				// Collections.shuffle(this.successors);
 				Collections.sort(this.successors, (v1, v2) -> {
+					// vector lengths
 					int l1 = v1.dx * v1.dx + v1.dy * v1.dy;
 					int l2 = v2.dx * v2.dx + v2.dy * v2.dy;
-					if(l1 != l2)
-						return l1 - l2;
-					return -(v1.end.distanceToFinish - v2.end.distanceToFinish);
+
+					if(v1.end.distanceToFinish == v2.end.distanceToFinish) // both fields have the same distance
+						return l1 - l2; // shortest vector first
+					else if(v1.end.distanceToFinish >= this.end.distanceToFinish && v2.end.distanceToFinish >= this.end.distanceToFinish) // both fields are further or equal to the current
+						return l1 - l2; // shortest vector first
+					else if(v1.end.distanceToFinish >= this.end.distanceToFinish) // v1 is further or equal to the current
+						return -1;
+					else if(v2.end.distanceToFinish >= this.end.distanceToFinish) // v2 is further or equal to the current
+						return +1;
+					else if(v1.end.distanceToFinish != v2.end.distanceToFinish)
+						return -(v1.end.distanceToFinish - v2.end.distanceToFinish); // furthest field first
+					return 0;
 				});
 				if(this.successors.size() == 0)
 					this.successors.add(new Vector(map.grid, end, 0, 0)); // ZZZ=0
