@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
@@ -88,7 +89,7 @@ public class PlayersScreen extends Screen implements ActionListener
 					throw new GameSeriesException("screen.players.minplayersperteam", teamName);
 				if(direction == EnumNavigation.next && players.length > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM))
 					throw new GameSeriesException("screen.players.maxplayersperteam", teamName);
-				playerSet = new HashSet<User>(Arrays.asList(players));
+				playerSet = new LinkedHashSet<User>(Arrays.asList(players));
 				team = new Team(teamName, playerSet);
 				gameSeries.getTeams().add(team);
 			}
@@ -128,12 +129,16 @@ public class PlayersScreen extends Screen implements ActionListener
 					throw new GameSeriesException("screen.players.notenoughplayers.KLC", null, GameSeriesManager.getStringConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND));
 
 				boolean skipGroups = (totalPlayers == GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_KLC_FIRST_KO_ROUND));
-				// skip one SummaryScreen and the GroupWinnersScreen 
-				findScreen(s -> { return s instanceof SummaryScreen; }, EnumNavigation.next).setSkip(skipGroups);
-				findScreen(s -> { return s instanceof GroupWinnersScreen; }, EnumNavigation.next).setSkip(skipGroups);
+				// skip one SummaryScreen and the GroupWinnersScreen
+				findScreen(s -> {
+					return s instanceof SummaryScreen;
+				}, EnumNavigation.next).setSkip(skipGroups);
+				findScreen(s -> {
+					return s instanceof GroupWinnersScreen;
+				}, EnumNavigation.next).setSkip(skipGroups);
 
 				gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
-				
+
 				List<User> playerList;
 				gameSeries.getPlayers().clear();
 				for(int i = 0; i < this.teams; i++)
@@ -155,7 +160,7 @@ public class PlayersScreen extends Screen implements ActionListener
 						gameSeries.getPlayers().add(player);
 					}
 				}
-			}			
+			}
 		}
 		return gameSeries;
 	}
@@ -202,10 +207,10 @@ public class PlayersScreen extends Screen implements ActionListener
 			this.allPlayersLI = new JList<>();
 			this.allPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.allPlayersLI.setFixedCellWidth(listFixedCellWidth);
-			JScrollPane allMapsSP = new JScrollPane(this.allPlayersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			JScrollPane allPlayerssSP = new JScrollPane(this.allPlayersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			allPlayersPanel.add(new JLabel(Language.getString("screen.players.allplayers")), BorderLayout.NORTH);
-			allPlayersPanel.add(allMapsSP, BorderLayout.CENTER);
+			allPlayersPanel.add(allPlayerssSP, BorderLayout.CENTER);
 
 			JList<User> teamPlayersLI;
 			JScrollPane teamPlayersSP;
@@ -404,46 +409,36 @@ public class PlayersScreen extends Screen implements ActionListener
 						{
 							key = player.getLoginLowerCase();
 							((GenericListModel<String, User>) teamPlayersLI.getModel()).removeElement(key);
-							teamPlayersLI.setModel(teamPlayersLI.getModel());
 							((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(key, player);
-							allPlayersLI.setModel(allPlayersLI.getModel());
 						}
 					}
+					// refresh the model
+					teamPlayersLI.setModel(teamPlayersLI.getModel());
+					allPlayersLI.setModel(allPlayersLI.getModel());
 				}
-				List<String> removeList = new LinkedList<String>();
-				User player;
-				for(String key : this.allPlayers.keySet())
+				if(!this.ignoreInvitable)
 				{
-					player = this.allPlayers.get(key);
-					if(!this.ignoreInvitable && !player.isInvitable(false))
-					{
-						removeList.add(key);
-					}
-				}
-				for(String key : removeList)
-				{
-					this.allPlayers.remove(key);
+					this.allPlayers.values().removeIf(player -> {
+						return !player.isInvitable(false);
+					});
 				}
 			}
 		}
-		if(GameSeriesManager.isTeamBased(gameSeries))
+		// add or remove the creator
+		if((GameSeriesManager.isTeamBased(gameSeries) && (boolean) gameSeries.get(GameSeries.USE_CREATOR_TEAM)) || gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating)
 		{
-			String key = gameSeries.getCreator().getLoginLowerCase();
-			if((boolean) gameSeries.get(GameSeries.USE_CREATOR_TEAM))
+			if(!this.allPlayers.containsKey(gameSeries.getCreator().getLoginLowerCase()))
 			{
-				if(!this.allPlayers.containsKey(key))
-				{
-					this.allPlayers.put(key, gameSeries.getCreator());
-					changed = true;
-				}
+				this.allPlayers.put(gameSeries.getCreator().getLoginLowerCase(), gameSeries.getCreator());
+				changed = true;
 			}
-			else
+		}
+		else
+		{
+			if(this.allPlayers.containsKey(gameSeries.getCreator().getLoginLowerCase()))
 			{
-				if(this.allPlayers.containsKey(key))
-				{
-					this.allPlayers.remove(key);
-					changed = true;
-				}
+				this.allPlayers.remove(gameSeries.getCreator().getLoginLowerCase());
+				changed = true;
 			}
 		}
 		if(changed)
