@@ -139,25 +139,21 @@ public class PlayersScreen extends Screen implements ActionListener
 
 				gameSeries.set(GameSeries.CURRENT_ROUND, totalPlayers);
 
-				List<User> playerList;
 				gameSeries.getPlayers().clear();
+				gameSeries.getTeams().clear();
 				for(int i = 0; i < this.teams; i++)
 				{
 					if(gameSeries.getPlayersByKey().containsKey(GameSeries.KEY_LEAGUE + (i + 1)))
-					{
-						playerList = gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1));
-						playerList.clear();
-					}
+						gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1)).clear();
 					else
-					{
-						playerList = new ArrayList<>();
-						gameSeries.getPlayersByKey().put(GameSeries.KEY_LEAGUE + (i + 1), playerList);
-					}
+						gameSeries.getPlayersByKey().put(GameSeries.KEY_LEAGUE + (i + 1), new ArrayList<>());
+
 					User[] players = ((GenericListModel<String, User>) this.teamLIList.get(i).getModel()).getEntryArray();
 					for(User player : players)
 					{
-						playerList.add(player);
+						gameSeries.getPlayersByKey().get(GameSeries.KEY_LEAGUE + (i + 1)).add(player);
 						gameSeries.getPlayers().add(player);
+						gameSeries.getTeams().add(new Team(player.getLogin(), player));
 					}
 				}
 			}
