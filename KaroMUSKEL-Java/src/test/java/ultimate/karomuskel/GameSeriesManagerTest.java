@@ -35,6 +35,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.test.KaroMUSKELTestcase;
 
@@ -472,8 +473,8 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(gs2.round, gs.get(GameSeries.CURRENT_ROUND));
 		assertEquals(KLCGameSeries.LEAGUES, GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES));
 		assertEquals(KLCGameSeries.GROUPS, GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS));
-		assertEquals(gs2.homeMaps.size(), gs.getMapsByKey().size());
-		compareMapWithIDs(gs.getMapsByKey(), gs2.homeMaps);
+		assertEquals(gs2.homeMaps.size(), gs.getTeams().size());
+		compareTeamsWithHomemaps(gs.getTeams(), gs2.homeMaps);
 		assertEquals(gs2.rules.minZzz, gs.getRules().getMinZzz());
 		assertEquals(gs2.rules.maxZzz, gs.getRules().getMaxZzz());
 		if(gs2.rules.crashingAllowed == true)
@@ -587,15 +588,16 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		}
 	}
 
-	private <T extends Identifiable> void compareMapWithIDs(java.util.Map<String, List<T>> byKey, java.util.Map<Integer, Integer> original)
+	private <T extends Identifiable> void compareTeamsWithHomemaps(List<Team> converted, java.util.Map<Integer, Integer> original)
 	{
-		assertEquals(original.size(), byKey.size());
-		String key;
+		assertEquals(original.size(), converted.size());
+		int i = 0;
 		for(Entry<Integer, Integer> t2 : original.entrySet())
 		{
-			key = "" + t2.getKey();
-			assertEquals(1, byKey.get(key).size());
-			assertEquals(t2.getValue(), byKey.get(key).get(0).getId());
+			assertEquals(1, converted.get(i).getMembers().size());
+			assertEquals(karoAPICache.getUser(t2.getKey()).getLogin(), converted.get(i).getName());
+			assertEquals(t2.getKey(), ((User) converted.get(i).getMembers().toArray()[0]).getId());
+			assertEquals(t2.getValue(), converted.get(i).getHomeMap().getId());
 		}
 	}
 }
