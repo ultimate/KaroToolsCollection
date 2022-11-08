@@ -3,6 +3,7 @@ package ultimate.karoapi4j.model.official;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 
@@ -19,6 +21,7 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
+@JsonFilter(value = JSONUtil.FILTER_UNOFFICIAL)
 public class PlannedGame
 {
 	/*
@@ -46,6 +49,14 @@ public class PlannedGame
 	private boolean							created;
 	@JsonInclude(value = Include.NON_DEFAULT)
 	private boolean							left;
+	@JsonInclude(value = Include.NON_NULL)
+	@JsonFilter(value = JSONUtil.FILTER_UNOFFICIAL)
+	private String							home;
+	@JsonInclude(value = Include.NON_NULL)
+	@JsonFilter(value = JSONUtil.FILTER_UNOFFICIAL)
+	private String							guest;
+	
+	// additional temporary properties (not serialized at all)
 	@JsonIgnore
 	private java.util.Map<String, String>	placeHolderValues;
 
@@ -139,6 +150,26 @@ public class PlannedGame
 	public void setLeft(boolean left)
 	{
 		this.left = left;
+	}
+
+	public String getHome()
+	{
+		return home;
+	}
+
+	public void setHome(String home)
+	{
+		this.home = home;
+	}
+
+	public String getGuest()
+	{
+		return guest;
+	}
+
+	public void setGuest(String guest)
+	{
+		this.guest = guest;
 	}
 
 	public java.util.Map<String, String> getPlaceHolderValues()
