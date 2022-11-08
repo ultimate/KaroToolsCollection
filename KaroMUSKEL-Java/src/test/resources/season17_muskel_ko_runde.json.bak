@@ -2,7 +2,6 @@
   "type" : "KLC",
   "title" : "KLC Saison 17 - ${runde.x} - ${teams} auf Karte ${karte.id}",
   "creator" : 2248,
-  "creatorGiveUp" : true,
   "ignoreInvitable" : true,
   "games" : {
     "KLC.groupphase" : [ {

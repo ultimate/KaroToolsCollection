@@ -1,0 +1,2462 @@
+{
+  "type" : "KLC",
+  "title" : "KLC Saison 17 - ${runde.x} - ${teams} auf Karte ${karte.id}",
+  "creator" : 2248,
+  "creatorParticipation" : "leave",
+  "ignoreInvitable" : true,
+  "games" : {
+    "KLC.groupphase" : [ {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 1 - recke vs. Anthropophagos auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 3182, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135308,
+      "created" : true,
+      "left" : true,
+      "home" : "recke",
+      "guest" : "Anthropophagos"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 1 - Wobbel vs. Foley auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135315,
+      "created" : true,
+      "left" : true,
+      "home" : "Wobbel",
+      "guest" : "Foley"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 1 - Thargor vs. ultimate auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135309,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 1 - WildSingh vs. FinalD auf Karte 110",
+      "map" : 110,
+      "players" : [ 2264, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135316,
+      "created" : true,
+      "left" : true,
+      "home" : "WildSingh",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 2 - recke vs. Wobbel auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 277, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135317,
+      "created" : true,
+      "left" : true,
+      "home" : "recke",
+      "guest" : "Wobbel"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 2 - Anthropophagos vs. ultimate auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135314,
+      "created" : true,
+      "left" : true,
+      "home" : "Anthropophagos",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 2 - Foley vs. FinalD auf Karte 131",
+      "map" : 131,
+      "players" : [ 1722, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135311,
+      "created" : true,
+      "left" : true,
+      "home" : "Foley",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 2 - gitarrenteufel vs. Thargor auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 992, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135310,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "Thargor"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 3 - Wobbel vs. ultimate auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135313,
+      "created" : true,
+      "left" : true,
+      "home" : "Wobbel",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 3 - recke vs. FinalD auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135312,
+      "created" : true,
+      "left" : true,
+      "home" : "recke",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 3 - gitarrenteufel vs. Anthropophagos auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 3182, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135318,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "Anthropophagos"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 3 - Foley vs. WildSingh auf Karte 131",
+      "map" : 131,
+      "players" : [ 1722, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135319,
+      "created" : true,
+      "left" : true,
+      "home" : "Foley",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 4 - ultimate vs. FinalD auf Karte 85",
+      "map" : 85,
+      "players" : [ 1411, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135321,
+      "created" : true,
+      "left" : true,
+      "home" : "ultimate",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 4 - gitarrenteufel vs. Wobbel auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 277, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135320,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "Wobbel"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 4 - recke vs. WildSingh auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135322,
+      "created" : true,
+      "left" : true,
+      "home" : "recke",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 4 - Thargor vs. Anthropophagos auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 3182, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135323,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "Anthropophagos"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 5 - gitarrenteufel vs. FinalD auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135324,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 5 - WildSingh vs. ultimate auf Karte 110",
+      "map" : 110,
+      "players" : [ 2264, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135325,
+      "created" : true,
+      "left" : true,
+      "home" : "WildSingh",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 5 - Thargor vs. Wobbel auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 277, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135326,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "Wobbel"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 5 - recke vs. Foley auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135330,
+      "created" : true,
+      "left" : true,
+      "home" : "recke",
+      "guest" : "Foley"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 6 - gitarrenteufel vs. WildSingh auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135327,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 6 - Thargor vs. FinalD auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135328,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 6 - Foley vs. ultimate auf Karte 131",
+      "map" : 131,
+      "players" : [ 1722, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135329,
+      "created" : true,
+      "left" : true,
+      "home" : "Foley",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 6 - Wobbel vs. Anthropophagos auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 3182, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135331,
+      "created" : true,
+      "left" : true,
+      "home" : "Wobbel",
+      "guest" : "Anthropophagos"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 7 - Thargor vs. WildSingh auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135334,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 7 - gitarrenteufel vs. Foley auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135333,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "Foley"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 7 - Anthropophagos vs. FinalD auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135335,
+      "created" : true,
+      "left" : true,
+      "home" : "Anthropophagos",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 7 - recke vs. ultimate auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135332,
+      "created" : true,
+      "left" : true,
+      "home" : "recke",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 8 - Thargor vs. Foley auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135336,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "Foley"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 8 - Anthropophagos vs. WildSingh auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135337,
+      "created" : true,
+      "left" : true,
+      "home" : "Anthropophagos",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 8 - gitarrenteufel vs. recke auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 1989, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135338,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "recke"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 8 - Wobbel vs. FinalD auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135340,
+      "created" : true,
+      "left" : true,
+      "home" : "Wobbel",
+      "guest" : "FinalD"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 9 - Anthropophagos vs. Foley auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135339,
+      "created" : true,
+      "left" : true,
+      "home" : "Anthropophagos",
+      "guest" : "Foley"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 9 - Thargor vs. recke auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 1989, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135341,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "recke"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 9 - Wobbel vs. WildSingh auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135342,
+      "created" : true,
+      "left" : true,
+      "home" : "Wobbel",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 1, Spieltag 9 - gitarrenteufel vs. ultimate auf Karte 140",
+      "map" : 140,
+      "players" : [ 1644, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135344,
+      "created" : true,
+      "left" : true,
+      "home" : "gitarrenteufel",
+      "guest" : "ultimate"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 1 - Cpxy vs. eisbaer04 auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135343,
+      "created" : true,
+      "left" : true,
+      "home" : "Cpxy",
+      "guest" : "eisbaer04"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 1 - CarpeNoctem vs. ulli auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135345,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 1 - Didi vs. hasi auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135347,
+      "created" : true,
+      "left" : true,
+      "home" : "Didi",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 1 - QuotenOssi vs. cachito auf Karte 83",
+      "map" : 83,
+      "players" : [ 2863, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135346,
+      "created" : true,
+      "left" : true,
+      "home" : "QuotenOssi",
+      "guest" : "cachito"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 2 - Cpxy vs. ulli auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135348,
+      "created" : true,
+      "left" : true,
+      "home" : "Cpxy",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 2 - Didi vs. eisbaer04 auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135349,
+      "created" : true,
+      "left" : true,
+      "home" : "Didi",
+      "guest" : "eisbaer04"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 2 - CarpeNoctem vs. QuotenOssi auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 2863, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135351,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "QuotenOssi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 2 - Blindschleiche vs. hasi auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135352,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 3 - Didi vs. ulli auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135350,
+      "created" : true,
+      "left" : true,
+      "home" : "Didi",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 3 - QuotenOssi vs. Cpxy auf Karte 83",
+      "map" : 83,
+      "players" : [ 2863, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135353,
+      "created" : true,
+      "left" : true,
+      "home" : "QuotenOssi",
+      "guest" : "Cpxy"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 3 - Blindschleiche vs. eisbaer04 auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135354,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "eisbaer04"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 3 - CarpeNoctem vs. cachito auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135355,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "cachito"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 4 - QuotenOssi vs. Didi auf Karte 83",
+      "map" : 83,
+      "players" : [ 2863, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135356,
+      "created" : true,
+      "left" : true,
+      "home" : "QuotenOssi",
+      "guest" : "Didi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 4 - Blindschleiche vs. ulli auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135358,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 4 - Cpxy vs. cachito auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135357,
+      "created" : true,
+      "left" : true,
+      "home" : "Cpxy",
+      "guest" : "cachito"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 4 - eisbaer04 vs. hasi auf Karte 65",
+      "map" : 65,
+      "players" : [ 326, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135359,
+      "created" : true,
+      "left" : true,
+      "home" : "eisbaer04",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 5 - Blindschleiche vs. QuotenOssi auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 2863, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135360,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "QuotenOssi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 5 - Didi vs. cachito auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135361,
+      "created" : true,
+      "left" : true,
+      "home" : "Didi",
+      "guest" : "cachito"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 5 - hasi vs. ulli auf Karte 109",
+      "map" : 109,
+      "players" : [ 2226, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135363,
+      "created" : true,
+      "left" : true,
+      "home" : "hasi",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 5 - CarpeNoctem vs. Cpxy auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135362,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "Cpxy"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 6 - Blindschleiche vs. cachito auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135364,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "cachito"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 6 - QuotenOssi vs. hasi auf Karte 83",
+      "map" : 83,
+      "players" : [ 2863, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135365,
+      "created" : true,
+      "left" : true,
+      "home" : "QuotenOssi",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 6 - CarpeNoctem vs. Didi auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135369,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "Didi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 6 - eisbaer04 vs. ulli auf Karte 65",
+      "map" : 65,
+      "players" : [ 326, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135367,
+      "created" : true,
+      "left" : true,
+      "home" : "eisbaer04",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 7 - cachito vs. hasi auf Karte 21",
+      "map" : 21,
+      "players" : [ 1175, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135366,
+      "created" : true,
+      "left" : true,
+      "home" : "cachito",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 7 - Blindschleiche vs. CarpeNoctem auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 2501, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135370,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "CarpeNoctem"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 7 - QuotenOssi vs. eisbaer04 auf Karte 83",
+      "map" : 83,
+      "players" : [ 2863, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135368,
+      "created" : true,
+      "left" : true,
+      "home" : "QuotenOssi",
+      "guest" : "eisbaer04"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 7 - Didi vs. Cpxy auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135371,
+      "created" : true,
+      "left" : true,
+      "home" : "Didi",
+      "guest" : "Cpxy"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 8 - CarpeNoctem vs. hasi auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135372,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 8 - eisbaer04 vs. cachito auf Karte 65",
+      "map" : 65,
+      "players" : [ 326, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135374,
+      "created" : true,
+      "left" : true,
+      "home" : "eisbaer04",
+      "guest" : "cachito"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 8 - Blindschleiche vs. Cpxy auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135373,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "Cpxy"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 8 - QuotenOssi vs. ulli auf Karte 83",
+      "map" : 83,
+      "players" : [ 2863, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135375,
+      "created" : true,
+      "left" : true,
+      "home" : "QuotenOssi",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 9 - CarpeNoctem vs. eisbaer04 auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135376,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "eisbaer04"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 9 - Cpxy vs. hasi auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135377,
+      "created" : true,
+      "left" : true,
+      "home" : "Cpxy",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 9 - cachito vs. ulli auf Karte 21",
+      "map" : 21,
+      "players" : [ 1175, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135378,
+      "created" : true,
+      "left" : true,
+      "home" : "cachito",
+      "guest" : "ulli"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 2, Spieltag 9 - Blindschleiche vs. Didi auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135380,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "Didi"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 1 - Sascha vs. aristarch auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135381,
+      "created" : true,
+      "left" : true,
+      "home" : "Sascha",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 1 - STS81 vs. haeckler auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 1505, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135379,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "haeckler"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 1 - DerFlieger vs. fiete auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135382,
+      "created" : true,
+      "left" : true,
+      "home" : "DerFlieger",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 1 - TheWhite vs. wolle auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135383,
+      "created" : true,
+      "left" : true,
+      "home" : "TheWhite",
+      "guest" : "wolle"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 2 - STS81 vs. aristarch auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135384,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 2 - DerFlieger vs. Sascha auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135385,
+      "created" : true,
+      "left" : true,
+      "home" : "DerFlieger",
+      "guest" : "Sascha"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 2 - haeckler vs. wolle auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135386,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "wolle"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 2 - eris vs. fiete auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135387,
+      "created" : true,
+      "left" : true,
+      "home" : "eris",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 3 - STS81 vs. DerFlieger auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 2235, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135388,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "DerFlieger"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 3 - wolle vs. aristarch auf Karte 168",
+      "map" : 168,
+      "players" : [ 220, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135389,
+      "created" : true,
+      "left" : true,
+      "home" : "wolle",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 3 - eris vs. Sascha auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135390,
+      "created" : true,
+      "left" : true,
+      "home" : "eris",
+      "guest" : "Sascha"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 3 - haeckler vs. TheWhite auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 1574, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135391,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "TheWhite"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 4 - DerFlieger vs. wolle auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135392,
+      "created" : true,
+      "left" : true,
+      "home" : "DerFlieger",
+      "guest" : "wolle"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 4 - STS81 vs. eris auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135394,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "eris"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 4 - TheWhite vs. aristarch auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135393,
+      "created" : true,
+      "left" : true,
+      "home" : "TheWhite",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 4 - Sascha vs. fiete auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135395,
+      "created" : true,
+      "left" : true,
+      "home" : "Sascha",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 5 - eris vs. wolle auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135396,
+      "created" : true,
+      "left" : true,
+      "home" : "eris",
+      "guest" : "wolle"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 5 - TheWhite vs. DerFlieger auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 2235, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135397,
+      "created" : true,
+      "left" : true,
+      "home" : "TheWhite",
+      "guest" : "DerFlieger"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 5 - STS81 vs. fiete auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135398,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 5 - haeckler vs. aristarch auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135399,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 6 - TheWhite vs. eris auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135400,
+      "created" : true,
+      "left" : true,
+      "home" : "TheWhite",
+      "guest" : "eris"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 6 - wolle vs. fiete auf Karte 168",
+      "map" : 168,
+      "players" : [ 220, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135402,
+      "created" : true,
+      "left" : true,
+      "home" : "wolle",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 6 - haeckler vs. DerFlieger auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 2235, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135401,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "DerFlieger"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 6 - STS81 vs. Sascha auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135404,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "Sascha"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 7 - TheWhite vs. fiete auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135403,
+      "created" : true,
+      "left" : true,
+      "home" : "TheWhite",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 7 - haeckler vs. eris auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135405,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "eris"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 7 - Sascha vs. wolle auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135407,
+      "created" : true,
+      "left" : true,
+      "home" : "Sascha",
+      "guest" : "wolle"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 7 - DerFlieger vs. aristarch auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135406,
+      "created" : true,
+      "left" : true,
+      "home" : "DerFlieger",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 8 - haeckler vs. fiete auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135408,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 8 - TheWhite vs. Sascha auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135409,
+      "created" : true,
+      "left" : true,
+      "home" : "TheWhite",
+      "guest" : "Sascha"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 8 - eris vs. aristarch auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135411,
+      "created" : true,
+      "left" : true,
+      "home" : "eris",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 8 - STS81 vs. wolle auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135410,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "wolle"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 9 - haeckler vs. Sascha auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135412,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "Sascha"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 9 - aristarch vs. fiete auf Karte 206",
+      "map" : 206,
+      "players" : [ 2231, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135413,
+      "created" : true,
+      "left" : true,
+      "home" : "aristarch",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 9 - STS81 vs. TheWhite auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 1574, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135414,
+      "created" : true,
+      "left" : true,
+      "home" : "STS81",
+      "guest" : "TheWhite"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 3, Spieltag 9 - eris vs. DerFlieger auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 2235, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135415,
+      "created" : true,
+      "left" : true,
+      "home" : "eris",
+      "guest" : "DerFlieger"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 1 - Karaser vs. quabla auf Karte 22",
+      "map" : 22,
+      "players" : [ 2345, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135416,
+      "created" : true,
+      "left" : true,
+      "home" : "Karaser",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 1 - JokerHF vs. Sayri auf Karte 66",
+      "map" : 66,
+      "players" : [ 2492, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135417,
+      "created" : true,
+      "left" : true,
+      "home" : "JokerHF",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 1 - Zebrahead vs. nobody auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 29, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135418,
+      "created" : true,
+      "left" : true,
+      "home" : "Zebrahead",
+      "guest" : "nobody"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 1 - Robotman8000 vs. HX auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2894, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135419,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "HX"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 2 - Karaser vs. JokerHF auf Karte 22",
+      "map" : 22,
+      "players" : [ 2345, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135421,
+      "created" : true,
+      "left" : true,
+      "home" : "Karaser",
+      "guest" : "JokerHF"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 2 - Zebrahead vs. quabla auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135420,
+      "created" : true,
+      "left" : true,
+      "home" : "Zebrahead",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 2 - HX vs. Sayri auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135422,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 2 - nobody vs. Henrike auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 3145, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135423,
+      "created" : true,
+      "left" : true,
+      "home" : "nobody",
+      "guest" : "Henrike"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 3 - Zebrahead vs. JokerHF auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135425,
+      "created" : true,
+      "left" : true,
+      "home" : "Zebrahead",
+      "guest" : "JokerHF"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 3 - HX vs. Karaser auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135424,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "Karaser"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 3 - Henrike vs. quabla auf Karte 35",
+      "map" : 35,
+      "players" : [ 3145, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135426,
+      "created" : true,
+      "left" : true,
+      "home" : "Henrike",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 3 - Robotman8000 vs. Sayri auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135427,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 4 - HX vs. Zebrahead auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 2868, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135428,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "Zebrahead"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 4 - Henrike vs. JokerHF auf Karte 35",
+      "map" : 35,
+      "players" : [ 3145, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135432,
+      "created" : true,
+      "left" : true,
+      "home" : "Henrike",
+      "guest" : "JokerHF"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 4 - Robotman8000 vs. Karaser auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135429,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "Karaser"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 4 - nobody vs. quabla auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135431,
+      "created" : true,
+      "left" : true,
+      "home" : "nobody",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 5 - HX vs. Henrike auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 3145, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135430,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "Henrike"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 5 - Robotman8000 vs. Zebrahead auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2868, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135433,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "Zebrahead"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 5 - nobody vs. JokerHF auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135434,
+      "created" : true,
+      "left" : true,
+      "home" : "nobody",
+      "guest" : "JokerHF"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 5 - Karaser vs. Sayri auf Karte 22",
+      "map" : 22,
+      "players" : [ 2345, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135438,
+      "created" : true,
+      "left" : true,
+      "home" : "Karaser",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 6 - Robotman8000 vs. Henrike auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 3145, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135435,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "Henrike"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 6 - HX vs. nobody auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 29, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135436,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "nobody"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 6 - Zebrahead vs. Sayri auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135437,
+      "created" : true,
+      "left" : true,
+      "home" : "Zebrahead",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 6 - JokerHF vs. quabla auf Karte 66",
+      "map" : 66,
+      "players" : [ 2492, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135439,
+      "created" : true,
+      "left" : true,
+      "home" : "JokerHF",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 7 - Robotman8000 vs. nobody auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 29, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135441,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "nobody"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 7 - Henrike vs. Sayri auf Karte 35",
+      "map" : 35,
+      "players" : [ 3145, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135440,
+      "created" : true,
+      "left" : true,
+      "home" : "Henrike",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 7 - HX vs. quabla auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135442,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 7 - Zebrahead vs. Karaser auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135444,
+      "created" : true,
+      "left" : true,
+      "home" : "Zebrahead",
+      "guest" : "Karaser"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 8 - nobody vs. Sayri auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135443,
+      "created" : true,
+      "left" : true,
+      "home" : "nobody",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 8 - Robotman8000 vs. quabla auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135447,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 8 - Henrike vs. Karaser auf Karte 35",
+      "map" : 35,
+      "players" : [ 3145, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135445,
+      "created" : true,
+      "left" : true,
+      "home" : "Henrike",
+      "guest" : "Karaser"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 8 - HX vs. JokerHF auf Karte 136",
+      "map" : 136,
+      "players" : [ 2894, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135446,
+      "created" : true,
+      "left" : true,
+      "home" : "HX",
+      "guest" : "JokerHF"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 9 - quabla vs. Sayri auf Karte 169",
+      "map" : 169,
+      "players" : [ 516, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135448,
+      "created" : true,
+      "left" : true,
+      "home" : "quabla",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 9 - nobody vs. Karaser auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135450,
+      "created" : true,
+      "left" : true,
+      "home" : "nobody",
+      "guest" : "Karaser"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 9 - Robotman8000 vs. JokerHF auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135449,
+      "created" : true,
+      "left" : true,
+      "home" : "Robotman8000",
+      "guest" : "JokerHF"
+    }, {
+      "name" : "KLC Saison 17 - Gruppe 4, Spieltag 9 - Zebrahead vs. Henrike auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 3145, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 135451,
+      "created" : true,
+      "left" : true,
+      "home" : "Zebrahead",
+      "guest" : "Henrike"
+    } ],
+    "KLC.roundOf16" : [ {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 1 - Wobbel vs. aristarch auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136174,
+      "created" : true,
+      "left" : true,
+      "home" : "Wobbel",
+      "guest" : "aristarch"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 2 - CarpeNoctem vs. quabla auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136169,
+      "created" : true,
+      "left" : true,
+      "home" : "CarpeNoctem",
+      "guest" : "quabla"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 3 - haeckler vs. WildSingh auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136176,
+      "created" : true,
+      "left" : true,
+      "home" : "haeckler",
+      "guest" : "WildSingh"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 4 - Karaser vs. fiete auf Karte 22",
+      "map" : 22,
+      "players" : [ 2345, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136170,
+      "created" : true,
+      "left" : true,
+      "home" : "Karaser",
+      "guest" : "fiete"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 5 - Blindschleiche vs. Sayri auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136171,
+      "created" : true,
+      "left" : true,
+      "home" : "Blindschleiche",
+      "guest" : "Sayri"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 6 - Thargor vs. eris auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136175,
+      "created" : true,
+      "left" : true,
+      "home" : "Thargor",
+      "guest" : "eris"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 7 - ultimate vs. hasi auf Karte 85",
+      "map" : 85,
+      "players" : [ 1411, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136173,
+      "created" : true,
+      "left" : true,
+      "home" : "ultimate",
+      "guest" : "hasi"
+    }, {
+      "name" : "KLC Saison 17 - 8-tel Finale, Spiel 8 - nobody vs. Cpxy auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 136172,
+      "created" : true,
+      "left" : true,
+      "home" : "nobody",
+      "guest" : "Cpxy"
+    } ]
+  },
+  "players" : [ 2231, 557, 2915, 2226, 516, 1230, 213, 1411, 1175, 326, 1722, 2492, 2345, 3058, 2264, 220, 3182, 2985, 2235, 1, 2937, 3145, 29, 1989, 277, 1448, 2501, 1644, 1505, 2894, 2863, 3021, 3048, 992, 1574, 2868 ],
+  "teams" : [ {
+    "name" : "nobody",
+    "members" : [ 29 ],
+    "homeMap" : 22
+  }, {
+    "name" : "Henrike",
+    "members" : [ 3145 ],
+    "homeMap" : 35
+  }, {
+    "name" : "aristarch",
+    "members" : [ 2231 ],
+    "homeMap" : 206
+  }, {
+    "name" : "Robotman8000",
+    "members" : [ 3021 ],
+    "homeMap" : 168
+  }, {
+    "name" : "JokerHF",
+    "members" : [ 2492 ],
+    "homeMap" : 66
+  }, {
+    "name" : "Anthropophagos",
+    "members" : [ 3182 ],
+    "homeMap" : 8
+  }, {
+    "name" : "Wobbel",
+    "members" : [ 277 ],
+    "homeMap" : 200
+  }, {
+    "name" : "Thargor",
+    "members" : [ 992 ],
+    "homeMap" : 214
+  }, {
+    "name" : "hasi",
+    "members" : [ 2226 ],
+    "homeMap" : 109
+  }, {
+    "name" : "CarpeNoctem",
+    "members" : [ 2501 ],
+    "homeMap" : 210
+  }, {
+    "name" : "Cpxy",
+    "members" : [ 2985 ],
+    "homeMap" : 35
+  }, {
+    "name" : "ultimate",
+    "members" : [ 1411 ],
+    "homeMap" : 85
+  }, {
+    "name" : "ulli",
+    "members" : [ 213 ],
+    "homeMap" : 10035
+  }, {
+    "name" : "QuotenOssi",
+    "members" : [ 2863 ],
+    "homeMap" : 83
+  }, {
+    "name" : "Karaser",
+    "members" : [ 2345 ],
+    "homeMap" : 22
+  }, {
+    "name" : "TheWhite",
+    "members" : [ 1574 ],
+    "homeMap" : 148
+  }, {
+    "name" : "Sascha",
+    "members" : [ 3058 ],
+    "homeMap" : 110
+  }, {
+    "name" : "fiete",
+    "members" : [ 557 ],
+    "homeMap" : 51
+  }, {
+    "name" : "quabla",
+    "members" : [ 516 ],
+    "homeMap" : 169
+  }, {
+    "name" : "Zebrahead",
+    "members" : [ 2868 ],
+    "homeMap" : 93
+  }, {
+    "name" : "cachito",
+    "members" : [ 1175 ],
+    "homeMap" : 21
+  }, {
+    "name" : "Sayri",
+    "members" : [ 1230 ],
+    "homeMap" : 84
+  }, {
+    "name" : "WildSingh",
+    "members" : [ 2264 ],
+    "homeMap" : 110
+  }, {
+    "name" : "Blindschleiche",
+    "members" : [ 1448 ],
+    "homeMap" : 202
+  }, {
+    "name" : "wolle",
+    "members" : [ 220 ],
+    "homeMap" : 168
+  }, {
+    "name" : "Didi",
+    "members" : [ 1 ],
+    "homeMap" : 200
+  }, {
+    "name" : "Foley",
+    "members" : [ 1722 ],
+    "homeMap" : 131
+  }, {
+    "name" : "gitarrenteufel",
+    "members" : [ 1644 ],
+    "homeMap" : 140
+  }, {
+    "name" : "DerFlieger",
+    "members" : [ 2235 ],
+    "homeMap" : 182
+  }, {
+    "name" : "HX",
+    "members" : [ 2894 ],
+    "homeMap" : 136
+  }, {
+    "name" : "STS81",
+    "members" : [ 3048 ],
+    "homeMap" : 44
+  }, {
+    "name" : "eisbaer04",
+    "members" : [ 326 ],
+    "homeMap" : 65
+  }, {
+    "name" : "FinalD",
+    "members" : [ 2915 ],
+    "homeMap" : 200
+  }, {
+    "name" : "eris",
+    "members" : [ 2937 ],
+    "homeMap" : 180
+  }, {
+    "name" : "haeckler",
+    "members" : [ 1505 ],
+    "homeMap" : 152
+  }, {
+    "name" : "recke",
+    "members" : [ 1989 ],
+    "homeMap" : 168
+  } ],
+  "rules" : {
+    "minZzz" : 2,
+    "maxZzz" : 2,
+    "crashallowed" : "forbidden",
+    "cps" : true,
+    "startdirection" : "classic"
+  },
+  "playersByKey" : {
+    "group1" : [ 1989, 3182, 277, 1722, 1411, 992, 2915, 2264, 1644 ],
+    "group2" : [ 2985, 326, 213, 2501, 1, 2226, 2863, 1175, 1448 ],
+    "group3" : [ 2231, 3058, 3048, 1505, 2235, 557, 220, 1574, 2937 ],
+    "group4" : [ 2345, 516, 2492, 1230, 2868, 29, 2894, 3021, 3145 ],
+    "league1" : [ 2231, 2915, 1411, 2226, 516, 213, 1230, 557 ],
+    "league2" : [ 220, 3058, 2264, 1722, 326, 2345, 1175, 2492 ],
+    "league3" : [ 29, 277, 1989, 1, 2985, 2937, 3182, 2235, 3145 ],
+    "league4" : [ 3048, 2868, 1644, 1448, 1505, 1574, 992, 2501, 2894, 2863, 3021 ],
+    "roundOf16" : [ 277, 1411, 992, 2264, 2226, 2501, 1448, 2985, 2937, 1505, 2231, 557, 516, 29, 2345, 1230 ]
+  },
+  "settings" : {
+    "defaultTitle" : "KLC Saison xx - ${runde.x} - ${teams} auf Karte ${karte.id}",
+    "firstKORound" : 16,
+    "groups" : 4,
+    "leagues" : 4,
+    "round" : 16
+  }
+}
