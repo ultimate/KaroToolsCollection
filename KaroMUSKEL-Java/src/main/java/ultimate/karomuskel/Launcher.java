@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
@@ -74,6 +75,10 @@ public class Launcher
 	 */
 	private static boolean					debug			= false;
 	/**
+	 * Is the KaroMUSKEL running in special mode?
+	 */
+	private static boolean					special			= false;
+	/**
 	 * The UI instance
 	 */
 	private static MainFrame				gui				= null;
@@ -114,6 +119,8 @@ public class Launcher
 			{
 				if(arg.equalsIgnoreCase("-d"))
 					debug = true;
+				else if(arg.startsWith("-x"))
+					special = true;
 				else
 					configFile = arg;
 			}
@@ -133,7 +140,10 @@ public class Launcher
 			api = login();
 		}
 		cache = createCache(api, config);
-		gui = initUI(cache);
+		if(special)
+			specialMode(cache, args);
+		else
+			gui = initUI(cache);
 
 		logger.info("-------------------------------------------------------------------------");
 		logger.info("-------------------------------------------------------------------------");
@@ -246,15 +256,15 @@ public class Launcher
 				{
 					ioex = ioex.getCause();
 				} while(ioex != null && !(ioex instanceof IOException));
-				
+
 				if(ioex != null)
-					logger.error("login failed: " + ioex.getMessage());	
+					logger.error("login failed: " + ioex.getMessage());
 				else
-					logger.error("login failed: " + e.getMessage());	
+					logger.error("login failed: " + e.getMessage());
 			}
 			catch(InterruptedException | ExecutionException e)
 			{
-				logger.error("login failed: " + e.getMessage());	
+				logger.error("login failed: " + e.getMessage());
 			}
 		}
 		return api;
@@ -292,6 +302,37 @@ public class Launcher
 	}
 
 	/**
+	 * For internal test purposes
+	 * 
+	 * @param cache
+	 * @param args
+	 */
+	private static void specialMode(KaroAPICache cache, String[] args)
+	{
+		for(String arg : args)
+		{
+			if(!arg.startsWith("-x"))
+				continue;
+			try
+			{
+				if(arg.equalsIgnoreCase("-xKLC312"))
+				{
+					logger.info(arg);
+					File in = new File("src/test/resources/season17_muskel_ko_runde.json");
+					File out = new File("src/test/resources/season17_muskel_ko_runde_update.json");
+					GameSeriesUpdater.updateV312KLC(cache, in, out);
+				}
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+				e.printStackTrace();
+			}
+		}
+		System.exit(0);
+	}
+
+	/**
 	 * Kill the GUI and terminate the program.
 	 */
 	public static void exit()
@@ -307,7 +348,7 @@ public class Launcher
 
 		if(gui != null)
 		{
-			
+
 			logger.info("stopping GUI...");
 			gui.setVisible(false);
 			gui.dispose();
