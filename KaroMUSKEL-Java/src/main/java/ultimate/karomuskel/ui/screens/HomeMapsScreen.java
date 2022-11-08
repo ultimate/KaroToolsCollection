@@ -3,7 +3,6 @@ package ultimate.karomuskel.ui.screens;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -21,7 +20,6 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Map;
-import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.MainFrame;
@@ -58,24 +56,13 @@ public class HomeMapsScreen extends Screen
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
-		if(GameSeriesManager.isTeamBased(gameSeries))
+		if(GameSeriesManager.isTeamBased(gameSeries) || gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
 			Map homeMap;
 			for(int i = 0; i < this.numberOfTeams; i++)
 			{
 				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
 				gameSeries.getTeams().get(i).setHomeMap(homeMap);
-			}
-		}
-		else if(gameSeries.getType() == EnumGameSeriesType.KLC)
-		{
-			User player;
-			Map homeMap;
-			for(int i = 0; i < this.numberOfTeams; i++)
-			{
-				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
-				player = gameSeries.getPlayers().get(i);
-				gameSeries.getMapsByKey().put("" + player.getId(), Arrays.asList(homeMap));
 			}
 		}
 		return gameSeries;
@@ -174,10 +161,8 @@ public class HomeMapsScreen extends Screen
 		{
 			enabled = (i < this.numberOfTeams);
 
-			if(enabled && GameSeriesManager.isTeamBased(gameSeries))
+			if(enabled && (GameSeriesManager.isTeamBased(gameSeries) || gameSeries.getType() == EnumGameSeriesType.KLC))
 				label = gameSeries.getTeams().get(i).getName();
-			else if(enabled && gameSeries.getType() == EnumGameSeriesType.KLC)
-				label = gameSeries.getPlayers().get(i).getLogin();
 			else
 				label = "Team " + (i + 1);
 
@@ -189,24 +174,13 @@ public class HomeMapsScreen extends Screen
 		if(this.firstShow)
 		{
 			// preselect values from gameseries
-			if(GameSeriesManager.isTeamBased(gameSeries))
+			if(GameSeriesManager.isTeamBased(gameSeries) || gameSeries.getType() == EnumGameSeriesType.KLC)
 			{
 				for(int i = 0; i < gameSeries.getTeams().size(); i++)
 				{
 					if(gameSeries.getTeams().get(i).getHomeMap() == null)
 						continue;
 					preselectMap(gameSeries.getTeams().get(i).getHomeMap(), i);
-				}
-			}
-			else if(gameSeries.getType() == EnumGameSeriesType.KLC)
-			{
-				String playerKey;
-				for(int i = 0; i < gameSeries.getPlayers().size(); i++)
-				{
-					playerKey = "" + gameSeries.getPlayers().get(i).getId();
-					if(!gameSeries.getMapsByKey().containsKey(playerKey) || gameSeries.getMapsByKey().get(playerKey).isEmpty())
-						continue;
-					preselectMap(gameSeries.getMapsByKey().get(playerKey).get(0), i);
 				}
 			}
 		}
