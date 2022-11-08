@@ -11,8 +11,8 @@ import ultimate.karoapi4j.KaroAPI;
 
 public class LauncherTest
 {
-	private static final String	apiVersion	= "1.2.1";
-	private static final String	appVersion	= "3.1.1";
+	private static final String	apiVersion	= "1.2.2";
+	private static final String	appVersion	= "3.1.2";
 
 	@Test
 	public void test_APIVersion() throws InterruptedException, ExecutionException
