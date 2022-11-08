@@ -104,7 +104,7 @@ public abstract class Planner
 				groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
 				leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
 				firstKO = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_FIRST_KO_ROUND);
-				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getMapsByKey(), leagues, groups, firstKO, gs.getRules(), creatorParticipation, round, repeat);
+				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getTeams(), leagues, groups, firstKO, gs.getRules(), creatorParticipation, round, repeat);
 			case KO:
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
@@ -572,7 +572,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param playersByKey - the map of {@link User}s (by leagues)
-	 * @param homeMaps - the home {@link Map}s for the {@link User}s
+	 * @param teams - the list of (virtual) teams for all the {@link User}s with their home maps
 	 * @param leagues - the number of leagues
 	 * @param groups - the number of groups
 	 * @param firstKO - the number of players for the first KO round
@@ -581,8 +581,8 @@ public abstract class Planner
 	 * @param repeat - the repeat number of the current round (for the final)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, int firstKO, Rules rules,
-			EnumCreatorParticipation creatorParticipation, int round, int repeat)
+	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, List<Team> teams, int leagues, int groups, int firstKO, Rules rules, EnumCreatorParticipation creatorParticipation,
+			int round, int repeat)
 	{
 		BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
 			int league1 = -1;
@@ -597,55 +597,56 @@ public abstract class Planner
 			if(league1 == -1 || league2 == -1)
 				logger.error("should not happen: league1=" + league1 + ", league2=" + league2);
 
-			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= h�here Liga Nummer)
+			if(league1 > league2) // Spieler 0 ist in der niedrigeren Liga (= höhere Liga Nummer)
 				return team1;
-			else if(league1 < league2) // Spieler 1 ist in der niedrigeren Liga (= h�here Liga Nummer)
+			else if(league1 < league2) // Spieler 1 ist in der niedrigeren Liga (= höhere Liga Nummer)
 				return team2;
 			return (random.nextBoolean() ? team1 : team2); // beide sind in der gleichen Liga -> zufall
 		};
 
 		if(round > firstKO)
-			return planGroupphase(title, creator, playersByKey, homeMaps, leagues, groups, whoIsHome, rules, creatorParticipation, round);
-		else if(round == 2)
-		{
-			// create tmp list of teams so we can use planTeamGame
-			List<Team> winners = new ArrayList<>(round);
-			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
-				winners.add(new Team(user.getLogin(), user, homeMaps.get("" + user.getId()).get(0)));
-
-			List<Team> losers = new ArrayList<>(playersByKey.get(GameSeries.KEY_ROUND + round).size());
-			List<User> playersWhoLost = new ArrayList<>(playersByKey.get(GameSeries.KEY_ROUND + (round * 2)));
-			playersWhoLost.removeAll(playersByKey.get(GameSeries.KEY_ROUND + round));
-			for(User user : playersWhoLost)
-				losers.add(new Team(user.getLogin(), user, homeMaps.get("" + user.getId()).get(0)));
-
-			return planSeriesKO(title, creator, winners, losers, null, null, rules, creatorParticipation, true, true, 2, repeat);
-		}
+			return planGroupphase(title, creator, playersByKey, teams, leagues, groups, whoIsHome, rules, creatorParticipation, round);
 		else
 		{
-			// if the group phase was skipped, the ko-players is empty
-			// instead init a list of all players and set it for this round
-			List<User> allPlayers = new LinkedList<>();
-			// Liegen durchmischen & zur Liste hinzufügen
-			List<User> leaguePlayers;
-			for(int l = 1; l <= leagues; l++)
+
+			if(round == firstKO)
 			{
-				leaguePlayers = playersByKey.get(GameSeries.KEY_LEAGUE + l);
-				Collections.shuffle(leaguePlayers, random);
-				allPlayers.addAll(leaguePlayers);
-			}
-			if(allPlayers.size() == round) // only if the group phase was skipped -> allplayers == round
-			{
-				logger.info("skipping group phase");
-				playersByKey.put(GameSeries.KEY_ROUND + round, allPlayers);
+				// if the group phase was skipped, the ko-players is empty
+				// instead init a list of all players and set it for this round
+				List<User> allPlayers = new LinkedList<>();
+				// alle Ligen zur Liste hinzufügen
+				for(int l = 1; l <= leagues; l++)
+					allPlayers.addAll(playersByKey.get(GameSeries.KEY_LEAGUE + l));
+				if(allPlayers.size() == round) // only if the group phase was skipped -> allplayers == round
+				{
+					logger.info("skipping group phase");
+					playersByKey.put(GameSeries.KEY_ROUND + round, allPlayers);
+				}
 			}
 
 			// create tmp list of teams so we can use planTeamGame
-			List<Team> teams = new ArrayList<>(round);
-			for(User user : playersByKey.get(GameSeries.KEY_ROUND + round))
-				teams.add(new Team(user.getLogin(), user, homeMaps.get("" + user.getId()).get(0)));
+			List<Team> winners = new ArrayList<>(round);
+			List<Team> losers = new ArrayList<>(round);
+			for(Team team : teams)
+			{
+				if(findUser(playersByKey.get(GameSeries.KEY_ROUND + round), team.getName()) != null)
+				{
+					logger.info("user is a winner: " + team.getName());
+					winners.add(team);
+				}
+				else if(findUser(playersByKey.get(GameSeries.KEY_ROUND + (round * 2)), team.getName()) != null)
+				{
+					logger.info("user is a loser: " + team.getName());
+					losers.add(team);
+				}
+				else
+					logger.info("user was not in the previous round: " + team.getName());
+			}
 
-			return planSeriesKO(title, creator, teams, null, null, whoIsHome, rules, creatorParticipation, true, true, 1, repeat);
+			if(round == 2)
+				return planSeriesKO(title, creator, winners, losers, null, null, rules, creatorParticipation, true, true, 2, repeat);
+			else
+				return planSeriesKO(title, creator, winners, null, null, whoIsHome, rules, creatorParticipation, true, true, 1, repeat);
 		}
 	}
 
@@ -657,7 +658,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param playersByKey - the map of {@link User}s (by leagues)
-	 * @param homeMaps - the home {@link Map}s for the {@link User}s
+	 * @param teams - the list of (virtual) teams for all the {@link User}s with their home maps
 	 * @param leagues - the number of leagues
 	 * @param groups - the number of groups
 	 * @param whoIsHome - logic to determine who is the home team
@@ -666,7 +667,7 @@ public abstract class Planner
 	 * @return the list of {@link PlannedGame}s
 	 */
 	// original listen werden gemischt
-	private static List<PlannedGame> planGroupphase(String title, User creator, java.util.Map<String, List<User>> playersByKey, java.util.Map<String, List<Map>> homeMaps, int leagues, int groups, BiFunction<Team, Team, Team> whoIsHome, Rules rules,
+	private static List<PlannedGame> planGroupphase(String title, User creator, java.util.Map<String, List<User>> playersByKey, List<Team> teams, int leagues, int groups, BiFunction<Team, Team, Team> whoIsHome, Rules rules,
 			EnumCreatorParticipation creatorParticipation, int round)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -712,7 +713,7 @@ public abstract class Planner
 			Collections.shuffle(playersByKey.get(GameSeries.KEY_GROUP + g), random);
 			List<Team> teamsTmp = new ArrayList<Team>(playersByKey.get(GameSeries.KEY_GROUP + g).size());
 			for(User p : playersByKey.get(GameSeries.KEY_GROUP + g))
-				teamsTmp.add(new Team(p.getLogin(), p, homeMaps.get("" + p.getId()).get(0)));
+				teamsTmp.add(findTeam(teams, p.getLogin()));
 
 			List<List<Match>> matches = planMatchesLeague(teamsTmp, false);
 
@@ -984,7 +985,11 @@ public abstract class Planner
 		if(map == null) // can happen for dummyMatches
 			map = guest.getHomeMap();
 
-		return planGame(title, creator, map, gamePlayers, rules, creatorParticipation, placeholderValues);
+		PlannedGame g = planGame(title, creator, map, gamePlayers, rules, creatorParticipation, placeholderValues);
+		g.setHome(home.getName());
+		g.setGuest(guest.getName());
+		
+		return g;
 	}
 
 	/**
@@ -1422,7 +1427,7 @@ public abstract class Planner
 			tmp.append(Language.getString("titlepatterns.roundOf").replace("${i/2}", "" + (round / 2)).replace("${i}", "" + (round)));
 		else
 			tmp.append(Language.getString("titlepatterns.groupStage").replace("${i}", "" + (group)));
-		
+
 		if(repeat > 0)
 			tmp.append(" " + Language.getString("titlepatterns.repeat").replace("${i}", "" + (repeat)));
 
@@ -1493,5 +1498,25 @@ public abstract class Planner
 			if(!map2.containsKey(key))
 				return false;
 		return true;
+	}
+
+	private static Team findTeam(Collection<Team> teams, String name)
+	{
+		if(teams == null)
+			return null;
+		for(Team t : teams)
+			if(t.getName().equalsIgnoreCase(name))
+				return t;
+		return null;
+	}
+
+	private static User findUser(Collection<User> users, String login)
+	{
+		if(users == null)
+			return null;
+		for(User u : users)
+			if(u.getLoginLowerCase().equalsIgnoreCase(login))
+				return u;
+		return null;
 	}
 }
