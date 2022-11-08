@@ -332,7 +332,7 @@ public abstract class GameSeriesManager
 
 		logger.info("storing GameSeries to file: " + file.getAbsolutePath());
 
-		String json = JSONUtil.serialize(gs, true);
+		String json = JSONUtil.serialize(gs, true, true);
 
 		FileOutputStream fos = new FileOutputStream(file);
 		BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -602,7 +602,7 @@ public abstract class GameSeriesManager
 			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "8", convert(((KLCGameSeries) gs2).playersRoundOf8, User.class, karoAPICache));
 			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "4", convert(((KLCGameSeries) gs2).playersRoundOf4, User.class, karoAPICache));
 			gs.getPlayersByKey().put(GameSeries.KEY_ROUND + "2", convert(((KLCGameSeries) gs2).playersRoundOf2, User.class, karoAPICache));
-			gs.setMapsByKey(convertHomeMaps(((KLCGameSeries) gs2).homeMaps, Map.class, karoAPICache));
+			gs.setTeams(convertHomeMaps(((KLCGameSeries) gs2).homeMaps, karoAPICache));
 		}
 		else if(gs2 instanceof TeamBasedGameSeries)
 		{
@@ -767,20 +767,24 @@ public abstract class GameSeriesManager
 	/**
 	 * Helper method for conversion
 	 * 
-	 * @param <T>
 	 * @param map2
-	 * @param cls
 	 * @param karoAPICache
 	 * @return
 	 */
-	protected static <T extends Identifiable> java.util.Map<String, List<T>> convertHomeMaps(java.util.Map<Integer, Integer> map2, Class<T> cls, KaroAPICache karoAPICache)
+	protected static List<Team> convertHomeMaps(java.util.Map<Integer, Integer> map2, KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
 			return null;
-		HashMap<String, List<T>> map = new HashMap<>();
+		List<Team> teams = new ArrayList<>(map2.size());
+		User user;
+		Map map;
 		for(Entry<Integer, Integer> e : map2.entrySet())
-			map.put(e.getKey().toString(), Arrays.asList(karoAPICache.get(cls, e.getValue())));
-		return map;
+		{
+			user = karoAPICache.getUser(e.getKey());
+			map = karoAPICache.getMap(e.getValue());
+			teams.add(new Team(user.getLogin(), user, map));
+		}
+		return teams;
 	}
 
 	/**
