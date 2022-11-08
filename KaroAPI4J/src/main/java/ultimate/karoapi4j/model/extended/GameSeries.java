@@ -272,7 +272,10 @@ public class GameSeries
 	@Deprecated
 	public void setCreatorGiveUp(boolean creatorGiveUp)
 	{
-		this.creatorParticipation = EnumCreatorParticipation.leave;
+		if(creatorGiveUp)
+			this.creatorParticipation = EnumCreatorParticipation.leave;
+		else
+			this.creatorParticipation = EnumCreatorParticipation.normal;
 	}
 
 	/**
