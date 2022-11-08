@@ -19,6 +19,7 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -34,7 +35,12 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import com.fasterxml.jackson.databind.ser.PropertyWriter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.util.StdConverter;
 
 import ultimate.karoapi4j.KaroAPI;
@@ -52,11 +58,15 @@ public abstract class JSONUtil
 	/**
 	 * The date format used
 	 */
-	public static final String				DATE_FORMAT	= "yyyy-MM-dd HH:mm:ss";
+	public static final String				DATE_FORMAT			= "yyyy-MM-dd HH:mm:ss";
+	/**
+	 * The date format used
+	 */
+	public static final String				FILTER_UNOFFICIAL	= "unofficial";
 	/**
 	 * Logger instance
 	 */
-	private static transient final Logger	logger		= LogManager.getLogger(JSONUtil.class);
+	private static transient final Logger	logger				= LogManager.getLogger(JSONUtil.class);
 	/**
 	 * the Jackson {@link ObjectWriter}
 	 */
@@ -69,6 +79,8 @@ public abstract class JSONUtil
 	 * the Jackson {@link ObjectReader}
 	 */
 	private static final ObjectReader		reader;
+
+	private static final UnofficialFilter	unofficialFilter;
 
 	/**
 	 * prevent instantiation
@@ -101,6 +113,13 @@ public abstract class JSONUtil
 		// register the module
 		mapper.registerModule(module);
 
+		// add a filter so that we can filter out "unofficial" fields in "official" use cases
+		SimpleFilterProvider filterProvider = new SimpleFilterProvider();
+		unofficialFilter = new UnofficialFilter(true); // make the filter statically accessible, so we can change it at runtim
+		filterProvider.addFilter(FILTER_UNOFFICIAL, unofficialFilter);
+		// register the filter
+		mapper.setFilterProvider(filterProvider);
+
 		// now create writer and reader
 		writer = mapper.writer();
 		prettyWriter = mapper.writerWithDefaultPrettyPrinter();
@@ -116,7 +135,7 @@ public abstract class JSONUtil
 	 * @return the json string
 	 * @throws SerializationException - if an Exception occurs, wrapping the original Exception
 	 */
-	public static String serialize(Object o) throws SerializationException
+	public static synchronized String serialize(Object o) throws SerializationException
 	{
 		return serialize(o, false);
 	}
@@ -129,10 +148,26 @@ public abstract class JSONUtil
 	 * @return the json string
 	 * @throws SerializationException - if an Exception occurs, wrapping the original Exception
 	 */
-	public static String serialize(Object o, boolean prettyPrint) throws SerializationException
+	public static synchronized String serialize(Object o, boolean prettyPrint) throws SerializationException
 	{
+		return serialize(o, false, prettyPrint);
+	}
+
+	/**
+	 * Serialize any given Object to JSON
+	 * 
+	 * @param o - the object to serialize
+	 * @param includeUnoffical - also include unofficial properties?
+	 * @param prettyPrint - whether to format the JSON
+	 * @return the json string
+	 * @throws SerializationException - if an Exception occurs, wrapping the original Exception
+	 */
+	public static synchronized String serialize(Object o, boolean includeUnofficial, boolean prettyPrint) throws SerializationException
+	{
+		boolean previous_includeUnofficial = unofficialFilter.isIncludeUnofficial();
 		try
 		{
+			unofficialFilter.setIncludeUnofficial(includeUnofficial);
 			if(prettyPrint)
 				return prettyWriter.writeValueAsString(o);
 			else
@@ -149,6 +184,10 @@ public abstract class JSONUtil
 		catch(IOException e)
 		{
 			throw new SerializationException("IOException", e);
+		}
+		finally
+		{
+			unofficialFilter.setIncludeUnofficial(previous_includeUnofficial);
 		}
 	}
 
@@ -270,6 +309,60 @@ public abstract class JSONUtil
 		public Color deserialize(JsonParser p, DeserializationContext ctxt) throws IOException
 		{
 			return new Color(Integer.parseUnsignedInt(p.getText(), 16));
+		}
+	}
+
+	public static class UnofficialFilter implements PropertyFilter
+	{
+		private boolean includeUnofficial;
+
+		public UnofficialFilter(boolean initialState)
+		{
+			this.includeUnofficial = initialState;
+		}
+
+		public boolean isIncludeUnofficial()
+		{
+			return includeUnofficial;
+		}
+
+		public void setIncludeUnofficial(boolean includeUnofficial)
+		{
+			this.includeUnofficial = includeUnofficial;
+		}
+
+		@Override
+		public void serializeAsField(Object pojo, JsonGenerator gen, SerializerProvider prov, PropertyWriter writer) throws Exception
+		{
+			if(writer.getAnnotation(JsonFilter.class) != null && writer.getAnnotation(JsonFilter.class).value().equalsIgnoreCase(FILTER_UNOFFICIAL) && !this.includeUnofficial)
+			{
+				logger.trace("skipping " + writer.getName());
+				return;
+			}
+
+			writer.serializeAsField(pojo, gen, prov);
+		}
+
+		@Override
+		public void serializeAsElement(Object elementValue, JsonGenerator gen, SerializerProvider prov, PropertyWriter writer) throws Exception
+		{
+			// forward to default
+			writer.serializeAsElement(elementValue, gen, prov);
+		}
+
+		@Override
+		@Deprecated
+		public void depositSchemaProperty(PropertyWriter writer, ObjectNode propertiesNode, SerializerProvider provider) throws JsonMappingException
+		{
+			// forward to default
+			writer.depositSchemaProperty(propertiesNode, provider);
+		}
+
+		@Override
+		public void depositSchemaProperty(PropertyWriter writer, JsonObjectFormatVisitor objectVisitor, SerializerProvider provider) throws JsonMappingException
+		{
+			// forward to default
+			writer.depositSchemaProperty(objectVisitor, provider);
 		}
 	}
 

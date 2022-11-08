@@ -2,7 +2,9 @@ package ultimate.karoapi4j.utils;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
@@ -126,7 +128,7 @@ public class JSONUtilTest
 		return sb.toString();
 	}
 
-	private String toJson(PlannedGame game)
+	private String toJson(PlannedGame game, boolean includeUnofficial)
 	{
 		//@formatter:off
 		return "{" + "\"name\":\"" + game.getName() + "\","
@@ -136,6 +138,7 @@ public class JSONUtilTest
 				+ (game.getGame() != null ? ",\"game\":" + game.getGame().getId(): "")
 				+ (game.isCreated() ? ",\"created\":true" : "")
 				+ (game.isLeft() ? ",\"left\":true" : "")
+				+ (includeUnofficial ? ",\"home\":\"" + game.getHome() + "\",\"guest\":\"" + game.getGuest() + "\"": "")				
 				+ "}";
 		//@formatter:on
 	}
@@ -243,8 +246,11 @@ public class JSONUtilTest
 		game.setMap(new Map(105));
 		game.setPlayers(new LinkedHashSet<>(Arrays.asList(new User(12), new User(78), new User(34), new User(56))));
 		game.setOptions(options);
+		// add some unofficial properties - they should be ignored
+		game.setHome("homeTeam");
+		game.setGuest("guestTeam");
 
-		String expected = toJson(game);
+		String expected = toJson(game, false);
 
 		String serialized = JSONUtil.serialize(game);
 
@@ -266,6 +272,13 @@ public class JSONUtilTest
 		assertEquals(options.isCps(), deserialized.getOptions().isCps());
 		assertEquals(options.getStartdirection(), deserialized.getOptions().getStartdirection());
 		assertEquals(options.getCrashallowed(), deserialized.getOptions().getCrashallowed());
+		// additional properties
+		assertFalse(deserialized.isCreated());
+		assertFalse(deserialized.isLeft());
+		assertNull(deserialized.getGame());
+		// unofficial properties
+		assertNull(deserialized.getHome());
+		assertNull(deserialized.getGuest());
 
 		// now check if additional properties are serialized, too
 
@@ -273,7 +286,7 @@ public class JSONUtilTest
 		game.setLeft(true);
 		game.setGame(new Game(1234));
 
-		expected = toJson(game);
+		expected = toJson(game, false);
 
 		serialized = JSONUtil.serialize(game);
 
@@ -296,6 +309,38 @@ public class JSONUtilTest
 		assertEquals(game.isCreated(), deserialized.isCreated());
 		assertEquals(game.isLeft(), deserialized.isLeft());
 		assertEquals(game.getGame().getId(), deserialized.getGame().getId());
+		// unofficial properties
+		assertNull(deserialized.getHome());
+		assertNull(deserialized.getGuest());
+		
+		// now check if unofficial properties are serialized, too
+		
+		expected = toJson(game, true);
+
+		serialized = JSONUtil.serialize(game, true, false);
+
+		logger.debug("expected = " + expected);
+		logger.debug("actual   = " + serialized);
+		assertEquals(expected, serialized);
+
+		deserialized = JSONUtil.deserialize(serialized, new TypeReference<PlannedGame>() {});
+
+		// check each property here, don't rely on equals
+		assertEquals(game.getName(), deserialized.getName());
+		assertEquals(game.getMap().getId(), deserialized.getMap().getId());
+		assertTrue(CollectionsUtil.equals(game.getPlayers(), deserialized.getPlayers(), "getId"));
+		// and the options
+		assertEquals(options.getZzz(), deserialized.getOptions().getZzz());
+		assertEquals(options.isCps(), deserialized.getOptions().isCps());
+		assertEquals(options.getStartdirection(), deserialized.getOptions().getStartdirection());
+		assertEquals(options.getCrashallowed(), deserialized.getOptions().getCrashallowed());
+		// additional properties
+		assertEquals(game.isCreated(), deserialized.isCreated());
+		assertEquals(game.isLeft(), deserialized.isLeft());
+		assertEquals(game.getGame().getId(), deserialized.getGame().getId());
+		// unofficial properties
+		assertEquals(game.getHome(), deserialized.getHome());
+		assertEquals(game.getGuest(), deserialized.getGuest());
 	}
 
 	@Test
