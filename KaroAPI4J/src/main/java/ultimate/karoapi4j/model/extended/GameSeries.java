@@ -103,9 +103,15 @@ public class GameSeries
 	protected User										creator;
 
 	/**
+	 * shall the creator leave all games?
+	 */
+	@Deprecated
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	protected boolean									creatorGiveUp;
+	/**
 	 * does the creator participate in the games?
 	 */
-	@JsonInclude(value = Include.NON_DEFAULT)
+	@JsonInclude(value = Include.NON_NULL)
 	protected EnumCreatorParticipation					creatorParticipation;
 	/**
 	 * shall the game limits and invitable status be ignored?
@@ -260,7 +266,6 @@ public class GameSeries
 	 * @return shall the creator leave all games?
 	 */
 	@Deprecated
-	@JsonIgnore
 	public boolean isCreatorGiveUp()
 	{
 		return this.creatorParticipation == EnumCreatorParticipation.leave;
