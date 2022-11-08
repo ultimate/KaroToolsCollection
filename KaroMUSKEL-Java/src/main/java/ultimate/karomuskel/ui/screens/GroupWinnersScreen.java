@@ -97,7 +97,8 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 				}
 			}
 
-			gameSeries.set(GameSeries.CURRENT_ROUND, nextRound);
+			if(direction == EnumNavigation.next)
+				gameSeries.set(GameSeries.CURRENT_ROUND, nextRound);
 		}
 		return gameSeries;
 	}
@@ -110,6 +111,8 @@ public class GroupWinnersScreen extends Screen implements ActionListener
 		{
 			int round = (int) gameSeries.get(GameSeries.CURRENT_ROUND);
 			int previousRound = round * 2;
+			if(previousRound > (int) gameSeries.get(GameSeries.CONF_KLC_FIRST_KO_ROUND))
+				previousRound = gameSeries.getTeams().size();
 			gameSeries.set(GameSeries.CURRENT_ROUND, previousRound);
 		}
 
