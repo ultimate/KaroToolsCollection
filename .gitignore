@@ -21,3 +21,6 @@ bin/
 cache/
 logs/
 autosaves/
+
+# sensitive files
+login.properties
