@@ -17,6 +17,7 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karomuskel.special.GameSeriesUpdater;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
