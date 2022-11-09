@@ -1,4 +1,4 @@
-package ultimate.karomuskel;
+package ultimate.karomuskel.special;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karomuskel.GameSeriesManager;
 
 public abstract class GameSeriesUpdater
 {
@@ -29,7 +30,7 @@ public abstract class GameSeriesUpdater
 	}
 
 	@SuppressWarnings("deprecation")
-	protected static void updateV312KLC(KaroAPICache cache, File in, File out) throws IOException
+	public static void updateV312KLC(KaroAPICache cache, File in, File out) throws IOException
 	{
 		logger.info("loading original file: " + in.getAbsolutePath());
 		GameSeries gs = GameSeriesManager.load(in, cache);
