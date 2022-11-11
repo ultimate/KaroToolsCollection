@@ -49,6 +49,9 @@ public class FileDialog
 
 		int action = this.fileChooser.showSaveDialog(parent);
 
+		if(action != JFileChooser.APPROVE_OPTION)
+			return false;
+
 		File file = this.fileChooser.getSelectedFile();		
 		
 		// add extension if not entered by user
@@ -56,9 +59,6 @@ public class FileDialog
 			file = new File(file.getAbsolutePath() + "." + jsonFilter.getExtensions()[0]);
 		
 		this.currentDirectory = file.isDirectory() ? file : file.getParentFile();
-
-		if(action != JFileChooser.APPROVE_OPTION)
-			return false;
 
 		if(file.exists())
 		{
