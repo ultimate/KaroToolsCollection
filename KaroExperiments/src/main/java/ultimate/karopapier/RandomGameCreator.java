@@ -2,8 +2,11 @@ package ultimate.karopapier;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Properties;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 
@@ -15,6 +18,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
@@ -37,7 +41,7 @@ public class RandomGameCreator
 		KaroAPI api = new KaroAPI(login.getProperty("karoapi.user"), login.getProperty("karoapi.password"));
 		KaroAPICache cache = new KaroAPICache(api);
 		cache.refresh().join();
-		
+
 		logger.debug("users: " + cache.getUsers().size());
 		logger.debug("maps:  " + cache.getMaps().size());
 
@@ -54,25 +58,16 @@ public class RandomGameCreator
 		rules.setMinZzz(Integer.parseInt(gameseries.getProperty("rules.minZzz")));
 		rules.setStartdirection(EnumGameDirection.valueOf(gameseries.getProperty("rules.startdirection")));
 		logger.info(rules);
-		
+
 		logger.info("creating player list...");
-		String[] playerIDs = gameseries.getProperty("players").split(",");
+		User creator = getUser(cache, gameseries.getProperty("players.creator"));
+		String[] playerIDs = gameseries.getProperty("players.others").split(",");
 		Set<User> players = new LinkedHashSet<>();
-		int id;
 		User user;
 		StringBuilder sb = new StringBuilder();
-		for(String player: playerIDs)
+		for(String player : playerIDs)
 		{
-			try
-			{
-				id = Integer.parseInt(player);
-				user = cache.getUser(id);
-			}
-			catch(NumberFormatException e)
-			{
-				user = cache.getUser(player);
-			}
-			
+			user = getUser(cache, player);
 			players.add(user);
 			sb.append("\n -> ");
 			sb.append(user);
@@ -81,26 +76,105 @@ public class RandomGameCreator
 
 		logger.info("creating games...");
 		Random random = new Random();
-		PlannedGame pg;
-		int mapID;
 		for(int i = gamesCount + 1; i <= gamesCount + gamesPerExecution; i++)
 		{
-			if(gameseries.getProperty("map").equalsIgnoreCase("%random"))
-				mapID = random.nextInt(cache.getMaps().size());
-			else
-				mapID = Integer.parseInt(gameseries.getProperty("map"));
-
-			pg = new PlannedGame();
-			pg.setName(gameseries.getProperty("name").replace("%i", "" + i));
-			pg.setMap(cache.getMap(mapID));
-			pg.setPlayers(players);
-			pg.setOptions(rules.createOptions(random));
-			
-			logger.info("Game #" + i);
-			
+			createGame(cache, i, gameseries.getProperty("name"), gameseries.getProperty("map"), creator, players, Integer.parseInt(gameseries.getProperty("players.min")), rules, random);
 		}
 
+		logger.info("writing updated properties...");
 		gameseries.setProperty("games.count", "" + (gamesCount + gamesPerExecution));
 		PropertiesUtil.storeProperties(gameseriesProperties, gameseries, null);
+
+		logger.info("exiting");
+	}
+
+	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, Rules rules, Random random)
+	{
+		try
+		{
+			PlannedGame pg;
+			Map map;
+			Queue<User> playersCopy = new LinkedList<>(players);
+			Set<User> selectedPlayers = new LinkedHashSet<>();
+			StringBuilder sb = new StringBuilder();
+
+			if(mapID.equalsIgnoreCase("%random"))
+			{
+				do
+				{
+					map = cache.getMaps().toArray(new Map[0])[random.nextInt(cache.getMaps().size())];
+				} while(map.getPlayers() < minPlayers);
+			}
+			else
+			{
+				map = cache.getMap(Integer.parseInt(mapID));
+			}
+			
+			selectedPlayers.add(creator);
+			while(selectedPlayers.size() < map.getPlayers() && !playersCopy.isEmpty())
+				selectedPlayers.add(playersCopy.poll());
+
+			pg = new PlannedGame();
+			pg.setName(name.replace("%i", "" + toString(i, 3)));
+			pg.setMap(map);
+			pg.setPlayers(selectedPlayers);
+			pg.setOptions(rules.createOptions(random));
+
+			sb.append("\n -> name           = " + pg.getName());
+			sb.append("\n -> map            = " + pg.getMap().getId());
+			sb.append("\n -> players        = " + toString(pg.getPlayers()));
+			sb.append("\n -> zzz            = " + pg.getOptions().getZzz());
+			sb.append("\n -> crashallowed   = " + pg.getOptions().getCrashallowed());
+			sb.append("\n -> cps            = " + pg.getOptions().isCps());
+			sb.append("\n -> startdirection = " + pg.getOptions().getZzz());
+
+			logger.info("Game #" + i + sb);
+
+			pg.setGame(cache.getKaroAPI().createGame(pg).join());
+
+			logger.info(" GID = " + (pg.getGame() != null ? pg.getGame().getId() : "?"));
+
+			return pg.getGame().getId();
+		}
+		catch(Exception e)
+		{
+			return 0;
+		}
+	}
+
+	private static User getUser(KaroAPICache cache, String nameOrId)
+	{
+		try
+		{
+			return cache.getUser(Integer.parseInt(nameOrId));
+		}
+		catch(NumberFormatException e)
+		{
+			return cache.getUser(nameOrId);
+		}
+	}
+
+	private static String toString(Set<User> players)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("[ ");
+		Iterator<User> iter = players.iterator();
+		while(iter.hasNext())
+		{
+			sb.append("" + iter.next().getId());
+			if(iter.hasNext())
+				sb.append(", ");
+		}
+		sb.append(" ]");
+		return sb.toString();
+	}
+
+	private static String toString(int i, int length)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("" + i);
+		while(sb.length() < length)
+			sb.insert(0, '0');
+		return sb.toString();
 	}
 }

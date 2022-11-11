@@ -266,10 +266,10 @@ public class Rules implements Cloneable
 	{
 		//@formatter:off
 		return "Regeln:\n" +
-				" -> zzz          = [" + minZzz + "," + maxZzz + "]\n" + 
-				" -> crashallowed = " + crashallowed + "\n" + 
-				" -> cps          = " + cps + "\n" +
-				" -> startdirection    = " + startdirection;
+				" -> zzz            = [" + minZzz + "," + maxZzz + "]\n" + 
+				" -> crashallowed   = " + crashallowed + "\n" + 
+				" -> cps            = " + cps + "\n" +
+				" -> startdirection = " + startdirection;
 		//@formatter:on
 	}
 
