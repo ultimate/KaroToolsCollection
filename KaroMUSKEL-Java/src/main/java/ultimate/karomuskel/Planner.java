@@ -988,7 +988,7 @@ public abstract class Planner
 		PlannedGame g = planGame(title, creator, map, gamePlayers, rules, creatorParticipation, placeholderValues);
 		g.setHome(home.getName());
 		g.setGuest(guest.getName());
-		
+
 		return g;
 	}
 
@@ -1500,6 +1500,13 @@ public abstract class Planner
 		return true;
 	}
 
+	/**
+	 * Find team by name in a list of teams
+	 * 
+	 * @param teams - the teams to search
+	 * @param name - the name to look for
+	 * @return the team - or null if not found
+	 */
 	private static Team findTeam(Collection<Team> teams, String name)
 	{
 		if(teams == null)
@@ -1510,6 +1517,13 @@ public abstract class Planner
 		return null;
 	}
 
+	/**
+	 * Find user by login in a list of users
+	 * 
+	 * @param users - the users to search
+	 * @param login - the login to look for
+	 * @return the user - or null if not found
+	 */
 	private static User findUser(Collection<User> users, String login)
 	{
 		if(users == null)

@@ -29,6 +29,7 @@ import muskel2.model.series.KLCGameSeries;
 import muskel2.model.series.KOGameSeries;
 import muskel2.model.series.LeagueGameSeries;
 import muskel2.model.series.SimpleGameSeries;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
@@ -474,7 +475,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(KLCGameSeries.LEAGUES, GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES));
 		assertEquals(KLCGameSeries.GROUPS, GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS));
 		assertEquals(gs2.homeMaps.size(), gs.getTeams().size());
-		compareTeamsWithHomemaps(gs.getTeams(), gs2.homeMaps);
+		compareTeamsWithHomemaps(dummyCache, gs.getTeams(), gs2.homeMaps);
 		assertEquals(gs2.rules.minZzz, gs.getRules().getMinZzz());
 		assertEquals(gs2.rules.maxZzz, gs.getRules().getMaxZzz());
 		if(gs2.rules.crashingAllowed == true)
@@ -588,16 +589,17 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		}
 	}
 
-	private <T extends Identifiable> void compareTeamsWithHomemaps(List<Team> converted, java.util.Map<Integer, Integer> original)
+	private <T extends Identifiable> void compareTeamsWithHomemaps(KaroAPICache cache, List<Team> converted, java.util.Map<Integer, Integer> original)
 	{
 		assertEquals(original.size(), converted.size());
 		int i = 0;
 		for(Entry<Integer, Integer> t2 : original.entrySet())
 		{
 			assertEquals(1, converted.get(i).getMembers().size());
-			assertEquals(karoAPICache.getUser(t2.getKey()).getLogin(), converted.get(i).getName());
+			assertEquals(cache.getUser(t2.getKey()).getLogin(), converted.get(i).getName());
 			assertEquals(t2.getKey(), ((User) converted.get(i).getMembers().toArray()[0]).getId());
 			assertEquals(t2.getValue(), converted.get(i).getHomeMap().getId());
+			i++;
 		}
 	}
 }
