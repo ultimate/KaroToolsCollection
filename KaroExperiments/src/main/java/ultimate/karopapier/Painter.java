@@ -87,19 +87,19 @@ public class Painter
 
 		System.out.println("------------------------------------------");
 
-		map.reset();
-		section = new Section(13, 1, 5, 5);
-		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[17][5]);
-		// printPath(grid, map.path);
-
-		System.out.println("------------------------------------------");
-
-		map.reset();
-		section = new Section(13, 1, 36, 5);
-		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[48][5]);
-		// printPath(grid, map.path);
-
-		System.out.println("------------------------------------------");
+//		map.reset();
+//		section = new Section(13, 1, 5, 5);
+//		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[17][5]);
+//		// printPath(grid, map.path);
+//
+//		System.out.println("------------------------------------------");
+//
+//		map.reset();
+//		section = new Section(13, 1, 36, 5);
+//		processSection(map, section, new Vector(map.grid, map.grid[13][1], 0, 0), map.grid[48][5]);
+//		// printPath(grid, map.path);
+//
+//		System.out.println("------------------------------------------");
 
 		map.reset();
 		section = new Section(13, 0, 47, 25);
@@ -156,6 +156,7 @@ public class Painter
 		Field highestDistanceFieldNotVisited;
 		int isolatedFields;
 		boolean isolated;
+		long time = System.currentTimeMillis();
 		while(map.path.size() > 0 && (map.path.getLast().end.x != target.x || map.path.getLast().end.y != target.y || !section.isFilled(map.grid)))
 		{
 			next = map.path.getLast().next(map);
@@ -204,16 +205,16 @@ public class Painter
 					}
 				}
 
-				// System.out.println(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
+				System.out.println(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
 
 				if(next.end.x == target.x && next.end.y == target.y && map.path.size() < targetSize - 1)
 				{
 					// ignore target when we have other karos left
 				}
-				// else if(next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - allowedDistanceOffset)
-				// {
-				// // ignore vector if we have gaps far behing
-				// }
+				else if(next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - allowedDistanceOffset)
+				{
+					// ignore vector if we have gaps far behing
+				}
 				else if(isolatedFields > 0)
 				{
 					// ignore vector if we have isolated a field
@@ -232,14 +233,10 @@ public class Painter
 			step++;
 
 			// if(step % 1000 == 0)
-			map.repaint();
-			try
+			if(System.currentTimeMillis() > time + 100)
 			{
-				Thread.sleep(10);
-			}
-			catch(InterruptedException e)
-			{
-				e.printStackTrace();
+				map.repaint();
+				time = System.currentTimeMillis();
 			}
 		}
 	}
@@ -337,7 +334,7 @@ public class Painter
 						if(current.symbol == 'F' && candidate.symbol == 'S')
 							continue; // S next to F
 
-						candidateDistance = current.distanceToFinish + 1; // Math.abs(dx) + Math.abs(dy);
+						candidateDistance = current.distanceToFinish + Math.abs(dx) + Math.abs(dy);
 
 						if(candidate.distanceToFinish >= 0)
 						{
@@ -441,8 +438,8 @@ public class Painter
 			this.dx = dx;
 			this.dy = dy;
 		}
-
-		public Vector next(Map map)
+		
+		public LinkedList<Vector> getSuccessors(Map map)
 		{
 			if(this.successors == null)
 			{
@@ -477,15 +474,15 @@ public class Painter
 					// vector lengths
 					int l1 = v1.dx * v1.dx + v1.dy * v1.dy;
 					int l2 = v2.dx * v2.dx + v2.dy * v2.dy;
-
+					
 					if(v1.end.distanceToFinish == v2.end.distanceToFinish) // both fields have the same distance
+						return l1 - l2; // shortest vector first // TODO those with the least successors first? (maybe sort only on next (not on getSuccessors)
+					else if(v1.end.distanceToFinish > this.end.distanceToFinish && v2.end.distanceToFinish > this.end.distanceToFinish) // both fields are further than the current
 						return l1 - l2; // shortest vector first
-					else if(v1.end.distanceToFinish >= this.end.distanceToFinish && v2.end.distanceToFinish >= this.end.distanceToFinish) // both fields are further or equal to the current
-						return l1 - l2; // shortest vector first
-					else if(v1.end.distanceToFinish >= this.end.distanceToFinish) // v1 is further or equal to the current
-						return -1;
-					else if(v2.end.distanceToFinish >= this.end.distanceToFinish) // v2 is further or equal to the current
-						return +1;
+//					else if(v1.end.distanceToFinish > this.end.distanceToFinish) // v1 is further than the current
+//						return -1;
+//					else if(v2.end.distanceToFinish > this.end.distanceToFinish) // v2 is further than the current
+//						return +1;
 					else if(v1.end.distanceToFinish != v2.end.distanceToFinish)
 						return -(v1.end.distanceToFinish - v2.end.distanceToFinish); // furthest field first
 					return 0;
@@ -493,7 +490,12 @@ public class Painter
 				if(this.successors.size() == 0)
 					this.successors.add(new Vector(map.grid, end, 0, 0)); // ZZZ=0
 			}
-			return this.successors.poll();
+			return this.successors;
+		}
+
+		public Vector next(Map map)
+		{
+			return this.getSuccessors(map).poll();
 		}
 
 		public boolean isValid(Field[][] grid)
