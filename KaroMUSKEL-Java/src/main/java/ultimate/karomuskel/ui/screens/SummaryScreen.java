@@ -113,8 +113,10 @@ public class SummaryScreen extends Screen implements ActionListener
 	@Override
 	public String getNextKey()
 	{
-		if(this.next instanceof KOWinnersScreen)
-			return "screen.summary.nextko";
+		if(this.next instanceof GroupWinnersScreen)
+			return "screen.summary.nextround";
+		else if(this.next instanceof KOWinnersScreen)
+			return "screen.summary.nextround";
 		else if(this.next instanceof SummaryScreen)
 			return "screen.summary.nextrepeat";
 		else // if(this.next instanceof StartScreen)
