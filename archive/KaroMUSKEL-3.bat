@@ -1,1 +1,1 @@
-java -jar KaroMUSKEL-3.1.1-bin.jar
+java -jar KaroMUSKEL-3.1.2-bin.jar
