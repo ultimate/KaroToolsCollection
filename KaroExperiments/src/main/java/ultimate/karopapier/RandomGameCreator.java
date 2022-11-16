@@ -38,9 +38,13 @@ public class RandomGameCreator
 		Properties login = PropertiesUtil.loadProperties(loginProperties);
 		Properties gameseries = PropertiesUtil.loadProperties(gameseriesProperties);
 
-		KaroAPI api = new KaroAPI(login.getProperty("karoapi.user"), login.getProperty("karoapi.password"));
-		KaroAPICache cache = new KaroAPICache(api);
+		logger.info("memory usage: total=" + Runtime.getRuntime().totalMemory() + " \tmax=" + Runtime.getRuntime().maxMemory() + " \tfree=" + Runtime.getRuntime().freeMemory());
+
+		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
+		KaroAPICache cache = new KaroAPICache(api, login);
 		cache.refresh().join();
+		
+		logger.info("memory usage: total=" + Runtime.getRuntime().totalMemory() + " \tmax=" + Runtime.getRuntime().maxMemory() + " \tfree=" + Runtime.getRuntime().freeMemory());
 
 		logger.debug("users: " + cache.getUsers().size());
 		logger.debug("maps:  " + cache.getMaps().size());
@@ -78,7 +82,7 @@ public class RandomGameCreator
 		Random random = new Random();
 		for(int i = gamesCount + 1; i <= gamesCount + gamesPerExecution; i++)
 		{
-			createGame(cache, i, gameseries.getProperty("name"), gameseries.getProperty("map"), creator, players, Integer.parseInt(gameseries.getProperty("players.min")), rules, random);
+			createGame(cache, i, gameseries.getProperty("name"), gameseries.getProperty("map"), creator, players, Integer.parseInt(gameseries.getProperty("players.min")), Boolean.valueOf(gameseries.getProperty("map.night")), rules, random);
 		}
 
 		logger.info("writing updated properties...");
@@ -88,7 +92,7 @@ public class RandomGameCreator
 		logger.info("exiting");
 	}
 
-	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, Rules rules, Random random)
+	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random)
 	{
 		try
 		{
@@ -103,7 +107,7 @@ public class RandomGameCreator
 				do
 				{
 					map = cache.getMaps().toArray(new Map[0])[random.nextInt(cache.getMaps().size())];
-				} while(map.getPlayers() < minPlayers);
+				} while(map.getPlayers() < minPlayers && (allowNightMaps || !map.isNight()));
 			}
 			else
 			{
