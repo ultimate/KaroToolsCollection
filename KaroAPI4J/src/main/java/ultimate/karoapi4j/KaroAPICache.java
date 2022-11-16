@@ -647,26 +647,29 @@ public class KaroAPICache implements IDLookUp
 			getCacheFolder().mkdirs();
 		}
 		File cacheFile = new File(folder, (karoAPI == null ? "d_" : "") + mapId + (thumb ? IMAGE_THUMB_SUFFIX : "") + "." + IMAGE_TYPE);
+		CompletableFuture<BufferedImage> loadImage = null;
 		if(cacheFile.exists())
 		{
 			try
 			{
 				logger.debug("loading image from cache: " + cacheFile);
-				return CompletableFuture.completedFuture(ImageIO.read(cacheFile));
+				loadImage = CompletableFuture.completedFuture(ImageIO.read(cacheFile));
 			}
 			catch(IOException e)
 			{
 				logger.warn("could not load image from cache - trying from API: " + cacheFile, e);
 			}
 		}
-		return loadMapImageFromAPI(cacheFile, mapId, thumb).thenApply(image -> {
-			if(this.mapsById.containsKey(mapId))
-			{
-				if(thumb)
-					this.mapsById.get(mapId).setThumb(image);
-				else
-					this.mapsById.get(mapId).setImage(image);
-			}
+		
+		if(loadImage == null)
+			loadImage = loadMapImageFromAPI(cacheFile, mapId, thumb);
+		
+		return loadImage.thenApply(image -> {
+			logger.debug("image loaded: " + mapId + (thumb ? "_thumb" : ""));
+			if(thumb)
+				this.getMap(mapId).setThumb(image);
+			else
+				this.getMap(mapId).setImage(image);
 			return image;
 		});
 	}

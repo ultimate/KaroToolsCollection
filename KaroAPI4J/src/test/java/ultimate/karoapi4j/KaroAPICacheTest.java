@@ -122,6 +122,8 @@ public class KaroAPICacheTest extends KaroAPITestcase
 	public void test_imageCaching() throws InterruptedException, ExecutionException
 	{
 		logger.info("image cache=" + karoAPICache.getCacheFolder().getAbsolutePath());
+		
+		assertTrue(karoAPICache.isLoadImages());
 
 		File img;
 		File thumb;
