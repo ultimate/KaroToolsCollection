@@ -56,6 +56,7 @@ public class KaroAPICache implements IDLookUp
 
 	public static final String				CONFIG_BASE			= "karoAPI.";
 	public static final String				CONFIG_CACHE		= CONFIG_BASE + "cache";
+	public static final String				CONFIG_IMAGES		= CONFIG_BASE + "images";
 	public static final String				CONFIG_EXTRA_MAPS	= CONFIG_BASE + "extra.maps";
 	public static final String				CONFIG_EXTRA_USERS	= CONFIG_BASE + "extra.users";
 
@@ -116,6 +117,10 @@ public class KaroAPICache implements IDLookUp
 	 * The cache Folder
 	 */
 	private File							cacheFolder;
+	/**
+	 * Whether to load images or not?
+	 */
+	private boolean							loadImages;
 
 	/**
 	 * Create a new KaroAPICache which will use the default folder
@@ -137,7 +142,7 @@ public class KaroAPICache implements IDLookUp
 	{
 		if(karoAPI == null)
 			logger.warn("KaroAPI is null - using debug mode");
-		
+
 		this.karoAPI = karoAPI;
 		this.usersById = new TreeMap<>();
 		this.usersByLogin = new TreeMap<>();
@@ -145,10 +150,16 @@ public class KaroAPICache implements IDLookUp
 		this.mapsById = new TreeMap<>();
 
 		this.config = config;
+
 		if(this.config != null && this.config.containsKey(CONFIG_CACHE))
 			this.cacheFolder = new File(this.config.getProperty(CONFIG_CACHE));
 		else
 			this.cacheFolder = new File(DEFAULT_FOLDER);
+
+		if(this.config != null && this.config.containsKey(CONFIG_IMAGES))
+			this.loadImages = Boolean.valueOf(this.config.getProperty(CONFIG_IMAGES));
+		else
+			this.loadImages = true;
 	}
 
 	/**
@@ -164,7 +175,7 @@ public class KaroAPICache implements IDLookUp
 
 			// load users
 			logger.info("loading users...");
-			CompletableFuture<Void> loadUsers = karoAPI.getUsers().thenAccept(userList -> {
+			CompletableFuture<Void> loadUsersCF = karoAPI.getUsers().thenAccept(userList -> {
 				logger.info("users loaded: " + userList.size());
 				for(User u : userList)
 					updateUser(u);
@@ -172,10 +183,13 @@ public class KaroAPICache implements IDLookUp
 
 			// load extra users
 			if(config != null && config.containsKey(CONFIG_EXTRA_USERS))
-				loadUsers = loadExtras(User.class, config.getProperty(CONFIG_EXTRA_USERS), loadUsers);
+				loadUsersCF = loadExtras(User.class, config.getProperty(CONFIG_EXTRA_USERS), loadUsersCF);
 
 			// then check the current user
-			CompletableFuture<Void> loadCheck = loadUsers.thenComposeAsync(v -> { logger.info("checking login..."); return karoAPI.check(); }).thenAccept(checkUser -> {
+			CompletableFuture<Void> loadCheckCF = loadUsersCF.thenComposeAsync(v -> {
+				logger.info("checking login...");
+				return karoAPI.check();
+			}).thenAccept(checkUser -> {
 				if(checkUser != null)
 				{
 					logger.info("credentials confirmed: " + checkUser.getLogin() + " (" + checkUser.getId() + ")");
@@ -193,7 +207,7 @@ public class KaroAPICache implements IDLookUp
 
 			// load maps
 			logger.info("loading maps...");
-			CompletableFuture<Void> loadMaps = karoAPI.getMaps().thenAccept(mapList -> {
+			CompletableFuture<Void> loadMapsCF = karoAPI.getMaps().thenAccept(mapList -> {
 				logger.info("maps loaded: " + mapList.size());
 				for(Map m : mapList)
 					updateMap(m);
@@ -201,42 +215,40 @@ public class KaroAPICache implements IDLookUp
 
 			// load extra maps
 			if(config != null && config.containsKey(CONFIG_EXTRA_MAPS))
-				loadMaps = loadExtras(Map.class, config.getProperty(CONFIG_EXTRA_MAPS), loadMaps);
+				loadMapsCF = loadExtras(Map.class, config.getProperty(CONFIG_EXTRA_MAPS), loadMapsCF);
 
 			// then load map images
 			logger.info("loading map images...");
-			CompletableFuture<Void> loadImages = loadMaps.thenApplyAsync(_void -> {
-				CompletableFuture<?>[] loadAllImages = new CompletableFuture[this.mapsById.size()];
-				int cursor = 0;
-				for(Map m : mapsById.values())
-				{
-					if(m.getImage() == null || m.getThumb() == null)
+			CompletableFuture<Void> loadImagesCF;
+			if(this.loadImages)
+			{
+				loadImagesCF = loadMapsCF.thenApplyAsync(_void -> {
+					CompletableFuture<?>[] loadAllImages = new CompletableFuture[this.mapsById.size()];
+					int cursor = 0;
+					for(Map m : mapsById.values())
 					{
-					//@formatter:off
-					loadAllImages[cursor++] = CompletableFuture.supplyAsync(() -> {
-							return m;
-						}).thenComposeAsync(map -> {
-							return loadMapImage(map.getId(), false);
-						}).thenApply(image -> {
-							m.setImage(image);
-							return m;
-						}).thenComposeAsync(map -> {
-							return loadMapImage(map.getId(), true);
-						}).thenAccept(thumb -> {
-							m.setThumb(thumb);
-						});
-					//@formatter:on
+						if(m.getImage() == null || m.getThumb() == null)
+						{
+							loadAllImages[cursor++] = CompletableFuture.allOf(loadMapImage(m.getId(), false), loadMapImage(m.getId(), true));
+						}
+						else
+						{
+							loadAllImages[cursor++] = CompletableFuture.completedFuture(null);
+						}
 					}
-					else
-					{
-						loadAllImages[cursor++] = CompletableFuture.completedFuture(null);
-					}
-				}
-				return CompletableFuture.allOf(loadAllImages);
-			}).thenCompose(Function.identity());
+					return CompletableFuture.allOf(loadAllImages);
+				}).thenCompose(Function.identity());
+			}
+			else
+			{
+				logger.info("--> skipped by config");
+				loadImagesCF = CompletableFuture.completedFuture(null);
+			}
 
 			// join all operations
-			return CompletableFuture.allOf(loadUsers, loadCheck, loadMaps, loadImages).thenAccept(v -> { logger.info("refresh complete"); });
+			return CompletableFuture.allOf(loadUsersCF, loadCheckCF, loadMapsCF, loadImagesCF).thenAccept(v -> {
+				logger.info("refresh complete");
+			});
 		}
 		else
 		{
@@ -257,15 +269,24 @@ public class KaroAPICache implements IDLookUp
 				}
 				// create some dummy maps
 				logger.info("creating dummy maps...");
-				Map m;
-				for(int i = 1; i <= DUMMY_MAPS; i++)
+				if(this.loadImages)
 				{
-					m = createDummyMap(i);
-					updateMap(m);
+					Map m;
+					for(int i = 1; i <= DUMMY_MAPS; i++)
+					{
+						m = createDummyMap(i);
+						updateMap(m);
+					}
+				}
+				else
+				{
+					logger.info("--> skipped by config");
 				}
 
 				currentUser = usersById.get(1);
-			}).thenAccept(v -> { logger.info("refresh complete"); });
+			}).thenAccept(v -> {
+				logger.info("refresh complete");
+			});
 		}
 	}
 
@@ -593,6 +614,16 @@ public class KaroAPICache implements IDLookUp
 	}
 
 	/**
+	 * Whether to load images or not?
+	 * 
+	 * @return
+	 */
+	public boolean isLoadImages()
+	{
+		return loadImages;
+	}
+
+	/**
 	 * Load a {@link Map} image. If the image is present in the file system cache the image will be loaded from there. If not, the image will be
 	 * loaded from
 	 * the {@link KaroAPI}.<br>
@@ -605,7 +636,7 @@ public class KaroAPICache implements IDLookUp
 	 * @param thumb - load thumb or normal image?
 	 * @return the {@link BufferedImage} in a {@link CompletableFuture}
 	 */
-	protected CompletableFuture<BufferedImage> loadMapImage(int mapId, boolean thumb)
+	public CompletableFuture<BufferedImage> loadMapImage(int mapId, boolean thumb)
 	{
 		File folder = getCacheFolder();
 		if(folder.exists() && !folder.isDirectory())
@@ -628,7 +659,16 @@ public class KaroAPICache implements IDLookUp
 				logger.warn("could not load image from cache - trying from API: " + cacheFile, e);
 			}
 		}
-		return loadMapImageFromAPI(cacheFile, mapId, thumb);
+		return loadMapImageFromAPI(cacheFile, mapId, thumb).thenApply(image -> {
+			if(this.mapsById.containsKey(mapId))
+			{
+				if(thumb)
+					this.mapsById.get(mapId).setThumb(image);
+				else
+					this.mapsById.get(mapId).setImage(image);
+			}
+			return image;
+		});
 	}
 
 	/**
@@ -664,7 +704,7 @@ public class KaroAPICache implements IDLookUp
 		});
 	}
 
-	@Deprecated//(since = "only used for dummy creation")
+	@Deprecated // (since = "only used for dummy creation")
 	protected static BufferedImage createSingleColorImage(int width, int height, Color color)
 	{
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -680,7 +720,7 @@ public class KaroAPICache implements IDLookUp
 	 * @param image - the original image
 	 * @return the specialized image
 	 */
-	@Deprecated//(since = "only used for dummy creation")
+	@Deprecated // (since = "only used for dummy creation")
 	protected static BufferedImage createSpecialImage(BufferedImage image)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
