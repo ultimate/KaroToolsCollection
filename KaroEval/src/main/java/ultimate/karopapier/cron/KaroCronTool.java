@@ -100,7 +100,7 @@ public class KaroCronTool
 		{
 			logger.info("initiating KaroAPI + cache... ");
 			karoAPI = new KaroAPI(karoUsername, karoPassword);
-			karoAPICache = new KaroAPICache(karoAPI);
+			karoAPICache = new KaroAPICache(karoAPI, properties);
 			creator = new Creator(karoAPICache);
 		}
 		catch(KaroAPIException e)
