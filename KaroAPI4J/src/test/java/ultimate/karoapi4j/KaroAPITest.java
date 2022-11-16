@@ -55,7 +55,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals("1.2.2", KaroAPI.getVersion());
+		assertEquals("1.2.3", KaroAPI.getVersion());
 	}
 
 	@Test
