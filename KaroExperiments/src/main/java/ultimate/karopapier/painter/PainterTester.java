@@ -56,11 +56,21 @@ public class PainterTester
 		frame.setPath(pathFinder.getPath());
 		frame.repaintMap();
 		
+		frame.setDebug(true);
+		frame.repaintMap();
+		frame.setDebug(false);
+		
+		int sleep = 0;		
 		int step;
 		long time = System.currentTimeMillis();
 		while(!pathFinder.isFinished())
 		{
 			step = pathFinder.step();
+			
+			if(sleep > 0)
+			{
+				Thread.sleep(sleep);
+			}
 
 			// if(step % 1000 == 0)
 			if(System.currentTimeMillis() > time + 100)

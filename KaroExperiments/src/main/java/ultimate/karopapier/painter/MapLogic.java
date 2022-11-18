@@ -1,11 +1,19 @@
 package ultimate.karopapier.painter;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.LinkedList;
-import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class MapLogic
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient static final Logger logger = LogManager.getLogger(MapLogic.class);
+
 	private MapLogic()
 	{
 
@@ -90,17 +98,17 @@ public abstract class MapLogic
 		if(!isInRect(vector, new Rectangle(0, 0, grid.width, grid.height)))
 			return false;
 
-		// create a list of the touched fields
-		List<MapField> fields = new LinkedList<>();
-		fields.add(vector.start); // start
-		// TODO add intermediate points
-		fields.add(vector.end); // end
+		LineIterator iter = new LineIterator(new Point(vector.start.x, vector.start.y), new Point(vector.end.x, vector.end.y));
 
-		for(MapField f : fields)
+		Point p;
+		MapField f;
+		while(iter.hasNext())
 		{
+			p = iter.next();
+			f = grid.grid[p.x][p.y];
 			if(!f.road)
 			{
-				// System.out.println("no road: " + f.symbol);
+				// logger.debug("touching gras");
 				return false;
 			}
 		}
@@ -125,7 +133,7 @@ public abstract class MapLogic
 		// find starts and finishes
 		LinkedList<MapField> startFieldQueue = new LinkedList<>();
 		LinkedList<MapField> finishFieldQueue = new LinkedList<>();
-		
+
 		for(int x = 0; x < grid.width; x++)
 		{
 			for(int y = 0; y < grid.height; y++)
@@ -194,6 +202,7 @@ public abstract class MapLogic
 						continue; // S next to F
 
 					candidateDistance = current.distanceToFinish + Math.abs(dx) + Math.abs(dy);
+					// candidateDistance = current.distanceToFinish + 1;
 
 					if(candidate.distanceToFinish >= 0)
 					{
@@ -214,7 +223,7 @@ public abstract class MapLogic
 	public static LinkedList<MapVector> calculatePossibles(MapGrid grid, MapVector currentVector)
 	{
 		LinkedList<MapVector> possibles = new LinkedList<>();
-		
+
 		int newdx, newdy;
 		for(int ddx = -1; ddx <= 1; ddx++)
 		{
@@ -230,16 +239,16 @@ public abstract class MapLogic
 					continue;
 				possibles.add(new MapVector(grid, currentVector.end, newdx, newdy));
 			}
-			
+
 		}
 		// remove all that are not valid
 		possibles.removeIf(v -> {
 			return !isValid(grid, v);
 		});
-		
+
 		if(possibles.size() == 0)
 			possibles.add(new MapVector(grid, currentVector.end, 0, 0)); // ZZZ=0
-		
+
 		return possibles;
 	}
 }

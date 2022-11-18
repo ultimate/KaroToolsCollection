@@ -23,4 +23,10 @@ public class MapVector
 		
 		this.possibles = null;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "MapVector [(" + start.x + "|" + start.y + ")-(" + dx + "|" + dy + ")->(" + end.x + "|" + end.y + ")]";
+	}
 }
