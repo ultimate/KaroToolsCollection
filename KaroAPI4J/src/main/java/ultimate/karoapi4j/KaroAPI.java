@@ -243,6 +243,7 @@ public class KaroAPI implements IDLookUp
 	// maps
 	protected final URLLoader													MAPS						= API.relative("/maps");
 	protected final URLLoader													MAP							= MAPS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													MAP_CODE					= API.relative("/mapcode/" + PLACEHOLDER + ".txt");
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
 	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
@@ -915,7 +916,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<String> getMapCode(int mapId)
 	{
-		return loadAsync(MAP.replace(PLACEHOLDER, mapId + ".txt").doGet(), PARSER_RAW);
+		return loadAsync(MAP_CODE.replace(PLACEHOLDER, mapId).doGet(), PARSER_RAW);
 	}
 
 	///////////////////////
