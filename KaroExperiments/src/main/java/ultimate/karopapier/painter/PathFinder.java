@@ -28,7 +28,7 @@ public class PathFinder
 	private MapField					breakPoint;
 
 	public static final int				ALLOWED_DISTANCE_OFFSET	= 5;
-	public static final int				ISOLATION_TRESHOLD		= 2;
+	public static final int				ISOLATION_TRESHOLD		= 1;
 
 	public PathFinder(MapGrid grid, Rectangle section, MapVector start)
 	{
@@ -220,6 +220,9 @@ public class PathFinder
 		{
 			for(int y = 0; y < this.grid.height; y++)
 			{
+				if(!this.grid.grid[x][y].road)
+					continue;
+				
 				isolated = true;
 				for(int dx = -ISOLATION_TRESHOLD; dx <= ISOLATION_TRESHOLD; dx++)
 				{
@@ -240,6 +243,11 @@ public class PathFinder
 					}
 					if(!isolated)
 						break;
+				}
+				if(isolated)
+				{
+					logger.debug("(" + x + "|" + y + ") is isolated");
+					isolatedFields++;
 				}
 			}
 		}
