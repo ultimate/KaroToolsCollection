@@ -25,8 +25,10 @@ public class PathFinder
 	private int							fieldsToVisit;
 	private int							fieldsVisited;
 
-	public static final int				allowedDistanceOffset	= 5;
-	public static final int				isolationDistance		= 2;
+	private MapField					breakPoint;
+
+	public static final int				ALLOWED_DISTANCE_OFFSET	= 5;
+	public static final int				ISOLATION_TRESHOLD		= 2;
 
 	public PathFinder(MapGrid grid, Rectangle section, MapVector start)
 	{
@@ -65,12 +67,13 @@ public class PathFinder
 
 		this.path = new LinkedList<>();
 		this.path.add(this.start);
+		this.start.end.visited = true;
 		this.step = 0;
 
 		this.fieldsToVisit = MapLogic.countRoadFields(grid, section);
 		this.fieldsVisited = 1;
 	}
-	
+
 	public MapGrid getGrid()
 	{
 		return grid;
@@ -117,8 +120,23 @@ public class PathFinder
 		return false;
 	}
 
+	public MapField getBreakPoint()
+	{
+		return breakPoint;
+	}
+
+	public void setBreakPoint(int x, int y)
+	{
+		this.breakPoint = this.grid.grid[x][y];
+	}
+
 	public int step()
 	{
+		if(this.breakPoint != null && this.path.getLast().end == this.breakPoint)
+		{
+			logger.debug("break point reached");
+		}
+
 		MapVector next = getNext(this.path.getLast());
 
 		if(next == null)
@@ -131,18 +149,27 @@ public class PathFinder
 		else if(MapLogic.isFinish(next.end.symbol) && this.fieldsToVisit < this.fieldsVisited)
 		{
 			// ignore finish when we have other karos left
+			logger.debug("ignoring finish");
 		}
-		else if(next.end.visited)
+		else if(next.end.visited && (next.dx != 0 || next.dy != 0))
 		{
 			// ignore vectors that end on a visited field
+			logger.debug("ignoring visited");
 		}
 		else if(!MapLogic.isInRect(next, this.section))
 		{
 			// ignore vectors that leave the section
+			logger.debug("ignoring out of rect");
 		}
-		else if(backtrackingNeeded(next))
+		else if(fieldsLeftBehind(next))
 		{
 			// ignore vectors that leave gaps
+			logger.debug("ignore vector if we have gaps far behind");
+		}
+		else if(fieldsIsolated(next))
+		{
+			// ignore vectors that leave gaps
+			logger.debug("ignore vector if we have isolated fields");
 		}
 		else
 		{
@@ -152,7 +179,6 @@ public class PathFinder
 				this.fieldsVisited++;
 		}
 		return ++step;
-
 	}
 
 	protected MapVector getNext(MapVector currentVector)
@@ -162,15 +188,14 @@ public class PathFinder
 			currentVector.possibles = MapLogic.calculatePossibles(this.grid, currentVector);
 			sortPossibles(currentVector, currentVector.possibles);
 		}
+		logger.debug("possibles: " + currentVector.possibles);
 		return currentVector.possibles.poll();
 	}
 
-	protected boolean backtrackingNeeded(MapVector next)
+	protected boolean fieldsLeftBehind(MapVector next)
 	{
 		MapField highestDistanceFieldNotVisited;
 		MapField field;
-		int isolatedFields;
-		boolean isolated;
 
 		highestDistanceFieldNotVisited = null;
 		for(int x = 0; x < this.grid.width; x++)
@@ -182,16 +207,23 @@ public class PathFinder
 					highestDistanceFieldNotVisited = field;
 			}
 		}
+		logger.debug(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
 
-		isolatedFields = 0;
+		return next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - ALLOWED_DISTANCE_OFFSET;
+	}
+
+	protected boolean fieldsIsolated(MapVector next)
+	{
+		int isolatedFields = 0;
+		boolean isolated;
 		for(int x = 0; x < this.grid.width; x++)
 		{
 			for(int y = 0; y < this.grid.height; y++)
 			{
 				isolated = true;
-				for(int dx = -isolationDistance; dx <= isolationDistance; dx++)
+				for(int dx = -ISOLATION_TRESHOLD; dx <= ISOLATION_TRESHOLD; dx++)
 				{
-					for(int dy = -isolationDistance; dy <= isolationDistance; dy++)
+					for(int dy = -ISOLATION_TRESHOLD; dy <= ISOLATION_TRESHOLD; dy++)
 					{
 						if(x + dx < 0 || x + dx >= this.grid.width)
 							continue; // out of bounds
@@ -211,15 +243,7 @@ public class PathFinder
 				}
 			}
 		}
-
-		logger.debug(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
-
-		if(next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - allowedDistanceOffset)
-			return true; // ignore vector if we have gaps far behing
-		if(isolatedFields > 0)
-			return true; // ignore vector if we have isolated a field
-		
-		return false;
+		return isolatedFields > 0;
 	}
 
 	protected void sortPossibles(MapVector currentVector, LinkedList<MapVector> possibles)
@@ -231,7 +255,9 @@ public class PathFinder
 
 			if(v1.end.distanceToFinish == v2.end.distanceToFinish) // both fields have the same distance
 				return l1 - l2; // shortest vector first // TODO those with the least successors first? (maybe sort only on next (not on getSuccessors)
-			else if(v1.end.distanceToFinish > currentVector.end.distanceToFinish && v2.end.distanceToFinish > currentVector.end.distanceToFinish) // both fields are further than the current
+//			else if(v1.end.distanceToFinish > currentVector.end.distanceToFinish && v2.end.distanceToFinish > currentVector.end.distanceToFinish) // both fields are further than the current
+//				return l1 - l2; // shortest vector first
+			else if(v1.end.distanceToFinish > currentVector.end.distanceToFinish - ALLOWED_DISTANCE_OFFSET && v2.end.distanceToFinish > currentVector.end.distanceToFinish - ALLOWED_DISTANCE_OFFSET) // both fields are further than the current
 				return l1 - l2; // shortest vector first
 			// else if(v1.end.distanceToFinish > this.end.distanceToFinish) // v1 is further than the current
 			// return -1;
@@ -239,7 +265,7 @@ public class PathFinder
 			// return +1;
 			else if(v1.end.distanceToFinish != v2.end.distanceToFinish)
 				return -(v1.end.distanceToFinish - v2.end.distanceToFinish); // furthest field first
-			return 0;
+			return l1 - l2;
 		});
 	}
 }
