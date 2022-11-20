@@ -215,8 +215,14 @@ public abstract class Planner
 		int count = 0;
 		int dayCount;
 		HashMap<String, String> placeholderValues;
+		
+		// since it is not guaranteed that gameDayRules.values() is sorted by day by default we need to build up the list manually
+		// gameDayRules.values() is sorted alphabetically, so for example 1, 10, 2, ..
+		List<Rules> rulesSortedByDay = new ArrayList<>();
+		for(int day = 0; day < gameDayMaps.size(); day++)
+			rulesSortedByDay.add(gameDayRules.get("" + day));
 
-		User[][][] shuffledPlayers = balancedShufflePlayers(players, new ArrayList<>(gameDayRules.values()));
+		User[][][] shuffledPlayers = balancedShufflePlayers(players, rulesSortedByDay);
 
 		for(int day = 0; day < gameDayMaps.size(); day++)
 		{
