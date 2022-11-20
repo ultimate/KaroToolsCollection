@@ -24,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
@@ -154,7 +155,9 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 
 				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
 				LinkedList<Map> maps = new LinkedList<Map>(karoAPICache.getMaps());
-				maps.removeIf(m -> { return m.getPlayers() < 3; });
+				maps.removeIf(m -> {
+					return m.getPlayers() < 3;
+				});
 
 				if(gameSeries.getMapsByKey().containsKey("" + i) && gameSeries.getMapsByKey().get("" + i).size() > 0)
 					map = gameSeries.getMapsByKey().get("" + i).get(0);
@@ -180,7 +183,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 					startDirection = null;
 					maxZzz = null;
 					minZzz = null;
-					numberOfPlayers = map.getPlayers() - 1;
+					numberOfPlayers = (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? map.getPlayers() : map.getPlayers() - 1);
 					gamesPerPlayer = numberOfPlayers;
 				}
 
@@ -208,7 +211,9 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				gbc.gridx = 1;
 				contentPanel.add(label, gbc);
 				gamesPerPlayerSpinner = new JSpinner(new SpinnerNumberModel(Math.min(gamesPerPlayer, maxGamesPerPlayer), 1, maxGamesPerPlayer, 1));
-				gamesPerPlayerSpinner.addChangeListener(e -> { actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j)); });
+				gamesPerPlayerSpinner.addChangeListener(e -> {
+					actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j));
+				});
 				gbc.gridx++;
 				contentPanel.add(gamesPerPlayerSpinner, gbc);
 
@@ -216,10 +221,12 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				gbc.gridx++;
 				contentPanel.add(label, gbc);
 				int value = Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers);
-				int max = Math.min(gameSeries.getPlayers().size() + 1, map.getPlayers() - 1);
+				int max = Math.min(gameSeries.getPlayers().size() + 1, (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? map.getPlayers() : map.getPlayers() - 1));
 				value = Math.min(value, max); // usually value should not be > max; but with manipulation this can lead to an error, so handle it here
 				numberOfPlayersSpinner = new JSpinner(new SpinnerNumberModel(value, 2, max, 1));
-				numberOfPlayersSpinner.addChangeListener(e -> { actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j)); });
+				numberOfPlayersSpinner.addChangeListener(e -> {
+					actionPerformed(new ActionEvent(e.getSource(), j, ACTION_RECALC_NUMBER_OF_GAMES + j));
+				});
 				gbc.gridx++;
 				contentPanel.add(numberOfPlayersSpinner, gbc);
 
@@ -316,7 +323,8 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 		if(e.getActionCommand().startsWith(ACTION_MAP_SELECT))
 		{
 			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_SELECT.length()));
-			int max = Math.min(gameSeries.getPlayers().size() + 1, ((Map) ((JComboBox<Map>) e.getSource()).getSelectedItem()).getPlayers() - 1);
+			int mapMax = ((Map) ((JComboBox<Map>) e.getSource()).getSelectedItem()).getPlayers();
+			int max = Math.min(gameSeries.getPlayers().size() + 1, (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? mapMax : mapMax - 1));
 			((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setMaximum(max);
 			if(((Integer) ((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).getValue()) > max)
 				((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setValue(max);
