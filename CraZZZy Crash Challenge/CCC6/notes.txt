@@ -1,0 +1,1 @@
+Namensformat:	CraZZZy Crash Challenge 6 - Challenge ${spieltag}.${spieltag.i} - Karte ${karte.id} | ${spieler.anzahl}er Challenge | ${regeln.zzz}

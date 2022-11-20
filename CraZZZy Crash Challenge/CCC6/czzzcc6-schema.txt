@@ -38,7 +38,9 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''12.10.2022 18:22''' Wiki-Seite erstellt
 * '''21.10.2022 14:23''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
 * '''27.10.2022 16:19''' {{Benutzer|ulli}} macht Werbung über die [[AndroidApp]]
-* '''??.??.2022 ??:??''' Anmeldung geschlossen. Planung der Spiele mit dem [[KaroMUSKEL]] kann beginnen
-* '''??.??.2022 ??:??''' Planung durchgeführt und automatische Erstellung per Cron-Job geplant - jetzt heißt es warten (und dann bald ziehen!) :)
+* '''16.11.2022 00:00''' Anmeldung geschlossen. Wir haben 25 Teilnehmer... :)
+* '''19.11.2022 17:00''' Planung der Spiele mit dem [[KaroMUSKEL]] + Bug-Fixes am Tooling
+* '''20.11.2022 19:00''' Nochmal alles prüfen sowie Vorbereitung des Toolings (inkl. Cron-Job)
+* '''20.11.2022 19:00''' Es geht los!!! Den ersten Spieltag habe ich manuell angestossen - alle folgenden kommen dann immer Sonntags um 4:00
 
 [[Kategorie:Meisterschaft]]
