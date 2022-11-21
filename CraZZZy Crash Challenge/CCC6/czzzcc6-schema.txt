@@ -21,6 +21,17 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 
 ${MAPS}
 
+'''Anmerkungen:'''
+* In den Detailwertungen gibt es je Rennen 3 Spalten:
+** Z = Züge
+** C = Crashs
+** S = Status
+* Unter status gibt es 4 Möglichkeiten:
+** &#127950; = fährt noch
+** &#127937; = im Ziel
+** &#128128; = ausgestiegen/rausgeworfen
+** &#128683; = disqualifiziert (z. B. im Ziel ohne Crashs)
+
 == Gesamtwertung ==
 ${TOTAL}
 
