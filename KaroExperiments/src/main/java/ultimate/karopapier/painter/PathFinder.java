@@ -250,6 +250,15 @@ public class PathFinder
 			// vector lengths
 			int l1 = v1.dx * v1.dx + v1.dy * v1.dy;
 			int l2 = v2.dx * v2.dx + v2.dy * v2.dy;
+			
+			if(v1.end.distanceToFinish_diagonal != v2.end.distanceToFinish_diagonal)
+				return -(v1.end.distanceToFinish_diagonal - v2.end.distanceToFinish_diagonal); // furthest field first
+			if(v1.end.distanceToFinish_straight != v2.end.distanceToFinish_straight)
+				return -(v1.end.distanceToFinish_straight - v2.end.distanceToFinish_straight); // furthest field first
+			
+			// TODO
+			
+			
 
 			if(v1.end.distanceToFinish_diagonal == v2.end.distanceToFinish_diagonal) // both fields have the same distance
 				return l1 - l2; // shortest vector first // TODO those with the least successors first? (maybe sort only on next (not on getSuccessors)
