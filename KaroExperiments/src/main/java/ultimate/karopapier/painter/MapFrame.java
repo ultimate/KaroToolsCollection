@@ -6,25 +6,29 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.util.Collection;
+import java.util.List;
 
 import javax.swing.JFrame;
 
-public class MapFrame extends JFrame
+public class MapFrame extends JFrame implements Runnable
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	public static final int			GRID_SIZE			= 20;
-	public static final int			TITLE_BAR			= 20;
+	public static final int		GRID_SIZE			= 20;
+	public static final int		TITLE_BAR			= 20;
 
-	private Canvas					canvas;
-	private MapGrid					grid;
-	private Collection<MapField>	highlights;
-	private Collection<MapVector>	path;
+	private Canvas				canvas;
+	private MapGrid				grid;
+	private List<MapField>		highlights;
+	private List<MapVector>		path;
 
-	private boolean					debug;
+	private int					refreshRate;
+	private boolean				debug;
 
-	public MapFrame(MapGrid grid)
+	private boolean				shutdown;
+	private Thread				refreshThread;
+
+	public MapFrame(MapGrid grid, int refreshRate)
 	{
 		this.grid = grid;
 
@@ -42,6 +46,43 @@ public class MapFrame extends JFrame
 
 		this.setVisible(true);
 		this.requestFocus();
+
+		this.shutdown = false;
+		this.refreshRate = refreshRate;
+		this.refreshThread = new Thread(this);
+		this.refreshThread.start();
+	}
+
+	@Override
+	public void run()
+	{
+		while(!shutdown)
+		{
+			this.repaintMap();
+			try
+			{
+				Thread.sleep(refreshRate);
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void dispose()
+	{
+		this.shutdown = true;
+		try
+		{
+			this.refreshThread.join(this.refreshRate * 2);
+		}
+		catch(InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		super.dispose();
 	}
 
 	public boolean isDebug()
@@ -54,22 +95,22 @@ public class MapFrame extends JFrame
 		this.debug = debug;
 	}
 
-	public Collection<MapVector> getPath()
+	public List<MapVector> getPath()
 	{
 		return path;
 	}
 
-	public void setPath(Collection<MapVector> path)
+	public void setPath(List<MapVector> path)
 	{
 		this.path = path;
 	}
 
-	public Collection<MapField> getHighlights()
+	public List<MapField> getHighlights()
 	{
 		return highlights;
 	}
 
-	public void setHighlights(Collection<MapField> highlights)
+	public void setHighlights(List<MapField> highlights)
 	{
 		this.highlights = highlights;
 	}
@@ -104,10 +145,15 @@ public class MapFrame extends JFrame
 		{
 			for(int y = 0; y < grid.height; y++)
 			{
-				if(grid.grid[x][y].road)
+				if(grid.grid[x][y].breakpoint)
+				{
+					g.setColor(new Color(255, 255, 255));
+					drawField(x, y, g);
+				}
+				else if(grid.grid[x][y].road)
 				{
 					g.setColor(new Color(127, 127, 127));
-					g.fillRect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1);
+					drawField(x, y, g);
 				}
 
 				if(debug)
@@ -123,13 +169,21 @@ public class MapFrame extends JFrame
 		}
 	}
 
-	protected void drawPath(Collection<MapVector> path, Graphics g)
+	protected void drawField(int x, int y, Graphics g)
 	{
-		for(MapVector v : path)
+		g.fillRect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1);
+	}
+
+	protected void drawPath(List<MapVector> path, Graphics g)
+	{
+		MapVector v;
+		for(int i = 0; i < path.size(); i++)
 		{
+			v = path.get(i);
 			g.drawLine(v.start.x * GRID_SIZE + GRID_SIZE / 2, v.start.y * GRID_SIZE + GRID_SIZE / 2, v.end.x * GRID_SIZE + GRID_SIZE / 2, v.end.y * GRID_SIZE + GRID_SIZE / 2);
 			drawPoint(v.start.x, v.start.y, g);
 		}
+		;
 	}
 
 	protected void drawPoint(int x, int y, Graphics g)

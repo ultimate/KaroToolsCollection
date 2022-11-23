@@ -25,8 +25,6 @@ public class PathFinder
 	private int							fieldsToVisit;
 	private int							fieldsVisited;
 
-	private MapField					breakPoint;
-
 	public static final int				ALLOWED_DISTANCE_OFFSET	= 5;
 	public static final int				ISOLATION_TRESHOLD		= 1;
 
@@ -120,19 +118,9 @@ public class PathFinder
 		return false;
 	}
 
-	public MapField getBreakPoint()
-	{
-		return breakPoint;
-	}
-
-	public void setBreakPoint(int x, int y)
-	{
-		this.breakPoint = this.grid.grid[x][y];
-	}
-
 	public int step()
 	{
-		if(this.breakPoint != null && this.path.getLast().end == this.breakPoint)
+		if(this.path.getLast().end.breakpoint)
 		{
 			logger.debug("break point reached");
 		}
