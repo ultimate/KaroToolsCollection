@@ -4,6 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Collection;
 
@@ -31,6 +32,7 @@ public class MapFrame extends JFrame
 		int height = grid.height * GRID_SIZE + TITLE_BAR;
 
 		this.setSize(width, height);
+		this.setTitle("PathFinder Visualization");
 		this.setLayout(new FlowLayout());
 
 		this.canvas = new Canvas();
@@ -111,7 +113,9 @@ public class MapFrame extends JFrame
 				if(debug)
 				{
 					g.setColor(new Color(255, 255, 255));
-					g.drawString("" + grid.grid[x][y].distanceToFinish, x * GRID_SIZE, (y + 1) * GRID_SIZE);
+					g.setFont(new Font("TimesRoman", Font.PLAIN, GRID_SIZE / 2));
+					g.drawString("" + grid.grid[x][y].distanceToFinish_straight, x * GRID_SIZE + 1, (int) ((y + 0.5) * GRID_SIZE - 1));
+					g.drawString("" + grid.grid[x][y].distanceToFinish_diagonal, x * GRID_SIZE + 1, (y + 1) * GRID_SIZE - 1);
 					g.setColor(grid.grid[x][y].reachable ? new Color(0, 255, 0) : new Color(255, 0, 0));
 					g.drawRect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1);
 				}

@@ -203,13 +203,13 @@ public class PathFinder
 			for(int y = 0; y < this.grid.height; y++)
 			{
 				field = this.grid.grid[x][y];
-				if(highestDistanceFieldNotVisited == null || !field.visited && field.distanceToFinish > highestDistanceFieldNotVisited.distanceToFinish)
+				if(highestDistanceFieldNotVisited == null || !field.visited && field.distanceToFinish_diagonal > highestDistanceFieldNotVisited.distanceToFinish_diagonal)
 					highestDistanceFieldNotVisited = field;
 			}
 		}
-		logger.debug(highestDistanceFieldNotVisited.distanceToFinish + " -> " + (next != null ? next.end.distanceToFinish : "-"));
+		logger.debug(highestDistanceFieldNotVisited.distanceToFinish_diagonal + " -> " + (next != null ? next.end.distanceToFinish_diagonal : "-"));
 
-		return next.end.distanceToFinish < highestDistanceFieldNotVisited.distanceToFinish - ALLOWED_DISTANCE_OFFSET;
+		return next.end.distanceToFinish_diagonal < highestDistanceFieldNotVisited.distanceToFinish_diagonal - ALLOWED_DISTANCE_OFFSET;
 	}
 
 	protected boolean fieldsIsolated(MapVector next)
@@ -221,6 +221,8 @@ public class PathFinder
 			for(int y = 0; y < this.grid.height; y++)
 			{
 				if(!this.grid.grid[x][y].road)
+					continue;
+				if(this.grid.grid[x][y].visited)
 					continue;
 				
 				isolated = true;
@@ -261,18 +263,18 @@ public class PathFinder
 			int l1 = v1.dx * v1.dx + v1.dy * v1.dy;
 			int l2 = v2.dx * v2.dx + v2.dy * v2.dy;
 
-			if(v1.end.distanceToFinish == v2.end.distanceToFinish) // both fields have the same distance
+			if(v1.end.distanceToFinish_diagonal == v2.end.distanceToFinish_diagonal) // both fields have the same distance
 				return l1 - l2; // shortest vector first // TODO those with the least successors first? (maybe sort only on next (not on getSuccessors)
 //			else if(v1.end.distanceToFinish > currentVector.end.distanceToFinish && v2.end.distanceToFinish > currentVector.end.distanceToFinish) // both fields are further than the current
 //				return l1 - l2; // shortest vector first
-			else if(v1.end.distanceToFinish > currentVector.end.distanceToFinish - ALLOWED_DISTANCE_OFFSET && v2.end.distanceToFinish > currentVector.end.distanceToFinish - ALLOWED_DISTANCE_OFFSET) // both fields are further than the current
+			else if(v1.end.distanceToFinish_diagonal > currentVector.end.distanceToFinish_diagonal - ALLOWED_DISTANCE_OFFSET && v2.end.distanceToFinish_diagonal > currentVector.end.distanceToFinish_diagonal - ALLOWED_DISTANCE_OFFSET) // both fields are further than the current
 				return l1 - l2; // shortest vector first
 			// else if(v1.end.distanceToFinish > this.end.distanceToFinish) // v1 is further than the current
 			// return -1;
 			// else if(v2.end.distanceToFinish > this.end.distanceToFinish) // v2 is further than the current
 			// return +1;
-			else if(v1.end.distanceToFinish != v2.end.distanceToFinish)
-				return -(v1.end.distanceToFinish - v2.end.distanceToFinish); // furthest field first
+			else if(v1.end.distanceToFinish_diagonal != v2.end.distanceToFinish_diagonal)
+				return -(v1.end.distanceToFinish_diagonal - v2.end.distanceToFinish_diagonal); // furthest field first
 			return l1 - l2;
 		});
 	}
