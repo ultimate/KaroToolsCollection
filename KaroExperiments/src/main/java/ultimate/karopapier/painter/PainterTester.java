@@ -1,5 +1,8 @@
 package ultimate.karopapier.painter;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -37,7 +40,7 @@ public class PainterTester
 		// initiate the grid
 		MapGrid grid = new MapGrid(mapCode);
 		
-		MapFrame frame = new MapFrame(grid);
+		MapFrame frame = new MapFrame(grid, 100);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e)
 			{
@@ -53,14 +56,14 @@ public class PainterTester
 		// create a pathfinder
 		PathFinder pathFinder = new PathFinder(grid, null, startSelected);
 		
-		frame.setPath(pathFinder.getPath());
-		frame.repaintMap();
+		grid.grid[53][2].breakpoint = true;
 		
+		frame.setPath(pathFinder.getPath());
+
 		frame.setDebug(true);
-		frame.repaintMap();
 		frame.setDebug(false);
 		
-		int sleep = 0;		
+		int sleep = 1;		
 		int step;
 		long time = System.currentTimeMillis();
 		while(!pathFinder.isFinished())
@@ -70,13 +73,6 @@ public class PainterTester
 			if(sleep > 0)
 			{
 				Thread.sleep(sleep);
-			}
-
-			// if(step % 1000 == 0)
-			if(System.currentTimeMillis() > time + 100)
-			{
-				frame.repaintMap();
-				time = System.currentTimeMillis();
 			}
 		}
 	}

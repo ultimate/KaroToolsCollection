@@ -140,7 +140,8 @@ public abstract class MapLogic
 			{
 				if(isFinish(grid.grid[x][y].symbol))
 				{
-					grid.grid[x][y].distanceToFinish = 0;
+					grid.grid[x][y].distanceToFinish_straight = 0;
+					grid.grid[x][y].distanceToFinish_diagonal = 0;
 					finishFieldQueue.add(grid.grid[x][y]);
 				}
 				if(isStart(grid.grid[x][y].symbol))
@@ -182,7 +183,8 @@ public abstract class MapLogic
 		while(finishFieldQueue.size() > 0)
 		{
 			current = finishFieldQueue.poll();
-			int candidateDistance;
+			int candidateDistance_s, candidateDistance_d;
+			boolean smallerDistanceFound;
 			for(int dx = -1; dx <= 1; dx++)
 			{
 				for(int dy = -1; dy <= 1; dy++)
@@ -201,20 +203,36 @@ public abstract class MapLogic
 					if(current.symbol == 'F' && candidate.symbol == 'S')
 						continue; // S next to F
 
-					candidateDistance = current.distanceToFinish + Math.abs(dx) + Math.abs(dy);
-					// candidateDistance = current.distanceToFinish + 1;
+					smallerDistanceFound = false;
 
-					if(candidate.distanceToFinish >= 0)
+					candidateDistance_s = current.distanceToFinish_straight + Math.abs(dx) + Math.abs(dy);
+					if(candidate.distanceToFinish_straight >= 0)
 					{
 						// already handled
-						if(candidate.distanceToFinish > candidateDistance)
-							candidate.distanceToFinish = candidateDistance;
+						if(candidate.distanceToFinish_straight > candidateDistance_s)
+							candidate.distanceToFinish_straight = candidateDistance_s;
 					}
 					else
 					{
-						candidate.distanceToFinish = candidateDistance;
-						finishFieldQueue.add(candidate);
+						candidate.distanceToFinish_straight = candidateDistance_s;
+						smallerDistanceFound = true;
 					}
+
+					candidateDistance_d = current.distanceToFinish_diagonal + 1;
+					if(candidate.distanceToFinish_diagonal >= 0)
+					{
+						// already handled
+						if(candidate.distanceToFinish_diagonal > candidateDistance_d)
+							candidate.distanceToFinish_diagonal = candidateDistance_d;
+					}
+					else
+					{
+						candidate.distanceToFinish_diagonal = candidateDistance_d;
+						smallerDistanceFound = true;
+					}
+
+					if(smallerDistanceFound)
+						finishFieldQueue.add(candidate);
 				}
 			}
 		}

@@ -10,7 +10,11 @@ public class MapField
 
 	public boolean			reachable;
 	public boolean			visited;
-	public int				distanceToFinish;
+	public int				distanceToFinish_straight;
+	public int				distanceToFinish_diagonal;
+	
+	public boolean			breakpoint;
+	public boolean			highlight;
 
 	public MapField(int x, int y, char symbol)
 	{
@@ -20,6 +24,9 @@ public class MapField
 		this.road = MapLogic.isRoad(this.symbol);
 		this.reachable = false;
 		this.visited = false;
-		this.distanceToFinish = -1;
+		this.distanceToFinish_straight = -1;
+		this.distanceToFinish_diagonal = -1;
+		this.breakpoint = false;
+		this.highlight = false;
 	}
 }
