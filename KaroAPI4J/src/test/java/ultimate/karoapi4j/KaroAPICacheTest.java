@@ -1,9 +1,11 @@
 package ultimate.karoapi4j;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
@@ -119,10 +121,60 @@ public class KaroAPICacheTest extends KaroAPITestcase
 
 	@Test
 	@Order(5)
+	public void test_refreshingNewGame() throws InterruptedException, ExecutionException
+	{
+		int sleep = 500;
+
+		User user = karoAPI.check().get();
+
+		PlannedGame plannedGame = new PlannedGame();
+		plannedGame.setMap(new Map(105));
+		plannedGame.getPlayers().add(user);
+		plannedGame.setName("KaroAPI-Test-Game");
+		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
+
+		Game game = karoAPI.createGame(plannedGame).get();
+		assertNotNull(game);
+		assertNotNull(game.getId());
+		assertEquals(plannedGame.getName(), game.getName());
+
+		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
+		int gameId = game.getId();
+		int moves = 0;
+		int crashs = 0;
+
+		Thread.sleep(sleep);
+
+		// the result should not be null, but does not contain all fields
+		assertNotNull(game);
+		assertNotNull(game.getId());
+		assertNull(game.getPlayers());
+
+		// load full game -> via refresh
+		karoAPICache.refresh(game).join();
+		assertNotNull(game);
+		assertNotNull(game.getId());
+		assertNotNull(game.getPlayers());
+		assertEquals(1, game.getPlayers().size());
+		assertEquals(user.getId(), game.getPlayers().get(0).getId());
+		assertEquals(moves, game.getPlayers().get(0).getMoveCount());
+		assertEquals(crashs, game.getPlayers().get(0).getCrashCount());
+		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
+		assertNotNull(game.getPlayers().get(0).getPossibles());
+		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
+
+		Thread.sleep(sleep);
+
+		boolean left = karoAPI.leaveGame(gameId).get();
+		assertTrue(left);
+	}
+
+	@Test
+	@Order(6)
 	public void test_imageCaching() throws InterruptedException, ExecutionException
 	{
 		logger.info("image cache=" + karoAPICache.getCacheFolder().getAbsolutePath());
-		
+
 		assertTrue(karoAPICache.isLoadImages());
 
 		File img;
@@ -140,5 +192,59 @@ public class KaroAPICacheTest extends KaroAPITestcase
 			assertTrue(img.exists());
 			assertTrue(thumb.exists());
 		}
+	}
+
+	@Test
+	@Order(7)
+	public void test_cachingAndUncaching() throws InterruptedException, ExecutionException
+	{
+		int uderId = 1;
+		String userName = "Didi";
+		String newName = "NotDidi";
+
+		User user = karoAPICache.getUser(uderId);
+
+		// check initial state
+		assertTrue(karoAPICache.contains(user));
+		assertTrue(user == karoAPICache.getUser(1));
+		assertEquals(userName, user.getLogin());
+
+		// remove from cache
+		karoAPICache.uncache(User.class, uderId);
+
+		// check again
+		assertFalse(karoAPICache.contains(user));
+		assertNotNull(karoAPICache.getUser(1)); // user is automatically reloaded
+		assertFalse(user == karoAPICache.getUser(1));
+		assertEquals(userName, user.getLogin());
+
+		// rename user and replace user in cache (with error)
+		user.setLogin(newName);
+		try
+		{
+			karoAPICache.cache(user);
+			fail("expected exception");
+		}
+		catch(IllegalArgumentException e)
+		{
+			assertNotNull(e);
+		}
+		
+		// replace user in cache (valid)
+		karoAPICache.uncache(User.class, uderId);
+		karoAPICache.cache(user);
+		
+		// check again
+		assertTrue(karoAPICache.contains(user));
+		assertTrue(user == karoAPICache.getUser(1));
+		assertEquals(newName, user.getLogin());
+		
+		// refresh the user
+		karoAPICache.refresh(user).join();
+		
+		// check again
+		assertTrue(karoAPICache.contains(user));
+		assertTrue(user == karoAPICache.getUser(1));
+		assertEquals(userName, user.getLogin());	
 	}
 }

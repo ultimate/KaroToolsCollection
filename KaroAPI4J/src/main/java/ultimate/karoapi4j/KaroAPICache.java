@@ -660,10 +660,10 @@ public class KaroAPICache implements IDLookUp
 				logger.warn("could not load image from cache - trying from API: " + cacheFile, e);
 			}
 		}
-		
+
 		if(loadImage == null)
 			loadImage = loadMapImageFromAPI(cacheFile, mapId, thumb);
-		
+
 		return loadImage.thenApply(image -> {
 			logger.debug("image loaded: " + mapId + (thumb ? "_thumb" : ""));
 			if(thumb)
@@ -743,6 +743,88 @@ public class KaroAPICache implements IDLookUp
 	///////////////////////////////////
 
 	/**
+	 * check whether the given entity is cached from the API
+	 * 
+	 * @param <T> - the type of the entity
+	 * @param cls - the type of the entity
+	 * @param id - the id
+	 * @return whether this cache contains an entity of the given type and ID
+	 */
+	public <T extends Identifiable> boolean contains(T t)
+	{
+		if(t == null)
+			return false;
+		return contains(t.getClass(), t.getId());
+	}
+
+	/**
+	 * check wether there's an entity of the given type and with the given ID that is cached from the API
+	 * 
+	 * @param <T> - the type of the entity
+	 * @param cls - the type of the entity
+	 * @param id - the id
+	 * @return whether this cache contains an entity of the given type and ID
+	 */
+	public <T> boolean contains(Class<T> cls, int id)
+	{
+		if(User.class.equals(cls))
+			return this.usersById.containsKey(id);
+		else if(Game.class.equals(cls))
+			return this.gamesById.containsKey(id);
+		else if(Map.class.equals(cls))
+			return this.mapsById.containsKey(id);
+		else
+			logger.error("unsupported lookup type: " + cls.getName());
+		return false;
+	}
+
+	/**
+	 * add an entity to the cache - only works if there is no entity for the given type and ID yet
+	 * 
+	 * @see KaroAPICache#contains(Identifiable)
+	 * 
+	 * @param <T> - the type of the entity
+	 * @param cls - the type of the entity
+	 * @param id - the id
+	 * @return the cached entity
+	 * @throws IllegalArgumentException - if there is already an entity cached for the given type and ID
+	 */
+	public <T extends Identifiable> T cache(T t)
+	{
+		if(!contains(t))
+			return update(t);
+		else
+			throw new IllegalArgumentException("cannot cache " + t + " because there is already an entity with this id - consider uncache(..) first");
+	}
+
+	/**
+	 * remove an entity from the cache
+	 * 
+	 * @param <T> - the type of the entity
+	 * @param cls - the type of the entity
+	 * @param id - the id
+	 * @return whether there was an entity removed from the cache
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> boolean uncache(Class<T> cls, int id)
+	{
+		T t = null;
+		if(User.class.equals(cls))
+		{
+			t = (T) this.usersById.remove(id);
+			if(t != null)
+				this.usersByLogin.remove(((User) t).getLoginLowerCase());
+		}
+		else if(Game.class.equals(cls))
+			t = (T) this.gamesById.remove(id);
+		else if(Map.class.equals(cls))
+			t = (T) this.mapsById.remove(id);
+		else
+			logger.error("unsupported lookup type: " + cls.getName());
+		return t != null;
+	}
+
+	/**
 	 * Update the cache with the data from the argument passed
 	 * 
 	 * @param <T> - the type of the entity
@@ -796,7 +878,13 @@ public class KaroAPICache implements IDLookUp
 	@SuppressWarnings("unchecked")
 	public <T extends Identifiable> CompletableFuture<T> refresh(T t)
 	{
-		return (CompletableFuture<T>) refresh(t.getClass(), t.getId());
+		if(!contains(t))
+			update(t);
+		return (CompletableFuture<T>) refresh(t.getClass(), t.getId()).thenApply(refreshed -> {
+			if(refreshed == null)
+				uncache(t.getClass(), t.getId());
+			return refreshed;
+		});
 	}
 
 	/**
