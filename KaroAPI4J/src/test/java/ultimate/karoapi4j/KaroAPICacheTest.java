@@ -146,12 +146,14 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		Thread.sleep(sleep);
 
 		// the result should not be null, but does not contain all fields
+		assertFalse(karoAPICache.contains(game));
 		assertNotNull(game);
 		assertNotNull(game.getId());
 		assertNull(game.getPlayers());
 
 		// load full game -> via refresh
 		karoAPICache.refresh(game).join();
+		assertTrue(karoAPICache.contains(game));
 		assertNotNull(game);
 		assertNotNull(game.getId());
 		assertNotNull(game.getPlayers());
