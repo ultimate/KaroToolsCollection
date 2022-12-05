@@ -41,6 +41,7 @@ public class Creator
 				return new Game(plannedGame.hashCode() & 0x7FFFF);
 			});
 		return cf.thenAcceptAsync(createdGame -> {
+			this.karoAPICache.cache(createdGame);
 			if(createdGame != null)
 			{
 				plannedGame.setCreated(true);
