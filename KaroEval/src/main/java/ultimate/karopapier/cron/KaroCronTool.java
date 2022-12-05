@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.TimeZone;
+import java.util.concurrent.CompletableFuture;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.Creator;
@@ -158,6 +160,15 @@ public class KaroCronTool
 					exit("could not store gameseries: " + gameseriesFile.getPath(), e);
 					return;
 				}
+
+				logger.info("refreshing games to retrieve players...");
+				CompletableFuture<Game>[] refreshs = new CompletableFuture[gamesToCreate.size()];
+				int i = 0;
+				for(PlannedGame pg: gamesToCreate)
+				{
+					refreshs[i++] = karoAPICache.refresh(pg.getGame());
+				}
+				CompletableFuture.allOf(refreshs).join();
 			}
 		}
 
