@@ -6,7 +6,7 @@
 	<artifactId>KaroEval</artifactId>
 	<packaging>jar</packaging>
     <version>${ultimate.KaroEval.version}</version>
-    <name>ultimate's KaroTools</name>
+    <name>ultimate's KaroEval</name>
 
 	<parent>
 		<groupId>ultimate</groupId>

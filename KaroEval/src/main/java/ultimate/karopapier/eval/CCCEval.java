@@ -24,7 +24,7 @@ import ultimate.karopapier.utils.WikiUtil;
 public abstract class CCCEval extends Eval<GameSeries>
 {
 	protected static final String				GAMES_KEY				= "Balanced";
-	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele", "Abgeschlossene Spiele", "Letzter Zug", "Züge insgesamt", "Ø Züge p.S.p.R.", "Crashs insgesamt", "Ø Crashs p.S.p.R." };
+	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele", "Abgeschlossene Spiele", "Letztes Spiel abgeschlossen", "Züge insgesamt", "Ø Züge p.S.p.R.", "Crashs insgesamt", "Ø Crashs p.S.p.R." };
 	protected static final int					METRICS_GAME_MAXMOVES	= 0;
 	protected final int							TABLE_TABLE_COLUMNS		= 7;
 

@@ -241,14 +241,13 @@ public class CCCEvalNew extends CCCEval
 		boolean finished, left, forbidden;
 		for(User user : usersByLogin)
 		{
-			status = STATUS_RACING;
-
 			row = new Object[totalTables[c].getColumns()];
 			col = 0;
 			row[col++] = user;
 
 			for(int g = 0; g < challengeGames[c]; g++)
 			{
+				status = STATUS_RACING;
 				finished = false;
 				left = false;
 				forbidden = false;
