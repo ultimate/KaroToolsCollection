@@ -443,7 +443,8 @@ public class CCCEvalNew extends CCCEval
 		else if(player.getStatus() == EnumPlayerStatus.ok)
 			moves = player.getMoveCount() - 1; // parc ferme
 		else
-			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1); // kicked or left
+			moves = (int) (this.challengeMetrics[c][METRICS_GAME_MAXMOVES] + 1); // kicked or left
+//			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1); // kicked or left
 		return moves;
 	}
 

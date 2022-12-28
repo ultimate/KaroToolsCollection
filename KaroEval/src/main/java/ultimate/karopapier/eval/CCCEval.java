@@ -24,7 +24,8 @@ import ultimate.karopapier.utils.WikiUtil;
 public abstract class CCCEval extends Eval<GameSeries>
 {
 	protected static final String				GAMES_KEY				= "Balanced";
-	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele", "Abgeschlossene Spiele", "Letztes Spiel abgeschlossen", "Züge insgesamt", "Ø Züge p.S.p.R.", "Crashs insgesamt", "Ø Crashs p.S.p.R." };
+	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele",
+			"Abgeschlossene Spiele", "Letztes Spiel abgeschlossen", "Züge insgesamt", "Ø Züge p.S.p.R.", "Crashs insgesamt", "Ø Crashs p.S.p.R." };
 	protected static final int					METRICS_GAME_MAXMOVES	= 0;
 	protected final int							TABLE_TABLE_COLUMNS		= 7;
 
@@ -217,7 +218,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		Object[] row;
 		int col;
 		PlannedGame game;
-		
+
 		for(int c = 0; c < stats_challengesCreated; c++)
 		{
 			rules = this.getRules(c);
@@ -329,7 +330,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 			total.append(WikiUtil.toString(finalTable, "alignedright sortable", WikiUtil.getDefaultColumnConfig(finalTable.getColumns() - 2)));
 		else
 			total.append(WikiUtil.toString(finalTable, "alignedright sortable", WikiUtil.getDefaultColumnConfig(finalTable.getColumns())));
-		
+
 		StringBuilder stats = new StringBuilder();
 
 		stats.append("== Zahlen & Fakten ==\r\n");
@@ -343,7 +344,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		stats.append("*Seltenste Begegnung: " + getMaxMinWhoOnWho("min") + "\r\n");
 
 		StringBuilder whoOnWhoString = new StringBuilder();
-		
+
 		whoOnWhoString.append(WikiUtil.toString(whoOnWho, null));
 
 		String s = new String(schema);
@@ -449,7 +450,21 @@ public abstract class CCCEval extends Eval<GameSeries>
 	protected void calcMetrics(int c)
 	{
 		// for inheritence
-		this.challengeMetrics[c] = new double[0];
+		this.challengeMetrics[c] = new double[1];
+
+		int moves;
+		for(int g = 0; g < challengeGames[c]; g++)
+		{
+			for(Player p : getGame(c, g).getGame().getPlayers())
+			{
+				moves = p.getMoveCount();
+				if(p.getRank() > 0)
+					moves--; // parf ferme
+
+				if(moves > this.challengeMetrics[c][METRICS_GAME_MAXMOVES])
+					this.challengeMetrics[c][METRICS_GAME_MAXMOVES] = moves;
+			}
+		}
 	}
 
 	protected void calcMetrics(int c, int g)
@@ -467,26 +482,30 @@ public abstract class CCCEval extends Eval<GameSeries>
 			if(moves > this.gameMetrics[c][g][METRICS_GAME_MAXMOVES])
 				this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] = moves;
 		}
-		
+
 		totalStats.count++;
-		
-		if(getGame(c,g).getGame().isFinished())
+
+		if(getGame(c, g).getGame().isFinished())
 		{
 			challengeStats[c].finished++;
 			totalStats.finished++;
 		}
-		
-		if(challengeStats[c].startedDate == null || challengeStats[c].startedDate.getTime() == 0 || (getGame(c,g).getGame().getStarteddate() != null && getGame(c,g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
-			challengeStats[c].startedDate = getGame(c,g).getGame().getStarteddate();
-		
-		if(totalStats.startedDate == null || totalStats.startedDate.getTime() == 0 || (getGame(c,g).getGame().getStarteddate() != null && getGame(c,g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
-			totalStats.startedDate = getGame(c,g).getGame().getStarteddate();
-		
-		if(challengeStats[c].finishedDate == null || challengeStats[c].finishedDate.getTime() == 0 || (getGame(c,g).getGame().getFinisheddate() != null && getGame(c,g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
-			challengeStats[c].finishedDate = getGame(c,g).getGame().getFinisheddate();
-		
-		if(totalStats.finishedDate == null || totalStats.finishedDate.getTime() == 0 || (getGame(c,g).getGame().getFinisheddate() != null && getGame(c,g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
-			totalStats.finishedDate = getGame(c,g).getGame().getFinisheddate();
+
+		if(challengeStats[c].startedDate == null || challengeStats[c].startedDate.getTime() == 0
+				|| (getGame(c, g).getGame().getStarteddate() != null && getGame(c, g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
+			challengeStats[c].startedDate = getGame(c, g).getGame().getStarteddate();
+
+		if(totalStats.startedDate == null || totalStats.startedDate.getTime() == 0
+				|| (getGame(c, g).getGame().getStarteddate() != null && getGame(c, g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
+			totalStats.startedDate = getGame(c, g).getGame().getStarteddate();
+
+		if(challengeStats[c].finishedDate == null || challengeStats[c].finishedDate.getTime() == 0
+				|| (getGame(c, g).getGame().getFinisheddate() != null && getGame(c, g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
+			challengeStats[c].finishedDate = getGame(c, g).getGame().getFinisheddate();
+
+		if(totalStats.finishedDate == null || totalStats.finishedDate.getTime() == 0
+				|| (getGame(c, g).getGame().getFinisheddate() != null && getGame(c, g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
+			totalStats.finishedDate = getGame(c, g).getGame().getFinisheddate();
 	}
 
 	protected Rules getRules(int challenge)
@@ -534,7 +553,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 	protected static class UserStats
 	{
-		public int 		count;
+		public int		count;
 		public int		finished;
 		public int		left;
 		public int		moves;
