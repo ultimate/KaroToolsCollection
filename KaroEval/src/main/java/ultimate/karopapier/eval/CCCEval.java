@@ -496,15 +496,15 @@ public abstract class CCCEval extends Eval<GameSeries>
 			challengeStats[c].startedDate = getGame(c, g).getGame().getStarteddate();
 
 		if(totalStats.startedDate == null || totalStats.startedDate.getTime() == 0
-				|| (getGame(c, g).getGame().getStarteddate() != null && getGame(c, g).getGame().getStarteddate().before(challengeStats[c].startedDate)))
+				|| (getGame(c, g).getGame().getStarteddate() != null && getGame(c, g).getGame().getStarteddate().before(totalStats.startedDate)))
 			totalStats.startedDate = getGame(c, g).getGame().getStarteddate();
 
 		if(challengeStats[c].finishedDate == null || challengeStats[c].finishedDate.getTime() == 0
-				|| (getGame(c, g).getGame().getFinisheddate() != null && getGame(c, g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
+				|| (getGame(c, g).getGame().getFinisheddate() != null && getGame(c, g).getGame().getFinisheddate().after(challengeStats[c].finishedDate)))
 			challengeStats[c].finishedDate = getGame(c, g).getGame().getFinisheddate();
 
 		if(totalStats.finishedDate == null || totalStats.finishedDate.getTime() == 0
-				|| (getGame(c, g).getGame().getFinisheddate() != null && getGame(c, g).getGame().getFinisheddate().before(challengeStats[c].finishedDate)))
+				|| (getGame(c, g).getGame().getFinisheddate() != null && getGame(c, g).getGame().getFinisheddate().after(totalStats.finishedDate)))
 			totalStats.finishedDate = getGame(c, g).getGame().getFinisheddate();
 	}
 
