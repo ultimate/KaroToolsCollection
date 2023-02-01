@@ -1,0 +1,571 @@
+[[Bild:Czzzcc6.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 6|6. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|???}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1147 Forum] und Teilnehmer vergangener CCCs sowie Addicts wurden auch noch per Spiel+Bordfunk eingeladen.
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
+
+{|class="wikitable alignedright sortable"
+!|Nr.
+!|Strecke
+!|Spielerzahl
+!|ZZZ
+!|CPs
+!|Spielzahl
+!|Startdatum
+!|Laufende Spiele
+!|Abgeschlossene Spiele
+!|Letztes Spiel abgeschlossen
+!|Züge insgesamt
+!|Ø Züge p.S.p.R.
+!|Crashs insgesamt
+!|Ø Crashs p.S.p.R.
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 1|Challenge 1]]
+||{{Karte|10059}} Verkehrsübungsplatz
+||3
+||25
+||ja
+||50
+||2022.11.20 19:30
+||42
+||8
+||2022.12.21 06:41
+||18694
+||124.63
+||323
+||2.15
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 2|Challenge 2]]
+||{{Karte|37}} Nadelöhr II
+||5
+||1
+||ja
+||30
+||2022.12.04 04:00
+||28
+||2
+||2023.01.24 14:39
+||6472
+||43.15
+||388
+||2.59
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 3|Challenge 3]]
+||{{Karte|99}} Honeynut Loops
+||5
+||32
+||ja
+||30
+||2022.12.18 04:00
+||30
+||0
+||
+||4755
+||31.7
+||80
+||0.53
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 4|Challenge 4]]
+||{{Karte|10053}} Karocamp 2022
+||6
+||2
+||ja
+||25
+||2023.01.01 04:00
+||25
+||0
+||
+||1974
+||13.16
+||75
+||0.5
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 5|Challenge 5]]
+||{{Karte|134}} :ZZZsleep:
+||6
+||10
+||ja
+||25
+||2023.01.29 04:00
+||25
+||0
+||
+||171
+||1.14
+||0
+||0.0
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 6|Challenge 6]]
+||{{Karte|10056}} 1vs1vs1vs1 (MOD)
+||6
+||10
+||ja
+||25
+||2023.01.15 04:00
+||25
+||0
+||
+||1034
+||6.89
+||44
+||0.29
+|-
+
+|colspan=5|Gesamt-Statistik
+||840
+||2022.11.20 19:30
+||175
+||10
+||2022.12.21 06:41
+||33100
+||8.83
+||910
+||0.24
+|-
+|}
+
+'''Anmerkungen:'''
+* In den Detailwertungen gibt es je Rennen 3 Spalten:
+** Z = Züge
+** C = Crashs
+** S = Status
+* Unter status gibt es 4 Möglichkeiten:
+** &#127950; = fährt noch
+** &#127937; = im Ziel
+** &#128128; = ausgestiegen/rausgeworfen
+** &#128683; = disqualifiziert (z. B. im Ziel ohne Crashs)
+
+== Gesamtwertung ==
+{|class="wikitable alignedright sortable"
+!|Platz
+!|Spieler
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 1|1]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 2|2]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 3|3]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 4|4]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 5|5]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 6|6]]
+!|Züge (gesamt)
+!|Crashs (gesamt)
+!|Endergebnis
+!|Abgeschlossene Rennen
+!|Erwartungswert
+|-
+
+||1.
+||'''[[Benutzer:goodygoody|goodygoody]]'''
+||26.0&nbsp;<span style="font-size:50%">(6)</span>
+||22.0&nbsp;<span style="font-size:50%">(6)</span>
+||40.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||10.0&nbsp;<span style="font-size:50%">(6)</span>
+||37.0&nbsp;<span style="font-size:50%">(6)</span>
+||1215
+||41
+||'''164.0'''
+||0
+||'''282.0'''
+|-
+
+||2.
+||'''[[Benutzer:Wobbel|Wobbel]]'''
+||33.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||38.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||25.0&nbsp;<span style="font-size:50%">(6)</span>
+||881
+||29
+||'''164.0'''
+||0
+||'''282.0'''
+|-
+
+||3.
+||'''[[Benutzer:sir tobi|sir tobi]]'''
+||33.0&nbsp;<span style="font-size:50%">(6)</span>
+||31.0&nbsp;<span style="font-size:50%">(6)</span>
+||39.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||0.0&nbsp;<span style="font-size:50%">(6)</span>
+||42.0&nbsp;<span style="font-size:50%">(6)</span>
+||718
+||24
+||'''173.0'''
+||0
+||'''282.0'''
+|-
+
+||4.
+||'''[[Benutzer:Karaser|Karaser]]'''
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||39.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||34.0&nbsp;<span style="font-size:50%">(6)</span>
+||766
+||15
+||'''169.0'''
+||0
+||'''282.0'''
+|-
+
+||5.
+||'''[[Benutzer:DerFlieger|DerFlieger]]'''
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||0.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||760
+||12
+||'''144.0'''
+||0
+||'''282.0'''
+|-
+
+||6.
+||'''[[Benutzer:Sly|Sly]]'''
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||21.0&nbsp;<span style="font-size:50%">(6)</span>
+||35.0&nbsp;<span style="font-size:50%">(6)</span>
+||'''209'''
+||0
+||'''174.0'''
+||0
+||'''282.0'''
+|-
+
+||7.
+||'''[[Benutzer:flinkman|flinkman]]'''
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||26.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||24.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||627
+||0
+||'''159.0'''
+||0
+||'''282.0'''
+|-
+
+||8.
+||'''[[Benutzer:Yashem|Yashem]]'''
+||31.0&nbsp;<span style="font-size:50%">(5)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||26.0&nbsp;<span style="font-size:50%">(6)</span>
+||1309
+||52
+||'''154.0'''
+||1
+||'''278.0'''
+|-
+
+||9.
+||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
+||28.0&nbsp;<span style="font-size:50%">(4)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||26.0&nbsp;<span style="font-size:50%">(6)</span>
+||23.0&nbsp;<span style="font-size:50%">(6)</span>
+||15.0&nbsp;<span style="font-size:50%">(6)</span>
+||34.0&nbsp;<span style="font-size:50%">(6)</span>
+||1623
+||60
+||'''158.0'''
+||2
+||'''277.0'''
+|-
+
+||10.
+||'''[[Benutzer:ultimate|ultimate]]'''
+||29.0&nbsp;<span style="font-size:50%">(5)</span>
+||33.0&nbsp;<span style="font-size:50%">(6)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||35.0&nbsp;<span style="font-size:50%">(6)</span>
+||2.0&nbsp;<span style="font-size:50%">(6)</span>
+||24.0&nbsp;<span style="font-size:50%">(6)</span>
+||1460
+||56
+||'''155.0'''
+||1
+||'''274.0'''
+|-
+
+||11.
+||'''[[Benutzer:hasi|hasi]]'''
+||29.0&nbsp;<span style="font-size:50%">(5)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||1378
+||53
+||'''169.0'''
+||1
+||'''274.0'''
+|-
+
+||12.
+||'''[[Benutzer:Foley|Foley]]'''
+||28.0&nbsp;<span style="font-size:50%">(3)</span>
+||24.0&nbsp;<span style="font-size:50%">(6)</span>
+||17.0&nbsp;<span style="font-size:50%">(6)</span>
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||25.0&nbsp;<span style="font-size:50%">(6)</span>
+||1900
+||47
+||'''146.0'''
+||3
+||'''272.0'''
+|-
+
+||13.
+||'''[[Benutzer:eisbaer04|eisbaer04]]'''
+||31.0&nbsp;<span style="font-size:50%">(4)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||24.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||15.0&nbsp;<span style="font-size:50%">(6)</span>
+||31.0&nbsp;<span style="font-size:50%">(6)</span>
+||1507
+||61
+||'''159.0'''
+||2
+||'''271.0'''
+|-
+
+||14.
+||'''[[Benutzer:ulli|ulli]]'''
+||29.0&nbsp;<span style="font-size:50%">(5)</span>
+||21.0&nbsp;<span style="font-size:50%">(6)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||37.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||1334
+||46
+||'''151.0'''
+||1
+||'''271.0'''
+|-
+
+||15.
+||'''[[Benutzer:quabla|quabla]]'''
+||32.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(5)</span>
+||34.0&nbsp;<span style="font-size:50%">(6)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||23.0&nbsp;<span style="font-size:50%">(6)</span>
+||33.0&nbsp;<span style="font-size:50%">(6)</span>
+||878
+||44
+||'''178.0'''
+||1
+||'''271.0'''
+|-
+
+||16.
+||'''[[Benutzer:haeckler|haeckler]]'''
+||28.0&nbsp;<span style="font-size:50%">(5)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||33.0&nbsp;<span style="font-size:50%">(6)</span>
+||23.0&nbsp;<span style="font-size:50%">(6)</span>
+||15.0&nbsp;<span style="font-size:50%">(6)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||1262
+||33
+||'''153.0'''
+||1
+||'''265.0'''
+|-
+
+||17.
+||'''[[Benutzer:aristarch|aristarch]]'''
+||28.0&nbsp;<span style="font-size:50%">(3)</span>
+||29.0&nbsp;<span style="font-size:50%">(5)</span>
+||21.0&nbsp;<span style="font-size:50%">(6)</span>
+||26.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||18.0&nbsp;<span style="font-size:50%">(6)</span>
+||1965
+||'''77'''
+||'''131.0'''
+||4
+||'''263.0'''
+|-
+
+||18.
+||'''[[Benutzer:eris|eris]]'''
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||27.0&nbsp;<span style="font-size:50%">(5)</span>
+||23.0&nbsp;<span style="font-size:50%">(6)</span>
+||23.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||45.0&nbsp;<span style="font-size:50%">(6)</span>
+||1073
+||36
+||'''154.0'''
+||1
+||'''262.0'''
+|-
+
+||19.
+||'''[[Benutzer:A300|A300]]'''
+||27.0&nbsp;<span style="font-size:50%">(5)</span>
+||28.0&nbsp;<span style="font-size:50%">(4)</span>
+||31.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||29.0&nbsp;<span style="font-size:50%">(6)</span>
+||1687
+||63
+||'''154.0'''
+||3
+||'''259.0'''
+|-
+
+||20.
+||'''[[DeepPink]]'''
+||6.0
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||26.0&nbsp;<span style="font-size:50%">(6)</span>
+||23.0&nbsp;<span style="font-size:50%">(6)</span>
+||19.0&nbsp;<span style="font-size:50%">(6)</span>
+||2570
+||18
+||'''124.0'''
+||6
+||'''249.0'''
+|-
+
+||21.
+||'''[[Benutzer:FinalD|FinalD]]'''
+||23.0&nbsp;<span style="font-size:50%">(4)</span>
+||32.0&nbsp;<span style="font-size:50%">(5)</span>
+||16.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||15.0&nbsp;<span style="font-size:50%">(6)</span>
+||28.0&nbsp;<span style="font-size:50%">(6)</span>
+||1602
+||46
+||'''144.0'''
+||3
+||'''246.0'''
+|-
+
+||22.
+||'''[[Benutzer:sparrows bruder|sparrows bruder]]'''
+||25.0&nbsp;<span style="font-size:50%">(6)</span>
+||21.0&nbsp;<span style="font-size:50%">(5)</span>
+||19.0&nbsp;<span style="font-size:50%">(6)</span>
+||22.0&nbsp;<span style="font-size:50%">(6)</span>
+||20.0&nbsp;<span style="font-size:50%">(6)</span>
+||16.0&nbsp;<span style="font-size:50%">(6)</span>
+||1306
+||29
+||'''123.0'''
+||1
+||'''242.0'''
+|-
+
+||23.
+||'''[[Benutzer:HX|HX]]'''
+||22.0&nbsp;<span style="font-size:50%">(6)</span>
+||17.0&nbsp;<span style="font-size:50%">(5)</span>
+||14.0&nbsp;<span style="font-size:50%">(6)</span>
+||25.0&nbsp;<span style="font-size:50%">(6)</span>
+||1.0&nbsp;<span style="font-size:50%">(6)</span>
+||18.0&nbsp;<span style="font-size:50%">(6)</span>
+||1113
+||6
+||'''97.0'''
+||1
+||'''241.0'''
+|-
+
+||24.
+||'''[[Benutzer:Botrix|Botrix]]'''
+||29.0&nbsp;<span style="font-size:50%">(5)</span>
+||15.0&nbsp;<span style="font-size:50%">(5)</span>
+||19.0&nbsp;<span style="font-size:50%">(6)</span>
+||33.0&nbsp;<span style="font-size:50%">(6)</span>
+||9.0&nbsp;<span style="font-size:50%">(6)</span>
+||30.0&nbsp;<span style="font-size:50%">(6)</span>
+||1144
+||19
+||'''135.0'''
+||2
+||'''238.0'''
+|-
+
+||25.
+||'''[[Benutzer:Slybotone|Slybotone]]'''
+||6.0
+||25.0&nbsp;<span style="font-size:50%">(5)</span>
+||30.0&nbsp;<span style="font-size:50%">(5)</span>
+||27.0&nbsp;<span style="font-size:50%">(6)</span>
+||15.0&nbsp;<span style="font-size:50%">(6)</span>
+||22.0&nbsp;<span style="font-size:50%">(6)</span>
+||2813
+||43
+||'''125.0'''
+||8
+||'''186.0'''
+|-
+|}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Im Gegensatz zu den vorherigen CCCs hat sich das Bewertungsschema geändert. Details gibt es auf der [[CraZZZy_Crash_Challenge#CCC6|CCC-Übersicht]]
+
+== Durchführungstatus ==
+
+Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Challenges & Links zu den Detailwertungen|Challenges & Links zu den Detailwertungen]].
+
+* '''06.09.2022 ??:??''' Beginn der Planung im Hintergrund (Streckenauswahl, Überarbeitung Wertungssystem, etc.)
+* '''12.10.2022 15:53''' Eröffnung der Anmeldung im Forum
+* '''12.10.2022 18:22''' Wiki-Seite erstellt
+* '''21.10.2022 14:23''' Auswahl der Challenges (Strecken und ZZZs) abgeschlossen
+* '''27.10.2022 16:19''' {{Benutzer|ulli}} macht Werbung über die [[AndroidApp]]
+* '''16.11.2022 00:00''' Anmeldung geschlossen. Wir haben 25 Teilnehmer... :)
+* '''19.11.2022 17:00''' Planung der Spiele mit dem [[KaroMUSKEL]] + Bug-Fixes am Tooling
+* '''20.11.2022 19:00''' Nochmal alles prüfen sowie Vorbereitung des Toolings (inkl. Cron-Job)
+* '''20.11.2022 19:30''' Es geht los!!! Den ersten Spieltag habe ich manuell angestossen - alle folgenden kommen dann immer Sonntags um 4:00 Uhr
+
+[[Kategorie:Meisterschaft]]
