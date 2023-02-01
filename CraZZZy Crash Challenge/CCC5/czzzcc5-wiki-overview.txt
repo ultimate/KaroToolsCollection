@@ -265,8 +265,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 !|Challenge-Bonus (gesamt)
 !|Bonus (Gesamtwertung)
 !|Endergebnis
-!|Abgeschlossene Rennen
-!|Erwartungswert
 |-
 
 ||1.
@@ -302,8 +300,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||2213.83
 ||+130
 ||'''+100'''
-||'''2443.83'''
-||150
 ||'''2443.83'''
 |-
 
@@ -341,8 +337,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+100
 ||'''+100'''
 ||'''2152.71'''
-||150
-||'''2152.71'''
 |-
 
 ||3.
@@ -379,87 +373,9 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+60
 ||-
 ||'''1852.52'''
-||150
-||'''1852.52'''
 |-
 
 ||4.
-||'''[[Benutzer:Karaser|Karaser]]'''
-||60.0
-||68.02
-||74.15
-||60.1
-||64.34
-||44.36
-||73.1
-||'''100.0'''
-||34.92
-||48.8
-||70.55
-||87.69
-||74.52
-||41.67
-||83.72
-||52.08
-||67.78
-||48.89
-||66.85
-||56.94
-||30.0
-||37.21
-||45.45
-||70.0
-||'''100.0'''
-||444.0
-||1098
-||12359
-||1561.14
-||+20
-||-
-||'''1581.14'''
-||150
-||'''1581.14'''
-|-
-
-||5.
-||'''[[Benutzer:Graf_Zahl|Graf_Zahl]]'''
-||59.39
-||56.68
-||58.96
-||'''100.0'''
-||55.24
-||29.49
-||80.0
-||80.7
-||38.1
-||37.35
-||67.06
-||44.23
-||66.02
-||50.93
-||47.09
-||91.67
-||64.44
-||55.56
-||43.82
-||66.67
-||52.86
-||90.7
-||'''100.0'''
-||62.22
-||30.3
-||422.0
-||1055
-||12479
-||1529.47
-||+30
-||-
-||'''1559.47'''
-||150
-||'''1559.47'''
-|-
-
-||6.
 ||'''[[Benutzer:Slybotone|Slybotone]]'''
 ||64.24
 ||53.64
@@ -493,8 +409,78 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+210
 ||'''+100'''
 ||'''1663.96'''
-||150
-||'''1663.96'''
+|-
+
+||5.
+||'''[[Benutzer:Karaser|Karaser]]'''
+||60.0
+||68.02
+||74.15
+||60.1
+||64.34
+||44.36
+||73.1
+||'''100.0'''
+||34.92
+||48.8
+||70.55
+||87.69
+||74.52
+||41.67
+||83.72
+||52.08
+||67.78
+||48.89
+||66.85
+||56.94
+||30.0
+||37.21
+||45.45
+||70.0
+||'''100.0'''
+||444.0
+||1098
+||12359
+||1561.14
+||+20
+||-
+||'''1581.14'''
+|-
+
+||6.
+||'''[[Benutzer:Graf_Zahl|Graf_Zahl]]'''
+||59.39
+||56.68
+||58.96
+||'''100.0'''
+||55.24
+||29.49
+||80.0
+||80.7
+||38.1
+||37.35
+||67.06
+||44.23
+||66.02
+||50.93
+||47.09
+||91.67
+||64.44
+||55.56
+||43.82
+||66.67
+||52.86
+||90.7
+||'''100.0'''
+||62.22
+||30.3
+||422.0
+||1055
+||12479
+||1529.47
+||+30
+||-
+||'''1559.47'''
 |-
 
 ||7.
@@ -530,8 +516,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||1238.51
 ||+60
 ||-
-||'''1298.51'''
-||150
 ||'''1298.51'''
 |-
 
@@ -569,8 +553,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+10
 ||-
 ||'''1230.29'''
-||150
-||'''1230.29'''
 |-
 
 ||9.
@@ -606,8 +588,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||1043.28
 ||+20
 ||-
-||'''1063.28'''
-||150
 ||'''1063.28'''
 |-
 
@@ -645,49 +625,9 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+20
 ||-
 ||'''1061.97'''
-||150
-||'''1061.97'''
 |-
 
 ||11.
-||'''[[Benutzer:Foley|Foley]]'''
-||49.7
-||25.71
-||11.56
-||48.74
-||17.48
-||17.18
-||49.66
-||80.7
-||52.38
-||30.72
-||46.94
-||21.15
-||39.0
-||55.56
-||17.73
-||66.67
-||45.56
-||51.67
-||58.99
-||61.11
-||21.43
-||19.38
-||77.27
-||21.11
-||15.15
-||331.0
-||818
-||12582
-||1002.54
-||+10
-||-
-||'''1012.54'''
-||150
-||'''1012.54'''
-|-
-
-||12.
 ||'''[[Benutzer:KaBotte|KaBotte]]'''
 ||51.52
 ||66.6
@@ -721,49 +661,45 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+60
 ||-
 ||'''1053.44'''
-||150
-||'''1053.44'''
+|-
+
+||12.
+||'''[[Benutzer:Foley|Foley]]'''
+||49.7
+||25.71
+||11.56
+||48.74
+||17.48
+||17.18
+||49.66
+||80.7
+||52.38
+||30.72
+||46.94
+||21.15
+||39.0
+||55.56
+||17.73
+||66.67
+||45.56
+||51.67
+||58.99
+||61.11
+||21.43
+||19.38
+||77.27
+||21.11
+||15.15
+||331.0
+||818
+||12582
+||1002.54
+||+10
+||-
+||'''1012.54'''
 |-
 
 ||13.
-||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
-||39.39
-||30.97
-||8.16
-||56.82
-||18.88
-||21.79
-||42.07
-||47.37
-||26.98
-||43.37
-||56.85
-||15.38
-||6.56
-||41.67
-||35.47
-||75.0
-||33.89
-||55.56
-||30.34
-||22.22
-||30.0
-||32.56
-||63.64
-||48.89
-||4.04
-||357.0
-||688
-||12454
-||887.88
-||-
-||-
-||'''887.88'''
-||150
-||'''887.88'''
-|-
-
-||14.
 ||'''[[DeepPink]]'''
 ||69.09
 ||40.89
@@ -797,11 +733,9 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+110
 ||-
 ||'''974.01'''
-||150
-||'''974.01'''
 |-
 
-||15.
+||14.
 ||'''[[Benutzer:aristarch|aristarch]]'''
 ||38.18
 ||19.43
@@ -835,8 +769,42 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+60
 ||-
 ||'''904.29'''
-||150
-||'''904.29'''
+|-
+
+||15.
+||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
+||39.39
+||30.97
+||8.16
+||56.82
+||18.88
+||21.79
+||42.07
+||47.37
+||26.98
+||43.37
+||56.85
+||15.38
+||6.56
+||41.67
+||35.47
+||75.0
+||33.89
+||55.56
+||30.34
+||22.22
+||30.0
+||32.56
+||63.64
+||48.89
+||4.04
+||357.0
+||688
+||12454
+||887.88
+||-
+||-
+||'''887.88'''
 |-
 
 ||16.
@@ -872,8 +840,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||834.62
 ||-
 ||-
-||'''834.62'''
-||150
 ||'''834.62'''
 |-
 
@@ -911,8 +877,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+10
 ||-
 ||'''757.44'''
-||150
-||'''757.44'''
 |-
 
 ||18.
@@ -944,12 +908,10 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||10.1
 ||251.0
 ||751
-||13050
+||13072
 ||727.07
 ||-
 ||-
-||'''727.07'''
-||150
 ||'''727.07'''
 |-
 
@@ -987,8 +949,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+10
 ||-
 ||'''708.79'''
-||150
-||'''708.79'''
 |-
 
 ||20.
@@ -1024,8 +984,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||683.51
 ||-
 ||-
-||'''683.51'''
-||150
 ||'''683.51'''
 |-
 
@@ -1063,8 +1021,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||-
 ||-
 ||'''657.79'''
-||150
-||'''657.79'''
 |-
 
 ||22.
@@ -1083,7 +1039,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||1.54
 ||16.22
 ||41.67
-||2.33&nbsp;<span style="font-size:50%">(1)</span>
+||4.94
 ||16.67
 ||23.33
 ||24.44
@@ -1094,15 +1050,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||60.23
 ||22.22
 ||2.02
-||325.0
-||553
-||12846
-||625.26
+||326.0
+||554
+||12851
+||627.88
 ||-
 ||-
-||'''625.26'''
-||149
-||'''625.94'''
+||'''627.88'''
 |-
 
 ||23.
@@ -1138,8 +1092,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||608.53
 ||+10
 ||-
-||'''618.53'''
-||150
 ||'''618.53'''
 |-
 
@@ -1177,8 +1129,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||-
 ||-
 ||'''561.43'''
-||150
-||'''561.43'''
 |-
 
 ||25.
@@ -1190,14 +1140,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||9.09
 ||3.85
 ||12.41
-||10.53&nbsp;<span style="font-size:50%">(1)</span>
+||14.04
 ||12.7
 ||3.01
 ||35.57
 ||3.08
 ||13.51
 ||36.11
-||0.58&nbsp;<span style="font-size:50%">(1)</span>
+||1.74
 ||50.0
 ||20.0
 ||17.78
@@ -1208,15 +1158,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||21.59
 ||13.33
 ||1.01
-||154.0
-||709
-||13722
-||376.65
+||157.0
+||711
+||13745
+||381.32
 ||+10
 ||-
-||'''386.65'''
-||148
-||'''389.36'''
+||'''391.32'''
 |-
 
 ||26.
@@ -1228,7 +1176,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||31.47
 ||12.31
 ||34.48
-||42.11&nbsp;<span style="font-size:50%">(1)</span>
+||50.88
 ||17.46
 ||27.71
 ||31.78
@@ -1246,15 +1194,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||-27.27
 ||-16.67
 ||17.17
-||-34.0
-||505
-||13228
-||202.03
+||-32.0
+||508
+||13248
+||210.8
 ||-
 ||-
-||'''202.03'''
-||149
-||'''212.56'''
+||'''210.8'''
 |-
 
 ||27.
@@ -1290,8 +1236,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||-227.7
 ||-
 ||-
-||'''-227.7'''
-||150
 ||'''-227.7'''
 |-
 
@@ -1329,8 +1273,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||+10
 ||-
 ||'''-434.18'''
-||150
-||'''-434.18'''
 |-
 
 ||29.
@@ -1362,12 +1304,10 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||-24.24
 ||-708.0
 ||44
-||13807
+||13812
 ||-475.34
 ||-
 ||-
-||'''-475.34'''
-||150
 ||'''-475.34'''
 |-
 
@@ -1404,8 +1344,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 ||-475.34
 ||-
 ||-
-||'''-475.34'''
-||150
 ||'''-475.34'''
 |-
 |}
@@ -1477,8 +1415,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 *Teilnehmer: '''30'''
 *Rennen pro Spieler: '''150'''
 *Rennen pro Spieler pro Challenge: '''6'''
-*Züge insgesamt: '''388543'''
-*Crashs insgesamt: '''21940'''
+*Züge insgesamt: '''388618'''
+*Crashs insgesamt: '''21946'''
 *Häufigste Begegnung: 21 mal [[Benutzer:Wobbel|Wobbel]] '''vs.''' [[Benutzer:Yashem|Yashem]]
 *Seltenste Begegnung: 18 mal [[Benutzer:Graf_Zahl|Graf_Zahl]] '''vs.''' [[Benutzer:Wobbel|Wobbel]]
 == Wer gegen wen? ==
