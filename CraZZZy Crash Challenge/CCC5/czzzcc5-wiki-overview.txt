@@ -9,7 +9,7 @@ Dies ist die [[CraZZZy Crash Challenge 5|5. CraZZZy Crash Challenge]]. Hier gibt
 
 == Teilnehmer & Gewinner ==
 
-And the winner is... '''{{Benutzer|???}}'''
+And the winner is... '''{{Benutzer|quabla}}'''
 
 Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
 
@@ -1408,6 +1408,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 5 gefahren:
 * '''29.09.2021 10:30''' Bug in der Auswertung behoben, bei dem in Spielen mit {{Benutzer|Sly}} und {{Benutzer|Slybotone}} die Erkennung der Platzierung von {{Benutzer|Sly}} fehlschlug
 * '''29.09.2021 10:40''' Damit werden nun mehr Spiele als abgeschlossen erkannt...
 * '''31.03.2022 13:00''' Auswertung auf die KaroAPI umgestellt, damit es wieder geht...
+* '''12.10.2022 17:57''' (vorgezogene) Siegerehrung (weil die weiteren Rennen nichts mehr ändern werden)
+* '''07.01.2023 00:51''' Letztes Rennen abgeschlossen
 
 = Statistik =
 == Zahlen & Fakten ==
