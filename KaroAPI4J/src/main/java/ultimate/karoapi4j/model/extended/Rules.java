@@ -242,15 +242,63 @@ public class Rules implements Cloneable
 	 */
 	public Options createOptions(Random random)
 	{
+		return createOptions(random, 0);
+	}
+
+
+	/**
+	 * Create a new {@link Options} object that can be used to create a game using the {@link KaroAPI}.<br>
+	 * Values will be randomized within the given bounds:
+	 * <ul>
+	 * <li>ZZZ = in the range of minZzz to maxZzz (both inclusive)</li>
+	 * <li>crashallowed = randomized if the value is null, or preset otherwise</li>
+	 * <li>startdirection = randomized if the value is null, or preset otherwise</li>
+	 * <li>cps = randomized if the value is null, or preset otherwise</li>
+	 * </ul>
+	 * Note: other than {@link Rules#createOptions(Random)} this method prefers the standard rules with the given probability
+	 * 
+	 * @param random - the random value generator
+	 * @param preferStandards - a number between 0 and 1 on how probable the standard is, the rest will be randomized
+	 * @return the new {@link Options}
+	 */
+	public Options createOptions(Random random, double preferStandards)
+	{
 		if(random == null)
 			random = new Random();
 		
+		
 		Options options = new Options();
 
-		options.setZzz(random.nextInt(maxZzz - minZzz + 1) + minZzz);
-		options.setCps(cps == null ? random.nextBoolean() : cps);
-		options.setCrashallowed(crashallowed == null || crashallowed == EnumGameTC.random ? EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1)) : crashallowed);
-		options.setStartdirection(startdirection == null  || startdirection == EnumGameDirection.random ? EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1)) : startdirection);
+		// zzz
+		if(random.nextDouble() < preferStandards)
+			options.setZzz(2); // standard
+		else 
+			options.setZzz(random.nextInt(maxZzz - minZzz + 1) + minZzz); // pre-set/random
+		
+		// cps
+		if(cps != null)
+			options.setCps(cps); // pre-set
+		else if(random.nextDouble() < preferStandards)
+			options.setCps(true); // standard
+		else 
+			options.setCps(random.nextBoolean()); // random
+		
+		// crashallowed
+		if(crashallowed != null && crashallowed != EnumGameTC.random)
+			options.setCrashallowed(crashallowed); // pre-set
+		else if(random.nextDouble() < preferStandards)
+			options.setCrashallowed(EnumGameTC.forbidden); // standard
+		else 
+			options.setCrashallowed(EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1))); // random
+
+		
+		// startdirection
+		if(startdirection != null && startdirection != EnumGameDirection.random)
+			options.setStartdirection(startdirection); // pre-set
+		else if(random.nextDouble() < preferStandards)
+			options.setStartdirection(EnumGameDirection.classic); // standard
+		else 
+			options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1))); // random
 
 		return options;
 	}

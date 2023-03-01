@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +44,7 @@ public class RandomGameCreator
 		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 		KaroAPICache cache = new KaroAPICache(api, login);
 		cache.refresh().join();
-		
+
 		logger.info("memory usage: total=" + Runtime.getRuntime().totalMemory() + " \tmax=" + Runtime.getRuntime().maxMemory() + " \tfree=" + Runtime.getRuntime().freeMemory());
 
 		logger.debug("users: " + cache.getUsers().size());
@@ -63,6 +64,17 @@ public class RandomGameCreator
 		rules.setStartdirection(EnumGameDirection.valueOf(gameseries.getProperty("rules.startdirection")));
 		logger.info(rules);
 
+		double preferStandards;
+		try
+		{
+			preferStandards = Double.valueOf(gameseries.getProperty("rules.preferStandards"));
+		}
+		catch(Exception e)
+		{
+			preferStandards = 0;
+		}
+		logger.info("preferStandards = " + preferStandards);
+
 		logger.info("creating player list...");
 		User creator = getUser(cache, gameseries.getProperty("players.creator"));
 		String[] playerIDs = gameseries.getProperty("players.others").split(",");
@@ -71,10 +83,36 @@ public class RandomGameCreator
 		StringBuilder sb = new StringBuilder();
 		for(String player : playerIDs)
 		{
-			user = getUser(cache, player);
-			players.add(user);
-			sb.append("\n -> ");
-			sb.append(user);
+			if(player.equalsIgnoreCase("%desperate"))
+			{
+				logger.info("adding desperate players...");
+				try
+				{
+					for(User desperate : api.getUsers(null, null, true).get())
+					{
+						players.add(desperate);
+						sb.append("\n -> ");
+						sb.append(desperate);
+					}
+				}
+				catch(InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				catch(ExecutionException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				user = getUser(cache, player);
+				players.add(user);
+				sb.append("\n -> ");
+				sb.append(user);
+			}
 		}
 		logger.info("Players:" + sb);
 
@@ -82,7 +120,20 @@ public class RandomGameCreator
 		Random random = new Random();
 		for(int i = gamesCount + 1; i <= gamesCount + gamesPerExecution; i++)
 		{
-			createGame(cache, i, gameseries.getProperty("name"), gameseries.getProperty("map"), creator, players, Integer.parseInt(gameseries.getProperty("players.min")), Boolean.valueOf(gameseries.getProperty("map.night")), rules, random);
+			// @formatter:off
+			createGame(	cache,
+						i,
+						gameseries.getProperty("name"),
+						gameseries.getProperty("map"),
+						creator,
+						players,
+						Integer.parseInt(gameseries.getProperty("players.min")),
+						Boolean.valueOf(gameseries.getProperty("map.night")),
+						rules,
+						random,
+						preferStandards
+						);
+			// @formatter:on
 		}
 
 		logger.info("writing updated properties...");
@@ -92,7 +143,7 @@ public class RandomGameCreator
 		logger.info("exiting");
 	}
 
-	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random)
+	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random, double preferStandards)
 	{
 		try
 		{
@@ -107,13 +158,13 @@ public class RandomGameCreator
 				do
 				{
 					map = cache.getMaps().toArray(new Map[0])[random.nextInt(cache.getMaps().size())];
-				} while(map.getPlayers() < minPlayers && (allowNightMaps || !map.isNight()));
+				} while(map.getPlayers() < minPlayers && (map.isNight() && !allowNightMaps));
 			}
 			else
 			{
 				map = cache.getMap(Integer.parseInt(mapID));
 			}
-			
+
 			selectedPlayers.add(creator);
 			while(selectedPlayers.size() < map.getPlayers() && !playersCopy.isEmpty())
 				selectedPlayers.add(playersCopy.poll());
@@ -122,7 +173,7 @@ public class RandomGameCreator
 			pg.setName(name.replace("%i", "" + toString(i, 3)));
 			pg.setMap(map);
 			pg.setPlayers(selectedPlayers);
-			pg.setOptions(rules.createOptions(random));
+			pg.setOptions(rules.createOptions(random, preferStandards));
 
 			sb.append("\n -> name           = " + pg.getName());
 			sb.append("\n -> map            = " + pg.getMap().getId());
@@ -130,7 +181,7 @@ public class RandomGameCreator
 			sb.append("\n -> zzz            = " + pg.getOptions().getZzz());
 			sb.append("\n -> crashallowed   = " + pg.getOptions().getCrashallowed());
 			sb.append("\n -> cps            = " + pg.getOptions().isCps());
-			sb.append("\n -> startdirection = " + pg.getOptions().getZzz());
+			sb.append("\n -> startdirection = " + pg.getOptions().getStartdirection());
 
 			logger.info("Game #" + i + sb);
 
