@@ -316,12 +316,18 @@ public class Launcher
 				continue;
 			try
 			{
+				logger.info(arg);
 				if(arg.equalsIgnoreCase("-xKLC312"))
 				{
-					logger.info(arg);
 					File in = new File("src/test/resources/season17_muskel_ko_runde.json");
 					File out = new File("src/test/resources/season17_muskel_ko_runde_update.json");
 					GameSeriesUpdater.updateV312KLC(cache, in, out);
+				}
+				else if(arg.equalsIgnoreCase("-xKLC18"))
+				{
+					File in = new File("src/test/resources/klc18.txt");
+					File out = new File("src/test/resources/klc18.json");
+					GameSeriesUpdater.restoreKLC(cache, in, out);
 				}
 			}
 			catch(Exception e)

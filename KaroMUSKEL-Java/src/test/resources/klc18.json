@@ -1,0 +1,1944 @@
+{
+  "type" : "KLC",
+  "title" : "KLC Saison 18 - ${runde.x} - ${teams} auf Karte ${karte.id}",
+  "creator" : 2248,
+  "creatorParticipation" : "leave",
+  "ignoreInvitable" : true,
+  "games" : {
+    "KLC.groupphase" : [ {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 1 - HX vs. Karaser auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137188,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 1 - gitarrenteufel vs. quabla auf Karte 109",
+      "map" : 109,
+      "players" : [ 1644, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137191,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 1 - Robotman8000 vs. ultimate auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137189,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 1 - Blindschleiche vs. wolle auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137184,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 2 - gitarrenteufel vs. Karaser auf Karte 109",
+      "map" : 109,
+      "players" : [ 1644, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137185,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 2 - HX vs. ultimate auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137192,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 2 - wolle vs. quabla auf Karte 168",
+      "map" : 168,
+      "players" : [ 220, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137190,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 2 - Robotman8000 vs. Cpxy auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137187,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 3 - gitarrenteufel vs. ultimate auf Karte 109",
+      "map" : 109,
+      "players" : [ 1644, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137186,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 3 - wolle vs. Karaser auf Karte 168",
+      "map" : 168,
+      "players" : [ 220, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137183,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 3 - HX vs. Cpxy auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137193,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 3 - Blindschleiche vs. quabla auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137194,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 4 - wolle vs. ultimate auf Karte 168",
+      "map" : 168,
+      "players" : [ 220, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137195,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 4 - gitarrenteufel vs. Cpxy auf Karte 109",
+      "map" : 109,
+      "players" : [ 1644, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137196,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 4 - Blindschleiche vs. Karaser auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137197,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 4 - Robotman8000 vs. HX auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2894, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137198,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 5 - Cpxy vs. wolle auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137199,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 5 - Blindschleiche vs. ultimate auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137200,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 5 - Robotman8000 vs. gitarrenteufel auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 1644, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137201,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 5 - quabla vs. Karaser auf Karte 65",
+      "map" : 65,
+      "players" : [ 516, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137202,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 6 - Blindschleiche vs. Cpxy auf Karte 202",
+      "map" : 202,
+      "players" : [ 1448, 2985, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137203,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 6 - Robotman8000 vs. wolle auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137204,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 6 - quabla vs. ultimate auf Karte 65",
+      "map" : 65,
+      "players" : [ 516, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137205,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 6 - HX vs. gitarrenteufel auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 1644, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137206,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 7 - Robotman8000 vs. Blindschleiche auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 1448, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137207,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 7 - Cpxy vs. quabla auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137208,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 7 - HX vs. wolle auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137209,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 7 - Karaser vs. ultimate auf Karte 22",
+      "map" : 22,
+      "players" : [ 2345, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137210,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 8 - Robotman8000 vs. quabla auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137211,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 8 - HX vs. Blindschleiche auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 1448, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137212,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 8 - Cpxy vs. Karaser auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137213,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 8 - gitarrenteufel vs. wolle auf Karte 109",
+      "map" : 109,
+      "players" : [ 1644, 220, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137214,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 9 - HX vs. quabla auf Karte 54",
+      "map" : 54,
+      "players" : [ 2894, 516, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137215,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 9 - Robotman8000 vs. Karaser auf Karte 168",
+      "map" : 168,
+      "players" : [ 3021, 2345, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137216,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 9 - gitarrenteufel vs. Blindschleiche auf Karte 109",
+      "map" : 109,
+      "players" : [ 1644, 1448, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137217,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 1, Spieltag 9 - Cpxy vs. ultimate auf Karte 35",
+      "map" : 35,
+      "players" : [ 2985, 1411, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137218,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 1 - haeckler vs. Sascha auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137219,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 1 - Wobbel vs. FinalD auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137220,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 1 - Sayri vs. fiete auf Karte 84",
+      "map" : 84,
+      "players" : [ 1230, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137221,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 1 - Thargor vs. Anthropophagos auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 3182, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137222,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 2 - haeckler vs. Wobbel auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 277, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137223,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 2 - Sascha vs. fiete auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137224,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 2 - Anthropophagos vs. FinalD auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137225,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 2 - Sayri vs. eisbaer04 auf Karte 84",
+      "map" : 84,
+      "players" : [ 1230, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137226,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 3 - Wobbel vs. fiete auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137227,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 3 - Anthropophagos vs. haeckler auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 1505, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137228,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 3 - Sascha vs. eisbaer04 auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137229,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 3 - Thargor vs. FinalD auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137230,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 4 - Anthropophagos vs. fiete auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137231,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 4 - Wobbel vs. eisbaer04 auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137232,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 4 - haeckler vs. Thargor auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 992, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137233,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 4 - Sascha vs. Sayri auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137234,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 5 - Anthropophagos vs. eisbaer04 auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137235,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 5 - Thargor vs. fiete auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137236,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 5 - Wobbel vs. Sayri auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137237,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 5 - haeckler vs. FinalD auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137239,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 6 - Thargor vs. eisbaer04 auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137238,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 6 - Anthropophagos vs. Sayri auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137241,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 6 - fiete vs. FinalD auf Karte 51",
+      "map" : 51,
+      "players" : [ 557, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137240,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 6 - Wobbel vs. Sascha auf Karte 200",
+      "map" : 200,
+      "players" : [ 277, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137242,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 7 - Thargor vs. Sayri auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137243,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 7 - eisbaer04 vs. FinalD auf Karte 65",
+      "map" : 65,
+      "players" : [ 326, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137244,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 7 - Anthropophagos vs. Sascha auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137245,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 7 - haeckler vs. fiete auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137246,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 8 - Sayri vs. FinalD auf Karte 84",
+      "map" : 84,
+      "players" : [ 1230, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137247,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 8 - Thargor vs. Sascha auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 3058, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137248,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 8 - haeckler vs. eisbaer04 auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 326, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137249,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 8 - Anthropophagos vs. Wobbel auf Karte 8",
+      "map" : 8,
+      "players" : [ 3182, 277, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137250,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 9 - Sascha vs. FinalD auf Karte 110",
+      "map" : 110,
+      "players" : [ 3058, 2915, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137251,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 9 - haeckler vs. Sayri auf Karte 152",
+      "map" : 152,
+      "players" : [ 1505, 1230, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137252,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 9 - Thargor vs. Wobbel auf Karte 214",
+      "map" : 214,
+      "players" : [ 992, 277, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137253,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 2, Spieltag 9 - eisbaer04 vs. fiete auf Karte 65",
+      "map" : 65,
+      "players" : [ 326, 557, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137254,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 1 - Zebrahead vs. CarpeNoctem auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 2501, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137255,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 1 - eris vs. ulli auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137256,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 1 - STS81 vs. Didi auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137257,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 1 - TheWhite vs. hasi auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137258,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 2 - CarpeNoctem vs. eris auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137259,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 2 - Zebrahead vs. Didi auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137260,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 2 - TheWhite vs. ulli auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137261,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 2 - STS81 vs. nobody auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 29, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137262,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 3 - Didi vs. eris auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137263,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 3 - TheWhite vs. CarpeNoctem auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 2501, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137264,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 3 - Zebrahead vs. nobody auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 29, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137265,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 3 - ulli vs. hasi auf Karte 10035",
+      "map" : 10035,
+      "players" : [ 213, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137266,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 4 - TheWhite vs. Didi auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137267,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 4 - nobody vs. eris auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137268,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 4 - CarpeNoctem vs. hasi auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137269,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 4 - Zebrahead vs. STS81 auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 3048, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137270,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 5 - TheWhite vs. nobody auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 29, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137271,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 5 - Didi vs. hasi auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137272,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 5 - STS81 vs. eris auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137273,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 5 - CarpeNoctem vs. ulli auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137274,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 6 - nobody vs. hasi auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137275,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 6 - STS81 vs. TheWhite auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 1574, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137276,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 6 - Didi vs. ulli auf Karte 200",
+      "map" : 200,
+      "players" : [ 1, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137277,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 6 - Zebrahead vs. eris auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137278,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 7 - STS81 vs. hasi auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137279,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 7 - nobody vs. ulli auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137280,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 7 - Zebrahead vs. TheWhite auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 1574, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137281,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 7 - CarpeNoctem vs. Didi auf Karte 210",
+      "map" : 210,
+      "players" : [ 2501, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137282,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 8 - STS81 vs. ulli auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137283,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 8 - Zebrahead vs. hasi auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137284,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 8 - nobody vs. CarpeNoctem auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 2501, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137285,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 8 - TheWhite vs. eris auf Karte 148",
+      "map" : 148,
+      "players" : [ 1574, 2937, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137286,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 9 - Zebrahead vs. ulli auf Karte 93",
+      "map" : 93,
+      "players" : [ 2868, 213, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137287,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 9 - STS81 vs. CarpeNoctem auf Karte 44",
+      "map" : 44,
+      "players" : [ 3048, 2501, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137288,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 9 - eris vs. hasi auf Karte 180",
+      "map" : 180,
+      "players" : [ 2937, 2226, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137289,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 3, Spieltag 9 - nobody vs. Didi auf Karte 22",
+      "map" : 22,
+      "players" : [ 29, 1, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137290,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 1 - WildSingh vs. JokerHF auf Karte 110",
+      "map" : 110,
+      "players" : [ 2264, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137291,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 1 - Foley vs. cachito auf Karte 131",
+      "map" : 131,
+      "players" : [ 1722, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137292,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 1 - recke vs. aristarch auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137293,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 1 - Yashem vs. DerFlieger auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 2235, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137294,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 2 - WildSingh vs. cachito auf Karte 110",
+      "map" : 110,
+      "players" : [ 2264, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137295,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 2 - JokerHF vs. aristarch auf Karte 66",
+      "map" : 66,
+      "players" : [ 2492, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137297,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 2 - DerFlieger vs. Foley auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137296,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 2 - Yashem vs. recke auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 1989, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137298,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 3 - WildSingh vs. aristarch auf Karte 110",
+      "map" : 110,
+      "players" : [ 2264, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137299,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 3 - DerFlieger vs. cachito auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137300,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 3 - Yashem vs. JokerHF auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137301,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 3 - recke vs. Foley auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137302,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 4 - DerFlieger vs. WildSingh auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137303,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 4 - Yashem vs. aristarch auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137304,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 4 - recke vs. cachito auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137305,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 4 - JokerHF vs. Foley auf Karte 66",
+      "map" : 66,
+      "players" : [ 2492, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137306,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 5 - Yashem vs. WildSingh auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137307,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 5 - DerFlieger vs. recke auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 1989, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137308,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 5 - Foley vs. aristarch auf Karte 131",
+      "map" : 131,
+      "players" : [ 1722, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137309,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 5 - JokerHF vs. cachito auf Karte 66",
+      "map" : 66,
+      "players" : [ 2492, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137310,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 6 - recke vs. WildSingh auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 2264, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137312,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 6 - Yashem vs. Foley auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137311,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 6 - DerFlieger vs. JokerHF auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137313,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 6 - aristarch vs. cachito auf Karte 206",
+      "map" : 206,
+      "players" : [ 2231, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137314,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 7 - WildSingh vs. Foley auf Karte 110",
+      "map" : 110,
+      "players" : [ 2264, 1722, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137315,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 7 - recke vs. JokerHF auf Karte 168",
+      "map" : 168,
+      "players" : [ 1989, 2492, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137316,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 7 - Yashem vs. cachito auf Karte 89",
+      "map" : 89,
+      "players" : [ 518, 1175, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137317,
+      "created" : true,
+      "left" : true
+    }, {
+      "name" : "KLC Saison 18 - Gruppe 4, Spieltag 7 - DerFlieger vs. aristarch auf Karte 182",
+      "map" : 182,
+      "players" : [ 2235, 2231, 2248 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137318,
+      "created" : true,
+      "left" : true
+    } ]
+  },
+  "players" : [ 3021, 2894, 1644, 2985, 1448, 220, 516, 1411, 2345, 992, 1505, 3182, 277, 3058, 1230, 326, 2915, 557, 2868, 1574, 3048, 29, 2501, 2937, 1, 213, 2226, 518, 2235, 2264, 1989, 2492, 1722, 1175, 2231 ],
+  "teams" : [ {
+    "name" : "Robotman8000",
+    "members" : [ 3021 ],
+    "homeMap" : 168
+  }, {
+    "name" : "HX",
+    "members" : [ 2894 ],
+    "homeMap" : 54
+  }, {
+    "name" : "gitarrenteufel",
+    "members" : [ 1644 ],
+    "homeMap" : 109
+  }, {
+    "name" : "Cpxy",
+    "members" : [ 2985 ],
+    "homeMap" : 35
+  }, {
+    "name" : "Blindschleiche",
+    "members" : [ 1448 ],
+    "homeMap" : 202
+  }, {
+    "name" : "wolle",
+    "members" : [ 220 ],
+    "homeMap" : 168
+  }, {
+    "name" : "quabla",
+    "members" : [ 516 ],
+    "homeMap" : 65
+  }, {
+    "name" : "ultimate",
+    "members" : [ 1411 ],
+    "homeMap" : 85
+  }, {
+    "name" : "Karaser",
+    "members" : [ 2345 ],
+    "homeMap" : 22
+  }, {
+    "name" : "Thargor",
+    "members" : [ 992 ],
+    "homeMap" : 214
+  }, {
+    "name" : "haeckler",
+    "members" : [ 1505 ],
+    "homeMap" : 152
+  }, {
+    "name" : "Anthropophagos",
+    "members" : [ 3182 ],
+    "homeMap" : 8
+  }, {
+    "name" : "Wobbel",
+    "members" : [ 277 ],
+    "homeMap" : 200
+  }, {
+    "name" : "Sascha",
+    "members" : [ 3058 ],
+    "homeMap" : 110
+  }, {
+    "name" : "Sayri",
+    "members" : [ 1230 ],
+    "homeMap" : 84
+  }, {
+    "name" : "eisbaer04",
+    "members" : [ 326 ],
+    "homeMap" : 65
+  }, {
+    "name" : "FinalD",
+    "members" : [ 2915 ],
+    "homeMap" : 200
+  }, {
+    "name" : "fiete",
+    "members" : [ 557 ],
+    "homeMap" : 51
+  }, {
+    "name" : "Zebrahead",
+    "members" : [ 2868 ],
+    "homeMap" : 93
+  }, {
+    "name" : "TheWhite",
+    "members" : [ 1574 ],
+    "homeMap" : 148
+  }, {
+    "name" : "STS81",
+    "members" : [ 3048 ],
+    "homeMap" : 44
+  }, {
+    "name" : "nobody",
+    "members" : [ 29 ],
+    "homeMap" : 22
+  }, {
+    "name" : "CarpeNoctem",
+    "members" : [ 2501 ],
+    "homeMap" : 210
+  }, {
+    "name" : "eris",
+    "members" : [ 2937 ],
+    "homeMap" : 180
+  }, {
+    "name" : "Didi",
+    "members" : [ 1 ],
+    "homeMap" : 200
+  }, {
+    "name" : "ulli",
+    "members" : [ 213 ],
+    "homeMap" : 10035
+  }, {
+    "name" : "hasi",
+    "members" : [ 2226 ],
+    "homeMap" : 109
+  }, {
+    "name" : "Yashem",
+    "members" : [ 518 ],
+    "homeMap" : 89
+  }, {
+    "name" : "DerFlieger",
+    "members" : [ 2235 ],
+    "homeMap" : 182
+  }, {
+    "name" : "WildSingh",
+    "members" : [ 2264 ],
+    "homeMap" : 110
+  }, {
+    "name" : "recke",
+    "members" : [ 1989 ],
+    "homeMap" : 168
+  }, {
+    "name" : "JokerHF",
+    "members" : [ 2492 ],
+    "homeMap" : 66
+  }, {
+    "name" : "Foley",
+    "members" : [ 1722 ],
+    "homeMap" : 131
+  }, {
+    "name" : "cachito",
+    "members" : [ 1175 ],
+    "homeMap" : 21
+  }, {
+    "name" : "aristarch",
+    "members" : [ 2231 ],
+    "homeMap" : 206
+  } ],
+  "rules" : {
+    "minZzz" : 2,
+    "maxZzz" : 2,
+    "crashallowed" : "forbidden",
+    "cps" : true,
+    "startdirection" : "classic"
+  },
+  "playersByKey" : {
+    "group1" : [ 3021, 2894, 1644, 2985, 1448, 220, 516, 1411, 2345 ],
+    "group2" : [ 992, 1505, 3182, 277, 3058, 1230, 326, 2915, 557 ],
+    "group3" : [ 2868, 1574, 3048, 29, 2501, 2937, 1, 213, 2226 ],
+    "group4" : [ 518, 2235, 2264, 1989, 2492, 1722, 1175, 2231 ],
+    "league1" : [ 1411, 2345, 2915, 557, 213, 2226, 1175, 2231 ],
+    "league2" : [ 220, 516, 1230, 326, 2937, 1, 2492, 1722 ],
+    "league3" : [ 2985, 1448, 277, 3058, 29, 2501, 2264, 1989 ],
+    "league4" : [ 3021, 2894, 1644, 992, 1505, 3182, 2868, 1574, 3048, 518, 2235 ]
+  },
+  "settings" : {
+    "defaultTitle" : "KLC Saison xx - ${runde.x} - ${teams} auf Karte ${karte.id}",
+    "firstKORound" : 16,
+    "groups" : 4,
+    "leagues" : 4,
+    "round" : 35
+  }
+}

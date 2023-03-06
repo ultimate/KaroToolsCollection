@@ -1,7 +1,11 @@
 package ultimate.karomuskel.special;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -10,9 +14,15 @@ import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
+import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameSeriesType;
+import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
@@ -131,6 +141,141 @@ public abstract class GameSeriesUpdater
 				g.getPlayers().add(creator);
 			}
 		}
+
+		logger.info("saving updated file:   " + out.getAbsolutePath());
+		GameSeriesManager.store(gs, out);
+	}
+
+	public static void restoreKLC(KaroAPICache cache, File in, File out) throws IOException
+	{
+		cache.refresh();
+		
+		logger.info("loading wiki file: " + in.getAbsolutePath());
+		BufferedReader r = new BufferedReader(new FileReader(in));
+		
+		User creator = cache.getUser(2248);
+
+		GameSeries gs = new GameSeries(EnumGameSeriesType.KLC);
+		gs.setTitle("KLC Saison 18 - ${runde.x} - ${teams} auf Karte ${karte.id}");
+		gs.setCreator(creator);
+		gs.setCreatorParticipation(EnumCreatorParticipation.leave);
+		gs.setIgnoreInvitable(true);
+		gs.setRules(new Rules(2, 2, EnumGameTC.forbidden, true, EnumGameDirection.classic));
+		gs.getSettings().put("defaultTitle", "KLC Saison xx - ${runde.x} - ${teams} auf Karte ${karte.id}");
+		gs.getSettings().put("firstKORound", 16);
+		gs.getSettings().put("groups", 4);
+		gs.getSettings().put("leagues", 4);
+		gs.getSettings().put("round", 35);
+		
+		Options options = gs.getRules().createOptions(null);
+
+		List<PlannedGame> games = new ArrayList<>();
+		gs.getGames().put("KLC.groupphase", games);
+		gs.getPlayersByKey().put("group1", new ArrayList<>());
+		gs.getPlayersByKey().put("group2", new ArrayList<>());
+		gs.getPlayersByKey().put("group3", new ArrayList<>());
+		gs.getPlayersByKey().put("group4", new ArrayList<>());
+		gs.getPlayersByKey().put("league1", new ArrayList<>());
+		gs.getPlayersByKey().put("league2", new ArrayList<>());
+		gs.getPlayersByKey().put("league3", new ArrayList<>());
+		gs.getPlayersByKey().put("league4", new ArrayList<>());
+
+		int group = 0;
+
+		String userStart = "{{Benutzer|";
+		String userEnd = "}}";
+		String leagueStart = "}} (";
+		String leagueEnd = ")";
+		String mapStart = "{{Karte|";
+		String mapEnd = "}}";
+		String gidStart = "{{GID|";
+		String gidEnd = "}}";
+
+		String line;
+		User user, user2;
+		Map map;
+		PlannedGame pg;
+		Game game;
+		LinkedHashSet<User> players;
+		String username, username2;
+		int i1, i2, league, mapId, gid;
+		while((line = r.readLine()) != null)
+		{
+			if(line.startsWith("=== Gruppe "))
+			{
+				group++;
+				logger.debug("  --> group =" + group);
+			}
+			else if(line.startsWith("|style=\"text-align:right\"|"))
+			{
+				// |style="text-align:right"|1||style="text-align:left"|{{Benutzer|Thargor}} (4) ||{{Karte|214}}||0||0||0||0||0||0
+				i1 = line.indexOf(userStart) + userStart.length();
+				i2 = line.indexOf(userEnd, i1);
+				username = line.substring(i1, i2);
+
+				i1 = line.indexOf(leagueStart) + leagueStart.length();
+				i2 = line.indexOf(leagueEnd, i1);
+				league = Integer.parseInt(line.substring(i1, i2));
+
+				i1 = line.indexOf(mapStart) + mapStart.length();
+				i2 = line.indexOf(mapEnd, i1);
+				mapId = Integer.parseInt(line.substring(i1, i2));
+
+				logger.debug("  --> user  =" + username + "|" + league + "|" + mapId);
+
+				user = cache.getUsersByLogin().get(username.toLowerCase());
+				map = cache.getMap(mapId);
+
+				gs.getPlayers().add(user);
+				gs.getPlayersByKey().get("group" + group).add(user);
+				gs.getPlayersByKey().get("league" + league).add(user);
+				gs.getTeams().add(new Team(username, user, map));
+			}
+			else if(line.startsWith("| {{Benutzer|"))
+			{
+				logger.debug(line);
+				// | {{Benutzer|HX}} (4) || {{Benutzer|Karaser}} (1) || {{Karte|54}} || || || {{GID|137188}}
+				i1 = line.indexOf(userStart) + userStart.length();
+				i2 = line.indexOf(userEnd, i1);
+				username = line.substring(i1, i2);
+				
+				i1 = line.indexOf(userStart, i2) + userStart.length();
+				i2 = line.indexOf(userEnd, i1);
+				username2 = line.substring(i1, i2);	
+
+				i1 = line.indexOf(mapStart) + mapStart.length();
+				i2 = line.indexOf(mapEnd, i1);
+				mapId = Integer.parseInt(line.substring(i1, i2));	
+
+				i1 = line.indexOf(gidStart) + gidStart.length();
+				i2 = line.indexOf(gidEnd, i1);
+				gid = Integer.parseInt(line.substring(i1, i2));	
+				
+				logger.debug("  --> game  =" + username + "|" + username2 + "|" + mapId + "|" + gid);
+				
+				user = cache.getUsersByLogin().get(username.toLowerCase());
+				user2 = cache.getUsersByLogin().get(username2.toLowerCase());
+				map = cache.getMap(mapId);
+				game = cache.getGame(gid);
+				
+				logger.debug(user.getId());
+				logger.debug(user2.getId());				
+				
+				players = new LinkedHashSet<>();
+				players.add(user);
+				players.add(user2);
+				players.add(creator);
+
+				pg = new PlannedGame(game.getName(), map, players, options);
+				pg.setGame(game);
+				pg.setCreated(true);
+				pg.setLeft(true);
+
+				gs.getGames().get("KLC.groupphase").add(pg);
+			}
+		}
+
+		r.close();
 
 		logger.info("saving updated file:   " + out.getAbsolutePath());
 		GameSeriesManager.store(gs, out);

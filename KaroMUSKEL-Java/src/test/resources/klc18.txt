@@ -1,0 +1,466 @@
+=Saison 18=
+
+== Gruppenphase ==
+
+=== Gruppe 1 ===
+
+{| class="wikitable sortable" style="text-align:center"
+!P !! Name !! Karte !!style="width:10%" | Sp !!style="width:10%" | G !!style="width:10%" | U !!style="width:10%" | V !!style="width:10%" | ZV !!style="width:10%" | Pkt.
+|- style="background:#AAFFAA"
+|style="text-align:right"|1||style="text-align:left"|{{Benutzer|Robotman8000}} (4) ||{{Karte|168}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|2||style="text-align:left"|{{Benutzer|HX}} (4) ||{{Karte|54}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|3||style="text-align:left"|{{Benutzer|gitarrenteufel}} (4) ||{{Karte|109}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|4||style="text-align:left"|{{Benutzer|Cpxy}} (3) ||{{Karte|35}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|5||style="text-align:left"|{{Benutzer|Blindschleiche}} (3) ||{{Karte|202}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|6||style="text-align:left"|{{Benutzer|wolle}} (2) ||{{Karte|168}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|7||style="text-align:left"|{{Benutzer|quabla}} (2) ||{{Karte|65}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|8||style="text-align:left"|{{Benutzer|ultimate}} (1) ||{{Karte|85}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|9||style="text-align:left"|{{Benutzer|Karaser}} (1) ||{{Karte|22}}||0||0||0||0||0||0
+|-
+|}
+
+
+{| class="gallery"
+! colspan="2" | Spieltag 1|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|Karaser}} (1) || {{Karte|54}} || || || {{GID|137188}}
+|-
+| {{Benutzer|gitarrenteufel}} (4) || {{Benutzer|quabla}} (2) || {{Karte|109}} || || || {{GID|137191}}
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|ultimate}} (1) || {{Karte|168}} || || || {{GID|137189}}
+|-
+| {{Benutzer|Blindschleiche}} (3) || {{Benutzer|wolle}} (2) || {{Karte|202}} || || || {{GID|137184}}
+|-
+! colspan="2" | Spieltag 2|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|gitarrenteufel}} (4) || {{Benutzer|Karaser}} (1) || {{Karte|109}} || || || {{GID|137185}}
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|ultimate}} (1) || {{Karte|54}} || || || {{GID|137192}}
+|-
+| {{Benutzer|wolle}} (2) || {{Benutzer|quabla}} (2) || {{Karte|168}} || || || {{GID|137190}}
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|Cpxy}} (3) || {{Karte|168}} || || || {{GID|137187}}
+|-
+! colspan="2" | Spieltag 3|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|gitarrenteufel}} (4) || {{Benutzer|ultimate}} (1) || {{Karte|109}} || || || {{GID|137186}}
+|-
+| {{Benutzer|wolle}} (2) || {{Benutzer|Karaser}} (1) || {{Karte|168}} || || || {{GID|137183}}
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|Cpxy}} (3) || {{Karte|54}} || || || {{GID|137193}}
+|-
+| {{Benutzer|Blindschleiche}} (3) || {{Benutzer|quabla}} (2) || {{Karte|202}} || || || {{GID|137194}}
+|-
+! colspan="2" | Spieltag 4|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|wolle}} (2) || {{Benutzer|ultimate}} (1) || {{Karte|168}} || || || {{GID|137195}}
+|-
+| {{Benutzer|gitarrenteufel}} (4) || {{Benutzer|Cpxy}} (3) || {{Karte|109}} || || || {{GID|137196}}
+|-
+| {{Benutzer|Blindschleiche}} (3) || {{Benutzer|Karaser}} (1) || {{Karte|202}} || || || {{GID|137197}}
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|HX}} (4) || {{Karte|168}} || || || {{GID|137198}}
+|-
+! colspan="2" | Spieltag 5|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Cpxy}} (3) || {{Benutzer|wolle}} (2) || {{Karte|35}} || || || {{GID|137199}}
+|-
+| {{Benutzer|Blindschleiche}} (3) || {{Benutzer|ultimate}} (1) || {{Karte|202}} || || || {{GID|137200}}
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|gitarrenteufel}} (4) || {{Karte|168}} || || || {{GID|137201}}
+|-
+| {{Benutzer|quabla}} (2) || {{Benutzer|Karaser}} (1) || {{Karte|65}} || || || {{GID|137202}}
+|-
+! colspan="2" | Spieltag 6|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Blindschleiche}} (3) || {{Benutzer|Cpxy}} (3) || {{Karte|202}} || || || {{GID|137203}}
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|wolle}} (2) || {{Karte|168}} || || || {{GID|137204}}
+|-
+| {{Benutzer|quabla}} (2) || {{Benutzer|ultimate}} (1) || {{Karte|65}} || || || {{GID|137205}}
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|gitarrenteufel}} (4) || {{Karte|54}} || || || {{GID|137206}}
+|-
+! colspan="2" | Spieltag 7|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|Blindschleiche}} (3) || {{Karte|168}} || || || {{GID|137207}}
+|-
+| {{Benutzer|Cpxy}} (3) || {{Benutzer|quabla}} (2) || {{Karte|35}} || || || {{GID|137208}}
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|wolle}} (2) || {{Karte|54}} || || || {{GID|137209}}
+|-
+| {{Benutzer|Karaser}} (1) || {{Benutzer|ultimate}} (1) || {{Karte|22}} || || || {{GID|137210}}
+|-
+! colspan="2" | Spieltag 8|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|quabla}} (2) || {{Karte|168}} || || || {{GID|137211}}
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|Blindschleiche}} (3) || {{Karte|54}} || || || {{GID|137212}}
+|-
+| {{Benutzer|Cpxy}} (3) || {{Benutzer|Karaser}} (1) || {{Karte|35}} || || || {{GID|137213}}
+|-
+| {{Benutzer|gitarrenteufel}} (4) || {{Benutzer|wolle}} (2) || {{Karte|109}} || || || {{GID|137214}}
+|-
+! colspan="2" | Spieltag 9|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|HX}} (4) || {{Benutzer|quabla}} (2) || {{Karte|54}} || || || {{GID|137215}}
+|-
+| {{Benutzer|Robotman8000}} (4) || {{Benutzer|Karaser}} (1) || {{Karte|168}} || || || {{GID|137216}}
+|-
+| {{Benutzer|gitarrenteufel}} (4) || {{Benutzer|Blindschleiche}} (3) || {{Karte|109}} || || || {{GID|137217}}
+|-
+| {{Benutzer|Cpxy}} (3) || {{Benutzer|ultimate}} (1) || {{Karte|35}} || || || {{GID|137218}}
+|-
+|}
+
+
+
+=== Gruppe 2 ===
+
+{| class="wikitable sortable" style="text-align:center"
+!P !! Name !! Karte !!style="width:10%" | Sp !!style="width:10%" | G !!style="width:10%" | U !!style="width:10%" | V !!style="width:10%" | ZV !!style="width:10%" | Pkt.
+|- style="background:#AAFFAA"
+|style="text-align:right"|1||style="text-align:left"|{{Benutzer|Thargor}} (4) ||{{Karte|214}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|2||style="text-align:left"|{{Benutzer|haeckler}} (4) ||{{Karte|152}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|3||style="text-align:left"|{{Benutzer|Anthropophagos}} (4) ||{{Karte|8}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|4||style="text-align:left"|{{Benutzer|Wobbel}} (3) ||{{Karte|200}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|5||style="text-align:left"|{{Benutzer|Sascha}} (3) ||{{Karte|110}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|6||style="text-align:left"|{{Benutzer|Sayri}} (2) ||{{Karte|84}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|7||style="text-align:left"|{{Benutzer|eisbaer04}} (2) ||{{Karte|65}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|8||style="text-align:left"|{{Benutzer|FinalD}} (1) ||{{Karte|200}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|9||style="text-align:left"|{{Benutzer|fiete}} (1) ||{{Karte|51}}||0||0||0||0||0||0
+|-
+|}
+
+
+{| class="gallery"
+! colspan="2" | Spieltag 1|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|Sascha}} (3) || {{Karte|152}} || || || {{GID|137219}}
+|-
+| {{Benutzer|Wobbel}} (3) || {{Benutzer|FinalD}} (1) || {{Karte|200}} || || || {{GID|137220}}
+|-
+| {{Benutzer|Sayri}} (2) || {{Benutzer|fiete}} (1) || {{Karte|84}} || || || {{GID|137221}}
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|Anthropophagos}} (4) || {{Karte|214}} || || || {{GID|137222}}
+|-
+! colspan="2" | Spieltag 2|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|Wobbel}} (3) || {{Karte|152}} || || || {{GID|137223}}
+|-
+| {{Benutzer|Sascha}} (3) || {{Benutzer|fiete}} (1) || {{Karte|110}} || || || {{GID|137224}}
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|FinalD}} (1) || {{Karte|8}} || || || {{GID|137225}}
+|-
+| {{Benutzer|Sayri}} (2) || {{Benutzer|eisbaer04}} (2) || {{Karte|84}} || || || {{GID|137226}}
+|-
+! colspan="2" | Spieltag 3|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Wobbel}} (3) || {{Benutzer|fiete}} (1) || {{Karte|200}} || || || {{GID|137227}}
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|haeckler}} (4) || {{Karte|8}} || || || {{GID|137228}}
+|-
+| {{Benutzer|Sascha}} (3) || {{Benutzer|eisbaer04}} (2) || {{Karte|110}} || || || {{GID|137229}}
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|FinalD}} (1) || {{Karte|214}} || || || {{GID|137230}}
+|-
+! colspan="2" | Spieltag 4|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|fiete}} (1) || {{Karte|8}} || || || {{GID|137231}}
+|-
+| {{Benutzer|Wobbel}} (3) || {{Benutzer|eisbaer04}} (2) || {{Karte|200}} || || || {{GID|137232}}
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|Thargor}} (4) || {{Karte|152}} || || || {{GID|137233}}
+|-
+| {{Benutzer|Sascha}} (3) || {{Benutzer|Sayri}} (2) || {{Karte|110}} || || || {{GID|137234}}
+|-
+! colspan="2" | Spieltag 5|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|eisbaer04}} (2) || {{Karte|8}} || || || {{GID|137235}}
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|fiete}} (1) || {{Karte|214}} || || || {{GID|137236}}
+|-
+| {{Benutzer|Wobbel}} (3) || {{Benutzer|Sayri}} (2) || {{Karte|200}} || || || {{GID|137237}}
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|FinalD}} (1) || {{Karte|152}} || || || {{GID|137239}}
+|-
+! colspan="2" | Spieltag 6|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|eisbaer04}} (2) || {{Karte|214}} || || || {{GID|137238}}
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|Sayri}} (2) || {{Karte|8}} || || || {{GID|137241}}
+|-
+| {{Benutzer|fiete}} (1) || {{Benutzer|FinalD}} (1) || {{Karte|51}} || || || {{GID|137240}}
+|-
+| {{Benutzer|Wobbel}} (3) || {{Benutzer|Sascha}} (3) || {{Karte|200}} || || || {{GID|137242}}
+|-
+! colspan="2" | Spieltag 7|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|Sayri}} (2) || {{Karte|214}} || || || {{GID|137243}}
+|-
+| {{Benutzer|eisbaer04}} (2) || {{Benutzer|FinalD}} (1) || {{Karte|65}} || || || {{GID|137244}}
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|Sascha}} (3) || {{Karte|8}} || || || {{GID|137245}}
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|fiete}} (1) || {{Karte|152}} || || || {{GID|137246}}
+|-
+! colspan="2" | Spieltag 8|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Sayri}} (2) || {{Benutzer|FinalD}} (1) || {{Karte|84}} || || || {{GID|137247}}
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|Sascha}} (3) || {{Karte|214}} || || || {{GID|137248}}
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|eisbaer04}} (2) || {{Karte|152}} || || || {{GID|137249}}
+|-
+| {{Benutzer|Anthropophagos}} (4) || {{Benutzer|Wobbel}} (3) || {{Karte|8}} || || || {{GID|137250}}
+|-
+! colspan="2" | Spieltag 9|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Sascha}} (3) || {{Benutzer|FinalD}} (1) || {{Karte|110}} || || || {{GID|137251}}
+|-
+| {{Benutzer|haeckler}} (4) || {{Benutzer|Sayri}} (2) || {{Karte|152}} || || || {{GID|137252}}
+|-
+| {{Benutzer|Thargor}} (4) || {{Benutzer|Wobbel}} (3) || {{Karte|214}} || || || {{GID|137253}}
+|-
+| {{Benutzer|eisbaer04}} (2) || {{Benutzer|fiete}} (1) || {{Karte|65}} || || || {{GID|137254}}
+|-
+|}
+
+
+
+=== Gruppe 3 ===
+
+{| class="wikitable sortable" style="text-align:center"
+!P !! Name !! Karte !!style="width:10%" | Sp !!style="width:10%" | G !!style="width:10%" | U !!style="width:10%" | V !!style="width:10%" | ZV !!style="width:10%" | Pkt.
+|- style="background:#AAFFAA"
+|style="text-align:right"|1||style="text-align:left"|{{Benutzer|Zebrahead}} (4) ||{{Karte|93}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|2||style="text-align:left"|{{Benutzer|TheWhite}} (4) ||{{Karte|148}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|3||style="text-align:left"|{{Benutzer|STS81}} (4) ||{{Karte|44}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|4||style="text-align:left"|{{Benutzer|nobody}} (3) ||{{Karte|22}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|5||style="text-align:left"|{{Benutzer|CarpeNoctem}} (3) ||{{Karte|210}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|6||style="text-align:left"|{{Benutzer|eris}} (2) ||{{Karte|180}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|7||style="text-align:left"|{{Benutzer|Didi}} (2) ||{{Karte|200}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|8||style="text-align:left"|{{Benutzer|ulli}} (1) ||{{Karte|10035}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|9||style="text-align:left"|{{Benutzer|hasi}} (1) ||{{Karte|109}}||0||0||0||0||0||0
+|-
+|}
+
+
+{| class="gallery"
+! colspan="2" | Spieltag 1|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|CarpeNoctem}} (3) || {{Karte|93}} || || || {{GID|137255}}
+|-
+| {{Benutzer|eris}} (2) || {{Benutzer|ulli}} (1) || {{Karte|180}} || || || {{GID|137256}}
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|Didi}} (2) || {{Karte|44}} || || || {{GID|137257}}
+|-
+| {{Benutzer|TheWhite}} (4) || {{Benutzer|hasi}} (1) || {{Karte|148}} || || || {{GID|137258}}
+|-
+! colspan="2" | Spieltag 2|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|CarpeNoctem}} (3) || {{Benutzer|eris}} (2) || {{Karte|210}} || || || {{GID|137259}}
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|Didi}} (2) || {{Karte|93}} || || || {{GID|137260}}
+|-
+| {{Benutzer|TheWhite}} (4) || {{Benutzer|ulli}} (1) || {{Karte|148}} || || || {{GID|137261}}
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|nobody}} (3) || {{Karte|44}} || || || {{GID|137262}}
+|-
+! colspan="2" | Spieltag 3|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Didi}} (2) || {{Benutzer|eris}} (2) || {{Karte|200}} || || || {{GID|137263}}
+|-
+| {{Benutzer|TheWhite}} (4) || {{Benutzer|CarpeNoctem}} (3) || {{Karte|148}} || || || {{GID|137264}}
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|nobody}} (3) || {{Karte|93}} || || || {{GID|137265}}
+|-
+| {{Benutzer|ulli}} (1) || {{Benutzer|hasi}} (1) || {{Karte|10035}} || || || {{GID|137266}}
+|-
+! colspan="2" | Spieltag 4|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|TheWhite}} (4) || {{Benutzer|Didi}} (2) || {{Karte|148}} || || || {{GID|137267}}
+|-
+| {{Benutzer|nobody}} (3) || {{Benutzer|eris}} (2) || {{Karte|22}} || || || {{GID|137268}}
+|-
+| {{Benutzer|CarpeNoctem}} (3) || {{Benutzer|hasi}} (1) || {{Karte|210}} || || || {{GID|137269}}
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|STS81}} (4) || {{Karte|93}} || || || {{GID|137270}}
+|-
+! colspan="2" | Spieltag 5|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|TheWhite}} (4) || {{Benutzer|nobody}} (3) || {{Karte|148}} || || || {{GID|137271}}
+|-
+| {{Benutzer|Didi}} (2) || {{Benutzer|hasi}} (1) || {{Karte|200}} || || || {{GID|137272}}
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|eris}} (2) || {{Karte|44}} || || || {{GID|137273}}
+|-
+| {{Benutzer|CarpeNoctem}} (3) || {{Benutzer|ulli}} (1) || {{Karte|210}} || || || {{GID|137274}}
+|-
+! colspan="2" | Spieltag 6|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|nobody}} (3) || {{Benutzer|hasi}} (1) || {{Karte|22}} || || || {{GID|137275}}
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|TheWhite}} (4) || {{Karte|44}} || || || {{GID|137276}}
+|-
+| {{Benutzer|Didi}} (2) || {{Benutzer|ulli}} (1) || {{Karte|200}} || || || {{GID|137277}}
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|eris}} (2) || {{Karte|93}} || || || {{GID|137278}}
+|-
+! colspan="2" | Spieltag 7|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|hasi}} (1) || {{Karte|44}} || || || {{GID|137279}}
+|-
+| {{Benutzer|nobody}} (3) || {{Benutzer|ulli}} (1) || {{Karte|22}} || || || {{GID|137280}}
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|TheWhite}} (4) || {{Karte|93}} || || || {{GID|137281}}
+|-
+| {{Benutzer|CarpeNoctem}} (3) || {{Benutzer|Didi}} (2) || {{Karte|210}} || || || {{GID|137282}}
+|-
+! colspan="2" | Spieltag 8|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|ulli}} (1) || {{Karte|44}} || || || {{GID|137283}}
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|hasi}} (1) || {{Karte|93}} || || || {{GID|137284}}
+|-
+| {{Benutzer|nobody}} (3) || {{Benutzer|CarpeNoctem}} (3) || {{Karte|22}} || || || {{GID|137285}}
+|-
+| {{Benutzer|TheWhite}} (4) || {{Benutzer|eris}} (2) || {{Karte|148}} || || || {{GID|137286}}
+|-
+! colspan="2" | Spieltag 9|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Zebrahead}} (4) || {{Benutzer|ulli}} (1) || {{Karte|93}} || || || {{GID|137287}}
+|-
+| {{Benutzer|STS81}} (4) || {{Benutzer|CarpeNoctem}} (3) || {{Karte|44}} || || || {{GID|137288}}
+|-
+| {{Benutzer|eris}} (2) || {{Benutzer|hasi}} (1) || {{Karte|180}} || || || {{GID|137289}}
+|-
+| {{Benutzer|nobody}} (3) || {{Benutzer|Didi}} (2) || {{Karte|22}} || || || {{GID|137290}}
+|-
+|}
+
+
+
+=== Gruppe 4 ===
+
+{| class="wikitable sortable" style="text-align:center"
+!P !! Name !! Karte !!style="width:10%" | Sp !!style="width:10%" | G !!style="width:10%" | U !!style="width:10%" | V !!style="width:10%" | ZV !!style="width:10%" | Pkt.
+|- style="background:#AAFFAA"
+|style="text-align:right"|1||style="text-align:left"|{{Benutzer|Yashem}} (4) ||{{Karte|89}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|2||style="text-align:left"|{{Benutzer|DerFlieger}} (4) ||{{Karte|182}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|3||style="text-align:left"|{{Benutzer|WildSingh}} (3) ||{{Karte|110}}||0||0||0||0||0||0
+|- style="background:#AAFFAA"
+|style="text-align:right"|4||style="text-align:left"|{{Benutzer|recke}} (3) ||{{Karte|168}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|5||style="text-align:left"|{{Benutzer|JokerHF}} (2) ||{{Karte|66}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|6||style="text-align:left"|{{Benutzer|Foley}} (2) ||{{Karte|131}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|7||style="text-align:left"|{{Benutzer|cachito}} (1) ||{{Karte|21}}||0||0||0||0||0||0
+|-
+|style="text-align:right"|8||style="text-align:left"|{{Benutzer|aristarch}} (1) ||{{Karte|206}}||0||0||0||0||0||0
+|-
+|}
+
+
+{| class="gallery"
+! colspan="2" | Spieltag 1|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|WildSingh}} (3) || {{Benutzer|JokerHF}} (2) || {{Karte|110}} || || || {{GID|137291}}
+|-
+| {{Benutzer|Foley}} (2) || {{Benutzer|cachito}} (1) || {{Karte|131}} || || || {{GID|137292}}
+|-
+| {{Benutzer|recke}} (3) || {{Benutzer|aristarch}} (1) || {{Karte|168}} || || || {{GID|137293}}
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|DerFlieger}} (4) || {{Karte|89}} || || || {{GID|137294}}
+|-
+! colspan="2" | Spieltag 2|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|WildSingh}} (3) || {{Benutzer|cachito}} (1) || {{Karte|110}} || || || {{GID|137295}}
+|-
+| {{Benutzer|JokerHF}} (2) || {{Benutzer|aristarch}} (1) || {{Karte|66}} || || || {{GID|137297}}
+|-
+| {{Benutzer|DerFlieger}} (4) || {{Benutzer|Foley}} (2) || {{Karte|182}} || || || {{GID|137296}}
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|recke}} (3) || {{Karte|89}} || || || {{GID|137298}}
+|-
+! colspan="2" | Spieltag 3|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|WildSingh}} (3) || {{Benutzer|aristarch}} (1) || {{Karte|110}} || || || {{GID|137299}}
+|-
+| {{Benutzer|DerFlieger}} (4) || {{Benutzer|cachito}} (1) || {{Karte|182}} || || || {{GID|137300}}
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|JokerHF}} (2) || {{Karte|89}} || || || {{GID|137301}}
+|-
+| {{Benutzer|recke}} (3) || {{Benutzer|Foley}} (2) || {{Karte|168}} || || || {{GID|137302}}
+|-
+! colspan="2" | Spieltag 4|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|DerFlieger}} (4) || {{Benutzer|WildSingh}} (3) || {{Karte|182}} || || || {{GID|137303}}
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|aristarch}} (1) || {{Karte|89}} || || || {{GID|137304}}
+|-
+| {{Benutzer|recke}} (3) || {{Benutzer|cachito}} (1) || {{Karte|168}} || || || {{GID|137305}}
+|-
+| {{Benutzer|JokerHF}} (2) || {{Benutzer|Foley}} (2) || {{Karte|66}} || || || {{GID|137306}}
+|-
+! colspan="2" | Spieltag 5|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|WildSingh}} (3) || {{Karte|89}} || || || {{GID|137307}}
+|-
+| {{Benutzer|DerFlieger}} (4) || {{Benutzer|recke}} (3) || {{Karte|182}} || || || {{GID|137308}}
+|-
+| {{Benutzer|Foley}} (2) || {{Benutzer|aristarch}} (1) || {{Karte|131}} || || || {{GID|137309}}
+|-
+| {{Benutzer|JokerHF}} (2) || {{Benutzer|cachito}} (1) || {{Karte|66}} || || || {{GID|137310}}
+|-
+! colspan="2" | Spieltag 6|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|recke}} (3) || {{Benutzer|WildSingh}} (3) || {{Karte|168}} || || || {{GID|137312}}
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|Foley}} (2) || {{Karte|89}} || || || {{GID|137311}}
+|-
+| {{Benutzer|DerFlieger}} (4) || {{Benutzer|JokerHF}} (2) || {{Karte|182}} || || || {{GID|137313}}
+|-
+| {{Benutzer|aristarch}} (1) || {{Benutzer|cachito}} (1) || {{Karte|206}} || || || {{GID|137314}}
+|-
+! colspan="2" | Spieltag 7|| Karte || colspan="2" | Ergebnis || Spiel
+|-
+| {{Benutzer|WildSingh}} (3) || {{Benutzer|Foley}} (2) || {{Karte|110}} || || || {{GID|137315}}
+|-
+| {{Benutzer|recke}} (3) || {{Benutzer|JokerHF}} (2) || {{Karte|168}} || || || {{GID|137316}}
+|-
+| {{Benutzer|Yashem}} (4) || {{Benutzer|cachito}} (1) || {{Karte|89}} || || || {{GID|137317}}
+|-
+| {{Benutzer|DerFlieger}} (4) || {{Benutzer|aristarch}} (1) || {{Karte|182}} || || || {{GID|137318}}
+|-
+|}
+
+
+{{Navigationsleiste KaroLiga}}
