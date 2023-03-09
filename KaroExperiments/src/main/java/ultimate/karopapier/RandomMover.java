@@ -21,17 +21,17 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public class RandomMover
 {
-	public static final boolean	ONLY_MOVE_WHEN_IDLE	= true;
-	public static final int		FACTOR				= 1000;	// all following numbers in seconds
-	public static final int		INTERVAL			= 1;
-	public static final int		IDLE_TIME			= 5;
-	public static final int		IDLE_DELTA			= 10;
-	public static final int		MAX_SPEED			= 1;
-	
+	public static final boolean				ONLY_MOVE_WHEN_IDLE	= true;
+	public static final int					FACTOR				= 1000;										// all following numbers in seconds
+	public static final int					INTERVAL			= 1;
+	public static final int					IDLE_TIME			= 5;
+	public static final int					IDLE_DELTA			= 10;
+	public static final double				MAX_SPEED			= 1.5;
+
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger logger = LogManager.getLogger(RandomMover.class);
+	protected static transient final Logger	logger				= LogManager.getLogger(RandomMover.class);
 
 	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
@@ -43,21 +43,21 @@ public class RandomMover
 		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 		KaroAPICache cache = new KaroAPICache(api, login);
 		cache.refresh().join();
-		
+
 		int uid = api.check().get().getId();
-		
+
 		logger.info("loading game: " + gid);
-		
+
 		Random rand = new Random();
-		
+
 		Thread t = new Thread() {
 			public void run()
 			{
 				Point lastP, newP;
 				int unchangedCount = 0;
-				
+
 				lastP = MouseInfo.getPointerInfo().getLocation();
-				
+
 				Game game;
 				Player player;
 				Move move;
@@ -98,9 +98,15 @@ public class RandomMover
 										return;
 
 									if(player.getPossibles() == null || player.getPossibles().size() == 0)
-										api.refreshAfterCrash(gid);
+									{
+										logger.info("idle detected --> crashing...");
+										api.refreshAfterCrash(gid).get();
+										continue;
+									}
 
-									player.getPossibles().removeIf(m -> { return speed(m) > MAX_SPEED; });
+									player.getPossibles().removeIf(m -> {
+										return speed(m) > MAX_SPEED;
+									});
 
 									move = player.getPossibles().get(rand.nextInt(player.getPossibles().size()));
 									logger.info("idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
@@ -116,7 +122,7 @@ public class RandomMover
 							unchangedCount = 0;
 							lastP = newP;
 						}
-						Thread.sleep(INTERVAL*FACTOR);
+						Thread.sleep(INTERVAL * FACTOR);
 					}
 					catch(InterruptedException e)
 					{
@@ -133,7 +139,7 @@ public class RandomMover
 				}
 			}
 		};
-		t.start();		
+		t.start();
 		t.join();
 		System.exit(0);
 	}
