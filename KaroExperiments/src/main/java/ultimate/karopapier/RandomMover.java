@@ -1,71 +1,141 @@
 package ultimate.karopapier;
 
+import java.awt.HeadlessException;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public class RandomMover
 {
+	public static final boolean	ONLY_MOVE_WHEN_IDLE	= true;
+	public static final int		FACTOR				= 1000;	// all following numbers in seconds
+	public static final int		INTERVAL			= 1;
+	public static final int		IDLE_TIME			= 5;
+	public static final int		IDLE_DELTA			= 10;
+	public static final int		MAX_SPEED			= 1;
+	
+	/**
+	 * Logger-Instance
+	 */
+	protected static transient final Logger logger = LogManager.getLogger(RandomMover.class);
+
 	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
-		String user = args[0];
-		String pw = args[1];
-		int gid = Integer.parseInt(args[2]);
-		int maxSpeed = Integer.parseInt(args[3]);
+		File loginProperties = new File(args[0]);
+		int gid = Integer.parseInt(args[1]);
 
-		KaroAPI api = new KaroAPI(user, pw);
+		Properties login = PropertiesUtil.loadProperties(loginProperties);
+
+		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
+		KaroAPICache cache = new KaroAPICache(api, login);
+		cache.refresh().join();
+		
 		int uid = api.check().get().getId();
-
-		long sleep = 1000;
+		
+		logger.info("loading game: " + gid);
+		
 		Random rand = new Random();
-
-		Game game;
-		Player player;
-		Move move;
-		List<Move> validMoves = new ArrayList<>(9);
-
-		do
-		{
-			game = api.getGame(gid).get();
-			if(game.getNext() == null || game.getNext().getId() != uid)
-				return;
-
-			player = null;
-			for(Player p : game.getPlayers())
+		
+		Thread t = new Thread() {
+			public void run()
 			{
-				if(p.getId() == uid)
+				Point lastP, newP;
+				int unchangedCount = 0;
+				
+				lastP = MouseInfo.getPointerInfo().getLocation();
+				
+				Game game;
+				Player player;
+				Move move;
+
+				while(true)
 				{
-					player = p;
-					break;
+					try
+					{
+						newP = MouseInfo.getPointerInfo().getLocation();
+						// TODO also look for keyboard
+						if(newP.equals(lastP))
+						{
+							if(unchangedCount >= IDLE_TIME || !ONLY_MOVE_WHEN_IDLE)
+							{
+								game = api.getGameWithDetails(gid).get();
+								if(game.isFinished())
+								{
+									logger.info("game is finished --> exiting");
+									return;
+								}
+								else if(game.getNext() == null || game.getNext().getId() != uid)
+								{
+									logger.info("idle detected --> it's not my turn...");
+									continue;
+								}
+								else
+								{
+									player = null;
+									for(Player p : game.getPlayers())
+									{
+										if(p.getId() == uid)
+										{
+											player = p;
+											break;
+										}
+									}
+									if(player == null)
+										return;
+
+									if(player.getPossibles() == null || player.getPossibles().size() == 0)
+										api.refreshAfterCrash(gid);
+
+									player.getPossibles().removeIf(m -> { return speed(m) > MAX_SPEED; });
+
+									move = player.getPossibles().get(rand.nextInt(player.getPossibles().size()));
+									logger.info("idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
+									api.move(gid, move);
+								}
+							}
+							unchangedCount++;
+						}
+						else
+						{
+							if(unchangedCount > 0)
+								logger.debug("not idle");
+							unchangedCount = 0;
+							lastP = newP;
+						}
+						Thread.sleep(INTERVAL*FACTOR);
+					}
+					catch(InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+					catch(HeadlessException e)
+					{
+						e.printStackTrace();
+					}
+					catch(ExecutionException e)
+					{
+						e.printStackTrace();
+					}
 				}
 			}
-			if(player == null)
-				return;
-
-			if(player.getPossibles() == null || player.getPossibles().size() == 0)
-				api.refreshAfterCrash(gid);
-
-			validMoves.clear();
-			for(Move m : player.getPossibles())
-			{
-				if(speed(m) <= maxSpeed)
-					validMoves.add(m);
-			}
-			if(validMoves.size() == 0)
-				validMoves.addAll(player.getPossibles());
-
-			move = validMoves.get(rand.nextInt(validMoves.size()));
-			System.out.println("moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
-			api.move(gid, move);
-			Thread.sleep(sleep);
-		} while(true);
+		};
+		t.start();		
+		t.join();
+		System.exit(0);
 	}
 
 	private static double speed(Move m)
