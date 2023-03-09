@@ -26,7 +26,7 @@ public class RandomMover
 	public static final int					INTERVAL			= 1;
 	public static final int					IDLE_TIME			= 5;
 	public static final int					IDLE_DELTA			= 10;
-	public static final double				MAX_SPEED			= 1.5;
+	public static final double				MAX_SPEED			= 1;
 
 	/**
 	 * Logger-Instance
