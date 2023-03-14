@@ -1,4 +1,4 @@
-package ultimate.KaroRAUPE;
+package ultimate.karoraupe;
 
 import java.io.File;
 import java.io.IOException;
