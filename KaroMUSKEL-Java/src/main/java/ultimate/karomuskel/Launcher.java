@@ -97,8 +97,8 @@ public class Launcher
 	 * Supported args:
 	 * <ul>
 	 * <li>-d = debug-mode (= API mock)</li>
-	 * <li>-l=?? = the language to use</li>
-	 * <li>-t=xx = the max number of threads to use for the {@link KaroAPI}</li>
+	 * <li>-x = special mode (e.g. fix gameseries)</li>
+	 * <li>config-file name</li>
 	 * </ul>
 	 * 
 	 * @param args - see above
