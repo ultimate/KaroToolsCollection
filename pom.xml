@@ -16,6 +16,7 @@
 		<module>KaroMUSKEL-Java</module>
 		<module>KaroEval</module>
 		<module>KaroExperiments</module>
+		<module>KaroLAMA</module>
 	</modules>
 
 	<developers>
@@ -81,5 +82,6 @@
 		<ultimate.KaroMUSKEL.version>3.1.4</ultimate.KaroMUSKEL.version>
 		<ultimate.KaroEval.version>3.1.4</ultimate.KaroEval.version>
 		<ultimate.KaroExperiments.version>1.0.1</ultimate.KaroExperiments.version>
+		<ultimate.KaroLAMA.version>1.0.0</ultimate.KaroLAMA.version>
 	</properties>
 </project>
