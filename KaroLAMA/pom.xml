@@ -19,8 +19,8 @@
 		<!-- finally the dependencies -->
 		<dependency>
 			<groupId>ultimate</groupId>
-			<artifactId>KaroMUSKEL</artifactId>
-			<version>${ultimate.KaroMUSKEL.version}</version>
+			<artifactId>KaroAPI4J</artifactId>
+			<version>${ultimate.KaroAPI4J.version}</version>
 		</dependency>
 	</dependencies>
 
