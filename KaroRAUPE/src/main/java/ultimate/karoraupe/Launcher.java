@@ -2,8 +2,10 @@ package ultimate.karoraupe;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
-import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
@@ -66,10 +67,6 @@ public class Launcher
 	 * The {@link KaroAPI} instance
 	 */
 	private static KaroAPI					api			= null;
-	/**
-	 * The {@link KaroAPICache} instance
-	 */
-	private static KaroAPICache				cache		= null;
 
 	/**
 	 * The main to start the KaroMUSKEL.<br>
@@ -82,8 +79,8 @@ public class Launcher
 	 * 
 	 * @param args - see above
 	 * @throws IOException
-	 * @throws ExecutionException 
-	 * @throws InterruptedException 
+	 * @throws ExecutionException
+	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
@@ -111,9 +108,7 @@ public class Launcher
 
 		Properties config = PropertiesUtil.loadProperties(new File(configFile));
 		api = new KaroAPI(config.getProperty("karoAPI.user"), config.getProperty("karoAPI.password"));
-//		cache = new KaroAPICache(api, config);
-//		cache.refresh().join();
-		
+
 		Mover mover = new Mover(api, config, debug);
 
 		logger.info("-------------------------------------------------------------------------");
@@ -126,20 +121,33 @@ public class Launcher
 		logger.info("                           SCANNING = " + scanning + "                   ");
 		logger.info("-------------------------------------------------------------------------");
 		logger.info("-------------------------------------------------------------------------");
-		
+
 		User currentUser = api.check().get();
-		logger.info("current user = " +  currentUser.getLogin());
-		List<Game> dranGames;
+		logger.info("current user = " + currentUser.getLogin());
 
 		if(scanning)
 		{
-
+			int interval = Integer.parseInt(mover.getGlobalConfig().getProperty("karoraupe.interval"));
+			Timer timer = new Timer();
+			timer.scheduleAtFixedRate(new TimerTask() {
+				@Override
+				public void run()
+				{
+					mover.checkAndProcessGames();
+				}
+			}, 0, interval);
+			
+			CountDownLatch latch = new CountDownLatch(1);
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+		        public void run() {
+		            latch.countDown();
+		        }
+		    });
+			latch.await();
 		}
 		else
 		{
-			dranGames = api.getUserDran(currentUser.getId()).get();
-			logger.info("dran games   = " + dranGames.size());
-			mover.processGames(dranGames);
+			mover.checkAndProcessGames();
 		}
 
 		logger.info("-------------------------------------------------------------------------");
@@ -152,7 +160,6 @@ public class Launcher
 		}
 
 		api = null;
-		cache = null;
 
 		logger.info("                           PROGRAM  TERMINATED                           ");
 		logger.info("-------------------------------------------------------------------------");

@@ -22,14 +22,15 @@ public class Mover
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger		= LogManager.getLogger(getClass());
+	protected transient final Logger	logger			= LogManager.getLogger(getClass());
 
 	// define all key lower case!
-	public static final String			KEY_PREFIX	= "karoraupe";
-	public static final String			KEY_TRIGGER	= KEY_PREFIX + ".trigger";
-	public static final String			KEY_TIMEOUT	= KEY_PREFIX + ".timeout";
+	public static final String			KEY_PREFIX		= "karoraupe";
+	public static final String			KEY_TRIGGER		= KEY_PREFIX + ".trigger";
+	public static final String			KEY_TIMEOUT		= KEY_PREFIX + ".timeout";
+	public static final String			KEY_INTERVAL	= KEY_PREFIX + ".interval";
 
-	private static final DateFormat		DATE_FORMAT	= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	private static final DateFormat		DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	private static Properties			defaultConfig;
 
@@ -39,6 +40,7 @@ public class Mover
 		// NOTE: store all keys lower case
 		defaultConfig.setProperty(KEY_TRIGGER, EnumMoveTrigger.nomessage.toString());
 		defaultConfig.setProperty(KEY_TIMEOUT, "300");
+		defaultConfig.setProperty(KEY_INTERVAL, "300");
 	}
 
 	private Properties	globalConfig;
@@ -92,7 +94,7 @@ public class Mover
 				return false;
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_TIMEOUT))
+		else if(key.equalsIgnoreCase(KEY_TIMEOUT) || key.equalsIgnoreCase(KEY_INTERVAL))
 		{
 			try
 			{
@@ -135,39 +137,23 @@ public class Mover
 		return gameConfig;
 	}
 
-	public int processGames(List<Game> games)
-	{
-		int userId;
-		try
-		{
-			userId = api.check().get().getId();
-		}
-		catch(InterruptedException | ExecutionException e)
-		{
-			logger.error("could not get user id", e);
-			return 0;
-		}
-
-		int moves = 0;
-		for(Game g : games)
-		{
-			if(processGame(userId, g))
-				moves++;
-		}
-		return moves;
-	}
-
 	public boolean processGame(int userId, Game game)
 	{
 		try
 		{
+			game = api.getGameWithDetails(game.getId()).get();
+
 			String notes = api.getNote(game.getId()).get();
 			List<Move> plannedMoves = api.getPlannedMoves(game.getId()).get();
 
 			if(plannedMoves == null || plannedMoves.size() == 0)
 				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
 
-			if(game.getNext().getId() != userId)
+			if(game.isFinished())
+			{
+				logger.warn("  GID = " + game.getId() + " --> game is finished");
+			}
+			else if(game.getNext().getId() != userId)
 			{
 				logger.warn("  GID = " + game.getId() + " --> wrong user's turn");
 			}
@@ -267,7 +253,7 @@ public class Mover
 
 				Move m = options.get(0);
 
-				logger.info("  GID = " + game.getId() + " --> MOVING --> from " + m.getX() + "|" + m.getY() + " --> vec " + m.getXv() + "|" + m.getYv());
+				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY());
 
 				if(!debug)
 					return this.api.move(game.getId(), m).get();
@@ -311,5 +297,28 @@ public class Mover
 			}
 		}
 		return matches;
+	}
+
+	public int checkAndProcessGames()
+	{
+		int movesMade = 0;
+		try
+		{
+			int userId = api.check().get().getId();
+			List<Game> dranGames = api.getUserDran(userId).get();
+			logger.info("dran games   = " + dranGames.size());
+			for(Game g : dranGames)
+			{
+				if(processGame(userId, g))
+					movesMade++;
+			}
+			logger.info("moves made   = " + movesMade);
+		}
+		catch(InterruptedException | ExecutionException e)
+		{
+			logger.error("error checking and processing games", e);
+			e.printStackTrace();
+		}
+		return movesMade;
 	}
 }
