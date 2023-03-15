@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -88,7 +89,7 @@ public class KaroAPITest extends KaroAPITestcase
 		User user = karoAPI.check().get();
 
 		assertNotNull(user);
-		assertEquals(properties.get("karoapi.user"), user.getLogin());
+		assertEquals(properties.get(KaroAPI.CONFIG_KEY + ".user"), user.getLogin());
 	}
 
 	@Test
@@ -103,7 +104,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// should be more than just a few users...
 		assertTrue(users.size() > 100);
 		// should contain the current user
-		Predicate<User> findCurrentUser = (user) -> { return user.getLogin().equals(properties.get("karoapi.user")); };
+		Predicate<User> findCurrentUser = (user) -> { return user.getLogin().equals(properties.get(KaroAPI.CONFIG_KEY + ".user")); };
 		assertTrue(CollectionsUtil.contains(users, findCurrentUser));
 
 		// check invitable filter
@@ -767,24 +768,97 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 		int gameId = TEST_GAMES_IDS[0];
 
+		String expectedText = "sample text";
+		String noteText;
+		HashMap<Integer, String> notes;
+
 		// get the initial list of notes
-		HashMap<Integer, String> notes = (HashMap<Integer, String>) karoAPI.getNotes().get();
+		notes = (HashMap<Integer, String>) karoAPI.getNotes().get();
 		// current list must not contain the note
 		assertFalse(notes.containsKey(gameId));
-
-		HashMap<Integer, String> newNotes;
+		// also check directly
+		noteText = karoAPI.getNote(gameId).get();
+		assertEquals("", noteText);
 
 		// create a note
-		karoAPI.addNote(gameId, "sample text").get();
-		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().get();
+		karoAPI.addNote(gameId, expectedText).get();
+		notes = (HashMap<Integer, String>) karoAPI.getNotes().get();
 		// new list must contain the new note
-		assertTrue(newNotes.containsKey(gameId));
-
+		assertTrue(notes.containsKey(gameId));
+		// also check directly
+		noteText = karoAPI.getNote(gameId).get();
+		assertEquals(expectedText, noteText);
+		
 		// delete the note (reset)
 		karoAPI.removeNote(gameId).get();
-		newNotes = (HashMap<Integer, String>) karoAPI.getNotes().get();
+		notes = (HashMap<Integer, String>) karoAPI.getNotes().get();
 		// new list must not contain the note
-		assertFalse(newNotes.containsKey(gameId));
+		assertFalse(notes.containsKey(gameId));
+		// also check directly
+		noteText = karoAPI.getNote(gameId).get();
+		assertEquals("", noteText);
+	}
+	
+	@Test
+	public void test_plannedMoves() throws InterruptedException, ExecutionException
+	{
+		int gameId = TEST_GAMES_IDS[0];
+		
+		List<Move> plannedMoves = new ArrayList<>();
+		plannedMoves.add(new Move(2, 1, 1, 0, null));
+		plannedMoves.add(new Move(3, 1, 2, 0, null));
+
+		HashMap<Integer, List<Move>> allPlannedMoves;
+		List<Move> actuallyPlannedMoves;
+		
+		BiFunction<Move, Move, Boolean> movesEqual = (m1, m2) -> {
+			if(m1.getX() != m2.getX())
+				return false;
+			if(m1.getY() != m2.getY())
+				return false;
+			if(m1.getXv() != m2.getXv())
+				return false;
+			if(m1.getYv() != m2.getYv())
+				return false;
+			return true;
+		};
+
+		// get the initial list of notes
+		allPlannedMoves = (HashMap<Integer, List<Move>>) karoAPI.getPlannedMoves().get();
+		// current list must not contain the note
+		assertFalse(allPlannedMoves.containsKey(gameId));
+		// also check directly
+		actuallyPlannedMoves = karoAPI.getPlannedMoves(gameId).get();
+		assertEquals(0, actuallyPlannedMoves.size());
+		
+		// plan moves
+		karoAPI.addPlannedMoves(gameId, plannedMoves).get();
+		
+		// check again
+		allPlannedMoves = (HashMap<Integer, List<Move>>) karoAPI.getPlannedMoves().get();
+		// current list must not contain the note
+		assertTrue(allPlannedMoves.containsKey(gameId));
+		assertEquals(plannedMoves.size(), allPlannedMoves.get(gameId).size());
+		// also check directly
+		actuallyPlannedMoves = karoAPI.getPlannedMoves(gameId).get();
+		assertEquals(plannedMoves.size(), actuallyPlannedMoves.size());
+		for(int i = 0; i < plannedMoves.size(); i++)
+		{
+			logger.debug("plannedMoves.get(" + i + ")         = from " + plannedMoves.get(i).getX() + "|" + plannedMoves.get(i).getY() + " --> vec " + plannedMoves.get(i).getXv() + "|" + plannedMoves.get(i).getYv());
+			logger.debug("actuallyPlannedMoves.get(" + i + ") = from " + actuallyPlannedMoves.get(i).getX() + "|" + actuallyPlannedMoves.get(i).getY() + " --> vec " + actuallyPlannedMoves.get(i).getXv() + "|" + actuallyPlannedMoves.get(i).getYv());
+			assertTrue(movesEqual.apply(plannedMoves.get(i), actuallyPlannedMoves.get(i)), "moves at index " + i + " do not match");
+		}
+		
+		// delete the note (reset)
+		karoAPI.removePlannedMoves(gameId).get();
+
+		// check again
+		allPlannedMoves = (HashMap<Integer, List<Move>>) karoAPI.getPlannedMoves().get();
+		// current list must not contain the note
+		assertFalse(allPlannedMoves.containsKey(gameId));
+		// also check directly
+		actuallyPlannedMoves = karoAPI.getPlannedMoves(gameId).get();
+		assertEquals(0, actuallyPlannedMoves.size());
 	}
 
 	@Test
@@ -806,17 +880,17 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_multiInstanceAndMessaging() throws InterruptedException, ExecutionException, IOException
 	{
 		// check the login
-		assertEquals(properties.getProperty("karoapi.user"), karoAPI.check().get().getLogin());
+		assertEquals(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), karoAPI.check().get().getLogin());
 
 		// create a second instance
-		KaroAPI karoAPI2 = new KaroAPI(properties.getProperty("karoapi.user2"), properties.getProperty("karoapi.password2"));
+		KaroAPI karoAPI2 = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user2"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password2"));
 		// check the login there
 		User user2 = karoAPI2.check().get();
-		assertEquals(properties.getProperty("karoapi.user2"), user2.getLogin());
+		assertEquals(properties.getProperty(KaroAPI.CONFIG_KEY + ".user2"), user2.getLogin());
 
 		// check if the other API is still valid
 		User user1 = karoAPI.check().get();
-		assertEquals(properties.getProperty("karoapi.user"), user1.getLogin());
+		assertEquals(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), user1.getLogin());
 		
 		Properties testProperties = PropertiesUtil.loadProperties(new File("src/test/resources/test.properties"));
 
@@ -973,7 +1047,7 @@ public class KaroAPITest extends KaroAPITestcase
 	@Test
 	public void test_errorHandling() throws InterruptedException, ExecutionException
 	{
-		KaroAPI karoAPIwithFailingCall = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
+		KaroAPI karoAPIwithFailingCall = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password"));
 		karoAPIwithFailingCall.KAROPAPIER.addRequestProperty("X-Auth-Key", "wrong key");
 		CompletableFuture<User> completableFuture = karoAPIwithFailingCall.check();
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
@@ -27,6 +28,8 @@ import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
+import ultimate.karoapi4j.model.official.MovesListEntry;
+import ultimate.karoapi4j.model.official.NotesListEntry;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
@@ -72,6 +75,11 @@ public class KaroAPI implements IDLookUp
 	///////////////////////////////////////////
 
 	/**
+	 * The config key
+	 */
+	public static final String				CONFIG_KEY	= "karoAPI";
+
+	/**
 	 * The default placeholder for API urls
 	 */
 	public static final String				PLACEHOLDER	= "$";
@@ -108,7 +116,7 @@ public class KaroAPI implements IDLookUp
 		try
 		{
 			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
-			version = properties.getProperty("karoAPI.version");
+			version = properties.getProperty(KaroAPI.CONFIG_KEY + ".version");
 			logger.debug("version = " + version);
 		}
 		catch(IOException e)
@@ -154,8 +162,7 @@ public class KaroAPI implements IDLookUp
 
 	public static String getUserAgent()
 	{
-		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java "
-				+ System.getProperty("java.version") + ")";
+		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
 	}
 
 	/**
@@ -187,7 +194,9 @@ public class KaroAPI implements IDLookUp
 	// parsers needed //
 	////////////////////
 
-	public static final Function<String, Void>									PARSER_VOID					= (result) -> { return null; };
+	public static final Function<String, Void>									PARSER_VOID					= (result) -> {
+																												return null;
+																											};
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
 	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(new TypeReference<java.util.Map<String, Object>>() {});
 	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
@@ -197,6 +206,8 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
 	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
 	public static final Function<String, List<Move>>							PARSER_MOVE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Move>>() {});
+	public static final Function<String, List<MovesListEntry>>					PARSER_MOVES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<MovesListEntry>>() {});
+	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<NotesListEntry>>() {});
 	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
 	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
 	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
@@ -204,10 +215,21 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
 	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
-	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES				= (result) -> {
-		return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
-	};
-	public static final Function<String, String>								PARSER_KEY					= (result) -> { return (String) PARSER_GENERIC.apply(result).get("api_key"); };
+	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES_MAP			= (result) -> {
+																												return CollectionsUtil.flattenMap(CollectionsUtil.toMap(PARSER_NOTES_LIST.apply(result)), "text");
+																											};
+	public static final Function<String, java.util.Map<Integer, List<Move>>>	PARSER_MOVES_MAP			= (result) -> {
+																												return CollectionsUtil.flattenMap(CollectionsUtil.toMap(PARSER_MOVES_LIST.apply(result)), "moves");
+																											};
+	// public static final Function<String, java.util.Map<Integer, String>> PARSER_NOTES_LIST = (result) -> {
+	// return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
+	// };
+	public static final Function<String, String>								PARSER_NOTE					= (result) -> {
+																												return (String) PARSER_GENERIC.apply(result).get("text");
+																											};
+	public static final Function<String, String>								PARSER_KEY					= (result) -> {
+																												return (String) PARSER_GENERIC.apply(result).get("api_key");
+																											};
 
 	//////////////
 	// api URLs //
@@ -229,15 +251,16 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													FAVS_EDIT					= FAVS.relative("/" + PLACEHOLDER);
 	protected final URLLoader													BLOCKERS					= API.relative("/blockers");
 	protected final URLLoader													NOTES						= API.relative("/notes");
-	protected final URLLoader													NOTES_EDIT					= NOTES.relative("/" + PLACEHOLDER);
+	protected final URLLoader													NOTES_FOR_GAME				= NOTES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													PLANNED_MOVES				= API.relative("/planned-moves");
+	protected final URLLoader													PLANNED_MOVES_FOR_GAME		= PLANNED_MOVES.relative("/" + PLACEHOLDER);
 	// games
 	protected final URLLoader													GAMES						= API.relative("/games");
 	protected final URLLoader													GAMES3						= API.relative("/games3");
 	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													GAME_CREATE					= API.relative("/game");
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
-	@Deprecated//(since = "3.0.7")
+	@Deprecated // (since = "3.0.7")
 	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
 	protected final URLLoader													GAME_REFRESH				= KAROPAPIER.relative("/showmap.php?GID=" + PLACEHOLDER);
 	// maps
@@ -568,37 +591,49 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Get the list of favorites
+	 * Get the list of notes
 	 * 
-	 * @return the list of games
+	 * @return the list of notes
 	 */
 	public CompletableFuture<java.util.Map<Integer, String>> getNotes()
 	{
-		return loadAsync(NOTES.doGet(), PARSER_NOTES);
+		return loadAsync(NOTES.doGet(), PARSER_NOTES_MAP);
 	}
 
 	/**
-	 * Add a game to the list of favorites
+	 * Get the notes for a game
+	 * 
+	 * @param gameId - the game for which to get the notes
+	 * @return the notes
+	 */
+	public CompletableFuture<String> getNote(int gameId)
+	{
+		return loadAsync(NOTES_FOR_GAME.replace(PLACEHOLDER, gameId).doGet(), PARSER_NOTE);
+	}
+
+	/**
+	 * Add a note to a game
 	 * 
 	 * @param gameId - the game to mark as favorite
+	 * @param text - the note to add
 	 * @return void
 	 */
 	public CompletableFuture<Void> addNote(int gameId, String text)
 	{
 		HashMap<String, Object> args = new HashMap<>();
 		args.put("text", text);
-		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json), PARSER_VOID);
+		return loadAsync(NOTES_FOR_GAME.replace(PLACEHOLDER, gameId).doPut(args, EnumContentType.json), PARSER_VOID);
 	}
 
 	/**
-	 * Remove a game to the list of favorites
+	 * Remove a note for a game
 	 * 
 	 * @param gameId - the game to unmark as favorite
 	 * @return void
 	 */
 	public CompletableFuture<Void> removeNote(int gameId)
 	{
-		return loadAsync(NOTES_EDIT.replace(PLACEHOLDER, gameId).doDelete(), PARSER_VOID);
+		return loadAsync(NOTES_FOR_GAME.replace(PLACEHOLDER, gameId).doDelete(), PARSER_VOID);
 	}
 
 	/**
@@ -624,14 +659,62 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Get the list of planned moves for a specific user.<br>
+	 * Get the list of planned moves for the current user.<br>
+	 *
+	 * @see KaroAPI#PLANNED_MOVES
+	 * @return the list of users
+	 */
+	public CompletableFuture<java.util.Map<Integer, List<Move>>> getPlannedMoves()
+	{
+		return loadAsync(PLANNED_MOVES.doGet(), PARSER_MOVES_MAP);
+	}
+
+	/**
+	 * Get the list of planned moves for a specific game (and the current user).<br>
 	 * 
 	 * @see KaroAPI#PLANNED_MOVES
 	 * @return the list of users
 	 */
-	public CompletableFuture<List<Move>> getPlannedMoves()
+	public CompletableFuture<List<Move>> getPlannedMoves(int gameId)
 	{
-		return loadAsync(PLANNED_MOVES.doGet(), PARSER_MOVE_LIST);
+		return loadAsync(PLANNED_MOVES_FOR_GAME.replace(PLACEHOLDER, gameId).doGet(), PARSER_MOVE_LIST);
+	}
+
+	/**
+	 * Add planned moves to a game
+	 * 
+	 * @param gameId - the game to mark as favorite
+	 * @param moves - the moves to plan
+	 * @return void
+	 */
+	public CompletableFuture<Void> addPlannedMoves(int gameId, List<Move> moves)
+	{
+		List<java.util.Map<String, Object>> argsList = new LinkedList<>();
+		if(moves != null)
+		{
+			for(Move m: moves)
+			{
+				HashMap<String, Object> args = new HashMap<>();
+				args.put("x", "" + m.getX());
+				args.put("y", "" + m.getY());
+				args.put("xv", "" + m.getXv());
+				args.put("yv", "" + m.getYv());
+				argsList.add(args);
+			}
+		}
+		return loadAsync(PLANNED_MOVES_FOR_GAME.replace(PLACEHOLDER, gameId).doPut(argsList, EnumContentType.json), PARSER_VOID);
+	}
+
+	/**
+	 * Remove planned moves for a game
+	 * 
+	 * @param gameId - the game to unmark as favorite
+	 * @return void
+	 */
+	public CompletableFuture<Void> removePlannedMoves(int gameId)
+	{
+		return addPlannedMoves(gameId, null);
+//		return loadAsync(PLANNED_MOVES_FOR_GAME.replace(PLACEHOLDER, gameId).doDelete(), PARSER_VOID);
 	}
 
 	///////////////////////
@@ -767,7 +850,9 @@ public class KaroAPI implements IDLookUp
 		args.put("starty", "" + move.getY());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
+			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
+		});
 	}
 
 	/**
@@ -787,7 +872,9 @@ public class KaroAPI implements IDLookUp
 		args.put("yvec", "" + move.getYv());
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
-		return loadAsync(GAME_MOVE.doGet(args), (result) -> { return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>"); });
+		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
+			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
+		});
 	}
 
 	/**
@@ -798,7 +885,9 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<Boolean> refreshAfterCrash(int gameId)
 	{
-		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> { return result != null && result.contains("href=/spiele/" + gameId); });
+		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> {
+			return result != null && result.contains("href=/spiele/" + gameId);
+		});
 	}
 
 	/**
@@ -809,12 +898,11 @@ public class KaroAPI implements IDLookUp
 	 * @param userId - the user to kick
 	 * @return true if the operation was successful, false otherwise
 	 */
-	@Deprecated//(since = "3.0.7")
+	@Deprecated // (since = "3.0.7")
 	public CompletableFuture<Boolean> kick(int gameId, int userId)
 	{
 		return leaveGame(gameId);
 	}
-
 
 	/**
 	 * Leave a game.<br>
@@ -824,7 +912,9 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<Boolean> leaveGame(int gameId)
 	{
-		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doDelete(), (result) -> { return result != null && result.contains("[]"); });
+		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doDelete(), (result) -> {
+			return result != null && result.contains("[]");
+		});
 	}
 
 	///////////////////////
@@ -1149,7 +1239,7 @@ public class KaroAPI implements IDLookUp
 	 * @param userId - the other user
 	 * @return TODO currently PATCH is not supported by {@link HttpURLConnection}
 	 */
-	@Deprecated//(since = "PATCH IS NOT SUPPORTED")
+	@Deprecated // (since = "PATCH IS NOT SUPPORTED")
 	CompletableFuture<String> readUserMessage(int userId)
 	{
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(), PARSER_RAW);
@@ -1215,7 +1305,9 @@ public class KaroAPI implements IDLookUp
 		else
 			throw new IllegalArgumentException("unsupported type: " + object.getClass());
 
-		return loader.whenComplete((result, th) -> { ReflectionsUtil.copyFields(result, object, false); });
+		return loader.whenComplete((result, th) -> {
+			ReflectionsUtil.copyFields(result, object, false);
+		});
 	}
 
 	///////////////////////
