@@ -2,6 +2,9 @@ package ultimate.karoraupe;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -55,6 +58,8 @@ public class Launcher
 	 */
 	protected static transient final Logger	logger		= LogManager.getLogger(Launcher.class);
 
+	private static final DateFormat		DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
 	/**
 	 * Is the KaroRAUPE running in debug mode?
 	 */
@@ -87,8 +92,9 @@ public class Launcher
 		logger.info("------------------------------------------------------------------------");
 		logger.info("                               KaroRAUPE                                ");
 		logger.info("                  Rudimentärer AUto-Pilot ohne Extras                   ");
-		logger.info("------------------------------------------------------------------------");
-		logger.info("------------------------------------------------------------------------");
+		logger.info("                          " + DATE_FORMAT.format(new Date()));
+		logger.info("                          DEBUG    = " + debug + "                      ");
+		logger.info("                          SCANNING = " + scanning + "                   ");
 
 		// defaults
 		String configFile = null;
@@ -109,18 +115,9 @@ public class Launcher
 		Properties config = PropertiesUtil.loadProperties(new File(configFile));
 		api = new KaroAPI(config.getProperty("karoAPI.user"), config.getProperty("karoAPI.password"));
 
+		logger.info("-------------------------------------------------------------------------");
+
 		Mover mover = new Mover(api, config, debug);
-
-		logger.info("-------------------------------------------------------------------------");
-		logger.info("-------------------------------------------------------------------------");
-		logger.info("                         INITIALIZATION COMPLETE                         ");
-		logger.info("-------------------------------------------------------------------------");
-		logger.info("-------------------------------------------------------------------------");
-
-		logger.info("                           DEBUG    = " + debug + "                      ");
-		logger.info("                           SCANNING = " + scanning + "                   ");
-		logger.info("-------------------------------------------------------------------------");
-		logger.info("-------------------------------------------------------------------------");
 
 		User currentUser = api.check().get();
 		logger.info("current user = " + currentUser.getLogin());
@@ -151,7 +148,6 @@ public class Launcher
 		}
 
 		logger.info("-------------------------------------------------------------------------");
-		logger.info("-------------------------------------------------------------------------");
 
 		if(KaroAPI.getExecutor() != null)
 		{
@@ -162,7 +158,6 @@ public class Launcher
 		api = null;
 
 		logger.info("                           PROGRAM  TERMINATED                           ");
-		logger.info("-------------------------------------------------------------------------");
 		logger.info("-------------------------------------------------------------------------");
 
 		System.exit(0);

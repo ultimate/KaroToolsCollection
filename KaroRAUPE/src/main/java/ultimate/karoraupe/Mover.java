@@ -58,6 +58,8 @@ public class Mover
 			String value;
 			for(String key : config.stringPropertyNames())
 			{
+				if(!key.toLowerCase().startsWith(KEY_PREFIX))
+					continue;
 				value = config.getProperty(key);
 				if(!isPropertyValid(key, value))
 				{
@@ -141,13 +143,13 @@ public class Mover
 	{
 		try
 		{
-			game = api.getGameWithDetails(game.getId()).get();
-
 			String notes = api.getNote(game.getId()).get();
 			List<Move> plannedMoves = api.getPlannedMoves(game.getId()).get();
 
 			if(plannedMoves == null || plannedMoves.size() == 0)
 				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
+
+			game = api.getGameWithDetails(game.getId()).get();
 
 			if(game.isFinished())
 			{
@@ -156,10 +158,6 @@ public class Mover
 			else if(game.getNext().getId() != userId)
 			{
 				logger.warn("  GID = " + game.getId() + " --> wrong user's turn");
-			}
-			else if(notes == null || notes.isEmpty())
-			{
-				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no notes found");
 			}
 			else
 			{
