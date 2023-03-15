@@ -54,6 +54,11 @@ public class KaroWikiAPI
 	 * Logger-Instance
 	 */
 	protected transient final Logger	logger								= LogManager.getLogger(KaroWikiAPI.class);
+	
+	/**
+	 * The config key
+	 */
+	public static final String				CONFIG_KEY	= "karoWIKI";
 
 	//////////////
 	// api URLs //

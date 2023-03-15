@@ -44,8 +44,8 @@ public class KaroWikiAPITest
 		{
 			Properties p = PropertiesUtil.loadProperties(KaroWikiAPITest.class, "login.properties");
 			logger.debug(p);
-			username = p.getProperty("karowiki.user");
-			password = p.getProperty("karowiki.password");
+			username = p.getProperty(KaroWikiAPI.CONFIG_KEY + ".user");
+			password = p.getProperty(KaroWikiAPI.CONFIG_KEY + ".password");
 		}
 		catch(IOException e)
 		{
