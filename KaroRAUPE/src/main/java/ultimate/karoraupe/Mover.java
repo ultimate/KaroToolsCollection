@@ -1,0 +1,315 @@
+package ultimate.karoraupe;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Move;
+import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoraupe.enums.EnumMoveTrigger;
+
+public class Mover
+{
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger		= LogManager.getLogger(getClass());
+
+	// define all key lower case!
+	public static final String			KEY_PREFIX	= "karoraupe";
+	public static final String			KEY_TRIGGER	= KEY_PREFIX + ".trigger";
+	public static final String			KEY_TIMEOUT	= KEY_PREFIX + ".timeout";
+
+	private static final DateFormat		DATE_FORMAT	= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+
+	private static Properties			defaultConfig;
+
+	static
+	{
+		defaultConfig = new Properties();
+		// NOTE: store all keys lower case
+		defaultConfig.setProperty(KEY_TRIGGER, EnumMoveTrigger.nomessage.toString());
+		defaultConfig.setProperty(KEY_TIMEOUT, "300");
+	}
+
+	private Properties	globalConfig;
+	private KaroAPI		api;
+	private boolean		debug;
+
+	public Mover(KaroAPI api, Properties config, boolean debug)
+	{
+		this.api = api;
+		this.debug = debug;
+
+		this.globalConfig = new Properties(defaultConfig);
+		if(config != null)
+		{
+			String value;
+			for(String key : config.stringPropertyNames())
+			{
+				value = config.getProperty(key);
+				if(!isPropertyValid(key, value))
+				{
+					logger.info("ignoring invalid config: level=global --> " + key + "=" + value);
+					continue;
+				}
+				// NOTE: store all keys lower case
+				this.globalConfig.put(key.toLowerCase(), value);
+			}
+		}
+	}
+
+	public static Properties getDefaultConfig()
+	{
+		return defaultConfig;
+	}
+
+	public Properties getGlobalConfig()
+	{
+		return globalConfig;
+	}
+
+	private static boolean isPropertyValid(String key, String value)
+	{
+		if(key.equalsIgnoreCase(KEY_TRIGGER))
+		{
+			try
+			{
+				EnumMoveTrigger enumValue = EnumMoveTrigger.valueOf(value);
+				return enumValue != EnumMoveTrigger.invalid;
+			}
+			catch(IllegalArgumentException | NullPointerException e)
+			{
+				return false;
+			}
+		}
+		else if(key.equalsIgnoreCase(KEY_TIMEOUT))
+		{
+			try
+			{
+				int numberValue = Integer.parseInt(value);
+				return numberValue >= 0;
+			}
+			catch(NumberFormatException | NullPointerException e)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public Properties getGameConfig(int gid, String notes)
+	{
+		Properties gameConfig = new Properties(globalConfig);
+
+		String[] lines = notes.toLowerCase().split("\\r?\\n");
+
+		String key, value;
+		for(String l : lines)
+		{
+			if(l.startsWith(KEY_PREFIX.toLowerCase()) && l.contains("="))
+			{
+				key = l.substring(0, l.indexOf("=")).trim();
+				value = l.substring(l.indexOf("=") + 1).trim();
+				if(!isPropertyValid(key, value))
+				{
+					logger.info("ignoring invalid config: gid=" + gid + "  --> " + key + "=" + value);
+					continue;
+				}
+				gameConfig.setProperty(key.toLowerCase(), value);
+			}
+		}
+
+		return gameConfig;
+	}
+
+	public int processGames(List<Game> games)
+	{
+		int userId;
+		try
+		{
+			userId = api.check().get().getId();
+		}
+		catch(InterruptedException | ExecutionException e)
+		{
+			logger.error("could not get user id", e);
+			return 0;
+		}
+
+		int moves = 0;
+		for(Game g : games)
+		{
+			if(processGame(userId, g))
+				moves++;
+		}
+		return moves;
+	}
+
+	public boolean processGame(int userId, Game game)
+	{
+		try
+		{
+			String notes = api.getNote(game.getId()).get();
+			List<Move> plannedMoves = api.getPlannedMoves(game.getId()).get();
+
+			if(plannedMoves == null || plannedMoves.size() == 0)
+				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
+
+			if(game.getNext().getId() != userId)
+			{
+				logger.warn("  GID = " + game.getId() + " --> wrong user's turn");
+			}
+			else if(notes == null || notes.isEmpty())
+			{
+				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no notes found");
+			}
+			else
+			{
+				Properties gameConfig = getGameConfig(game.getId(), notes);
+
+				EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(KEY_TRIGGER)).standardize();
+				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
+
+				if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
+				{
+					logger.debug("  GID = " + game.getId() + " --> SKIPPING --> KaroRAUPE not enabled for this game");
+					return false;
+				}
+
+				// scan players to find the player matching the current user
+				Player player = null;
+				for(Player p : game.getPlayers())
+				{
+					if(p.getId() == userId)
+					{
+						player = p;
+
+						break;
+					}
+				}
+				if(player == null)
+				{
+					logger.warn("  GID = " + game.getId() + " --> user not participating in this game");
+					return false;
+				}
+
+				Move lastPlayerMove = null;
+				if(player.getMoves() != null && player.getMoves().size() > 0)
+					lastPlayerMove = player.getMoves().get(player.getMoves().size() - 1);
+
+				logger.debug(
+						"  GID = " + game.getId() + " --> player moved last: " + (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / 1000) + "s ago)"));
+
+				// scan other players for messages and last move made
+				Date lastMoveDate = game.getStarteddate();
+				boolean messageFound = false;
+				for(Player p : game.getPlayers())
+				{
+					if(p.getMoves() == null)
+						continue;
+
+					for(Move m : p.getMoves())
+					{
+						// look for the last move made in the game
+						if(m.getT().after(lastMoveDate))
+							lastMoveDate = m.getT();
+						// look for messages
+						if((lastPlayerMove == null || m.getT().after(lastPlayerMove.getT())) && m.getMsg() != null && !m.getMsg().isEmpty())
+							messageFound = true;
+					}
+				}
+
+				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / 1000; // convert to seconds
+				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
+				if(timeout > timeSinceLastMove)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached");
+					return false;
+				}
+
+				if(messageFound && trigger == EnumMoveTrigger.nomessage)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> message found");
+					return false;
+				}
+
+				if(player.getPossibles() == null || player.getPossibles().size() == 0)
+				{
+					logger.warn("  GID = " + game.getId() + " --> no possibles found");
+					return false;
+				}
+
+				List<Move> options = findMove(lastPlayerMove, player.getPossibles(), plannedMoves);
+				logger.debug("  GID = " + game.getId() + " --> " + options);
+
+				if(options.size() == 0)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = 0");
+					return false;
+				}
+				else if(options.size() > 1)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = " + options.size() + " --> can't decide");
+					return false;
+				}
+
+				Move m = options.get(0);
+
+				logger.info("  GID = " + game.getId() + " --> MOVING --> from " + m.getX() + "|" + m.getY() + " --> vec " + m.getXv() + "|" + m.getYv());
+
+				if(!debug)
+					return this.api.move(game.getId(), m).get();
+				else
+					return true;
+			}
+		}
+		catch(IllegalArgumentException e)
+		{
+			logger.debug("  GID = " + game.getId() + " --> SKIPPING --> error in the configuration", e);
+		}
+		catch(InterruptedException | ExecutionException e)
+		{
+			logger.error(e);
+		}
+		return false;
+	}
+
+	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
+	{
+		List<Move> matches = new ArrayList<>();
+
+		Move pm, nextpm;
+		for(int i = 0; i < plannedMoves.size(); i++)
+		{
+			pm = plannedMoves.get(i);
+			// look if the planned moves contain the current move
+			if(pm.getX() == currentMove.getX() && pm.getY() == currentMove.getY() && pm.getXv() == currentMove.getXv() && pm.getYv() == currentMove.getYv())
+			{
+				if(i + 1 >= plannedMoves.size())
+					break; // no follow up move planned
+				nextpm = plannedMoves.get(i + 1);
+				for(Move possible : possibles)
+				{
+					if(nextpm.getX() == possible.getX() && nextpm.getY() == possible.getY() && nextpm.getXv() == possible.getXv() && nextpm.getYv() == possible.getYv())
+					{
+						matches.add(possible);
+						break;
+					}
+				}
+			}
+		}
+		return matches;
+	}
+}
