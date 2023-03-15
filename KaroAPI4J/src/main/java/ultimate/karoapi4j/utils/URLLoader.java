@@ -12,6 +12,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -137,7 +138,29 @@ public class URLLoader
 			}
 			return sb.toString();
 		}
+	}
 
+	/**
+	 * Format a List of objects to a String in the format<br>
+	 * <ul>
+	 * <li>json: <code>[{"param1":"value1","param2":"value2",...}, {"param1":"value1","param2":"value2",...}, ...]</code></li>
+	 * </ul>
+	 * Note: currently only json is supported
+	 * 
+	 * @param parameters - the Map of parameters
+	 * @param
+	 * @return the formatted String
+	 */
+	public static String formatParameters(Collection<Map<String, Object>> parameters, EnumContentType contentType)
+	{
+		if(contentType == EnumContentType.json)
+		{
+			return JSONUtil.serialize(parameters);
+		}
+		else
+		{
+			throw new IllegalArgumentException("content type not supported: " + contentType);
+		}
 	}
 
 	/**
@@ -594,6 +617,24 @@ public class URLLoader
 	}
 
 	/**
+	 * Convenience for
+	 * <code>doPost(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doPost(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPost(Collection<Map<String, Object>> parameters, EnumContentType contentType)
+	{
+		if(parameters != null)
+			return doPost(formatParameters(parameters, contentType), contentType);
+		else
+			return doPost((String) null, contentType);
+	}
+
+	/**
 	 * Convenience for <code>doGet(null);</code>
 	 *
 	 * @param <T> - the type of content to load
@@ -680,6 +721,24 @@ public class URLLoader
 	}
 
 	/**
+	 * Convenience for
+	 * <code>doPut(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doPut(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doPut(Collection<Map<String, Object>> parameters, EnumContentType contentType)
+	{
+		if(parameters != null)
+			return doPut(formatParameters(parameters, contentType));
+		else
+			return doPut((String) null);
+	}
+
+	/**
 	 * Convenience for <code>doDelete(null);</code>
 	 *
 	 * @see URLLoader#doDelete(String, Parser)
@@ -717,6 +776,24 @@ public class URLLoader
 	 * @return the {@link BackgroundLoader} that can be used to load the content
 	 */
 	public BackgroundLoader doDelete(Map<String, Object> parameters, EnumContentType contentType)
+	{
+		if(parameters != null)
+			return doDelete(formatParameters(parameters, contentType));
+		else
+			return doDelete((String) null);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doDelete(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doDelete(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	public BackgroundLoader doDelete(Collection<Map<String, Object>> parameters, EnumContentType contentType)
 	{
 		if(parameters != null)
 			return doDelete(formatParameters(parameters, contentType));
@@ -767,6 +844,26 @@ public class URLLoader
 	 */
 	@Deprecated // (since = "PATCH IS NOT SUPPORTED")
 	public BackgroundLoader doPatch(Map<String, Object> parameters, EnumContentType contentType)
+	{
+		// TODO currently PATCH is not supported
+		if(parameters != null)
+			return doPatch(formatParameters(parameters, contentType));
+		else
+			return doPatch((String) null);
+	}
+
+	/**
+	 * Convenience for
+	 * <code>doPatch(URLLoader.formatParameters(parameters));</code>
+	 * 
+	 * @see URLLoader#doPatch(String, Parser)
+	 * @param <T> - the type of content to load
+	 * @param parameters - the parameters to write
+	 * @param parser - the {@link Parser} for the result
+	 * @return the {@link BackgroundLoader} that can be used to load the content
+	 */
+	@Deprecated // (since = "PATCH IS NOT SUPPORTED")
+	public BackgroundLoader doPatch(Collection<Map<String, Object>> parameters, EnumContentType contentType)
 	{
 		// TODO currently PATCH is not supported
 		if(parameters != null)
