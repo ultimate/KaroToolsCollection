@@ -17,6 +17,11 @@ import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.enums.EnumMoveTrigger;
 
+/**
+ * The Mover to check and process games
+ * 
+ * @author ultimate
+ */
 public class Mover
 {
 	/**
@@ -30,12 +35,19 @@ public class Mover
 	public static final String			KEY_TIMEOUT		= KEY_PREFIX + ".timeout";
 	public static final String			KEY_INTERVAL	= KEY_PREFIX + ".interval";
 
+	/**
+	 * {@link DateFormat} for log output
+	 */
 	private static final DateFormat		DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
+	/**
+	 * The default / fallback config
+	 */
 	private static Properties			defaultConfig;
 
 	static
 	{
+		// initiate the default / fallback config
 		defaultConfig = new Properties();
 		// NOTE: store all keys lower case
 		defaultConfig.setProperty(KEY_TRIGGER, EnumMoveTrigger.nomessage.toString());
@@ -43,10 +55,37 @@ public class Mover
 		defaultConfig.setProperty(KEY_INTERVAL, "300");
 	}
 
-	private Properties	globalConfig;
+	/**
+	 * The default / fallback config
+	 * 
+	 * @return
+	 */
+	public static Properties getDefaultConfig()
+	{
+		return defaultConfig;
+	}
+
+	/**
+	 * The {@link KaroAPI} to use
+	 */
 	private KaroAPI		api;
+	/**
+	 * The global config (loaded from file)
+	 */
+	private Properties	globalConfig;
+	/**
+	 * Is the {@link Mover} set to debug? This will disable move execution
+	 */
 	private boolean		debug;
 
+	/**
+	 * Initiate the Mover.<br>
+	 * This will re-construct the given config based on the default config (so later calls to getProperty() can fall back on this).
+	 * 
+	 * @param api - The {@link KaroAPI} to use
+	 * @param config - The global config (loaded from file)
+	 * @param debug - Is the {@link Mover} set to debug? This will disable move execution
+	 */
 	public Mover(KaroAPI api, Properties config, boolean debug)
 	{
 		this.api = api;
@@ -55,6 +94,7 @@ public class Mover
 		this.globalConfig = new Properties(defaultConfig);
 		if(config != null)
 		{
+			// the properties are not just copied, their keys are converted to lower case for more tolerance
 			String value;
 			for(String key : config.stringPropertyNames())
 			{
@@ -72,16 +112,25 @@ public class Mover
 		}
 	}
 
-	public static Properties getDefaultConfig()
-	{
-		return defaultConfig;
-	}
-
+	/**
+	 * The global config (loaded from file)
+	 * 
+	 * @return
+	 */
 	public Properties getGlobalConfig()
 	{
 		return globalConfig;
 	}
 
+	/**
+	 * Check whether a property value is valid.<br>
+	 * This is important for non-string properties (enums, numbers), to be able to ignore them during copying, so that falling back will work (otherwise valid defaults will be overwritten with invalid
+	 * configs).
+	 * 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
 	private static boolean isPropertyValid(String key, String value)
 	{
 		if(key.equalsIgnoreCase(KEY_TRIGGER))
@@ -114,6 +163,13 @@ public class Mover
 		}
 	}
 
+	/**
+	 * Parse the config for a game from the notes.
+	 * 
+	 * @param gid
+	 * @param notes
+	 * @return
+	 */
 	public Properties getGameConfig(int gid, String notes)
 	{
 		Properties gameConfig = new Properties(globalConfig);
@@ -132,6 +188,7 @@ public class Mover
 					logger.info("ignoring invalid config: gid=" + gid + "  --> " + key + "=" + value);
 					continue;
 				}
+				// NOTE: store all keys lower case
 				gameConfig.setProperty(key.toLowerCase(), value);
 			}
 		}
@@ -139,6 +196,13 @@ public class Mover
 		return gameConfig;
 	}
 
+	/**
+	 * Process a game
+	 * 
+	 * @param userId
+	 * @param game
+	 * @return
+	 */
 	public boolean processGame(int userId, Game game)
 	{
 		try
@@ -270,6 +334,15 @@ public class Mover
 		return false;
 	}
 
+	/**
+	 * Match the possibles against the planned moves.<br>
+	 * A move will only be selected, if the current move is in the planned moves and has a successor which is also a possible move.
+	 * 
+	 * @param currentMove
+	 * @param possibles
+	 * @param plannedMoves
+	 * @return
+	 */
 	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
 	{
 		List<Move> matches = new ArrayList<>();
@@ -297,6 +370,11 @@ public class Mover
 		return matches;
 	}
 
+	/**
+	 * Method that loads all dran games and processes them.
+	 * 
+	 * @return number of moves made
+	 */
 	public int checkAndProcessGames()
 	{
 		int movesMade = 0;

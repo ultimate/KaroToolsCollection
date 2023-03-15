@@ -15,39 +15,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 /**
- * This is the Launcher for the KaroMUSKEL. It contains the {@link Launcher#main(String[])} to run the program.<br>
- * On start the Launcher will perform the following steps:
- * <table>
- * <tr>
- * <td>1.</td>
- * <td>{@link Launcher#loadConfig(String)}</td>
- * <td>=&gt;</td>
- * <td>load and apply the configuration</td>
- * </tr>
- * <tr>
- * <td>2.</td>
- * <td>{@link Launcher#login()}</td>
- * <td>=&gt;</td>
- * <td>initialize the {@link KaroAPI} and login the user via a login dialog</td>
- * </tr>
- * <tr>
- * <td>3.</td>
- * <td>{@link Launcher#createCache(KaroAPI, Properties)}</td>
- * <td>=&gt;</td>
- * <td>initialize the {@link KaroAPICache} and pre-load relevant information into memory</td>
- * </tr>
- * <tr>
- * <td>4.</td>
- * <td>{@link Launcher#initUI(KaroAPICache)}</td>
- * <td>=&gt;</td>
- * <td>initialize the UI {@link MainFrame}</td>
- * </tr>
- * </table>
+ * This is the Launcher for the KaroRAUPE. It works in two modes:
+ * <ul>
+ * <li>no arg --&gt; one time check & move</li>
+ * <li>arg=-c --&gt; scanning mode (will check regularly for games and move)</li>
+ * </ul>
  * 
  * @author ultimate
  */
@@ -58,6 +34,9 @@ public class Launcher
 	 */
 	protected static transient final Logger	logger		= LogManager.getLogger(Launcher.class);
 
+	/**
+	 * {@link DateFormat} for log output
+	 */
 	private static final DateFormat		DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
@@ -74,11 +53,11 @@ public class Launcher
 	private static KaroAPI					api			= null;
 
 	/**
-	 * The main to start the KaroMUSKEL.<br>
+	 * The main to start the KaroRAUPE.<br>
 	 * Supported args:
 	 * <ul>
 	 * <li>-d = debug-mode (= API mock)</li>
-	 * <li>-s = scanning-mode</li>
+	 * <li>-s = scanning-mode (will check regularly for games and move)</li>
 	 * <li>config-file name</li>
 	 * </ul>
 	 * 
@@ -96,7 +75,7 @@ public class Launcher
 		logger.info("                          DEBUG    = " + debug + "                      ");
 		logger.info("                          SCANNING = " + scanning + "                   ");
 
-		// defaults
+		// parse all arguments
 		String configFile = null;
 
 		if(args.length > 0)
@@ -112,11 +91,15 @@ public class Launcher
 			}
 		}
 
+		// load properties from args
 		Properties config = PropertiesUtil.loadProperties(new File(configFile));
+		// init KaroAPI
 		api = new KaroAPI(config.getProperty("karoAPI.user"), config.getProperty("karoAPI.password"));
+		// Note: we don't need a KaroAPICache because we always want to have the latest information
 
 		logger.info("-------------------------------------------------------------------------");
 
+		// initiate the mover
 		Mover mover = new Mover(api, config, debug);
 
 		User currentUser = api.check().get();
@@ -124,6 +107,7 @@ public class Launcher
 
 		if(scanning)
 		{
+			// scanning mode --> the Mover.checkAndProcessGames will be called periodically
 			int interval = Integer.parseInt(mover.getGlobalConfig().getProperty("karoraupe.interval"));
 			Timer timer = new Timer();
 			timer.scheduleAtFixedRate(new TimerTask() {
@@ -144,6 +128,7 @@ public class Launcher
 		}
 		else
 		{
+			// one time mode
 			mover.checkAndProcessGames();
 		}
 
