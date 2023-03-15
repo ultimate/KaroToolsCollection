@@ -6,7 +6,7 @@
     <RollingFile name="FILE" fileName="logs/karomuskel.log" filePattern="logs/karomuskel %d{yyyy-MM-dd HH-mm-ss}.log">
       <PatternLayout pattern="%d{HH:mm:ss} %-5p [%t] %C.%M(%L) | %m%n"/>
       <Policies>
-        <OnStartupTriggeringPolicy />
+  		<SizeBasedTriggeringPolicy size="10 MB" />
       </Policies>
     </RollingFile>
   </Appenders>
