@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
@@ -227,6 +228,22 @@ public abstract class CollectionsUtil
 			map.put(id, object);
 		}
 		return map;
+	}
+	/**
+	 * Transform a list of identifiable objects into a map where the identifier is used as the key.
+	 * 
+	 * @param <T>
+	 * @param list - the list to convert
+	 * @return the id-map
+	 */
+	public static <T1 extends Identifiable, T2> Map<Integer, T2> flattenMap(Map<Integer, T1> map, String field)
+	{
+		HashMap<Integer, T2> flattenedMap = new HashMap<>();
+		for(Entry<Integer, T1> entry : map.entrySet())
+		{
+			flattenedMap.put(entry.getKey(), ReflectionsUtil.getField(entry.getValue(), field));
+		}
+		return flattenedMap;
 	}
 	
 	public static int[] toIDArray(Collection<? extends Identifiable> list)

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.official.NotesListEntry;
 
 public class CollectionsUtilTest
 {
@@ -150,5 +151,22 @@ public class CollectionsUtilTest
 			assertEquals(i, map.get(i).getId());
 			assertEquals(ENTRIES - 1 - i, map.get(i).getValue());
 		}
+	}
+
+	@Test
+	public void test_flattenMap()
+	{
+		String text1 = "text1";
+		String text2 = "text2";
+		
+		Map<Integer, NotesListEntry> map = new HashMap<>();
+		map.put(1, new NotesListEntry(1, text1));
+		map.put(2, new NotesListEntry(2, text2));
+		
+		Map<Integer, String> flattened = CollectionsUtil.flattenMap(map, "text");
+		
+		assertEquals(map.size(), flattened.size());
+		assertEquals(text1, flattened.get(1));
+		assertEquals(text2, flattened.get(2));
 	}
 }
