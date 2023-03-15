@@ -130,4 +130,10 @@ public class Move extends Identifiable
 	{
 		this.crash = crash;
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Move [x=" + x + ", y=" + y + ", xv=" + xv + ", yv=" + yv + ", t=" + t + ", msg=" + msg + ", crash=" + crash + "]";
+	}
 }
