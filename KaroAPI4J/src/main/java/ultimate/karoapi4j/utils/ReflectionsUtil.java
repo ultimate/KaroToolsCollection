@@ -77,4 +77,34 @@ public abstract class ReflectionsUtil
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T, F> F getField(T object, String fieldName)
+	{
+		String getterName = null;
+		Object value = null;
+		try
+		{
+			getterName = "get" + Character.toUpperCase(fieldName.charAt(0)) + fieldName.substring(1);
+			Method m = object.getClass().getMethod(getterName);
+			value = m.invoke(object);
+			return (F) value;
+		}
+		catch(NoSuchMethodException e)
+		{
+			logger.error("no such getter: " + getterName);
+			e.printStackTrace();
+		}
+		catch(SecurityException | IllegalAccessException | InvocationTargetException | IllegalArgumentException e)
+		{
+			logger.error("error accessing field: " + getterName);
+			e.printStackTrace();
+		}
+		catch(ClassCastException e)
+		{
+			logger.error("field is of wrong type: " + (value == null ? null : value.getClass()));
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

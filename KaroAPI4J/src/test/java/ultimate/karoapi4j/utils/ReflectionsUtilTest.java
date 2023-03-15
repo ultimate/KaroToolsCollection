@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.NotesListEntry;
 import ultimate.karoapi4j.model.official.User;
 
 public class ReflectionsUtilTest
@@ -48,5 +50,18 @@ public class ReflectionsUtilTest
 		assertEquals(from.getNext(), to.getNext());
 		assertEquals(from.getBlocked(), to.getBlocked());
 		assertEquals(from.getPlayers(), to.getPlayers());
+	}
+	
+	@Test
+	public void test_getField()
+	{
+		String text = "foo";
+		
+		NotesListEntry e = new NotesListEntry();
+		e.setText(text);
+		
+		String field = ReflectionsUtil.getField(e, "text");
+		assertNotNull(field);
+		assertEquals(text, field);
 	}
 }
