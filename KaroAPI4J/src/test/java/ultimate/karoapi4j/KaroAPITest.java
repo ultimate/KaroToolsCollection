@@ -11,6 +11,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -40,6 +42,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.test.KaroAPITestcase;
 import ultimate.karoapi4j.utils.CollectionsUtil;
+import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.MethodComparator;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
@@ -52,11 +55,58 @@ public class KaroAPITest extends KaroAPITestcase
 	private static final int	TEST_CHAT_ID_MIN	= 462585;
 	private static final int	TEST_CHAT_ID_MAX	= 462589;
 
+	///////////////////////
+	// Helpers
+	///////////////////////
+	
+	private <T> void compareList(List<T> expected, List<T> actual, Comparator<T> comparator)
+	{
+		assertNotNull(expected);
+		assertNotNull(actual);
+
+		if(logger.isDebugEnabled())
+		{
+			Iterator<T> i1 = expected.iterator();
+			Iterator<T> i2 = actual.iterator();
+			T o1, o2;
+
+			int i = 0;
+			while(i1.hasNext() || i2.hasNext())
+			{
+				o1 = (i1.hasNext() ? i1.next() : null);
+				o2 = (i2.hasNext() ? i2.next() : null);
+
+				logger.debug((i++) + " -> " + o1 + " vs. " + o2 + " = " + comparator.compare(o1, o2));
+			}
+		}
+
+		assertEquals(expected.size(), actual.size());
+		assertTrue(CollectionsUtil.equals(expected, actual, comparator));
+	}
+
+	private void checkMapCode(Map map)
+	{
+		logger.debug("checking map " + map.getId());
+		assertNotNull(map.getCode());
+		assertEquals(map.getRows() * (map.getCols() + 1) - 1, map.getCode().length());
+
+		String[] rows = map.getCode().split(Map.ROW_DELIMITER);
+		assertEquals(map.getRows(), rows.length);
+		for(String row : rows)
+		{
+			assertEquals(map.getCols(), row.length());
+		}
+	}
+
+	///////////////////////
+	// Tests
+	///////////////////////
+	
 	@Test
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals("1.2.4", KaroAPI.getVersion());
+		assertEquals("1.2.5", KaroAPI.getVersion());
 	}
 
 	@Test
@@ -955,45 +1005,6 @@ public class KaroAPITest extends KaroAPITestcase
 		// String tmp = karoAPI.readMessage(user2.getId()).get(); // PATCH currently not supported
 	}
 
-	private <T> void compareList(List<T> expected, List<T> actual, Comparator<T> comparator)
-	{
-		assertNotNull(expected);
-		assertNotNull(actual);
-
-		if(logger.isDebugEnabled())
-		{
-			Iterator<T> i1 = expected.iterator();
-			Iterator<T> i2 = actual.iterator();
-			T o1, o2;
-
-			int i = 0;
-			while(i1.hasNext() || i2.hasNext())
-			{
-				o1 = (i1.hasNext() ? i1.next() : null);
-				o2 = (i2.hasNext() ? i2.next() : null);
-
-				logger.debug((i++) + " -> " + o1 + " vs. " + o2 + " = " + comparator.compare(o1, o2));
-			}
-		}
-
-		assertEquals(expected.size(), actual.size());
-		assertTrue(CollectionsUtil.equals(expected, actual, comparator));
-	}
-
-	private void checkMapCode(Map map)
-	{
-		logger.debug("checking map " + map.getId());
-		assertNotNull(map.getCode());
-		assertEquals(map.getRows() * (map.getCols() + 1) - 1, map.getCode().length());
-
-		String[] rows = map.getCode().split(Map.ROW_DELIMITER);
-		assertEquals(map.getRows(), rows.length);
-		for(String row : rows)
-		{
-			assertEquals(map.getCols(), row.length());
-		}
-	}
-
 	@Test
 	public void test_load() throws InterruptedException, ExecutionException
 	{
@@ -1098,6 +1109,40 @@ public class KaroAPITest extends KaroAPITestcase
 
 		logger.debug("" + executionOrder);
 		assertEquals(Arrays.asList("1", "cf", "2"), executionOrder);
+	}
+
+	@Test
+	public void test_localVsServerTime() throws InterruptedException, ExecutionException
+	{
+		int sleep = 500;
+						
+		User user = karoAPI.check().get();
+		
+		// we create a game, so we have an entity with a current timestamp
+		PlannedGame plannedGame = new PlannedGame();
+		plannedGame.setMap(new Map(105));
+		plannedGame.getPlayers().add(user);
+		plannedGame.setName("KaroAPI-Test-Game");
+		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
+
+		Game game = karoAPI.createGame(plannedGame).get();
+		assertNotNull(game);
+		assertNotNull(game.getId());
+
+		DateFormat df = new SimpleDateFormat(JSONUtil.DATE_FORMAT);
+		Date now = new Date();
+
+		logger.debug("current time     = " + df.format(now));
+		logger.debug("game starteddate = " + df.format(game.getStarteddate()));
+		
+		assertEquals(now.getTime(), game.getStarteddate().getTime(), 10000.0); // toleranze of 10 seconds
+		
+		Thread.sleep(sleep);
+
+		// leave the game 
+		
+		boolean left = karoAPI.leaveGame(game.getId()).get();
+		assertTrue(left);
 	}
 
 	

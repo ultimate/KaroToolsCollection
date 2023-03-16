@@ -3,6 +3,7 @@ package ultimate.karoapi4j.utils;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -98,7 +100,12 @@ public abstract class JSONUtil
 		ObjectMapper mapper = new ObjectMapper();
 
 		// set the date format
-		mapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
+		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		if(TimeZone.getDefault().inDaylightTime(new Date()))
+			df.setTimeZone(TimeZone.getTimeZone("CEST"));
+		else
+			df.setTimeZone(TimeZone.getTimeZone("CET"));
+		mapper.setDateFormat(df);
 		// set the sort order for maps
 		mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
 		// if there are unknown properties in the JSON -> don't fail (they will be ignored)
