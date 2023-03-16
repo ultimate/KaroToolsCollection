@@ -108,7 +108,7 @@ public class Launcher
 		if(scanning)
 		{
 			// scanning mode --> the Mover.checkAndProcessGames will be called periodically
-			int interval = Integer.parseInt(mover.getGlobalConfig().getProperty("karoraupe.interval"));
+			int interval = Integer.parseInt(mover.getGlobalConfig().getProperty("karoraupe.interval")) * Mover.TIME_SCALE;
 			Timer timer = new Timer();
 			timer.scheduleAtFixedRate(new TimerTask() {
 				@Override

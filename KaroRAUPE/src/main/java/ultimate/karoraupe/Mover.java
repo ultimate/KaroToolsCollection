@@ -29,6 +29,8 @@ public class Mover
 	 */
 	protected transient final Logger	logger			= LogManager.getLogger(getClass());
 
+	public static final int				TIME_SCALE		= 1000;
+
 	// define all key lower case!
 	public static final String			KEY_PREFIX		= "karoraupe";
 	public static final String			KEY_TRIGGER		= KEY_PREFIX + ".trigger";
@@ -262,7 +264,7 @@ public class Mover
 
 				Move lastPlayerMove = player.getMotion();
 				logger.debug(
-						"  GID = " + game.getId() + " --> player moved last: " + (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / 1000) + "s ago)"));
+						"  GID = " + game.getId() + " --> player moved last: " + (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / TIME_SCALE) + "s ago)"));
 
 				// scan other players for messages and last move made
 				Date lastMoveDate = game.getStarteddate();
@@ -283,7 +285,7 @@ public class Mover
 					}
 				}
 
-				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / 1000; // convert to seconds
+				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / TIME_SCALE; // convert to seconds
 				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
 				if(timeSinceLastMove < timeout)
 				{
