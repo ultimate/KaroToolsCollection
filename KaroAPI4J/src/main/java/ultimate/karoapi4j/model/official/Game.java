@@ -43,10 +43,11 @@ public class Game extends Identifiable
 	 * "next": { "id": 1641, "name": "ImThinkin" }, // reduced user
 	 * "blocked": 1,
 	 * "players": [ ] // see type Player
+	 * "planned-moves": [ ] // see type Move
+	 * "notes": ""
 	 */
 	// for id see super class
 	// private int id; // see super class
-	@JsonProperty
 	private String				name;
 	private Map					map;
 	private boolean				cps;
@@ -61,6 +62,9 @@ public class Game extends Identifiable
 	private User				next;
 	private int					blocked;
 	private List<Player>		players;
+	@JsonProperty("planned-moves")
+	private List<Move>			plannedMoves;
+	private String				notes;
 
 	public Game()
 	{
@@ -210,6 +214,26 @@ public class Game extends Identifiable
 	public void setPlayers(List<Player> players)
 	{
 		this.players = players;
+	}
+
+	public List<Move> getPlannedMoves()
+	{
+		return plannedMoves;
+	}
+
+	public void setPlannedMoves(List<Move> plannedMoves)
+	{
+		this.plannedMoves = plannedMoves;
+	}
+
+	public String getNotes()
+	{
+		return notes;
+	}
+
+	public void setNotes(String notes)
+	{
+		this.notes = notes;
 	}
 
 	@Override

@@ -34,6 +34,7 @@ public class Mover
 	public static final String			KEY_TRIGGER		= KEY_PREFIX + ".trigger";
 	public static final String			KEY_TIMEOUT		= KEY_PREFIX + ".timeout";
 	public static final String			KEY_INTERVAL	= KEY_PREFIX + ".interval";
+	public static final String			KEY_MESSAGE		= KEY_PREFIX + ".message";
 
 	/**
 	 * {@link DateFormat} for log output
@@ -157,6 +158,11 @@ public class Mover
 				return false;
 			}
 		}
+		else if(key.equalsIgnoreCase(KEY_MESSAGE))
+		{
+			// nothing to check - this is a string
+			return true;
+		}
 		else
 		{
 			return false;
@@ -173,6 +179,9 @@ public class Mover
 	public Properties getGameConfig(int gid, String notes)
 	{
 		Properties gameConfig = new Properties(globalConfig);
+
+		if(notes == null)
+			return gameConfig;
 
 		String[] lines = notes.toLowerCase().split("\\r?\\n");
 
@@ -207,13 +216,11 @@ public class Mover
 	{
 		try
 		{
-			String notes = api.getNote(game.getId()).get();
-			List<Move> plannedMoves = api.getPlannedMoves(game.getId()).get();
-
-			if(plannedMoves == null || plannedMoves.size() == 0)
-				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
-
+			logger.debug("  GID = " + game.getId() + " --> loading game details");
 			game = api.getGameWithDetails(game.getId()).get();
+
+			if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
+				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
 
 			if(game.isFinished())
 			{
@@ -225,7 +232,7 @@ public class Mover
 			}
 			else
 			{
-				Properties gameConfig = getGameConfig(game.getId(), notes);
+				Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
 
 				EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(KEY_TRIGGER)).standardize();
 				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
@@ -253,10 +260,7 @@ public class Mover
 					return false;
 				}
 
-				Move lastPlayerMove = null;
-				if(player.getMoves() != null && player.getMoves().size() > 0)
-					lastPlayerMove = player.getMoves().get(player.getMoves().size() - 1);
-
+				Move lastPlayerMove = player.getMotion();
 				logger.debug(
 						"  GID = " + game.getId() + " --> player moved last: " + (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / 1000) + "s ago)"));
 
@@ -299,7 +303,7 @@ public class Mover
 					return false;
 				}
 
-				List<Move> options = findMove(lastPlayerMove, player.getPossibles(), plannedMoves);
+				List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves());
 				logger.debug("  GID = " + game.getId() + " --> " + options);
 
 				if(options.size() == 0)
@@ -314,8 +318,10 @@ public class Mover
 				}
 
 				Move m = options.get(0);
+				if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
+					m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 
-				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY());
+				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY() + (m.getMsg() != null ? " ... msg='" + m.getMsg() : "'"));
 
 				if(!debug)
 					return this.api.move(game.getId(), m).get();
