@@ -281,9 +281,9 @@ public class Mover
 
 				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / 1000; // convert to seconds
 				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
-				if(timeout > timeSinceLastMove)
+				if(timeSinceLastMove < timeout)
 				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached");
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached (timeout = " + timeout + ", last move = " + timeSinceLastMove + "s ago)");
 					return false;
 				}
 
