@@ -289,7 +289,7 @@ public class Mover
 				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
 				if(timeSinceLastMove < timeout)
 				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached (timeout = " + timeout + ", last move = " + timeSinceLastMove + "s ago)");
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached (timeout = " + timeout + "s, last move = " + timeSinceLastMove + "s ago)");
 					return false;
 				}
 
@@ -323,7 +323,7 @@ public class Mover
 				if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
 					m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 
-				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY() + (m.getMsg() != null ? " ... msg='" + m.getMsg() : "'"));
+				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY() + (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'": ""));
 
 				if(!debug)
 					return this.api.move(game.getId(), m).get();
