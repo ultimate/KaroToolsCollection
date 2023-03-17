@@ -37,6 +37,7 @@ public class Mover
 	public static final String			KEY_TIMEOUT		= KEY_PREFIX + ".timeout";
 	public static final String			KEY_INTERVAL	= KEY_PREFIX + ".interval";
 	public static final String			KEY_MESSAGE		= KEY_PREFIX + ".message";
+	public static final String			KEY_STRICT		= KEY_PREFIX + ".strict";
 
 	/**
 	 * {@link DateFormat} for log output
@@ -55,7 +56,8 @@ public class Mover
 		// NOTE: store all keys lower case
 		defaultConfig.setProperty(KEY_TRIGGER, EnumMoveTrigger.nomessage.toString());
 		defaultConfig.setProperty(KEY_TIMEOUT, "300");
-		defaultConfig.setProperty(KEY_INTERVAL, "300");
+		defaultConfig.setProperty(KEY_MESSAGE, "");
+		defaultConfig.setProperty(KEY_STRICT, "true");
 	}
 
 	/**
@@ -138,6 +140,7 @@ public class Mover
 	{
 		if(key.equalsIgnoreCase(KEY_TRIGGER))
 		{
+			// check enum
 			try
 			{
 				EnumMoveTrigger enumValue = EnumMoveTrigger.valueOf(value);
@@ -150,6 +153,7 @@ public class Mover
 		}
 		else if(key.equalsIgnoreCase(KEY_TIMEOUT) || key.equalsIgnoreCase(KEY_INTERVAL))
 		{
+			// check numbers
 			try
 			{
 				int numberValue = Integer.parseInt(value);
@@ -159,6 +163,11 @@ public class Mover
 			{
 				return false;
 			}
+		}
+		else if(key.equalsIgnoreCase(KEY_STRICT))
+		{
+			// check booleans
+			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
 		}
 		else if(key.equalsIgnoreCase(KEY_MESSAGE))
 		{
@@ -263,8 +272,8 @@ public class Mover
 				}
 
 				Move lastPlayerMove = player.getMotion();
-				logger.debug(
-						"  GID = " + game.getId() + " --> player moved last: " + (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / TIME_SCALE) + "s ago)"));
+				logger.debug("  GID = " + game.getId() + " --> player moved last: "
+						+ (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / TIME_SCALE) + "s ago)"));
 
 				// scan other players for messages and last move made
 				Date lastMoveDate = game.getStarteddate();
@@ -305,17 +314,18 @@ public class Mover
 					return false;
 				}
 
-				List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves());
+				boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
+				List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves(), strict);
 				logger.debug("  GID = " + game.getId() + " --> " + options);
 
 				if(options.size() == 0)
 				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = 0");
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = 0" + (strict ? " (strict)" : ""));
 					return false;
 				}
 				else if(options.size() > 1)
 				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = " + options.size() + " --> can't decide");
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = " + options.size() + (strict ? " (strict)" : ")") + " --> can't decide");
 					return false;
 				}
 
@@ -323,7 +333,7 @@ public class Mover
 				if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
 					m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 
-				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY() + (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'": ""));
+				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY() + (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
 
 				if(!debug)
 					return this.api.move(game.getId(), m).get();
@@ -349,29 +359,37 @@ public class Mover
 	 * @param currentMove
 	 * @param possibles
 	 * @param plannedMoves
+	 * @param strict
 	 * @return
 	 */
-	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
+	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves, boolean strict)
 	{
 		List<Move> matches = new ArrayList<>();
 
-		Move pm, nextpm;
+		Move pm, prevpm;
 		for(int i = 0; i < plannedMoves.size(); i++)
 		{
 			pm = plannedMoves.get(i);
-			// look if the planned moves contain the current move
-			if(pm.getX() == currentMove.getX() && pm.getY() == currentMove.getY() && pm.getXv() == currentMove.getXv() && pm.getYv() == currentMove.getYv())
+
+			if(strict)
 			{
-				if(i + 1 >= plannedMoves.size())
-					break; // no follow up move planned
-				nextpm = plannedMoves.get(i + 1);
-				for(Move possible : possibles)
+				// previous move must match the current move to allow the planned move
+				if(i == 0)
+					continue;
+				prevpm = plannedMoves.get(i - 1);
+				
+				if(prevpm.getX() != currentMove.getX() || prevpm.getY() != currentMove.getY() || prevpm.getXv() != currentMove.getXv() || prevpm.getYv() != currentMove.getYv())
+					continue; // previous move does not match
+			}
+
+			// look if the planned moves contain the current move
+			
+			for(Move possible : possibles)
+			{
+				if(pm.getX() == possible.getX() && pm.getY() == possible.getY() && pm.getXv() == possible.getXv() && pm.getYv() == possible.getYv())
 				{
-					if(nextpm.getX() == possible.getX() && nextpm.getY() == possible.getY() && nextpm.getXv() == possible.getXv() && nextpm.getYv() == possible.getYv())
-					{
-						matches.add(possible);
-						break;
-					}
+					matches.add(possible);
+					break;
 				}
 			}
 		}
