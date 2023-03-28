@@ -1,6 +1,7 @@
 package ultimate.karopapier.painter;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class MapVector
 {
@@ -12,6 +13,7 @@ public class MapVector
 	public final int				dy;
 
 	public LinkedList<MapVector>	possibles;
+	public LinkedList<MapVector>	origins;
 
 	public MapVector(MapGrid grid, MapField start, int dx, int dy)
 	{
@@ -22,11 +24,31 @@ public class MapVector
 		this.dy = dy;
 		
 		this.possibles = null;
+		this.origins = null;
 	}
 
 	@Override
 	public String toString()
 	{
 		return "MapVector [(" + start.x + "|" + start.y + ")-(" + dx + "|" + dy + ")->(" + end.x + "|" + end.y + ")]";
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(dx, dy, end, grid, possibles, start);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		MapVector other = (MapVector) obj;
+		return dx == other.dx && dy == other.dy && Objects.equals(end, other.end) && Objects.equals(grid, other.grid) && Objects.equals(start, other.start);
 	}
 }
