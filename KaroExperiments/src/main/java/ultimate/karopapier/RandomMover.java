@@ -17,7 +17,9 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karoapi4j.utils.URLLoader;
 
 public class RandomMover
 {
@@ -27,6 +29,9 @@ public class RandomMover
 	public static final int					IDLE_TIME			= 5;
 	public static final int					IDLE_DELTA			= 10;
 	public static final double				MAX_SPEED			= 1000;
+	public static final int					WOLLUST_INTERVAL	= 600;
+	public static final int					WOLLUST_TOLERANCE	= 100;
+	public static final int					MAX_WOLLUST			= 5000;
 
 	/**
 	 * Logger-Instance
@@ -44,7 +49,9 @@ public class RandomMover
 		KaroAPICache cache = new KaroAPICache(api, login);
 		cache.refresh().join();
 
-		int uid = api.check().get().getId();
+		User user = api.check().get();
+		int uid = user.getId();
+		String username = user.getLogin();
 
 		logger.info("loading game: " + gid);
 
@@ -61,68 +68,88 @@ public class RandomMover
 				Game game;
 				Player player;
 				Move move;
+				int wollust = 0;
+				int movesSinceLastWollustCheck = WOLLUST_TOLERANCE;
 
 				while(true)
 				{
 					try
 					{
-						newP = MouseInfo.getPointerInfo().getLocation();
-						// TODO also look for keyboard
-						if(newP.equals(lastP))
+						if(movesSinceLastWollustCheck >= WOLLUST_TOLERANCE)
 						{
-							if(unchangedCount >= IDLE_TIME || !ONLY_MOVE_WHEN_IDLE)
+							wollust = getWollust(username);
+							movesSinceLastWollustCheck = 0;
+						}
+						// only move, when wollust is not too high 
+						if(wollust < MAX_WOLLUST)
+						{
+							newP = MouseInfo.getPointerInfo().getLocation();
+							// TODO also look for keyboard
+							if(newP.equals(lastP))
 							{
-								game = api.getGameWithDetails(gid).get();
-								if(game.isFinished())
+								if(unchangedCount >= IDLE_TIME || !ONLY_MOVE_WHEN_IDLE)
 								{
-									logger.info("game is finished --> exiting");
-									return;
-								}
-								else if(game.getNext() == null || game.getNext().getId() != uid)
-								{
-									logger.info("idle detected --> it's not my turn...");
-									continue;
-								}
-								else
-								{
-									player = null;
-									for(Player p : game.getPlayers())
+									game = api.getGameWithDetails(gid).get();
+									if(game.isFinished())
 									{
-										if(p.getId() == uid)
-										{
-											player = p;
-											break;
-										}
-									}
-									if(player == null)
+										logger.info("wollust=" + wollust + " | game is finished --> exiting");
 										return;
-
-									if(player.getPossibles() == null || player.getPossibles().size() == 0)
+									}
+									else if(game.getNext() == null || game.getNext().getId() != uid)
 									{
-										logger.info("idle detected --> crashing...");
-										api.refreshAfterCrash(gid).get();
+										logger.info("wollust=" + wollust + " | idle detected --> it's not my turn...");
 										continue;
 									}
-
-									player.getPossibles().removeIf(m -> {
-										return speed(m) > MAX_SPEED;
-									});
-
-									move = player.getPossibles().get(rand.nextInt(player.getPossibles().size()));
-									logger.info("idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
-									api.move(gid, move);
+									else
+									{
+										player = null;
+										for(Player p : game.getPlayers())
+										{
+											if(p.getId() == uid)
+											{
+												player = p;
+												break;
+											}
+										}
+										if(player == null)
+											return;
+	
+										if(player.getPossibles() == null || player.getPossibles().size() == 0)
+										{
+											logger.info("wollust=" + wollust + " | idle detected --> crashing...");
+											api.refreshAfterCrash(gid).get();
+											continue;
+										}
+	
+										player.getPossibles().removeIf(m -> {
+											return speed(m) > MAX_SPEED;
+										});
+	
+										move = player.getPossibles().get(rand.nextInt(player.getPossibles().size()));
+										logger.info("wollust=" + wollust + " | idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
+										api.move(gid, move);
+										
+										movesSinceLastWollustCheck++;
+										wollust++;
+									}
 								}
+								unchangedCount++;
 							}
-							unchangedCount++;
+							else
+							{
+								if(unchangedCount > 0)
+									logger.debug("wollust=" + wollust + " | not idle");
+								unchangedCount = 0;
+								lastP = newP;
+							}
+							Thread.sleep(INTERVAL * FACTOR);
 						}
 						else
 						{
-							if(unchangedCount > 0)
-								logger.debug("not idle");
-							unchangedCount = 0;
-							lastP = newP;
+							logger.debug("wollust=" + wollust + " | wollust too high --> sleeping for " + WOLLUST_INTERVAL);
+							Thread.sleep(WOLLUST_INTERVAL * FACTOR);
+							movesSinceLastWollustCheck = WOLLUST_TOLERANCE;
 						}
-						Thread.sleep(INTERVAL * FACTOR);
 					}
 					catch(InterruptedException e)
 					{
@@ -151,5 +178,22 @@ public class RandomMover
 	private static double speed(Move m)
 	{
 		return Math.sqrt(m.getXv() * m.getXv() + m.getYv() * m.getYv());
+	}
+	
+	private static int getWollust(String username)
+	{
+		URLLoader loader = new URLLoader("https://www.karopapier.de/addicts");
+		String addicts = loader.doGet().get();
+		int wollustStart = addicts.indexOf("<th>Z&uuml;ge</th>");
+		wollustStart = addicts.indexOf("<td>" + username + "</td>", wollustStart + 1);
+		if(wollustStart == -1)
+		{
+			wollustStart = addicts.indexOf("<td>35</td>", wollustStart + 1);
+			wollustStart = addicts.indexOf("<td>", wollustStart + 1);
+		}
+		wollustStart = addicts.indexOf("<td>", wollustStart + 1) + "<td>".length();
+		int wollustEnd = addicts.indexOf("</td>", wollustStart);
+		String wollust = addicts.substring(wollustStart, wollustEnd);
+		return Integer.parseInt(wollust);
 	}
 }
