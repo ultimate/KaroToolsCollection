@@ -101,10 +101,7 @@ public abstract class JSONUtil
 
 		// set the date format
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-		if(TimeZone.getDefault().inDaylightTime(new Date()))
-			df.setTimeZone(TimeZone.getTimeZone("CEST"));
-		else
-			df.setTimeZone(TimeZone.getTimeZone("CET"));
+		df.setTimeZone(TimeZone.getTimeZone("CET"));
 		mapper.setDateFormat(df);
 		// set the sort order for maps
 		mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
