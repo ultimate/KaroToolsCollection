@@ -2,11 +2,11 @@ package ultimate.karopapier;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Properties;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -149,7 +149,8 @@ public class RandomGameCreator
 		{
 			PlannedGame pg;
 			Map map;
-			Queue<User> playersCopy = new LinkedList<>(players);
+			LinkedList<User> playersCopy = new LinkedList<>(players);
+			Collections.shuffle(playersCopy);
 			Set<User> selectedPlayers = new LinkedHashSet<>();
 			StringBuilder sb = new StringBuilder();
 
