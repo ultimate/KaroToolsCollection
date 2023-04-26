@@ -143,7 +143,8 @@ public class RandomGameCreator
 		logger.info("exiting");
 	}
 
-	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random, double preferStandards)
+	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
+			double preferStandards)
 	{
 		try
 		{
@@ -159,12 +160,18 @@ public class RandomGameCreator
 				do
 				{
 					map = cache.getMaps().toArray(new Map[0])[random.nextInt(cache.getMaps().size())];
-				} while(map.getPlayers() < minPlayers && (map.isNight() && !allowNightMaps));
+				} while((map.getPlayers() < minPlayers) || (map.isNight() && !allowNightMaps));
 			}
 			else
 			{
 				map = cache.getMap(Integer.parseInt(mapID));
 			}
+			
+			// remove not invitable players
+			boolean night = map.isNight();
+			playersCopy.removeIf(p -> {
+				return !p.isInvitable(night);
+			});
 
 			selectedPlayers.add(creator);
 			while(selectedPlayers.size() < map.getPlayers() && !playersCopy.isEmpty())
@@ -194,6 +201,8 @@ public class RandomGameCreator
 		}
 		catch(Exception e)
 		{
+			logger.error(e);
+			e.printStackTrace();
 			return 0;
 		}
 	}
