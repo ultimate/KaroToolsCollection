@@ -64,7 +64,7 @@ public class KaroMUSKELTestcase
 		properties = PropertiesUtil.loadProperties(getClass(), "login.properties");
 		logger.info("properties loaded: " + properties);
 		
-		karoAPI = new KaroAPI(properties.getProperty("karoapi.user"), properties.getProperty("karoapi.password"));
+		karoAPI = new KaroAPI(properties.getProperty("karoAPI.user"), properties.getProperty("karoAPI.password"));
 		logger.info("KaroAPI initialized");
 		
 		karoAPICache = new KaroAPICache(karoAPI);
