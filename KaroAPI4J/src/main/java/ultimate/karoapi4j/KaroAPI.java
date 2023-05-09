@@ -256,7 +256,6 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													PLANNED_MOVES_FOR_GAME		= PLANNED_MOVES.relative("/" + PLACEHOLDER);
 	// games
 	protected final URLLoader													GAMES						= API.relative("/games");
-	protected final URLLoader													GAMES3						= API.relative("/games3");
 	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													GAME_CREATE					= API.relative("/game");
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
@@ -769,7 +768,7 @@ public class KaroAPI implements IDLookUp
 		if(offset != null)
 			args.put("offset", offset.toString());
 
-		return loadAsync(GAMES3.doGet(args), PARSER_GAME_LIST);
+		return loadAsync(GAMES.doGet(args), PARSER_GAME_LIST);
 	}
 
 	/**
