@@ -190,8 +190,8 @@ public class CCCEvalNew extends CCCEval
 		logger.info("creating tables for challenge #" + (c + 1));
 
 		// init the total table for this challenge
-		String[] totalTableHead1 = new String[challengeGames[c] * COLS_PER_RACE + 6];
-		String[] totalTableHead2 = new String[challengeGames[c] * COLS_PER_RACE + 6];
+		String[] totalTableHead1 = new String[challengeGames[c] * COLS_PER_RACE + 12];
+		String[] totalTableHead2 = new String[challengeGames[c] * COLS_PER_RACE + 12];
 		int col = 0;
 
 		totalTableHead2[col++] = "Spieler";
@@ -209,22 +209,30 @@ public class CCCEvalNew extends CCCEval
 			col++;
 		}
 
+		totalTableHead1[col] = "";
+		totalTableHead2[col++] = "Abgeschlossene Spiele";
+
 		totalTableHead1[col] = "Züge";
 		totalTableHead2[col++] = "Gesamt";
+		totalTableHead2[col++] = "Gesamt (a.S.)";
+		totalTableHead2[col++] = "Ø p.a.S.";
 		totalTableHead2[col++] = "Punkte";
 
 		totalTableHead1[col] = "Crashs";
 		totalTableHead2[col++] = "Gesamt";
+		totalTableHead2[col++] = "Gesamt (a.S.)";
+		totalTableHead2[col++] = "Ø p.a.S.";
 		totalTableHead2[col++] = "Punkte";
 
 		totalTableHead2[col++] = "Gesamtergebnis";
+		totalTableHead2[col++] = "Spieler";
 
 		totalTables[c] = new Table(totalTableHead1, totalTableHead2);
 
 		for(int g = 0; g < challengeGames[c]; g++)
 			totalTables[c].getHeaders().get(0)[g * COLS_PER_RACE + 1].colspan = COLS_PER_RACE;
-		totalTables[c].getHeaders().get(0)[challengeGames[c] * COLS_PER_RACE + 1].colspan = 2;
-		totalTables[c].getHeaders().get(0)[challengeGames[c] * COLS_PER_RACE + 3].colspan = 2;
+		totalTables[c].getHeaders().get(0)[challengeGames[c] * COLS_PER_RACE + 2].colspan = 4;
+		totalTables[c].getHeaders().get(0)[challengeGames[c] * COLS_PER_RACE + 6].colspan = 4;
 
 		calcMetrics(c);
 
@@ -237,6 +245,7 @@ public class CCCEvalNew extends CCCEval
 		Object[] row;
 		Player player;
 		int moves, crashs;
+		int movesFinishedGames, crashFinishedGames;
 		String status;
 		boolean finished, left, forbidden;
 		for(User user : usersByLogin)
@@ -244,6 +253,9 @@ public class CCCEvalNew extends CCCEval
 			row = new Object[totalTables[c].getColumns()];
 			col = 0;
 			row[col++] = user;
+
+			movesFinishedGames = 0;
+			crashFinishedGames = 0;
 
 			for(int g = 0; g < challengeGames[c]; g++)
 			{
@@ -312,6 +324,12 @@ public class CCCEvalNew extends CCCEval
 
 					totalStats.moves += moves;
 					totalStats.crashs += crashs;
+
+					if(finished)
+					{
+						movesFinishedGames += moves;
+						crashFinishedGames += crashs;
+					}
 				}
 				else
 				{
@@ -321,17 +339,24 @@ public class CCCEvalNew extends CCCEval
 				}
 			}
 
+			row[col++] = userChallengeStats[c].get(user.getId()).finished;
 			row[col++] = userChallengeStats[c].get(user.getId()).moves;
+			row[col++] = movesFinishedGames;
+			row[col++] = (userChallengeStats[c].get(user.getId()).finished == 0 ? Double.POSITIVE_INFINITY : movesFinishedGames / (double) userChallengeStats[c].get(user.getId()).finished);
 			row[col++] = "?"; // movesPoints
 			row[col++] = userChallengeStats[c].get(user.getId()).crashs;
+			row[col++] = crashFinishedGames;
+			row[col++] = (userChallengeStats[c].get(user.getId()).finished == 0 ? 0 : crashFinishedGames / (double) userChallengeStats[c].get(user.getId()).finished);
 			row[col++] = "?"; // crashPoints
 			row[col++] = "?"; // totalPoints
 
+			row[col++] = user; // for better overview
+
 			totalTables[c].addRow(row);
 		}
-		
+
 		int offset = challengeGames[c] * COLS_PER_RACE;
-		assignPointsAndSort(totalTables[c], c, offset + 1, offset + 2, offset + 3, offset + 4, totalTables[c].getColumns() - 1, false);
+		assignPointsAndSort(totalTables[c], c, offset + 4, offset + 5, offset + 8, offset + 9, totalTables[c].getColumns() - 2, false);
 	}
 
 	protected void assignPointsAndSort(Table table, int c, int movesColumn, int movesPointsColumn, int crashsColumn, int crashPointsColumn, int resultColumn, boolean isExpected)
@@ -376,22 +401,22 @@ public class CCCEvalNew extends CCCEval
 	{
 		// sort
 		if(sortMode == CollectionsUtil.DESCENDING)
-			table.sort(valueColumn, (Comparator<Integer>) (m1, m2) -> {
-				return m2 - m1;
+			table.sort(valueColumn, (Comparator<Double>) (m1, m2) -> {
+				return (int) Math.signum(m2 - m1);
 			});
 		else
-			table.sort(valueColumn, (Comparator<Integer>) (m1, m2) -> {
-				return m1 - m2;
+			table.sort(valueColumn, (Comparator<Double>) (m1, m2) -> {
+				return (int) Math.signum(m1 - m2);
 			});
 
 		// apply points / clustering
 		int rank = stats_players;
 		int maxPoints = (int) Math.ceil(rank / (double) CLUSTER_SIZE);
-		int currentValue, previousValue = 0;
+		double currentValue, previousValue = 0;
 		int currentPoints, previousPoints = 0;
 		for(int r = 0; r < table.getRows().size(); r++)
 		{
-			currentValue = (int) table.getValue(r, valueColumn);
+			currentValue = (double) table.getValue(r, valueColumn);
 			currentPoints = (int) Math.ceil(rank / (double) CLUSTER_SIZE);
 
 			if(currentValue == previousValue)
@@ -444,7 +469,7 @@ public class CCCEvalNew extends CCCEval
 			moves = player.getMoveCount() - 1; // parc ferme
 		else
 			moves = (int) (this.challengeMetrics[c][METRICS_GAME_MAXMOVES] + 1); // kicked or left
-//			moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1); // kicked or left
+		// moves = (int) (this.gameMetrics[c][g][METRICS_GAME_MAXMOVES] + 1); // kicked or left
 		return moves;
 	}
 
@@ -475,8 +500,8 @@ public class CCCEvalNew extends CCCEval
 	{
 
 		int actualMoves, actualCrashs;
-		int expectedMoves, expectedCrashs;
-		int avgMoves, avgCrashs;
+		double expectedMoves, expectedCrashs;
+		double avgMoves, avgCrashs;
 
 		UserStats ugs, mins, maxs;
 		List<UserStats> allFinishedStats;
@@ -517,8 +542,8 @@ public class CCCEvalNew extends CCCEval
 					}
 				}
 
-				avgMoves /= challengeStats[c].finished;
-				avgCrashs /= challengeStats[c].finished;
+				avgMoves /= (double) challengeStats[c].finished;
+				avgCrashs /= (double) challengeStats[c].finished;
 			}
 			else
 			{
@@ -552,8 +577,8 @@ public class CCCEvalNew extends CCCEval
 						}
 					}
 
-					expectedMoves = actualMoves * stats_gamesPerPlayerPerChallenge / userChallengeStats[c].get(user.getId()).finished;
-					expectedCrashs = actualCrashs * stats_gamesPerPlayerPerChallenge / userChallengeStats[c].get(user.getId()).finished;
+					expectedMoves = actualMoves * stats_gamesPerPlayerPerChallenge / (double) userChallengeStats[c].get(user.getId()).finished;
+					expectedCrashs = actualCrashs * stats_gamesPerPlayerPerChallenge / (double) userChallengeStats[c].get(user.getId()).finished;
 
 				}
 				tmpTable.addRow(user, userChallengeStats[c].get(user.getId()).finished, actualMoves, expectedMoves, null, actualCrashs, expectedCrashs, null, null, userChallengeStats[c].get(user.getId()).total);
