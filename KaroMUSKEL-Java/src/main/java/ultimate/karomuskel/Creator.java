@@ -6,12 +6,20 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.PlannedGame;
 
 public class Creator
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger							= LogManager.getLogger(getClass());
+	
 	private static final int	MAX_SLEEP_TIME	= 500;
 	private KaroAPICache		karoAPICache;
 	private Random				random			= new Random();
@@ -65,6 +73,11 @@ public class Creator
 	{
 		if(plannedGame.isLeft())
 			return CompletableFuture.completedFuture(null);
+		if(plannedGame.getGame() == null)
+		{
+			logger.warn("game reference is null: " + plannedGame.getName());
+			return CompletableFuture.completedFuture(null);
+		}
 
 		CompletableFuture<Boolean> cf;
 		if(this.karoAPICache != null && this.karoAPICache.getKaroAPI() != null)
