@@ -169,8 +169,9 @@ public class KaroWikiAPITest
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
 				
-				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm, d. MMM. YYYY", Locale.GERMAN);
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm, d. MMM. yyyy", Locale.GERMAN);
 				String dateString = dateFormatter.format(date);
+				dateString = dateString.replace("Mai.", "Mai");
 				String expectedContent;
 				if(TimeZone.getDefault().inDaylightTime(new Date()))
 					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CEST)");
@@ -185,5 +186,26 @@ public class KaroWikiAPITest
 		{
 			assertTrue(wl.logout().get());
 		}
+	}
+	
+	@Test
+	
+	public void test_dateFormat() throws Exception
+	{
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm, d. MMM. yyyy", Locale.GERMAN);
+		
+		logger.debug("current date time = " + dateFormatter.format(LocalDateTime.now()));
+		assertEquals("12:00, 1. Jan. 2022", dateFormatter.format(LocalDateTime.of(2022, 1, 1, 12, 00)));
+		assertEquals("12:00, 1. Feb. 2022", dateFormatter.format(LocalDateTime.of(2022, 2, 1, 12, 00)));
+		assertEquals("12:00, 1. Mär. 2022", dateFormatter.format(LocalDateTime.of(2022, 3, 1, 12, 00)));
+		assertEquals("12:00, 1. Apr. 2022", dateFormatter.format(LocalDateTime.of(2022, 4, 1, 12, 00)));
+		assertEquals("12:00, 1. Mai 2022", dateFormatter.format(LocalDateTime.of(2022, 5, 1, 12, 00)).replace("Mai.", "Mai"));
+		assertEquals("12:00, 1. Jun. 2022", dateFormatter.format(LocalDateTime.of(2022, 6, 1, 12, 00)));
+		assertEquals("12:00, 1. Jul. 2022", dateFormatter.format(LocalDateTime.of(2022, 7, 1, 12, 00)));
+		assertEquals("12:00, 1. Aug. 2022", dateFormatter.format(LocalDateTime.of(2022, 8, 1, 12, 00)));
+		assertEquals("12:00, 1. Sep. 2022", dateFormatter.format(LocalDateTime.of(2022, 9, 1, 12, 00)));
+		assertEquals("12:00, 1. Okt. 2022", dateFormatter.format(LocalDateTime.of(2022, 10, 1, 12, 00)));
+		assertEquals("12:00, 1. Nov. 2022", dateFormatter.format(LocalDateTime.of(2022, 11, 1, 12, 00)));
+		assertEquals("12:00, 1. Dez. 2022", dateFormatter.format(LocalDateTime.of(2022, 12, 1, 12, 00)));
 	}
 }
