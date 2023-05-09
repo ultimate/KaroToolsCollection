@@ -173,6 +173,31 @@ public class KaroAPICacheTest extends KaroAPITestcase
 
 	@Test
 	@Order(6)
+	public void test_refreshingOldGame() throws InterruptedException, ExecutionException
+	{
+		int id = 136424;
+
+		Game game = new Game(id);
+		
+		assertNotNull(game.getId());
+		assertEquals(id, game.getId());
+		assertNull(game.getName());
+		assertFalse(game.isStarted());
+		assertFalse(game.isFinished());
+
+		// load game -> via refresh
+		karoAPICache.refresh(game).join();
+		
+		assertNotNull(game.getId());
+		assertEquals(id, game.getId());
+		assertNotNull(game.getName());
+		assertEquals("CraZZZy Crash Challenge 6 - Challenge 1.4 - Karte 10059 | 3er Challenge | ZZZ=25", game.getName());
+		assertTrue(game.isStarted());
+		assertTrue(game.isFinished());
+	}
+
+	@Test
+	@Order(7)
 	public void test_imageCaching() throws InterruptedException, ExecutionException
 	{
 		logger.info("image cache=" + karoAPICache.getCacheFolder().getAbsolutePath());
@@ -197,7 +222,7 @@ public class KaroAPICacheTest extends KaroAPITestcase
 	}
 
 	@Test
-	@Order(7)
+	@Order(8)
 	public void test_cachingAndUncaching() throws InterruptedException, ExecutionException
 	{
 		int uderId = 1;
@@ -231,22 +256,22 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		{
 			assertNotNull(e);
 		}
-		
+
 		// replace user in cache (valid)
 		karoAPICache.uncache(User.class, uderId);
 		karoAPICache.cache(user);
-		
+
 		// check again
 		assertTrue(karoAPICache.contains(user));
 		assertTrue(user == karoAPICache.getUser(1));
 		assertEquals(newName, user.getLogin());
-		
+
 		// refresh the user
 		karoAPICache.refresh(user).join();
-		
+
 		// check again
 		assertTrue(karoAPICache.contains(user));
 		assertTrue(user == karoAPICache.getUser(1));
-		assertEquals(userName, user.getLogin());	
+		assertEquals(userName, user.getLogin());
 	}
 }
