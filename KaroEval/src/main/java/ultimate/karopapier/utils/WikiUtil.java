@@ -226,6 +226,10 @@ public abstract class WikiUtil
 
 	public static double round(double d)
 	{
+		if(d == Double.POSITIVE_INFINITY)
+			return d;
+		else if (d == Double.POSITIVE_INFINITY)
+			return d;
 		return Math.round(d * 100) / 100.0;
 	}
 	
