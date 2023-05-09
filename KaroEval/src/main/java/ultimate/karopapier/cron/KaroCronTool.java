@@ -166,6 +166,8 @@ public class KaroCronTool
 				int i = 0;
 				for(PlannedGame pg: gamesToCreate)
 				{
+					if(pg.getGame() == null)
+						logger.warn("game reference is null: " + pg.getName());
 					refreshs[i++] = karoAPICache.refresh(pg.getGame());
 				}
 				CompletableFuture.allOf(refreshs).join();
@@ -305,7 +307,7 @@ public class KaroCronTool
 				return pg.isCreated() && pg.isLeft();
 			});
 			foundToCreate = gamesTmp.size();
-			logger.debug("  neither created nor left = " + foundToCreate);
+			logger.debug("  not created and left     = " + foundToCreate);
 
 			if(isReady(when, execution, today))
 			{
