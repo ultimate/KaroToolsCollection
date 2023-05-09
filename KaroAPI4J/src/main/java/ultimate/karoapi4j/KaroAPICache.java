@@ -878,6 +878,8 @@ public class KaroAPICache implements IDLookUp
 	@SuppressWarnings("unchecked")
 	public <T extends Identifiable> CompletableFuture<T> refresh(T t)
 	{
+		if(t == null)
+			throw new IllegalArgumentException("argument must not be null!");
 		if(!contains(t))
 			update(t);
 		return (CompletableFuture<T>) refresh(t.getClass(), t.getId()).thenApply(refreshed -> {
