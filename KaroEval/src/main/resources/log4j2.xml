@@ -17,5 +17,6 @@
     </Root>
     <Logger name="ultimate" level="info"/>
     <Logger name="ultimate.karopapier.eval" level="debug"/>
+    <Logger name="ultimate.karopapier.cron" level="debug"/>
   </Loggers>
 </Configuration>
