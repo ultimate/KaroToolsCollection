@@ -53,5 +53,6 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''19.11.2022 17:00''' Planung der Spiele mit dem [[KaroMUSKEL]] + Bug-Fixes am Tooling
 * '''20.11.2022 19:00''' Nochmal alles prüfen sowie Vorbereitung des Toolings (inkl. Cron-Job)
 * '''20.11.2022 19:30''' Es geht los!!! Den ersten Spieltag habe ich manuell angestossen - alle folgenden kommen dann immer Sonntags um 4:00 Uhr
+* '''10.05.2023 10:00''' Fine-Tuning der Wertung
 
 [[Kategorie:Meisterschaft]]
