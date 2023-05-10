@@ -147,7 +147,17 @@ public class CCCEvalNew extends CCCEval
 			row[col++] = user;
 			for(int c = 0; c < stats_challengesCreated; c++)
 			{
-				row[col] = userChallengeStats[c].get(user.getId()).total;
+				switch(CALC_MODE)
+				{
+					case "multiply":
+					case "add":
+						row[col] = (int) userChallengeStats[c].get(user.getId()).total; // don't want to have fractions here
+						break;
+					case "sqrt":
+					default:
+						row[col] = userChallengeStats[c].get(user.getId()).total;
+						break;
+				}
 
 				if(userChallengeStats[c].get(user.getId()).total >= stats_challengePointsMax)
 					row[col] = WikiUtil.highlight(WikiUtil.preprocess(row[col]));
@@ -160,11 +170,25 @@ public class CCCEvalNew extends CCCEval
 
 				col++;
 			}
+
 			row[col++] = us.moves;
 			row[col++] = us.crashs;
-			row[col++] = us.total;
-			row[col++] = us.finished;
-			row[col++] = us.totalExpected;
+			
+			switch(CALC_MODE)
+			{
+				case "multiply":
+				case "add":
+					row[col++] = (int) us.total; // don't want to have fractions here
+					row[col++] = us.finished;
+					row[col++] = (int) us.totalExpected; // don't want to have fractions here
+					break;
+				case "sqrt":
+				default:
+					row[col++] = us.total;
+					row[col++] = us.finished;
+					row[col++] = us.totalExpected;
+					break;
+			}
 
 			finalTable.addRow(row);
 
@@ -375,9 +399,19 @@ public class CCCEvalNew extends CCCEval
 			movesPoints = (int) table.getValue(r, movesPointsColumn);
 			crashPoints = (int) table.getValue(r, crashPointsColumn);
 
-			totalPoints = calculatePoints(movesPoints, crashPoints);
-
-			table.setValue(r, resultColumn, totalPoints);
+			totalPoints = calculatePoints(movesPoints, crashPoints); 
+			
+			switch(CALC_MODE)
+			{
+				case "multiply":
+				case "add":
+					table.setValue(r, resultColumn, (int) totalPoints); // don't want to have fractions here
+					break;
+				case "sqrt":
+				default:
+					table.setValue(r, resultColumn, totalPoints);
+					break;
+			}
 
 			if(!isExpected)
 			{
