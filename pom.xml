@@ -78,10 +78,10 @@
 
 		<junit.version>5.8.2</junit.version>
 
-		<ultimate.KaroAPI4J.version>1.2.6</ultimate.KaroAPI4J.version>
-		<ultimate.KaroMUSKEL.version>3.1.4</ultimate.KaroMUSKEL.version>
-		<ultimate.KaroEval.version>3.1.4</ultimate.KaroEval.version>
-		<ultimate.KaroExperiments.version>1.0.2</ultimate.KaroExperiments.version>
-		<ultimate.KaroRAUPE.version>1.0.2</ultimate.KaroRAUPE.version>
+		<ultimate.KaroAPI4J.version>1.2.7</ultimate.KaroAPI4J.version>
+		<ultimate.KaroMUSKEL.version>3.1.5</ultimate.KaroMUSKEL.version>
+		<ultimate.KaroEval.version>3.1.5</ultimate.KaroEval.version>
+		<ultimate.KaroExperiments.version>1.0.3</ultimate.KaroExperiments.version>
+		<ultimate.KaroRAUPE.version>1.0.3</ultimate.KaroRAUPE.version>
 	</properties>
 </project>
