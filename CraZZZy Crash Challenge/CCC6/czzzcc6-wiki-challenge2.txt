@@ -244,7 +244,7 @@ Strecke: {{Karte|37}}
 ||37
 ||9.25
 ||17
-||33.00
+||33
 ||[[Benutzer:A300|A300]]
 |-
 
@@ -348,7 +348,7 @@ Strecke: {{Karte|37}}
 ||35
 ||11.67
 ||23
-||32.00
+||32
 ||[[Benutzer:aristarch|aristarch]]
 |-
 
@@ -452,7 +452,7 @@ Strecke: {{Karte|37}}
 ||15
 ||5.00
 ||9
-||30.00
+||30
 ||[[Benutzer:Botrix|Botrix]]
 |-
 
@@ -556,7 +556,7 @@ Strecke: {{Karte|37}}
 ||0
 ||0.00
 ||4
-||8.00
+||8
 ||[[DeepPink]]
 |-
 
@@ -660,7 +660,7 @@ Strecke: {{Karte|37}}
 ||14
 ||2.80
 ||5
-||10.00
+||10
 ||[[Benutzer:DerFlieger|DerFlieger]]
 |-
 
@@ -764,7 +764,7 @@ Strecke: {{Karte|37}}
 ||14
 ||7.00
 ||11
-||24.00
+||24
 ||[[Benutzer:eisbaer04|eisbaer04]]
 |-
 
@@ -868,7 +868,7 @@ Strecke: {{Karte|37}}
 ||24
 ||8.00
 ||15
-||30.00
+||30
 ||[[Benutzer:eris|eris]]
 |-
 
@@ -972,7 +972,7 @@ Strecke: {{Karte|37}}
 ||29
 ||9.67
 ||19
-||30.00
+||30
 ||[[Benutzer:FinalD|FinalD]]
 |-
 
@@ -1076,7 +1076,7 @@ Strecke: {{Karte|37}}
 ||0
 ||0.00
 ||4
-||8.00
+||8
 ||[[Benutzer:flinkman|flinkman]]
 |-
 
@@ -1180,7 +1180,7 @@ Strecke: {{Karte|37}}
 ||10
 ||5.00
 ||9
-||21.00
+||21
 ||[[Benutzer:Foley|Foley]]
 |-
 
@@ -1284,7 +1284,7 @@ Strecke: {{Karte|37}}
 ||15
 ||7.50
 ||12
-||29.00
+||29
 ||[[Benutzer:goodygoody|goodygoody]]
 |-
 
@@ -1388,7 +1388,7 @@ Strecke: {{Karte|37}}
 ||15
 ||5.00
 ||9
-||17.00
+||17
 ||[[Benutzer:haeckler|haeckler]]
 |-
 
@@ -1492,7 +1492,7 @@ Strecke: {{Karte|37}}
 ||22
 ||11.00
 ||21
-||43.00
+||43
 ||[[Benutzer:hasi|hasi]]
 |-
 
@@ -1596,7 +1596,7 @@ Strecke: {{Karte|37}}
 ||3
 ||3.00
 ||6
-||12.00
+||12
 ||[[Benutzer:HX|HX]]
 |-
 
@@ -1700,7 +1700,7 @@ Strecke: {{Karte|37}}
 ||31
 ||10.33
 ||20
-||39.00
+||39
 ||[[Benutzer:Karaser|Karaser]]
 |-
 
@@ -1804,7 +1804,7 @@ Strecke: {{Karte|37}}
 ||61
 ||12.20
 ||24
-||48.00
+||48
 ||[[Benutzer:quabla|quabla]]
 |-
 
@@ -1908,7 +1908,7 @@ Strecke: {{Karte|37}}
 ||0
 ||0.00
 ||4
-||8.00
+||8
 ||[[Benutzer:sir tobi|sir tobi]]
 |-
 
@@ -2012,7 +2012,7 @@ Strecke: {{Karte|37}}
 ||0
 ||0.00
 ||4
-||8.00
+||8
 ||[[Benutzer:Sly|Sly]]
 |-
 
@@ -2116,7 +2116,7 @@ Strecke: {{Karte|37}}
 ||31
 ||7.75
 ||13
-||36.00
+||36
 ||[[Benutzer:Slybotone|Slybotone]]
 |-
 
@@ -2220,7 +2220,7 @@ Strecke: {{Karte|37}}
 ||28
 ||7.00
 ||11
-||18.00
+||18
 ||[[Benutzer:sparrows bruder|sparrows bruder]]
 |-
 
@@ -2324,7 +2324,7 @@ Strecke: {{Karte|37}}
 ||41
 ||8.20
 ||16
-||36.00
+||36
 ||[[Benutzer:ulli|ulli]]
 |-
 
@@ -2428,7 +2428,7 @@ Strecke: {{Karte|37}}
 ||38
 ||'''12.67'''
 ||'''25'''
-||40.00
+||40
 ||[[Benutzer:ultimate|ultimate]]
 |-
 
@@ -2532,7 +2532,7 @@ Strecke: {{Karte|37}}
 ||19
 ||9.50
 ||18
-||36.00
+||36
 ||[[Benutzer:Wobbel|Wobbel]]
 |-
 
@@ -2636,7 +2636,7 @@ Strecke: {{Karte|37}}
 ||35
 ||11.67
 ||23
-||33.00
+||33
 ||[[Benutzer:Yashem|Yashem]]
 |-
 
@@ -2740,7 +2740,7 @@ Strecke: {{Karte|37}}
 ||16
 ||8.00
 ||15
-||40.00
+||40
 ||[[Benutzer:yeahpopdoll|yeahpopdoll]]
 |-
 |}
