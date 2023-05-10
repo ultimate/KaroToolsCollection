@@ -28,7 +28,7 @@ public class RulesTest
 	{
 		logger.info("--------------------------------------------------");
 		logger.info("testing with preferStandards = " + preferStandards);
-		
+
 		double tolerance = 0.01;
 		int samples = 100000;
 		int maxTC = 9;
@@ -75,17 +75,19 @@ public class RulesTest
 			crashallowedValues.put(options.getCrashallowed(), crashallowedValues.get(options.getCrashallowed()) + 1);
 
 			// startdirection
+			if(!options.isCps())
+				assertEquals(EnumGameDirection.classic, options.getStartdirection());
 			startdirectionValues.put(options.getStartdirection(), startdirectionValues.get(options.getStartdirection()) + 1);
 		}
 
 		logger.debug("zzzValues            = " + zzzValues);
 		logger.debug("allowed values = " + (1 / (maxTC + 1.0) * (1 - preferStandards) - tolerance) * samples + " - " + (1 / (maxTC + 1.0) * (1 - preferStandards) + tolerance) * samples);
 		logger.debug("cpsValues            = " + cpsValues);
-		logger.debug("allowed values = " + (0.5 * (1 - preferStandards) - tolerance) * samples+ " - "  + (0.5 * (1 - preferStandards) + tolerance) * samples);
+		logger.debug("allowed values = " + (0.5 * (1 - preferStandards) - tolerance) * samples + " - " + (0.5 * (1 - preferStandards) + tolerance) * samples);
 		logger.debug("crashallowedValues   = " + crashallowedValues);
-		logger.debug("allowed values = " + (0.33 * (1 - preferStandards) - tolerance) * samples+ " - "  + (0.33 * (1 - preferStandards) + tolerance) * samples);
+		logger.debug("allowed values = " + (0.33 * (1 - preferStandards) - tolerance) * samples + " - " + (0.33 * (1 - preferStandards) + tolerance) * samples);
 		logger.debug("startdirectionValues = " + startdirectionValues);
-		logger.debug("allowed values = " + (0.33 * (1 - preferStandards) - tolerance) * samples+ " - "  + (0.33 * (1 - preferStandards) + tolerance) * samples);
+		logger.debug("allowed values = " + (0.33 * (1 - preferStandards) - tolerance) * samples + " - " + (0.33 * (1 - preferStandards) + tolerance) * samples);
 
 		// zzz
 		for(int zzz = 0; zzz <= maxTC; zzz++)
@@ -97,17 +99,24 @@ public class RulesTest
 		}
 
 		// cps
-		assertEquals(preferStandards + 0.5 * (1 - preferStandards), cpsValues.get(true) / ((double) samples), tolerance);
-		assertEquals(0.5 * (1 - preferStandards), cpsValues.get(false) / ((double) samples), tolerance);
+		assertEquals(preferStandards + prop(2, preferStandards), cpsValues.get(true) / ((double) samples), tolerance);
+		assertEquals(prop(2, preferStandards), cpsValues.get(false) / ((double) samples), tolerance);
 
 		// crashallowedValues
-		assertEquals(preferStandards + 0.33 * (1 - preferStandards), crashallowedValues.get(EnumGameTC.forbidden) / ((double) samples), tolerance);
-		assertEquals(0.33 * (1 - preferStandards), crashallowedValues.get(EnumGameTC.allowed) / ((double) samples), tolerance);
-		assertEquals(0.33 * (1 - preferStandards), crashallowedValues.get(EnumGameTC.free) / ((double) samples), tolerance);
+		assertEquals(preferStandards + prop(3, preferStandards), crashallowedValues.get(EnumGameTC.forbidden) / ((double) samples), tolerance);
+		assertEquals(prop(3, preferStandards), crashallowedValues.get(EnumGameTC.allowed) / ((double) samples), tolerance);
+		assertEquals(prop(3, preferStandards), crashallowedValues.get(EnumGameTC.free) / ((double) samples), tolerance);
 
 		// startdirectionValues
-		assertEquals(preferStandards + 0.33 * (1 - preferStandards), startdirectionValues.get(EnumGameDirection.classic) / ((double) samples), tolerance);
-		assertEquals(0.33 * (1 - preferStandards), startdirectionValues.get(EnumGameDirection.formula1) / ((double) samples), tolerance);
-		assertEquals(0.33 * (1 - preferStandards), startdirectionValues.get(EnumGameDirection.free) / ((double) samples), tolerance);
+		// with no cps, always "classic" is returned --> the distribution is shifted
+		double propForNoCps = prop(2, preferStandards); // see above
+		assertEquals(propForNoCps + (1 - propForNoCps) * (preferStandards + prop(3, preferStandards)), startdirectionValues.get(EnumGameDirection.classic) / ((double) samples), tolerance);
+		assertEquals((1 - propForNoCps) * prop(3, preferStandards), startdirectionValues.get(EnumGameDirection.formula1) / ((double) samples), tolerance);
+		assertEquals((1 - propForNoCps) * prop(3, preferStandards), startdirectionValues.get(EnumGameDirection.free) / ((double) samples), tolerance);
+	}
+	
+	private static double prop(int options, double preferStandards)
+	{
+		return 1.0 / (double) options * (1 - preferStandards);
 	}
 }

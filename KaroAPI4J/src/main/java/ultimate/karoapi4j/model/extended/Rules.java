@@ -295,7 +295,9 @@ public class Rules implements Cloneable
 		// startdirection 
 		if(startdirection != null && startdirection != EnumGameDirection.random)
 			options.setStartdirection(startdirection); // pre-set
-		else if(random.nextDouble() < preferStandards || !options.isCps()) // (only makes sense to randomize if cps are on)
+		else if(!options.isCps()) // (only makes sense to randomize if cps are on)
+			options.setStartdirection(EnumGameDirection.classic); // standard
+		else if(random.nextDouble() < preferStandards)
 			options.setStartdirection(EnumGameDirection.classic); // standard
 		else 
 			options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1))); // random
