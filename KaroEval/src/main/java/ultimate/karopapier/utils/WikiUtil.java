@@ -18,6 +18,8 @@ public abstract class WikiUtil
 	public static final String		START_CELL		= "|";
 	public static final String		START_HEADER	= "!";
 	public static final DateFormat	DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	public static int				ROUND_PRECISION	= 2;
+	public static final double		ROUND_FACTOR	= Math.pow(10, 2);
 
 	private WikiUtil()
 	{
@@ -100,7 +102,7 @@ public abstract class WikiUtil
 	{
 		if(columnWidth < 4)
 			columnWidth = 4;
-		
+
 		StringBuilder sb = new StringBuilder();
 
 		for(int hi = 0; hi < table.getHeaders().size(); hi++)
@@ -129,13 +131,28 @@ public abstract class WikiUtil
 	public static Object preprocess(Object value)
 	{
 		if(value instanceof Double)
-			return round((double) value);
+		{
+			String rounded = "" + round((double) value);
+			if(rounded.indexOf(".") != -1)
+			{
+				// make sure we always have n digits after the point
+				while(rounded.substring(rounded.indexOf(".") + 1).length() < ROUND_PRECISION)
+					rounded += "0";
+			}			
+			return rounded;
+		}
 		else if(value instanceof Player)
+		{
 			return createLink((Player) value);
+		}
 		else if(value instanceof User)
+		{
 			return createLink((User) value);
+		}
 		else if(value instanceof Date)
+		{
 			return DATE_FORMAT.format((Date) value);
+		}
 		return value;
 	}
 
@@ -228,11 +245,11 @@ public abstract class WikiUtil
 	{
 		if(d == Double.POSITIVE_INFINITY)
 			return d;
-		else if (d == Double.POSITIVE_INFINITY)
+		else if(d == Double.POSITIVE_INFINITY)
 			return d;
-		return Math.round(d * 100) / 100.0;
+		return Math.round(d * ROUND_FACTOR) / ROUND_FACTOR;
 	}
-	
+
 	public static String fixedLength(String s, int length)
 	{
 		if(s.length() > length)
