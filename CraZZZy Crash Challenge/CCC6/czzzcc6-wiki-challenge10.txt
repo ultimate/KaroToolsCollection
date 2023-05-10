@@ -209,7 +209,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:A300|A300]]
 |-
 
@@ -298,7 +298,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:aristarch|aristarch]]
 |-
 
@@ -387,7 +387,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Botrix|Botrix]]
 |-
 
@@ -476,7 +476,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[DeepPink]]
 |-
 
@@ -565,7 +565,7 @@ Strecke: {{Karte|93}}
 ||1
 ||'''0.50'''
 ||'''25'''
-||50.00
+||50
 ||[[Benutzer:DerFlieger|DerFlieger]]
 |-
 
@@ -654,7 +654,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:eisbaer04|eisbaer04]]
 |-
 
@@ -743,7 +743,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:eris|eris]]
 |-
 
@@ -832,7 +832,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:FinalD|FinalD]]
 |-
 
@@ -921,7 +921,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:flinkman|flinkman]]
 |-
 
@@ -1010,7 +1010,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Foley|Foley]]
 |-
 
@@ -1099,7 +1099,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:goodygoody|goodygoody]]
 |-
 
@@ -1188,7 +1188,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:haeckler|haeckler]]
 |-
 
@@ -1277,7 +1277,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:hasi|hasi]]
 |-
 
@@ -1366,7 +1366,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:HX|HX]]
 |-
 
@@ -1455,7 +1455,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Karaser|Karaser]]
 |-
 
@@ -1544,7 +1544,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:quabla|quabla]]
 |-
 
@@ -1633,7 +1633,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:sir tobi|sir tobi]]
 |-
 
@@ -1704,7 +1704,7 @@ Strecke: {{Karte|93}}
 ||-
 ||-
 ||-
-||7
+||8
 ||0
 ||&#127950;
 ||-
@@ -1714,7 +1714,7 @@ Strecke: {{Karte|93}}
 ||-
 ||-
 ||0
-||32
+||33
 ||0
 ||Infinity
 ||24
@@ -1722,7 +1722,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Sly|Sly]]
 |-
 
@@ -1811,7 +1811,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Slybotone|Slybotone]]
 |-
 
@@ -1900,7 +1900,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:sparrows bruder|sparrows bruder]]
 |-
 
@@ -1989,7 +1989,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:ulli|ulli]]
 |-
 
@@ -2078,7 +2078,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:ultimate|ultimate]]
 |-
 
@@ -2167,7 +2167,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Wobbel|Wobbel]]
 |-
 
@@ -2256,7 +2256,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:Yashem|Yashem]]
 |-
 
@@ -2345,7 +2345,7 @@ Strecke: {{Karte|93}}
 ||0
 ||0.00
 ||24
-||48.00
+||48
 ||[[Benutzer:yeahpopdoll|yeahpopdoll]]
 |-
 |}
