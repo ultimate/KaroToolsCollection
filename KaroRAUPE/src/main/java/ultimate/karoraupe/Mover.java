@@ -365,6 +365,12 @@ public class Mover
 	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves, boolean strict)
 	{
 		List<Move> matches = new ArrayList<>();
+		
+		if(currentMove.getXv() == 0 && currentMove.getYv() == 0)
+		{
+			logger.warn("standing still after crash");
+			return matches;
+		}
 
 		Move pm, prevpm;
 		for(int i = 0; i < plannedMoves.size(); i++)
