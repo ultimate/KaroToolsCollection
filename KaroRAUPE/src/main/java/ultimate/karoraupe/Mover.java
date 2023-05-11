@@ -293,6 +293,12 @@ public class Mover
 							messageFound = true;
 					}
 				}
+				
+				if(lastPlayerMove.getXv() == 0 && lastPlayerMove.getYv() == 0)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> restart after crash");
+					return false;
+				}
 
 				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / TIME_SCALE; // convert to seconds
 				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
@@ -365,12 +371,6 @@ public class Mover
 	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves, boolean strict)
 	{
 		List<Move> matches = new ArrayList<>();
-		
-		if(currentMove.getXv() == 0 && currentMove.getYv() == 0)
-		{
-			logger.warn("standing still after crash");
-			return matches;
-		}
 
 		Move pm, prevpm;
 		for(int i = 0; i < plannedMoves.size(); i++)
