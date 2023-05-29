@@ -26,6 +26,7 @@ import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.Planner;
 
 public abstract class GameSeriesUpdater
 {
@@ -132,7 +133,8 @@ public abstract class GameSeriesUpdater
 					logger.error("no index is 0");
 				}
 
-				logger.info(g.getName() + " --> \tcreator = " + (creator != null ? creator.getLogin() : null) + " \thome = " + (home != null ? home.getLogin() : null) + " \tguest = " + (guest != null ? guest.getLogin() : null));
+				logger.info(g.getName() + " --> \tcreator = " + (creator != null ? creator.getLogin() : null) + " \thome = " + (home != null ? home.getLogin() : null) + " \tguest = "
+						+ (guest != null ? guest.getLogin() : null));
 				g.setHome(home.getLogin());
 				g.setGuest(guest.getLogin());
 				g.getPlayers().clear();
@@ -149,10 +151,10 @@ public abstract class GameSeriesUpdater
 	public static void restoreKLC(KaroAPICache cache, File in, File out) throws IOException
 	{
 		cache.refresh();
-		
+
 		logger.info("loading wiki file: " + in.getAbsolutePath());
 		BufferedReader r = new BufferedReader(new FileReader(in));
-		
+
 		User creator = cache.getUser(2248);
 
 		GameSeries gs = new GameSeries(EnumGameSeriesType.KLC);
@@ -166,7 +168,7 @@ public abstract class GameSeriesUpdater
 		gs.getSettings().put("groups", 4);
 		gs.getSettings().put("leagues", 4);
 		gs.getSettings().put("round", 35);
-		
+
 		Options options = gs.getRules().createOptions(null);
 
 		List<PlannedGame> games = new ArrayList<>();
@@ -238,29 +240,29 @@ public abstract class GameSeriesUpdater
 				i1 = line.indexOf(userStart) + userStart.length();
 				i2 = line.indexOf(userEnd, i1);
 				username = line.substring(i1, i2);
-				
+
 				i1 = line.indexOf(userStart, i2) + userStart.length();
 				i2 = line.indexOf(userEnd, i1);
-				username2 = line.substring(i1, i2);	
+				username2 = line.substring(i1, i2);
 
 				i1 = line.indexOf(mapStart) + mapStart.length();
 				i2 = line.indexOf(mapEnd, i1);
-				mapId = Integer.parseInt(line.substring(i1, i2));	
+				mapId = Integer.parseInt(line.substring(i1, i2));
 
 				i1 = line.indexOf(gidStart) + gidStart.length();
 				i2 = line.indexOf(gidEnd, i1);
-				gid = Integer.parseInt(line.substring(i1, i2));	
-				
+				gid = Integer.parseInt(line.substring(i1, i2));
+
 				logger.debug("  --> game  =" + username + "|" + username2 + "|" + mapId + "|" + gid);
-				
+
 				user = cache.getUsersByLogin().get(username.toLowerCase());
 				user2 = cache.getUsersByLogin().get(username2.toLowerCase());
 				map = cache.getMap(mapId);
 				game = cache.getGame(gid);
-				
+
 				logger.debug(user.getId());
-				logger.debug(user2.getId());				
-				
+				logger.debug(user2.getId());
+
 				players = new LinkedHashSet<>();
 				players.add(user);
 				players.add(user2);
@@ -278,6 +280,52 @@ public abstract class GameSeriesUpdater
 		r.close();
 
 		logger.info("saving updated file:   " + out.getAbsolutePath());
+		GameSeriesManager.store(gs, out);
+	}
+
+	public static void updateCCC6_remove_DerFlieger(KaroAPICache cache, File in, File out) throws IOException
+	{
+		GameSeries gs = GameSeriesManager.load(in, cache);
+		
+		logger.debug("playersBefore:       " + gs.getPlayers().size());
+
+		List<User> playersUpdated = new ArrayList<>(gs.getPlayers());
+		playersUpdated.removeIf(u -> {
+			return u.getLogin().equalsIgnoreCase("DerFlieger");
+		});
+		logger.debug("playersUpdated:      " + playersUpdated.size());
+		
+		List<PlannedGame> plannedGames = gs.getGames().get("Balanced");		
+		logger.debug("plannedGamesBefore:  " + plannedGames.size());
+		
+		plannedGames.removeIf(pg -> { return !pg.isCreated(); });
+		logger.debug("plannedGamesStarted:  " + plannedGames.size());
+
+		List<Map> mapsStarted = new ArrayList<>();
+		for(PlannedGame pg: plannedGames)
+		{
+			if(!mapsStarted.contains(pg.getMap()))
+				mapsStarted.add(pg.getMap());
+		}
+		logger.debug("mapsStarted:          " + mapsStarted.size());
+		
+		Rules r;
+		for(int c = mapsStarted.size(); c < gs.getRulesByKey().size(); c++)
+		{
+			r = gs.getRulesByKey().get("" + c);
+			if(r.getNumberOfPlayers() == 5)
+				r.setNumberOfPlayers(4);
+		}
+
+		List<PlannedGame> plannedGamesNew = Planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), gs.getCreatorParticipation());
+		logger.debug("plannedGamesNew:     " + plannedGamesNew.size());		
+		
+		plannedGamesNew.removeIf(pg -> { return mapsStarted.contains(pg.getMap()); });
+		logger.debug("plannedGamesChanged:  " + plannedGamesNew.size());
+		
+		plannedGames.addAll(plannedGamesNew);
+		logger.debug("plannedGamesUpdated:  " + plannedGames.size());
+		
 		GameSeriesManager.store(gs, out);
 	}
 }

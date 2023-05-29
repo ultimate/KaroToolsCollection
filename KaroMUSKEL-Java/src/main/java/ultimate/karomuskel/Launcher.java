@@ -329,6 +329,12 @@ public class Launcher
 					File out = new File("src/test/resources/klc18.json");
 					GameSeriesUpdater.restoreKLC(cache, in, out);
 				}
+				else if(arg.equalsIgnoreCase("-xCCC6"))
+				{
+					File in = new File("src/test/resources/czzzcc6.json");
+					File out = new File("src/test/resources/czzzcc6_update.json");
+					GameSeriesUpdater.updateCCC6_remove_DerFlieger(cache, in, out);
+				}
 			}
 			catch(Exception e)
 			{
