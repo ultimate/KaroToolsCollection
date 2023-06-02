@@ -38,6 +38,7 @@ ${TOTAL}
 '''Anmerkungen:'''
 
 * Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Für rausgeworfene/ausgestiegene Spieler wird die Zugzahl künstlich auf den Wert des langsamsten Spielers erhöht, damit diese keine unverdienten Punkte bekommen
 * Im Gegensatz zu den vorherigen CCCs hat sich das Bewertungsschema geändert. Details gibt es auf der [[CraZZZy_Crash_Challenge#CCC6|CCC-Übersicht]]
 
 == Durchführungstatus ==
@@ -54,5 +55,6 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''20.11.2022 19:00''' Nochmal alles prüfen sowie Vorbereitung des Toolings (inkl. Cron-Job)
 * '''20.11.2022 19:30''' Es geht los!!! Den ersten Spieltag habe ich manuell angestossen - alle folgenden kommen dann immer Sonntags um 4:00 Uhr
 * '''10.05.2023 10:00''' Fine-Tuning der Wertung
+* '''29.05.2023 19:00''' Da {{Benutzer|DerFlieger}} inaktiv ist, wurde er aus allen weiteren Challenges entfernt (also ab Challenge 15)
 
 [[Kategorie:Meisterschaft]]

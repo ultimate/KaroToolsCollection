@@ -5669,7 +5669,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138295,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.2 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5679,7 +5681,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138304,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.3 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5689,7 +5693,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138298,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.4 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5699,7 +5705,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138307,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.5 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5709,7 +5717,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138305,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.6 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5719,7 +5729,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138309,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.7 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5729,7 +5741,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138300,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.8 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5739,7 +5753,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138303,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.9 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5749,7 +5765,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138308,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.10 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5759,7 +5777,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138318,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.11 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5769,7 +5789,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138306,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.12 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5779,7 +5801,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138299,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.13 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5789,7 +5813,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138302,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.14 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5799,7 +5825,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138301,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.15 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5809,7 +5837,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138310,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.16 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5819,7 +5849,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138296,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.17 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5829,7 +5861,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138317,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.18 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5839,7 +5873,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138315,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.19 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5849,7 +5885,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138297,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.20 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5859,7 +5897,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138313,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.21 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5869,7 +5909,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138316,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.22 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5879,7 +5921,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138314,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.23 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5889,7 +5933,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138311,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.24 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5899,7 +5945,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138312,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 14.25 - Karte 146 | 6er Challenge | ZZZ=5",
       "map" : 146,
@@ -5909,11 +5957,13 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138319,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.1 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 773, 1629, 2235, 2730, 2894, 518 ],
+      "players" : [ 1294, 1411, 516, 213, 1823, 2730 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5923,7 +5973,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.2 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 411, 277, 2937, 516, 2235, 2915 ],
+      "players" : [ 1722, 2541, 2937, 518, 1823, 411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5933,7 +5983,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.3 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 326, 2738, 875, 2226, 518, 2345 ],
+      "players" : [ 2738, 1629, 1830, 2730, 2894, 411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5943,7 +5993,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.4 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2231, 1823, 518, 1505, 1411, 516 ],
+      "players" : [ 2345, 2231, 2226, 277, 773, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5953,7 +6003,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.5 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 1830, 2541, 2730, 875, 2915, 213 ],
+      "players" : [ 326, 1505, 1722, 2730, 1830, 2226 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5963,7 +6013,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.6 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 1294, 1722, 213, 1505, 2894, 2937 ],
+      "players" : [ 1294, 2541, 2226, 2345, 2738, 875 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5973,7 +6023,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.7 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 1411, 1629, 1294, 411, 326, 1722 ],
+      "players" : [ 213, 2915, 2541, 2937, 1629, 1505 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5983,7 +6033,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.8 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 1830, 2738, 2915, 2541, 1294, 2231 ],
+      "players" : [ 326, 277, 213, 516, 773, 411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -5993,7 +6043,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.9 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2345, 1823, 411, 1830, 277, 1629 ],
+      "players" : [ 2231, 1411, 1505, 875, 516, 2894 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6003,7 +6053,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.10 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2226, 773, 2915, 326, 516, 1823 ],
+      "players" : [ 2937, 277, 2738, 1411, 2345, 2894 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6013,7 +6063,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.11 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 277, 1722, 2231, 875, 773, 2730 ],
+      "players" : [ 326, 518, 875, 773, 1629, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6023,7 +6073,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.12 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2235, 2541, 1722, 2738, 1505, 1823 ],
+      "players" : [ 1830, 2231, 213, 1823, 2541, 1722 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6033,7 +6083,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.13 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2345, 2894, 2730, 2226, 1411, 1830 ],
+      "players" : [ 1294, 518, 1411, 2226, 411, 2937 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6043,7 +6093,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.14 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 213, 2937, 1411, 773, 1629, 1505 ],
+      "players" : [ 1722, 277, 1629, 516, 2738, 518 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6053,7 +6103,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.15 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 411, 2345, 773, 1505, 2738, 326 ],
+      "players" : [ 326, 2345, 1722, 411, 2894, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6063,7 +6113,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.16 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2226, 2937, 2231, 518, 2235, 277 ],
+      "players" : [ 1505, 1823, 1629, 1411, 2730, 773 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6073,7 +6123,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.17 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 875, 2894, 411, 2541, 1411, 1294 ],
+      "players" : [ 1294, 875, 411, 773, 2738, 1830 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6083,7 +6133,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.18 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 213, 516, 2541, 1629, 277, 2226 ],
+      "players" : [ 516, 2915, 2231, 2937, 875, 1294 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6093,7 +6143,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.19 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2231, 1722, 2345, 2894, 518, 2541 ],
+      "players" : [ 2894, 518, 2541, 2226, 1830, 1823 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6103,7 +6153,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.20 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 875, 516, 2738, 2937, 1830, 2235 ],
+      "players" : [ 326, 1505, 1823, 277, 875, 2231 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6113,7 +6163,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.21 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 326, 2730, 2231, 213, 2738, 1294 ],
+      "players" : [ 2730, 2345, 1294, 326, 2541, 277 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6123,7 +6173,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.22 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2915, 1823, 2894, 1505, 213, 277 ],
+      "players" : [ 2226, 1629, 2231, 1830, 2730, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6133,7 +6183,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.23 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 516, 2730, 1294, 2345, 2937, 1823 ],
+      "players" : [ 516, 773, 2894, 2937, 2345, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6143,17 +6193,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.24 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
-      "players" : [ 2915, 773, 1411, 2235, 1629, 875 ],
-      "options" : {
-        "zzz" : 13,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 15.25 - Karte 13 | 6er Challenge | ZZZ=13",
-      "map" : 13,
-      "players" : [ 411, 2226, 1722, 1830, 326, 518 ],
+      "players" : [ 1505, 518, 2738, 1722, 1411, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6163,7 +6203,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.1 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 213, 518, 1294 ],
+      "players" : [ 1505, 2345, 411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6173,7 +6213,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.2 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 277, 1722, 2738 ],
+      "players" : [ 213, 1411, 326 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6183,7 +6223,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.3 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2235, 2541, 2730 ],
+      "players" : [ 1722, 875, 2730 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6193,7 +6233,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.4 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2231, 1411, 1823 ],
+      "players" : [ 2937, 277, 1722 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6203,7 +6243,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.5 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 326, 2894, 2235 ],
+      "players" : [ 2738, 773, 2541 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6213,7 +6253,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.6 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1830, 1505, 2937 ],
+      "players" : [ 516, 1830, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6223,7 +6263,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.7 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 516, 773, 2345 ],
+      "players" : [ 1294, 1629, 1722 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6233,7 +6273,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.8 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 411, 2915, 2738 ],
+      "players" : [ 2231, 518, 2345 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6243,7 +6283,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.9 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 875, 2226, 1823 ],
+      "players" : [ 2894, 2226, 1629 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6253,7 +6293,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.10 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 277, 326, 2730 ],
+      "players" : [ 1830, 277, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6263,7 +6303,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.11 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 411, 213, 773 ],
+      "players" : [ 2231, 2937, 326 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6273,7 +6313,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.12 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2345, 1411, 1722 ],
+      "players" : [ 2894, 2730, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6283,7 +6323,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.13 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 875, 1505, 518 ],
+      "players" : [ 1294, 1411, 2541 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6293,7 +6333,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.14 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2937, 2894, 2915 ],
+      "players" : [ 2738, 1823, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6303,7 +6343,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.15 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2231, 1830, 773 ],
+      "players" : [ 773, 2226, 516 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6313,7 +6353,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.16 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2541, 1629, 2345 ],
+      "players" : [ 518, 875, 2894 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6323,7 +6363,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.17 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1294, 1629, 2915 ],
+      "players" : [ 1505, 1823, 2937 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6333,7 +6373,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.18 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 516, 2226, 2894 ],
+      "players" : [ 516, 1823, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6343,7 +6383,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.19 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1294, 2235, 1505 ],
+      "players" : [ 1294, 1505, 2231 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6353,7 +6393,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.20 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1722, 213, 875 ],
+      "players" : [ 2738, 326, 1830 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6363,7 +6403,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.21 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 411, 1823, 213 ],
+      "players" : [ 411, 875, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6373,7 +6413,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.22 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2738, 2226, 2730 ],
+      "players" : [ 411, 2226, 773 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6383,7 +6423,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.23 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1830, 1629, 2894 ],
+      "players" : [ 518, 277, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6393,7 +6433,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.24 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2541, 518, 2937 ],
+      "players" : [ 2345, 1629, 1830 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6403,7 +6443,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.25 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2231, 516, 1629 ],
+      "players" : [ 2730, 2541, 2937 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6413,7 +6453,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.26 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 277, 326, 875 ],
+      "players" : [ 2915, 2541, 213 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6423,7 +6463,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.27 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1294, 773, 1722 ],
+      "players" : [ 2738, 2231, 1411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6433,7 +6473,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.28 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2915, 518, 516 ],
+      "players" : [ 326, 518, 2226 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6443,7 +6483,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.29 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1823, 2937, 773 ],
+      "players" : [ 2345, 1823, 1722 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6453,7 +6493,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.30 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2231, 1411, 2915 ],
+      "players" : [ 2894, 411, 1722 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6463,7 +6503,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.31 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2235, 326, 1823 ],
+      "players" : [ 1505, 277, 1294 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6473,7 +6513,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.32 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2226, 1505, 1722 ],
+      "players" : [ 773, 1411, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6483,7 +6523,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.33 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 411, 2345, 2937 ],
+      "players" : [ 516, 875, 1823 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6493,7 +6533,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.34 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1830, 2738, 875 ],
+      "players" : [ 2730, 1629, 2738 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6503,7 +6543,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.35 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2541, 2730, 516 ],
+      "players" : [ 326, 411, 2738 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6513,7 +6553,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.36 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 277, 1411, 518 ],
+      "players" : [ 773, 1629, 2541 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6523,7 +6563,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.37 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2231, 2345, 1505 ],
+      "players" : [ 2730, 2226, 1823 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6533,7 +6573,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.38 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2738, 1629, 277 ],
+      "players" : [ 2231, 277, 1411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6543,7 +6583,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.39 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2235, 2226, 411 ],
+      "players" : [ 2345, 2937, 2226 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6553,7 +6593,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.40 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 326, 2894, 1505 ],
+      "players" : [ 2894, 875, 1411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6563,7 +6603,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.41 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1830, 2730, 1411 ],
+      "players" : [ 1505, 518, 411 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6573,7 +6613,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.42 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 213, 2541, 326 ],
+      "players" : [ 1830, 1294, 773 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6583,7 +6623,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.43 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 277, 2345, 1294 ],
+      "players" : [ 516, 326, 1722 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6593,7 +6633,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.44 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2235, 518, 773 ],
+      "players" : [ 2937, 277, 1629 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6603,7 +6643,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.45 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1294, 1830, 1823 ],
+      "players" : [ 516, 2345, 1294 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6613,7 +6653,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.46 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 875, 2937, 2231 ],
+      "players" : [ 2231, 2541, 1830 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6623,7 +6663,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.47 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 1722, 1629, 2730 ],
+      "players" : [ 2894, 1505, 2730 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6633,7 +6673,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.48 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
-      "players" : [ 2738, 1411, 516 ],
+      "players" : [ 518, 875, 2915 ],
       "options" : {
         "zzz" : 13,
         "cps" : true,
@@ -6641,29 +6681,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 16.49 - Karte 10058 | 3er Challenge | ZZZ=13",
-      "map" : 10058,
-      "players" : [ 213, 2226, 2915 ],
-      "options" : {
-        "zzz" : 13,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 16.50 - Karte 10058 | 3er Challenge | ZZZ=13",
-      "map" : 10058,
-      "players" : [ 411, 2541, 2894 ],
-      "options" : {
-        "zzz" : 13,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.1 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.1 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2730, 518, 1823, 2894, 2738 ],
+      "players" : [ 2226, 277, 411, 875 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6671,9 +6691,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.2 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.2 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 277, 1830, 2541, 2235, 2915 ],
+      "players" : [ 2738, 773, 875, 2730 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6681,9 +6701,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.3 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.3 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1294, 516, 875, 411, 1505 ],
+      "players" : [ 1830, 2937, 2894, 326 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6691,9 +6711,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.4 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.4 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2226, 2937, 1411, 326, 1294 ],
+      "players" : [ 2915, 2345, 2231, 2730 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6701,9 +6721,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.5 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.5 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 213, 2345, 518, 2235, 1294 ],
+      "players" : [ 1411, 2541, 1722, 2226 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6711,9 +6731,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.6 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.6 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2231, 1722, 2235, 516, 326 ],
+      "players" : [ 213, 1294, 2730, 1411 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6721,9 +6741,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.7 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.7 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 773, 1629, 2226, 2541, 1823 ],
+      "players" : [ 516, 518, 1629, 2231 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6731,9 +6751,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.8 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.8 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2915, 2345, 875, 2894, 773 ],
+      "players" : [ 1505, 1823, 1830, 2345 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6741,9 +6761,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.9 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.9 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 411, 277, 2894, 2231, 1823 ],
+      "players" : [ 1294, 326, 518, 1823 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6751,9 +6771,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.10 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.10 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2738, 2937, 1722, 277, 773 ],
+      "players" : [ 411, 2937, 2730, 1722 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6761,9 +6781,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.11 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.11 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1830, 213, 2738, 1411, 2541 ],
+      "players" : [ 2738, 2541, 516, 277 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6771,9 +6791,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.12 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.12 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1505, 1629, 326, 2915, 2730 ],
+      "players" : [ 213, 2915, 2738, 2937 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6781,9 +6801,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.13 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.13 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1722, 213, 516, 411, 2730 ],
+      "players" : [ 1505, 773, 2937, 518 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6791,9 +6811,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.14 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.14 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2231, 2226, 2345, 2915, 1722 ],
+      "players" : [ 2894, 1629, 213, 326 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6801,9 +6821,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.15 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.15 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1830, 1505, 2226, 2730, 773 ],
+      "players" : [ 516, 1505, 2226, 2738 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6811,9 +6831,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.16 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.16 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1629, 518, 875, 213, 516 ],
+      "players" : [ 411, 1629, 2915, 1823 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6821,9 +6841,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.17 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.17 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2937, 1411, 2730, 2541, 2235 ],
+      "players" : [ 2345, 773, 326, 1411 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6831,9 +6851,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.18 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.18 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 875, 326, 2937, 1629, 2894 ],
+      "players" : [ 2894, 2541, 518, 277 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6841,9 +6861,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.19 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.19 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1411, 518, 1629, 1823, 2345 ],
+      "players" : [ 1830, 875, 1722, 1505 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6851,9 +6871,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.20 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.20 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 411, 277, 2226, 2345, 875 ],
+      "players" : [ 1294, 2231, 1722, 1629 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6861,9 +6881,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.21 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.21 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2738, 1505, 411, 1629, 2235 ],
+      "players" : [ 213, 875, 2345, 518 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6871,9 +6891,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.22 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.22 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1294, 1830, 277, 516, 2894 ],
+      "players" : [ 1294, 411, 1411, 516 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6881,9 +6901,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.23 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.23 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1830, 518, 1505, 2231, 2937 ],
+      "players" : [ 1823, 277, 773, 1722 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6891,9 +6911,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.24 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.24 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 213, 326, 2345, 1830, 1823 ],
+      "players" : [ 2915, 2541, 875, 411 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6901,9 +6921,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.25 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.25 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1294, 2915, 773, 518, 2541 ],
+      "players" : [ 2894, 2231, 773, 2226 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6911,9 +6931,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.26 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.26 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1722, 1411, 2915, 1505, 213 ],
+      "players" : [ 326, 1505, 2541, 1629 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6921,9 +6941,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.27 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.27 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2231, 2738, 2894, 773, 1411 ],
+      "players" : [ 2231, 2937, 875, 2738 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6931,9 +6951,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.28 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.28 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 1722, 875, 1823, 2541, 2231 ],
+      "players" : [ 2915, 2226, 1294, 2937 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6941,9 +6961,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.29 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.29 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 2738, 2226, 1294, 2235, 2937 ],
+      "players" : [ 1823, 1411, 2738, 2894 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6951,9 +6971,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.30 - Karte 10043 | 5er Challenge | ZZZ=11",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.30 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
-      "players" : [ 277, 2730, 411, 326, 516 ],
+      "players" : [ 2730, 277, 516, 1830 ],
       "options" : {
         "zzz" : 11,
         "cps" : true,
@@ -6961,9 +6981,69 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.1 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.31 - Karte 10043 | 4er Challenge | ZZZ=11",
+      "map" : 10043,
+      "players" : [ 213, 2345, 1505, 1722 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.32 - Karte 10043 | 4er Challenge | ZZZ=11",
+      "map" : 10043,
+      "players" : [ 1830, 411, 518, 1411 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.33 - Karte 10043 | 4er Challenge | ZZZ=11",
+      "map" : 10043,
+      "players" : [ 1830, 2915, 277, 2894 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.34 - Karte 10043 | 4er Challenge | ZZZ=11",
+      "map" : 10043,
+      "players" : [ 2226, 1629, 2345, 516 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.35 - Karte 10043 | 4er Challenge | ZZZ=11",
+      "map" : 10043,
+      "players" : [ 773, 2541, 326, 2730 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 17.36 - Karte 10043 | 4er Challenge | ZZZ=11",
+      "map" : 10043,
+      "players" : [ 213, 1294, 1823, 2231 ],
+      "options" : {
+        "zzz" : 11,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.1 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1722, 2894, 2235, 213, 277 ],
+      "players" : [ 1294, 2894, 773, 2345 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -6971,9 +7051,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.2 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.2 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 516, 2541, 2345, 1505, 2738 ],
+      "players" : [ 1411, 1629, 277, 1722 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -6981,9 +7061,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.3 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.3 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1823, 2937, 2915, 516, 2738 ],
+      "players" : [ 2231, 411, 2345, 2738 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -6991,9 +7071,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.4 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.4 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1294, 1411, 875, 2730, 2231 ],
+      "players" : [ 2730, 518, 2738, 2226 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7001,9 +7081,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.5 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.5 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 326, 518, 2738, 213, 773 ],
+      "players" : [ 1823, 2541, 518, 2894 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7011,9 +7091,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.6 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.6 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 411, 1830, 2915, 1411, 326 ],
+      "players" : [ 516, 1505, 2894, 2231 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7021,9 +7101,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.7 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.7 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2226, 1629, 2231, 213, 2894 ],
+      "players" : [ 213, 2915, 1505, 1411 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7031,9 +7111,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.8 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.8 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 277, 2937, 2345, 2730, 518 ],
+      "players" : [ 326, 875, 2345, 2937 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7041,9 +7121,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.9 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.9 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 411, 2541, 518, 2226, 2231 ],
+      "players" : [ 2730, 2937, 1722, 518 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7051,9 +7131,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.10 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.10 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2235, 1823, 875, 1830, 773 ],
+      "players" : [ 1830, 875, 213, 773 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7061,9 +7141,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.11 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.11 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1294, 1629, 1722, 1830, 277 ],
+      "players" : [ 326, 411, 1294, 277 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7071,9 +7151,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.12 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.12 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1823, 1505, 2894, 2730, 1294 ],
+      "players" : [ 1823, 2226, 1411, 326 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7081,9 +7161,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.13 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.13 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2235, 2345, 326, 2231, 516 ],
+      "players" : [ 2915, 1629, 1294, 1830 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7091,9 +7171,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.14 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.14 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2226, 1411, 516, 773, 1629 ],
+      "players" : [ 516, 2541, 2915, 1722 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7101,9 +7181,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.15 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.15 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1722, 2937, 411, 773, 2730 ],
+      "players" : [ 1823, 875, 516, 2730 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7111,9 +7191,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.16 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.16 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2915, 1505, 277, 2541, 326 ],
+      "players" : [ 411, 2226, 1629, 1505 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7121,9 +7201,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.17 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.17 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 875, 2738, 1629, 277, 518 ],
+      "players" : [ 213, 2937, 2894, 516 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7131,9 +7211,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.18 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.18 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1722, 2345, 1830, 1629, 2937 ],
+      "players" : [ 1830, 2738, 326, 1722 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7141,9 +7221,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.19 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.19 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 411, 2235, 2894, 875, 1505 ],
+      "players" : [ 2231, 2541, 2937, 1411 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7151,9 +7231,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.20 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.20 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1294, 1411, 411, 2541, 2345 ],
+      "players" : [ 773, 277, 1505, 2738 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7161,9 +7241,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.21 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.21 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1823, 2226, 326, 2937, 1411 ],
+      "players" : [ 773, 411, 2231, 1823 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7171,9 +7251,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.22 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.22 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2915, 213, 2937, 516, 875 ],
+      "players" : [ 277, 875, 2226, 1294 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7181,9 +7261,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.23 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.23 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2894, 518, 326, 1722, 2738 ],
+      "players" : [ 213, 1629, 518, 773 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7191,9 +7271,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.24 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.24 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1294, 773, 2231, 213, 1823 ],
+      "players" : [ 2915, 2730, 2231, 277 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7201,9 +7281,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.25 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.25 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2226, 1505, 2345, 213, 2730 ],
+      "players" : [ 2345, 2541, 2738, 1294 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7211,9 +7291,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.26 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.26 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1830, 2541, 2730, 2894, 2235 ],
+      "players" : [ 213, 411, 2730, 2894 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7221,9 +7301,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.27 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.27 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 277, 1411, 1505, 1823, 518 ],
+      "players" : [ 1505, 2541, 875, 411 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7231,9 +7311,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.28 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.28 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 1830, 516, 2231, 2915, 411 ],
+      "players" : [ 516, 326, 518, 1830 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7241,9 +7321,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.29 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.29 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 2235, 2226, 1294, 2915, 1722 ],
+      "players" : [ 1823, 1629, 2937, 2738 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7251,9 +7331,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.30 - Karte 5 | 5er Challenge | ZZZ=8",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.30 - Karte 5 | 4er Challenge | ZZZ=8",
       "map" : 5,
-      "players" : [ 875, 2738, 2541, 773, 1629 ],
+      "players" : [ 1830, 1411, 2345, 2730 ],
       "options" : {
         "zzz" : 8,
         "cps" : true,
@@ -7261,9 +7341,69 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.1 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.31 - Karte 5 | 4er Challenge | ZZZ=8",
+      "map" : 5,
+      "players" : [ 2915, 2226, 213, 1722 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.32 - Karte 5 | 4er Challenge | ZZZ=8",
+      "map" : 5,
+      "players" : [ 2915, 773, 516, 1411 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.33 - Karte 5 | 4er Challenge | ZZZ=8",
+      "map" : 5,
+      "players" : [ 2894, 1722, 875, 1294 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.34 - Karte 5 | 4er Challenge | ZZZ=8",
+      "map" : 5,
+      "players" : [ 2345, 1823, 277, 1830 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.35 - Karte 5 | 4er Challenge | ZZZ=8",
+      "map" : 5,
+      "players" : [ 1505, 2937, 326, 2231 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 18.36 - Karte 5 | 4er Challenge | ZZZ=8",
+      "map" : 5,
+      "players" : [ 2226, 2541, 518, 1629 ],
+      "options" : {
+        "zzz" : 8,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.1 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1411, 2894, 516, 1722, 1505 ],
+      "players" : [ 1830, 2231, 2226, 2541 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7271,9 +7411,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.2 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.2 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1830, 2226, 875, 2738, 2345 ],
+      "players" : [ 1411, 1629, 875, 2894 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7281,9 +7421,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.3 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.3 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2730, 1629, 2915, 1823, 518 ],
+      "players" : [ 516, 411, 2937, 1830 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7291,9 +7431,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.4 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.4 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2937, 2541, 277, 213, 1411 ],
+      "players" : [ 1294, 518, 2730, 1505 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7301,9 +7441,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.5 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.5 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1294, 326, 1629, 2231, 1505 ],
+      "players" : [ 213, 2738, 2541, 326 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7311,9 +7451,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.6 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.6 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 411, 773, 2235, 2345, 2915 ],
+      "players" : [ 2915, 2345, 518, 1823 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7321,9 +7461,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.7 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.7 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 411, 2937, 2894, 773, 326 ],
+      "players" : [ 773, 1722, 2937, 277 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7331,9 +7471,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.8 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.8 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1722, 2541, 1823, 516, 1294 ],
+      "players" : [ 2915, 326, 2226, 2738 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7341,9 +7481,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.9 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.9 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 213, 2738, 411, 1823, 2231 ],
+      "players" : [ 2231, 1722, 518, 326 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7351,9 +7491,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.10 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.10 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1830, 518, 1505, 516, 773 ],
+      "players" : [ 213, 277, 518, 516 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7361,9 +7501,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.11 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.11 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 277, 2226, 2231, 2894, 2730 ],
+      "players" : [ 2894, 2730, 1294, 2937 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7371,9 +7511,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.12 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.12 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2235, 875, 1411, 518, 1294 ],
+      "players" : [ 1505, 1629, 277, 2937 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7381,9 +7521,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.13 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.13 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2738, 2730, 2915, 1294, 875 ],
+      "players" : [ 411, 1411, 2345, 2541 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7391,9 +7531,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.14 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.14 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 326, 2541, 875, 1722, 1830 ],
+      "players" : [ 773, 1823, 1294, 2226 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7401,9 +7541,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.15 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.15 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2235, 1629, 1823, 1505, 2937 ],
+      "players" : [ 1830, 411, 1294, 1629 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7411,9 +7551,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.16 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.16 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 277, 2345, 773, 2915, 2894 ],
+      "players" : [ 2231, 875, 2345, 2738 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7421,9 +7561,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.17 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.17 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 213, 2226, 2235, 1830, 518 ],
+      "players" : [ 516, 1411, 2231, 1629 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7431,9 +7571,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.18 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.18 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 411, 1629, 518, 1294, 2226 ],
+      "players" : [ 2730, 773, 411, 2915 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7441,9 +7581,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.19 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.19 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2231, 2937, 875, 2345, 1505 ],
+      "players" : [ 2894, 1722, 1830, 1823 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7451,9 +7591,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.20 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.20 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 277, 1411, 411, 2738, 1722 ],
+      "players" : [ 1505, 875, 2541, 2915 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7461,9 +7601,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.21 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.21 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 326, 2730, 773, 516, 213 ],
+      "players" : [ 2894, 1505, 516, 326 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7471,9 +7611,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.22 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.22 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2915, 1629, 1722, 2231, 2730 ],
+      "players" : [ 2730, 875, 326, 1629 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7481,9 +7621,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.23 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.23 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 516, 2541, 1629, 277, 2235 ],
+      "players" : [ 2226, 1411, 2730, 1722 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7491,9 +7631,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.24 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.24 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1830, 1823, 2915, 2738, 2894 ],
+      "players" : [ 2738, 773, 1629, 1722 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7501,9 +7641,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.25 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.25 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2345, 1411, 516, 2894, 2226 ],
+      "players" : [ 213, 2345, 2937, 2226 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7511,9 +7651,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.26 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.26 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 326, 2541, 2226, 1823, 875 ],
+      "players" : [ 1823, 277, 2738, 411 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7521,9 +7661,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.27 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.27 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 213, 2937, 1294, 2738, 277 ],
+      "players" : [ 516, 2541, 773, 1823 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7531,9 +7671,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.28 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.28 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 2541, 2730, 411, 2937, 518 ],
+      "players" : [ 2915, 2894, 2345, 277 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7541,9 +7681,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.29 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.29 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1830, 1505, 213, 1411, 2231 ],
+      "players" : [ 213, 1411, 1830, 2738 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7551,9 +7691,69 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.30 - Karte 10028 | 5er Challenge | ZZZ=7",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.30 - Karte 10028 | 4er Challenge | ZZZ=7",
       "map" : 10028,
-      "players" : [ 1722, 2345, 2235, 773, 326 ],
+      "players" : [ 518, 875, 773, 1830 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.31 - Karte 10028 | 4er Challenge | ZZZ=7",
+      "map" : 10028,
+      "players" : [ 213, 1294, 1505, 1722 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.32 - Karte 10028 | 4er Challenge | ZZZ=7",
+      "map" : 10028,
+      "players" : [ 2894, 2231, 2226, 411 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.33 - Karte 10028 | 4er Challenge | ZZZ=7",
+      "map" : 10028,
+      "players" : [ 1411, 875, 2937, 1823 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.34 - Karte 10028 | 4er Challenge | ZZZ=7",
+      "map" : 10028,
+      "players" : [ 213, 277, 2231, 2730 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.35 - Karte 10028 | 4er Challenge | ZZZ=7",
+      "map" : 10028,
+      "players" : [ 1294, 326, 2915, 518 ],
+      "options" : {
+        "zzz" : 7,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 19.36 - Karte 10028 | 4er Challenge | ZZZ=7",
+      "map" : 10028,
+      "players" : [ 516, 2345, 1505, 2541 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -7563,7 +7763,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.1 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 411, 213, 875, 1629, 2894, 2345 ],
+      "players" : [ 2345, 518, 1629, 2894, 2738, 773 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7573,7 +7773,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.2 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 277, 773, 2226, 1505, 2915, 2541 ],
+      "players" : [ 411, 2937, 518, 213, 2541, 1830 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7583,7 +7783,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.3 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 2235, 1411, 2730, 2738, 326, 2231 ],
+      "players" : [ 516, 1722, 411, 875, 2226, 277 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7593,7 +7793,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.4 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 516, 2937, 2915, 518, 1722, 1823 ],
+      "players" : [ 2915, 1823, 1629, 213, 326, 2730 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7603,7 +7803,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.5 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1294, 1830, 1629, 326, 277, 1411 ],
+      "players" : [ 1505, 1411, 518, 2738, 2730, 1294 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7613,7 +7813,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.6 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 2894, 518, 2231, 2541, 2937, 2345 ],
+      "players" : [ 1830, 2915, 2231, 1505, 773, 2937 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7623,7 +7823,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.7 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 875, 516, 1294, 2894, 2730, 773 ],
+      "players" : [ 1294, 2541, 277, 2937, 1411, 326 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7633,7 +7833,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.8 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1722, 2226, 2738, 1505, 213, 2235 ],
+      "players" : [ 2231, 1722, 518, 2345, 411, 326 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7643,7 +7843,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.9 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 411, 1823, 1505, 1830, 277, 2730 ],
+      "players" : [ 516, 2226, 2730, 2345, 1830, 1823 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7653,7 +7853,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.10 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1722, 875, 277, 2231, 2937, 2226 ],
+      "players" : [ 2894, 875, 2541, 2730, 1722, 773 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7663,7 +7863,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.11 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 2915, 326, 518, 2345, 2738, 1294 ],
+      "players" : [ 1505, 2226, 1411, 1830, 1629, 2894 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7673,7 +7873,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.12 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 2235, 1823, 2345, 1629, 1411, 2730 ],
+      "players" : [ 516, 1294, 2738, 2915, 1722, 2937 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7683,7 +7883,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.13 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 213, 2541, 1411, 773, 411, 1722 ],
+      "players" : [ 213, 875, 1294, 516, 2231, 1629 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7693,7 +7893,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.14 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1830, 516, 2738, 2937, 2226, 411 ],
+      "players" : [ 1823, 277, 1505, 326, 213, 875 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7703,7 +7903,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.15 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 2231, 773, 1830, 1629, 2915, 2937 ],
+      "players" : [ 2231, 2226, 518, 277, 2541, 2894 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7713,7 +7913,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.16 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 213, 1823, 2894, 1294, 2235, 2541 ],
+      "players" : [ 773, 411, 326, 1411, 516, 213 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7723,7 +7923,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.17 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 875, 516, 1411, 2915, 2235, 518 ],
+      "players" : [ 2738, 1823, 1505, 411, 2915, 2894 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7733,7 +7933,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.18 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 326, 1505, 2541, 1629, 516, 2738 ],
+      "players" : [ 2915, 2226, 875, 2937, 2345, 1629 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7743,7 +7943,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.19 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 411, 875, 1505, 518, 326, 2894 ],
+      "players" : [ 1830, 1294, 2541, 1722, 1823, 2231 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7753,7 +7953,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.20 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1722, 2730, 518, 1830, 2345, 213 ],
+      "players" : [ 2738, 277, 2730, 2231, 1830, 2915 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7763,7 +7963,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.21 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 277, 1823, 516, 2231, 326, 773 ],
+      "players" : [ 2345, 1411, 277, 1722, 1505, 773 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7773,7 +7973,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.22 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1294, 2226, 773, 1411, 2894, 2937 ],
+      "players" : [ 2730, 2345, 516, 326, 2894, 1294 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7783,7 +7983,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.23 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 1722, 1505, 1294, 2345, 1823, 875 ],
+      "players" : [ 411, 1629, 1823, 2937, 518, 1411 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7793,7 +7993,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 20.24 - Karte 27 | 6er Challenge | ZZZ=0",
       "map" : 27,
-      "players" : [ 2541, 2730, 1830, 2226, 2915, 2738 ],
+      "players" : [ 2738, 2541, 213, 2226, 875, 773 ],
       "options" : {
         "zzz" : 0,
         "cps" : true,
@@ -7801,19 +8001,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 20.25 - Karte 27 | 6er Challenge | ZZZ=0",
-      "map" : 27,
-      "players" : [ 277, 213, 1629, 411, 2235, 2231 ],
-      "options" : {
-        "zzz" : 0,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.1 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.1 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2345, 516, 213, 1294, 2541 ],
+      "players" : [ 2730, 1505, 2226, 411 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7821,9 +8011,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.2 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.2 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2231, 518, 773, 2738, 1823 ],
+      "players" : [ 1411, 875, 518, 2231 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7831,9 +8021,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.3 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.3 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1830, 875, 213, 326, 277 ],
+      "players" : [ 1629, 2541, 2730, 1722 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7841,9 +8031,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.4 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.4 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2937, 1505, 2235, 2730, 773 ],
+      "players" : [ 326, 773, 2937, 1830 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7851,9 +8041,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.5 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.5 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2226, 1629, 1722, 2894, 2915 ],
+      "players" : [ 213, 2894, 2937, 1722 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7861,9 +8051,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.6 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.6 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 411, 1411, 2915, 1505, 2937 ],
+      "players" : [ 516, 2738, 518, 1505 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7871,9 +8061,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.7 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.7 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 326, 2226, 1823, 411, 2235 ],
+      "players" : [ 2915, 277, 2541, 1411 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7881,9 +8071,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.8 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.8 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1830, 2894, 2235, 1722, 2231 ],
+      "players" : [ 1294, 1823, 773, 2226 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7891,9 +8081,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.9 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.9 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 277, 2345, 2738, 773, 1411 ],
+      "players" : [ 213, 2345, 2541, 1505 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7901,9 +8091,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.10 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.10 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 875, 2730, 1411, 213, 516 ],
+      "players" : [ 1294, 411, 773, 277 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7911,9 +8101,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.11 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.11 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1629, 518, 2226, 326, 1411 ],
+      "players" : [ 1830, 875, 516, 1722 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7921,9 +8111,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.12 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.12 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1294, 2541, 2231, 411, 2730 ],
+      "players" : [ 2894, 326, 277, 1629 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7931,9 +8121,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.13 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.13 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1294, 1830, 2937, 1629, 516 ],
+      "players" : [ 2915, 1823, 518, 516 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7941,9 +8131,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.14 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.14 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 277, 518, 2730, 2894, 2226 ],
+      "players" : [ 2738, 2345, 1411, 875 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7951,9 +8141,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.15 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.15 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2915, 2345, 326, 213, 2937 ],
+      "players" : [ 2730, 2937, 875, 1505 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7961,9 +8151,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.16 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.16 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2738, 1505, 2894, 213, 1629 ],
+      "players" : [ 326, 2226, 2231, 1722 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7971,9 +8161,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.17 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.17 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 875, 2541, 1830, 2235, 773 ],
+      "players" : [ 2915, 2231, 773, 2345 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7981,9 +8171,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.18 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.18 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1722, 1823, 411, 875, 2738 ],
+      "players" : [ 213, 1294, 2345, 1629 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -7991,9 +8181,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.19 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.19 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2915, 2541, 1505, 2231, 2345 ],
+      "players" : [ 2738, 411, 2730, 2937 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8001,9 +8191,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.20 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.20 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1294, 518, 1722, 773, 1505 ],
+      "players" : [ 2894, 1823, 1411, 2231 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8011,9 +8201,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.21 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.21 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 277, 516, 1823, 2345, 2226 ],
+      "players" : [ 213, 2226, 2915, 1830 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8021,9 +8211,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.22 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.22 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1830, 518, 411, 516, 2231 ],
+      "players" : [ 1294, 411, 875, 1830 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8031,9 +8221,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.23 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.23 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1411, 2894, 2541, 1823, 2937 ],
+      "players" : [ 2738, 326, 1823, 2541 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8041,9 +8231,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.24 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.24 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1722, 1629, 2730, 875, 2937 ],
+      "players" : [ 518, 277, 2226, 2937 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8051,9 +8241,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.25 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.25 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2915, 277, 1294, 2235, 518 ],
+      "players" : [ 516, 1629, 2738, 2231 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8061,9 +8251,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.26 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.26 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 326, 2738, 2894, 2915, 2730 ],
+      "players" : [ 1823, 277, 1629, 875 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8071,9 +8261,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.27 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.27 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2345, 2738, 2235, 516, 1505 ],
+      "players" : [ 2730, 1411, 516, 2226 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8081,9 +8271,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.28 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.28 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 2541, 1629, 277, 1722, 326 ],
+      "players" : [ 1830, 2345, 326, 411 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8091,9 +8281,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.29 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.29 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 1294, 2231, 2226, 875, 1411 ],
+      "players" : [ 1294, 2541, 2894, 2937 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8101,9 +8291,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.30 - Karte 10055 | 5er Challenge | ZZZ=4",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.30 - Karte 10055 | 4er Challenge | ZZZ=4",
       "map" : 10055,
-      "players" : [ 213, 1823, 1830, 773, 411 ],
+      "players" : [ 2915, 1722, 411, 1629 ],
       "options" : {
         "zzz" : 4,
         "cps" : true,
@@ -8111,9 +8301,69 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.1 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.31 - Karte 10055 | 4er Challenge | ZZZ=4",
+      "map" : 10055,
+      "players" : [ 213, 518, 2730, 2894 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.32 - Karte 10055 | 4er Challenge | ZZZ=4",
+      "map" : 10055,
+      "players" : [ 1505, 773, 326, 2231 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.33 - Karte 10055 | 4er Challenge | ZZZ=4",
+      "map" : 10055,
+      "players" : [ 2915, 2894, 2541, 1830 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.34 - Karte 10055 | 4er Challenge | ZZZ=4",
+      "map" : 10055,
+      "players" : [ 1294, 518, 773, 2345 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.35 - Karte 10055 | 4er Challenge | ZZZ=4",
+      "map" : 10055,
+      "players" : [ 1505, 1823, 1722, 213 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 21.36 - Karte 10055 | 4er Challenge | ZZZ=4",
+      "map" : 10055,
+      "players" : [ 2738, 277, 516, 1411 ],
+      "options" : {
+        "zzz" : 4,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.1 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 773, 1629, 2730, 2345, 411 ],
+      "players" : [ 1294, 1505, 2226, 2738 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8121,9 +8371,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.2 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.2 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1722, 1411, 1830, 2345, 2894 ],
+      "players" : [ 1629, 2541, 1505, 1830 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8131,9 +8381,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.3 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.3 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2226, 1505, 213, 2915, 773 ],
+      "players" : [ 2730, 1823, 2345, 2937 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8141,9 +8391,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.4 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.4 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 277, 2937, 875, 2235, 2738 ],
+      "players" : [ 213, 277, 2738, 1830 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8151,9 +8401,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.5 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.5 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2541, 518, 213, 2226, 326 ],
+      "players" : [ 326, 1411, 2915, 875 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8161,9 +8411,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.6 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.6 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1294, 1823, 2738, 2231, 1629 ],
+      "players" : [ 516, 2894, 773, 411 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8171,9 +8421,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.7 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.7 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1294, 326, 2937, 411, 1722 ],
+      "players" : [ 518, 1722, 1411, 1830 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8181,9 +8431,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.8 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.8 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2915, 1411, 411, 875, 2541 ],
+      "players" : [ 411, 2541, 213, 2231 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8191,9 +8441,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.9 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.9 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 277, 1505, 1830, 1294, 2894 ],
+      "players" : [ 773, 2937, 1629, 516 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8201,9 +8451,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.10 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.10 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 516, 1823, 2894, 2915, 875 ],
+      "players" : [ 2730, 277, 2541, 516 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8211,9 +8461,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.11 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.11 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2231, 516, 1722, 773, 277 ],
+      "players" : [ 2915, 1294, 1411, 213 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8221,9 +8471,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.12 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.12 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2730, 518, 1830, 875, 1505 ],
+      "players" : [ 518, 875, 2894, 2738 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8231,9 +8481,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.13 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.13 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2231, 326, 2915, 2235, 1411 ],
+      "players" : [ 326, 2226, 277, 2345 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8241,9 +8491,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.14 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.14 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 516, 2937, 2738, 2894, 518 ],
+      "players" : [ 1823, 1722, 2738, 2345 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8251,9 +8501,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.15 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.15 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2345, 2541, 2730, 2231, 2937 ],
+      "players" : [ 2730, 2231, 773, 1722 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8261,9 +8511,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.16 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.16 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1823, 2226, 1505, 2937, 2235 ],
+      "players" : [ 2231, 2937, 411, 1823 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8271,9 +8521,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.17 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.17 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 213, 1629, 516, 2235, 1294 ],
+      "players" : [ 326, 1629, 2541, 1722 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8281,9 +8531,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.18 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.18 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2738, 2226, 1722, 2730, 1294 ],
+      "players" : [ 2894, 1505, 2915, 1629 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8291,9 +8541,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.19 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.19 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 773, 518, 1629, 2541, 2894 ],
+      "players" : [ 2226, 518, 516, 2231 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8301,9 +8551,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.20 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.20 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 411, 2345, 2226, 1629, 875 ],
+      "players" : [ 1294, 875, 2231, 2915 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8311,9 +8561,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.21 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.21 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 277, 213, 875, 2915, 1823 ],
+      "players" : [ 1505, 277, 411, 1722 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8321,9 +8571,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.22 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.22 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1830, 1411, 2738, 1629, 1823 ],
+      "players" : [ 2345, 1411, 1505, 1830 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8331,9 +8581,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.23 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.23 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2345, 326, 1294, 1830, 2915 ],
+      "players" : [ 213, 2894, 2937, 277 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8341,9 +8591,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.24 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.24 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 213, 2730, 1411, 773, 516 ],
+      "players" : [ 326, 773, 1830, 2738 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8351,9 +8601,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.25 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.25 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1722, 518, 213, 2231, 1411 ],
+      "players" : [ 1294, 518, 1823, 326 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8361,9 +8611,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.26 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.26 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 411, 2235, 518, 2345, 277 ],
+      "players" : [ 2730, 875, 1830, 518 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8371,9 +8621,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.27 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.27 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 326, 1505, 2231, 2894, 516 ],
+      "players" : [ 2894, 411, 2345, 516 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8381,9 +8631,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.28 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.28 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 2738, 773, 2541, 2235, 1830 ],
+      "players" : [ 213, 875, 1823, 516 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8391,9 +8641,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.29 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.29 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 1823, 2541, 1722, 1505, 277 ],
+      "players" : [ 2915, 2730, 411, 326 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8401,9 +8651,69 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.30 - Karte 10048 | 5er Challenge | ZZZ=3",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.30 - Karte 10048 | 4er Challenge | ZZZ=3",
       "map" : 10048,
-      "players" : [ 326, 2730, 2937, 2226, 411 ],
+      "players" : [ 1294, 1629, 277, 2730 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.31 - Karte 10048 | 4er Challenge | ZZZ=3",
+      "map" : 10048,
+      "players" : [ 2226, 2937, 2541, 1411 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.32 - Karte 10048 | 4er Challenge | ZZZ=3",
+      "map" : 10048,
+      "players" : [ 773, 2226, 2915, 1823 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.33 - Karte 10048 | 4er Challenge | ZZZ=3",
+      "map" : 10048,
+      "players" : [ 773, 1629, 518, 213 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.34 - Karte 10048 | 4er Challenge | ZZZ=3",
+      "map" : 10048,
+      "players" : [ 1722, 875, 2345, 2937 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.35 - Karte 10048 | 4er Challenge | ZZZ=3",
+      "map" : 10048,
+      "players" : [ 2894, 2231, 1411, 1294 ],
+      "options" : {
+        "zzz" : 3,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 22.36 - Karte 10048 | 4er Challenge | ZZZ=3",
+      "map" : 10048,
+      "players" : [ 2738, 2541, 2226, 1505 ],
       "options" : {
         "zzz" : 3,
         "cps" : true,
@@ -8413,7 +8723,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.1 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2226, 773, 875 ],
+      "players" : [ 2738, 2730, 213 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8423,7 +8733,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.2 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1505, 1411, 411 ],
+      "players" : [ 2345, 2541, 518 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8433,7 +8743,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.3 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 213, 2738, 2231 ],
+      "players" : [ 516, 1505, 1294 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8443,7 +8753,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.4 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2235, 2730, 1722 ],
+      "players" : [ 2231, 277, 1830 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8453,7 +8763,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.5 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 326, 1823, 773 ],
+      "players" : [ 2894, 326, 875 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8463,7 +8773,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.6 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1830, 2937, 277 ],
+      "players" : [ 1411, 1629, 411 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8473,7 +8783,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.7 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2915, 1629, 1722 ],
+      "players" : [ 773, 2937, 1505 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8483,7 +8793,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.8 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 516, 2541, 1722 ],
+      "players" : [ 2915, 1722, 518 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8493,7 +8803,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.9 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1294, 2345, 1823 ],
+      "players" : [ 1823, 2226, 1830 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8503,7 +8813,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.10 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2894, 518, 2235 ],
+      "players" : [ 2738, 2937, 2231 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8513,7 +8823,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.11 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 213, 2937, 2894 ],
+      "players" : [ 2345, 1629, 2231 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8523,7 +8833,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.12 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 411, 2915, 2894 ],
+      "players" : [ 2894, 2226, 1722 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8533,7 +8843,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.13 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2231, 875, 326 ],
+      "players" : [ 2730, 1823, 1411 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8543,7 +8853,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.14 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1505, 1629, 2541 ],
+      "players" : [ 516, 2541, 2915 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8553,7 +8863,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.15 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 516, 2226, 1830 ],
+      "players" : [ 411, 875, 2226 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8563,7 +8873,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.16 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 277, 1411, 2730 ],
+      "players" : [ 213, 326, 1411 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8573,7 +8883,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.17 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2345, 2738, 516 ],
+      "players" : [ 773, 277, 875 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8583,7 +8893,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.18 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1294, 518, 411 ],
+      "players" : [ 213, 1722, 2231 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8593,7 +8903,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.19 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1823, 518, 2730 ],
+      "players" : [ 1294, 2738, 1722 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8603,7 +8913,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.20 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1294, 773, 2235 ],
+      "players" : [ 2730, 2541, 773 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8613,7 +8923,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.21 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2231, 2226, 277 ],
+      "players" : [ 1505, 518, 2937 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8623,7 +8933,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.22 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 213, 1505, 411 ],
+      "players" : [ 516, 326, 2937 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8633,7 +8943,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.23 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2738, 2937, 277 ],
+      "players" : [ 1823, 1629, 277 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8643,7 +8953,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.24 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2915, 1411, 2541 ],
+      "players" : [ 1830, 2894, 2937 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8653,7 +8963,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.25 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1830, 326, 213 ],
+      "players" : [ 2915, 2345, 277 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8663,7 +8973,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.26 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 875, 2345, 1505 ],
+      "players" : [ 1294, 411, 2541 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8673,7 +8983,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.27 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 875, 326, 1411 ],
+      "players" : [ 411, 518, 213 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8683,7 +8993,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.28 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2915, 1722, 1505 ],
+      "players" : [ 326, 1505, 1823 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8693,7 +9003,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.29 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1830, 2894, 875 ],
+      "players" : [ 1294, 2226, 326 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8703,7 +9013,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.30 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 516, 1629, 411 ],
+      "players" : [ 2894, 773, 2738 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8713,7 +9023,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.31 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2738, 2226, 1722 ],
+      "players" : [ 516, 1830, 1722 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8723,7 +9033,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.32 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2231, 1823, 2345 ],
+      "players" : [ 2730, 2345, 213 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8733,7 +9043,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.33 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2541, 518, 1823 ],
+      "players" : [ 2915, 1411, 2937 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8743,7 +9053,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.34 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1294, 773, 2738 ],
+      "players" : [ 1629, 875, 1830 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8753,7 +9063,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.35 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2235, 2937, 213 ],
+      "players" : [ 2738, 411, 1629 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8763,7 +9073,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.36 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2730, 1629, 2345 ],
+      "players" : [ 1505, 875, 2730 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8773,7 +9083,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.37 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2235, 326, 516 ],
+      "players" : [ 1823, 2541, 875 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8783,7 +9093,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.38 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2915, 773, 411 ],
+      "players" : [ 773, 1411, 1722 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8793,7 +9103,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.39 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1629, 518, 1505 ],
+      "players" : [ 518, 277, 2541 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8803,7 +9113,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.40 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1830, 2226, 2915 ],
+      "players" : [ 2915, 1294, 1830 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8813,7 +9123,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.41 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1411, 2894, 1294 ],
+      "players" : [ 2894, 2345, 1823 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8823,7 +9133,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.42 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 277, 2541, 1294 ],
+      "players" : [ 516, 2226, 1629 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8833,7 +9143,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.43 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2231, 2937, 1830 ],
+      "players" : [ 2730, 2231, 1505 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8843,7 +9153,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.44 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 1722, 1823, 213 ],
+      "players" : [ 2915, 2738, 518 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8853,7 +9163,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.45 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 875, 2730, 2738 ],
+      "players" : [ 213, 2226, 326 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8863,7 +9173,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.46 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2235, 2345, 1411 ],
+      "players" : [ 2894, 411, 516 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8873,7 +9183,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.47 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 277, 326, 2894 ],
+      "players" : [ 2345, 2231, 1411 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8883,27 +9193,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 23.48 - Karte 29 | 3er Challenge | ZZZ=7",
       "map" : 29,
-      "players" : [ 2231, 1629, 773 ],
-      "options" : {
-        "zzz" : 7,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 23.49 - Karte 29 | 3er Challenge | ZZZ=7",
-      "map" : 29,
-      "players" : [ 516, 2541, 2937 ],
-      "options" : {
-        "zzz" : 7,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 23.50 - Karte 29 | 3er Challenge | ZZZ=7",
-      "map" : 29,
-      "players" : [ 2226, 518, 2730 ],
+      "players" : [ 773, 277, 1294 ],
       "options" : {
         "zzz" : 7,
         "cps" : true,
@@ -8913,7 +9203,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.1 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 411, 2738, 2231 ],
+      "players" : [ 1294, 2937, 2541 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8923,7 +9213,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.2 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1411, 1629, 1830 ],
+      "players" : [ 2915, 2345, 875 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8933,7 +9223,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.3 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 277, 518, 213 ],
+      "players" : [ 1505, 2231, 213 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8943,7 +9233,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.4 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2235, 2730, 1830 ],
+      "players" : [ 516, 1411, 1823 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8953,7 +9243,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.5 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2345, 2226, 213 ],
+      "players" : [ 2894, 326, 1505 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8963,7 +9253,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.6 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1294, 2937, 326 ],
+      "players" : [ 1629, 1722, 1823 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8973,7 +9263,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.7 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2541, 2894, 411 ],
+      "players" : [ 2730, 2226, 773 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8983,7 +9273,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.8 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1722, 516, 875 ],
+      "players" : [ 1830, 518, 2894 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -8993,7 +9283,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.9 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1505, 773, 2226 ],
+      "players" : [ 411, 277, 2738 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9003,7 +9293,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.10 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2915, 1823, 2730 ],
+      "players" : [ 1830, 277, 1505 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9013,7 +9303,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.11 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 277, 1411, 1505 ],
+      "players" : [ 516, 2231, 277 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9023,7 +9313,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.12 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2345, 2738, 326 ],
+      "players" : [ 1411, 1722, 2894 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9033,7 +9323,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.13 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1294, 2915, 213 ],
+      "players" : [ 2937, 875, 326 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9043,7 +9333,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.14 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 875, 518, 2937 ],
+      "players" : [ 2915, 773, 2541 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9053,7 +9343,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.15 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1823, 1629, 2894 ],
+      "players" : [ 213, 2345, 773 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9063,7 +9353,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.16 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2231, 2235, 2541 ],
+      "players" : [ 2730, 1629, 2345 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9073,7 +9363,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.17 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1722, 773, 326 ],
+      "players" : [ 1294, 2738, 1823 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9083,7 +9373,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.18 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2226, 2541, 1830 ],
+      "players" : [ 2226, 518, 277 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9093,7 +9383,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.19 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 516, 1823, 411 ],
+      "players" : [ 2915, 326, 2231 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9103,7 +9393,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.20 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2738, 1411, 518 ],
+      "players" : [ 213, 1830, 411 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9113,7 +9403,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.21 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2730, 2894, 2231 ],
+      "players" : [ 518, 1722, 875 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9123,7 +9413,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.22 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 277, 875, 773 ],
+      "players" : [ 2738, 2226, 2937 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9133,7 +9423,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.23 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2915, 516, 277 ],
+      "players" : [ 2730, 411, 2937 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9143,7 +9433,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.24 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2937, 1629, 2915 ],
+      "players" : [ 516, 2541, 2345 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9153,7 +9443,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.25 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2235, 1722, 2894 ],
+      "players" : [ 1294, 1411, 213 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9163,7 +9453,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.26 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1294, 1505, 516 ],
+      "players" : [ 516, 2738, 1722 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9173,7 +9463,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.27 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 411, 1722, 1830 ],
+      "players" : [ 1294, 2226, 2894 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9183,7 +9473,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.28 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 213, 2738, 2541 ],
+      "players" : [ 2231, 1823, 518 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9193,7 +9483,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.29 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2231, 518, 2915 ],
+      "players" : [ 2915, 2730, 277 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9203,7 +9493,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.30 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1294, 2730, 411 ],
+      "players" : [ 1505, 1411, 773 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9213,7 +9503,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.31 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2345, 2937, 773 ],
+      "players" : [ 1629, 2541, 213 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9223,7 +9513,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.32 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 326, 1629, 277 ],
+      "players" : [ 1830, 1629, 2231 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9233,7 +9523,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.33 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2226, 1411, 516 ],
+      "players" : [ 411, 875, 1411 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9243,7 +9533,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.34 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2235, 875, 1629 ],
+      "players" : [ 1830, 2226, 1411 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9253,7 +9543,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.35 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1823, 1505, 2937 ],
+      "players" : [ 411, 1823, 1505 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9263,7 +9553,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.36 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1505, 2730, 326 ],
+      "players" : [ 516, 1294, 1505 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9273,7 +9563,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.37 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2738, 2894, 1505 ],
+      "players" : [ 2894, 773, 1629 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9283,7 +9573,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.38 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 875, 213, 1294 ],
+      "players" : [ 518, 2937, 773 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9293,7 +9583,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.39 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1823, 2226, 2235 ],
+      "players" : [ 2915, 1722, 2937 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9303,7 +9593,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.40 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2345, 2541, 277 ],
+      "players" : [ 2738, 2345, 326 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9313,7 +9603,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.41 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 773, 1411, 2730 ],
+      "players" : [ 875, 2541, 2738 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9323,7 +9613,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.42 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1722, 2345, 518 ],
+      "players" : [ 2730, 326, 1830 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9333,7 +9623,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.43 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2231, 1830, 1294 ],
+      "players" : [ 2894, 2730, 2541 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9343,7 +9633,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.44 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2915, 2738, 411 ],
+      "players" : [ 277, 875, 213 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9353,7 +9643,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.45 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 516, 518, 773 ],
+      "players" : [ 411, 1722, 1294 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9363,7 +9653,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.46 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 2231, 2226, 875 ],
+      "players" : [ 2231, 2226, 1629 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9373,7 +9663,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.47 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 326, 1823, 1830 ],
+      "players" : [ 516, 2915, 1823 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9383,7 +9673,7 @@
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 24.48 - Karte 18 | 3er Challenge | ZZZ=5",
       "map" : 18,
-      "players" : [ 1722, 2937, 1411 ],
+      "players" : [ 326, 518, 2345 ],
       "options" : {
         "zzz" : 5,
         "cps" : true,
@@ -9391,29 +9681,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 24.49 - Karte 18 | 3er Challenge | ZZZ=5",
-      "map" : 18,
-      "players" : [ 213, 2894, 1629 ],
-      "options" : {
-        "zzz" : 5,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 24.50 - Karte 18 | 3er Challenge | ZZZ=5",
-      "map" : 18,
-      "players" : [ 2345, 2541, 2235 ],
-      "options" : {
-        "zzz" : 5,
-        "cps" : true,
-        "startdirection" : "free",
-        "crashallowed" : "allowed"
-      }
-    }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.1 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.1 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1823, 1411, 1629, 2226, 1294 ],
+      "players" : [ 1823, 277, 2937, 2894 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9421,9 +9691,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.2 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.2 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 326, 518, 2541, 875, 2738 ],
+      "players" : [ 2345, 1722, 1505, 2226 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9431,9 +9701,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.3 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.3 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 277, 2730, 213, 516, 411 ],
+      "players" : [ 773, 875, 2231, 411 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9441,9 +9711,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.4 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.4 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2231, 1505, 1411, 516, 1830 ],
+      "players" : [ 2730, 1411, 518, 1629 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9451,9 +9721,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.5 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.5 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2235, 2915, 516, 1823, 518 ],
+      "players" : [ 1830, 2541, 1823, 773 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9461,9 +9731,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.6 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.6 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2345, 2894, 773, 2226, 326 ],
+      "players" : [ 213, 2915, 2738, 2894 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9471,9 +9741,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.7 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.7 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1722, 2937, 1823, 326, 2231 ],
+      "players" : [ 516, 326, 773, 2730 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9481,9 +9751,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.8 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.8 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 411, 2235, 2226, 277, 1505 ],
+      "players" : [ 2226, 875, 516, 213 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9491,9 +9761,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.9 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.9 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1830, 2345, 518, 1294, 2937 ],
+      "players" : [ 2345, 411, 518, 1294 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9501,9 +9771,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.10 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.10 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2541, 2730, 1629, 1830, 2915 ],
+      "players" : [ 2738, 1629, 1830, 2937 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9511,9 +9781,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.11 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.11 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 875, 2894, 1411, 2541, 1823 ],
+      "players" : [ 326, 2541, 1411, 277 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9521,9 +9791,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.12 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.12 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2738, 773, 1830, 213, 2235 ],
+      "players" : [ 2915, 1505, 1629, 326 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9531,9 +9801,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.13 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.13 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1294, 2915, 277, 2738, 1722 ],
+      "players" : [ 2231, 1722, 2541, 2730 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9541,9 +9811,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.14 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.14 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2937, 1629, 277, 773, 875 ],
+      "players" : [ 2231, 2937, 516, 213 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9551,9 +9821,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.15 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.15 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1722, 2345, 1629, 411, 1830 ],
+      "players" : [ 1722, 277, 213, 326 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9561,9 +9831,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.16 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.16 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 213, 2730, 2937, 2894, 2541 ],
+      "players" : [ 2738, 1411, 2231, 2730 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9571,9 +9841,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.17 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.17 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2231, 1505, 518, 213, 1629 ],
+      "players" : [ 1505, 518, 875, 2894 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9581,9 +9851,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.18 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.18 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2235, 875, 2915, 2231, 2730 ],
+      "players" : [ 1830, 2345, 1294, 2937 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9591,9 +9861,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.19 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.19 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1722, 2226, 516, 2541, 1294 ],
+      "players" : [ 2915, 411, 2226, 2541 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9601,9 +9871,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.20 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.20 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 326, 1411, 2235, 411, 1294 ],
+      "players" : [ 1294, 1823, 2730, 875 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9611,9 +9881,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.21 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.21 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2738, 2894, 2231, 411, 773 ],
+      "players" : [ 1294, 1629, 2226, 1722 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9621,9 +9891,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.22 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.22 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2345, 1505, 2730, 2738, 516 ],
+      "players" : [ 2345, 277, 411, 2226 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9631,9 +9901,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.23 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.23 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 1722, 1411, 213, 518, 773 ],
+      "players" : [ 516, 518, 1830, 2541 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9641,9 +9911,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.24 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.24 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 875, 1505, 1830, 1722, 2894 ],
+      "players" : [ 2915, 1411, 773, 2894 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9651,9 +9921,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.25 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.25 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2915, 2345, 213, 326, 875 ],
+      "players" : [ 1505, 1823, 213, 2541 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9661,9 +9931,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.26 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.26 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 277, 1823, 2345, 2730, 773 ],
+      "players" : [ 326, 411, 1722, 1411 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9671,9 +9941,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.27 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.27 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2226, 2937, 2915, 1505, 1411 ],
+      "players" : [ 2894, 2231, 2345, 2738 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9681,9 +9951,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.28 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.28 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 411, 2541, 2937, 516, 326 ],
+      "players" : [ 516, 1294, 2730, 2738 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9691,9 +9961,9 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.29 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.29 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 277, 518, 2226, 2231, 2894 ],
+      "players" : [ 1830, 1823, 2738, 213 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9701,9 +9971,69 @@
         "crashallowed" : "allowed"
       }
     }, {
-      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.30 - Karte 9 | 5er Challenge | ZZZ=1",
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.30 - Karte 9 | 4er Challenge | ZZZ=1",
       "map" : 9,
-      "players" : [ 2738, 1629, 2235, 1823, 1294 ],
+      "players" : [ 773, 875, 1294, 2937 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.31 - Karte 9 | 4er Challenge | ZZZ=1",
+      "map" : 9,
+      "players" : [ 518, 1629, 1823, 411 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.32 - Karte 9 | 4er Challenge | ZZZ=1",
+      "map" : 9,
+      "players" : [ 1505, 277, 2915, 1722 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.33 - Karte 9 | 4er Challenge | ZZZ=1",
+      "map" : 9,
+      "players" : [ 2226, 518, 773, 1505 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.34 - Karte 9 | 4er Challenge | ZZZ=1",
+      "map" : 9,
+      "players" : [ 516, 2894, 277, 875 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.35 - Karte 9 | 4er Challenge | ZZZ=1",
+      "map" : 9,
+      "players" : [ 2915, 1629, 2345, 2937 ],
+      "options" : {
+        "zzz" : 1,
+        "cps" : true,
+        "startdirection" : "free",
+        "crashallowed" : "allowed"
+      }
+    }, {
+      "name" : "CraZZZy Crash Challenge 6 - Challenge 25.36 - Karte 9 | 4er Challenge | ZZZ=1",
+      "map" : 9,
+      "players" : [ 1830, 1411, 326, 2231 ],
       "options" : {
         "zzz" : 1,
         "cps" : true,
@@ -9827,7 +10157,7 @@
       "cps" : true,
       "startdirection" : "free",
       "gamesPerPlayer" : 6,
-      "numberOfPlayers" : 5
+      "numberOfPlayers" : 4
     },
     "17" : {
       "minZzz" : 8,
@@ -9836,7 +10166,7 @@
       "cps" : true,
       "startdirection" : "free",
       "gamesPerPlayer" : 6,
-      "numberOfPlayers" : 5
+      "numberOfPlayers" : 4
     },
     "18" : {
       "minZzz" : 7,
@@ -9845,7 +10175,7 @@
       "cps" : true,
       "startdirection" : "free",
       "gamesPerPlayer" : 6,
-      "numberOfPlayers" : 5
+      "numberOfPlayers" : 4
     },
     "19" : {
       "minZzz" : 0,
@@ -9872,7 +10202,7 @@
       "cps" : true,
       "startdirection" : "free",
       "gamesPerPlayer" : 6,
-      "numberOfPlayers" : 5
+      "numberOfPlayers" : 4
     },
     "21" : {
       "minZzz" : 3,
@@ -9881,7 +10211,7 @@
       "cps" : true,
       "startdirection" : "free",
       "gamesPerPlayer" : 6,
-      "numberOfPlayers" : 5
+      "numberOfPlayers" : 4
     },
     "22" : {
       "minZzz" : 7,
@@ -9908,7 +10238,7 @@
       "cps" : true,
       "startdirection" : "free",
       "gamesPerPlayer" : 6,
-      "numberOfPlayers" : 5
+      "numberOfPlayers" : 4
     },
     "3" : {
       "minZzz" : 2,

@@ -162,7 +162,12 @@ public class CCCEvalNew extends CCCEval
 				if(userChallengeStats[c].get(user.getId()).total >= stats_challengePointsMax)
 					row[col] = WikiUtil.highlight(WikiUtil.preprocess(row[col]));
 
-				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
+				if(!challengeUsers[c].contains(user))
+				{
+					// user disqualified
+					row[col] = "-";
+				}
+				else if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
 				{
 					row[col] = WikiUtil.preprocess(row[col]) + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
 					finished = false;
@@ -396,10 +401,18 @@ public class CCCEvalNew extends CCCEval
 		for(int r = 0; r < table.getRows().size(); r++)
 		{
 			user = (User) table.getValue(r, 0);
-			movesPoints = (int) table.getValue(r, movesPointsColumn);
-			crashPoints = (int) table.getValue(r, crashPointsColumn);
-
-			totalPoints = calculatePoints(movesPoints, crashPoints); 
+			if(challengeUsers[c].contains(user))
+			{
+				movesPoints = (int) table.getValue(r, movesPointsColumn);
+				crashPoints = (int) table.getValue(r, crashPointsColumn);	
+				totalPoints = calculatePoints(movesPoints, crashPoints);
+			}
+			else
+			{
+				movesPoints = 0;
+				crashPoints = 0;				
+				totalPoints = 0;
+			}
 			
 			switch(CALC_MODE)
 			{
