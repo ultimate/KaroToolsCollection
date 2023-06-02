@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -438,6 +440,51 @@ public class KaroAPICache implements IDLookUp
 	}
 
 	/**
+	 * Get users by names or ids
+	 * 
+	 * @param namesOrIds - an array of names or ids
+	 * @return the list of users
+	 */
+	public Collection<User> getUsers(String... namesOrIds)
+	{
+		Set<User> users = new LinkedHashSet<>();
+		User user;
+		for(String nameOrId : namesOrIds)
+		{
+			if(nameOrId.equalsIgnoreCase("%desperate"))
+			{
+				//logger.debug("fetching desperate users...");
+				try
+				{
+					for(User desperate : karoAPI.getUsers(null, null, true).get())
+						users.add(desperate);
+				}
+				catch(Exception e)
+				{
+					logger.error("could not fetch desperated users", e);
+				}
+			}
+			else
+			{
+				try
+				{
+					user = getUser(Integer.parseInt(nameOrId));
+				}
+				catch(NumberFormatException e)
+				{
+					user = getUser(nameOrId);
+				}
+				if(user != null)
+					users.add(user);
+				else
+					logger.error("could not fetch user", nameOrId);
+			}
+		}
+		
+		return users;
+	}
+
+	/**
 	 * Get all {@link User}s from the cache
 	 * 
 	 * @return an unmodifiable {@link java.util.Map} of all {@link User} with their IDs as the keys
@@ -782,7 +829,6 @@ public class KaroAPICache implements IDLookUp
 	 * add an entity to the cache - only works if there is no entity for the given type and ID yet
 	 * 
 	 * @see KaroAPICache#contains(Identifiable)
-	 * 
 	 * @param <T> - the type of the entity
 	 * @param cls - the type of the entity
 	 * @param id - the id

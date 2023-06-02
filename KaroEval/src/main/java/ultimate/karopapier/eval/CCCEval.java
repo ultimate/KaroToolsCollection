@@ -2,6 +2,7 @@ package ultimate.karopapier.eval;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -24,10 +25,12 @@ import ultimate.karopapier.utils.WikiUtil;
 public abstract class CCCEval extends Eval<GameSeries>
 {
 	protected static final String				GAMES_KEY				= "Balanced";
-	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Spielerzahl", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele",
+	protected static final String[]				TABLE_HEAD_MAPS			= new String[] { "Nr.", "Strecke", "Teilnehmer", "Spieler p.R.", "ZZZ", "CPs", "Spielzahl", "Startdatum", "Laufende Spiele",
 			"Abgeschlossene Spiele", "Letztes Spiel abgeschlossen", "Züge insgesamt", "Ø Züge p.S.p.R.", "Crashs insgesamt", "Ø Crashs p.S.p.R." };
 	protected static final int					METRICS_GAME_MAXMOVES	= 0;
 	protected final int							TABLE_TABLE_COLUMNS		= 7;
+
+	protected static final String				PROPERTY_DISQUALIFIED	= "disqualified.";
 
 	protected int								cccx;
 	protected boolean							includeTableTables;
@@ -50,6 +53,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 	protected Integer[]							challengeGames;
 	protected Integer[]							challengeOffsets;
 	protected List<User>						usersByLogin;
+	protected List<User>[]						challengeUsers;
 	// evaluation
 	protected Table[][]							tables;
 	protected Table[]							totalTables;
@@ -117,6 +121,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		this.usersByLogin.sort((u1, u2) -> {
 			return u1.getLoginLowerCase().compareTo(u2.getLoginLowerCase());
 		});
+		this.challengeUsers = new ArrayList[this.stats_challengesTotal];
 		// all games are stored in 1 list - to be able to access them easier we calculate offsets
 		this.challengeGames = new Integer[this.stats_challengesTotal];
 		this.challengeOffsets = new Integer[this.stats_challengesTotal];
@@ -129,8 +134,17 @@ public abstract class CCCEval extends Eval<GameSeries>
 		List<PlannedGame> games = gameSeries.getGames().get(GAMES_KEY);
 		for(int c = 0; c < this.stats_challengesTotal; c++)
 		{
+			// first check which users are really participating
+			this.challengeUsers[c] = new ArrayList<User>(this.usersByLogin);
+			String disqualified = properties.getProperty(PROPERTY_DISQUALIFIED + (c+1));
+			if(disqualified != null)
+			{
+				logger.info("challenge #" + c + " has disqualified users: " + disqualified);
+				this.challengeUsers[c].removeAll(karoAPICache.getUsers(disqualified.split(",")));
+			}
+			
 			this.challengeOffsets[c] = offset;
-			this.challengeGames[c] = this.stats_gamesPerPlayerPerChallenge * this.stats_players / this.getRules(c).getNumberOfPlayers();
+			this.challengeGames[c] = this.stats_gamesPerPlayerPerChallenge * this.challengeUsers[c].size() / this.getRules(c).getNumberOfPlayers();
 			this.gameMetrics[c] = new double[this.challengeGames[c]][];
 			// check if all games in this challenge have been created
 			allCreated = true;
@@ -195,7 +209,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		logger.info("  challengesTotal            = " + this.stats_challengesTotal);
 		logger.info("  challengesCreated          = " + this.stats_challengesCreated);
 		logger.info("  players                    = " + this.stats_players);
-		logger.info("  gamesTotal                 = " + this.stats_gamesTotal);
+		logger.info("  gamesTotal                 = " + this.stats_gamesTotal + " (offset calculated = " + offset + ")");
 		logger.info("  gamesCreated               = " + this.stats_gamesCreated);
 		logger.info("  gamesPerPlayer             = " + this.stats_gamesPerPlayer);
 		logger.info("  gamesPerPlayerPerChallenge = " + this.stats_gamesPerPlayerPerChallenge);
@@ -228,7 +242,9 @@ public abstract class CCCEval extends Eval<GameSeries>
 			row[col++] = challengeToLink(c, true);
 			// Strecke
 			row[col++] = mapToLink(c, true);
-			// Spielerzahl
+			// Teilnehmer
+			row[col++] = challengeUsers[c].size();
+			// Spieler p.R.
 			row[col++] = rules.getNumberOfPlayers();
 			// ZZZ
 			row[col++] = (rules.getMinZzz() == rules.getMaxZzz() ? rules.getMinZzz() : rules.getMinZzz() + "-" + rules.getMaxZzz());

@@ -2,6 +2,7 @@ package ultimate.karopapier;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -9,7 +10,6 @@ import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,45 +76,26 @@ public class RandomGameCreator
 		logger.info("preferStandards = " + preferStandards);
 
 		logger.info("creating player list...");
-		User creator = getUser(cache, gameseries.getProperty("players.creator"));
-		String[] playerIDs = gameseries.getProperty("players.others").split(",");
-		Set<User> players = new LinkedHashSet<>();
-		User user;
-		StringBuilder sb = new StringBuilder();
-		for(String player : playerIDs)
+		User creator;
+		try
 		{
-			if(player.equalsIgnoreCase("%desperate"))
-			{
-				logger.info("adding desperate players...");
-				try
-				{
-					for(User desperate : api.getUsers(null, null, true).get())
-					{
-						players.add(desperate);
-						sb.append("\n -> ");
-						sb.append(desperate);
-					}
-				}
-				catch(InterruptedException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				catch(ExecutionException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			else
-			{
-				user = getUser(cache, player);
-				players.add(user);
-				sb.append("\n -> ");
-				sb.append(user);
-			}
+			creator = cache.getUser(Integer.parseInt(gameseries.getProperty("players.creator")));
 		}
-		logger.info("Players:" + sb);
+		catch(NumberFormatException e)
+		{
+			creator = cache.getUser(gameseries.getProperty("players.creator"));
+		}
+		
+		String[] playerIDs = gameseries.getProperty("players.others").split(",");
+		Collection<User> players = cache.getUsers(playerIDs);
+		StringBuilder sb = new StringBuilder();
+		sb.append("Players:");
+		for(User p: players)
+		{
+			sb.append("\n -> ");
+			sb.append(p.getLogin());
+		}
+		logger.info(sb);
 
 		logger.info("creating games...");
 		Random random = new Random();
@@ -143,7 +124,7 @@ public class RandomGameCreator
 		logger.info("exiting");
 	}
 
-	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Set<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
+	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Collection<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
 			double preferStandards)
 	{
 		try
@@ -166,7 +147,7 @@ public class RandomGameCreator
 			{
 				map = cache.getMap(Integer.parseInt(mapID));
 			}
-			
+
 			// remove not invitable players
 			boolean night = map.isNight();
 			playersCopy.removeIf(p -> {
@@ -204,18 +185,6 @@ public class RandomGameCreator
 			logger.error(e);
 			e.printStackTrace();
 			return 0;
-		}
-	}
-
-	private static User getUser(KaroAPICache cache, String nameOrId)
-	{
-		try
-		{
-			return cache.getUser(Integer.parseInt(nameOrId));
-		}
-		catch(NumberFormatException e)
-		{
-			return cache.getUser(nameOrId);
 		}
 	}
 
