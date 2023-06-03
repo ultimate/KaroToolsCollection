@@ -1,0 +1,1388 @@
+{
+  "type" : "League",
+  "title" : "KaroLiga Saison 18 Liga 4 - Spieltag ${spieltag} - ${teams} auf Karte ${karte.id} ",
+  "creator" : 2822,
+  "ignoreInvitable" : true,
+  "games" : {
+    "League" : [ {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 1 - Anthropophagos vs. DerFlieger auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137173,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 1 - Thargor vs. haeckler auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137174,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 1 - Zebrahead vs. TheWhite auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137175,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 1 - STS81 vs. gitarrenteufel auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137172,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 1 - Robotman8000 vs. HX auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137176,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 2 - DerFlieger vs. haeckler auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137177,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 2 - Anthropophagos vs. TheWhite auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137178,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 2 - Thargor vs. gitarrenteufel auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137179,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 2 - Zebrahead vs. HX auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137180,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 2 - STS81 vs. Yashem auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137181,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 3 - haeckler vs. TheWhite auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137368,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 3 - DerFlieger vs. gitarrenteufel auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137369,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 3 - Anthropophagos vs. HX auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137370,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 3 - Thargor vs. Yashem auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137371,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 3 - Zebrahead vs. Robotman8000 auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137372,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 4 - TheWhite vs. gitarrenteufel auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137375,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 4 - haeckler vs. HX auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137377,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 4 - DerFlieger vs. Yashem auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137376,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 4 - Anthropophagos vs. Robotman8000 auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137373,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 4 - Thargor vs. STS81 auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137374,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 5 - gitarrenteufel vs. HX auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137466,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 5 - TheWhite vs. Yashem auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137469,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 5 - haeckler vs. Robotman8000 auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137468,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 5 - DerFlieger vs. STS81 auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137467,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 5 - Anthropophagos vs. Zebrahead auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137470,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 6 - HX vs. Yashem auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137472,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 6 - gitarrenteufel vs. Robotman8000 auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137473,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 6 - TheWhite vs. STS81 auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137471,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 6 - haeckler vs. Zebrahead auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137475,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 6 - DerFlieger vs. Thargor auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137474,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 7 - Yashem vs. Robotman8000 auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137573,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 7 - HX vs. STS81 auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137575,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 7 - gitarrenteufel vs. Zebrahead auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137576,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 7 - TheWhite vs. Thargor auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137572,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 7 - haeckler vs. Anthropophagos auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137574,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 8 - Robotman8000 vs. STS81 auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137580,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 8 - Yashem vs. Zebrahead auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137581,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 8 - HX vs. Thargor auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137578,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 8 - gitarrenteufel vs. Anthropophagos auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137577,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 8 - TheWhite vs. DerFlieger auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137579,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 9 - STS81 vs. Zebrahead auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137641,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 9 - Robotman8000 vs. Thargor auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137644,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 9 - Yashem vs. Anthropophagos auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137642,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 9 - HX vs. DerFlieger auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137645,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 9 - gitarrenteufel vs. haeckler auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137643,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 10 - Zebrahead vs. Thargor auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137671,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 10 - STS81 vs. Anthropophagos auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137670,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 10 - Robotman8000 vs. DerFlieger auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137667,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 10 - Yashem vs. haeckler auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137669,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 10 - HX vs. TheWhite auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137668,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 11 - Thargor vs. Anthropophagos auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137797,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 11 - Zebrahead vs. DerFlieger auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137801,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 11 - STS81 vs. haeckler auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137799,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 11 - Robotman8000 vs. TheWhite auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137798,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 11 - Yashem vs. gitarrenteufel auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137800,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 12 - DerFlieger vs. Anthropophagos auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137837,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 12 - haeckler vs. Thargor auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137838,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 12 - TheWhite vs. Zebrahead auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137841,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 12 - gitarrenteufel vs. STS81 auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137840,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 12 - HX vs. Robotman8000 auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137839,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 13 - haeckler vs. DerFlieger auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137842,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 13 - TheWhite vs. Anthropophagos auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137846,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 13 - gitarrenteufel vs. Thargor auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137844,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 13 - HX vs. Zebrahead auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137843,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 13 - Yashem vs. STS81 auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137845,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 14 - TheWhite vs. haeckler auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137946,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 14 - gitarrenteufel vs. DerFlieger auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137948,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 14 - HX vs. Anthropophagos auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137947,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 14 - Yashem vs. Thargor auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137949,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 14 - Robotman8000 vs. Zebrahead auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137945,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 15 - gitarrenteufel vs. TheWhite auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137953,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 15 - HX vs. haeckler auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137954,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 15 - Yashem vs. DerFlieger auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137952,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 15 - Robotman8000 vs. Anthropophagos auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137950,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 15 - STS81 vs. Thargor auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 137951,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 16 - HX vs. gitarrenteufel auf Karte 54",
+      "map" : 54,
+      "players" : [ 2822, 2894, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138021,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 16 - Yashem vs. TheWhite auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138020,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 16 - Robotman8000 vs. haeckler auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138023,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 16 - STS81 vs. DerFlieger auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138022,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 16 - Zebrahead vs. Anthropophagos auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 3182 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138024,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 17 - Yashem vs. HX auf Karte 89",
+      "map" : 89,
+      "players" : [ 2822, 518, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138027,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 17 - Robotman8000 vs. gitarrenteufel auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138025,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 17 - STS81 vs. TheWhite auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138028,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 17 - Zebrahead vs. haeckler auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138029,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 17 - Thargor vs. DerFlieger auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 2235 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138026,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 18 - Robotman8000 vs. Yashem auf Karte 168",
+      "map" : 168,
+      "players" : [ 2822, 3021, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138150,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 18 - STS81 vs. HX auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138152,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 18 - Zebrahead vs. gitarrenteufel auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138151,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 18 - Thargor vs. TheWhite auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138149,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 18 - Anthropophagos vs. haeckler auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 1505 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138153,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 19 - STS81 vs. Robotman8000 auf Karte 44",
+      "map" : 44,
+      "players" : [ 2822, 3048, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138155,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 19 - Zebrahead vs. Yashem auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138157,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 19 - Thargor vs. HX auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138158,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 19 - Anthropophagos vs. gitarrenteufel auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138154,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 19 - DerFlieger vs. TheWhite auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 1574 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138156,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 20 - Zebrahead vs. STS81 auf Karte 93",
+      "map" : 93,
+      "players" : [ 2822, 2868, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138261,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 20 - Thargor vs. Robotman8000 auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138267,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 20 - Anthropophagos vs. Yashem auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138270,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 20 - DerFlieger vs. HX auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138264,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 20 - haeckler vs. gitarrenteufel auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 1644 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138268,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 21 - Thargor vs. Zebrahead auf Karte 214",
+      "map" : 214,
+      "players" : [ 2822, 992, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138263,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 21 - Anthropophagos vs. STS81 auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138269,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 21 - DerFlieger vs. Robotman8000 auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138265,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 21 - haeckler vs. Yashem auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138262,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 21 - TheWhite vs. HX auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 2894 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      },
+      "game" : 138266,
+      "created" : true
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 22 - Anthropophagos vs. Thargor auf Karte 13",
+      "map" : 13,
+      "players" : [ 2822, 3182, 992 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 22 - DerFlieger vs. Zebrahead auf Karte 182",
+      "map" : 182,
+      "players" : [ 2822, 2235, 2868 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 22 - haeckler vs. STS81 auf Karte 152",
+      "map" : 152,
+      "players" : [ 2822, 1505, 3048 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 22 - TheWhite vs. Robotman8000 auf Karte 148",
+      "map" : 148,
+      "players" : [ 2822, 1574, 3021 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    }, {
+      "name" : "KaroLiga Saison 18 Liga 4 - Spieltag 22 - gitarrenteufel vs. Yashem auf Karte 109",
+      "map" : 109,
+      "players" : [ 2822, 1644, 518 ],
+      "options" : {
+        "zzz" : 2,
+        "cps" : true,
+        "startdirection" : "classic",
+        "crashallowed" : "forbidden"
+      }
+    } ]
+  },
+  "teams" : [ {
+    "name" : "DerFlieger",
+    "members" : [ 2235 ],
+    "homeMap" : 182
+  }, {
+    "name" : "Anthropophagos",
+    "members" : [ 3182 ],
+    "homeMap" : 13
+  }, {
+    "name" : "haeckler",
+    "members" : [ 1505 ],
+    "homeMap" : 152
+  }, {
+    "name" : "Thargor",
+    "members" : [ 992 ],
+    "homeMap" : 214
+  }, {
+    "name" : "TheWhite",
+    "members" : [ 1574 ],
+    "homeMap" : 148
+  }, {
+    "name" : "Zebrahead",
+    "members" : [ 2868 ],
+    "homeMap" : 93
+  }, {
+    "name" : "gitarrenteufel",
+    "members" : [ 1644 ],
+    "homeMap" : 109
+  }, {
+    "name" : "STS81",
+    "members" : [ 3048 ],
+    "homeMap" : 44
+  }, {
+    "name" : "HX",
+    "members" : [ 2894 ],
+    "homeMap" : 54
+  }, {
+    "name" : "Robotman8000",
+    "members" : [ 3021 ],
+    "homeMap" : 168
+  }, {
+    "name" : "Yashem",
+    "members" : [ 518 ],
+    "homeMap" : 89
+  } ],
+  "rules" : {
+    "minZzz" : 2,
+    "maxZzz" : 2,
+    "crashallowed" : "forbidden",
+    "cps" : true,
+    "startdirection" : "classic"
+  },
+  "settings" : {
+    "allowMultipleTeams" : false,
+    "autoNameTeams" : true,
+    "defaultTitle" : "KaroLiga Saison xx - Spieltag ${spieltag} - ${teams} auf Karte ${karte.id} ",
+    "dummyMatches" : false,
+    "dummyTeam" : "die Langeweile",
+    "gamesPerPair" : 2,
+    "maxPlayersPerTeam" : 1,
+    "maxRounds" : 8,
+    "maxTeams" : 12,
+    "minPlayersPerTeam" : 1,
+    "shuffleTeams" : false,
+    "teamStepSize" : 1,
+    "teams" : 11,
+    "useCreatorTeam" : false,
+    "useHomeMaps" : true
+  }
+}

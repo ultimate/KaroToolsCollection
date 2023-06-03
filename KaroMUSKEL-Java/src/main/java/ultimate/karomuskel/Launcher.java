@@ -191,6 +191,7 @@ public class Launcher
 			language = config.getProperty(KEY_LANGUAGE);
 		Language.load(language);
 		KaroAPI.setApplication(Language.getApplicationName(), Language.getApplicationVersion());
+		logger.info("version loaded: " + KaroAPI.getApplicationName() + "-" + KaroAPI.getApplicationVersion() + " | KaroAPI-" + KaroAPI.getVersion());		
 
 		if(config.containsKey(KEY_THREADS))
 		{
