@@ -129,7 +129,8 @@ public class Mover
 
 	/**
 	 * Check whether a property value is valid.<br>
-	 * This is important for non-string properties (enums, numbers), to be able to ignore them during copying, so that falling back will work (otherwise valid defaults will be overwritten with invalid
+	 * This is important for non-string properties (enums, numbers), to be able to ignore them during copying, so that falling back will work
+	 * (otherwise valid defaults will be overwritten with invalid
 	 * configs).
 	 * 
 	 * @param key
@@ -278,6 +279,7 @@ public class Mover
 				// scan other players for messages and last move made
 				Date lastMoveDate = game.getStarteddate();
 				boolean messageFound = false;
+				boolean notificationFound = false;
 				for(Player p : game.getPlayers())
 				{
 					if(p.getMoves() == null)
@@ -290,10 +292,15 @@ public class Mover
 							lastMoveDate = m.getT();
 						// look for messages
 						if((lastPlayerMove == null || m.getT().after(lastPlayerMove.getT())) && m.getMsg() != null && !m.getMsg().isEmpty())
-							messageFound = true;
+						{
+							if(isNotification(m.getMsg()))
+								notificationFound = true;
+							else
+								messageFound = true;
+						}
 					}
 				}
-				
+
 				if(lastPlayerMove.getXv() == 0 && lastPlayerMove.getYv() == 0)
 				{
 					logger.info("  GID = " + game.getId() + " --> SKIPPING --> restart after crash");
@@ -305,6 +312,12 @@ public class Mover
 				if(timeSinceLastMove < timeout)
 				{
 					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached (timeout = " + timeout + "s, last move = " + timeSinceLastMove + "s ago)");
+					return false;
+				}
+
+				if(notificationFound && trigger == EnumMoveTrigger.nonotification)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> notification found");
 					return false;
 				}
 
@@ -339,7 +352,8 @@ public class Mover
 				if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
 					m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 
-				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY() + (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
+				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
 
 				if(!debug)
 					return this.api.move(game.getId(), m).get();
@@ -383,13 +397,13 @@ public class Mover
 				if(i == 0)
 					continue;
 				prevpm = plannedMoves.get(i - 1);
-				
+
 				if(prevpm.getX() != currentMove.getX() || prevpm.getY() != currentMove.getY() || prevpm.getXv() != currentMove.getXv() || prevpm.getYv() != currentMove.getYv())
 					continue; // previous move does not match
 			}
 
 			// look if the planned moves contain the current move
-			
+
 			for(Move possible : possibles)
 			{
 				if(pm.getX() == possible.getX() && pm.getY() == possible.getY() && pm.getXv() == possible.getXv() && pm.getYv() == possible.getYv())
@@ -428,5 +442,24 @@ public class Mover
 			e.printStackTrace();
 		}
 		return movesMade;
+	}
+
+	protected static boolean isNotification(String message)
+	{
+		if(!message.startsWith("-:K"))
+			return false;
+		else if(!message.endsWith("K:-"))
+			return false;
+		
+		else if(message.matches("-:KIch bin ausgestiegenK:-"))
+			return true;
+		else if(message.matches("-:KIch bin von (Didi|KaroMAMA) rausgeworfen wordenK:-"))
+			return true;
+		else if(message.matches("-:KIch wurde von (Didi|KaroMAMA) rausgeworfenK:-"))
+			return true;
+		else if(message.matches("-:KIch werde \\d+ Z&uuml;ge zur&uuml;ckgesetztK:-"))
+			return true;
+		
+		return false;
 	}
 }
