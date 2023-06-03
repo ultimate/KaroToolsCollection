@@ -20,6 +20,10 @@ public enum EnumMoveTrigger
 	 */
 	nomessage, nomsg, keinbordfunk,
 	/**
+	 * no notification
+	 */
+	nonotification, nonote, nocrashorkick, keinhinweis,
+	/**
 	 * never
 	 */
 	never, nie, niemals,
@@ -45,6 +49,12 @@ public enum EnumMoveTrigger
 			case nomsg:
 			case keinbordfunk:
 				return nomessage;
+
+			case nonotification:
+			case nonote:
+			case nocrashorkick:
+			case keinhinweis:
+				return nonotification;
 
 			case never:
 			case nie:
