@@ -293,10 +293,9 @@ public class Mover
 						// look for messages
 						if((lastPlayerMove == null || m.getT().after(lastPlayerMove.getT())) && m.getMsg() != null && !m.getMsg().isEmpty())
 						{
+							messageFound = true;
 							if(isNotification(m.getMsg()))
 								notificationFound = true;
-							else
-								messageFound = true;
 						}
 					}
 				}
