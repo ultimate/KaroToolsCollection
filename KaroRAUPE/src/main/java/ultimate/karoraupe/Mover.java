@@ -27,22 +27,28 @@ public class Mover
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger			= LogManager.getLogger(getClass());
+	protected transient final Logger	logger						= LogManager.getLogger(getClass());
 
-	public static final int				TIME_SCALE		= 1000;
+	public static final int				TIME_SCALE					= 1000;
 
 	// define all key lower case!
-	public static final String			KEY_PREFIX		= "karoraupe";
-	public static final String			KEY_TRIGGER		= KEY_PREFIX + ".trigger";
-	public static final String			KEY_TIMEOUT		= KEY_PREFIX + ".timeout";
-	public static final String			KEY_INTERVAL	= KEY_PREFIX + ".interval";
-	public static final String			KEY_MESSAGE		= KEY_PREFIX + ".message";
-	public static final String			KEY_STRICT		= KEY_PREFIX + ".strict";
+	public static final String			KEY_PREFIX					= "karoraupe";
+	public static final String			KEY_TRIGGER					= KEY_PREFIX + ".trigger";
+	public static final String			KEY_TIMEOUT					= KEY_PREFIX + ".timeout";
+	public static final String			KEY_INTERVAL				= KEY_PREFIX + ".interval";
+	public static final String			KEY_MESSAGE					= KEY_PREFIX + ".message";
+	public static final String			KEY_STRICT					= KEY_PREFIX + ".strict";
+	public static final String			KEY_SPECIAL_REMULADE		= KEY_PREFIX + ".remulade";
+	public static final String			KEY_SPECIAL_SINGLEOPTION	= KEY_PREFIX + ".singleoption";
+
+	// special messages
+	public static final String			MSG_SPECIAL_REMULADE		= "RE";
+	public static final String			MSG_SPECIAL_SINGLEOPTION	= "Na toll... Nur eine Möglichkeit...";
 
 	/**
 	 * {@link DateFormat} for log output
 	 */
-	private static final DateFormat		DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	private static final DateFormat		DATE_FORMAT					= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
 	 * The default / fallback config
@@ -165,7 +171,7 @@ public class Mover
 				return false;
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_STRICT))
+		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION))
 		{
 			// check booleans
 			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
@@ -231,9 +237,6 @@ public class Mover
 			logger.debug("  GID = " + game.getId() + " --> loading game details");
 			game = api.getGameWithDetails(game.getId()).get();
 
-			if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
-				logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
-
 			if(game.isFinished())
 			{
 				logger.warn("  GID = " + game.getId() + " --> game is finished");
@@ -247,6 +250,8 @@ public class Mover
 				Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
 
 				EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(KEY_TRIGGER)).standardize();
+				boolean special_remulade = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REMULADE));
+				boolean special_singleOption = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION));
 				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
 
 				if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
@@ -262,7 +267,6 @@ public class Mover
 					if(p.getId() == userId)
 					{
 						player = p;
-
 						break;
 					}
 				}
@@ -276,14 +280,32 @@ public class Mover
 				logger.debug("  GID = " + game.getId() + " --> player moved last: "
 						+ (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / TIME_SCALE) + "s ago)"));
 
+				if(lastPlayerMove == null)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> no start position selected yet");
+					return false;
+				}
+
 				// scan other players for messages and last move made
 				Date lastMoveDate = game.getStarteddate();
 				boolean messageFound = false;
 				boolean notificationFound = false;
+				boolean anybodyMoved = false;
+
+				boolean reProtection = false;
+				int repeatX = lastPlayerMove.getX() + lastPlayerMove.getXv();
+				int repeatY = lastPlayerMove.getY() + lastPlayerMove.getYv();
+
 				for(Player p : game.getPlayers())
 				{
 					if(p.getMoves() == null)
 						continue;
+
+					if(p.isMoved() && p != player)
+						anybodyMoved = true;
+
+					if(p.getMotion() != null && p.getMotion().getX() == repeatX && p.getMotion().getY() == repeatY)
+						reProtection = true;
 
 					for(Move m : p.getMoves())
 					{
@@ -293,9 +315,15 @@ public class Mover
 						// look for messages
 						if((lastPlayerMove == null || m.getT().after(lastPlayerMove.getT())) && m.getMsg() != null && !m.getMsg().isEmpty())
 						{
-							messageFound = true;
 							if(isNotification(m.getMsg()))
+							{
 								notificationFound = true;
+							}
+							else
+							{
+								messageFound = true;
+								notificationFound = true;
+							}
 						}
 					}
 				}
@@ -328,28 +356,69 @@ public class Mover
 
 				if(player.getPossibles() == null || player.getPossibles().size() == 0)
 				{
-					logger.warn("  GID = " + game.getId() + " --> no possibles found");
+					logger.warn("  GID = " + game.getId() + " --> SKIPPING --> possibles = 0 --> can't move");
 					return false;
 				}
 
-				boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
-				List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves(), strict);
-				logger.debug("  GID = " + game.getId() + " --> " + options);
-
-				if(options.size() == 0)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = 0" + (strict ? " (strict)" : ""));
-					return false;
-				}
-				else if(options.size() > 1)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> matches found = " + options.size() + (strict ? " (strict)" : ")") + " --> can't decide");
-					return false;
-				}
-
-				Move m = options.get(0);
+				String message = null;
 				if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
-					m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
+					message = gameConfig.getProperty(KEY_MESSAGE);
+
+				// check remulade stuff
+				Move repeatMove = null;
+				for(Move m : player.getPossibles())
+				{
+					if(m.getXv() == player.getMotion().getXv() && m.getYv() == player.getMotion().getYv())
+						repeatMove = m;
+				}
+				if(isRemuladeGame(game.getName()))
+					logger.debug("  GID = " + game.getId() + " --> RemulAde: RE = " + (!anybodyMoved) + ", canRepeat = " + (repeatMove != null) + ", reProtection = " + reProtection + ", activated = "
+							+ special_remulade);
+
+				Move m;
+				if(isRemuladeGame(game.getName()) && !anybodyMoved && (repeatMove != null) && !reProtection && special_remulade)
+				{
+					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> REmulAde");
+					if(message != null)
+						message += " (" + MSG_SPECIAL_REMULADE + ")";
+					else
+						message = MSG_SPECIAL_REMULADE;
+					m = repeatMove;
+				}
+				else if(player.getPossibles().size() == 1 && special_singleOption)
+				{
+					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Single-Option");
+					if(message != null)
+						message += " (" + MSG_SPECIAL_SINGLEOPTION + ")";
+					else
+						message = MSG_SPECIAL_SINGLEOPTION;
+					m = player.getPossibles().get(0);
+				}
+				else if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
+				{
+					logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
+					return false;
+				}
+				else
+				{
+					boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
+					List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves(), strict);
+					logger.debug("  GID = " + game.getId() + " --> " + options);
+
+					if(options.size() == 0)
+					{
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = 0" + (strict ? " (strict)" : ""));
+						return false;
+					}
+					else if(options.size() > 1)
+					{
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = " + options.size() + (strict ? " (strict)" : ")")
+								+ " --> can't decide");
+						return false;
+					}
+					m = options.get(0);
+				}
+				m.setMsg(message);
 
 				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
 						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
@@ -385,30 +454,33 @@ public class Mover
 	{
 		List<Move> matches = new ArrayList<>();
 
-		Move pm, prevpm;
-		for(int i = 0; i < plannedMoves.size(); i++)
+		if(plannedMoves != null)
 		{
-			pm = plannedMoves.get(i);
-
-			if(strict)
+			Move pm, prevpm;
+			for(int i = 0; i < plannedMoves.size(); i++)
 			{
-				// previous move must match the current move to allow the planned move
-				if(i == 0)
-					continue;
-				prevpm = plannedMoves.get(i - 1);
+				pm = plannedMoves.get(i);
 
-				if(prevpm.getX() != currentMove.getX() || prevpm.getY() != currentMove.getY() || prevpm.getXv() != currentMove.getXv() || prevpm.getYv() != currentMove.getYv())
-					continue; // previous move does not match
-			}
-
-			// look if the planned moves contain the current move
-
-			for(Move possible : possibles)
-			{
-				if(pm.getX() == possible.getX() && pm.getY() == possible.getY() && pm.getXv() == possible.getXv() && pm.getYv() == possible.getYv())
+				if(strict)
 				{
-					matches.add(possible);
-					break;
+					// previous move must match the current move to allow the planned move
+					if(i == 0)
+						continue;
+					prevpm = plannedMoves.get(i - 1);
+
+					if(prevpm.getX() != currentMove.getX() || prevpm.getY() != currentMove.getY() || prevpm.getXv() != currentMove.getXv() || prevpm.getYv() != currentMove.getYv())
+						continue; // previous move does not match
+				}
+
+				// look if the planned moves contain the current move
+
+				for(Move possible : possibles)
+				{
+					if(pm.getX() == possible.getX() && pm.getY() == possible.getY() && pm.getXv() == possible.getXv() && pm.getYv() == possible.getYv())
+					{
+						matches.add(possible);
+						break;
+					}
 				}
 			}
 		}
@@ -449,7 +521,7 @@ public class Mover
 			return false;
 		else if(!message.endsWith("K:-"))
 			return false;
-		
+
 		else if(message.matches("-:KIch bin ausgestiegenK:-"))
 			return true;
 		else if(message.matches("-:KIch bin von (Didi|KaroMAMA) rausgeworfen wordenK:-"))
@@ -458,7 +530,12 @@ public class Mover
 			return true;
 		else if(message.matches("-:KIch werde \\d+ Z&uuml;ge zur&uuml;ckgesetztK:-"))
 			return true;
-		
+
 		return false;
+	}
+
+	protected static boolean isRemuladeGame(String title)
+	{
+		return title.toLowerCase().replace(" ", "").startsWith("§remulade§");
 	}
 }
