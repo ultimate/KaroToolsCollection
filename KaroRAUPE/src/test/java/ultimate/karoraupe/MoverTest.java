@@ -65,6 +65,7 @@ public class MoverTest extends KaroRAUPETestcase
 	@Test
 	public void test_processGame() throws InterruptedException, ExecutionException 
 	{
+		int timeout = 5; // seconds
 		int sleep = 500;
 		
 		User user = karoAPI.check().get();
@@ -129,7 +130,7 @@ public class MoverTest extends KaroRAUPETestcase
 		karoAPI.addPlannedMoves(gameId, plannedMoves).get();
 		
 		// and set the config in the notes
-		karoAPI.addNote(gameId, "KaroRAUPE.trigger=always\nKaroRAUPE.timeout=5");
+		karoAPI.addNote(gameId, "KaroRAUPE.trigger=always\nKaroRAUPE.timeout=" + timeout);
 
 		// now move the planned moves with the Mover
 		Mover mover = new Mover(karoAPI, properties, false);
@@ -144,7 +145,7 @@ public class MoverTest extends KaroRAUPETestcase
 		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 
-		Thread.sleep(5000); // wait for timeout
+		Thread.sleep(timeout * 1000); // wait for timeout
 		
 		// move 1st planned move
 		assertTrue(mover.processGame(user.getId(), game));
@@ -157,7 +158,7 @@ public class MoverTest extends KaroRAUPETestcase
 		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 
-		Thread.sleep(5000); // wait for timeout
+		Thread.sleep(timeout * 1000); // wait for timeout
 		
 		// move 2nd planned move (across finish line, this will move the player to 0/0
 		assertTrue(mover.processGame(user.getId(), game));
@@ -233,5 +234,49 @@ public class MoverTest extends KaroRAUPETestcase
 		move = player.getMotion();
 		logger.info(move);
 		assertFalse(Mover.isNotification(move.getMsg()));
+	}
+	
+	@Test
+	public void test_isRemuladeGame()
+	{
+		assertTrue(Mover.isRemuladeGame("§ REmulAde §"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde § some title"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde §some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade §"));
+		assertTrue(Mover.isRemuladeGame("§ remulade § some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade §some title"));
+		
+		assertTrue(Mover.isRemuladeGame("§REmulAde §"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde § some title"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde §some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade §"));
+		assertTrue(Mover.isRemuladeGame("§remulade § some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade §some title"));
+
+		assertTrue(Mover.isRemuladeGame("§ REmulAde§"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde§ some title"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde§some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade§"));
+		assertTrue(Mover.isRemuladeGame("§ remulade§ some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade§some title"));
+
+		assertTrue(Mover.isRemuladeGame("§REmulAde§"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde§ some title"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde§some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade§"));
+		assertTrue(Mover.isRemuladeGame("§remulade§ some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade§some title"));
+		
+		assertFalse(Mover.isRemuladeGame("§RAmulAde§"));
+		assertFalse(Mover.isRemuladeGame("§RAmulAde§ some title"));
+		assertFalse(Mover.isRemuladeGame("§RAmulAde§some title"));
+		assertFalse(Mover.isRemuladeGame("§ramulade§"));
+		assertFalse(Mover.isRemuladeGame("§ramulade§ some title"));
+		assertFalse(Mover.isRemuladeGame("§ramulade§some title"));
+		
+		assertFalse(Mover.isRemuladeGame("some title § REmulAde §"));
+		assertFalse(Mover.isRemuladeGame("some title §REmulAde §"));
+		assertFalse(Mover.isRemuladeGame("some title § REmulAde§"));
+		assertFalse(Mover.isRemuladeGame("some title §REmulAde§"));
 	}
 }
