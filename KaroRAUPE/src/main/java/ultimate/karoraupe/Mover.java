@@ -41,7 +41,7 @@ public class Mover
 	public static final String			KEY_SPECIAL_REMULADE				= KEY_PREFIX + ".remulade";
 	public static final String			KEY_SPECIAL_REMULADE_MESSAGE		= KEY_SPECIAL_REMULADE + ".message";
 	public static final String			KEY_SPECIAL_SINGLEOPTION			= KEY_PREFIX + ".singleoption";
-	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".singleoption";
+	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".message";
 
 	/**
 	 * {@link DateFormat} for log output
@@ -174,7 +174,7 @@ public class Mover
 			// check booleans
 			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
 		}
-		else if(key.equalsIgnoreCase(KEY_MESSAGE))
+		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE))
 		{
 			// nothing to check - this is a string
 			return true;
