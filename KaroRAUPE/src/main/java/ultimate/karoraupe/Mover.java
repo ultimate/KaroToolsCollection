@@ -27,28 +27,26 @@ public class Mover
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger						= LogManager.getLogger(getClass());
+	protected transient final Logger	logger								= LogManager.getLogger(getClass());
 
-	public static final int				TIME_SCALE					= 1000;
+	public static final int				TIME_SCALE							= 1000;
 
 	// define all key lower case!
-	public static final String			KEY_PREFIX					= "karoraupe";
-	public static final String			KEY_TRIGGER					= KEY_PREFIX + ".trigger";
-	public static final String			KEY_TIMEOUT					= KEY_PREFIX + ".timeout";
-	public static final String			KEY_INTERVAL				= KEY_PREFIX + ".interval";
-	public static final String			KEY_MESSAGE					= KEY_PREFIX + ".message";
-	public static final String			KEY_STRICT					= KEY_PREFIX + ".strict";
-	public static final String			KEY_SPECIAL_REMULADE		= KEY_PREFIX + ".remulade";
-	public static final String			KEY_SPECIAL_SINGLEOPTION	= KEY_PREFIX + ".singleoption";
-
-	// special messages
-	public static final String			MSG_SPECIAL_REMULADE		= "RE";
-	public static final String			MSG_SPECIAL_SINGLEOPTION	= "Na toll... Nur eine Möglichkeit...";
+	public static final String			KEY_PREFIX							= "karoraupe";
+	public static final String			KEY_TRIGGER							= KEY_PREFIX + ".trigger";
+	public static final String			KEY_TIMEOUT							= KEY_PREFIX + ".timeout";
+	public static final String			KEY_INTERVAL						= KEY_PREFIX + ".interval";
+	public static final String			KEY_MESSAGE							= KEY_PREFIX + ".message";
+	public static final String			KEY_STRICT							= KEY_PREFIX + ".strict";
+	public static final String			KEY_SPECIAL_REMULADE				= KEY_PREFIX + ".remulade";
+	public static final String			KEY_SPECIAL_REMULADE_MESSAGE		= KEY_SPECIAL_REMULADE + ".message";
+	public static final String			KEY_SPECIAL_SINGLEOPTION			= KEY_PREFIX + ".singleoption";
+	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".singleoption";
 
 	/**
 	 * {@link DateFormat} for log output
 	 */
-	private static final DateFormat		DATE_FORMAT					= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	private static final DateFormat		DATE_FORMAT							= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
 	 * The default / fallback config
@@ -360,10 +358,6 @@ public class Mover
 					return false;
 				}
 
-				String message = null;
-				if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
-					message = gameConfig.getProperty(KEY_MESSAGE);
-
 				// check remulade stuff
 				Move repeatMove = null;
 				for(Move m : player.getPossibles())
@@ -379,20 +373,16 @@ public class Mover
 				if(isRemuladeGame(game.getName()) && !anybodyMoved && (repeatMove != null) && !reProtection && special_remulade)
 				{
 					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> REmulAde");
-					if(message != null)
-						message += " (" + MSG_SPECIAL_REMULADE + ")";
-					else
-						message = MSG_SPECIAL_REMULADE;
 					m = repeatMove;
+					if(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE).isEmpty())
+						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE));
 				}
 				else if(player.getPossibles().size() == 1 && special_singleOption)
 				{
 					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Single-Option");
-					if(message != null)
-						message += " (" + MSG_SPECIAL_SINGLEOPTION + ")";
-					else
-						message = MSG_SPECIAL_SINGLEOPTION;
 					m = player.getPossibles().get(0);
+					if(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE).isEmpty())
+						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE));
 				}
 				else if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
 				{
@@ -417,8 +407,9 @@ public class Mover
 						return false;
 					}
 					m = options.get(0);
+					if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
+						m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 				}
-				m.setMsg(message);
 
 				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
 						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
