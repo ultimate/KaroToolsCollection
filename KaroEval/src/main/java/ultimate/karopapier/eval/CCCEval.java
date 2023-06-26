@@ -130,6 +130,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		this.stats_challengesCreated = 0;
 		this.stats_gamesCreated = 0;
 		boolean allCreated;
+		int created;
 		int offset = 0;
 		List<PlannedGame> games = gameSeries.getGames().get(GAMES_KEY);
 		for(int c = 0; c < this.stats_challengesTotal; c++)
@@ -148,13 +149,18 @@ public abstract class CCCEval extends Eval<GameSeries>
 			this.gameMetrics[c] = new double[this.challengeGames[c]][];
 			// check if all games in this challenge have been created
 			allCreated = true;
+			created = 0;
 			for(int g = 0; g < this.challengeGames[c]; g++)
 			{
 				if(games.get(offset + g).getGame() != null)
+				{
 					this.stats_gamesCreated++;
+					created++;
+				}
 				else
 					allCreated = false;
 			}
+			logger.info("challenge #" + c + " expected games: " + this.challengeGames[c] + " created: " + created);
 			if(allCreated)
 				this.stats_challengesCreated++;
 			offset += this.challengeGames[c];
