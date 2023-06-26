@@ -581,7 +581,10 @@ public abstract class JSONUtil
 			{
 				if(lookUp != null)
 				{
-					return lookUp.get(classRef, id);
+					logger.trace("lookup " + classRef.getSimpleName() + " #" + id);
+					T result = lookUp.get(classRef, id);
+					logger.debug("lookup " + classRef.getSimpleName() + " #" + id + " --> " + result);
+					return result;
 				}
 				else
 				{
@@ -592,7 +595,7 @@ public abstract class JSONUtil
 			}
 			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
 			{
-				logger.error("could instantiate Identifiable", e);
+				logger.error("could not instantiate Identifiable", e);
 			}
 			return null;
 		}
