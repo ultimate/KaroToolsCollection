@@ -2173,7 +2173,7 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "game" : 136901,
+	  "game" : 136901,
       "created" : true,
       "left" : true
     }, {
@@ -2186,7 +2186,7 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "game" : 136885,
+	  "game" : 136885,
       "created" : true,
       "left" : true
     }, {
@@ -5969,7 +5969,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138422,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.2 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -5979,7 +5981,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138436,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.3 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -5989,7 +5993,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138433,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.4 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -5999,7 +6005,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138428,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.5 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6009,7 +6017,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138435,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.6 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6019,7 +6029,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138444,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.7 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6029,7 +6041,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138426,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.8 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6039,7 +6053,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138431,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.9 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6049,7 +6065,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138440,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.10 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6059,7 +6077,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138432,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.11 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6069,7 +6089,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138434,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.12 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6079,7 +6101,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138430,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.13 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6089,7 +6113,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138442,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.14 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6099,7 +6125,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138429,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.15 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6109,7 +6137,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138427,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.16 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6119,7 +6149,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138423,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.17 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6129,7 +6161,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138438,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.18 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6139,7 +6173,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138437,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.19 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6149,7 +6185,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138439,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.20 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6159,7 +6197,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138443,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.21 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6169,7 +6209,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138424,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.22 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6179,7 +6221,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138441,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.23 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6189,7 +6233,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138425,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 15.24 - Karte 13 | 6er Challenge | ZZZ=13",
       "map" : 13,
@@ -6199,7 +6245,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138445,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.1 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6209,7 +6257,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138590,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.2 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6219,7 +6269,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138605,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.3 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6229,7 +6281,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138609,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.4 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6239,7 +6293,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138613,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.5 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6249,7 +6305,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138608,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.6 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6259,7 +6317,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138602,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.7 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6269,7 +6329,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138603,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.8 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6279,7 +6341,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138598,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.9 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6289,7 +6353,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138607,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.10 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6299,7 +6365,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138601,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.11 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6309,7 +6377,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138604,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.12 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6319,7 +6389,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138606,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.13 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6329,7 +6401,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138611,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.14 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6339,7 +6413,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138591,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.15 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6349,7 +6425,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138615,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.16 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6359,7 +6437,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138592,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.17 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6369,7 +6449,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138610,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.18 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6379,7 +6461,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138612,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.19 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6389,7 +6473,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138616,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.20 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6399,7 +6485,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138593,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.21 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6409,7 +6497,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138617,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.22 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6419,7 +6509,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138614,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.23 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6429,7 +6521,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138619,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.24 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6439,7 +6533,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138621,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.25 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6449,7 +6545,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138634,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.26 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6459,7 +6557,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138618,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.27 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6469,7 +6569,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138594,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.28 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6479,7 +6581,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138620,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.29 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6489,7 +6593,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138622,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.30 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6499,7 +6605,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138626,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.31 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6509,7 +6617,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138627,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.32 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6519,7 +6629,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138623,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.33 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6529,7 +6641,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138595,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.34 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6539,7 +6653,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138633,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.35 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6549,7 +6665,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138624,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.36 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6559,7 +6677,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138630,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.37 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6569,7 +6689,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138628,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.38 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6579,7 +6701,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138596,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.39 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6589,7 +6713,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138632,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.40 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6599,7 +6725,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138625,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.41 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6609,7 +6737,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138597,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.42 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6619,7 +6749,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138637,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.43 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6629,7 +6761,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138631,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.44 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6639,7 +6773,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138629,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.45 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6649,7 +6785,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138599,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.46 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6659,7 +6797,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138635,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.47 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6669,7 +6809,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138600,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 16.48 - Karte 10058 | 3er Challenge | ZZZ=13",
       "map" : 10058,
@@ -6679,7 +6821,9 @@
         "cps" : true,
         "startdirection" : "free",
         "crashallowed" : "allowed"
-      }
+      },
+      "game" : 138636,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 6 - Challenge 17.1 - Karte 10043 | 4er Challenge | ZZZ=11",
       "map" : 10043,
