@@ -423,8 +423,11 @@ public class KaroAPICache implements IDLookUp
 			ReflectionsUtil.copyFields(user, this.usersById.get(user.getId()), false);
 		else
 		{
-			this.usersById.put(user.getId(), user);
-			this.usersByLogin.put(user.getLoginLowerCase(), user);
+			synchronized(this.usersById)
+			{
+				this.usersById.put(user.getId(), user);
+				this.usersByLogin.put(user.getLoginLowerCase(), user);
+			}
 		}
 		return this.usersById.get(user.getId());
 	}
@@ -453,7 +456,7 @@ public class KaroAPICache implements IDLookUp
 		{
 			if(nameOrId.equalsIgnoreCase("%desperate"))
 			{
-				//logger.debug("fetching desperate users...");
+				// logger.debug("fetching desperate users...");
 				try
 				{
 					for(User desperate : karoAPI.getUsers(null, null, true).get())
@@ -480,7 +483,7 @@ public class KaroAPICache implements IDLookUp
 					logger.error("could not fetch user", nameOrId);
 			}
 		}
-		
+
 		return users;
 	}
 
@@ -548,7 +551,12 @@ public class KaroAPICache implements IDLookUp
 		if(this.gamesById.containsKey(game.getId()))
 			ReflectionsUtil.copyFields(game, this.gamesById.get(game.getId()), false);
 		else
-			this.gamesById.put(game.getId(), game);
+		{
+			synchronized(this.gamesById)
+			{
+				this.gamesById.put(game.getId(), game);
+			}
+		}
 		return this.gamesById.get(game.getId());
 	}
 
@@ -616,7 +624,12 @@ public class KaroAPICache implements IDLookUp
 		if(this.mapsById.containsKey(map.getId()))
 			ReflectionsUtil.copyFields(map, this.mapsById.get(map.getId()), false);
 		else
-			this.mapsById.put(map.getId(), map);
+		{
+			synchronized(this.mapsById)
+			{
+				this.mapsById.put(map.getId(), map);
+			}
+		}
 		return this.mapsById.get(map.getId());
 	}
 
@@ -857,17 +870,50 @@ public class KaroAPICache implements IDLookUp
 		T t = null;
 		if(User.class.equals(cls))
 		{
-			t = (T) this.usersById.remove(id);
-			if(t != null)
-				this.usersByLogin.remove(((User) t).getLoginLowerCase());
+			synchronized(this.usersById)
+			{
+				t = (T) this.usersById.remove(id);
+				if(t != null)
+					this.usersByLogin.remove(((User) t).getLoginLowerCase());
+			}
 		}
 		else if(Game.class.equals(cls))
-			t = (T) this.gamesById.remove(id);
+		{
+			synchronized(this.gamesById)
+			{
+				t = (T) this.gamesById.remove(id);
+			}
+		}
 		else if(Map.class.equals(cls))
-			t = (T) this.mapsById.remove(id);
+		{
+			synchronized(this.mapsById)
+			{
+				t = (T) this.mapsById.remove(id);
+			}
+		}
 		else
 			logger.error("unsupported lookup type: " + cls.getName());
 		return t != null;
+	}
+
+	/**
+	 * clear the entire cache
+	 */
+	<T> void clear()
+	{
+		synchronized(this.usersById)
+		{
+			this.usersById.clear();
+			this.usersByLogin.clear();
+		}
+		synchronized(this.gamesById)
+		{
+			this.gamesById.clear();
+		}
+		synchronized(this.mapsById)
+		{
+			this.mapsById.clear();
+		}
 	}
 
 	/**
