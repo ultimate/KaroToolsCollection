@@ -8,12 +8,18 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
@@ -273,5 +279,85 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		assertTrue(karoAPICache.contains(user));
 		assertTrue(user == karoAPICache.getUser(1));
 		assertEquals(userName, user.getLogin());
+	}
+	
+	@Disabled
+	@ParameterizedTest
+	@ValueSource(ints = { 10, 100, 1000, 500, 300, 800, 5000 })
+	public void test_stressTest(int numberOfGamesToLoad) throws InterruptedException, ExecutionException, TimeoutException
+	{
+		karoAPICache.clear();
+
+		int gidStart = 100000;
+
+		java.util.Map<Integer, Game> gamesLoaded = Collections.synchronizedMap(new TreeMap<Integer, Game>());
+
+		// load some games
+		for(int i = 0; i < numberOfGamesToLoad; i++)
+		{
+			final int gid = gidStart + i;
+			gamesLoaded.put(gid, karoAPICache.getGame(gid));
+		}
+
+		logger.info("gamesLoaded = " + gamesLoaded.size());
+		logger.info("gamesById   = " + karoAPICache.getGamesById().size());
+
+		int error_gamesLoaded = 0;
+		int ok_gamesLoaded = 0;
+		int error_karoAPICache = 0;
+		int ok_karoAPICache = 0;
+		for(int i = 0; i < numberOfGamesToLoad; i++)
+		{
+			final int gid = gidStart + i;
+			
+			if(!gamesLoaded.containsKey(gid))
+			{
+				logger.error("gamesLoaded: " + gid + " not found");
+				error_gamesLoaded++;
+			}
+			else if(gamesLoaded.get(gid) == null)
+			{
+				logger.error("gamesLoaded: " + gid + " is null");
+				error_gamesLoaded++;
+			}
+			else if(gamesLoaded.get(gid).getId() != gid)
+			{
+				logger.error("gamesLoaded: " + gid + " has wrong id");
+				error_gamesLoaded++;
+			}
+			else
+			{
+				ok_gamesLoaded++;
+			}
+			
+			if(!karoAPICache.getGamesById().containsKey(gid))
+			{
+				logger.error("gamesById:   " + gid + " not found");
+				error_karoAPICache++;
+			}
+			else if(karoAPICache.getGamesById().get(gid) == null)
+			{
+				logger.error("gamesById:   " + gid + " is null");
+				error_karoAPICache++;
+			}
+			else if(karoAPICache.getGamesById().get(gid).getId() != gid)
+			{
+				logger.error("gamesById:   " + gid + " has wrong id");
+				error_karoAPICache++;
+			}
+			else
+			{
+				ok_karoAPICache++;
+			}
+		}
+		
+		assertEquals(0, error_gamesLoaded);
+		assertEquals(0, error_karoAPICache);
+		
+		assertEquals(numberOfGamesToLoad, ok_gamesLoaded);
+		assertEquals(numberOfGamesToLoad, ok_karoAPICache);
+		
+		assertEquals(numberOfGamesToLoad, gamesLoaded.size());
+		assertEquals(numberOfGamesToLoad, karoAPICache.getGamesById().size());
 	}
 }
