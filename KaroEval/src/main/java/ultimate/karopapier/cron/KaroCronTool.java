@@ -4,16 +4,20 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -125,24 +129,46 @@ public class KaroCronTool
 		// check games to create
 		if(gameseriesCreate || gameseriesLeave)
 		{
-			logger.info("checking for games to create / leave... ");
-			List<PlannedGame> gamesToCreate = findGamesToCreate(karoAPICache, gs, properties, executions);
-			logger.info("total to create: " + gamesToCreate.size());
+			boolean refreshNeeded = false;
+			
+			Set<PlannedGame> handledGames = new HashSet<>();
 
-			// create games
-			if(gamesToCreate.size() > 0)
+			if(gameseriesCreate)
 			{
-				if(gamesToCreate.size() > 0 && gameseriesCreate)
+				logger.info("checking for games to create... ");
+				List<PlannedGame> gamesToCreate = findGames(karoAPICache, gs, properties, executions, pg -> {
+					return pg.isCreated();
+				});
+				logger.info("total to create: " + gamesToCreate.size());
+				// create games
+				if(gamesToCreate.size() > 0)
 				{
 					logger.info("creating games... ");
 					creator.createGames(gamesToCreate, null).join();
+					handledGames.addAll(gamesToCreate);
+					refreshNeeded = true;
 				}
-				if(gamesToCreate.size() > 0 && gameseriesLeave)
+			}
+
+			if(gameseriesLeave)
+			{
+				logger.info("checking for games to leave... ");
+				List<PlannedGame> gamesToLeave = findGames(karoAPICache, gs, properties, executions, pg -> {
+					return pg.isLeft();
+				});
+				logger.info("total to leave: " + gamesToLeave.size());
+				// leave games
+				if(gamesToLeave.size() > 0)
 				{
 					logger.info("leaving games... ");
-					creator.leaveGames(gamesToCreate, null).join();
+					creator.leaveGames(gamesToLeave, null).join();
+					handledGames.addAll(gamesToLeave);
+					refreshNeeded = true;
 				}
+			}
 
+			if(refreshNeeded)
+			{
 				logger.info("saving gameseries & creating backup...");
 				File backupFile = new File(gameseriesFile.getPath() + "." + (executions - 1));
 				if(backupFile.exists())
@@ -162,9 +188,9 @@ public class KaroCronTool
 				}
 
 				logger.info("refreshing games to retrieve players...");
-				CompletableFuture<Game>[] refreshs = new CompletableFuture[gamesToCreate.size()];
+				CompletableFuture<Game>[] refreshs = new CompletableFuture[handledGames.size()];
 				int i = 0;
-				for(PlannedGame pg: gamesToCreate)
+				for(PlannedGame pg : handledGames)
 				{
 					if(pg.getGame() == null)
 						logger.warn("game reference is null: " + pg.getName());
@@ -199,9 +225,14 @@ public class KaroCronTool
 				eval.prepare(karoAPICache, gs, evalProperties, new File("."), executions);
 				wikiFiles = eval.evaluate();
 			}
-			catch(Exception e)
+			catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | ClassNotFoundException e)
 			{
 				exit("could not instantiate eval class", e);
+				return;
+			}
+			catch(Exception e)
+			{
+				exit("error during evaluation", e);
 				return;
 			}
 		}
@@ -265,7 +296,7 @@ public class KaroCronTool
 		exit(null, null);
 	}
 
-	public static List<PlannedGame> findGamesToCreate(KaroAPICache karoAPICache, GameSeries gs, Properties p, int execution)
+	public static List<PlannedGame> findGames(KaroAPICache karoAPICache, GameSeries gs, Properties p, int execution, Predicate<? super PlannedGame> filter)
 	{
 		Date today = new Date();
 		List<PlannedGame> games = new LinkedList<>();
@@ -303,22 +334,21 @@ public class KaroCronTool
 				});
 			foundWithPattern = gamesTmp.size();
 			logger.debug("  matching pattern         = " + foundWithPattern);
-			gamesTmp.removeIf(pg -> {
-				return pg.isCreated() && pg.isLeft();
-			});
+			if(filter != null)
+				gamesTmp.removeIf(filter.negate());
 			foundToCreate = gamesTmp.size();
-			logger.debug("  not created and left     = " + foundToCreate);
+			logger.debug("  matching filter          = " + foundToCreate);
 
 			if(isReady(when, execution, today))
 			{
 				logger.info("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " (" + foundWithKey + ") \tpattern=" + pattern + " (" + foundWithPattern + ") \t-> " + foundToCreate
-						+ " to create now");
+						+ " matching now");
 				games.addAll(gamesTmp);
 			}
 			else
 			{
 				logger.info("finding games: #" + i + " \t when=" + when + " \tkey=" + key + " (" + foundWithKey + ") \tpattern=" + pattern + " (" + foundWithPattern + ") \t-> " + foundToCreate
-						+ " to be created later (date not yet reached)");
+						+ " matching later (date not yet reached)");
 			}
 		}
 		return games;
