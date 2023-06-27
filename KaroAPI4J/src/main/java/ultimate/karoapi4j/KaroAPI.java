@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
@@ -94,10 +95,9 @@ public class KaroAPI implements IDLookUp
 	private static String					version;
 	/**
 	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
-	 * across multiple
-	 * instances of the {@link KaroAPI}.
+	 * across multiple instances of the {@link KaroAPI}.
 	 */
-	private static ExecutorService			executor;
+	private static ExecutorService			executor	= Executors.newFixedThreadPool(10);
 
 	/**
 	 * The name of the application using the {@link KaroAPI}
@@ -162,19 +162,21 @@ public class KaroAPI implements IDLookUp
 
 	public static String getUserAgent()
 	{
-		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
+		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java "
+				+ System.getProperty("java.version") + ")";
 	}
 
 	/**
 	 * Set a new {@link ExecutorService}:<br>
 	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
-	 * across multiple
-	 * instances of the {@link KaroAPI}.
+	 * across multiple instances of the {@link KaroAPI}.
 	 * 
 	 * @param e - the new {@link ExecutorService}
 	 */
 	public static void setExecutor(ExecutorService e)
 	{
+		if(e == null)
+			throw new IllegalArgumentException("executor must not be null!");
 		executor = e;
 	}
 
@@ -216,10 +218,12 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES_MAP			= (result) -> {
-																												return CollectionsUtil.flattenMap(CollectionsUtil.toMap(PARSER_NOTES_LIST.apply(result)), "text");
+																												return CollectionsUtil
+																														.flattenMap(CollectionsUtil.toMap(PARSER_NOTES_LIST.apply(result)), "text");
 																											};
 	public static final Function<String, java.util.Map<Integer, List<Move>>>	PARSER_MOVES_MAP			= (result) -> {
-																												return CollectionsUtil.flattenMap(CollectionsUtil.toMap(PARSER_MOVES_LIST.apply(result)), "moves");
+																												return CollectionsUtil
+																														.flattenMap(CollectionsUtil.toMap(PARSER_MOVES_LIST.apply(result)), "moves");
 																											};
 	// public static final Function<String, java.util.Map<Integer, String>> PARSER_NOTES_LIST = (result) -> {
 	// return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
@@ -423,12 +427,8 @@ public class KaroAPI implements IDLookUp
 	 */
 	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
 	{
-		CompletableFuture<T> cf;
-		// check whether an Executor is set. If not use the default.
-		if(executor != null)
-			cf = CompletableFuture.supplyAsync(backgroundLoader, executor).thenApply(parser);
-		else
-			cf = CompletableFuture.supplyAsync(backgroundLoader).thenApply(parser);
+		// Important: use the set executor to limit the stress on the API
+		CompletableFuture<T> cf = CompletableFuture.supplyAsync(backgroundLoader, executor).thenApply(parser);
 
 		if(retries > 0)
 		{
@@ -691,7 +691,7 @@ public class KaroAPI implements IDLookUp
 		List<java.util.Map<String, Object>> argsList = new LinkedList<>();
 		if(moves != null)
 		{
-			for(Move m: moves)
+			for(Move m : moves)
 			{
 				HashMap<String, Object> args = new HashMap<>();
 				args.put("x", "" + m.getX());
