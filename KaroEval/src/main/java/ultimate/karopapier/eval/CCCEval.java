@@ -319,6 +319,8 @@ public abstract class CCCEval extends Eval<GameSeries>
 		row[col++] = "Gesamt-Statistik";
 		// Strecke
 		row[col++] = "";
+		// Teilnehmer
+		row[col++] = "";
 		// Spielerzahl
 		row[col++] = "";
 		// ZZZ
@@ -344,7 +346,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 		// Ø Crashs p.S.p.R.
 		row[col++] = totalStats.crashs / (double) (stats_gamesPerPlayerPerChallenge * stats_players * stats_challengesTotal);
 		mapTable.addRow(row);
-		mapTable.getRow(mapTable.getRows().size() - 1)[0].colspan = 5;
+		mapTable.getRow(mapTable.getRows().size() - 1)[0].colspan = 6;
 
 		StringBuilder total = new StringBuilder();
 
