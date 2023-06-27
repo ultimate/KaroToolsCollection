@@ -585,6 +585,7 @@ public abstract class JSONUtil
 					T result = lookUp.get(classRef, id);
 					logger.debug("lookup " + classRef.getSimpleName() + " #" + id + " --> " + result);
 					return result;
+					// TODO how to handly null? Eventually create an empty item with just the ID set? 
 				}
 				else
 				{
