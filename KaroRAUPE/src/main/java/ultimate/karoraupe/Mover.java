@@ -453,7 +453,7 @@ public class Mover
 						m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 				}
 
-				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+				logger.info("  GID = " + game.getId() + " --> MOVING   --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
 						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
 
 				if(!debug)
