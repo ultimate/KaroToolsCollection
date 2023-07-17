@@ -1,0 +1,9 @@
+karoAPI.user=****
+karoAPI.password=****
+karoAPI.images=false
+karoRAUPE.trigger=nomessage
+karoRAUPE.timeout=300
+karoRAUPE.interval=300
+karoRAUPE.message=
+karoRAUPE.strict=false
+#karoRAUPE.remulade=true
