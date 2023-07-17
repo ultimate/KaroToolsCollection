@@ -410,7 +410,7 @@ public class Mover
 				{
 					if(special_random)
 					{
-						double maxSpeed = Integer.parseInt(gameConfig.getProperty(KEY_MESSAGE, "99"));
+						double maxSpeed = Integer.parseInt(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MAXSPEED, "99"));
 						player.getPossibles().removeIf(mi -> { return (mi.getXv() * mi.getXv() + mi.getYv() * mi.getYv()) > (maxSpeed * maxSpeed); });
 						if(player.getPossibles().size() > 0)
 						{
