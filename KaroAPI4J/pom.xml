@@ -52,7 +52,7 @@
 					</descriptors>
 					<archive>
 						<manifest>
-							<mainClass>ultimate.karoabi4j.Demo</mainClass>
+							<mainClass>ultimate.karoapi4j.Demo</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
