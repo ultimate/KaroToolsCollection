@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +43,9 @@ public class Mover
 	public static final String			KEY_SPECIAL_REMULADE_MESSAGE		= KEY_SPECIAL_REMULADE + ".message";
 	public static final String			KEY_SPECIAL_SINGLEOPTION			= KEY_PREFIX + ".singleoption";
 	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".message";
+	public static final String			KEY_SPECIAL_RANDOM					= KEY_PREFIX + ".random";
+	public static final String			KEY_SPECIAL_RANDOM_MAXSPEED			= KEY_SPECIAL_RANDOM + ".maxspeed";
+	public static final String			KEY_SPECIAL_RANDOM_MESSAGE			= KEY_SPECIAL_RANDOM + ".message";
 
 	/**
 	 * {@link DateFormat} for log output
@@ -86,6 +90,10 @@ public class Mover
 	 * Is the {@link Mover} set to debug? This will disable move execution
 	 */
 	private boolean		debug;
+	/**
+	 * Random used for random moving
+	 */
+	private Random random = new Random();
 
 	/**
 	 * Initiate the Mover.<br>
@@ -169,12 +177,25 @@ public class Mover
 				return false;
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION))
+		else if(key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MAXSPEED))
+		{
+			// check numbers
+			try
+			{
+				double numberValue = Double.parseDouble(value);
+				return numberValue >= 0;
+			}
+			catch(NumberFormatException | NullPointerException e)
+			{
+				return false;
+			}
+		}
+		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM))
 		{
 			// check booleans
 			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
 		}
-		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE))
+		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MESSAGE))
 		{
 			// nothing to check - this is a string
 			return true;
@@ -250,6 +271,7 @@ public class Mover
 				EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(KEY_TRIGGER)).standardize();
 				boolean special_remulade = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REMULADE));
 				boolean special_singleOption = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION));
+				boolean special_random = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_RANDOM));
 				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
 
 				if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
@@ -386,8 +408,28 @@ public class Mover
 				}
 				else if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
 				{
-					logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
-					return false;
+					if(special_random)
+					{
+						double maxSpeed = Integer.parseInt(gameConfig.getProperty(KEY_MESSAGE, "99"));
+						player.getPossibles().removeIf(mi -> { return (mi.getXv() * mi.getXv() + mi.getYv() * mi.getYv()) > (maxSpeed * maxSpeed); });
+						if(player.getPossibles().size() > 0)
+						{
+							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
+							m = player.getPossibles().get(random.nextInt(player.getPossibles().size()) );
+							if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
+								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
+						}
+						else
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
+							return false;
+						}
+					}
+					else
+					{
+						logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
+						return false;
+					}
 				}
 				else
 				{
