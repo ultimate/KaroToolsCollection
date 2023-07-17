@@ -46,6 +46,9 @@ public class Mover
 	public static final String			KEY_SPECIAL_RANDOM					= KEY_PREFIX + ".random";
 	public static final String			KEY_SPECIAL_RANDOM_MAXSPEED			= KEY_SPECIAL_RANDOM + ".maxspeed";
 	public static final String			KEY_SPECIAL_RANDOM_MESSAGE			= KEY_SPECIAL_RANDOM + ".message";
+	public static final String			KEY_SPECIAL_REPEAT					= KEY_PREFIX + ".repeat";
+	public static final String			KEY_SPECIAL_REPEAT_MOVES			= KEY_SPECIAL_REPEAT + ".moves";
+	public static final String			KEY_SPECIAL_REPEAT_MESSAGE			= KEY_SPECIAL_REPEAT + ".message";
 
 	/**
 	 * {@link DateFormat} for log output
@@ -164,9 +167,9 @@ public class Mover
 				return false;
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_TIMEOUT) || key.equalsIgnoreCase(KEY_INTERVAL))
+		else if(key.equalsIgnoreCase(KEY_TIMEOUT) || key.equalsIgnoreCase(KEY_INTERVAL) || key.equalsIgnoreCase(KEY_SPECIAL_REPEAT_MOVES))
 		{
-			// check numbers
+			// check ints
 			try
 			{
 				int numberValue = Integer.parseInt(value);
@@ -179,7 +182,7 @@ public class Mover
 		}
 		else if(key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MAXSPEED))
 		{
-			// check numbers
+			// check doubles
 			try
 			{
 				double numberValue = Double.parseDouble(value);
@@ -190,12 +193,12 @@ public class Mover
 				return false;
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM))
+		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM) || key.equalsIgnoreCase(KEY_SPECIAL_REPEAT))
 		{
 			// check booleans
 			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
 		}
-		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MESSAGE))
+		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REPEAT_MESSAGE))
 		{
 			// nothing to check - this is a string
 			return true;
@@ -272,6 +275,7 @@ public class Mover
 				boolean special_remulade = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REMULADE));
 				boolean special_singleOption = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION));
 				boolean special_random = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_RANDOM));
+				boolean special_repeat = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REPEAT));
 				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
 
 				if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
@@ -410,7 +414,7 @@ public class Mover
 				{
 					if(special_random)
 					{
-						double maxSpeed = Integer.parseInt(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MAXSPEED, "99"));
+						double maxSpeed = Double.parseDouble(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MAXSPEED, "99"));
 						player.getPossibles().removeIf(mi -> { return (mi.getXv() * mi.getXv() + mi.getYv() * mi.getYv()) > (maxSpeed * maxSpeed); });
 						if(player.getPossibles().size() > 0)
 						{
@@ -422,6 +426,31 @@ public class Mover
 						else
 						{
 							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
+							return false;
+						}
+					}
+					else if(special_repeat)
+					{
+						int moves = Integer.parseInt(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MOVES, "1"));
+						int index = player.getMoves().size() - moves;
+						if(index > 0 && !player.getMoves().get(index).isCrash())
+						{
+							m = player.getMoves().get(index);
+							m.setX(player.getMotion().getX() + m.getXv()); // overwrite
+							m.setY(player.getMotion().getY() + m.getYv()); // overwrite
+							m.setMsg(""); // clear
+							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Repeat move n-" + moves + ": xv=" + m.getXv() + ", yv=" + m.getYv());
+							if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
+								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
+						}
+						else if(index > 0 && player.getMoves().get(index).isCrash())
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Repeat not possible - move n-" + moves + " was a crash");
+							return false;
+						}
+						else
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Repeat not possible - enough moves: " + moves + " (round=" + player.getMoveCount() + ")");
 							return false;
 						}
 					}
@@ -444,7 +473,7 @@ public class Mover
 					}
 					else if(options.size() > 1)
 					{
-						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = " + options.size() + (strict ? " (strict)" : ")")
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = " + options.size() + (strict ? " (strict)" : "")
 								+ " --> can't decide");
 						return false;
 					}
