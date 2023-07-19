@@ -56,5 +56,7 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''20.11.2022 19:30''' Es geht los!!! Den ersten Spieltag habe ich manuell angestossen - alle folgenden kommen dann immer Sonntags um 4:00 Uhr
 * '''10.05.2023 10:00''' Fine-Tuning der Wertung
 * '''29.05.2023 19:00''' Da {{Benutzer|DerFlieger}} inaktiv ist, wurde er aus allen weiteren Challenges entfernt (also ab Challenge 15)
+* '''27.06.2023 18:00''' Bug-Fix im Auswertungs-Skript
+* '''19.07.2023 13:00''' Bug-Fix zum Bug-Fix im Auswertungs-Skript (Challenge 17 & 18 wurde nicht erstellt und werden jetzt nachgeholt)
 
 [[Kategorie:Meisterschaft]]
