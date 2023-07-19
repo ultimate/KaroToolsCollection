@@ -137,7 +137,7 @@ public class KaroCronTool
 			{
 				logger.info("checking for games to create... ");
 				List<PlannedGame> gamesToCreate = findGames(karoAPICache, gs, properties, executions, pg -> {
-					return pg.isCreated();
+					return !pg.isCreated();
 				});
 				logger.info("total to create: " + gamesToCreate.size());
 				// create games
@@ -154,7 +154,7 @@ public class KaroCronTool
 			{
 				logger.info("checking for games to leave... ");
 				List<PlannedGame> gamesToLeave = findGames(karoAPICache, gs, properties, executions, pg -> {
-					return pg.isLeft();
+					return !pg.isLeft();
 				});
 				logger.info("total to leave: " + gamesToLeave.size());
 				// leave games
