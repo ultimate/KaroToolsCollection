@@ -440,8 +440,8 @@ public class Mover
 							m.setY(player.getMotion().getY() + m.getYv()); // overwrite
 							m.setMsg(""); // clear
 							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Repeat move n-" + moves + ": xv=" + m.getXv() + ", yv=" + m.getYv());
-							if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
-								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
+							if(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE).isEmpty())
+								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE));
 						}
 						else if(index > 0 && player.getMoves().get(index).isCrash())
 						{
