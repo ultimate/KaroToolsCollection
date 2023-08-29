@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -314,7 +315,9 @@ public class Mover
 				Date lastMoveDate = game.getStarteddate();
 				boolean messageFound = false;
 				boolean notificationFound = false;
-				boolean anybodyMoved = false;
+				int othersMoved = 0;
+				int playersThisRound = 0;
+				Player lastRE, currentRE; // TODO find those
 
 				boolean reProtection = false;
 				int repeatX = lastPlayerMove.getX() + lastPlayerMove.getXv();
@@ -322,11 +325,13 @@ public class Mover
 
 				for(Player p : game.getPlayers())
 				{
+					playersThisRound++; // TODO how to ignore players that already finished
+
 					if(p.getMoves() == null)
 						continue;
 
 					if(p.isMoved() && p != player)
-						anybodyMoved = true;
+						othersMoved++;
 
 					if(p.getMotion() != null && p.getMotion().getX() == repeatX && p.getMotion().getY() == repeatY)
 						reProtection = true;
@@ -391,14 +396,19 @@ public class Mover
 					if(m.getXv() == player.getMotion().getXv() && m.getYv() == player.getMotion().getYv())
 						repeatMove = m;
 				}
+				boolean canRepeat = (repeatMove != null);
+				int playersThatNeedToRepeat = (playersThisRound > 3 ? playersThisRound / 7 + 1 : (lastRE == currentRE ? 0 : 1));
+				boolean needsToRepeat = (othersMoved < playersThatNeedToRepeat) && canRepeat && (!reProtection);
 				if(isRemuladeGame(game.getName()))
-					logger.debug("  GID = " + game.getId() + " --> RemulAde: RE = " + (!anybodyMoved) + ", canRepeat = " + (repeatMove != null) + ", reProtection = " + reProtection + ", activated = "
+					logger.debug("  GID = " + game.getId() + " --> RemulAde: needsToRepeat = " + needsToRepeat + "(othersMoved = " + othersMoved + ", canRepeat = " + canRepeat + ", reProtection = " + reProtection + "), activated = "
 							+ special_remulade);
 
 				Move m;
-				if(isRemuladeGame(game.getName()) && !anybodyMoved && (repeatMove != null) && !reProtection && special_remulade)
+				String selectionMode;
+				if(isRemuladeGame(game.getName()) && needsToRepeat && special_remulade)
 				{
 					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> REmulAde");
+					selectionMode = "REmulAde";
 					m = repeatMove;
 					if(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE).isEmpty())
 						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE));
@@ -406,6 +416,7 @@ public class Mover
 				else if(player.getPossibles().size() == 1 && special_singleOption)
 				{
 					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Single-Option");
+					selectionMode = "Single-Option";
 					m = player.getPossibles().get(0);
 					if(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE).isEmpty())
 						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE));
@@ -419,9 +430,11 @@ public class Mover
 						if(player.getPossibles().size() > 0)
 						{
 							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
+							selectionMode = "Random";
 							m = player.getPossibles().get(random.nextInt(player.getPossibles().size()) );
 							if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
 								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
+
 						}
 						else
 						{
@@ -435,6 +448,7 @@ public class Mover
 						int index = player.getMoves().size() - moves;
 						if(index > 0 && !player.getMoves().get(index).isCrash())
 						{
+							selectionMode = "Repeat";
 							m = player.getMoves().get(index);
 							m.setX(player.getMotion().getX() + m.getXv()); // overwrite
 							m.setY(player.getMotion().getY() + m.getYv()); // overwrite
@@ -462,27 +476,66 @@ public class Mover
 				}
 				else
 				{
-					boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
-					List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves(), strict);
-					logger.debug("  GID = " + game.getId() + " --> " + options);
+					List<PlannedMoveWithPredecessor> plannedPossibles = findPlannedPossibles(lastPlayerMove, player.getPossibles(), game.getPlannedMoves());
+					
+					// create separate list with only planned moves which have the current move as a predessor
+					List<PlannedMoveWithPredecessor> plannedPossibles_strict = new ArrayList<>(plannedPossibles);
+					plannedPossibles_strict.removeIf(pmwp -> {return !pmwp.strict;});
+					
+					logger.debug("  GID = " + game.getId() + " --> " + plannedPossibles);
 
-					if(options.size() == 0)
-					{
-						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = 0" + (strict ? " (strict)" : ""));
-						return false;
+					boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
+					if(strict)
+					{					
+						if(plannedPossibles_strict.size() == 0)
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
+							return false;
+						}
+						else if(plannedPossibles_strict.size() > 1)
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
+							return false;
+						}
+						else
+						{	
+							selectionMode = "Planned-Strict";				
+							m = plannedPossibles_strict.get(0).plannedMove;
+						}
 					}
-					else if(options.size() > 1)
+					else
 					{
-						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = " + options.size() + (strict ? " (strict)" : "")
-								+ " --> can't decide");
-						return false;
+						if(plannedPossibles.size() == 0)
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
+							return false;
+						}
+						else if(plannedPossibles.size() > 1)
+						{
+							if(plannedPossibles_strict.size() != 1)
+							{
+								logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
+								return false;
+							}
+							else
+							{
+								// prefer the only strict possibility
+								selectionMode = "Planned-Strict";
+								m = plannedPossibles_strict.get(0).plannedMove;
+							}
+						}
+						else 
+						{
+							selectionMode = "Planned";
+							m = plannedPossibles.get(0).plannedMove;
+						}
 					}
-					m = options.get(0);
+
 					if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
 						m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 				}
 
-				logger.info("  GID = " + game.getId() + " --> MOVING   --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+				logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(selectionMode, 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
 						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
 
 				if(!debug)
@@ -502,45 +555,53 @@ public class Mover
 		return false;
 	}
 
+	protected class PlannedMoveWithPredecessor
+	{
+		Move plannedMove;
+		Move predecessor;
+		boolean strict;
+
+		public PlannedMoveWithPredecessor(Move plannedMove, Move predecessor, boolean strict)
+		{
+			this.plannedMove = plannedMove;
+			this.predecessor = predecessor;
+			this.strict = strict;
+		}
+
+		public String toString()
+		{
+			return (predecessor == null ? null : predecessor.toString()) + "->" + plannedMove.toString() + " (strict=" + strict + ")";
+		}
+	}
+
 	/**
 	 * Match the possibles against the planned moves.<br>
-	 * A move will only be selected, if the current move is in the planned moves and has a successor which is also a possible move.
+	 * A move will only be selected, if the current move is in the planned moves.
 	 * 
-	 * @param currentMove
 	 * @param possibles
 	 * @param plannedMoves
-	 * @param strict
 	 * @return
 	 */
-	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves, boolean strict)
+	protected List<PlannedMoveWithPredecessor> findPlannedPossibles(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
 	{
-		List<Move> matches = new ArrayList<>();
+		List<PlannedMoveWithPredecessor> matches = new ArrayList<>();
 
 		if(plannedMoves != null)
 		{
-			Move pm, prevpm;
 			for(int i = 0; i < plannedMoves.size(); i++)
-			{
-				pm = plannedMoves.get(i);
-
-				if(strict)
-				{
-					// previous move must match the current move to allow the planned move
-					if(i == 0)
-						continue;
-					prevpm = plannedMoves.get(i - 1);
-
-					if(prevpm.getX() != currentMove.getX() || prevpm.getY() != currentMove.getY() || prevpm.getXv() != currentMove.getXv() || prevpm.getYv() != currentMove.getYv())
-						continue; // previous move does not match
-				}
-
+			{	
+				Move predecessor = (i == 0 ? null : plannedMoves.get(i-1));
+				Move plannedMove = plannedMoves.get(i);		
 				// look if the planned moves contain the current move
-
 				for(Move possible : possibles)
 				{
-					if(pm.getX() == possible.getX() && pm.getY() == possible.getY() && pm.getXv() == possible.getXv() && pm.getYv() == possible.getYv())
+					if(plannedMove.getX() == possible.getX() && plannedMove.getY() == possible.getY() && plannedMove.getXv() == possible.getXv() && plannedMove.getYv() == possible.getYv())
 					{
-						matches.add(possible);
+						boolean strict = currentMove.getX() == predecessor.getX()
+									&& currentMove.getY() != predecessor.getY()
+									&& currentMove.getXv() != predecessor.getXv()
+									&& currentMove.getYv() != predecessor.getYv();
+						matches.add(new PlannedMoveWithPredecessor(plannedMove, predecessor, strict));
 						break;
 					}
 				}
@@ -599,5 +660,12 @@ public class Mover
 	protected static boolean isRemuladeGame(String title)
 	{
 		return title.toLowerCase().replace(" ", "").startsWith("§remulade§");
+	}
+
+	private static String fill(String s, int length)
+	{
+		while(s.length() < length)
+		 	s += " ";
+		return s;
 	}
 }
