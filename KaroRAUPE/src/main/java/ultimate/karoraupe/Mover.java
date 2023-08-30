@@ -315,29 +315,36 @@ public class Mover
 				Date lastMoveDate = game.getStarteddate();
 				boolean messageFound = false;
 				boolean notificationFound = false;
-				int othersMoved = 0;
+				int playersAlreadyMoved = 0;
 				int playersThisRound = 0;
-				Player lastRE, currentRE; // TODO find those
 
 				boolean reProtection = false;
 				int repeatX = lastPlayerMove.getX() + lastPlayerMove.getXv();
 				int repeatY = lastPlayerMove.getY() + lastPlayerMove.getYv();
 
+				Date previousRoundFirstMoveDate = new Date();
+				Player previousRoundFirstPlayer = null;
+
 				for(Player p : game.getPlayers())
 				{
-					playersThisRound++; // TODO how to ignore players that already finished
+					if(p.isMoved() || p.getRank() == 0)
+						playersThisRound++;
 
-					if(p.getMoves() == null)
+					if(p.getMoves() == null || p.getMoves().isEmpty())
 						continue;
 
-					if(p.isMoved() && p != player)
-						othersMoved++;
+					if(p.isMoved() && (p.getPossibles() == null || p.getPossibles().size() == 0))
+						playersAlreadyMoved++;
 
 					if(p.getMotion() != null && p.getMotion().getX() == repeatX && p.getMotion().getY() == repeatY)
 						reProtection = true;
 
+					Date lastMoveForThisPlayer = p.getMoves().get(0).getT();
 					for(Move m : p.getMoves())
 					{
+						if(m.getT().after(lastMoveForThisPlayer))
+							lastMoveForThisPlayer = m.getT();
+
 						// look for the last move made in the game
 						if(m.getT().after(lastMoveDate))
 							lastMoveDate = m.getT();
@@ -354,6 +361,12 @@ public class Mover
 								notificationFound = true;
 							}
 						}
+					}
+
+					if(lastMoveForThisPlayer.before(previousRoundFirstMoveDate))
+					{
+						previousRoundFirstMoveDate = lastMoveForThisPlayer;
+						previousRoundFirstPlayer = p;
 					}
 				}
 
@@ -397,10 +410,10 @@ public class Mover
 						repeatMove = m;
 				}
 				boolean canRepeat = (repeatMove != null);
-				int playersThatNeedToRepeat = (playersThisRound > 3 ? playersThisRound / 7 + 1 : (lastRE == currentRE ? 0 : 1));
-				boolean needsToRepeat = (othersMoved < playersThatNeedToRepeat) && canRepeat && (!reProtection);
+				int playersThatNeedToRepeat = (playersThisRound > 3 ? playersThisRound / 7 + 1 : (previousRoundFirstPlayer == player ? 0 : 1));
+				boolean needsToRepeat = (playersAlreadyMoved < playersThatNeedToRepeat) && canRepeat && (!reProtection);
 				if(isRemuladeGame(game.getName()))
-					logger.debug("  GID = " + game.getId() + " --> RemulAde: needsToRepeat = " + needsToRepeat + "(othersMoved = " + othersMoved + ", canRepeat = " + canRepeat + ", reProtection = " + reProtection + "), activated = "
+					logger.debug("  GID = " + game.getId() + " --> RemulAde: needsToRepeat = " + needsToRepeat + "(playersAlreadyMoved = " + playersAlreadyMoved + ", canRepeat = " + canRepeat + ", reProtection = " + reProtection + ", lastRE = " + previousRoundFirstPlayer + "), activated = "
 							+ special_remulade);
 
 				Move m;
