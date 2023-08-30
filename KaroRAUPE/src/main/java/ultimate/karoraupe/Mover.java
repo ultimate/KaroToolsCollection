@@ -1,23 +1,35 @@
 package ultimate.karoraupe;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.enums.EnumMoveTrigger;
+import ultimate.karoraupe.rules.AfterCrashRule;
+import ultimate.karoraupe.rules.EnabledRule;
+import ultimate.karoraupe.rules.FinishedRule;
+import ultimate.karoraupe.rules.FollowPlanRule;
+import ultimate.karoraupe.rules.MessageRule;
+import ultimate.karoraupe.rules.NoPossiblesRule;
+import ultimate.karoraupe.rules.RandomRule;
+import ultimate.karoraupe.rules.RemuladeRule;
+import ultimate.karoraupe.rules.RepeatRule;
+import ultimate.karoraupe.rules.Rule;
+import ultimate.karoraupe.rules.SingleOptionRule;
+import ultimate.karoraupe.rules.StartPositionSelectedRule;
+import ultimate.karoraupe.rules.TimeoutRule;
+import ultimate.karoraupe.rules.UserTurnRule;
 
 /**
  * The Mover to check and process games
@@ -29,7 +41,7 @@ public class Mover
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger								= LogManager.getLogger(getClass());
+	protected static final Logger	logger								= LogManager.getLogger(Mover.class);
 
 	public static final int				TIME_SCALE							= 1000;
 
@@ -40,26 +52,14 @@ public class Mover
 	public static final String			KEY_INTERVAL						= KEY_PREFIX + ".interval";
 	public static final String			KEY_MESSAGE							= KEY_PREFIX + ".message";
 	public static final String			KEY_STRICT							= KEY_PREFIX + ".strict";
-	public static final String			KEY_SPECIAL_REMULADE				= KEY_PREFIX + ".remulade";
-	public static final String			KEY_SPECIAL_REMULADE_MESSAGE		= KEY_SPECIAL_REMULADE + ".message";
-	public static final String			KEY_SPECIAL_SINGLEOPTION			= KEY_PREFIX + ".singleoption";
-	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".message";
-	public static final String			KEY_SPECIAL_RANDOM					= KEY_PREFIX + ".random";
-	public static final String			KEY_SPECIAL_RANDOM_MAXSPEED			= KEY_SPECIAL_RANDOM + ".maxspeed";
-	public static final String			KEY_SPECIAL_RANDOM_MESSAGE			= KEY_SPECIAL_RANDOM + ".message";
-	public static final String			KEY_SPECIAL_REPEAT					= KEY_PREFIX + ".repeat";
-	public static final String			KEY_SPECIAL_REPEAT_MOVES			= KEY_SPECIAL_REPEAT + ".moves";
-	public static final String			KEY_SPECIAL_REPEAT_MESSAGE			= KEY_SPECIAL_REPEAT + ".message";
-
-	/**
-	 * {@link DateFormat} for log output
-	 */
-	private static final DateFormat		DATE_FORMAT							= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
 	 * The default / fallback config
 	 */
 	private static Properties			defaultConfig;
+
+	private Map<String, Class<?>> supportedProperties;
+	private List<Rule> rules;
 
 	static
 	{
@@ -94,10 +94,6 @@ public class Mover
 	 * Is the {@link Mover} set to debug? This will disable move execution
 	 */
 	private boolean		debug;
-	/**
-	 * Random used for random moving
-	 */
-	private Random random = new Random();
 
 	/**
 	 * Initiate the Mover.<br>
@@ -110,7 +106,29 @@ public class Mover
 	public Mover(KaroAPI api, Properties config, boolean debug)
 	{
 		this.api = api;
-		this.debug = debug;
+		this.debug = debug;		
+
+		this.supportedProperties = new HashMap<>();
+		this.supportedProperties.put(KEY_TRIGGER, EnumMoveTrigger.class);
+		this.supportedProperties.put(KEY_TIMEOUT, int.class);
+		this.supportedProperties.put(KEY_INTERVAL, int.class);
+		this.supportedProperties.put(KEY_MESSAGE, String.class);
+		this.supportedProperties.put(KEY_STRICT, boolean.class);
+
+		this.rules = new LinkedList<>();
+		this.rules.add(new EnabledRule());
+		this.rules.add(new FinishedRule());
+		this.rules.add(new UserTurnRule());
+		this.rules.add(new StartPositionSelectedRule());
+		this.rules.add(new AfterCrashRule());
+		this.rules.add(new TimeoutRule());
+		this.rules.add(new MessageRule());
+		this.rules.add(new NoPossiblesRule());
+		this.rules.add(new RemuladeRule());
+		this.rules.add(new SingleOptionRule());
+		this.rules.add(new FollowPlanRule()); // the most important rule!!!
+		this.rules.add(new RepeatRule());
+		this.rules.add(new RandomRule());
 
 		this.globalConfig = new Properties(defaultConfig);
 		if(config != null)
@@ -130,7 +148,7 @@ public class Mover
 				// NOTE: store all keys lower case
 				this.globalConfig.put(key.toLowerCase(), value);
 			}
-		}
+		}		
 	}
 
 	/**
@@ -153,59 +171,80 @@ public class Mover
 	 * @param value
 	 * @return
 	 */
-	private static boolean isPropertyValid(String key, String value)
+	private boolean isPropertyValid(String key, String value)
 	{
-		if(key.equalsIgnoreCase(KEY_TRIGGER))
+		for(Entry<String, Class<?>> sp: supportedProperties.entrySet())
 		{
-			// check enum
-			try
+			if(key.equalsIgnoreCase(sp.getKey()))
 			{
-				EnumMoveTrigger enumValue = EnumMoveTrigger.valueOf(value);
-				return enumValue != EnumMoveTrigger.invalid;
-			}
-			catch(IllegalArgumentException | NullPointerException e)
-			{
-				return false;
+				try
+				{
+					return checkValueForType(value, sp.getValue());
+				}
+				catch(IllegalArgumentException | NullPointerException e)
+				{
+					return false;
+				}
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_TIMEOUT) || key.equalsIgnoreCase(KEY_INTERVAL) || key.equalsIgnoreCase(KEY_SPECIAL_REPEAT_MOVES))
+		
+		for(Rule rule: rules)
 		{
-			// check ints
-			try
+			for(Entry<String, Class<?>> sp: rule.getSupportedProperties().entrySet())
 			{
-				int numberValue = Integer.parseInt(value);
-				return numberValue >= 0;
-			}
-			catch(NumberFormatException | NullPointerException e)
-			{
-				return false;
+				if(key.equalsIgnoreCase(sp.getKey()))
+				{
+					try
+					{
+						return checkValueForType(value, sp.getValue());
+					}
+					catch(IllegalArgumentException | NullPointerException e)
+					{
+						return false;
+					}
+				}
 			}
 		}
-		else if(key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MAXSPEED))
+
+		return false;
+	}
+
+	/**
+	 * Check that a property value is valid for that type.<br/>
+	 * This method will try to cast the value and check it for valid values.
+	 * 
+	 * @param value
+	 * @param type
+	 * @return
+	 */
+	private static boolean checkValueForType(String value, Class<?> type)
+	{
+		if(type == boolean.class)
 		{
-			// check doubles
-			try
-			{
-				double numberValue = Double.parseDouble(value);
-				return numberValue >= 0;
-			}
-			catch(NumberFormatException | NullPointerException e)
-			{
-				return false;
-			}
-		}
-		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM) || key.equalsIgnoreCase(KEY_SPECIAL_REPEAT))
-		{
-			// check booleans
 			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
 		}
-		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REPEAT_MESSAGE))
+		else if(type == int.class)
 		{
-			// nothing to check - this is a string
+			int numberValue = Integer.parseInt(value);
+			return numberValue >= 0;
+		}
+		else if(type == double.class)
+		{
+			double numberValue = Double.parseDouble(value);
+			return numberValue >= 0;
+		}
+		else if(type == EnumMoveTrigger.class)
+		{
+			EnumMoveTrigger enumValue = EnumMoveTrigger.valueOf(value);
+			return enumValue != EnumMoveTrigger.invalid;
+		}
+		else if(type == String.class)
+		{
 			return true;
 		}
 		else
 		{
+			logger.warn("unsupported property type: " + type);
 			return false;
 		}
 	}
@@ -259,302 +298,62 @@ public class Mover
 		{
 			logger.debug("  GID = " + game.getId() + " --> loading game details");
 			game = api.getGameWithDetails(game.getId()).get();
+			
+			Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
 
-			if(game.isFinished())
+			// scan players to find the player matching the current user
+			Player player = null;
+			for(Player p : game.getPlayers())
 			{
-				logger.warn("  GID = " + game.getId() + " --> game is finished");
-			}
-			else if(game.getNext().getId() != userId)
-			{
-				logger.warn("  GID = " + game.getId() + " --> wrong user's turn");
-			}
-			else
-			{
-				Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
-
-				EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(KEY_TRIGGER)).standardize();
-				boolean special_remulade = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REMULADE));
-				boolean special_singleOption = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION));
-				boolean special_random = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_RANDOM));
-				boolean special_repeat = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REPEAT));
-				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
-
-				if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
+				if(p.getId() == userId)
 				{
-					logger.debug("  GID = " + game.getId() + " --> SKIPPING --> KaroRAUPE not enabled for this game");
-					return false;
+					player = p;
+					break;
 				}
+			}				
 
-				// scan players to find the player matching the current user
-				Player player = null;
-				for(Player p : game.getPlayers())
-				{
-					if(p.getId() == userId)
+			Boolean shallMove;			
+			int ruleCount = 0;
+			for(Rule rule: rules)
+			{
+				ruleCount++;
+				try
+				{					
+					shallMove = rule.evaluate(game, player, gameConfig);
+
+					logger.debug("  GID = " + game.getId() + " --> #" + fill(ruleCount, 2) + " " + rule.getClass().getSimpleName() + " --> " + fill(shallMove == null ? "null" : shallMove.toString(), 5) + " (" + rule.getReason() + ")");
+
+					if(shallMove == null)
 					{
-						player = p;
-						break;
-					}
-				}
-				if(player == null)
-				{
-					logger.warn("  GID = " + game.getId() + " --> user not participating in this game");
-					return false;
-				}
-
-				Move lastPlayerMove = player.getMotion();
-				logger.debug("  GID = " + game.getId() + " --> player moved last: "
-						+ (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / TIME_SCALE) + "s ago)"));
-
-				if(lastPlayerMove == null)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> no start position selected yet");
-					return false;
-				}
-
-				// scan other players for messages and last move made
-				Date lastMoveDate = game.getStarteddate();
-				boolean messageFound = false;
-				boolean notificationFound = false;
-				int playersAlreadyMoved = 0;
-				int playersThisRound = 0;
-
-				boolean reProtection = false;
-				int repeatX = lastPlayerMove.getX() + lastPlayerMove.getXv();
-				int repeatY = lastPlayerMove.getY() + lastPlayerMove.getYv();
-
-				Date previousRoundFirstMoveDate = new Date();
-				Player previousRoundFirstPlayer = null;
-
-				for(Player p : game.getPlayers())
-				{
-					if(p.isMoved() || p.getRank() == 0)
-						playersThisRound++;
-
-					if(p.getMoves() == null || p.getMoves().isEmpty())
 						continue;
-
-					if(p.isMoved() && (p.getPossibles() == null || p.getPossibles().size() == 0))
-						playersAlreadyMoved++;
-
-					if(p.getMotion() != null && p.getMotion().getX() == repeatX && p.getMotion().getY() == repeatY)
-						reProtection = true;
-
-					Date lastMoveForThisPlayer = p.getMoves().get(0).getT();
-					for(Move m : p.getMoves())
-					{
-						if(m.getT().after(lastMoveForThisPlayer))
-							lastMoveForThisPlayer = m.getT();
-
-						// look for the last move made in the game
-						if(m.getT().after(lastMoveDate))
-							lastMoveDate = m.getT();
-						// look for messages
-						if((lastPlayerMove == null || m.getT().after(lastPlayerMove.getT())) && m.getMsg() != null && !m.getMsg().isEmpty())
-						{
-							if(isNotification(m.getMsg()))
-							{
-								notificationFound = true;
-							}
-							else
-							{
-								messageFound = true;
-								notificationFound = true;
-							}
-						}
 					}
-
-					if(lastMoveForThisPlayer.before(previousRoundFirstMoveDate))
+					else if(shallMove == false)
 					{
-						previousRoundFirstMoveDate = lastMoveForThisPlayer;
-						previousRoundFirstPlayer = p;
-					}
-				}
-
-				if(lastPlayerMove.getXv() == 0 && lastPlayerMove.getYv() == 0)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> restart after crash");
-					return false;
-				}
-
-				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / TIME_SCALE; // convert to seconds
-				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
-				if(timeSinceLastMove < timeout)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached (timeout = " + timeout + "s, last move = " + timeSinceLastMove + "s ago)");
-					return false;
-				}
-
-				if(notificationFound && trigger == EnumMoveTrigger.nonotification)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> notification found");
-					return false;
-				}
-
-				if(messageFound && trigger == EnumMoveTrigger.nomessage)
-				{
-					logger.info("  GID = " + game.getId() + " --> SKIPPING --> message found");
-					return false;
-				}
-
-				if(player.getPossibles() == null || player.getPossibles().size() == 0)
-				{
-					logger.warn("  GID = " + game.getId() + " --> SKIPPING --> possibles = 0 --> can't move");
-					return false;
-				}
-
-				// check remulade stuff
-				Move repeatMove = null;
-				for(Move m : player.getPossibles())
-				{
-					if(m.getXv() == player.getMotion().getXv() && m.getYv() == player.getMotion().getYv())
-						repeatMove = m;
-				}
-				boolean canRepeat = (repeatMove != null);
-				int playersThatNeedToRepeat = (playersThisRound > 3 ? playersThisRound / 7 + 1 : (previousRoundFirstPlayer == player ? 0 : 1));
-				boolean needsToRepeat = (playersAlreadyMoved < playersThatNeedToRepeat) && canRepeat && (!reProtection);
-				if(isRemuladeGame(game.getName()))
-					logger.debug("  GID = " + game.getId() + " --> RemulAde: needsToRepeat = " + needsToRepeat + "(playersAlreadyMoved = " + playersAlreadyMoved + ", canRepeat = " + canRepeat + ", reProtection = " + reProtection + ", lastRE = " + previousRoundFirstPlayer + "), activated = "
-							+ special_remulade);
-
-				Move m;
-				String selectionMode;
-				if(isRemuladeGame(game.getName()) && needsToRepeat && special_remulade)
-				{
-					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> REmulAde");
-					selectionMode = "REmulAde";
-					m = repeatMove;
-					if(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE).isEmpty())
-						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE));
-				}
-				else if(player.getPossibles().size() == 1 && special_singleOption)
-				{
-					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Single-Option");
-					selectionMode = "Single-Option";
-					m = player.getPossibles().get(0);
-					if(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE).isEmpty())
-						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE));
-				}
-				else if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
-				{
-					if(special_random)
-					{
-						double maxSpeed = Double.parseDouble(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MAXSPEED, "99"));
-						player.getPossibles().removeIf(mi -> { return (mi.getXv() * mi.getXv() + mi.getYv() * mi.getYv()) > (maxSpeed * maxSpeed); });
-						if(player.getPossibles().size() > 0)
-						{
-							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
-							selectionMode = "Random";
-							m = player.getPossibles().get(random.nextInt(player.getPossibles().size()) );
-							if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
-								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
-
-						}
-						else
-						{
-							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
-							return false;
-						}
-					}
-					else if(special_repeat)
-					{
-						int moves = Integer.parseInt(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MOVES, "1"));
-						int index = player.getMoves().size() - moves;
-						if(index > 0 && !player.getMoves().get(index).isCrash())
-						{
-							selectionMode = "Repeat";
-							m = player.getMoves().get(index);
-							m.setX(player.getMotion().getX() + m.getXv()); // overwrite
-							m.setY(player.getMotion().getY() + m.getYv()); // overwrite
-							m.setMsg(""); // clear
-							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Repeat move n-" + moves + ": xv=" + m.getXv() + ", yv=" + m.getYv());
-							if(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE).isEmpty())
-								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE));
-						}
-						else if(index > 0 && player.getMoves().get(index).isCrash())
-						{
-							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Repeat not possible - move n-" + moves + " was a crash");
-							return false;
-						}
-						else
-						{
-							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Repeat not possible - enough moves: " + moves + " (round=" + player.getMoveCount() + ")");
-							return false;
-						}
-					}
-					else
-					{
-						logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + rule.getReason());
 						return false;
 					}
-				}
-				else
-				{
-					List<PlannedMoveWithPredecessor> plannedPossibles = findPlannedPossibles(lastPlayerMove, player.getPossibles(), game.getPlannedMoves());
-					
-					// create separate list with only planned moves which have the current move as a predessor
-					List<PlannedMoveWithPredecessor> plannedPossibles_strict = new ArrayList<>(plannedPossibles);
-					plannedPossibles_strict.removeIf(pmwp -> {return !pmwp.strict;});
-					
-					logger.debug("  GID = " + game.getId() + " --> " + plannedPossibles);
-
-					boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
-					if(strict)
-					{					
-						if(plannedPossibles_strict.size() == 0)
-						{
-							logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
-							return false;
-						}
-						else if(plannedPossibles_strict.size() > 1)
-						{
-							logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
-							return false;
-						}
-						else
-						{	
-							selectionMode = "Planned-Strict";				
-							m = plannedPossibles_strict.get(0).plannedMove;
-						}
-					}
-					else
+					else if(shallMove == true)
 					{
-						if(plannedPossibles.size() == 0)
+						Move m = rule.getMove();
+						if(m == null)
 						{
-							logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
+							logger.error("  GID = " + game.getId() + " --> ERROR    --> no move returned");
 							return false;
 						}
-						else if(plannedPossibles.size() > 1)
-						{
-							if(plannedPossibles_strict.size() != 1)
-							{
-								logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
-								return false;
-							}
-							else
-							{
-								// prefer the only strict possibility
-								selectionMode = "Planned-Strict";
-								m = plannedPossibles_strict.get(0).plannedMove;
-							}
-						}
-						else 
-						{
-							selectionMode = "Planned";
-							m = plannedPossibles.get(0).plannedMove;
-						}
+
+						logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(rule.getReason(), 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+							+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
+
+						if(!debug)
+							return this.api.move(game.getId(), m).get();
+						else
+							return true;
 					}
-
-					if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
-						m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 				}
-
-				logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(selectionMode, 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
-						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
-
-				if(!debug)
-					return this.api.move(game.getId(), m).get();
-				else
-					return true;
+				catch(Exception e)
+				{
+					logger.error("  GID = " + game.getId() + " --> #" + rule.getClass().getSimpleName() + " --> ", e);
+				}
 			}
 		}
 		catch(IllegalArgumentException e)
@@ -566,61 +365,6 @@ public class Mover
 			logger.error(e);
 		}
 		return false;
-	}
-
-	protected class PlannedMoveWithPredecessor
-	{
-		Move plannedMove;
-		Move predecessor;
-		boolean strict;
-
-		public PlannedMoveWithPredecessor(Move plannedMove, Move predecessor, boolean strict)
-		{
-			this.plannedMove = plannedMove;
-			this.predecessor = predecessor;
-			this.strict = strict;
-		}
-
-		public String toString()
-		{
-			return (predecessor == null ? null : predecessor.toString()) + "->" + plannedMove.toString() + " (strict=" + strict + ")";
-		}
-	}
-
-	/**
-	 * Match the possibles against the planned moves.<br>
-	 * A move will only be selected, if the current move is in the planned moves.
-	 * 
-	 * @param possibles
-	 * @param plannedMoves
-	 * @return
-	 */
-	protected List<PlannedMoveWithPredecessor> findPlannedPossibles(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
-	{
-		List<PlannedMoveWithPredecessor> matches = new ArrayList<>();
-
-		if(plannedMoves != null)
-		{
-			for(int i = 0; i < plannedMoves.size(); i++)
-			{	
-				Move predecessor = (i == 0 ? null : plannedMoves.get(i-1));
-				Move plannedMove = plannedMoves.get(i);		
-				// look if the planned moves contain the current move
-				for(Move possible : possibles)
-				{
-					if(plannedMove.getX() == possible.getX() && plannedMove.getY() == possible.getY() && plannedMove.getXv() == possible.getXv() && plannedMove.getYv() == possible.getYv())
-					{
-						boolean strict = currentMove.getX() == predecessor.getX()
-									&& currentMove.getY() != predecessor.getY()
-									&& currentMove.getXv() != predecessor.getXv()
-									&& currentMove.getYv() != predecessor.getYv();
-						matches.add(new PlannedMoveWithPredecessor(plannedMove, predecessor, strict));
-						break;
-					}
-				}
-			}
-		}
-		return matches;
 	}
 
 	/**
@@ -651,28 +395,12 @@ public class Mover
 		return movesMade;
 	}
 
-	protected static boolean isNotification(String message)
+	private static String fill(int i, int length)
 	{
-		if(!message.startsWith("-:K"))
-			return false;
-		else if(!message.endsWith("K:-"))
-			return false;
-
-		else if(message.matches("-:KIch bin ausgestiegenK:-"))
-			return true;
-		else if(message.matches("-:KIch bin von (Didi|KaroMAMA) rausgeworfen wordenK:-"))
-			return true;
-		else if(message.matches("-:KIch wurde von (Didi|KaroMAMA) rausgeworfenK:-"))
-			return true;
-		else if(message.matches("-:KIch werde \\d+ Z&uuml;ge zur&uuml;ckgesetztK:-"))
-			return true;
-
-		return false;
-	}
-
-	protected static boolean isRemuladeGame(String title)
-	{
-		return title.toLowerCase().replace(" ", "").startsWith("§remulade§");
+		String s = "" + i;
+		while(s.length() < length)
+		 	s = "0" + i;
+		return s;
 	}
 
 	private static String fill(String s, int length)
