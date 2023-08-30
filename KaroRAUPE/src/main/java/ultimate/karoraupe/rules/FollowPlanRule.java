@@ -1,0 +1,138 @@
+package ultimate.karoraupe.rules;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Move;
+import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoraupe.Mover;
+
+public class FollowPlanRule extends Rule
+{
+
+    public FollowPlanRule()
+    {
+        this.supportedProperties.put(Mover.KEY_MESSAGE, String.class);
+        this.supportedProperties.put(Mover.KEY_STRICT, boolean.class);
+    }
+
+    @Override
+    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    {
+        List<PlannedMoveWithPredecessor> plannedPossibles = findPlannedPossibles(player.getMotion(), player.getPossibles(), game.getPlannedMoves());
+					
+        // create separate list with only planned moves which have the current move as a predessor
+        List<PlannedMoveWithPredecessor> plannedPossibles_strict = new ArrayList<>(plannedPossibles);
+        plannedPossibles_strict.removeIf(pmwp -> {return !pmwp.strict;});
+        
+        logger.debug("  GID = " + game.getId() + " --> " + plannedPossibles);
+
+        boolean strict = Boolean.valueOf(gameConfig.getProperty(Mover.KEY_STRICT));
+        if(strict)
+        {					
+            if(plannedPossibles_strict.size() == 0)
+            {
+                logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
+                return false;
+            }
+            else if(plannedPossibles_strict.size() > 1)
+            {
+                logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
+                return false;
+            }
+            else
+            {	
+                reason = "Planned-Strict";				
+                move = plannedPossibles_strict.get(0).plannedMove;
+            }
+        }
+        else
+        {
+            if(plannedPossibles.size() == 0)
+            {
+                logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
+                return false;
+            }
+            else if(plannedPossibles.size() > 1)
+            {
+                if(plannedPossibles_strict.size() != 1)
+                {
+                    logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
+                    return false;
+                }
+                else
+                {
+                    // prefer the only strict possibility
+                    reason = "Planned-Strict";
+                    move = plannedPossibles_strict.get(0).plannedMove;
+                }
+            }
+            else 
+            {
+                reason = "Planned";
+                move = plannedPossibles.get(0).plannedMove;
+            }
+        }
+
+        if(gameConfig.getProperty(Mover.KEY_MESSAGE) != null && !gameConfig.getProperty(Mover.KEY_MESSAGE).isEmpty())
+            move.setMsg(gameConfig.getProperty(Mover.KEY_MESSAGE));
+
+        return null;
+    }
+
+	protected class PlannedMoveWithPredecessor
+	{
+		Move plannedMove;
+		Move predecessor;
+		boolean strict;
+
+		public PlannedMoveWithPredecessor(Move plannedMove, Move predecessor, boolean strict)
+		{
+			this.plannedMove = plannedMove;
+			this.predecessor = predecessor;
+			this.strict = strict;
+		}
+
+		public String toString()
+		{
+			return (predecessor == null ? null : predecessor.toString()) + "->" + plannedMove.toString() + " (strict=" + strict + ")";
+		}
+	}
+
+	/**
+	 * Match the possibles against the planned moves.<br>
+	 * A move will only be selected, if the current move is in the planned moves.
+	 * 
+	 * @param possibles
+	 * @param plannedMoves
+	 * @return
+	 */
+	protected List<PlannedMoveWithPredecessor> findPlannedPossibles(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
+	{
+		List<PlannedMoveWithPredecessor> matches = new ArrayList<>();
+
+		if(plannedMoves != null)
+		{
+			for(int i = 0; i < plannedMoves.size(); i++)
+			{	
+				Move predecessor = (i == 0 ? null : plannedMoves.get(i-1));
+				Move plannedMove = plannedMoves.get(i);		
+				// look if the planned moves contain the current move
+				for(Move possible : possibles)
+				{
+					if(plannedMove.getX() == possible.getX() && plannedMove.getY() == possible.getY() && plannedMove.getXv() == possible.getXv() && plannedMove.getYv() == possible.getYv())
+					{
+						boolean strict = currentMove.getX() == predecessor.getX()
+									&& currentMove.getY() != predecessor.getY()
+									&& currentMove.getXv() != predecessor.getXv()
+									&& currentMove.getYv() != predecessor.getYv();
+						matches.add(new PlannedMoveWithPredecessor(plannedMove, predecessor, strict));
+						break;
+					}
+				}
+			}
+		}
+		return matches;
+	}
+}
