@@ -20,17 +20,15 @@ public class RemuladeRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(!isRemuladeGame(game.getName()))
         {
-            reason = "not a REmulAde game";
-            return null;
+            return Result.noResult("not a REmulAde game");
         }
         else if(!Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REMULADE)))
         {            
-            reason = "special REmulAde not activated for this game";
-            return null;
+            return Result.noResult("special REmulAde not activated for this game");
         }
 
         // scan other players for messages and last move made
@@ -95,12 +93,12 @@ public class RemuladeRule extends Rule
 
         if(needsToRepeat)
         {
-            reason = "REmulAde";
-            move = repeatMove;
+            Move move = repeatMove;
             if(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE).isEmpty())
                 move.setMsg(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE));
+            return Result.doMove("REmulAde", move);
         }
-        return null;
+        return Result.noResult();
     }
 
 	public static boolean isRemuladeGame(String title)

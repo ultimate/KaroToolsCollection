@@ -27,9 +27,10 @@ import ultimate.karoraupe.rules.RemuladeRule;
 import ultimate.karoraupe.rules.RepeatRule;
 import ultimate.karoraupe.rules.Rule;
 import ultimate.karoraupe.rules.SingleOptionRule;
-import ultimate.karoraupe.rules.StartPositionSelectedRule;
+import ultimate.karoraupe.rules.StartPositionRule;
 import ultimate.karoraupe.rules.TimeoutRule;
 import ultimate.karoraupe.rules.UserTurnRule;
+import ultimate.karoraupe.rules.Rule.Result;
 
 /**
  * The Mover to check and process games
@@ -119,7 +120,7 @@ public class Mover
 		this.rules.add(new EnabledRule());
 		this.rules.add(new FinishedRule());
 		this.rules.add(new UserTurnRule());
-		this.rules.add(new StartPositionSelectedRule());
+		this.rules.add(new StartPositionRule());
 		this.rules.add(new AfterCrashRule());
 		this.rules.add(new TimeoutRule());
 		this.rules.add(new MessageRule());
@@ -312,36 +313,39 @@ public class Mover
 				}
 			}				
 
-			Boolean shallMove;			
+			Result result;	
+			String lastReason = "";		
 			int ruleCount = 0;
 			for(Rule rule: rules)
 			{
 				ruleCount++;
 				try
 				{					
-					shallMove = rule.evaluate(game, player, gameConfig);
+					result = rule.evaluate(game, player, gameConfig);
 
-					logger.debug("  GID = " + game.getId() + " --> #" + fill(ruleCount, 2) + " " + rule.getClass().getSimpleName() + " --> " + fill(shallMove == null ? "null" : shallMove.toString(), 5) + " (" + rule.getReason() + ")");
+					logger.debug("  GID = " + game.getId() + " --> #" + fill(ruleCount, 2) + " " + fill(rule.getClass().getSimpleName(), 17) + " --> " + fill(result.shallMove() == null ? "null" : result.shallMove().toString(), 5) + " (" + result.getReason() + ")");
 
-					if(shallMove == null)
+					if(result.shallMove() == null)
 					{
+						if(result.getReason() != null)
+							lastReason = result.getReason();
 						continue;
 					}
-					else if(shallMove == false)
+					else if(result.shallMove().booleanValue() == false)
 					{
-						logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + rule.getReason());
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + result.getReason());
 						return false;
 					}
-					else if(shallMove == true)
+					else if(result.shallMove().booleanValue() == true)
 					{
-						Move m = rule.getMove();
+						Move m = result.getMove();
 						if(m == null)
 						{
 							logger.error("  GID = " + game.getId() + " --> ERROR    --> no move returned");
 							return false;
 						}
 
-						logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(rule.getReason(), 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+						logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(result.getReason(), 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
 							+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
 
 						if(!debug)
@@ -355,6 +359,7 @@ public class Mover
 					logger.error("  GID = " + game.getId() + " --> #" + rule.getClass().getSimpleName() + " --> ", e);
 				}
 			}
+			logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + lastReason);
 		}
 		catch(IllegalArgumentException e)
 		{

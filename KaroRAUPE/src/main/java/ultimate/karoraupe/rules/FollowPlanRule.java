@@ -18,7 +18,7 @@ public class FollowPlanRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         List<PlannedMoveWithPredecessor> plannedPossibles = findPlannedPossibles(player.getMotion(), player.getPossibles(), game.getPlannedMoves());
 					
@@ -28,18 +28,19 @@ public class FollowPlanRule extends Rule
         
         logger.debug("  GID = " + game.getId() + " --> " + plannedPossibles);
 
+        Move move;
+        String reason;
+
         boolean strict = Boolean.valueOf(gameConfig.getProperty(Mover.KEY_STRICT));
         if(strict)
         {					
             if(plannedPossibles_strict.size() == 0)
             {
-                logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
-                return false;
+                return Result.noResult("possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
             }
             else if(plannedPossibles_strict.size() > 1)
             {
-                logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
-                return false;
+                return Result.noResult("possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
             }
             else
             {	
@@ -51,15 +52,13 @@ public class FollowPlanRule extends Rule
         {
             if(plannedPossibles.size() == 0)
             {
-                logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
-                return false;
+                return Result.noResult("possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> nothing to choose from");
             }
             else if(plannedPossibles.size() > 1)
             {
                 if(plannedPossibles_strict.size() != 1)
                 {
-                    logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
-                    return false;
+                    return Result.noResult("possibles = " + player.getPossibles().size() + ", matches all = " + plannedPossibles.size() + ", strict = " + plannedPossibles_strict.size() + ", strict = " + strict + " --> can't decide");
                 }
                 else
                 {
@@ -78,7 +77,7 @@ public class FollowPlanRule extends Rule
         if(gameConfig.getProperty(Mover.KEY_MESSAGE) != null && !gameConfig.getProperty(Mover.KEY_MESSAGE).isEmpty())
             move.setMsg(gameConfig.getProperty(Mover.KEY_MESSAGE));
 
-        return null;
+        return Result.doMove(reason, move);
     }
 
 	protected class PlannedMoveWithPredecessor

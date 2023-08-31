@@ -13,13 +13,12 @@ public class FinishedRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(game.isFinished())
         {
-            reason = "game is finished";
-            return false;
+            return Result.dontMove("game is finished");
         }
-        return null;
+        return Result.noResult();
     }
 }
