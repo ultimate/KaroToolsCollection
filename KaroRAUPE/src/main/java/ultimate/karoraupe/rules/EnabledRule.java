@@ -15,15 +15,14 @@ public class EnabledRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(Mover.KEY_TRIGGER)).standardize();
 
         if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
         {
-            this.reason = "KaroRAUPE not enabled for this game";
-            return false;
+            return Result.dontMove("KaroRAUPE not enabled for this game");
         }
-        return null;        
+        return Result.noResult();      
     }
 }

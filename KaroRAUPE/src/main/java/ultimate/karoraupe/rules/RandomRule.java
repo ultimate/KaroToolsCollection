@@ -29,7 +29,7 @@ public class RandomRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_RANDOM)))
         {
@@ -38,17 +38,16 @@ public class RandomRule extends Rule
             possibles.removeIf(mi -> { return (mi.getXv() * mi.getXv() + mi.getYv() * mi.getYv()) > (maxSpeed * maxSpeed); });
             if(possibles.size() > 0)
             {
-                reason = "Random, possibles with speed <= " + maxSpeed + ": " + possibles.size();
-                move = possibles.get(random.nextInt(possibles.size()) );
+                Move move = possibles.get(random.nextInt(possibles.size()) );
                 if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
                     move.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
+                return Result.doMove("Random, possibles with speed <= " + maxSpeed + ": " + possibles.size(), move);
             }
             else
             {
-                reason = "Random, possibles with speed <= " + maxSpeed + ": " + possibles.size();
-                return false;
+                return Result.dontMove("Random, possibles with speed <= " + maxSpeed + ": " + possibles.size());
             }
         }
-        return null;
+        return Result.noResult();
     }
 }

@@ -16,7 +16,7 @@ public class MessageRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         boolean messageFound = false;
         boolean notificationFound = false;
@@ -46,15 +46,13 @@ public class MessageRule extends Rule
 		EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(Mover.KEY_TRIGGER)).standardize();
         if(notificationFound && trigger == EnumMoveTrigger.nonotification)
         {
-            reason = "notification found";
-            return false;
+            return Result.dontMove("notification found");
         }
         else if(messageFound && trigger == EnumMoveTrigger.nomessage)
         {
-            reason = "message found";
-            return false;
+            return Result.dontMove("message found");
         }
-        return null;
+        return Result.noResult();
     }
 
 	public static boolean isNotification(String message)

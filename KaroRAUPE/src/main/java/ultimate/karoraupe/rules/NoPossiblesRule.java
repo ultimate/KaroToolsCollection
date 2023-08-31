@@ -13,13 +13,12 @@ public class NoPossiblesRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(player.getPossibles() == null || player.getPossibles().size() == 0)
         {
-            reason = "possibles = 0 --> can't move";
-            return false;
+            return Result.dontMove("possibles = 0 --> can't move");
         }
-        return null;
+        return Result.noResult();
     }
 }

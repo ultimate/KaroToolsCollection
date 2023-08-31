@@ -13,13 +13,12 @@ public class AfterCrashRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(player.getMotion() != null && player.getMotion().getXv() == 0 && player.getMotion().getYv() == 0)
         {
-            reason = "restart after crash";
-            return false;
+            return Result.dontMove("restart after crash");
         }
-        return null;
+        return Result.noResult();
     }
 }

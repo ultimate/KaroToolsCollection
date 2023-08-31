@@ -20,31 +20,9 @@ public abstract class Rule
     
     protected Map<String, Class<?>> supportedProperties = new HashMap<>();;
 
-    protected Move move = null;
-
-    protected String reason = "";
-
     public Map<String, Class<?>> getSupportedProperties()
     {
         return this.supportedProperties;
-    }
-
-    /**
-     * The move to execute, if shallMove(..) returns true
-     * @return
-     */
-    public Move getMove()
-    {
-        return this.move;
-    }
-
-    /**
-     * The reason for the result returned
-     * @return
-     */
-    public String getReason()
-    {
-        return this.reason;
     }
     
     /**
@@ -60,5 +38,54 @@ public abstract class Rule
      * @param gameConfig
      * @return
      */
-    public abstract Boolean evaluate(Game game, Player player, Properties gameConfig);
+    public abstract Result evaluate(Game game, Player player, Properties gameConfig);
+
+    public static class Result
+    {
+        private Boolean shallMove;
+        private String reason;
+        private Move move;
+
+        private Result(Boolean shallMove, String reason, Move move)
+        {
+            this.shallMove = shallMove;
+            this.reason = reason;
+            this.move = move;
+        }
+
+        public Boolean shallMove()
+        {
+            return shallMove;
+        }
+
+        public String getReason()
+        {
+            return reason;
+        }
+
+        public Move getMove()
+        {
+            return move;
+        }        
+
+        public static Result doMove(String reason, Move move)
+        {
+            return new Result(true, reason, move);
+        }      
+
+        public static Result dontMove(String reason)
+        {
+            return new Result(false, reason, null);
+        }
+
+        public static Result noResult(String reason)
+        {
+            return new Result(null, reason, null);
+        }
+
+        public static Result noResult()
+        {
+            return noResult(null);
+        }
+    }
 }

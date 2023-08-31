@@ -13,18 +13,16 @@ public class UserTurnRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(player == null)
         {
-            reason = "user not participating in this game";
-            return false;
+            return Result.dontMove("user not participating in this game");
         }
-        else if(game.getNext().getId() != player.getId())
+        else if(game.getNext().getId().intValue() != player.getId().intValue())
         {
-            reason = "wrong user's turn";
-            return false;
+            return Result.dontMove("wrong user's turn");
         }
-        return null;
+        return Result.noResult();
     }
 }

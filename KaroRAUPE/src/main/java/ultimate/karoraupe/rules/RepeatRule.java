@@ -2,6 +2,7 @@ package ultimate.karoraupe.rules;
 
 import java.util.Properties;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.Mover;
 
@@ -20,7 +21,7 @@ public class RepeatRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         if(Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REPEAT)))
         {            
@@ -28,25 +29,24 @@ public class RepeatRule extends Rule
             int index = player.getMoves().size() - moves;
             if(index > 0 && !player.getMoves().get(index).isCrash())
             {
-                move = player.getMoves().get(index);
+                Move move = player.getMoves().get(index);
                 move.setX(player.getMotion().getX() + move.getXv()); // overwrite
                 move.setY(player.getMotion().getY() + move.getYv()); // overwrite
                 move.setMsg(""); // clear
-                reason = "Repeat move n-" + moves + ": xv=" + move.getXv() + ", yv=" + move.getYv();
                 if(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE).isEmpty())
                     move.setMsg(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MESSAGE));
+                
+                return Result.doMove("Repeat move n-" + moves + ": xv=" + move.getXv() + ", yv=" + move.getYv(), move);
             }
             else if(index > 0 && player.getMoves().get(index).isCrash())
             {
-                reason = "Repeat move n-" + moves + " not possible: was a crash";
-                return false;
+                return Result.dontMove("Repeat move n-" + moves + " not possible: was a crash");
             }
             else
             {
-                reason = "Repeat move n-" + moves + " not possible: not enough moves: " + player.getMoveCount();
-                return false;
+                return Result.dontMove("Repeat move n-" + moves + " not possible: not enough moves: " + player.getMoveCount());
             }
         }
-        return null;
+        return Result.noResult();
     }
 }

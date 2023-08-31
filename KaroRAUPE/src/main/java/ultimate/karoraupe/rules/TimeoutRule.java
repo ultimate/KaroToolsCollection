@@ -16,7 +16,7 @@ public class TimeoutRule extends Rule
     }
 
     @Override
-    public Boolean evaluate(Game game, Player player, Properties gameConfig)
+    public Result evaluate(Game game, Player player, Properties gameConfig)
     {
         Date lastMoveDate = game.getStarteddate();        
         // scan all players for last move made
@@ -34,9 +34,8 @@ public class TimeoutRule extends Rule
         int timeout = Integer.parseInt(gameConfig.getProperty(Mover.KEY_TIMEOUT));
         if(timeSinceLastMove < timeout)
         {
-            reason = "timeout not yet reached (timeout = " + timeout + "s, last move = " + timeSinceLastMove + "s ago)";
-            return false;
+            return Result.dontMove("timeout not yet reached (timeout = " + timeout + "s, last move = " + timeSinceLastMove + "s ago)");
         }
-        return null;
+        return Result.noResult();
     }
 }
