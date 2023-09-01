@@ -12,6 +12,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 
 import javax.imageio.ImageIO;
@@ -94,6 +96,10 @@ public class KaroAPI implements IDLookUp
 	 */
 	private static String					version;
 	/**
+	 * The version of the {@link KaroAPI}
+	 */
+	private static int						initTimeout = 30;
+	/**
 	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
 	 * across multiple instances of the {@link KaroAPI}.
 	 */
@@ -116,8 +122,12 @@ public class KaroAPI implements IDLookUp
 		try
 		{
 			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
+			
 			version = properties.getProperty(KaroAPI.CONFIG_KEY + ".version");
-			logger.debug("version = " + version);
+			logger.debug("version     = " + version);
+
+			initTimeout = Integer.parseInt(properties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
+			logger.debug("initTimeout = " + initTimeout);
 		}
 		catch(IOException e)
 		{
@@ -305,11 +315,11 @@ public class KaroAPI implements IDLookUp
 		try
 		{
 			setAPIKey(apiKey);
-			User user = check().get();
+			User user = check().get(initTimeout, TimeUnit.SECONDS);
 			if(user == null)
 				throw new KaroAPIException("user is null!");
 		}
-		catch(InterruptedException | ExecutionException e)
+		catch(InterruptedException | ExecutionException | TimeoutException e)
 		{
 			throw new KaroAPIException("invalid API-Key '" + apiKey + "'", e);
 		}
@@ -326,11 +336,11 @@ public class KaroAPI implements IDLookUp
 		this();
 		try
 		{
-			Boolean loginSuccessful = login(username, password).get();
+			Boolean loginSuccessful = login(username, password).get(initTimeout, TimeUnit.SECONDS);
 			if(!loginSuccessful)
 				throw new KaroAPIException("login not successful");
 		}
-		catch(InterruptedException | ExecutionException e)
+		catch(InterruptedException | ExecutionException | TimeoutException e)
 		{
 			throw new KaroAPIException("could not login user '" + username + "'", e);
 		}
