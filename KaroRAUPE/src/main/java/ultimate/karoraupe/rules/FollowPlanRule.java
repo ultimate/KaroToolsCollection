@@ -120,12 +120,9 @@ public class FollowPlanRule extends Rule
 				// look if the planned moves contain the current move
 				for(Move possible : possibles)
 				{
-					if(plannedMove.getX() == possible.getX() && plannedMove.getY() == possible.getY() && plannedMove.getXv() == possible.getXv() && plannedMove.getYv() == possible.getYv())
+                    if(plannedMove.equalsVec(possible))
 					{
-						boolean strict = currentMove.getX() == predecessor.getX()
-									&& currentMove.getY() != predecessor.getY()
-									&& currentMove.getXv() != predecessor.getXv()
-									&& currentMove.getYv() != predecessor.getYv();
+						boolean strict = currentMove.equalsVec(predecessor);
 						matches.add(new PlannedMoveWithPredecessor(plannedMove, predecessor, strict));
 						break;
 					}

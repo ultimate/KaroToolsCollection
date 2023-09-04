@@ -28,6 +28,10 @@ public enum EnumMoveTrigger
 	 */
 	never, nie, niemals,
 	/**
+	 * test
+	 */
+	test,
+	/**
 	 * invalid state
 	 */
 	invalid;
@@ -60,6 +64,9 @@ public enum EnumMoveTrigger
 			case nie:
 			case niemals:
 				return never;
+
+			case test:
+				return test;
 
 			case invalid:
 			default:

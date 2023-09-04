@@ -26,6 +26,7 @@ import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoraupe.rules.EnabledRule;
 import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class MoverTest extends KaroRAUPETestcase
@@ -130,10 +131,11 @@ public class MoverTest extends KaroRAUPETestcase
 		karoAPI.addPlannedMoves(gameId, plannedMoves).get();
 		
 		// and set the config in the notes
-		karoAPI.addNote(gameId, "KaroRAUPE.trigger=always\nKaroRAUPE.timeout=" + timeout);
+		karoAPI.addNote(gameId, "KaroRAUPE.trigger=test\nKaroRAUPE.timeout=" + timeout);
 
 		// now move the planned moves with the Mover
 		Mover mover = new Mover(karoAPI, properties, false);
+		((EnabledRule) mover.getRules().get(0)).setTest(true);
 		
 		assertFalse(mover.processGame(user.getId(), game));
 		x = 3;

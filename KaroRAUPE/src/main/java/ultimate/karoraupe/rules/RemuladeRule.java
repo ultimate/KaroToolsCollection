@@ -2,6 +2,7 @@ package ultimate.karoraupe.rules;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.Set;
 
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
@@ -22,7 +23,7 @@ public class RemuladeRule extends Rule
     @Override
     public Result evaluate(Game game, Player player, Properties gameConfig)
     {
-        if(!isRemuladeGame(game.getName()))
+        if(!isRemuladeGame(game.getName(), game.getTags()))
         {
             return Result.noResult("not a REmulAde game");
         }
@@ -101,8 +102,12 @@ public class RemuladeRule extends Rule
         return Result.noResult();
     }
 
-	public static boolean isRemuladeGame(String title)
+	public static boolean isRemuladeGame(String title, Set<String> tags)
 	{
-		return title.toLowerCase().replace(" ", "").startsWith("§remulade§");
+        if(tags != null && tags.contains("§RE§"))
+            return true;
+        if(title != null && title.toLowerCase().replace(" ", "").startsWith("§remulade§"))
+            return true;
+        return false;
 	}
 }
