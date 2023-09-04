@@ -60,7 +60,11 @@ public abstract class JSONUtil
 	/**
 	 * The date format used
 	 */
-	public static final String				DATE_FORMAT			= "yyyy-MM-dd HH:mm:ss";
+	public static final String				DATE_FORMAT			= "yyyy-MM-dd";
+	/**
+	 * The datetime format used
+	 */
+	public static final String				DATETIME_FORMAT		= DATE_FORMAT + " HH:mm:ss";
 	/**
 	 * The date format used
 	 */
@@ -100,7 +104,7 @@ public abstract class JSONUtil
 		ObjectMapper mapper = new ObjectMapper();
 
 		// set the date format
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		DateFormat df = new SimpleDateFormat(DATETIME_FORMAT);
 		df.setTimeZone(TimeZone.getTimeZone("CET"));
 		mapper.setDateFormat(df);
 		// set the sort order for maps
