@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.model.official;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
@@ -39,6 +40,8 @@ public class PlannedGame
 	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)
 	private Set<User>						players;
 	private Options							options;
+	@JsonInclude(value = Include.NON_NULL)
+	private Set<String>					tags;
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = Game.FromIDConverter.class)
@@ -120,6 +123,16 @@ public class PlannedGame
 	public void setOptions(Options options)
 	{
 		this.options = options;
+	}
+
+	public Set<String> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(Set<String> tags)
+	{
+		this.tags = tags;
 	}
 
 	public Game getGame()

@@ -2,6 +2,7 @@ package ultimate.karoapi4j.model.official;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -45,6 +46,7 @@ public class Game extends Identifiable
 	 * "players": [ ] // see type Player
 	 * "planned-moves": [ ] // see type Move
 	 * "notes": ""
+	 * "tags": ["tag1", "tag2"]
 	 */
 	// for id see super class
 	// private int id; // see super class
@@ -65,6 +67,7 @@ public class Game extends Identifiable
 	@JsonProperty("planned-moves")
 	private List<Move>			plannedMoves;
 	private String				notes;
+	private Set<String>		tags;
 
 	public Game()
 	{
@@ -234,6 +237,16 @@ public class Game extends Identifiable
 	public void setNotes(String notes)
 	{
 		this.notes = notes;
+	}
+
+	public Set<String> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(Set<String> tags)
+	{
+		this.tags = tags;
 	}
 
 	@Override
