@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,11 +31,14 @@ import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.KarolenderBlatt;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.MovesListEntry;
 import ultimate.karoapi4j.model.official.NotesListEntry;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Smilie;
+import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
@@ -226,6 +231,9 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
 	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
 	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
+	public static final Function<String, List<KarolenderBlatt>>					PARSER_KAROLENDERBLATT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<KarolenderBlatt>>() {});
+	public static final Function<String, List<Smilie>>							PARSER_SMILIE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Smilie>>() {});
+	public static final Function<String, List<Tag>>								PARSER_TAG_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Tag>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES_MAP			= (result) -> {
 																												return CollectionsUtil
@@ -290,6 +298,12 @@ public class KaroAPI implements IDLookUp
 	// messaging
 	protected final URLLoader													CONTACTS					= API.relative("/contacts");
 	protected final URLLoader													MESSAGES					= API.relative("/messages/" + PLACEHOLDER);
+	// misc
+	protected final URLLoader													KAROLENDERBLATT				= API.relative("/karolenderblatt");
+	protected final URLLoader													KAROLENDERBLATT_FOR_DATE	= KAROLENDERBLATT.relative("/" + PLACEHOLDER);
+	protected final URLLoader													SMILIES						= API.relative("/smilies");
+	protected final URLLoader													TAGS						= API.relative("/tags");
+	protected final URLLoader													TAGS_SUGGESTED				= TAGS.relative("/suggested-tags");
 
 	/**
 	 * The number of retries to perform.<br>
@@ -1252,6 +1266,48 @@ public class KaroAPI implements IDLookUp
 	CompletableFuture<String> readUserMessage(int userId)
 	{
 		return loadAsync(MESSAGES.replace(PLACEHOLDER, userId).doPatch(), PARSER_RAW);
+	}
+
+	///////////////////////
+	// misc
+	///////////////////////	
+
+	/**
+	 * Get all the Karolender-Blatt for a specific date
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#KAROLENDERBLATT_FOR_DATE
+	 * @param date - the date to get the Karolenderblatt for
+	 * @return the Karolenderblatt entry
+	 */
+	public CompletableFuture<List<KarolenderBlatt>> getKarolenderBlatt(Date date)
+	{
+		String dateString = new SimpleDateFormat(JSONUtil.DATE_FORMAT).format(date);
+		return loadAsync(KAROLENDERBLATT_FOR_DATE.replace(PLACEHOLDER, dateString).doGet(), PARSER_KAROLENDERBLATT_LIST);
+	}
+
+	/**
+	 * Get the list of supported smilies
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#SMILIES
+	 * @return the list of smilies
+	 */
+	public CompletableFuture<List<Smilie>> getSmilies()
+	{
+		return loadAsync(SMILIES.doGet(), PARSER_SMILIE_LIST);
+	}
+
+	/**
+	 * Get the list of suggested tags
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#TAGS_SUGGESTED
+	 * @return the list of tags
+	 */
+	public CompletableFuture<List<Tag>> getSuggestedTags()
+	{
+		return loadAsync(TAGS_SUGGESTED.doGet(), PARSER_TAG_LIST);
 	}
 
 	///////////////////////

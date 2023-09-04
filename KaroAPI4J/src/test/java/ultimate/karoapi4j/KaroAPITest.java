@@ -34,10 +34,13 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.KarolenderBlatt;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Smilie;
+import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.test.KaroAPITestcase;
@@ -106,7 +109,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals("1.2.7", KaroAPI.getVersion());
+		assertEquals("1.3.0", KaroAPI.getVersion());
 	}
 
 	@Test
@@ -372,6 +375,16 @@ public class KaroAPITest extends KaroAPITestcase
 			assertEquals("Runde um Runde nehmen wir jede Ecke und bleiben auf der Strecke!", game.getName());
 			assertEquals("Madeleine", game.getCreator());
 		}
+
+		id = 139431; // first game with a tag
+		{
+			game = karoAPI.getGame(id).get();
+			logger.debug("loaded game: " + game.getId() + " = " + game.getName());
+			assertEquals(id, game.getId());
+			assertNotNull(game.getTags());
+			assertEquals(1, game.getTags().size());
+			assertTrue(game.getTags().contains("KaroIQ"));
+		}
 	}
 
 	@Test
@@ -502,6 +515,7 @@ public class KaroAPITest extends KaroAPITestcase
 		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
+		plannedGame.setTags(TODO);
 
 		Game game = karoAPI.createGame(plannedGame).get();
 		assertNotNull(game);
@@ -924,6 +938,63 @@ public class KaroAPITest extends KaroAPITestcase
 			assertNotNull(contact.getLogin());
 			assertNotNull(contact.getTs());
 		}
+	}
+
+	@Test
+	public void test_getKarolenderBlatt() throws InterruptedException, ExecutionException
+	{
+		DateFormat df = new SimpleDateFormat(JSONUtil.DATE_FORMAT);
+
+		Date today = new Date();
+		String todayString = df.format(today);
+
+		List<KarolenderBlatt> kb = karoAPI.getKarolenderBlatt(today).get();
+		assertNotNull(kb);
+		assertTrue(kb.size() == 1);
+
+		assertNotNull(kb.get(0).getLine());
+		
+		String postedString = df.format(kb.get(0).getPosted());
+
+		assertEquals(todayString.substring(4), postedString.substring(4));
+	}
+
+	@Test
+	public void test_getSmilies() throws InterruptedException, ExecutionException
+	{
+		List<Smilie> smilies = karoAPI.getSmilies().get();
+		assertNotNull(smilies);
+		assertTrue(smilies.size() > 0);
+
+		boolean coolFound = false;
+
+		for(Smilie smilie : smilies)
+		{
+			assertNotNull(smilie.getId());
+			if(smilie.getId().equalsIgnoreCase("cool"))
+				coolFound = true;
+		}
+
+		assertTrue(coolFound);
+	}
+
+	@Test
+	public void test_getSuggestedTags() throws InterruptedException, ExecutionException
+	{
+		List<Tag> tags = karoAPI.getSuggestedTags().get();
+		assertNotNull(tags);
+		assertTrue(tags.size() > 0);
+
+		boolean cccFound = false;
+
+		for(Tag tag : tags)
+		{
+			assertNotNull(tag.getLabel());
+			if(tag.getLabel().equalsIgnoreCase("CCC"))
+				cccFound = true;
+		}
+
+		assertTrue(cccFound);
 	}
 
 	@Test
