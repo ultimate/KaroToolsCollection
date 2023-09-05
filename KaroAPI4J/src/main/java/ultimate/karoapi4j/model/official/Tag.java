@@ -9,19 +9,24 @@ import ultimate.karoapi4j.KaroAPI;
  * <code>
  * 		[
  *          {
- *              "label": "!KaroIQ!"
+ *              "label": "!KaroIQ!",
+ *              "description": "Spiele für https://wiki.karopapier.de/KaroIQ"
  *          },
  *          {
- *              "label": "§RE§"
+ *              "label": "§RE§",
+ *              "description": "Spiele mit der Spezialregel https://wiki.karopapier.de/Einladeraum#Rundenerster_wiederholt_letzten_Zug"
  *          },
  *          {
- *              "label": "CCC"
+ *              "label": "CCC",
+ *              "description": "Spiele aus der https://wiki.karopapier.de/CraZZZy_Crash_Challenge"
  *          },
  *          {
- *              "label": "KaroLiga"
+ *              "label": "KaroLiga",
+ *              "description": "Spiele aus der https://wiki.karopapier.de/KaroLiga"
  *          },
  *          {
- *              "label": "KLC"
+ *              "label": "KLC",
+ *              "description": "Spiele aus dem https://wiki.karopapier.de/KaroLigaCup"
  *          }
  *      ]
  * </code>
@@ -32,6 +37,7 @@ import ultimate.karoapi4j.KaroAPI;
 public class Tag
 {
     private String label;
+    private String description;
 
     public Tag()
     {
@@ -52,5 +58,15 @@ public class Tag
     public void setLabel(String label)
     {
         this.label = label;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }    
 }
