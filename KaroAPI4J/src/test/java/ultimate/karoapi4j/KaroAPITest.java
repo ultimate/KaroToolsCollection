@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -515,12 +516,15 @@ public class KaroAPITest extends KaroAPITestcase
 		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
-		plannedGame.setTags(TODO);
+		plannedGame.setTags(new HashSet<>(Arrays.asList("Test")));
 
 		Game game = karoAPI.createGame(plannedGame).get();
 		assertNotNull(game);
 		assertNotNull(game.getId());
 		assertEquals(plannedGame.getName(), game.getName());
+		assertNotNull(game.getTags());
+		assertEquals(plannedGame.getTags().size(), game.getTags().size());
+		assertEquals(plannedGame.getTags(), game.getTags());
 
 		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
 		int gameId = game.getId();
