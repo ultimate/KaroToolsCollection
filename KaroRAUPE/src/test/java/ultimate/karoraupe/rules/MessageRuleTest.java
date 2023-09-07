@@ -3,16 +3,98 @@ package ultimate.karoraupe.rules;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoraupe.rules.Rule.Result;
 import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class MessageRuleTest extends KaroRAUPETestcase
 {	
+	private MessageRule rule = new MessageRule();
+
+	private static Move createMove(long time, String msg)
+	{
+		Move m = new Move(0, 0, 0, 0, msg);
+		m.setT(new Date(time));
+		return m;
+	}
+
+	public static Stream<Arguments> provideConfigAndTestState()
+	{
+		//@formatter:off
+	    return Stream.of(
+			// no notification, with message
+			arguments("nonotification", "foo", -1000, null),
+			arguments("nonotification", "foo", +1000, false),
+			// no notification, with notification
+			arguments("nonotification", "-:KIch bin ausgestiegenK:-", -1000, null),
+			arguments("nonotification", "-:KIch bin ausgestiegenK:-", +1000, false),
+			// no message, with message
+			arguments("nomessage", "foo", -1000, null),
+			arguments("nomessage", "foo", +1000, false),
+			// no message, with notification
+			arguments("nomessage", "-:KIch bin ausgestiegenK:-", -1000, null),
+			arguments("nomessage", "-:KIch bin ausgestiegenK:-", +1000, null),
+			// always, with message
+			arguments("always", "foo", -1000, null),
+			arguments("always", "foo", +1000, null),
+			// always, with notification
+			arguments("always", "-:KIch bin ausgestiegenK:-", -1000, null),
+			arguments("always", "-:KIch bin ausgestiegenK:-", +1000, null)
+	    );
+	    //@formatter:on
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideConfigAndTestState")
+	public void test_evaluate(String configValue, String message, int messageTime, Boolean expected)
+	{
+		int NUMBER_OF_PLAYERS = 4;
+		int REF_TIME = 1000000000;
+
+		// create a game with 4 players
+		LinkedList<Player> players = new LinkedList<>();
+		Player newPlayer;
+		for(int p = 0; p < NUMBER_OF_PLAYERS; p++)
+		{
+			newPlayer = new Player(p);		
+			newPlayer.setMoves(new LinkedList<>());
+			players.add(newPlayer);			
+		}
+
+		Game game = new Game();
+		game.setPlayers(players);
+
+		Player player = players.get(0);
+		player.setMotion(createMove(REF_TIME, null));
+
+		Properties gameConfig = new Properties();
+		gameConfig.setProperty("karoraupe.trigger", configValue);
+
+		players.get(1).setMoves(Arrays.asList(createMove(REF_TIME - 1000, null)));
+		players.get(2).setMoves(Arrays.asList(createMove(REF_TIME + 1000, null)));
+		players.get(3).setMoves(Arrays.asList(createMove(REF_TIME + messageTime, message)));
+		
+		Result result = rule.evaluate(game, player, gameConfig);
+
+		assertEquals(expected, result.shallMove());
+	}
+
 	@Test
 	public void test_isNotification() throws InterruptedException, ExecutionException 
 	{

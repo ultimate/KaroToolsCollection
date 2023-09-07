@@ -2,6 +2,7 @@ package ultimate.karoraupe.test;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -47,5 +48,26 @@ public class KaroRAUPETestcase
 
 		karoAPI = new KaroAPI(properties.getProperty("karoAPI.user"), properties.getProperty("karoAPI.password"));
 		logger.info("KaroAPI initialized");
+	}
+
+	private static Random random = new Random();
+
+	protected static int randomCoord()
+	{
+		return random.nextInt(100);
+	}
+
+	protected static int randomVec()
+	{
+		return random.nextInt(20) - 10;
+	}
+
+	protected static int randomVecNonZero()
+	{
+		int vec;
+		do {
+			vec = randomVec();
+		} while(vec == 0);
+		return vec;
 	}
 }
