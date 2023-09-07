@@ -21,7 +21,7 @@ public class SingleOptionRule extends Rule
     @Override
     public Result evaluate(Game game, Player player, Properties gameConfig)
     {
-        if(player.getPossibles().size() == 1 && Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION)))
+        if(player.getPossibles() != null && player.getPossibles().size() == 1 && Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION)))
         {
             Move move = player.getPossibles().get(0);
             if(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE).isEmpty())
