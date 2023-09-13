@@ -6,6 +6,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -60,9 +61,9 @@ public class RandomRuleTest extends KaroRAUPETestcase
 		assertEquals(possibles.size(), expectedDistribution.length);
 
 		Properties gameConfig = new Properties();
-		gameConfig.setProperty("karoraupe.random", "true");
+		gameConfig.setProperty(RandomRule.KEY_SPECIAL_RANDOM, "true");
 		if(maxSpeed != null)
-			gameConfig.setProperty("karoraupe.random.maxspeed", "" + maxSpeed);
+			gameConfig.setProperty(RandomRule.KEY_SPECIAL_RANDOM_MAXSPEED, "" + maxSpeed);
 
 		Player player = new Player();
 		player.setPossibles(possibles);
@@ -104,7 +105,7 @@ public class RandomRuleTest extends KaroRAUPETestcase
 		result = rule.evaluate(null, null, gameConfig);
 		assertEquals(null, result.shallMove());
 
-		gameConfig.setProperty("karoraupe.random", "false");		
+		gameConfig.setProperty(RandomRule.KEY_SPECIAL_RANDOM, "false");		
 		result = rule.evaluate(null, null, gameConfig);
 		assertEquals(null, result.shallMove());
 	}
