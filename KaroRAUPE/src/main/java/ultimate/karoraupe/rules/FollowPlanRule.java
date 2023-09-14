@@ -80,7 +80,7 @@ public class FollowPlanRule extends Rule
         return Result.doMove(reason, move);
     }
 
-	protected class PlannedMoveWithPredecessor
+	public static class PlannedMoveWithPredecessor
 	{
 		Move plannedMove;
 		Move predecessor;
@@ -107,7 +107,7 @@ public class FollowPlanRule extends Rule
 	 * @param plannedMoves
 	 * @return
 	 */
-	protected List<PlannedMoveWithPredecessor> findPlannedPossibles(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
+	public static List<PlannedMoveWithPredecessor> findPlannedPossibles(Move currentMove, List<Move> possibles, List<Move> plannedMoves)
 	{
 		List<PlannedMoveWithPredecessor> matches = new ArrayList<>();
 
@@ -122,7 +122,7 @@ public class FollowPlanRule extends Rule
 				{
                     if(plannedMove.equalsVec(possible))
 					{
-						boolean strict = currentMove.equalsVec(predecessor);
+						boolean strict = predecessor == null || currentMove.equalsVec(predecessor);
 						matches.add(new PlannedMoveWithPredecessor(plannedMove, predecessor, strict));
 						break;
 					}
