@@ -15,7 +15,8 @@ public class AfterCrashRule extends Rule
     @Override
     public Result evaluate(Game game, Player player, Properties gameConfig)
     {
-        if(player.getMotion() != null && player.getMotion().getXv() == 0 && player.getMotion().getYv() == 0)
+        // TODO make configurable?
+        if(player.getMotion() != null && player.getMotion().isCrash())
         {
             return Result.dontMove("restart after crash");
         }

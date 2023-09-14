@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.rules.Rule.Result;
@@ -18,17 +19,24 @@ public class AfterCrashRuleTest extends KaroRAUPETestcase
 {	
 	private AfterCrashRule rule = new AfterCrashRule();
 
+	private static Move createCrash()
+	{
+		Move m = new Move(randomCoord(), randomCoord(), 0, 0, null);
+		m.setCrash(true);
+		return m;
+	}
+
 	public static Stream<Arguments> provideMoves()
 	{
 		//@formatter:off
 	    return Stream.of(
 			arguments(null, null),
 			// xv == 0 && yv != 0
-			arguments(new Move(randomCoord(), randomCoord(), 0, 0, null), false),
-			arguments(new Move(randomCoord(), randomCoord(), 0, 0, null), false),
-			arguments(new Move(randomCoord(), randomCoord(), 0, 0, null), false),
-			arguments(new Move(randomCoord(), randomCoord(), 0, 0, null), false),
-			arguments(new Move(randomCoord(), randomCoord(), 0, 0, null), false),
+			arguments(createCrash(), false),
+			arguments(createCrash(), false),
+			arguments(createCrash(), false),
+			arguments(createCrash(), false),
+			arguments(createCrash(), false),
 			// xv == 0 && yv != 0
 			arguments(new Move(randomCoord(), randomCoord(), 0, randomVecNonZero(), null), null),
 			arguments(new Move(randomCoord(), randomCoord(), 0, randomVecNonZero(), null), null),
