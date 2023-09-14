@@ -57,7 +57,7 @@ public class RemuladeRule extends Rule
                 move.setMsg(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE));
             return Result.doMove("REmulAde", move);
         }
-        return Result.noResult();
+        return Result.noResult("no need to repeat");
     }
 
     public static int countPlayersThisRound(Game game)

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,72 +12,90 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoraupe.rules.Rule.Result;
 import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class RemuladeRuleTest extends KaroRAUPETestcase
 {	
-	@Test
-	public void test_isRemuladeGame_byTitle()
+	private RemuladeRule rule = new RemuladeRule();
+
+	public static Stream<Arguments> provideTitlesAndTags()
 	{
-		assertTrue(RemuladeRule.isRemuladeGame("§ REmulAde §", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ REmulAde § some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ REmulAde §some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ remulade §", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ remulade § some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ remulade §some title", null));
-		
-		assertTrue(RemuladeRule.isRemuladeGame("§REmulAde §", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§REmulAde § some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§REmulAde §some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§remulade §", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§remulade § some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§remulade §some title", null));
+		//@formatter:off
+	    return Stream.of(			
+			arguments("§ REmulAde §", null, true),
+			arguments("§ REmulAde § some title", null, true),
+			arguments("§ REmulAde §some title", null, true),
+			arguments("§ remulade §", null, true),
+			arguments("§ remulade § some title", null, true),
+			arguments("§ remulade §some title", null, true),
+			
+			arguments("§REmulAde §", null, true),
+			arguments("§REmulAde § some title", null, true),
+			arguments("§REmulAde §some title", null, true),
+			arguments("§remulade §", null, true),
+			arguments("§remulade § some title", null, true),
+			arguments("§remulade §some title", null, true),
 
-		assertTrue(RemuladeRule.isRemuladeGame("§ REmulAde§", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ REmulAde§ some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ REmulAde§some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ remulade§", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ remulade§ some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§ remulade§some title", null));
+			arguments("§ REmulAde§", null, true),
+			arguments("§ REmulAde§ some title", null, true),
+			arguments("§ REmulAde§some title", null, true),
+			arguments("§ remulade§", null, true),
+			arguments("§ remulade§ some title", null, true),
+			arguments("§ remulade§some title", null, true),
 
-		assertTrue(RemuladeRule.isRemuladeGame("§REmulAde§", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§REmulAde§ some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§REmulAde§some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§remulade§", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§remulade§ some title", null));
-		assertTrue(RemuladeRule.isRemuladeGame("§remulade§some title", null));
-		
-		assertFalse(RemuladeRule.isRemuladeGame("§RAmulAde§", null));
-		assertFalse(RemuladeRule.isRemuladeGame("§RAmulAde§ some title", null));
-		assertFalse(RemuladeRule.isRemuladeGame("§RAmulAde§some title", null));
-		assertFalse(RemuladeRule.isRemuladeGame("§ramulade§", null));
-		assertFalse(RemuladeRule.isRemuladeGame("§ramulade§ some title", null));
-		assertFalse(RemuladeRule.isRemuladeGame("§ramulade§some title", null));
-		
-		assertFalse(RemuladeRule.isRemuladeGame("some title § REmulAde §", null));
-		assertFalse(RemuladeRule.isRemuladeGame("some title §REmulAde §", null));
-		assertFalse(RemuladeRule.isRemuladeGame("some title § REmulAde§", null));
-		assertFalse(RemuladeRule.isRemuladeGame("some title §REmulAde§", null));
+			arguments("§REmulAde§", null, true),
+			arguments("§REmulAde§ some title", null, true),
+			arguments("§REmulAde§some title", null, true),
+			arguments("§remulade§", null, true),
+			arguments("§remulade§ some title", null, true),
+			arguments("§remulade§some title", null, true),
+			
+			arguments("§RAmulAde§", null, false),
+			arguments("§RAmulAde§ some title", null, false),
+			arguments("§RAmulAde§some title", null, false),
+			arguments("§ramulade§", null, false),
+			arguments("§ramulade§ some title", null, false),
+			arguments("§ramulade§some title", null, false),
+			
+			arguments("some title § REmulAde §", null, false),
+			arguments("some title §REmulAde §", null, false),
+			arguments("some title § REmulAde§", null, false),
+			arguments("some title §REmulAde§", null, false),
+			
+			arguments(null, new HashSet<>(Arrays.asList(new String[] {"§RE§"})), true),
+			arguments(null, new HashSet<>(Arrays.asList(new String[] {"aaaa", "§RE§"})), true),
+			arguments(null, new HashSet<>(Arrays.asList(new String[] {"§RE§", "aaaa"})), true),
+			arguments("foo", new HashSet<>(Arrays.asList(new String[] {"§RE§", "aaaa"})), true),
+			arguments("§REmulAde§", new HashSet<>(Arrays.asList(new String[] {"§RE§", "aaaa"})), true),
+
+			arguments(null, new HashSet<>(Arrays.asList(new String[] {"§rE§"})), false),
+			arguments(null, new HashSet<>(Arrays.asList(new String[] {"aaaa", "§Re§"})), false),
+			arguments(null, new HashSet<>(Arrays.asList(new String[] {"§re§", "aaaa"})), false),
+			arguments("foo", new HashSet<>(Arrays.asList(new String[] {"§re§", "aaaa"})), false),
+			arguments("§REmulAde§", new HashSet<>(Arrays.asList(new String[] {"§re§", "aaaa"})), true)
+	    );
+	    //@formatter:on
 	}
 
-	@Test
-	public void test_isRemuladeGame_byTag()
-	{		
-		assertTrue(RemuladeRule.isRemuladeGame(null, new HashSet<>(Arrays.asList(new String[] {"§RE§"}))));
-		assertTrue(RemuladeRule.isRemuladeGame(null, new HashSet<>(Arrays.asList(new String[] {"aaaa", "§RE§"}))));
-		assertTrue(RemuladeRule.isRemuladeGame(null, new HashSet<>(Arrays.asList(new String[] {"§RE§", "aaaa"}))));
-
-		assertFalse(RemuladeRule.isRemuladeGame(null, new HashSet<>(Arrays.asList(new String[] {"§rE§"}))));
-		assertFalse(RemuladeRule.isRemuladeGame(null, new HashSet<>(Arrays.asList(new String[] {"aaaa", "§Re§"}))));
-		assertFalse(RemuladeRule.isRemuladeGame(null, new HashSet<>(Arrays.asList(new String[] {"§re§", "aaaa"}))));
+	@ParameterizedTest
+	@MethodSource("provideTitlesAndTags")
+	public void test_isRemuladeGame_byTitle(String title, Set<String> tags, boolean expectedResult)
+	{
+		assertEquals(expectedResult, RemuladeRule.isRemuladeGame(title,tags));
 	}
 
 	@Test
@@ -157,7 +176,9 @@ public class RemuladeRuleTest extends KaroRAUPETestcase
 
 		// play some rounds
 		Player previousRE, currentRE = null;
-		for(int round = 0; round < 10; round++)
+		Player current, next;
+		Move move;
+		for(int round = 0; round < 14; round++)
 		{
 			// get the first player
 			previousRE = currentRE;
@@ -166,8 +187,6 @@ public class RemuladeRuleTest extends KaroRAUPETestcase
 			logger.debug("round = " + round + ", expectedPreviousRE = " + (previousRE != null ? previousRE.getId() : null));
 
 			// move each player
-			Player current, next;
-			Move move;
 			for(int i = 0; i < NUMBER_OF_PLAYERS; i++)
 			{
 				// increase time
@@ -307,9 +326,218 @@ public class RemuladeRuleTest extends KaroRAUPETestcase
 		}
     }
 
-    @Test
-    public void test_needsToRepeat()
-    {
+	public static Stream<Arguments> provideREInfo()
+	{
+		Player player = new Player(1);
+		Player other = new Player(2);
 
+		//@formatter:off
+	    return Stream.of(			
+			// 1 player only
+			arguments(player, true, 1, 0, player, false), // only repeat if first time in a row
+			arguments(player, true, 1, 0, other, true),
+			// 3 players
+			arguments(player, true, 3, 0, player, false), // only repeat if first time in a row
+			arguments(player, true, 3, 1, player, false),
+			arguments(player, true, 3, 2, player, false),
+			arguments(player, true, 3, 0, other, true),
+			arguments(player, true, 3, 1, other, false),
+			arguments(player, true, 3, 2, other, false),
+			// 5 players
+			arguments(player, true, 5, 0, player, true),
+			arguments(player, true, 5, 1, player, false),
+			arguments(player, true, 5, 2, player, false),
+			arguments(player, true, 5, 3, player, false),
+			arguments(player, true, 5, 4, player, false),
+			arguments(player, true, 5, 0, other, true),
+			arguments(player, true, 5, 1, other, false),
+			arguments(player, true, 5, 2, other, false),
+			arguments(player, true, 5, 3, other, false),
+			arguments(player, true, 5, 4, other, false),
+			// 7 players
+			arguments(player, true, 7, 0, player, true),
+			arguments(player, true, 7, 1, player, true), // 2 players need to repeat
+			arguments(player, true, 7, 2, player, false),
+			arguments(player, true, 7, 3, player, false),
+			arguments(player, true, 7, 4, player, false),
+			arguments(player, true, 7, 5, player, false),
+			arguments(player, true, 7, 6, player, false),
+			arguments(player, true, 7, 0, other, true),
+			arguments(player, true, 7, 1, other, true), // 2 players need to repeat
+			arguments(player, true, 7, 2, other, false),
+			arguments(player, true, 7, 3, other, false),
+			arguments(player, true, 7, 4, other, false),
+			arguments(player, true, 7, 5, other, false),
+			arguments(player, true, 7, 6, other, false),
+			// 10 players
+			arguments(player, true, 10, 0, player, true),
+			arguments(player, true, 10, 1, player, true), // 2 players need to repeat
+			arguments(player, true, 10, 2, player, false),
+			arguments(player, true, 10, 3, player, false),
+			arguments(player, true, 10, 4, player, false),
+			arguments(player, true, 10, 5, player, false),
+			arguments(player, true, 10, 6, player, false),
+			arguments(player, true, 10, 7, player, false),
+			arguments(player, true, 10, 8, player, false),
+			arguments(player, true, 10, 9, player, false),
+			arguments(player, true, 10, 0, other, true),
+			arguments(player, true, 10, 1, other, true), // 2 players need to repeat
+			arguments(player, true, 10, 2, other, false),
+			arguments(player, true, 10, 3, other, false),
+			arguments(player, true, 10, 4, other, false),
+			arguments(player, true, 10, 5, other, false),
+			arguments(player, true, 10, 6, other, false),
+			arguments(player, true, 10, 7, other, false),
+			arguments(player, true, 10, 8, other, false),
+			arguments(player, true, 10, 9, other, false),
+			// 14 players
+			arguments(player, true, 14, 0, player, true),
+			arguments(player, true, 14, 1, player, true), // 3 players need to repeat
+			arguments(player, true, 14, 2, player, true), // 3 players need to repeat
+			arguments(player, true, 14, 3, player, false),
+			arguments(player, true, 14, 4, player, false),
+			arguments(player, true, 14, 5, player, false),
+			arguments(player, true, 14, 6, player, false),
+			arguments(player, true, 14, 7, player, false),
+			arguments(player, true, 14, 8, player, false),
+			arguments(player, true, 14, 9, player, false),
+			arguments(player, true, 14, 10, player, false),
+			arguments(player, true, 14, 11, player, false),
+			arguments(player, true, 14, 12, player, false),
+			arguments(player, true, 14, 13, player, false),
+			arguments(player, true, 14, 0, other, true),
+			arguments(player, true, 14, 1, other, true), // 3 players need to repeat
+			arguments(player, true, 14, 2, other, true), // 3 players need to repeat
+			arguments(player, true, 14, 3, other, false),
+			arguments(player, true, 14, 4, other, false),
+			arguments(player, true, 14, 5, other, false),
+			arguments(player, true, 14, 6, other, false),
+			arguments(player, true, 14, 7, other, false),
+			arguments(player, true, 14, 8, other, false),
+			arguments(player, true, 14, 9, other, false),
+			arguments(player, true, 14, 10, other, false),
+			arguments(player, true, 14, 11, other, false),
+			arguments(player, true, 14, 12, other, false),
+			arguments(player, true, 14, 13, other, false)
+	    );
+	    //@formatter:on
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideREInfo")
+    public void test_needsToRepeat(Player player, boolean canRepeat, int playersThisRound, int playersAlreadyMoved, Player previousRoundFirstPlayer, boolean expectedResult)
+    {
+		assertEquals(expectedResult, RemuladeRule.needsToRepeat(player, canRepeat, false, playersThisRound, playersAlreadyMoved, previousRoundFirstPlayer));
+    }
+
+	private static Move createMove(int x, int y, int xv, int yv, long time)
+	{
+		Move m = new Move(x, y, xv, yv, null);
+		m.setT(new Date(time));
+		return m;
+	}
+
+    @Test
+    public void test_evaluate()
+    {
+		Game game = new Game();
+
+		Player player = new Player(1);
+		player.setMoves(new ArrayList<>());
+		
+		Player other = new Player(2);
+		other.setMoves(new ArrayList<>());
+
+		// add some moves
+		long time = 0;
+		// start
+		other.getMoves().add(createMove(0, 0, 0, 0, time++));
+		player.getMoves().add(createMove(0, 0, 0, 0, time++));
+		// round 1
+		other.getMoves().add(createMove(0, 1, 0, 1, time++));
+		player.getMoves().add(createMove(1, 0, 1, 0, time++));
+		// round 2
+		other.getMoves().add(createMove(0, 2, 0, 2, time++));
+		player.getMoves().add(createMove(3, 0, 2, 0, time++));
+
+		// set motion
+		player.setMotion(player.getMoves().get(player.getMoves().size()-1));
+		other.setMotion(other.getMoves().get(other.getMoves().size()-1));
+
+		// construct possibles
+		player.setPossibles(new ArrayList<>(9));
+		other.setPossibles(new ArrayList<>(9));
+		int x, y, xv, yv;
+		for(int dx = -1; dx <= 1; dx++)
+		{
+			for(int dy = -1; dy <= 1; dy++)
+			{
+				xv = player.getMotion().getXv() + dx;
+				yv = player.getMotion().getYv() + dy;
+				x = player.getMotion().getX() + xv;
+				y = player.getMotion().getY() + yv;
+				player.getPossibles().add(new Move(x, y, xv, yv, null));
+
+				xv = other.getMotion().getXv() + dx;
+				yv = other.getMotion().getYv() + dy;
+				x = other.getMotion().getX() + xv;
+				y = other.getMotion().getY() + yv;
+				other.getPossibles().add(new Move(x, y, xv, yv, null));
+			}
+		}
+
+		game.setPlayers(Arrays.asList(player, other));
+
+		Properties gameConfig = new Properties();
+
+		Result result;
+
+
+		// wrong title, no tags
+		gameConfig.setProperty(RemuladeRule.KEY_SPECIAL_REMULADE, "true");
+		game.setName("foo");
+		game.setTags(null);
+		result = rule.evaluate(game, player, gameConfig);
+		assertNull(result.shallMove());
+		assertTrue(result.getReason().contains("not a "));
+
+		// wrong title, wrong tags
+		gameConfig.setProperty(RemuladeRule.KEY_SPECIAL_REMULADE, "true");
+		game.setName("foo");
+		game.setTags(new HashSet<>(Arrays.asList("foo")));
+		result = rule.evaluate(game, player, gameConfig);
+		assertNull(result.shallMove());
+		assertTrue(result.getReason().contains("not a "));
+
+		// not activated
+		gameConfig.setProperty(RemuladeRule.KEY_SPECIAL_REMULADE, "false");
+		game.setName("foo");
+		game.setTags(new HashSet<>(Arrays.asList("§RE§")));
+		result = rule.evaluate(game, player, gameConfig);
+		assertNull(result.shallMove());
+		assertTrue(result.getReason().contains("not activated"));
+
+		// correct title
+		gameConfig.setProperty(RemuladeRule.KEY_SPECIAL_REMULADE, "true");
+		game.setName("§ REmulAde §");
+		game.setTags(null);
+		result = rule.evaluate(game, player, gameConfig);
+		assertEquals(true, result.shallMove());
+
+		// correct tag
+		gameConfig.setProperty(RemuladeRule.KEY_SPECIAL_REMULADE, "true");
+		game.setName("foo");
+		game.setTags(new HashSet<>(Arrays.asList("§RE§")));
+		result = rule.evaluate(game, player, gameConfig);
+		assertEquals(true, result.shallMove());
+		
+		// no need (1 case - all other cases tested seperately)
+		player.getPossibles().remove(4); // remove center move, to make canRepeat = false
+		gameConfig.setProperty(RemuladeRule.KEY_SPECIAL_REMULADE, "true");
+		game.setName("§ REmulAde §");
+		game.setTags(new HashSet<>(Arrays.asList("§RE§")));
+		result = rule.evaluate(game, player, gameConfig);
+		assertNull(result.shallMove());
+		assertTrue(result.getReason().contains("no need"));
     }
 }

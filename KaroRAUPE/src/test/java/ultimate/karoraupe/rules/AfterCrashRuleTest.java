@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.Properties;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -66,9 +67,22 @@ public class AfterCrashRuleTest extends KaroRAUPETestcase
 		Player player = new Player();
 		player.setMotion(move);
 
-		Result result = rule.evaluate(null, player, null);
+		Properties gameConfig = new Properties();
+
+		Result result;
+
+		// from zero = false
+		gameConfig.setProperty(AfterCrashRule.KEY_FROMZERO, "false");		
+		result = rule.evaluate(null, player, gameConfig);
 		
 		assertNotNull(result);
 		assertEquals(expected, result.shallMove());
+
+		// from zero = true
+		gameConfig.setProperty(AfterCrashRule.KEY_FROMZERO, "true");		
+		result = rule.evaluate(null, player, gameConfig);
+		
+		assertNotNull(result);
+		assertEquals(null, result.shallMove());
 	}
 }
