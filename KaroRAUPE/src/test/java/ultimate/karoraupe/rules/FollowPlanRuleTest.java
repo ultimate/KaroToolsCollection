@@ -1,29 +1,30 @@
 package ultimate.karoraupe.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
 
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
+import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoraupe.Mover;
 import ultimate.karoraupe.rules.FollowPlanRule.PlannedMoveWithPredecessor;
+import ultimate.karoraupe.rules.Rule.Result;
 import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class FollowPlanRuleTest extends KaroRAUPETestcase
 {	
-	@Test
-	public void test_evaluate()
-	{
-		fail("not implemented");
-	}
+	private FollowPlanRule rule = new FollowPlanRule();
 
-	private void move(List<Move> moves, int xv, int yv)
+	private static void move(List<Move> moves, int xv, int yv)
 	{
 		Move lastMove = moves.get(moves.size() - 1);
 
@@ -39,26 +40,7 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 		moves.add(newMove);
 	}
 
-	private List<Move> calcPossibles(Move current)
-	{		
-		List<Move> possibles = new ArrayList(9);
-		int x, y, xv, yv;
-		for(int dx = -1; dx <= 1; dx++)
-		{
-			for(int dy = -1; dy <= 1; dy++)
-			{
-				xv = current.getXv() + dx;
-				yv = current.getYv() + dy;
-				x = current.getX() + xv;
-				y = current.getY() + yv;
-				possibles.add(new Move(x, y, xv, yv, null));
-			}
-		}
-		return possibles;
-	}
-
-	@Test
-	public void test_findPlannedPossibles()
+	private static List<Move> createPlannedMovesList()
 	{
 		List<Move> plannedMoves = new ArrayList<>();
 
@@ -83,6 +65,51 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 		move(plannedMoves, 1, 1); // 18 - should end up at the same point as move 5
 		move(plannedMoves, 0, 2); // 19
 		move(plannedMoves, 0, 3); // 20
+
+		return plannedMoves;
+	}
+
+	private static List<Move> calcPossibles(Move current)
+	{		
+		List<Move> possibles = new ArrayList<>(9);
+		int x, y, xv, yv;
+		for(int dx = -1; dx <= 1; dx++)
+		{
+			for(int dy = -1; dy <= 1; dy++)
+			{
+				xv = current.getXv() + dx;
+				yv = current.getYv() + dy;
+				x = current.getX() + xv;
+				y = current.getY() + yv;
+				possibles.add(new Move(x, y, xv, yv, null));
+			}
+		}
+		return possibles;
+	}
+
+	@Test
+	public void test_evaluate(Move motion, boolean strict, Boolean expectedResult, String expectedReason)
+	{
+		Game game = new Game();
+		game.setPlannedMoves(createPlannedMovesList());
+
+		Player player = new Player();
+		player.setMotion(motion);
+		player.setPossibles(calcPossibles(motion));
+
+		Properties gameConfig = new Properties();
+		gameConfig.setProperty(Mover.KEY_STRICT, "" + strict);
+
+		Result result = rule.evaluate(game, player, gameConfig);
+		
+		assertEquals(expectedResult, result.shallMove());
+		assertEquals(expectedReason, result.getReason());
+	}
+
+	@Test
+	public void test_findPlannedPossibles()
+	{
+		List<Move> plannedMoves = createPlannedMovesList();
 
 		Move currentMove;
 		List<Move> possibles;
@@ -112,25 +139,58 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 			{
 				// lines overlap each other with the same possibles
 				assertEquals(2, plannedPossibles.size());
-				 
-				// TODO
+				
+				PlannedMoveWithPredecessor plannedMove1 = plannedPossibles.get(0);
+				PlannedMoveWithPredecessor plannedMove2 = plannedPossibles.get(1);
+				
+				assertFalse(plannedMove1.predecessor.equalsVec(plannedMove2.predecessor));
+				assertTrue(plannedMove1.predecessor.equals(currentMove) || plannedMove2.predecessor.equals(currentMove));
+				
+				assertTrue(plannedMove1.plannedMove.equalsVec(plannedMove2.plannedMove));
+				assertEquals(plannedMoves.get(4), plannedMove1.plannedMove);
+				assertEquals(plannedMoves.get(16), plannedMove1.plannedMove);
 			}
 			else if(i == 4 || i == 16)
 			{
 				// lines overlap each other with the same possibles
 				assertEquals(2, plannedPossibles.size());
-				 
-				// TODO
+				
+				PlannedMoveWithPredecessor plannedMove1 = plannedPossibles.get(0);
+				PlannedMoveWithPredecessor plannedMove2 = plannedPossibles.get(1);
+				
+				assertTrue(plannedMove1.predecessor.equalsVec(currentMove));
+				assertTrue(plannedMove2.predecessor.equalsVec(currentMove));
+				
+				assertFalse(plannedMove1.plannedMove.equalsVec(plannedMove2.plannedMove));
+				assertEquals(plannedMoves.get(5), plannedMove1.plannedMove);
+				assertEquals(plannedMoves.get(17), plannedMove2.plannedMove);
 			}
 			else if(i == 5 || i == 18)
 			{
 				// lines are touching each other only shared possibles in 
 				if(i == 5) // from move 5 only 1 move is possible
+				{
 					assertEquals(1, plannedPossibles.size());
+
+					PlannedMoveWithPredecessor plannedMove1 = plannedPossibles.get(0);
+
+					assertEquals(plannedMoves.get(5), plannedMove1.predecessor);
+
+					assertEquals(plannedMoves.get(6), plannedMove1.plannedMove);
+				}
 				else if(i == 18) // from move 8 only 2 moves are possible
+				{
 					assertEquals(2, plannedPossibles.size());
-				 
-				// TODO
+
+					PlannedMoveWithPredecessor plannedMove1 = plannedPossibles.get(0);
+					PlannedMoveWithPredecessor plannedMove2 = plannedPossibles.get(1);
+
+					assertEquals(plannedMoves.get(5), plannedMove1.predecessor);
+					assertEquals(plannedMoves.get(18), plannedMove2.predecessor);
+
+					assertEquals(plannedMoves.get(6), plannedMove1.plannedMove);
+					assertEquals(plannedMoves.get(19), plannedMove2.plannedMove);
+				}
 			}
 			else
 			{
@@ -138,7 +198,7 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 				// check predecessor
 				PlannedMoveWithPredecessor plannedMove = plannedPossibles.get(0);
 				assertTrue(plannedMove.predecessor.equalsVec(currentMove));
-				assertTrue(plannedMove.predecessor.equalsVec(plannedMoves.get(i+1)));
+				assertTrue(plannedMove.plannedMove.equalsVec(plannedMoves.get(i+1)));
 			}
 		}
 	}
