@@ -1,0 +1,1 @@
+ curl -i -X POST -H 'Content-Type: application/json' -H 'x-auth-key: ...' -d '{ "generator": "bagger" }' http://www.karopapier.de/api/mapgenerator/generate
