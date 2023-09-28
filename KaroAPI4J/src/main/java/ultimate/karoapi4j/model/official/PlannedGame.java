@@ -40,7 +40,7 @@ public class PlannedGame
 	private Set<User>						players;
 	private Options							options;
 	@JsonInclude(value = Include.NON_NULL)
-	private Set<String>					tags;
+	private Set<String>						tags;
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = Game.FromIDConverter.class)

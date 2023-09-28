@@ -1,18 +1,25 @@
 package ultimate.karomuskel.ui.screens;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
@@ -22,6 +29,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
@@ -44,6 +52,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JLabel						titleLabel;
 	private JTextField					titleTF;
 	private JLabel						titleDescLabel;
+
+	private JPanel						tagsPanel;
+	private List<JToggleButton>			tagsButtons;
+	private JTextField					tagsTF;
 
 	private JTextField					numberOfGamesTF;
 	private JSpinner					numberOfGamesSpinner;
@@ -141,7 +153,29 @@ public class SettingsScreen extends Screen implements ChangeListener
 			gbc.gridy = 1;
 			this.add(titleTF, gbc);
 
+			gbc.gridwidth = gridwidth;
+			gbc.gridx = 0;
 			gbc.gridy = 2;
+			this.tagsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			this.tagsButtons = new ArrayList<>();
+			JToggleButton tb;
+			boolean selected;
+			Set<String> otherTags = (gameSeries.getTags() != null ? gameSeries.getTags() : new HashSet<>());
+			for(Tag tag: karoAPICache.getSuggestedTags())
+			{
+				selected = (gameSeries.getTags() != null && gameSeries.getTags().contains(tag.getLabel()));
+				tb = new JToggleButton(tag.getLabel(), selected);
+				this.tagsButtons.add(tb);
+				this.tagsPanel.add(tb);
+				otherTags.remove(tag.getLabel());
+			}
+			this.tagsTF = new JTextField(String.join(", ", otherTags));
+			this.tagsTF.setMinimumSize(new Dimension(totalWidth/gridwidth, lineHeight));
+			this.tagsTF.setPreferredSize(new Dimension(totalWidth/gridwidth, lineHeight)); 
+			this.tagsPanel.add(tagsTF, gbc);
+			this.add(tagsPanel, gbc);
+
+			gbc.gridy = 3;
 			this.titleDescLabel = new JLabel(Language.getString("screen.settings.title.description", totalWidth));
 			this.add(titleDescLabel, gbc);
 
@@ -183,14 +217,14 @@ public class SettingsScreen extends Screen implements ChangeListener
 				}
 
 				gbc.gridx = 0;
-				gbc.gridy = 4;
+				gbc.gridy = 6;
 				this.add(numberLabel, gbc);
-				gbc.gridy = 5;
+				gbc.gridy = 7;
 				this.add(numberComp, gbc);
 
 				gbc.gridwidth = gridwidth;
 				gbc.gridx = 0;
-				gbc.gridy = 6;
+				gbc.gridy = 8;
 				this.add(numberDescLabel, gbc);
 
 				if(GameSeriesManager.isTeamBased(gameSeries))
@@ -221,9 +255,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 					gbc.gridwidth = 1;
 					gbc.gridx = 1;
-					gbc.gridy = 4;
+					gbc.gridy = 6;
 					this.add(numberOfTeamsLabel, gbc);
-					gbc.gridy = 5;
+					gbc.gridy = 7;
 					this.add(numberOfTeamsSpinner, gbc);
 
 					int numberOfGamesPerPairInit = (gameSeries.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR) != null ? (int) gameSeries.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR) : 2);
@@ -233,10 +267,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 					((NumberEditor) this.numberOfGamesPerPairSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
 					gbc.gridx = 2;
-					gbc.gridy = 4;
+					gbc.gridy = 6;
 					this.add(numberOfGamesPerPairLabel, gbc);
-					;
-					gbc.gridy = 5;
+					gbc.gridy = 7;
 					this.add(numberOfGamesPerPairSpinner, gbc);
 
 					if(gameSeries.getType() == EnumGameSeriesType.AllCombinations)
@@ -244,10 +277,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 						numberOfTeamsPerMatchLabel = new JLabel(Language.getString("screen.settings.numberofteamspermatch", cellWidth));
 						gbc.gridwidth = 1;
 						gbc.gridx = 3;
-						gbc.gridy = 4;
+						gbc.gridy = 6;
 						this.add(numberOfTeamsPerMatchLabel, gbc);
 						gbc.fill = GridBagConstraints.HORIZONTAL;
-						gbc.gridy = 5;
+						gbc.gridy = 7;
 						this.add(numberOfTeamsPerMatchSpinner, gbc);
 					}
 					else
@@ -257,10 +290,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 						useHomeMapsCB = new JComboBox<>(new BooleanModel(useHomeMapsInit, false));
 						gbc.gridwidth = 1;
 						gbc.gridx = 3;
-						gbc.gridy = 4;
+						gbc.gridy = 6;
 						this.add(useHomeMapsLabel, gbc);
 						gbc.fill = GridBagConstraints.HORIZONTAL;
-						gbc.gridy = 5;
+						gbc.gridy = 7;
 						this.add(useHomeMapsCB, gbc);
 					}
 
@@ -269,10 +302,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 					shuffleTeamsCB = new JComboBox<>(new BooleanModel(shuffleTeamsInit, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 4;
-					gbc.gridy = 4;
+					gbc.gridy = 6;
 					this.add(shuffleTeamsLabel, gbc);
 					gbc.fill = GridBagConstraints.HORIZONTAL;
-					gbc.gridy = 5;
+					gbc.gridy = 7;
 					this.add(shuffleTeamsCB, gbc);
 
 					if(gameSeries.getType() == EnumGameSeriesType.KO)
@@ -282,10 +315,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 						smallFinalCB = new JComboBox<>(new BooleanModel(smallFinalInit, false));
 						gbc.gridwidth = 1;
 						gbc.gridx = 5;
-						gbc.gridy = 4;
+						gbc.gridy = 6;
 						this.add(smallFinalLabel, gbc);
 						gbc.fill = GridBagConstraints.HORIZONTAL;
-						gbc.gridy = 5;
+						gbc.gridy = 7;
 						this.add(smallFinalCB, gbc);
 					}
 					else if(gameSeries.getType() == EnumGameSeriesType.League)
@@ -296,10 +329,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 						dummyMatchesCB.addActionListener(e -> { stateChanged(null); });
 						gbc.gridwidth = 1;
 						gbc.gridx = 5;
-						gbc.gridy = 4;
+						gbc.gridy = 6;
 						this.add(dummyMatchesLabel, gbc);
 						gbc.fill = GridBagConstraints.HORIZONTAL;
-						gbc.gridy = 5;
+						gbc.gridy = 7;
 						this.add(dummyMatchesCB, gbc);
 					}
 
@@ -314,9 +347,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 					((NumberEditor) this.minPlayersPerGameSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
 					gbc.gridx = 0;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(minPlayersPerGameLabel, gbc);
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(minPlayersPerGameSpinner, gbc);
 
 					maxPlayersPerGameLabel = new JLabel(Language.getString("screen.settings.maxplayerspergame", cellWidth));
@@ -325,15 +358,15 @@ public class SettingsScreen extends Screen implements ChangeListener
 					((NumberEditor) this.maxPlayersPerGameSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
 					gbc.gridx = 1;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(maxPlayersPerGameLabel, gbc);
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(maxPlayersPerGameSpinner, gbc);
 
 					this.playersDescLabel = new JLabel(Language.getString("screen.settings.minplayerspergame.description", totalWidth));
 					gbc.gridwidth = gridwidth;
 					gbc.gridx = 0;
-					gbc.gridy = 9;
+					gbc.gridy = 11;
 					this.add(playersDescLabel, gbc);
 				}
 				else if(GameSeriesManager.isTeamBased(gameSeries))
@@ -344,9 +377,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 					((NumberEditor) this.minPlayersPerTeamSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
 					gbc.gridx = 0;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(minPlayersPerTeamLabel, gbc);
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(minPlayersPerTeamSpinner, gbc);
 
 					maxPlayersPerTeamLabel = new JLabel(Language.getString("screen.settings.maxplayersperteam", cellWidth));
@@ -355,9 +388,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 					((NumberEditor) this.maxPlayersPerTeamSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
 					gbc.gridx = 1;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(maxPlayersPerTeamLabel, gbc);
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(maxPlayersPerTeamSpinner, gbc);
 
 					autoNameTeamsLabel = new JLabel(Language.getString("screen.settings.autonameteams", cellWidth));
@@ -365,10 +398,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 					autoNameTeamsCB = new JComboBox<>(new BooleanModel(autoNameTeamsInit, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 2;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(autoNameTeamsLabel, gbc);
 					gbc.fill = GridBagConstraints.HORIZONTAL;
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(autoNameTeamsCB, gbc);
 
 					multipleTeamsLabel = new JLabel(Language.getString("screen.settings.multipleteams", cellWidth));
@@ -376,10 +409,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 					multipleTeamsCB = new JComboBox<>(new BooleanModel(multipleTeamsInit, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 3;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(multipleTeamsLabel, gbc);
 					gbc.fill = GridBagConstraints.HORIZONTAL;
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(multipleTeamsCB, gbc);
 
 					creatorTeamLabel = new JLabel(Language.getString("screen.settings.creatorteam", cellWidth));
@@ -387,16 +420,16 @@ public class SettingsScreen extends Screen implements ChangeListener
 					creatorTeamCB = new JComboBox<>(new BooleanModel(creatorTeamInit, false));
 					gbc.gridwidth = 1;
 					gbc.gridx = 4;
-					gbc.gridy = 7;
+					gbc.gridy = 9;
 					this.add(creatorTeamLabel, gbc);
 					gbc.fill = GridBagConstraints.HORIZONTAL;
-					gbc.gridy = 8;
+					gbc.gridy = 10;
 					this.add(creatorTeamCB, gbc);
 
 					this.playersDescLabel = new JLabel(Language.getString("screen.settings.minplayersperteam.description", totalWidth));
 					gbc.gridwidth = gridwidth;
 					gbc.gridx = 0;
-					gbc.gridy = 9;
+					gbc.gridy = 11;
 					this.add(playersDescLabel, gbc);
 				}
 			}
@@ -411,6 +444,18 @@ public class SettingsScreen extends Screen implements ChangeListener
 		gameSeries.setTitle(titleTF.getText());
 		if(gameSeries.getTitle() == null || gameSeries.getTitle().isEmpty())
 			throw new GameSeriesException("screen.settings.notitle");
+
+		Set<String> tags = new HashSet<>();
+		for(JToggleButton tb: tagsButtons)
+		{
+			if(tb.isSelected())
+				tags.add(tb.getText());
+		}
+		String[] otherTags = tagsTF.getText().split(",");
+		for(String tag: otherTags)
+			tags.add(tag.trim());
+		gameSeries.setTags(tags);
+
 		if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{
 			gameSeries.set(GameSeries.NUMBER_OF_GAMES, (Integer) numberOfGamesSpinner.getValue());

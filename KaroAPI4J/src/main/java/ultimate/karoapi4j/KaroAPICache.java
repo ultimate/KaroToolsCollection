@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +37,8 @@ import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.model.official.Smilie;
+import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
@@ -109,6 +112,15 @@ public class KaroAPICache implements IDLookUp
 	 * The {@link Map} cache (by id)
 	 */
 	private java.util.Map<Integer, Map>		mapsById;
+	
+	/**
+	 * The list of {@link Smilie}s
+	 */
+	private List<Smilie>					smilies;
+	/**
+	 * The list of {@link Tag}s
+	 */
+	private List<Tag>						suggestedTags;
 
 	/**
 	 * The config used
@@ -247,8 +259,22 @@ public class KaroAPICache implements IDLookUp
 				loadImagesCF = CompletableFuture.completedFuture(null);
 			}
 
+			// then load constants
+			logger.info("loading smilies...");
+			CompletableFuture<Void> loadSmiliesCF = karoAPI.getSmilies().thenAccept(smilieList -> {
+				logger.info("smilies loaded: " + smilieList.size());
+				this.smilies = smilieList;
+			}); 
+
+			logger.info("loading tags...");
+			CompletableFuture<Void> loadSuggestedTagsCF = karoAPI.getSuggestedTags().thenAccept(tagsList -> {
+				logger.info("tags loaded: " + tagsList.size());
+				this.suggestedTags = tagsList;
+			}); 
+
+
 			// join all operations
-			return CompletableFuture.allOf(loadUsersCF, loadCheckCF, loadMapsCF, loadImagesCF).thenAccept(v -> {
+			return CompletableFuture.allOf(loadUsersCF, loadCheckCF, loadMapsCF, loadImagesCF, loadSmiliesCF, loadSuggestedTagsCF).thenAccept(v -> {
 				logger.info("refresh complete");
 			});
 		}
@@ -284,6 +310,9 @@ public class KaroAPICache implements IDLookUp
 				{
 					logger.info("--> skipped by config");
 				}
+
+				this.smilies = Arrays.asList(new Smilie("wink"), new Smilie("biggrin"));
+				this.suggestedTags = Arrays.asList(new Tag("!KaroIQ!"), new Tag("§RE§"), new Tag("CCC"), new Tag("KaroLiga"), new Tag("KLC"));
 
 				currentUser = usersById.get(1);
 			}).thenAccept(v -> {
@@ -997,6 +1026,22 @@ public class KaroAPICache implements IDLookUp
 				return update(refreshed);
 			return null;
 		});
+	}
+	
+	/**
+	 * The list of {@link Smilie}s
+	 */
+	public List<Smilie> getSmilies()
+	{
+		return Collections.unmodifiableList(this.smilies);
+	}
+
+	/**
+	 * The list of {@link Tag}s
+	 */
+	public List<Tag> getSuggestedTags()
+	{
+		return Collections.unmodifiableList(this.suggestedTags);
 	}
 
 	////////////////////////////////////////

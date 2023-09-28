@@ -1039,6 +1039,8 @@ public abstract class Planner
 
 		String name = applyPlaceholders(title, placeholderValues);
 
+		// TODO add tags
+
 		return new PlannedGame(name, map, gamePlayers, options, placeholderValues);
 	}
 

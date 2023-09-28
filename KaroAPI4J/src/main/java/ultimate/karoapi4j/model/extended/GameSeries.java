@@ -3,6 +3,7 @@ package ultimate.karoapi4j.model.extended;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -95,6 +96,11 @@ public class GameSeries
 	 * the gameseries title (including placeholders)
 	 */
 	protected String									title;
+	@JsonInclude(value = Include.NON_NULL)
+	/**
+	 * the gameseries tags
+	 */
+	private Set<String>									tags;
 	/**
 	 * the creator
 	 */
@@ -244,6 +250,22 @@ public class GameSeries
 	public void setTitle(String title)
 	{
 		this.title = title;
+	}
+
+	/**
+	 * @return the gameseries tags 
+	 */
+	public Set<String> getTags()
+	{
+		return tags;
+	}
+
+	/**
+	 * @param tags - the gameseries tags
+	 */
+	public void setTags(Set<String> tags)
+	{
+		this.tags = tags;
 	}
 
 	/**
