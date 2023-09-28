@@ -4,13 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
@@ -87,11 +91,43 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 		return possibles;
 	}
 
-	@Test
-	public void test_evaluate(Move motion, boolean strict, Boolean expectedResult, String expectedReason)
+	public static Stream<Arguments> provideMotionAndResult()
+	{
+		List<Move> plannedMoves = createPlannedMovesList();
+		Move moveSomewhereElse = new Move(100, 100, 1, 1, null);
+		Move moveNotStrict = new Move(15,10, 1, 0, null);
+
+		//@formatter:off
+	    return Stream.of(
+			// strict, plannedPossibles_strict=0
+			arguments(moveSomewhereElse, plannedMoves, true, null, "nothing to choose from"),
+			// strict, plannedPossibles_strict=1
+			arguments(plannedMoves.get(3), plannedMoves, true, true, "Planned-Strict"),
+			arguments(plannedMoves.get(5), plannedMoves, true, true, "Planned-Strict"),
+			arguments(plannedMoves.get(18), plannedMoves, true, true, "Planned-Strict"),
+			// strict, plannedPossibles_strict>1
+			arguments(plannedMoves.get(4), plannedMoves, true, null, "can't decide"),
+
+			// not strict, plannedPossibles=0
+			arguments(moveSomewhereElse, plannedMoves, false, null, "nothing to choose from"),
+			// not strict, plannedPossibles=1
+			arguments(plannedMoves.get(5), plannedMoves, false, true, "Planned"),
+			// not strict, plannedPossibles>1 && plannedPossibles_strict=0
+			arguments(moveNotStrict, plannedMoves, false, null, "can't decide"),
+			// not strict, plannedPossibles>1 && plannedPossibles_strict=1
+			arguments(plannedMoves.get(18), plannedMoves, false, true, "Planned-Strict"),
+			// not strict, plannedPossibles>1 && plannedPossibles_strict>1
+			arguments(plannedMoves.get(4), plannedMoves, false, null, "can't decide")
+	    );
+	    //@formatter:on
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideMotionAndResult")
+	public void test_evaluate(Move motion, List<Move> plannedMoves, boolean strict, Boolean expectedResult, String expectedReason)
 	{
 		Game game = new Game();
-		game.setPlannedMoves(createPlannedMovesList());
+		game.setPlannedMoves(plannedMoves);
 
 		Player player = new Player();
 		player.setMotion(motion);
@@ -99,11 +135,25 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 
 		Properties gameConfig = new Properties();
 		gameConfig.setProperty(Mover.KEY_STRICT, "" + strict);
+		
+		logger.info("checking plan for move " + motion);
 
 		Result result = rule.evaluate(game, player, gameConfig);
+
+		// this is for debugging only
+		List<Move> possibles = calcPossibles(motion);			
+		logger.info("  possibles               = " + possibles.size());
+        List<PlannedMoveWithPredecessor> plannedPossibles = FollowPlanRule.findPlannedPossibles(player.getMotion(), player.getPossibles(), game.getPlannedMoves());	
+		logger.info("  plannedPossibles        = " + plannedPossibles.size());					
+        List<PlannedMoveWithPredecessor> plannedPossibles_strict = new ArrayList<>(plannedPossibles);
+        plannedPossibles_strict.removeIf(pmwp -> {return !pmwp.strict;});
+		logger.info("  plannedPossibles_strict = " + plannedPossibles_strict.size());
 		
+		// actual checks
+		logger.info("  result.shallMove        = " + result.shallMove());
 		assertEquals(expectedResult, result.shallMove());
-		assertEquals(expectedReason, result.getReason());
+		logger.info("  result.reason           = " + result.getReason());
+		assertTrue(expectedReason == null || result.getReason().endsWith(expectedReason));
 	}
 
 	@Test
@@ -168,7 +218,7 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 			else if(i == 5 || i == 18)
 			{
 				// lines are touching each other only shared possibles in 
-				if(i == 5) // from move 5 only 1 move is possible
+				if(i == 5) // from move 5, only 1 move is possible
 				{
 					assertEquals(1, plannedPossibles.size());
 
@@ -178,7 +228,7 @@ public class FollowPlanRuleTest extends KaroRAUPETestcase
 
 					assertEquals(plannedMoves.get(6), plannedMove1.plannedMove);
 				}
-				else if(i == 18) // from move 8 only 2 moves are possible
+				else if(i == 18) // from move 8, 2 moves are possible
 				{
 					assertEquals(2, plannedPossibles.size());
 
