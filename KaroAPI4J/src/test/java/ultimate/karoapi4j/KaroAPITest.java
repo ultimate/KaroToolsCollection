@@ -7,11 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,9 +29,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
@@ -944,23 +949,36 @@ public class KaroAPITest extends KaroAPITestcase
 		}
 	}
 
-	@Test
-	public void test_getKarolenderBlatt() throws InterruptedException, ExecutionException
+
+	public static Stream<Arguments> provideKBSamples()
+	{
+		//@formatter:off
+	    return Stream.of(
+	        arguments("2021-05-01", "Heute vor 8 Jahren diskutieren aristarch und kili ueber den moeglichst effizienten Download von Game-Logfiles mittels wget."),
+	        arguments("2022-03-08", "Heute vor 9 Jahren taucht Gott, JESUS und Der heilige Geist im Chat auf und streiten sich."),
+	        arguments("2023-03-08", "Heute vor 10 Jahren taucht Gott, JESUS und Der heilige Geist im Chat auf und streiten sich."),
+	        arguments("2023-09-15", "Heute vor 17 Jahren finden finale Salat-ohne-Ei-und-Schinken-Planungen fuer das erste Karocamp (irgendwo im Laendle mit Zelt und Isomatte) statt.")
+	    );
+	    //@formatter:on
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideKBSamples")
+	public void test_getKarolenderBlatt(String queryDate, String expectedKarolenderBlatt) throws InterruptedException, ExecutionException, ParseException
 	{
 		DateFormat df = new SimpleDateFormat(JSONUtil.DATE_FORMAT);
 
-		Date today = new Date();
-		String todayString = df.format(today);
+		Date date = df.parse(queryDate);
 
-		List<KarolenderBlatt> kb = karoAPI.getKarolenderBlatt(today).get();
+		List<KarolenderBlatt> kb = karoAPI.getKarolenderBlatt(date).get();
 		assertNotNull(kb);
 		assertTrue(kb.size() == 1);
 
-		assertNotNull(kb.get(0).getLine());
-		
-		String postedString = df.format(kb.get(0).getPosted());
+		assertNotNull(kb.get(0).getLine());		
+		assertEquals(expectedKarolenderBlatt, kb.get(0).getLine());
 
-		assertEquals(todayString.substring(4), postedString.substring(4));
+		String postedDate = df.format(kb.get(0).getPosted());
+		assertEquals(queryDate.substring(4), postedDate.substring(4));
 	}
 
 	@Test
