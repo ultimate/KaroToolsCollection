@@ -95,16 +95,16 @@ public abstract class Planner
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				numberOfTeamsPerMatch = (int) gs.get(GameSeries.NUMBER_OF_TEAMS_PER_MATCH);
-				return planSeriesAllCombinations(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), creatorParticipation, shuffle, numberOfGamesPerPair, numberOfTeamsPerMatch);
+				return planSeriesAllCombinations(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, shuffle, numberOfGamesPerPair, numberOfTeamsPerMatch);
 			case Balanced:
-				return planSeriesBalanced(gs.getTitle(), creator, gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey(), creatorParticipation);
+				return planSeriesBalanced(gs.getTitle(), creator, gs.getPlayers(), gs.getMapsByKey(), gs.getRulesByKey(), gs.getTags(), creatorParticipation);
 			case KLC:
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
 				repeat = (gs.getSettings().containsKey(GameSeries.CURRENT_REPEAT) ? (int) gs.get(GameSeries.CURRENT_REPEAT) : -1);
 				groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
 				leagues = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_LEAGUES);
 				firstKO = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_FIRST_KO_ROUND);
-				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getTeams(), leagues, groups, firstKO, gs.getRules(), creatorParticipation, round, repeat);
+				return planSeriesKLC(gs.getTitle(), creator, gs.getPlayersByKey(), gs.getTeams(), leagues, groups, firstKO, gs.getRules(), gs.getTags(), creatorParticipation, round, repeat);
 			case KO:
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				round = (int) gs.get(GameSeries.CURRENT_ROUND);
@@ -118,17 +118,17 @@ public abstract class Planner
 					losers = new ArrayList<>(gs.getTeamsByKey().get(GameSeries.KEY_ROUND + (round * 2)));
 					losers.removeAll(winners);
 				}
-				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, 0);
+				return planSeriesKO(gs.getTitle(), creator, winners, (loserRound ? losers : null), gs.getMaps(), null, gs.getRules(), gs.getTags(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, 0);
 			case League:
 				shuffle = (boolean) gs.get(GameSeries.SHUFFLE_TEAMS);
 				dummyMatches = (boolean) gs.get(GameSeries.DUMMY_MATCHES);
 				numberOfGamesPerPair = (int) gs.get(GameSeries.NUMBER_OF_GAMES_PER_PAIR);
 				useHomeMaps = (boolean) gs.get(GameSeries.USE_HOME_MAPS);
-				return planSeriesLeague(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, dummyMatches);
+				return planSeriesLeague(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, dummyMatches);
 			case Simple:
 				numberOfGames = (int) gs.get(GameSeries.NUMBER_OF_GAMES);
 				maxPlayersPerGame = (int) gs.get(GameSeries.MAX_PLAYERS_PER_GAME);
-				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), creatorParticipation, numberOfGames, maxPlayersPerGame);
+				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, numberOfGames, maxPlayersPerGame);
 			default:
 				return null;
 		}
@@ -141,12 +141,13 @@ public abstract class Planner
 	 * @param teams - the list of {@link Team}s
 	 * @param maps - the list of {@link Map}s
 	 * @param rules - the {@link Rules}
+	 * @param tags - the tags to set
 	 * @param numberOfGamesPerPair - the number of games per pair/combination
 	 * @param numberOfTeamsPerMatch - the number of {@link Team}s per match
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, EnumCreatorParticipation creatorParticipation, boolean shuffle, int numberOfGamesPerPair,
+	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean shuffle, int numberOfGamesPerPair,
 			int numberOfTeamsPerMatch)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -182,7 +183,7 @@ public abstract class Planner
 				placeholderValues.put("spieltag", toString(round + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-				game = planGame(title, creator, map, gamePlayers, rules, creatorParticipation, placeholderValues);
+				game = planGame(title, creator, map, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 
 				games.add(game);
 				count++;
@@ -200,9 +201,10 @@ public abstract class Planner
 	 * @param players - the list of {@link User}s
 	 * @param gameDayMaps - the {@link Map}s used sorted by game day
 	 * @param gameDayRules - the {@link Rules} used sorted by game day
+	 * @param tags - the tags to set
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesBalanced(String title, User creator, List<User> players, java.util.Map<String, List<Map>> gameDayMaps, java.util.Map<String, Rules> gameDayRules, EnumCreatorParticipation creatorParticipation)
+	public static List<PlannedGame> planSeriesBalanced(String title, User creator, List<User> players, java.util.Map<String, List<Map>> gameDayMaps, java.util.Map<String, Rules> gameDayRules, Set<String> tags, EnumCreatorParticipation creatorParticipation)
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
@@ -248,7 +250,7 @@ public abstract class Planner
 				placeholderValues.put("spieltag", toString(day + 1, 1));
 				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-				game = planGame(title, creator, map, gamePlayers, gameDayRules.get("" + day), creatorParticipation, placeholderValues);
+				game = planGame(title, creator, map, gamePlayers, gameDayRules.get("" + day), tags, creatorParticipation, placeholderValues);
 
 				games.add(game);
 				count++;
@@ -583,12 +585,13 @@ public abstract class Planner
 	 * @param groups - the number of groups
 	 * @param firstKO - the number of players for the first KO round
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
 	 * @param round - the round to plan
 	 * @param repeat - the repeat number of the current round (for the final)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, List<Team> teams, int leagues, int groups, int firstKO, Rules rules, EnumCreatorParticipation creatorParticipation,
-			int round, int repeat)
+	public static List<PlannedGame> planSeriesKLC(String title, User creator, java.util.Map<String, List<User>> playersByKey, List<Team> teams, int leagues, int groups, int firstKO, Rules rules, Set<String> tags, 
+			EnumCreatorParticipation creatorParticipation, int round, int repeat)
 	{
 		BiFunction<Team, Team, Team> whoIsHome = (team1, team2) -> {
 			int league1 = -1;
@@ -611,7 +614,7 @@ public abstract class Planner
 		};
 
 		if(round > firstKO)
-			return planGroupphase(title, creator, playersByKey, teams, leagues, groups, whoIsHome, rules, creatorParticipation, round);
+			return planGroupphase(title, creator, playersByKey, teams, leagues, groups, whoIsHome, rules, tags, creatorParticipation, round);
 		else
 		{
 
@@ -650,9 +653,9 @@ public abstract class Planner
 			}
 
 			if(round == 2)
-				return planSeriesKO(title, creator, winners, losers, null, null, rules, creatorParticipation, true, true, 2, repeat);
+				return planSeriesKO(title, creator, winners, losers, null, null, rules, tags, creatorParticipation, true, true, 2, repeat);
 			else
-				return planSeriesKO(title, creator, winners, null, null, whoIsHome, rules, creatorParticipation, true, true, 1, repeat);
+				return planSeriesKO(title, creator, winners, null, null, whoIsHome, rules, tags, creatorParticipation, true, true, 1, repeat);
 		}
 	}
 
@@ -669,12 +672,13 @@ public abstract class Planner
 	 * @param groups - the number of groups
 	 * @param whoIsHome - logic to determine who is the home team
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
 	 * @param round - the round to plan
 	 * @return the list of {@link PlannedGame}s
 	 */
 	// original listen werden gemischt
 	private static List<PlannedGame> planGroupphase(String title, User creator, java.util.Map<String, List<User>> playersByKey, List<Team> teams, int leagues, int groups, BiFunction<Team, Team, Team> whoIsHome, Rules rules,
-			EnumCreatorParticipation creatorParticipation, int round)
+			Set<String> tags, EnumCreatorParticipation creatorParticipation, int round)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 		List<User> allPlayers = new LinkedList<>();
@@ -740,7 +744,7 @@ public abstract class Planner
 					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1, -1));
 					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count, -1));
 
-					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, creatorParticipation, placeholderValues);
+					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, null, rules, tags, creatorParticipation, placeholderValues);
 
 					games.add(game);
 					count++;
@@ -762,24 +766,25 @@ public abstract class Planner
 	 * @param maps - the list of maps to use (only used if !useHomeMaps; if size > 1 a random map will be used)
 	 * @param whoIsHome - logic to determine who is the home team
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
 	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @param numberOfGamesPerPair - the number of games per pairing
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> winners, List<Team> losers, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, EnumCreatorParticipation creatorParticipation,
-			boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair, int repeat)
+	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> winners, List<Team> losers, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, Set<String> tags, 
+			EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair, int repeat)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
-		games.addAll(planSeriesKO0(title, creator, winners, maps, whoIsHome, rules, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, false, repeat));
+		games.addAll(planSeriesKO0(title, creator, winners, maps, whoIsHome, rules, tags, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, false, repeat));
 		if(losers != null)
-			games.addAll(planSeriesKO0(title, creator, losers, maps, whoIsHome, rules, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, true, repeat));
+			games.addAll(planSeriesKO0(title, creator, losers, maps, whoIsHome, rules, tags, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, true, repeat));
 
 		return games;
 	}
 
-	static List<PlannedGame> planSeriesKO0(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle,
+	static List<PlannedGame> planSeriesKO0(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle,
 			int numberOfGamesPerPair, boolean losers, int repeat)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -813,9 +818,9 @@ public abstract class Planner
 					overwriteMap = maps.get(random.nextInt(maps.size()));
 
 				if(j % 2 == 0)
-					game = planTeamGame(title, creator, ti, ti1, whoIsHome, overwriteMap, rules, creatorParticipation, placeholderValues);
+					game = planTeamGame(title, creator, ti, ti1, whoIsHome, overwriteMap, rules, tags, creatorParticipation, placeholderValues);
 				else
-					game = planTeamGame(title, creator, ti1, ti, whoIsHome, overwriteMap, rules, creatorParticipation, placeholderValues);
+					game = planTeamGame(title, creator, ti1, ti, whoIsHome, overwriteMap, rules, tags, creatorParticipation, placeholderValues);
 
 				games.add(game);
 				count++;
@@ -832,13 +837,15 @@ public abstract class Planner
 	 * @param teams - the list of {@link Team}s
 	 * @param maps - the list of {@link Map}s if useHomeMaps is set to false or if there is an uneven number of games per pair)
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
+	 * @param creatorParticipation - does the creator participate or not
 	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
 	 * @param numberOfGamesPerPair - the number of games per pair (usually this is 2 = one for the first and one for the second half of the season)
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @param planFreeMatches - include "free" matches in case of an uneven number of teams
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair,
+	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair,
 			boolean planFreeMatches)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -884,7 +891,7 @@ public abstract class Planner
 					placeholderValues.put("spieltag", toString(day + 1, 1));
 					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
 
-					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, creatorParticipation, placeholderValues);
+					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, tags, creatorParticipation, placeholderValues);
 
 					games.add(game);
 					count++;
@@ -904,11 +911,13 @@ public abstract class Planner
 	 * @param players - the list of {@link User}s
 	 * @param maps - the list of {@link Map}s to chose from
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
+	 * @param creatorParticipation - does the creator participate or not
 	 * @param numberOfGames - the number of games to create
 	 * @param maxPlayersPerGame - the max number of {@link User}s per {@link PlannedGame}
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<Map> maps, Rules rules, EnumCreatorParticipation creatorParticipation, int numberOfGames, int maxPlayersPerGame)
+	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<Map> maps, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int maxPlayersPerGame)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -943,7 +952,7 @@ public abstract class Planner
 			placeholderValues = new HashMap<>();
 			placeholderValues.put("i", toString(count + 1, 1));
 
-			game = planGame(title, creator, map, gamePlayers, rules, creatorParticipation, placeholderValues);
+			game = planGame(title, creator, map, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 
 			games.add(game);
 			count++;
@@ -962,10 +971,12 @@ public abstract class Planner
 	 * @param whoIsHome - logic to determine who is the home team, if null, team1 is used
 	 * @param overwriteMap - overwrite the map with a neutral one? If null, the home-map is used
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
+	 * @param creatorParticipation - does the creator participate or not
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public static PlannedGame planTeamGame(String title, User creator, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, EnumCreatorParticipation creatorParticipation,
+	public static PlannedGame planTeamGame(String title, User creator, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation,
 			java.util.Map<String, String> placeholderValues)
 	{
 		Team home, guest;
@@ -991,7 +1002,7 @@ public abstract class Planner
 		if(map == null) // can happen for dummyMatches
 			map = guest.getHomeMap();
 
-		PlannedGame g = planGame(title, creator, map, gamePlayers, rules, creatorParticipation, placeholderValues);
+		PlannedGame g = planGame(title, creator, map, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 		g.setHome(home.getName());
 		g.setGuest(guest.getName());
 
@@ -1006,12 +1017,14 @@ public abstract class Planner
 	 * @param map - the map to use
 	 * @param gamePlayers - the participating {@link User}s
 	 * @param rules - the {@link Rules} to use
+	 * @param tags - the tags to set
+	 * @param creatorParticipation - does the creator participate or not
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public static PlannedGame planGame(String title, User creator, Map map, Set<User> gamePlayers, Rules rules, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planGame(String title, User creator, Map map, Set<User> gamePlayers, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
 	{
-		return planGame(title, creator, map, gamePlayers, rules.createOptions(random), creatorParticipation, placeholderValues);
+		return planGame(title, creator, map, gamePlayers, rules.createOptions(random), tags, creatorParticipation, placeholderValues);
 	}
 
 	/**
@@ -1022,10 +1035,12 @@ public abstract class Planner
 	 * @param map - the map to use
 	 * @param gamePlayers - the participating {@link User}s
 	 * @param options - the {@link Options} to use
+	 * @param tags - the tags to set
+	 * @param creatorParticipation - does the creator participate or not
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public static PlannedGame planGame(String title, User creator, Map map, Set<User> gamePlayers, Options options, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planGame(String title, User creator, Map map, Set<User> gamePlayers, Options options, Set<String> tags, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
 	{
 		if(creatorParticipation != EnumCreatorParticipation.not_participating)
 			gamePlayers.add(creator);
@@ -1039,9 +1054,7 @@ public abstract class Planner
 
 		String name = applyPlaceholders(title, placeholderValues);
 
-		// TODO add tags
-
-		return new PlannedGame(name, map, gamePlayers, options, placeholderValues);
+		return new PlannedGame(name, map, gamePlayers, options, tags, placeholderValues);
 	}
 
 	/**

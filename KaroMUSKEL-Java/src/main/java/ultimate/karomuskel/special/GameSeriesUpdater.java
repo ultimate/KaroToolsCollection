@@ -268,7 +268,7 @@ public abstract class GameSeriesUpdater
 				players.add(user2);
 				players.add(creator);
 
-				pg = new PlannedGame(game.getName(), map, players, options);
+				pg = new PlannedGame(game.getName(), map, players, options, null);
 				pg.setGame(game);
 				pg.setCreated(true);
 				pg.setLeft(true);
@@ -317,7 +317,7 @@ public abstract class GameSeriesUpdater
 				r.setNumberOfPlayers(4);
 		}
 
-		List<PlannedGame> plannedGamesNew = Planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), gs.getCreatorParticipation());
+		List<PlannedGame> plannedGamesNew = Planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), null, gs.getCreatorParticipation());
 		logger.debug("plannedGamesNew:     " + plannedGamesNew.size());		
 		
 		plannedGamesNew.removeIf(pg -> { return mapsStarted.contains(pg.getMap()); });

@@ -69,18 +69,19 @@ public class PlannedGame
 		this.players = new LinkedHashSet<>();
 	}
 
-	public PlannedGame(String name, Map map, Set<User> players, Options options)
+	public PlannedGame(String name, Map map, Set<User> players, Options options, Set<String> tags)
 	{
 		this();
 		this.name = name;
 		this.map = map;
 		this.players = new LinkedHashSet<>(players);
 		this.options = options;
+		this.tags = tags;
 	}
 
-	public PlannedGame(String name, Map map, Set<User> players, Options options, java.util.Map<String, String> placeHolderValues)
+	public PlannedGame(String name, Map map, Set<User> players, Options options, Set<String> tags, java.util.Map<String, String> placeHolderValues)
 	{
-		this(name, map, players, options);
+		this(name, map, players, options, tags);
 		this.placeHolderValues = placeHolderValues;
 	}
 
