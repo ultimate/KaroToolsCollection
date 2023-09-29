@@ -617,7 +617,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 	}
 
-	public class SummaryModel extends AbstractTableModel implements TableModel
+	// TODO add tags
+	public class SummaryModel extends AbstractTableModel
 	{
 		private static final long	serialVersionUID	= 1L;
 
