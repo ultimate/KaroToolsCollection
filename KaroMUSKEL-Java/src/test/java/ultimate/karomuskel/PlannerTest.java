@@ -34,7 +34,6 @@ import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
-import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.Planner.ShuffleResult;
 import ultimate.karomuskel.test.KaroMUSKELTestcase;
