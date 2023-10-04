@@ -76,7 +76,7 @@ public class PlannedGame
 		this.map = map;
 		this.players = new LinkedHashSet<>(players);
 		this.options = options;
-		this.tags = tags;
+		this.tags = new LinkedHashSet<>(tags);
 	}
 
 	public PlannedGame(String name, Map map, Set<User> players, Options options, Set<String> tags, java.util.Map<String, String> placeHolderValues)

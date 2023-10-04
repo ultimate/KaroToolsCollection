@@ -1,25 +1,17 @@
 package ultimate.karomuskel.ui.screens;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JSpinner.DefaultEditor;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
@@ -29,7 +21,6 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
-import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
@@ -40,6 +31,7 @@ import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.AllCombinationsNumberModel;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.KORoundNumberModel;
+import ultimate.karomuskel.ui.components.TagEditor;
 
 public class SettingsScreen extends Screen implements ChangeListener
 {
@@ -53,9 +45,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JTextField					titleTF;
 	private JLabel						titleDescLabel;
 
-	private JPanel						tagsPanel;
-	private List<JToggleButton>			tagsButtons;
-	private JTextField					tagsTF;
+	private TagEditor					tagEditor;
 
 	private JTextField					numberOfGamesTF;
 	private JSpinner					numberOfGamesSpinner;
@@ -144,8 +134,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			this.titleTF.setText(gameSeries.getTitle() != null ? gameSeries.getTitle() : GameSeriesManager.getDefaultTitle(this.gameSeries));
 			this.titleTF.setToolTipText(Language.getString("titlepatterns"));
 			this.titleTF.setMinimumSize(new Dimension(totalWidth, lineHeight));
-			this.titleTF.setPreferredSize(new Dimension(totalWidth * 31 / 24, lineHeight)); // don't know why factor is necessary, but otherwise it's
-																							// not full width
+			this.titleTF.setPreferredSize(new Dimension(totalWidth * 31 / 24, lineHeight)); // don't know why factor is necessary, but otherwise it's not full width
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
@@ -156,24 +145,9 @@ public class SettingsScreen extends Screen implements ChangeListener
 			gbc.gridwidth = gridwidth;
 			gbc.gridx = 0;
 			gbc.gridy = 2;
-			this.tagsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			this.tagsButtons = new ArrayList<>();
-			JToggleButton tb;
-			boolean selected;
-			Set<String> otherTags = (gameSeries.getTags() != null ? gameSeries.getTags() : new HashSet<>());
-			for(Tag tag: karoAPICache.getSuggestedTags())
-			{
-				selected = (gameSeries.getTags() != null && gameSeries.getTags().contains(tag.getLabel()));
-				tb = new JToggleButton(tag.getLabel(), selected);
-				this.tagsButtons.add(tb);
-				this.tagsPanel.add(tb);
-				otherTags.remove(tag.getLabel());
-			}
-			this.tagsTF = new JTextField(String.join(", ", otherTags));
-			this.tagsTF.setMinimumSize(new Dimension(totalWidth/gridwidth, lineHeight));
-			this.tagsTF.setPreferredSize(new Dimension(totalWidth/gridwidth, lineHeight)); 
-			this.tagsPanel.add(tagsTF, gbc);
-			this.add(tagsPanel, gbc);
+			this.tagEditor = new TagEditor(karoAPICache.getSuggestedTags());
+			this.tagEditor.setSelectedTags(gameSeries.getTags());
+			this.add(tagEditor, gbc);
 
 			gbc.gridy = 3;
 			this.titleDescLabel = new JLabel(Language.getString("screen.settings.title.description", totalWidth));
@@ -444,17 +418,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 		gameSeries.setTitle(titleTF.getText());
 		if(gameSeries.getTitle() == null || gameSeries.getTitle().isEmpty())
 			throw new GameSeriesException("screen.settings.notitle");
-
-		Set<String> tags = new HashSet<>();
-		for(JToggleButton tb: tagsButtons)
-		{
-			if(tb.isSelected())
-				tags.add(tb.getText());
-		}
-		String[] otherTags = tagsTF.getText().split(",");
-		for(String tag: otherTags)
-			tags.add(tag.trim());
-		gameSeries.setTags(tags);
+		gameSeries.setTags(this.tagEditor.getSelectedTags());
 
 		if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{

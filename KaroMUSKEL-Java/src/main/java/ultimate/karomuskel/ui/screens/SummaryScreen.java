@@ -9,8 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
@@ -29,8 +31,6 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
@@ -38,6 +38,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.Creator;
 import ultimate.karomuskel.GameSeriesManager;
@@ -51,6 +52,8 @@ import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.MapRenderer;
 import ultimate.karomuskel.ui.components.SpinnerCellEditor;
+import ultimate.karomuskel.ui.components.TagCellEditor;
+import ultimate.karomuskel.ui.components.TagEditor;
 import ultimate.karomuskel.ui.components.UserCellEditor;
 
 public class SummaryScreen extends Screen implements ActionListener
@@ -84,10 +87,12 @@ public class SummaryScreen extends Screen implements ActionListener
 	private boolean				inProgress;
 
 	private static final int	OPEN				= 0;
-	private static final int	CREATING			= 1;
-	private static final int	CREATED				= 2;
-	private static final int	LEAVING				= 3;
-	private static final int	LEFT				= 4;
+	private static final int	GENERATING_MAP		= 1;
+	private static final int	GENERATED_MAP		= 2;
+	private static final int	CREATING			= 3;
+	private static final int	CREATED				= 4;
+	private static final int	LEAVING				= 5;
+	private static final int	LEFT				= 6;
 
 	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
 	{
@@ -428,7 +433,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.model.getColumnWidth(i) > 0)
 			{
 				col.setMinWidth(this.model.getColumnWidth(i));
-				// col.setMaxWidth(this.model.getColumnWidth(i));
+				col.setMaxWidth(this.model.getColumnWidth(i));
 				col.setPreferredWidth(this.model.getColumnWidth(i));
 			}
 			else
@@ -444,7 +449,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false))));
-		}
+			}
 			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
 				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
@@ -462,6 +467,12 @@ public class SummaryScreen extends Screen implements ActionListener
 				col.setCellEditor(editor);
 				col.setCellRenderer(editor);
 			}
+			else if(table.getColumnClass(i).equals(Tag.class))
+			{
+				TagCellEditor editor = new TagCellEditor(this.gui, this.model, karoAPICache);
+				col.setCellEditor(editor);
+				col.setCellRenderer(editor);
+			}
 		}
 
 		// Batch-Update-Support
@@ -472,21 +483,23 @@ public class SummaryScreen extends Screen implements ActionListener
 				int col = table.columnAtPoint(e.getPoint());
 				if(col == 0) // Title
 					batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
-				else if(col == 1) // Map
+				else if(col == 1) // Tags
+					batchUpdateTags(col, Language.getString("screen.summary.table.tags"));
+				else if(col == 2) // Map
 					batchUpdateSelection(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel<Map>(karoAPICache.getMaps().toArray(new Map[0])));
-				else if(col == 2) // Players
+				else if(col == 3) // Players
 					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
-				else if(col == 3) // ZZZ
+				else if(col == 4) // ZZZ
 					batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
-				else if(col == 4) // TC
+				else if(col == 5) // TC
 					batchUpdateSelection(col, Language.getString("screen.summary.table.crashs"), new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false));
-				else if(col == 5) // CPs
+				else if(col == 6) // CPs
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
-				else if(col == 6) // Direction
+				else if(col == 7) // Direction
 					batchUpdateSelection(col, Language.getString("screen.summary.table.direction"), new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false));
-				else if(col == 7) // Create
+				else if(col == 8) // Create
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
-				else if(col == 8) // Leave
+				else if(col == 9) // Leave
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.leavestatus"));
 			}
 		});
@@ -550,9 +563,11 @@ public class SummaryScreen extends Screen implements ActionListener
 			logger.info("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				String updateValue = Planner.applyPlaceholders(value, model.getRow(row).getPlaceHolderValues());
 				if(model.isCellEditable(row, column))
+				{
+					String updateValue = Planner.applyPlaceholders(value, model.getRow(row).getPlaceHolderValues());
 					model.setValueAt(updateValue, row, column);
+				}
 			}
 		}
 	}
@@ -574,6 +589,60 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 	}
 
+	private void batchUpdateTags(int column, String label)
+	{
+		List<String> tagOptions = new ArrayList<>();
+		this.karoAPICache.getSuggestedTags().forEach(tag -> {
+			tagOptions.add(tag.getLabel());
+		});
+		String other = Language.getString("screen.summary.batchUpdate.tags.other");
+		tagOptions.add(other);
+
+		final JComboBox<String> combobox = new JComboBox<>(new DefaultComboBoxModel<String>(tagOptions.toArray(new String[tagOptions.size()])));
+		final JTextField textField = new JTextField();
+		textField.setEditable(false);
+
+		combobox.addActionListener(e -> {
+			textField.setEditable(other.equals(combobox.getSelectedItem()));
+		});
+
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.tags.add"), Language.getString("screen.summary.batchUpdate.tags.remove"), Language.getString("option.cancel") };
+
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox, textField }, Language.getString("screen.summary.batchUpdate.tags"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
+
+		Set<String> updatedTags;
+		if(result == 0) // add
+		{
+			String value = (other.equals(combobox.getSelectedItem()) ? textField.getText() : (String) combobox.getSelectedItem());
+			Set<String> tagsToChange = TagEditor.parseString(value);
+			logger.info("adding tags: " + tagsToChange);
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				if(model.isCellEditable(row, column))
+				{
+					updatedTags = new LinkedHashSet<>(model.getRow(row).getTags());
+					updatedTags.addAll(tagsToChange);
+					model.setValueAt(updatedTags, row, column);
+				}
+			}
+		}
+		else if(result == 1) // remove
+		{
+			String value = (other.equals(combobox.getSelectedItem()) ? textField.getText() : (String) combobox.getSelectedItem());
+			Set<String> tagsToChange = TagEditor.parseString(value);
+			logger.info("removing tags: " + tagsToChange);
+			for(int row = 0; row < model.getRowCount(); row++)
+			{
+				if(model.isCellEditable(row, column))
+				{
+					updatedTags = new LinkedHashSet<>(model.getRow(row).getTags());
+					updatedTags.removeAll(tagsToChange);
+					model.setValueAt(updatedTags, row, column);
+				}
+			}
+		}
+	}
+
 	private void batchUpdatePlayers(int column, String label)
 	{
 		List<User> players = new ArrayList<>(karoAPICache.getUsersByLogin().values());
@@ -591,10 +660,12 @@ public class SummaryScreen extends Screen implements ActionListener
 			logger.info("adding player: " + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
-				updatedPlayers.add(value);
 				if(model.isCellEditable(row, column))
+				{
+					updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
+					updatedPlayers.add(value);
 					model.setValueAt(updatedPlayers, row, column);
+				}
 			}
 		}
 		else if(result == 1) // remove
@@ -609,15 +680,16 @@ public class SummaryScreen extends Screen implements ActionListener
 			logger.info("removing player: " + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
-				updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
-				updatedPlayers.remove(value);
 				if(model.isCellEditable(row, column))
+				{
+					updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
+					updatedPlayers.remove(value);
 					model.setValueAt(updatedPlayers, row, column);
+				}
 			}
 		}
 	}
 
-	// TODO add tags
 	public class SummaryModel extends AbstractTableModel
 	{
 		private static final long	serialVersionUID	= 1L;
@@ -640,6 +712,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.rows = new ArrayList<Object[]>(gameSeries.getGames().size());
 
 			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 0);
+			this.addColumn(Language.getString("screen.summary.table.tags"), Tag.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.map"), Map.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.players"), User.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.zzz"), Integer.class, 40);
@@ -655,15 +728,18 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			Object[] row = new Object[getColumnCount()];
 
-			row[0] = game.getName();
-			row[1] = game.getMap();
-			row[2] = game.getPlayers();
-			row[3] = game.getOptions().getZzz();
-			row[4] = new Label<>(Language.getString(EnumGameTC.class, game.getOptions().getCrashallowed()), game.getOptions().getCrashallowed());
-			row[5] = game.getOptions().isCps();
-			row[6] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
-			row[7] = true;
-			row[8] = (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave) || game.isLeft();
+			int col = 0;
+
+			row[col++] = game.getName();
+			row[col++] = game.getTags();
+			row[col++] = game.getMap();
+			row[col++] = game.getPlayers();
+			row[col++] = game.getOptions().getZzz();
+			row[col++] = new Label<>(Language.getString(EnumGameTC.class, game.getOptions().getCrashallowed()), game.getOptions().getCrashallowed());
+			row[col++] = game.getOptions().isCps();
+			row[col++] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
+			row[col++] = true;
+			row[col++] = (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave) || game.isLeft();
 
 			if(!game.isCreated())
 				gamesToCreate.add(game);
@@ -745,7 +821,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(getRow(rowIndex).isLeft())
 				return false;
 
-			if(getRow(rowIndex).isCreated() && columnIndex < 8)
+			if(getRow(rowIndex).isCreated() && columnIndex < getColumnCount() - 2)
 				return false;
 
 			if(columnIndex == getColumnCount() - 2) // leave
@@ -768,6 +844,10 @@ public class SummaryScreen extends Screen implements ActionListener
 					game.setName((String) aValue);
 					break;
 				case 1:
+					game.getTags().clear();
+					game.getTags().addAll((Collection<String>) aValue);
+					break;
+				case 2:
 					if(((Map) aValue).getPlayers() < game.getPlayers().size())
 					{
 						JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
@@ -775,23 +855,23 @@ public class SummaryScreen extends Screen implements ActionListener
 					}
 					game.setMap((Map) aValue);
 					break;
-				case 2:
+				case 3:
 					game.getPlayers().clear();
 					game.getPlayers().addAll((Collection<User>) aValue);
 					break;
-				case 3:
+				case 4:
 					game.getOptions().setZzz((Integer) aValue);
 					break;
-				case 4:
+				case 5:
 					game.getOptions().setCrashallowed(((Label<EnumGameTC>) aValue).getValue());
 					break;
-				case 5:
+				case 6:
 					game.getOptions().setCps((Boolean) aValue);
 					break;
-				case 6:
+				case 7:
 					game.getOptions().setStartdirection(((Label<EnumGameDirection>) aValue).getValue());
 					break;
-				case 7:
+				case 8:
 					if((Boolean) aValue)
 					{
 						if(!gamesToCreate.contains(game))
@@ -802,7 +882,7 @@ public class SummaryScreen extends Screen implements ActionListener
 						gamesToCreate.remove(game);
 					}
 					break;
-				case 8:
+				case 9:
 					if((Boolean) aValue)
 					{
 						if(!gamesToLeave.contains(game))
@@ -828,11 +908,17 @@ public class SummaryScreen extends Screen implements ActionListener
 		public void setStatus(PlannedGame game, int status)
 		{
 			int rowIndex = this.getRowIndex(game);
-			int columnIndex = 9;
+			int columnIndex = getColumnCount() - 1;
 			switch(status)
 			{
 				case OPEN:
 					setValueAt(Language.getString("screen.summary.table.status.open"), rowIndex, columnIndex);
+					break;
+				case GENERATING_MAP:
+					setValueAt(Language.getString("screen.summary.table.status.generatingMap"), rowIndex, columnIndex);
+					break;
+				case GENERATED_MAP:
+					setValueAt(Language.getString("screen.summary.table.status.generatedMap"), rowIndex, columnIndex);
 					break;
 				case CREATING:
 					setValueAt(Language.getString("screen.summary.table.status.creating"), rowIndex, columnIndex);
