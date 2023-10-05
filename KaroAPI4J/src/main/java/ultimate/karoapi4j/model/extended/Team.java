@@ -4,13 +4,15 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ultimate.karoapi4j.model.base.PlaceToRace;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
-import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 
 /**
  * Simple POJO that defines a team.<br>
@@ -40,9 +42,10 @@ public class Team
 	/**
 	 * the (optional) home {@link Map}
 	 */
-	@JsonSerialize(converter = ToIDConverter.class)
-	@JsonDeserialize(converter = Map.FromIDConverter.class)
-	private Map					homeMap;
+	@JsonInclude(value = Include.NON_NULL)
+	@JsonSerialize(using = PlaceToRace.PlaceToRaceSerializer.class)
+	@JsonDeserialize(using = PlaceToRace.PlaceToRaceDeserializer.class)
+	private PlaceToRace			homeMap;
 
 
 	/**
@@ -72,7 +75,7 @@ public class Team
 	 * @param homeMap - the home {@link Map}
 	 * @see User
 	 */
-	public Team(String name, User member, Map homeMap)
+	public Team(String name, User member, PlaceToRace homeMap)
 	{
 		this.name = name;
 		this.members = new LinkedHashSet<User>();
@@ -100,7 +103,7 @@ public class Team
 	 * @param homeMap - the home {@link Map}
 	 * @see User
 	 */
-	public Team(String name, Collection<User> members, Map homeMap)
+	public Team(String name, Collection<User> members, PlaceToRace homeMap)
 	{
 		this.name = name;
 		this.members = new LinkedHashSet<User>(members);
@@ -152,7 +155,7 @@ public class Team
 	 * 
 	 * @return the home {@link Map}
 	 */
-	public Map getHomeMap()
+	public PlaceToRace getHomeMap()
 	{
 		return homeMap;
 	}
@@ -162,7 +165,7 @@ public class Team
 	 * 
 	 * @param name - the home {@link Map}
 	 */
-	public void setHomeMap(Map homeMap)
+	public void setHomeMap(PlaceToRace homeMap)
 	{
 		this.homeMap = homeMap;
 	}

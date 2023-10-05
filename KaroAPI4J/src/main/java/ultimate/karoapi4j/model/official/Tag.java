@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import ultimate.karoapi4j.KaroAPI;
 
 /**
- * POJO Game as defined by the {@link KaroAPI}.<br/>
+ * POJO Tag as defined by the {@link KaroAPI}.<br/>
  * <br/>
  * Used for lists in the form:<br/>
  * <code>
