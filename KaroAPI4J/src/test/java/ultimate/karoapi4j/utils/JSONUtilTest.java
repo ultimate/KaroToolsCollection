@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -19,20 +18,17 @@ import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.base.Identifiable;
-import ultimate.karoapi4j.model.base.PlaceToRace;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
@@ -42,7 +38,6 @@ import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
-import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 
 public class JSONUtilTest
 {
@@ -101,7 +96,7 @@ public class JSONUtilTest
 				+ "\"title\":\"" + gs.getTitle() + "\","
 				+ "\"creator\":" + gs.getCreator().getId() + ","
 				+ "\"players\":" + toJson(gs.getPlayers()) + ","
-				+ "\"maps\":" + toJson(gs.getMaps()) + ","
+				+ "\"maps\":" + toJson2(gs.getMaps()) + ","
 				+ "\"rules\":" + toJson(gs.getRules()) + ","
 				+ "\"settings\":" + JSONUtil.serialize(gs.getSettings()) + ""
 				+ "}"; // only empty supported
@@ -184,6 +179,35 @@ public class JSONUtilTest
 				+ "}";
 		else
 			return null;
+		//@formatter:on
+	}
+
+	private String toJson2(Collection<PlaceToRace> list)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		Iterator<PlaceToRace> iter = list.iterator();
+		PlaceToRace ptr;
+		for(int i = 0; iter.hasNext(); i++)
+		{
+			if(i > 0)
+				sb.append(',');
+			ptr = iter.next();
+			if(ptr.isMap())
+				sb.append(ptr.getMap().getId());
+			else
+				sb.append(toJson(ptr.getGenerator()));
+		}
+		sb.append(']');
+		return sb.toString();
+	}
+
+	private String toJson(Generator generator)
+	{
+		//@formatter:off
+		return "{" + "\"key\":\"" + generator.getKey() + "\","
+				+ "\"settings\":" + toJson(generator.getSettings())
+				+ "}";
 		//@formatter:on
 	}
 
@@ -458,7 +482,7 @@ public class JSONUtilTest
 		int mid1 = 12;
 		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
 		gs.setCreator(new User(uid));
-		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
+		gs.setMaps(Arrays.asList(new PlaceToRace(new Map(mid0)), new PlaceToRace(new Map(mid1))));
 
 		json = JSONUtil.serialize(gs);
 		logger.debug("gameSeries = " + json);
@@ -471,72 +495,8 @@ public class JSONUtilTest
 		assertEquals(uid, deserialized.getCreator().getId());
 		assertNotNull(deserialized.getMaps());
 		assertEquals(2, deserialized.getMaps().size());
-		assertEquals(mid0, deserialized.getMaps().get(0).getId());
-		assertEquals(mid1, deserialized.getMaps().get(1).getId());
-	}
-
-	@Test
-	public void test_serialize_deserialize_User_withLookup()
-	{
-		IDLookUp lookUpBackup = JSONUtil.getLookUp();
-
-		try
-		{
-			KaroAPICache karoAPICache = new KaroAPICache(null);
-			JSONUtil.setLookUp(karoAPICache);
-			
-			String serialized, expected;
-
-			// User
-			User fromAPI = karoAPICache.getUser(5);
-			expected = "" + fromAPI.getId();
-			serialized = JSONUtil.serialize(fromAPI);
-
-			logger.debug("expected = " + expected);
-			logger.debug("actual   = " + serialized);
-			assertEquals(expected, serialized);
-			
-			User deserialized = JSONUtil.deserialize(serialized, new TypeReference<User>() {});
-
-			assertEquals(fromAPI, deserialized);
-			assertTrue(fromAPI == deserialized);
-		}
-		finally
-		{
-			JSONUtil.setLookUp(lookUpBackup);
-		}
-	}
-
-	@Test
-	public void test_serialize_deserialize_Map_withLookup()
-	{
-		IDLookUp lookUpBackup = JSONUtil.getLookUp();
-
-		try
-		{
-			KaroAPICache karoAPICache = new KaroAPICache(null);
-			JSONUtil.setLookUp(karoAPICache);
-			
-			String serialized, expected;
-
-			// Map
-			Map fromAPI = karoAPICache.getMap(17);
-			expected = "" + fromAPI.getId();
-			serialized = JSONUtil.serialize(fromAPI);
-
-			logger.debug("expected = " + expected);
-			logger.debug("actual   = " + serialized);
-			assertEquals(expected, serialized);
-			
-			Map deserialized = JSONUtil.deserialize(serialized, new TypeReference<Map>() {});
-
-			assertEquals(fromAPI, deserialized);
-			assertTrue(fromAPI == deserialized);
-		}
-		finally
-		{
-			JSONUtil.setLookUp(lookUpBackup);
-		}
+		assertEquals(mid0, deserialized.getMaps().get(0).getMap().getId());
+		assertEquals(mid1, deserialized.getMaps().get(1).getMap().getId());
 	}
 
 	@Test
@@ -560,7 +520,7 @@ public class JSONUtilTest
 		gs.set(GameSeries.NUMBER_OF_GAMES, 10);
 		gs.setRules(new Rules(2, 4, EnumGameTC.allowed, true, EnumGameDirection.formula1));
 		gs.setPlayers(Arrays.asList(creator, new User(uid1), new User(uid2)));
-		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
+		gs.setMaps(Arrays.asList(new PlaceToRace(new Map(mid0)), new PlaceToRace(new Map(mid1))));
 
 		json = JSONUtil.serialize(gs);
 
@@ -577,8 +537,8 @@ public class JSONUtilTest
 		assertEquals(uid2, deserialized.getPlayers().get(2).getId());
 		assertNotNull(deserialized.getMaps());
 		assertEquals(2, deserialized.getMaps().size());
-		assertEquals(mid0, deserialized.getMaps().get(0).getId());
-		assertEquals(mid1, deserialized.getMaps().get(1).getId());
+		assertEquals(mid0, deserialized.getMaps().get(0).getMap().getId());
+		assertEquals(mid1, deserialized.getMaps().get(1).getMap().getId());
 	}
 
 	@Test

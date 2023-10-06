@@ -1,4 +1,4 @@
-package ultimate.karoapi4j.model.base;
+package ultimate.karoapi4j.model.extended;
 
 import java.io.IOException;
 
