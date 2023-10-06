@@ -98,6 +98,15 @@ public class PlaceToRace
             return generator.isNight();
     }
 
+    @JsonIgnore
+    public int getPlayers()
+    {
+        if(isMap())
+            return map.getPlayers();
+        else
+            return generator.getPlayers();
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

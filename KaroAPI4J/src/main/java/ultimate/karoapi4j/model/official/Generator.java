@@ -1,5 +1,8 @@
 package ultimate.karoapi4j.model.official;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ultimate.karoapi4j.KaroAPI;
@@ -32,6 +35,11 @@ import ultimate.karoapi4j.KaroAPI;
  */
 public class Generator
 {
+	/**
+	 * Logger-Instance
+	 */
+	protected transient final Logger	logger	= LogManager.getLogger(getClass());
+
     private String key;    
 	@JsonIgnore // not needed when serializing
     private String name;
@@ -114,6 +122,30 @@ public class Generator
                 return ((int) nightValue) == 1;
         } 
         return false;
+    }
+
+    @JsonIgnore
+    public int getPlayers()
+    {
+        String key = "players";
+        if(this.settings != null && this.settings.containsKey(key))
+        {
+            Object nightValue = this.settings.get(key);
+            if(nightValue instanceof Integer)
+                return (int) nightValue;
+            else if(nightValue instanceof String)
+            {
+                try
+                {
+                    return Integer.parseInt((String) nightValue);
+                }
+                catch(NumberFormatException e)
+                {
+                    logger.error(e);
+                }
+            }
+        } 
+        return KaroAPI.getIntProperty(KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.default");
     }
 
     @Override

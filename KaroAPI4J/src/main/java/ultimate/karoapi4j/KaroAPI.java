@@ -86,6 +86,10 @@ public class KaroAPI implements IDLookUp
 	 * The config key
 	 */
 	public static final String				CONFIG_KEY	= "karoAPI";
+	/**
+	 * The generator key
+	 */
+	public static final String				GENERATOR_KEY	= "generator";
 
 	/**
 	 * The default placeholder for API urls
@@ -120,18 +124,23 @@ public class KaroAPI implements IDLookUp
 	 */
 	private static String					applicationVersion;
 
+	/**
+	 * Additionaly API properties
+	 */
+	private static Properties				apiProperties;
+
 	static
 	{
 		// read the version from the properties
 		logger.debug("loading KaroAPI version");
 		try
 		{
-			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
+			apiProperties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
 			
-			version = properties.getProperty(KaroAPI.CONFIG_KEY + ".version");
+			version = apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".version");
 			logger.debug("version     = " + version);
 
-			initTimeout = Integer.parseInt(properties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
+			initTimeout = Integer.parseInt(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
 			logger.debug("initTimeout = " + initTimeout);
 		}
 		catch(IOException e)
@@ -1402,5 +1411,45 @@ public class KaroAPI implements IDLookUp
 			logger.error("could not look up " + cls.getName() + " with id " + id, e);
 		}
 		return null;
+	}
+	
+	///////////////////////
+	// ADDITIONAL PROPERTIES
+	///////////////////////
+
+	public static String getStringProperty(String key)
+	{
+		return apiProperties.getProperty(key);
+	}
+
+	public static int getIntProperty(String key)
+	{
+		try
+		{
+			return Integer.parseInt(getStringProperty(key));
+		}
+		catch(NumberFormatException | NullPointerException e)
+		{
+			logger.warn(e);
+			return 0;
+		}
+	}
+
+	public static double getDoubleProperty(String key)
+	{
+		try
+		{
+			return Double.parseDouble(getStringProperty(key));
+		}
+		catch(NumberFormatException | NullPointerException e)
+		{
+			logger.warn(e);
+			return 0;
+		}
+	}
+
+	public static boolean getBooleanProperty(String key)
+	{
+		return Boolean.parseBoolean(getStringProperty(key));
 	}
 }
