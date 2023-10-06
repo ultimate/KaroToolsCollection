@@ -4,6 +4,7 @@ import java.awt.Image;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
@@ -26,7 +27,7 @@ import ultimate.karoapi4j.utils.JSONUtil;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
-public class Map extends Identifiable
+public class Map extends Identifiable implements PlaceToRace
 {
 	//@formatter:off
 	public static class FromIDConverter extends JSONUtil.FromIDConverter<Map> { public FromIDConverter() { super(Map.class); } };

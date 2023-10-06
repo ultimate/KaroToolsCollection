@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
@@ -98,6 +99,7 @@ public class JSONUtilTest
 				+ "\"players\":" + toJson(gs.getPlayers()) + ","
 				+ "\"maps\":" + toJson2(gs.getMaps()) + ","
 				+ "\"rules\":" + toJson(gs.getRules()) + ","
+				+ "\"mapsByKey\":" + toJson2(gs.getMapsByKey()) + ","
 				+ "\"settings\":" + JSONUtil.serialize(gs.getSettings()) + ""
 				+ "}"; // only empty supported
 		//@formatter:on
@@ -171,11 +173,11 @@ public class JSONUtilTest
 	private String toJson(PlaceToRace placeToRace)
 	{
 		//@formatter:off
-		if(placeToRace.isMap())
-			return "" + placeToRace.getMap().getId();
-		else if(placeToRace.isGenerator())
-			return "{" + "\"key\":\"" + placeToRace.getGenerator().getKey() + "\","
-				+ "\"settings\":" + toJson(placeToRace.getGenerator().getSettings())
+		if(placeToRace instanceof Map)
+			return "" + ((Map) placeToRace).getId();
+		else if(placeToRace instanceof Generator)
+			return "{" + "\"key\":\"" + ((Generator) placeToRace).getKey() + "\","
+				+ "\"settings\":" + toJson(((Generator) placeToRace).getSettings())
 				+ "}";
 		else
 			return null;
@@ -193,12 +195,30 @@ public class JSONUtilTest
 			if(i > 0)
 				sb.append(',');
 			ptr = iter.next();
-			if(ptr.isMap())
-				sb.append(ptr.getMap().getId());
+			if(ptr instanceof Map)
+				sb.append(((Map) ptr).getId());
 			else
-				sb.append(toJson(ptr.getGenerator()));
+				sb.append(toJson((Generator) ptr));
 		}
 		sb.append(']');
+		return sb.toString();
+	}
+
+	private String toJson2(java.util.Map<String, List<PlaceToRace>> map)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		Iterator<Entry<String, List<PlaceToRace>>> iter = map.entrySet().iterator();
+		Entry<String, List<PlaceToRace>> entry;
+		for(int i = 0; iter.hasNext(); i++)
+		{
+			if(i > 0)
+				sb.append(',');
+			entry = iter.next();
+			sb.append("\"" + entry.getKey() + "\":");
+			sb.append(toJson2(entry.getValue()));
+		}
+		sb.append('}');
 		return sb.toString();
 	}
 
@@ -321,7 +341,7 @@ public class JSONUtilTest
 
 		PlannedGame game = new PlannedGame();
 		game.setName("Neues Spiel");
-		game.setMap(new PlaceToRace(new Map(105)));
+		game.setMap(new Map(105));
 		game.setPlayers(new LinkedHashSet<>(Arrays.asList(new User(12), new User(78), new User(34), new User(56))));
 		game.setOptions(options);
 		// add some unofficial properties - they should be ignored
@@ -438,7 +458,7 @@ public class JSONUtilTest
 		Team team;
 		
 		// normal map
-		team = new Team(name, member, new PlaceToRace(map));
+		team = new Team(name, member, map);
 
 		String expected = toJson(team);
 		
@@ -455,7 +475,7 @@ public class JSONUtilTest
 		assertEquals(team.getHomeMap(), deserialized.getHomeMap());
 		
 		// with generator instead of map		
-		team = new Team(name, member, new PlaceToRace(generator));
+		team = new Team(name, member, generator);
 
 		expected = toJson(team);
 		
@@ -482,7 +502,7 @@ public class JSONUtilTest
 		int mid1 = 12;
 		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
 		gs.setCreator(new User(uid));
-		gs.setMaps(Arrays.asList(new PlaceToRace(new Map(mid0)), new PlaceToRace(new Map(mid1))));
+		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
 
 		json = JSONUtil.serialize(gs);
 		logger.debug("gameSeries = " + json);
@@ -495,14 +515,14 @@ public class JSONUtilTest
 		assertEquals(uid, deserialized.getCreator().getId());
 		assertNotNull(deserialized.getMaps());
 		assertEquals(2, deserialized.getMaps().size());
-		assertEquals(mid0, deserialized.getMaps().get(0).getMap().getId());
-		assertEquals(mid1, deserialized.getMaps().get(1).getMap().getId());
+		assertEquals(mid0, ((Map) deserialized.getMaps().get(0)).getId());
+		assertEquals(mid1, ((Map) deserialized.getMaps().get(1)).getId());
 	}
 
 	@Test
 	public void test_serialize_deserialize_GameSeries_withMaps()
 	{
-		String json;
+		String serialized;
 
 		int uid0 = 5;
 		int uid1 = 11;
@@ -520,14 +540,22 @@ public class JSONUtilTest
 		gs.set(GameSeries.NUMBER_OF_GAMES, 10);
 		gs.setRules(new Rules(2, 4, EnumGameTC.allowed, true, EnumGameDirection.formula1));
 		gs.setPlayers(Arrays.asList(creator, new User(uid1), new User(uid2)));
-		gs.setMaps(Arrays.asList(new PlaceToRace(new Map(mid0)), new PlaceToRace(new Map(mid1))));
+		gs.setMaps(Arrays.asList(new Map(mid0), new Map(mid1)));
 
-		json = JSONUtil.serialize(gs);
+		HashMap<String, List<PlaceToRace>> mapsByKey = new HashMap<>();
+		mapsByKey.put("0", Arrays.asList(new Map(mid0)));
+		mapsByKey.put("1", Arrays.asList(new Map(mid1)));
+		gs.setMapsByKey(mapsByKey);
+
+		serialized = JSONUtil.serialize(gs);
 
 		String expected = toJson(gs);
-		assertEquals(expected, json);
 
-		GameSeries deserialized = JSONUtil.deserialize(json, new TypeReference<GameSeries>() {});
+		logger.debug("expected = " + expected);
+		logger.debug("actual   = " + serialized);
+		assertEquals(expected, serialized);
+
+		GameSeries deserialized = JSONUtil.deserialize(serialized, new TypeReference<GameSeries>() {});
 		assertNotNull(deserialized.getCreator());
 		assertEquals(uid0, deserialized.getCreator().getId());
 		assertNotNull(deserialized.getPlayers());
@@ -537,14 +565,14 @@ public class JSONUtilTest
 		assertEquals(uid2, deserialized.getPlayers().get(2).getId());
 		assertNotNull(deserialized.getMaps());
 		assertEquals(2, deserialized.getMaps().size());
-		assertEquals(mid0, deserialized.getMaps().get(0).getMap().getId());
-		assertEquals(mid1, deserialized.getMaps().get(1).getMap().getId());
+		assertEquals(mid0, ((Map) deserialized.getMaps().get(0)).getId());
+		assertEquals(mid1, ((Map) deserialized.getMaps().get(1)).getId());
 	}
 
 	@Test
 	public void test_serialize_deserialize_GameSeries_withGenerators()
 	{
-		String json;
+		String serialized;
 
 		int uid0 = 5;
 		int uid1 = 11;
@@ -568,14 +596,22 @@ public class JSONUtilTest
 		gs.set(GameSeries.NUMBER_OF_GAMES, 10);
 		gs.setRules(new Rules(2, 4, EnumGameTC.allowed, true, EnumGameDirection.formula1));
 		gs.setPlayers(Arrays.asList(creator, new User(uid1), new User(uid2)));
-		gs.setMaps(Arrays.asList(new PlaceToRace(g1), new PlaceToRace(g2)));
+		gs.setMaps(Arrays.asList(g1, g2));
 
-		json = JSONUtil.serialize(gs);
+		HashMap<String, List<PlaceToRace>> mapsByKey = new HashMap<>();
+		mapsByKey.put("0", Arrays.asList(g1));
+		mapsByKey.put("1", Arrays.asList(g2));
+		gs.setMapsByKey(mapsByKey);
+
+		serialized = JSONUtil.serialize(gs);
 
 		String expected = toJson(gs);
-		assertEquals(expected, json);
 
-		GameSeries deserialized = JSONUtil.deserialize(json, new TypeReference<GameSeries>() {});
+		logger.debug("expected = " + expected);
+		logger.debug("actual   = " + serialized);
+		assertEquals(expected, serialized);
+
+		GameSeries deserialized = JSONUtil.deserialize(serialized, new TypeReference<GameSeries>() {});
 		assertNotNull(deserialized.getCreator());
 		assertEquals(uid0, deserialized.getCreator().getId());
 		assertNotNull(deserialized.getPlayers());
@@ -585,8 +621,8 @@ public class JSONUtilTest
 		assertEquals(uid2, deserialized.getPlayers().get(2).getId());
 		assertNotNull(deserialized.getMaps());
 		assertEquals(2, deserialized.getMaps().size());
-		assertEquals(g1, deserialized.getMaps().get(0).getGenerator());
-		assertEquals(g2, deserialized.getMaps().get(1).getGenerator());
+		assertEquals(g1, ((Generator) deserialized.getMaps().get(0)));
+		assertEquals(g2, ((Generator) deserialized.getMaps().get(1)));
 	}
 
 	@Test

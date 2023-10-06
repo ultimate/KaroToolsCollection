@@ -32,6 +32,8 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 public class PlannedGame
 {
 	private String							name;
+	@JsonSerialize(using = PlaceToRace.Serializer.class)
+	@JsonDeserialize(using = PlaceToRace.Deserializer.class)
 	private PlaceToRace						map;
 	@JsonSerialize(converter = ToIDArrayConverter.class)
 	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)

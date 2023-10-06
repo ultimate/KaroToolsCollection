@@ -782,7 +782,6 @@ public abstract class JSONUtil
 	 * 
 	 * @author ultimate
 	 */
-	@SuppressWarnings("unchecked")
 	public static class IdentifiableDeserializer<T extends Identifiable> extends JsonDeserializer<T>
     {
 		private Class<T> classRef;
@@ -806,7 +805,8 @@ public abstract class JSONUtil
 			}
 			else if (JsonToken.START_OBJECT.equals(token))
             {
-				// read object as java.util.Map to be able to extract the id
+				// read object as java.util.Map to be able to extract the id				
+				@SuppressWarnings("unchecked")
 				Map<String, Object> objAsMap = p.readValueAs(Map.class);				
 				// look for an id in the map (to be able to look up later)
 				if(objAsMap.containsKey("id"))
@@ -831,7 +831,9 @@ public abstract class JSONUtil
 			}
 			else
 			{
-				return (T) ctxt.handleUnexpectedToken(classRef, p);
+				@SuppressWarnings("unchecked")
+				T unhandled = (T) ctxt.handleUnexpectedToken(classRef, p);
+				return unhandled;
 			}
 
 			if(id == null)

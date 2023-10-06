@@ -23,7 +23,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
-import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
@@ -91,7 +90,7 @@ public class KaroAPICacheTest extends KaroAPITestcase
 
 		// now create a game
 		PlannedGame plannedGame = new PlannedGame();
-		plannedGame.setMap(new PlaceToRace(new Map(105)));
+		plannedGame.setMap(new Map(105));
 		plannedGame.getPlayers().add(karoAPICache.getCurrentUser());
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
@@ -135,7 +134,7 @@ public class KaroAPICacheTest extends KaroAPITestcase
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
-		plannedGame.setMap(new PlaceToRace(new Map(105)));
+		plannedGame.setMap(new Map(105));
 		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));

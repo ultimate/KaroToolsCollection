@@ -1,13 +1,20 @@
 package ultimate.karoapi4j.model.extended;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -17,19 +24,19 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 
-@JsonSerialize(using = PlaceToRace.Serializer.class)
-@JsonDeserialize(using = PlaceToRace.Deserializer.class)
-public class PlaceToRace
+//@JsonSerialize(using = PlaceToRace.Serializer.class)
+//@JsonDeserialize(using = PlaceToRace.Deserializer.class)
+public interface PlaceToRace
 {
     public static class Serializer extends JsonSerializer<PlaceToRace>
     {
         @Override
         public void serialize(PlaceToRace value, JsonGenerator gen, SerializerProvider serializers) throws IOException
         {
-            if(value.isMap())
-                serializers.defaultSerializeValue(value.getMap().getId(), gen);
-            else if(value.isGenerator())
-                serializers.defaultSerializeValue(value.getGenerator(), gen);
+            if(value instanceof Map)
+                serializers.defaultSerializeValue(((Map) value).getId(), gen);
+            else if(value instanceof Generator)
+                serializers.defaultSerializeValue(((Generator) value), gen);
             else
                 serializers.defaultSerializeNull(gen);
         }
@@ -43,98 +50,116 @@ public class PlaceToRace
             final JsonToken token= p.getCurrentToken();
 
             if (JsonToken.START_OBJECT.equals(token))
-                return new PlaceToRace((Generator) ctxt.findRootValueDeserializer(ctxt.constructType(Generator.class)).deserialize(p, ctxt));
+                return (Generator) ctxt.findRootValueDeserializer(ctxt.constructType(Generator.class)).deserialize(p, ctxt);
             else if (JsonToken.VALUE_NUMBER_INT.equals(token))
-                return new PlaceToRace((Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt));
+                return (Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt);
             return (PlaceToRace) ctxt.handleUnexpectedToken(PlaceToRace.class, p);
         }
     }
 
-    private final Map map;
-    private final Generator generator;
-
-    public PlaceToRace(Map map)
+    public static class ListSerializer extends JsonSerializer<List<PlaceToRace>>
     {
-        if (map == null)
-            throw new IllegalArgumentException("map must not be null!");
-        this.map = map;
-        this.generator = null;
+        @Override
+        public void serialize(List<PlaceToRace> value, JsonGenerator gen, SerializerProvider serializers) throws IOException
+        {
+            gen.writeStartArray();
+            for(PlaceToRace ptr: value)
+            {
+                if(ptr instanceof Map)
+                    serializers.defaultSerializeValue(((Map) ptr).getId(), gen);
+                else if(ptr instanceof Generator)
+                    serializers.defaultSerializeValue(((Generator) ptr), gen);
+                else
+                    serializers.defaultSerializeNull(gen);
+            }
+            gen.writeEndArray();
+        }
     }
 
-    public PlaceToRace(Generator generator)
+    public static class ListDeserializer extends JsonDeserializer<List<PlaceToRace>>
     {
-        if (generator == null)
-            throw new IllegalArgumentException("generator must not be null!");
-        this.map = null;
-        this.generator = generator;
+        @Override
+        public List<PlaceToRace> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
+        {
+            JsonToken token = p.getCurrentToken();
+            if(JsonToken.START_ARRAY.equals(token))
+            {
+                List<PlaceToRace> list = new LinkedList<>();
+                token = p.nextToken(); // go to first entry in list
+                while(!JsonToken.END_ARRAY.equals(token))
+                {
+                    if(JsonToken.START_OBJECT.equals(token))
+                    {
+                        list.add((Generator) ctxt.findRootValueDeserializer(ctxt.constructType(Generator.class)).deserialize(p, ctxt));
+                    }
+                    else if(JsonToken.VALUE_NUMBER_INT.equals(token))
+                    {
+                        list.add((Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt));
+                    }
+                    token = p.nextToken();
+                }
+                return list;
+            }
+            else
+            {
+                @SuppressWarnings("unchecked")
+                List<PlaceToRace> unhandled = (List<PlaceToRace>) ctxt.handleUnexpectedToken(ctxt.getTypeFactory().constructCollectionType(List.class, PlaceToRace.class), p);
+                return unhandled;
+            }
+        }
     }
 
-    public boolean isMap()
+    public static class ListMapSerializer extends JsonSerializer<java.util.Map<String, List<PlaceToRace>>>
     {
-        return this.map != null;
+        private ListSerializer listSerializer = new ListSerializer();
+
+        @Override
+        public void serialize(java.util.Map<String, List<PlaceToRace>> value, JsonGenerator gen, SerializerProvider serializers) throws IOException
+        {
+            gen.writeStartObject();
+            Iterator<Entry<String, List<PlaceToRace>>> iter = value.entrySet().iterator();
+            Entry<String, List<PlaceToRace>> entry;
+            for(int i = 0; iter.hasNext(); i++)
+            {
+                entry = iter.next();
+                gen.writeFieldName(entry.getKey());
+                this.listSerializer.serialize(entry.getValue(), gen, serializers);
+            }
+            gen.writeEndObject();
+        }
     }
 
-    public boolean isGenerator()
+    public static class ListMapDeserializer extends JsonDeserializer<java.util.Map<String, List<PlaceToRace>>>
     {
-        return this.generator != null;
+        private ListDeserializer listDeserializer = new ListDeserializer();
+
+        @Override
+        public java.util.Map<String, List<PlaceToRace>> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
+        {
+             JsonToken token = p.getCurrentToken();
+             if(JsonToken.START_OBJECT.equals(token))
+             {
+                HashMap<String, List<PlaceToRace>> map = new HashMap<>();
+                token = p.nextToken(); // go to first entry in list
+                while(JsonToken.FIELD_NAME.equals(token))
+                {
+                    String key = p.getValueAsString();
+                    token = p.nextToken(); // go to value
+                    List<PlaceToRace> value = listDeserializer.deserialize(p, ctxt);
+                    token = p.nextToken(); // go to next element                    
+                    map.put(key, value);
+                }
+                return map;
+            }
+            else
+            {
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, List<PlaceToRace>> unhandled = (java.util.Map<String, List<PlaceToRace>>) ctxt.handleUnexpectedToken(ctxt.getTypeFactory().constructMapType(java.util.Map.class, ctxt.constructType(String.class), (JavaType) ctxt.getTypeFactory().constructCollectionType(List.class, PlaceToRace.class)), p);
+                return unhandled;
+            }
+        }
     }
 
-    public Map getMap()
-    {
-        return map;
-    }
-
-    public Generator getGenerator()
-    {
-        return generator;
-    }
-
-    @JsonIgnore
-    public boolean isNight()
-    {
-        if(isMap())
-            return map.isNight();
-        else
-            return generator.isNight();
-    }
-
-    @JsonIgnore
-    public int getPlayers()
-    {
-        if(isMap())
-            return map.getPlayers();
-        else
-            return generator.getPlayers();
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((map == null) ? 0 : map.hashCode());
-        result = prime * result + ((generator == null) ? 0 : generator.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PlaceToRace other = (PlaceToRace) obj;
-        if (map == null) {
-            if (other.map != null)
-                return false;
-        } else if (!map.equals(other.map))
-            return false;
-        if (generator == null) {
-            if (other.generator != null)
-                return false;
-        } else if (!generator.equals(other.generator))
-            return false;
-        return true;
-    }
+    public boolean isNight();
+    public int getPlayers();
 }

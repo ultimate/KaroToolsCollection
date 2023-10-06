@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 
 /**
  * POJO Generator as defined by the {@link KaroAPI}.<br/>
@@ -33,7 +34,7 @@ import ultimate.karoapi4j.KaroAPI;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
-public class Generator
+public class Generator implements PlaceToRace
 {
 	/**
 	 * Logger-Instance

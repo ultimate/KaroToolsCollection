@@ -146,7 +146,9 @@ public class GameSeries
 	/**
 	 * the list of maps used (optional)
 	 */
-	@JsonInclude(value = Include.NON_EMPTY)
+	@JsonInclude(value = Include.NON_EMPTY)	
+	@JsonSerialize(using = PlaceToRace.ListSerializer.class)
+	@JsonDeserialize(using = PlaceToRace.ListDeserializer.class)
 	protected List<PlaceToRace>							maps;
 	/**
 	 * the general rules used
@@ -171,6 +173,8 @@ public class GameSeries
 	 * additional map lists by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
+	@JsonSerialize(using = PlaceToRace.ListMapSerializer.class)
+	@JsonDeserialize(using = PlaceToRace.ListMapDeserializer.class)
 	protected java.util.Map<String, List<PlaceToRace>>	mapsByKey;
 	/**
 	 * additional rules by key (optional)
