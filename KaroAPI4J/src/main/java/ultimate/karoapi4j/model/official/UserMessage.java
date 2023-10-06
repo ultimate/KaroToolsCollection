@@ -12,22 +12,21 @@ import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
 /**
  * POJO UserMessage as defined by the {@link KaroAPI}
  * 
+ * "id": 2111,
+ * "user_id": 1411,
+ * "user_name": "ultimate",
+ * "contact_id": 1,
+ * "contact_name": "Didi",
+ * "ts": 1607449359,
+ * "r": 1,
+ * "text": "...",
+ * "rxtx": "tx"
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
 public class UserMessage extends Identifiable
 {
-	/*
-	 * "id": 2111,
-	 * "user_id": 1411,
-	 * "user_name": "ultimate",
-	 * "contact_id": 1,
-	 * "contact_name": "Didi",
-	 * "ts": 1607449359,
-	 * "r": 1,
-	 * "text": "...",
-	 * "rxtx": "tx"
-	 */
 	private int				user_id;
 	private String			user_name;
 	private int				contact_id;

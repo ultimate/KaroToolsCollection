@@ -1,6 +1,8 @@
 package ultimate.karoapi4j.model.base;
 
 import java.io.IOException;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -9,28 +11,17 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 
+@JsonSerialize(using = PlaceToRace.Serializer.class)
+@JsonDeserialize(using = PlaceToRace.Deserializer.class)
 public class PlaceToRace
 {
-	//@formatter:off
-    public static class PlaceToRaceDeserializer extends JsonDeserializer<PlaceToRace>
-    {
-        @Override
-        public PlaceToRace deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
-        {
-            final JsonToken token= p.getCurrentToken();
-
-            if (JsonToken.START_OBJECT.equals(token))
-                return new PlaceToRace((Generator) ctxt.findRootValueDeserializer(ctxt.constructType(Generator.class)).deserialize(p, ctxt));
-            else if (JsonToken.VALUE_NUMBER_INT.equals(token))
-                return new PlaceToRace((Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt));
-            return (PlaceToRace) ctxt.handleUnexpectedToken(PlaceToRace.class, p);
-        }
-    }
-
-    public static class PlaceToRaceSerializer extends JsonSerializer<PlaceToRace>
+    public static class Serializer extends JsonSerializer<PlaceToRace>
     {
         @Override
         public void serialize(PlaceToRace value, JsonGenerator gen, SerializerProvider serializers) throws IOException
@@ -44,10 +35,20 @@ public class PlaceToRace
         }
     }
 
-	//public static class FromIDConverter extends JSONUtil.FromIDConverter<Map> { public FromIDConverter() { super(PlaceToRace.class); } };
-	//public static class FromIDArrayToListConverter extends JSONUtil.FromIDArrayToListConverter<Map> { public FromIDArrayToListConverter() { super(Map.class); } };
-	//public static class FromIDMapToListConverter extends JSONUtil.FromIDMapToListConverter<Map> { public FromIDMapToListConverter() { super(Map.class); } };
-	//@formatter:on
+    public static class Deserializer extends JsonDeserializer<PlaceToRace>
+    {
+        @Override
+        public PlaceToRace deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
+        {
+            final JsonToken token= p.getCurrentToken();
+
+            if (JsonToken.START_OBJECT.equals(token))
+                return new PlaceToRace((Generator) ctxt.findRootValueDeserializer(ctxt.constructType(Generator.class)).deserialize(p, ctxt));
+            else if (JsonToken.VALUE_NUMBER_INT.equals(token))
+                return new PlaceToRace((Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt));
+            return (PlaceToRace) ctxt.handleUnexpectedToken(PlaceToRace.class, p);
+        }
+    }
 
     private final Map map;
     private final Generator generator;
@@ -88,6 +89,7 @@ public class PlaceToRace
         return generator;
     }
 
+    @JsonIgnore
     public boolean isNight()
     {
         if(isMap())

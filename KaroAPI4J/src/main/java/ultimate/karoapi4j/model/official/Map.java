@@ -8,6 +8,20 @@ import ultimate.karoapi4j.utils.JSONUtil;
 
 /**
  * POJO Map as defined by the {@link KaroAPI}
+ *  
+ * https://www.karopapier.de/api/maps/1?mapcode=true
+ * "id": 1,
+ * "name": "Die Erste",
+ * "author": "Didi",
+ * "cols": 60,
+ * "rows": 25,
+ * "rating": 3.9487,
+ * "players": 5,
+ * "cps": ["1","2","3","4","5","6","7"],
+ * "active": true,
+ * "night": 0,
+ * "record": 3,
+ * "code": "PXXX...XXXXXXX"
  * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
@@ -23,21 +37,6 @@ public class Map extends Identifiable
 	 * the row delimeter used in the map code
 	 */
 	public static final String	ROW_DELIMITER	= "\n";
-	/*
-	 * https://www.karopapier.de/api/maps/1?mapcode=true
-	 * "id": 1,
-	 * "name": "Die Erste",
-	 * "author": "Didi",
-	 * "cols": 60,
-	 * "rows": 25,
-	 * "rating": 3.9487,
-	 * "players": 5,
-	 * "cps": ["1","2","3","4","5","6","7"],
-	 * "active": true,
-	 * "night": 0,
-	 * "record": 3,
-	 * "code": "PXXX...XXXXXXX"
-	 */
 	// Standard JSON Fields
 	// private int id; // see super class
 	private String				name;

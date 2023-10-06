@@ -854,6 +854,9 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
+		if(plannedGame.getMap() == null)
+			throw new IllegalArgumentException("plannedGame.map must not be null!");
+		// TODO do not serialize generator (or discuss with Didi)
 		String json = JSONUtil.serialize(plannedGame);
 		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
 	}

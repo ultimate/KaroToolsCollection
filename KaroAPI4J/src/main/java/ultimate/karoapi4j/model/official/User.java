@@ -15,6 +15,33 @@ import ultimate.karoapi4j.utils.JSONUtil;
 /**
  * POJO User as defined by the {@link KaroAPI}
  * 
+ * https://www.karopapier.de/api/users/1
+ * "id": 1,
+ * "login": "Didi",
+ * "color": "ffffff",
+ * "lastVisit": 0,
+ * "signup": 7288,
+ * "dran": 8,
+ * "activeGames": 66,
+ * "acceptsDayGames": true,
+ * "acceptsNightGames": true,
+ * "maxGames": 150,
+ * "sound": 10,
+ * "soundfile": "/mp3/quiek.mp3",
+ * "size": 12,
+ * "border": 1,
+ * "desperate": false,
+ * "birthdayToday": false,
+ * "karodayToday": false,
+ * "theme": "karo1",
+ * "bot": false,
+ * "gamesort": "blocktime",
+ * "state": "active",
+ * "superCreator": true,
+ * "blocked": "6", // for blockers only
+ * "uc": 1 // for current user and contacts only
+ * "ts": "2022-01-14 12:20:55", // for contacts only
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
@@ -29,34 +56,6 @@ public class User extends Identifiable
 	//@formatter:on
 
 	public static final int		INVITABLE_LAST_VISIT_LIMIT	= 3;
-	/*
-	 * https://www.karopapier.de/api/users/1
-	 * "id": 1,
-	 * "login": "Didi",
-	 * "color": "ffffff",
-	 * "lastVisit": 0,
-	 * "signup": 7288,
-	 * "dran": 8,
-	 * "activeGames": 66,
-	 * "acceptsDayGames": true,
-	 * "acceptsNightGames": true,
-	 * "maxGames": 150,
-	 * "sound": 10,
-	 * "soundfile": "/mp3/quiek.mp3",
-	 * "size": 12,
-	 * "border": 1,
-	 * "desperate": false,
-	 * "birthdayToday": false,
-	 * "karodayToday": false,
-	 * "theme": "karo1",
-	 * "bot": false,
-	 * "gamesort": "blocktime",
-	 * "state": "active",
-	 * "superCreator": true,
-	 * "blocked": "6", // for blockers only
-	 * "uc": 1 // for current user and contacts only
-	 * "ts": "2022-01-14 12:20:55", // for contacts only
-	 */
 	// Standard JSON Fields
 	// private int id; // see super class
 	private String				login;

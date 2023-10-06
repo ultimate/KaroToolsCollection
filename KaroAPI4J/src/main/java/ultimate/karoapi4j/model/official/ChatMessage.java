@@ -11,18 +11,17 @@ import ultimate.karoapi4j.utils.JSONUtil.TimestampConverter;
 /**
  * POJO ChatMessage as defined by the {@link KaroAPI}
  * 
+ * chat/list.json
+ * "id" : "cmdcfac73011f091c38bb3a16f55efd52c",
+ * "user" : "Akari",
+ * "text" : "eim weiteres tor in 90 sec??",
+ * "time" : "22:36"
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
 public class ChatMessage extends Identifiable
 {
-	/*
-	 * chat/list.json
-	 * "id" : "cmdcfac73011f091c38bb3a16f55efd52c",
-	 * "user" : "Akari",
-	 * "text" : "eim weiteres tor in 90 sec??",
-	 * "time" : "22:36"
-	 */
 	// for id see super class
 	// private int id; // see super class
 	// Standard JSON Fields

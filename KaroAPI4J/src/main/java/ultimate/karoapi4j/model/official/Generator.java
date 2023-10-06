@@ -101,6 +101,7 @@ public class Generator
         this.settings = settings;
     }    
 
+    @JsonIgnore
     public boolean isNight()
     {
         String key = "night";
@@ -113,5 +114,50 @@ public class Generator
                 return ((int) nightValue) == 1;
         } 
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((key == null) ? 0 : key.hashCode());
+        //result = prime * result + ((name == null) ? 0 : name.hashCode());
+        //result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((settings == null) ? 0 : settings.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Generator other = (Generator) obj;
+        if (key == null) {
+            if (other.key != null)
+                return false;
+        } else if (!key.equals(other.key))
+            return false;
+        /*
+        if (name == null) {
+            if (other.name != null)
+            return false;
+        } else if (!name.equals(other.name))
+        return false;
+        if (description == null) {
+            if (other.description != null)
+            return false;
+        } else if (!description.equals(other.description))
+        return false;
+        */
+        if (settings == null) {
+            if (other.settings != null)
+                return false;
+        } else if (!settings.equals(other.settings))
+            return false;
+        return true;
     }
 }

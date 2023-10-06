@@ -13,21 +13,20 @@ import ultimate.karoapi4j.model.base.Identifiable;
 /**
  * POJO Move as defined by the {@link KaroAPI}
  * 
+ * from https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
+ * "x": 73,
+ * "y": 3,
+ * "xv": 0,
+ * "yv": 0,
+ * "t": "2009-07-30 14:26:22",
+ * "msg": "-:KIch werde 2 Z&uuml;ge zur&uuml;ckgesetztK:-",
+ * "crash": 1
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
 public class Move extends Identifiable
 {
-	/*
-	 * from https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
-	 * "x": 73,
-	 * "y": 3,
-	 * "xv": 0,
-	 * "yv": 0,
-	 * "t": "2009-07-30 14:26:22",
-	 * "msg": "-:KIch werde 2 Z&uuml;ge zur&uuml;ckgesetztK:-",
-	 * "crash": 1
-	 */
 	private int		x;
 	private int		y;
 	private int		xv;

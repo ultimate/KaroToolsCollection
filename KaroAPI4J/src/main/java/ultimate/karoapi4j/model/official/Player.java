@@ -10,27 +10,26 @@ import ultimate.karoapi4j.model.base.Identifiable;
 /**
  * POJO Player as defined by the {@link KaroAPI}
  * 
+ * https://www.karopapier.de/api/games/132000?mapcode=1&players=1&moves=1
+ * "id": 1,
+ * "name": "Didi",
+ * "color": "ffffff",
+ * "status": "ok",
+ * "moved": false,
+ * "rank": 4,
+ * "checkedCps": [ 1, 2 ],
+ * "moveCount": 157,
+ * "crashCount": 1,
+ * "moves": [ ... ], // see type Move
+ * "motion": { "x": 0, "y": 3, "xv": 0, "yv": 0, "t": "2012-03-05 22:02:14" }, // see type Move
+ * "missingCps": ["3", "4" ],
+ * "possibles": [ ... ], // see type Move (just without t, msg and crash)
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
 public class Player extends Identifiable
 {
-	/*
-	 * https://www.karopapier.de/api/games/132000?mapcode=1&players=1&moves=1
-	 * "id": 1,
-	 * "name": "Didi",
-	 * "color": "ffffff",
-	 * "status": "ok",
-	 * "moved": false,
-	 * "rank": 4,
-	 * "checkedCps": [ 1, 2 ],
-	 * "moveCount": 157,
-	 * "crashCount": 1,
-	 * "moves": [ ... ], // see type Move
-	 * "motion": { "x": 0, "y": 3, "xv": 0, "yv": 0, "t": "2012-03-05 22:02:14" }, // see type Move
-	 * "missingCps": ["3", "4" ],
-	 * "possibles": [ ... ], // see type Move (just without t, msg and crash)
-	 */
 	// private int		id;	// see super class
 	private String				name;
 	private Color				color;

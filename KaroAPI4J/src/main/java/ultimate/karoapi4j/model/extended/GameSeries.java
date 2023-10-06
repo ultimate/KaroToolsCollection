@@ -10,17 +10,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
-import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
-import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
-import ultimate.karoapi4j.utils.JSONUtil.ToIDMapConverter;
 
 /**
  * Generic POJO for storing all the informations about a GameSeries.<br>
@@ -104,8 +98,6 @@ public class GameSeries
 	/**
 	 * the creator
 	 */
-	@JsonSerialize(converter = ToIDConverter.class)
-	@JsonDeserialize(converter = User.FromIDConverter.class)
 	protected User										creator;
 
 	/**
@@ -136,8 +128,6 @@ public class GameSeries
 	 * the list of all players participating (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDArrayConverter.class)
-	@JsonDeserialize(converter = User.FromIDArrayToListConverter.class)
 	protected List<User>								players;
 	/**
 	 * the list of all team participating (optional)
@@ -148,8 +138,6 @@ public class GameSeries
 	 * the list of maps used (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDArrayConverter.class)
-	@JsonDeserialize(converter = Map.FromIDArrayToListConverter.class)
 	protected List<Map>									maps;
 	/**
 	 * the general rules used
@@ -162,8 +150,6 @@ public class GameSeries
 	 * additional player lists by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDMapConverter.class)
-	@JsonDeserialize(converter = User.FromIDMapToListConverter.class)
 	protected java.util.Map<String, List<User>>			playersByKey;
 	/**
 	 * additional team lists by key (optional)
@@ -174,8 +160,6 @@ public class GameSeries
 	 * additional map lists by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDMapConverter.class)
-	@JsonDeserialize(converter = Map.FromIDMapToListConverter.class)
 	protected java.util.Map<String, List<Map>>			mapsByKey;
 	/**
 	 * additional rules by key (optional)
