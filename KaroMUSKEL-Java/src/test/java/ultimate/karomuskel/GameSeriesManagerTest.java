@@ -35,6 +35,7 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.User;
@@ -80,7 +81,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		gs.set(GameSeries.NUMBER_OF_GAMES, num);
 		gs.setRules(new Rules(minZzz, maxZzz, EnumGameTC.allowed, true, EnumGameDirection.formula1));
 		gs.setPlayers(Arrays.asList(creator, dummyCache.getUser(uid1), dummyCache.getUser(uid2)));
-		gs.setMaps(Arrays.asList(dummyCache.getMap(mid0), dummyCache.getMap(mid1)));
+		gs.setMaps(Arrays.asList(new PlaceToRace(dummyCache.getMap(mid0)), new PlaceToRace(dummyCache.getMap(mid1))));
 
 		File file = new File("target/test-classes/test" + System.currentTimeMillis() + ".json");
 		assertFalse(file.exists());
@@ -113,8 +114,8 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(dummyCache.getUser(uid2), loaded.getPlayers().get(2));
 		assertNotNull(loaded.getMaps());
 		assertEquals(2, loaded.getMaps().size());
-		assertEquals(dummyCache.getMap(mid0), loaded.getMaps().get(0));
-		assertEquals(dummyCache.getMap(mid1), loaded.getMaps().get(1));
+		assertEquals(new PlaceToRace(dummyCache.getMap(mid0)), loaded.getMaps().get(0));
+		assertEquals(new PlaceToRace(dummyCache.getMap(mid1)), loaded.getMaps().get(1));
 	}
 
 	@ParameterizedTest
@@ -201,7 +202,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(gs2.creator.id, gs.getCreator().getId());
 		assertEquals(gs2.numberOfMaps, gs.get(GameSeries.NUMBER_OF_MAPS));
 		assertEquals(gs2.numberOfMaps, gs.getMapsByKey().size());
-		compareMapWithEntities(gs.getMapsByKey(), gs2.mapList);
+		comparePlacesToRace(gs.getMapsByKey(), gs2.mapList);
 		assertEquals(gs2.numberOfMaps, gs.getRulesByKey().size());
 		assertEquals(gs2.rules.minZzz, gs.getRules().getMinZzz());
 		assertEquals(gs2.rules.maxZzz, gs.getRules().getMaxZzz());
@@ -577,6 +578,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> void compareMapWithEntities(java.util.Map<String, List<T>> byKey, java.util.Map<Integer, T2> original)
 	{
 		assertEquals(original.size(), byKey.size());
@@ -589,6 +591,18 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		}
 	}
 
+	private <T2 extends muskel2.model.help.Identifiable> void comparePlacesToRace(java.util.Map<String, List<PlaceToRace>> byKey, java.util.Map<Integer, T2> original)
+	{
+		assertEquals(original.size(), byKey.size());
+		String key;
+		for(Entry<Integer, T2> t2 : original.entrySet())
+		{
+			key = "" + t2.getKey();
+			assertEquals(1, byKey.get(key).size());
+			assertEquals(t2.getValue().getId(), byKey.get(key).get(0).getMap().getId());
+		}
+	}
+
 	private <T extends Identifiable> void compareTeamsWithHomemaps(KaroAPICache cache, List<Team> converted, java.util.Map<Integer, Integer> original)
 	{
 		assertEquals(original.size(), converted.size());
@@ -598,7 +612,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 			assertEquals(1, converted.get(i).getMembers().size());
 			assertEquals(cache.getUser(t2.getKey()).getLogin(), converted.get(i).getName());
 			assertEquals(t2.getKey(), ((User) converted.get(i).getMembers().toArray()[0]).getId());
-			assertEquals(t2.getValue(), converted.get(i).getHomeMap().getId());
+			assertEquals(t2.getValue(), converted.get(i).getHomeMap().getMap().getId());
 			i++;
 		}
 	}
