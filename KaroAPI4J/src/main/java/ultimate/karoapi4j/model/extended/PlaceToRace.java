@@ -114,7 +114,7 @@ public interface PlaceToRace
             gen.writeStartObject();
             Iterator<Entry<String, List<PlaceToRace>>> iter = value.entrySet().iterator();
             Entry<String, List<PlaceToRace>> entry;
-            for(int i = 0; iter.hasNext(); i++)
+            while(iter.hasNext())
             {
                 entry = iter.next();
                 gen.writeFieldName(entry.getKey());
