@@ -46,6 +46,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
@@ -573,7 +574,12 @@ public abstract class GameSeriesManager
 			gs = new GameSeries(EnumGameSeriesType.Balanced);
 			gs.set(GameSeries.V2_TEAM_BASED, false);
 			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
-			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
+			java.util.Map<String, List<Map>> maps = convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache);
+			java.util.Map<String, List<PlaceToRace>> ptrs = new HashMap<>();
+			maps.entrySet().forEach(e -> {
+				ptrs.put(e.getKey(), convertMaps(e.getValue()));
+			});
+			gs.setMapsByKey(ptrs);
 			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
 			// ((BalancedGameSeries) gs2).shuffledPlayers // ignore
 		}
@@ -655,7 +661,7 @@ public abstract class GameSeriesManager
 		gs.setLoaded(true);
 		if(gs.getPlayers() == null || gs.getPlayers().size() == 0) // only do this if the players have not yet been set (--> KLCGameSeries)
 			gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
-		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
+		gs.setMaps(convertMaps(convert(gs2.maps, Map.class, karoAPICache)));
 		gs.setGames(convertGames(gs2.games, gs, karoAPICache));
 		gs.setRules(convert(gs2.rules));
 		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
@@ -684,6 +690,16 @@ public abstract class GameSeriesManager
 		return list;
 	}
 
+	protected static List<PlaceToRace> convertMaps(List<Map> list2)
+	{
+		if(list2 == null)
+			return null;
+		List<PlaceToRace> list = new ArrayList<>(list2.size());
+		for(Map m2 : list2)
+			list.add(new PlaceToRace(m2));
+		return list;
+	}
+
 	/**
 	 * Helper method for conversion
 	 * 
@@ -709,7 +725,7 @@ public abstract class GameSeriesManager
 			pg.setLeft(g2.left);
 			pg.setPlayers(new LinkedHashSet<>(convert(g2.players, User.class, karoAPICache)));
 			pg.setGame(g);
-			pg.setMap(g != null ? g.getMap() : karoAPICache.getMap(g2.map.getId()));
+			pg.setMap(new PlaceToRace(g != null ? g.getMap() : karoAPICache.getMap(g2.map.getId())));
 			pg.setOptions(convert(g2.rules).createOptions(null));
 
 			list.add(pg);
@@ -758,7 +774,7 @@ public abstract class GameSeriesManager
 		{
 			Team t = new Team(t2.name, new LinkedHashSet<>(convert(t2.players, User.class, karoAPICache)));
 			if(t2.homeMap != null)
-				t.setHomeMap(karoAPICache.getMap(t2.homeMap.id));
+				t.setHomeMap(new PlaceToRace(karoAPICache.getMap(t2.homeMap.id)));
 			list.add(t);
 		}
 		return list;
@@ -782,7 +798,7 @@ public abstract class GameSeriesManager
 		{
 			user = karoAPICache.getUser(e.getKey());
 			map = karoAPICache.getMap(e.getValue());
-			teams.add(new Team(user.getLogin(), user, map));
+			teams.add(new Team(user.getLogin(), user, new PlaceToRace(map)));
 		}
 		return teams;
 	}
