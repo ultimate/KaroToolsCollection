@@ -9,7 +9,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import ultimate.karoapi4j.model.base.PlaceToRace;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
@@ -43,8 +42,8 @@ public class Team
 	 * the (optional) home {@link Map}
 	 */
 	@JsonInclude(value = Include.NON_NULL)
-	@JsonSerialize(using = PlaceToRace.PlaceToRaceSerializer.class)
-	@JsonDeserialize(using = PlaceToRace.PlaceToRaceDeserializer.class)
+	@JsonSerialize(using = PlaceToRace.Serializer.class)
+	@JsonDeserialize(using = PlaceToRace.Deserializer.class)
 	private PlaceToRace			homeMap;
 
 

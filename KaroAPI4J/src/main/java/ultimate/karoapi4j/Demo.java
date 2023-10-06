@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -101,7 +102,7 @@ public class Demo
 
 				Random r = new Random();
 				game.getPlayers().add(currentUser); // only select current player
-				game.setMap(result.get(r.nextInt(result.size()))); // choose a random map
+				game.setMap(new PlaceToRace(result.get(r.nextInt(result.size())))); // choose a random map
 				game.setName("Test game"); // set name
 				game.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free)); // set options
 

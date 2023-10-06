@@ -2,6 +2,7 @@ package ultimate.karoapi4j.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -107,4 +108,13 @@ public abstract class ReflectionsUtil
 		}
 		return null;
 	}
+
+	/*
+	public static <T> T fromMap(Class<T> classRef, Map<String, Object> map)
+	{
+		T entity = classRef.getDeclaredConstructor().newInstance();
+		
+		return entity;
+	}
+	*/
 }

@@ -500,7 +500,7 @@ public class JSONUtilTest
 	}
 
 	@Test
-	public void test_serialize_deserialize_GameSeries()
+	public void test_serialize_deserialize_GameSeries_withMaps()
 	{
 		String json;
 
@@ -539,6 +539,54 @@ public class JSONUtilTest
 		assertEquals(2, deserialized.getMaps().size());
 		assertEquals(mid0, deserialized.getMaps().get(0).getMap().getId());
 		assertEquals(mid1, deserialized.getMaps().get(1).getMap().getId());
+	}
+
+	@Test
+	public void test_serialize_deserialize_GameSeries_withGenerators()
+	{
+		String json;
+
+		int uid0 = 5;
+		int uid1 = 11;
+		int uid2 = 13;
+
+		HashMap<String, Object> settings1 = new HashMap<>();
+		settings1.put("key1", 1);
+		HashMap<String, Object> settings2 = new HashMap<>();
+		settings2.put("key2", "value2");
+
+		Generator g1 = new Generator("g1", settings1);
+		Generator g2 = new Generator("g2", settings2);
+
+		User creator = new User(uid0);
+
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
+		gs.setTitle("test series {i}");
+		gs.setCreator(creator);
+		gs.set(GameSeries.MIN_PLAYERS_PER_GAME, 6);
+		gs.set(GameSeries.MAX_PLAYERS_PER_GAME, 8);
+		gs.set(GameSeries.NUMBER_OF_GAMES, 10);
+		gs.setRules(new Rules(2, 4, EnumGameTC.allowed, true, EnumGameDirection.formula1));
+		gs.setPlayers(Arrays.asList(creator, new User(uid1), new User(uid2)));
+		gs.setMaps(Arrays.asList(new PlaceToRace(g1), new PlaceToRace(g2)));
+
+		json = JSONUtil.serialize(gs);
+
+		String expected = toJson(gs);
+		assertEquals(expected, json);
+
+		GameSeries deserialized = JSONUtil.deserialize(json, new TypeReference<GameSeries>() {});
+		assertNotNull(deserialized.getCreator());
+		assertEquals(uid0, deserialized.getCreator().getId());
+		assertNotNull(deserialized.getPlayers());
+		assertEquals(3, deserialized.getPlayers().size());
+		assertEquals(uid0, deserialized.getPlayers().get(0).getId());
+		assertEquals(uid1, deserialized.getPlayers().get(1).getId());
+		assertEquals(uid2, deserialized.getPlayers().get(2).getId());
+		assertNotNull(deserialized.getMaps());
+		assertEquals(2, deserialized.getMaps().size());
+		assertEquals(g1, deserialized.getMaps().get(0).getGenerator());
+		assertEquals(g2, deserialized.getMaps().get(1).getGenerator());
 	}
 
 	@Test

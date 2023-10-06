@@ -38,6 +38,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.KarolenderBlatt;
@@ -517,7 +518,7 @@ public class KaroAPITest extends KaroAPITestcase
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
-		plannedGame.setMap(new Map(105));
+		plannedGame.setMap(new PlaceToRace(new Map(105)));
 		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
@@ -682,7 +683,7 @@ public class KaroAPITest extends KaroAPITestcase
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
-		plannedGame.setMap(new Map(105));
+		plannedGame.setMap(new PlaceToRace(new Map(105)));
 		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
@@ -1213,7 +1214,7 @@ public class KaroAPITest extends KaroAPITestcase
 		
 		// we create a game, so we have an entity with a current timestamp
 		PlannedGame plannedGame = new PlannedGame();
-		plannedGame.setMap(new Map(105));
+		plannedGame.setMap(new PlaceToRace(new Map(105)));
 		plannedGame.getPlayers().add(user);
 		plannedGame.setName("KaroAPI-Test-Game");
 		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));

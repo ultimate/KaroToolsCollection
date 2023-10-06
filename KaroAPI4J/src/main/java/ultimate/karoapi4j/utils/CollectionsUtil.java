@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
@@ -94,7 +95,7 @@ public abstract class CollectionsUtil
 	}
 
 	/**
-	 * Check whether to collections are equals in length and content. Therefore a {@link MethodComparator} is used to compare the entries of both
+	 * Check whether two collections are equal in length and content. Therefore a {@link MethodComparator} is used to compare the entries of both
 	 * collections pairwise in the order they are contained in the collections.<br>
 	 * Short for <code>equals(c1, c2, new MethodComparator<T>(methodName, 1));</code>
 	 * 
@@ -112,7 +113,7 @@ public abstract class CollectionsUtil
 	}
 
 	/**
-	 * Check whether to collections are equals in length and content. Therefore the given comparator is used to compare the entries of both
+	 * Check whether two collections are equal in length and content. Therefore the given comparator is used to compare the entries of both
 	 * collections pairwise in the order they are contained in the collections.
 	 * 
 	 * @param <T>
@@ -125,23 +126,73 @@ public abstract class CollectionsUtil
 	{
 		if(c1.size() != c2.size())
 			return false;
-
+			
+		T o1, o2;
 		Iterator<T> i1 = c1.iterator();
 		Iterator<T> i2 = c2.iterator();
-		T o1, o2;
-
-		boolean equals = true;
 		while(i1.hasNext() && i2.hasNext())
 		{
 			o1 = i1.next();
 			o2 = i2.next();
 			if(comparator.compare(o1, o2) != 0)
-			{
-				equals = false;
-				break;
-			}
+				return false;
 		}
-		return equals;
+		return true;
+	}
+
+	/**
+	 * Check whether two set are equal in length and content. Therefore a {@link MethodComparator} is used to check whether all entries from the first set are contained in the second and vice versa.<br>
+	 * Short for <code>equals(s1, s2, new MethodComparator<T>(methodName, 1));</code>
+	 * 
+	 * @see MethodComparator
+	 * 
+	 * @param <T>
+	 * @param s1 - the first set
+	 * @param s2 - the second set
+	 * @param methodName - the method name to use to compare the entries
+	 * @return true or false
+	 */
+	public static <T> boolean equals(Set<T> s1, Set<T> s2, String methodName)
+	{
+		return equals(s1, s2, new MethodComparator<T>(methodName, 1));
+	}
+
+	/**
+	 * Check whether two sets are equal in length and content. Therefore the given comparator is used to check whether all entries from the first set are contained in the second and vice versa.<br>
+	 * 
+	 * @param <T>
+	 * @param s1 - the first set
+	 * @param s2 - the second set
+	 * @param comparator - the comparator to use
+	 * @return true or false
+	 */
+	public static <T> boolean equals(Set<T> s1, Set<T> s2, Comparator<T> comparator)
+	{
+		if(s1.size() != s2.size())
+			return false;
+
+		T o1, o2;
+		Iterator<T> i1 = s1.iterator();
+		boolean found;
+		while(i1.hasNext())
+		{
+			o1 = i1.next();
+			found = false;
+			Iterator<T> i2 = s2.iterator();
+			while(i2.hasNext())
+			{
+				o2 = i2.next();
+				if(comparator.compare(o1, o2) == 0)
+				{
+					found = true;
+					break;
+				}
+			}
+			if(!found)
+				return false;
+		}
+		// vice versa is not really needed if we compare the size in the beginning
+		return true;
 	}
 
 	/**
