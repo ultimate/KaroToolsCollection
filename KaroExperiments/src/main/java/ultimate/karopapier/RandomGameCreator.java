@@ -18,6 +18,7 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -160,12 +161,12 @@ public class RandomGameCreator
 
 			pg = new PlannedGame();
 			pg.setName(name.replace("%i", "" + toString(i, 3)));
-			pg.setMap(map);
+			pg.setMap(new PlaceToRace(map));
 			pg.setPlayers(selectedPlayers);
 			pg.setOptions(rules.createOptions(random, preferStandards));
 
 			sb.append("\n -> name           = " + pg.getName());
-			sb.append("\n -> map            = " + pg.getMap().getId());
+			sb.append("\n -> map            = " + pg.getMap().getMap().getId());
 			sb.append("\n -> players        = " + toString(pg.getPlayers()));
 			sb.append("\n -> zzz            = " + pg.getOptions().getZzz());
 			sb.append("\n -> crashallowed   = " + pg.getOptions().getCrashallowed());

@@ -24,6 +24,7 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Match;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
@@ -160,7 +161,7 @@ public abstract class Planner
 		List<Match> matches = planMatchesAllCombinations(tmp, numberOfTeamsPerMatch);
 
 		PlannedGame game;
-		Map map;
+		PlaceToRace placeToRace;
 		Set<User> gamePlayers;
 		int count = 0;
 		int dayCount;
@@ -204,7 +205,7 @@ public abstract class Planner
 	 * @param tags - the tags to set
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesBalanced(String title, User creator, List<User> players, java.util.Map<String, List<Map>> gameDayMaps, java.util.Map<String, Rules> gameDayRules, Set<String> tags, EnumCreatorParticipation creatorParticipation)
+	public static List<PlannedGame> planSeriesBalanced(String title, User creator, List<User> players, java.util.Map<String, List<PlaceToRace>> gameDayMaps, java.util.Map<String, Rules> gameDayRules, Set<String> tags, EnumCreatorParticipation creatorParticipation)
 	{
 		if(!checkKeys(gameDayMaps, gameDayRules))
 			throw new IllegalArgumentException("gameDayMaps & gameDayRules must have equals size and keys");
@@ -213,7 +214,7 @@ public abstract class Planner
 
 		PlannedGame game;
 		Set<User> gamePlayers;
-		Map map;
+		PlaceToRace placeToRace;
 		int count = 0;
 		int dayCount;
 		HashMap<String, String> placeholderValues;
@@ -917,7 +918,7 @@ public abstract class Planner
 	 * @param maxPlayersPerGame - the max number of {@link User}s per {@link PlannedGame}
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<Map> maps, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int maxPlayersPerGame)
+	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int maxPlayersPerGame)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -925,13 +926,13 @@ public abstract class Planner
 		Set<User> gamePlayers;
 		List<User> allPlayers;
 		User player;
-		Map map;
+		PlaceToRace placeToRace;
 		int count = 0;
 		HashMap<String, String> placeholderValues;
 
 		for(int i = 0; i < numberOfGames; i++)
 		{
-			map = maps.get(random.nextInt(maps.size()));
+			placeToRace = maps.get(random.nextInt(maps.size()));
 
 			gamePlayers = new LinkedHashSet<User>();
 			allPlayers = new LinkedList<User>(players);
@@ -976,7 +977,7 @@ public abstract class Planner
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public static PlannedGame planTeamGame(String title, User creator, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, Map overwriteMap, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation,
+	public static PlannedGame planTeamGame(String title, User creator, Team team1, Team team2, BiFunction<Team, Team, Team> whoIsHome, PlaceToRace overwritePlaceToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation,
 			java.util.Map<String, String> placeholderValues)
 	{
 		Team home, guest;
@@ -998,11 +999,17 @@ public abstract class Planner
 
 		placeholderValues.put("teams", toPlaceholderString(home, guest));
 
-		Map map = (overwriteMap != null ? overwriteMap : home.getHomeMap());
-		if(map == null) // can happen for dummyMatches
-			map = guest.getHomeMap();
+		PlaceToRace placeToRace = null;
+		if(overwritePlaceToRace != null)
+			placeToRace = overwritePlaceToRace;
+		else if(home.getHomeMap() != null)
+			placeToRace = new PlaceToRace(home.getHomeMap());
+		else if(home.getHomeGenerator() != null)
+			placeToRace = new PlaceToRace(home.getHomeGenerator());
+		if(placeToRace == null) // can happen for dummyMatches
+			placeToRace = new PlaceToRace(guest.getHomeMap());
 
-		PlannedGame g = planGame(title, creator, map, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
+		PlannedGame g = planGame(title, creator, placeToRace, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 		g.setHome(home.getName());
 		g.setGuest(guest.getName());
 
@@ -1014,7 +1021,7 @@ public abstract class Planner
 	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
 	 * 
 	 * @param title - the title (including placeholders)
-	 * @param map - the map to use
+	 * @param placeToRace - the {@link Map} or{@link  Generator} to use
 	 * @param gamePlayers - the participating {@link User}s
 	 * @param rules - the {@link Rules} to use
 	 * @param tags - the tags to set
@@ -1022,9 +1029,9 @@ public abstract class Planner
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public static PlannedGame planGame(String title, User creator, Map map, Set<User> gamePlayers, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planGame(String title, User creator, PlaceToRace placeToRace, Set<User> gamePlayers, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
 	{
-		return planGame(title, creator, map, gamePlayers, rules.createOptions(random), tags, creatorParticipation, placeholderValues);
+		return planGame(title, creator, placeToRace, gamePlayers, rules.createOptions(random), tags, creatorParticipation, placeholderValues);
 	}
 
 	/**
@@ -1032,7 +1039,7 @@ public abstract class Planner
 	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
 	 * 
 	 * @param title - the title (including placeholders)
-	 * @param map - the map to use
+	 * @param placeToRace - the {@link Map} or{@link  Generator} to use
 	 * @param gamePlayers - the participating {@link User}s
 	 * @param options - the {@link Options} to use
 	 * @param tags - the tags to set
@@ -1040,7 +1047,7 @@ public abstract class Planner
 	 * @param placeholderValues - the values for the title placeholders
 	 * @return the {@link PlannedGame}
 	 */
-	public static PlannedGame planGame(String title, User creator, Map map, Set<User> gamePlayers, Options options, Set<String> tags, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
+	public static PlannedGame planGame(String title, User creator, PlaceToRace placeToRace, Set<User> gamePlayers, Options options, Set<String> tags, EnumCreatorParticipation creatorParticipation, java.util.Map<String, String> placeholderValues)
 	{
 		if(creatorParticipation != EnumCreatorParticipation.not_participating)
 			gamePlayers.add(creator);
@@ -1054,7 +1061,10 @@ public abstract class Planner
 
 		String name = applyPlaceholders(title, placeholderValues);
 
-		return new PlannedGame(name, map, gamePlayers, options, tags, placeholderValues);
+		if(placeToRace.isMap())
+			return new PlannedGame(name, placeToRace.getMap(), gamePlayers, options, tags, placeholderValues);
+		else
+			return new PlannedGame(name, placeToRace.getGenerator(), gamePlayers, options, tags, placeholderValues);
 	}
 
 	/**
@@ -1296,19 +1306,30 @@ public abstract class Planner
 	 * {@link Options}.<br>
 	 * Additional placeholders can be added depending on the {@link GameSeries}.
 	 * 
-	 * @param map - the {@link Map}
+	 * @param placeToRace - the {@link Map} or{@link  Generator} to use
 	 * @param gamePlayers - the list of {@link User}s
 	 * @param options - the {@link Options}
 	 * @return the placeholder {@link java.util.Map}
 	 */
-	public static java.util.Map<String, String> getDefaultPlaceholderValues(User creator, Map map, Collection<User> gamePlayers, Options options)
+	public static java.util.Map<String, String> getDefaultPlaceholderValues(User creator, PlaceToRace placeToRace, Collection<User> gamePlayers, Options options)
 	{
 		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
 
-		// karte
-		defaultPlaceholderValues.put("karte.id", toString(map.getId(), 1));
-		defaultPlaceholderValues.put("karte.name", map.getName());
-		defaultPlaceholderValues.put("karte.author", map.getAuthor());
+		// karte or generator
+		if(placeToRace.isMap())
+		{
+			defaultPlaceholderValues.put("karte.id", toString(placeToRace.getMap().getId(), 1));
+			defaultPlaceholderValues.put("karte.name", placeToRace.getMap().getName());
+			defaultPlaceholderValues.put("karte.author", placeToRace.getMap().getAuthor());
+		}
+		if(placeToRace.isGenerator())
+		{
+			defaultPlaceholderValues.put("generator.key", placeToRace.getGenerator().getKey());
+			defaultPlaceholderValues.put("generator.name", placeToRace.getGenerator().getName());
+			// defaultPlaceholderValues.put("generator.settings", placeToRace.getGenerator().getSettings()); // TODO evtl. settings ausgebbar machen
+		}
+		defaultPlaceholderValues.put("placetorace.short", (placeToRace.isMap() ? toString(placeToRace.getMap().getId(), 1) : placeToRace.getGenerator().getKey()));
+		defaultPlaceholderValues.put("placetorace.long", (placeToRace.isMap() ? placeToRace.getMap().getName() : placeToRace.getGenerator().getName()));
 
 		// spieler
 		defaultPlaceholderValues.put("spieler.ersteller", creator.getLogin());

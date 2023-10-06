@@ -31,7 +31,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import ultimate.karoapi4j.KaroAPICache;
-import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.CollectionsUtil;
@@ -120,7 +120,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		{
 			List<User> tmpUsers = this.chooser.notSelectedUsersLI.getSelectedValuesList();
 			this.chooser.notSelectedUsersLI.clearSelection();
-			Map map = this.chooser.game.getMap();
+			PlaceToRace map = this.chooser.game.getMap();
 			for(User u : tmpUsers)
 			{
 				if(this.chooser.users.size() >= map.getPlayers())

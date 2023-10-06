@@ -18,6 +18,7 @@ import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
@@ -231,7 +232,7 @@ public abstract class GameSeriesUpdater
 				gs.getPlayers().add(user);
 				gs.getPlayersByKey().get("group" + group).add(user);
 				gs.getPlayersByKey().get("league" + league).add(user);
-				gs.getTeams().add(new Team(username, user, map));
+				gs.getTeams().add(new Team(username, user, new PlaceToRace(map)));
 			}
 			else if(line.startsWith("| {{Benutzer|"))
 			{
@@ -268,7 +269,7 @@ public abstract class GameSeriesUpdater
 				players.add(user2);
 				players.add(creator);
 
-				pg = new PlannedGame(game.getName(), map, players, options, null);
+				pg = new PlannedGame(game.getName(), new PlaceToRace(map), players, options, null);
 				pg.setGame(game);
 				pg.setCreated(true);
 				pg.setLeft(true);
@@ -301,7 +302,7 @@ public abstract class GameSeriesUpdater
 		plannedGames.removeIf(pg -> { return !pg.isCreated(); });
 		logger.debug("plannedGamesStarted:  " + plannedGames.size());
 
-		List<Map> mapsStarted = new ArrayList<>();
+		List<PlaceToRace> mapsStarted = new ArrayList<>();
 		for(PlannedGame pg: plannedGames)
 		{
 			if(!mapsStarted.contains(pg.getMap()))
