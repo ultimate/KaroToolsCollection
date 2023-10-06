@@ -7,9 +7,14 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.base.PlaceToRace;
 import ultimate.karoapi4j.utils.JSONUtil;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
+import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 
 /**
  * POJO PlannedGame (or game that shall be created) as defined by the {@link KaroAPI}
@@ -28,11 +33,15 @@ public class PlannedGame
 {
 	private String							name;
 	private PlaceToRace						map;
+	@JsonSerialize(converter = ToIDArrayConverter.class)
+	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)
 	private Set<User>						players;
 	private Options							options;
 	@JsonInclude(value = Include.NON_NULL)
 	private Set<String>						tags;
 	@JsonInclude(value = Include.NON_NULL)
+	@JsonSerialize(converter = ToIDConverter.class)
+	@JsonDeserialize(converter = Game.FromIDConverter.class)
 	private Game							game;
 
 	// additional properties

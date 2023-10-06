@@ -8,32 +8,41 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.base.PlaceToRace;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 
 public class JSONUtilTest
 {
@@ -99,6 +108,27 @@ public class JSONUtilTest
 		//@formatter:on
 	}
 
+	private String toJson(java.util.Map<String, Object> map)
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		for(Entry<String, Object> entry: map.entrySet())
+		{
+			if(sb.length() > 1)
+				sb.append(',');
+			sb.append("\"" + entry.getKey() + "\":");
+			if(entry.getValue() instanceof String)
+				sb.append("\"" + entry.getValue() + "\"");
+			else if(entry.getValue() instanceof Number)
+				sb.append(entry.getValue());
+			else
+				throw new UnsupportedOperationException("not implemented");
+				//sb.append(toJson(entry.getValue()));
+		}
+		sb.append('}');
+		return sb.toString();
+	}
+
 	private String toJson(int[] arr)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -132,13 +162,37 @@ public class JSONUtilTest
 	{
 		//@formatter:off
 		return "{" + "\"name\":\"" + game.getName() + "\","
-				+ "\"map\":" + game.getMap().getId() + ","
+				+ "\"map\":" + toJson(game.getMap()) + ","
 				+ "\"players\":" + toJson(game.getPlayers()) + ","
 				+ "\"options\":" + toJson(game.getOptions()) 
 				+ (game.getGame() != null ? ",\"game\":" + game.getGame().getId(): "")
 				+ (game.isCreated() ? ",\"created\":true" : "")
 				+ (game.isLeft() ? ",\"left\":true" : "")
 				+ (includeUnofficial ? ",\"home\":\"" + game.getHome() + "\",\"guest\":\"" + game.getGuest() + "\"": "")				
+				+ "}";
+		//@formatter:on
+	}
+
+	private String toJson(PlaceToRace placeToRace)
+	{
+		//@formatter:off
+		if(placeToRace.isMap())
+			return "" + placeToRace.getMap().getId();
+		else if(placeToRace.isGenerator())
+			return "{" + "\"key\":\"" + placeToRace.getGenerator().getKey() + "\","
+				+ "\"settings\":" + toJson(placeToRace.getGenerator().getSettings())
+				+ "}";
+		else
+			return null;
+		//@formatter:on
+	}
+
+	private String toJson(Team team)
+	{
+		//@formatter:off
+		return "{" + "\"name\":\"" + team.getName() + "\","
+				+ "\"members\":" + toJson(team.getMembers()) + ","
+				+ "\"homeMap\":" + toJson(team.getHomeMap())		
 				+ "}";
 		//@formatter:on
 	}
@@ -243,7 +297,7 @@ public class JSONUtilTest
 
 		PlannedGame game = new PlannedGame();
 		game.setName("Neues Spiel");
-		game.setMap(new Map(105));
+		game.setMap(new PlaceToRace(new Map(105)));
 		game.setPlayers(new LinkedHashSet<>(Arrays.asList(new User(12), new User(78), new User(34), new User(56))));
 		game.setOptions(options);
 		// add some unofficial properties - they should be ignored
@@ -265,7 +319,9 @@ public class JSONUtilTest
 
 		// check each property here, don't rely on equals
 		assertEquals(game.getName(), deserialized.getName());
-		assertEquals(game.getMap().getId(), deserialized.getMap().getId());
+		assertEquals(game.getMap(), deserialized.getMap());
+		logger.debug("game.getPlayers():         " + game.getPlayers());
+		logger.debug("deserialized.getPlayers(): " + deserialized.getPlayers());
 		assertTrue(CollectionsUtil.equals(game.getPlayers(), deserialized.getPlayers(), "getId"));
 		// and the options
 		assertEquals(options.getZzz(), deserialized.getOptions().getZzz());
@@ -298,7 +354,7 @@ public class JSONUtilTest
 
 		// check each property here, don't rely on equals
 		assertEquals(game.getName(), deserialized.getName());
-		assertEquals(game.getMap().getId(), deserialized.getMap().getId());
+		assertEquals(game.getMap(), deserialized.getMap());
 		assertTrue(CollectionsUtil.equals(game.getPlayers(), deserialized.getPlayers(), "getId"));
 		// and the options
 		assertEquals(options.getZzz(), deserialized.getOptions().getZzz());
@@ -327,7 +383,7 @@ public class JSONUtilTest
 
 		// check each property here, don't rely on equals
 		assertEquals(game.getName(), deserialized.getName());
-		assertEquals(game.getMap().getId(), deserialized.getMap().getId());
+		assertEquals(game.getMap(), deserialized.getMap());
 		assertTrue(CollectionsUtil.equals(game.getPlayers(), deserialized.getPlayers(), "getId"));
 		// and the options
 		assertEquals(options.getZzz(), deserialized.getOptions().getZzz());
@@ -342,6 +398,55 @@ public class JSONUtilTest
 		assertEquals(game.getHome(), deserialized.getHome());
 		assertEquals(game.getGuest(), deserialized.getGuest());
 	}
+	
+	@Test
+	public void test_serialize_deserialize_Team()
+	{
+		String name = "teamname";
+		User member = new User(123);
+		Map map = new Map(456);
+
+		HashMap<String, Object> settings = new HashMap<>();
+		settings.put("intProperty", 5);
+		settings.put("stringProperty", "foo");
+		Generator generator = new Generator("testgen", settings);
+
+		Team team;
+		
+		// normal map
+		team = new Team(name, member, new PlaceToRace(map));
+
+		String expected = toJson(team);
+		
+		String serialized = JSONUtil.serialize(team);
+
+		logger.debug("expected = " + expected);
+		logger.debug("actual   = " + serialized);
+		assertEquals(expected, serialized);
+
+		Team deserialized = JSONUtil.deserialize(serialized, new TypeReference<Team>() {});
+
+		assertEquals(team.getName(), deserialized.getName());
+		assertTrue(CollectionsUtil.equals(team.getMembers(), deserialized.getMembers(), "getId"));
+		assertEquals(team.getHomeMap(), deserialized.getHomeMap());
+		
+		// with generator instead of map		
+		team = new Team(name, member, new PlaceToRace(generator));
+
+		expected = toJson(team);
+		
+		serialized = JSONUtil.serialize(team);
+
+		logger.debug("expected = " + expected);
+		logger.debug("actual   = " + serialized);
+		assertEquals(expected, serialized);
+
+		deserialized = JSONUtil.deserialize(serialized, new TypeReference<Team>() {});
+
+		assertEquals(team.getName(), deserialized.getName());
+		assertEquals(team.getMembers(), deserialized.getMembers());
+		assertEquals(team.getHomeMap(), deserialized.getHomeMap());
+	} 
 
 	@Test
 	public void test_serialize_deserialize_ids_only()
@@ -368,6 +473,70 @@ public class JSONUtilTest
 		assertEquals(2, deserialized.getMaps().size());
 		assertEquals(mid0, deserialized.getMaps().get(0).getId());
 		assertEquals(mid1, deserialized.getMaps().get(1).getId());
+	}
+
+	@Test
+	public void test_serialize_deserialize_User_withLookup()
+	{
+		IDLookUp lookUpBackup = JSONUtil.getLookUp();
+
+		try
+		{
+			KaroAPICache karoAPICache = new KaroAPICache(null);
+			JSONUtil.setLookUp(karoAPICache);
+			
+			String serialized, expected;
+
+			// User
+			User fromAPI = karoAPICache.getUser(5);
+			expected = "" + fromAPI.getId();
+			serialized = JSONUtil.serialize(fromAPI);
+
+			logger.debug("expected = " + expected);
+			logger.debug("actual   = " + serialized);
+			assertEquals(expected, serialized);
+			
+			User deserialized = JSONUtil.deserialize(serialized, new TypeReference<User>() {});
+
+			assertEquals(fromAPI, deserialized);
+			assertTrue(fromAPI == deserialized);
+		}
+		finally
+		{
+			JSONUtil.setLookUp(lookUpBackup);
+		}
+	}
+
+	@Test
+	public void test_serialize_deserialize_Map_withLookup()
+	{
+		IDLookUp lookUpBackup = JSONUtil.getLookUp();
+
+		try
+		{
+			KaroAPICache karoAPICache = new KaroAPICache(null);
+			JSONUtil.setLookUp(karoAPICache);
+			
+			String serialized, expected;
+
+			// Map
+			Map fromAPI = karoAPICache.getMap(17);
+			expected = "" + fromAPI.getId();
+			serialized = JSONUtil.serialize(fromAPI);
+
+			logger.debug("expected = " + expected);
+			logger.debug("actual   = " + serialized);
+			assertEquals(expected, serialized);
+			
+			Map deserialized = JSONUtil.deserialize(serialized, new TypeReference<Map>() {});
+
+			assertEquals(fromAPI, deserialized);
+			assertTrue(fromAPI == deserialized);
+		}
+		finally
+		{
+			JSONUtil.setLookUp(lookUpBackup);
+		}
 	}
 
 	@Test
