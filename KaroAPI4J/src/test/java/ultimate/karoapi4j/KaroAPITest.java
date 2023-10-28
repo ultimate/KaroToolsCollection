@@ -40,6 +40,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.KarolenderBlatt;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
@@ -67,7 +68,7 @@ public class KaroAPITest extends KaroAPITestcase
 	///////////////////////
 	// Helpers
 	///////////////////////
-	
+
 	private <T> void compareList(List<T> expected, List<T> actual, Comparator<T> comparator)
 	{
 		assertNotNull(expected);
@@ -110,7 +111,7 @@ public class KaroAPITest extends KaroAPITestcase
 	///////////////////////
 	// Tests
 	///////////////////////
-	
+
 	@Test
 	public void test_version() throws InterruptedException, ExecutionException
 	{
@@ -163,7 +164,9 @@ public class KaroAPITest extends KaroAPITestcase
 		// should be more than just a few users...
 		assertTrue(users.size() > 100);
 		// should contain the current user
-		Predicate<User> findCurrentUser = (user) -> { return user.getLogin().equals(properties.get(KaroAPI.CONFIG_KEY + ".user")); };
+		Predicate<User> findCurrentUser = (user) -> {
+			return user.getLogin().equals(properties.get(KaroAPI.CONFIG_KEY + ".user"));
+		};
 		assertTrue(CollectionsUtil.contains(users, findCurrentUser));
 
 		// check invitable filter
@@ -172,7 +175,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded invitable: " + invitables.size());
 		assertNotNull(invitables);
 		// all users in this list should be invitable
-		Predicate<User> findInvitable = (user) -> { return user.isInvitable(false); };
+		Predicate<User> findInvitable = (user) -> {
+			return user.isInvitable(false);
+		};
 		assertEquals(invitables.size(), CollectionsUtil.count(invitables, findInvitable));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToInvitables = new ArrayList<User>(users);
@@ -185,7 +190,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded desperates: " + desperates.size());
 		assertNotNull(desperates);
 		// all users in this list should be desperate
-		Predicate<User> findDesperates = (user) -> { return user.isDesperate(); };
+		Predicate<User> findDesperates = (user) -> {
+			return user.isDesperate();
+		};
 		assertEquals(desperates.size(), CollectionsUtil.count(desperates, findDesperates));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToDesperates = new ArrayList<User>(users);
@@ -199,7 +206,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded bylogin: " + bylogin.size());
 		assertNotNull(bylogin);
 		// all users in this list should match the login
-		Predicate<User> findLogin = (user) -> { return user.getLogin().toLowerCase().contains(login.toLowerCase()); };
+		Predicate<User> findLogin = (user) -> {
+			return user.getLogin().toLowerCase().contains(login.toLowerCase());
+		};
 		assertEquals(bylogin.size(), CollectionsUtil.count(bylogin, findLogin));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToLogin = new ArrayList<User>(users);
@@ -212,7 +221,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded filtered: " + filtered.size());
 		assertNotNull(filtered);
 		// all users in this list should match the filter
-		Predicate<User> filter = (user) -> { return findInvitable.test(user) && findDesperates.test(user) && findLogin.test(user); };
+		Predicate<User> filter = (user) -> {
+			return findInvitable.test(user) && findDesperates.test(user) && findLogin.test(user);
+		};
 		assertEquals(filtered.size(), CollectionsUtil.count(filtered, filter));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filtered = new ArrayList<User>(users);
@@ -327,7 +338,9 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(TEST_GAMES_IDS.length, games2.size());
 		for(int id : TEST_GAMES_IDS)
 		{
-			Predicate<Game> findGame = (game) -> { return game.getId() == id; };
+			Predicate<Game> findGame = (game) -> {
+				return game.getId() == id;
+			};
 			assertEquals(1, CollectionsUtil.count(games1, findGame));
 		}
 		// check the games are sorted by id (first print them for debugging)
@@ -411,7 +424,9 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("loaded maps_withcode: " + maps_withcode.size());
 		assertNotNull(maps_withcode);
 		// all maps in this list should contain a mapcode
-		maps_withcode.forEach((map) -> { checkMapCode(map); });
+		maps_withcode.forEach((map) -> {
+			checkMapCode(map);
+		});
 		// the maps in invitable should match the global map list
 		compareList(maps, maps_withcode, new MethodComparator<>("getId", 1));
 	}
@@ -510,10 +525,40 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
+	public void test_getGenerators() throws InterruptedException, ExecutionException
+	{
+		List<Generator> generators = karoAPI.getGenerators().get();
+		logger.debug("loaded generators: " + generators.size());
+
+		// check generator list
+
+		assertNotNull(generators);
+		// should be more than just a few maps...
+		assertTrue(generators.size() >= 6);
+
+		String[] knownKeys = new String[] { "bagger", "couscous", "fernschreiber", "irrkarten", "kartograph", "zickzack"};
+		
+		boolean found = false;
+		for(String key: knownKeys)
+		{
+			found = false;
+			for(Generator g: generators)
+			{
+				if(g.getKey().equalsIgnoreCase(key))
+				{
+					found = true;
+					break;
+				}
+			}
+			assertTrue(found, "generator '" + key + "' not found");
+		}
+	}
+
+	@Test
 	public void test_createGameAndMove() throws InterruptedException, ExecutionException
 	{
 		int sleep = 500;
-		
+
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
@@ -536,7 +581,7 @@ public class KaroAPITest extends KaroAPITestcase
 		int moves = 0;
 		int crashs = 0;
 		int x, y;
-		
+
 		Thread.sleep(sleep);
 
 		// load full game -> check players and moves
@@ -551,7 +596,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
-		
+
 		Thread.sleep(sleep);
 
 		// select start position
@@ -678,7 +723,7 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 
 		int sleep = 500;
-		
+
 		User user = karoAPI.check().get();
 
 		PlannedGame plannedGame = new PlannedGame();
@@ -696,7 +741,7 @@ public class KaroAPITest extends KaroAPITestcase
 		int gameId = game.getId();
 		int moves = 0;
 		int crashs = 0;
-		
+
 		Thread.sleep(sleep);
 
 		// load full game -> check players and moves
@@ -711,9 +756,9 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
-		
+
 		Thread.sleep(sleep);
-		
+
 		boolean left = karoAPI.leaveGame(gameId).get();
 		assertTrue(left);
 	}
@@ -722,7 +767,9 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_favs() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
-		Predicate<Game> findFav = (game) -> { return game.getId() == gameId; };
+		Predicate<Game> findFav = (game) -> {
+			return game.getId() == gameId;
+		};
 
 		// get the initial list of favs
 		List<Game> favs = karoAPI.getFavs().get();
@@ -774,8 +821,12 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(chat);
 		assertEquals(limit, chat.size());
 
-		CollectionsUtil.contains(chat, (m) -> { return m.getId() == oldMessage.getId(); });
-		CollectionsUtil.contains(chat, (m) -> { return m.getId() == newMessage.getId(); });
+		CollectionsUtil.contains(chat, (m) -> {
+			return m.getId() == oldMessage.getId();
+		});
+		CollectionsUtil.contains(chat, (m) -> {
+			return m.getId() == newMessage.getId();
+		});
 	}
 
 	@Test
@@ -861,7 +912,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// also check directly
 		noteText = karoAPI.getNote(gameId).get();
 		assertEquals(expectedText, noteText);
-		
+
 		// delete the note (reset)
 		karoAPI.removeNote(gameId).get();
 		notes = (HashMap<Integer, String>) karoAPI.getNotes().get();
@@ -871,19 +922,19 @@ public class KaroAPITest extends KaroAPITestcase
 		noteText = karoAPI.getNote(gameId).get();
 		assertEquals("", noteText);
 	}
-	
+
 	@Test
 	public void test_plannedMoves() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
-		
+
 		List<Move> plannedMoves = new ArrayList<>();
 		plannedMoves.add(new Move(2, 1, 1, 0, null));
 		plannedMoves.add(new Move(3, 1, 2, 0, null));
 
 		HashMap<Integer, List<Move>> allPlannedMoves;
 		List<Move> actuallyPlannedMoves;
-		
+
 		BiFunction<Move, Move, Boolean> movesEqual = (m1, m2) -> {
 			if(m1.getX() != m2.getX())
 				return false;
@@ -903,10 +954,10 @@ public class KaroAPITest extends KaroAPITestcase
 		// also check directly
 		actuallyPlannedMoves = karoAPI.getPlannedMoves(gameId).get();
 		assertEquals(0, actuallyPlannedMoves.size());
-		
+
 		// plan moves
 		karoAPI.addPlannedMoves(gameId, plannedMoves).get();
-		
+
 		// check again
 		allPlannedMoves = (HashMap<Integer, List<Move>>) karoAPI.getPlannedMoves().get();
 		// current list must not contain the note
@@ -917,11 +968,13 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(plannedMoves.size(), actuallyPlannedMoves.size());
 		for(int i = 0; i < plannedMoves.size(); i++)
 		{
-			logger.debug("plannedMoves.get(" + i + ")         = from " + plannedMoves.get(i).getX() + "|" + plannedMoves.get(i).getY() + " --> vec " + plannedMoves.get(i).getXv() + "|" + plannedMoves.get(i).getYv());
-			logger.debug("actuallyPlannedMoves.get(" + i + ") = from " + actuallyPlannedMoves.get(i).getX() + "|" + actuallyPlannedMoves.get(i).getY() + " --> vec " + actuallyPlannedMoves.get(i).getXv() + "|" + actuallyPlannedMoves.get(i).getYv());
+			logger.debug("plannedMoves.get(" + i + ")         = from " + plannedMoves.get(i).getX() + "|" + plannedMoves.get(i).getY() + " --> vec " + plannedMoves.get(i).getXv() + "|"
+					+ plannedMoves.get(i).getYv());
+			logger.debug("actuallyPlannedMoves.get(" + i + ") = from " + actuallyPlannedMoves.get(i).getX() + "|" + actuallyPlannedMoves.get(i).getY() + " --> vec "
+					+ actuallyPlannedMoves.get(i).getXv() + "|" + actuallyPlannedMoves.get(i).getYv());
 			assertTrue(movesEqual.apply(plannedMoves.get(i), actuallyPlannedMoves.get(i)), "moves at index " + i + " do not match");
 		}
-		
+
 		// delete the note (reset)
 		karoAPI.removePlannedMoves(gameId).get();
 
@@ -949,7 +1002,6 @@ public class KaroAPITest extends KaroAPITestcase
 		}
 	}
 
-
 	public static Stream<Arguments> provideKBSamples()
 	{
 		//@formatter:off
@@ -974,7 +1026,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertNotNull(kb);
 		assertTrue(kb.size() == 1);
 
-		assertNotNull(kb.get(0).getLine());		
+		assertNotNull(kb.get(0).getLine());
 		assertEquals(expectedKarolenderBlatt, kb.get(0).getLine());
 
 		String postedDate = df.format(kb.get(0).getPosted());
@@ -1034,7 +1086,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// check if the other API is still valid
 		User user1 = karoAPI.check().get();
 		assertEquals(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), user1.getLogin());
-		
+
 		Properties testProperties = PropertiesUtil.loadProperties(new File("src/test/resources/test.properties"));
 
 		String str1 = testProperties.getProperty("message1").replace("%user", user2.getLogin());
@@ -1181,7 +1233,9 @@ public class KaroAPITest extends KaroAPITestcase
 		// immediately blocking
 		// -> output "cf" should come after "2"
 		CompletableFuture<User> cf1 = karoAPI.check();
-		cf1.whenComplete((result, th) -> { executionOrder.add("cf"); });
+		cf1.whenComplete((result, th) -> {
+			executionOrder.add("cf");
+		});
 		executionOrder.add("1");
 		executionOrder.add("2");
 		cf1.join();
@@ -1194,7 +1248,9 @@ public class KaroAPITest extends KaroAPITestcase
 		// in parallel
 		// -> output "cf" should come before "2" because of sleep
 		CompletableFuture<User> cf2 = karoAPI.check();
-		cf2.whenComplete((result, th) -> { executionOrder.add("cf"); });
+		cf2.whenComplete((result, th) -> {
+			executionOrder.add("cf");
+		});
 		executionOrder.add("1");
 		Thread.sleep(1000);
 		executionOrder.add("2");
@@ -1208,9 +1264,9 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_localVsServerTime() throws InterruptedException, ExecutionException
 	{
 		int sleep = 500;
-						
+
 		User user = karoAPI.check().get();
-		
+
 		// we create a game, so we have an entity with a current timestamp
 		PlannedGame plannedGame = new PlannedGame();
 		plannedGame.setMap(new Map(105));
@@ -1227,18 +1283,17 @@ public class KaroAPITest extends KaroAPITestcase
 
 		logger.debug("current time     = " + df.format(now));
 		logger.debug("game starteddate = " + df.format(game.getStarteddate()));
-		
+
 		assertEquals(now.getTime(), game.getStarteddate().getTime(), 10000.0); // toleranze of 10 seconds
-		
+
 		Thread.sleep(sleep);
 
-		// leave the game 
-		
+		// leave the game
+
 		boolean left = karoAPI.leaveGame(game.getId()).get();
 		assertTrue(left);
 	}
 
-	
 //	@Test
 //	public void test_createGameWithIllegalMap() throws InterruptedException, ExecutionException
 //	{

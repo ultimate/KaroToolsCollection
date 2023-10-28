@@ -1,8 +1,6 @@
 package ultimate.karoapi4j;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -35,11 +34,13 @@ import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.Smilie;
 import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.ImageUtil;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 
@@ -57,13 +58,13 @@ public class KaroAPICache implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger		logger				= LogManager.getLogger(KaroAPICache.class);
+	protected transient final Logger			logger				= LogManager.getLogger(KaroAPICache.class);
 
-	public static final String				CONFIG_BASE			= "karoAPI.";
-	public static final String				CONFIG_CACHE		= CONFIG_BASE + "cache";
-	public static final String				CONFIG_IMAGES		= CONFIG_BASE + "images";
-	public static final String				CONFIG_EXTRA_MAPS	= CONFIG_BASE + "extra.maps";
-	public static final String				CONFIG_EXTRA_USERS	= CONFIG_BASE + "extra.users";
+	public static final String					CONFIG_BASE			= "karoAPI.";
+	public static final String					CONFIG_CACHE		= CONFIG_BASE + "cache";
+	public static final String					CONFIG_IMAGES		= CONFIG_BASE + "images";
+	public static final String					CONFIG_EXTRA_MAPS	= CONFIG_BASE + "extra.maps";
+	public static final String					CONFIG_EXTRA_USERS	= CONFIG_BASE + "extra.users";
 
 	/**
 	 * The default cache folder
@@ -71,70 +72,74 @@ public class KaroAPICache implements IDLookUp
 	 * @see KaroAPICache#cacheFolder
 	 * @see KaroAPICache#getCacheFolder()
 	 */
-	public static final String				DEFAULT_FOLDER		= "cache";
+	public static final String					DEFAULT_FOLDER		= "cache";
 	/**
 	 * The image file ending
 	 */
-	public static final String				IMAGE_TYPE			= "png";
+	public static final String					IMAGE_TYPE			= "png";
 	/**
 	 * The suffix for thumbs
 	 */
-	public static final String				IMAGE_THUMB_SUFFIX	= "_thumb";
+	public static final String					IMAGE_THUMB_SUFFIX	= "_thumb";
 	/**
 	 * The list separator
 	 */
-	public static final String				LIST_SEPARATOR		= ",";
+	public static final String					LIST_SEPARATOR		= ",";
 
 	/**
 	 * The underlying {@link KaroAPI} instance
 	 */
-	private KaroAPI							karoAPI;
+	private KaroAPI								karoAPI;
 
 	/**
 	 * The current user
 	 * 
 	 * @see KaroAPI#check()
 	 */
-	private User							currentUser;
+	private User								currentUser;
 	/**
 	 * The {@link User} cache (by id)
 	 */
-	private java.util.Map<Integer, User>	usersById;
+	private java.util.Map<Integer, User>		usersById;
 	/**
 	 * The {@link User} cache (by login)
 	 */
-	private java.util.Map<String, User>		usersByLogin;
+	private java.util.Map<String, User>			usersByLogin;
 	/**
 	 * The {@link Game} cache (by id)
 	 */
-	private java.util.Map<Integer, Game>	gamesById;
+	private java.util.Map<Integer, Game>		gamesById;
 	/**
 	 * The {@link Map} cache (by id)
 	 */
-	private java.util.Map<Integer, Map>		mapsById;
-	
+	private java.util.Map<Integer, Map>			mapsById;
+	/**
+	 * The {@link Generator} cache (by key)
+	 */
+	private java.util.Map<String, Generator>	generatorsByKey;
+
 	/**
 	 * The list of {@link Smilie}s
 	 */
-	private List<Smilie>					smilies;
+	private List<Smilie>						smilies;
 	/**
 	 * The list of {@link Tag}s
 	 */
-	private List<Tag>						suggestedTags;
+	private List<Tag>							suggestedTags;
 
 	/**
 	 * The config used
 	 */
-	private Properties						config;
+	private Properties							config;
 
 	/**
 	 * The cache Folder
 	 */
-	private File							cacheFolder;
+	private File								cacheFolder;
 	/**
 	 * Whether to load images or not?
 	 */
-	private boolean							loadImages;
+	private boolean								loadImages;
 
 	/**
 	 * Create a new KaroAPICache which will use the default folder
@@ -162,6 +167,7 @@ public class KaroAPICache implements IDLookUp
 		this.usersByLogin = new TreeMap<>();
 		this.gamesById = new TreeMap<>();
 		this.mapsById = new TreeMap<>();
+		this.generatorsByKey = new TreeMap<>();
 
 		this.config = config;
 
@@ -259,22 +265,29 @@ public class KaroAPICache implements IDLookUp
 				loadImagesCF = CompletableFuture.completedFuture(null);
 			}
 
+			// load generators
+			logger.info("loading generators...");
+			CompletableFuture<Void> loadGeneratorsCF = karoAPI.getGenerators().thenAccept(generatorList -> {
+				logger.info("generators loaded: " + generatorList.size());
+				for(Generator g : generatorList)
+					updateGenerator(g);
+			});
+
 			// then load constants
 			logger.info("loading smilies...");
 			CompletableFuture<Void> loadSmiliesCF = karoAPI.getSmilies().thenAccept(smilieList -> {
 				logger.info("smilies loaded: " + smilieList.size());
 				this.smilies = smilieList;
-			}); 
+			});
 
 			logger.info("loading tags...");
 			CompletableFuture<Void> loadSuggestedTagsCF = karoAPI.getSuggestedTags().thenAccept(tagsList -> {
 				logger.info("tags loaded: " + tagsList.size());
 				this.suggestedTags = tagsList;
-			}); 
-
+			});
 
 			// join all operations
-			return CompletableFuture.allOf(loadUsersCF, loadCheckCF, loadMapsCF, loadImagesCF, loadSmiliesCF, loadSuggestedTagsCF).thenAccept(v -> {
+			return CompletableFuture.allOf(loadUsersCF, loadCheckCF, loadMapsCF, loadImagesCF, loadGeneratorsCF, loadSmiliesCF, loadSuggestedTagsCF).thenAccept(v -> {
 				logger.info("refresh complete");
 			});
 		}
@@ -310,6 +323,10 @@ public class KaroAPICache implements IDLookUp
 				{
 					logger.info("--> skipped by config");
 				}
+
+				// create some dummy generators
+				logger.info("creating dummy generators...");
+				updateGenerator(createDummyGenerator("dummy"));
 
 				this.smilies = Arrays.asList(new Smilie("wink"), new Smilie("biggrin"));
 				this.suggestedTags = Arrays.asList(new Tag("!KaroIQ!"), new Tag("§RE§"), new Tag("CCC"), new Tag("KaroLiga"), new Tag("KLC"));
@@ -683,6 +700,46 @@ public class KaroAPICache implements IDLookUp
 	}
 
 	/**
+	 * Update the cache with the data from the {@link Generator} passed
+	 * 
+	 * @param user - the {@link Generator} to copy the data from
+	 * @return the updated {@link Generator} from the cache
+	 */
+	protected Generator updateGenerator(Generator generator)
+	{
+		if(this.generatorsByKey.containsKey(generator.getKey()))
+			ReflectionsUtil.copyFields(generator, this.generatorsByKey.get(generator.getKey()), false);
+		else
+		{
+			synchronized(this.generatorsByKey)
+			{
+				this.generatorsByKey.put(generator.getKey(), generator);
+			}
+		}
+		return this.generatorsByKey.get(generator.getKey());
+	}
+
+	/**
+	 * Get all {@link Generator}s from the cache
+	 * 
+	 * @return an unmodifiable {@link Collection} of all cached {@link Generator}s
+	 */
+	public Collection<Generator> getGenerators()
+	{
+		return Collections.unmodifiableCollection(this.generatorsByKey.values());
+	}
+
+	/**
+	 * Get all {@link Generator}s from the cache
+	 * 
+	 * @return an unmodifiable {@link java.util.Map} of all {@link Generator} with their keys as the keys
+	 */
+	public java.util.Map<String, Generator> getGeneratorsByKey()
+	{
+		return Collections.unmodifiableMap(this.generatorsByKey);
+	}
+
+	/**
 	 * Get the config used
 	 * 
 	 * @return
@@ -794,37 +851,6 @@ public class KaroAPICache implements IDLookUp
 			}
 			return img;
 		});
-	}
-
-	@Deprecated // (since = "only used for dummy creation")
-	protected static BufferedImage createSingleColorImage(int width, int height, Color color)
-	{
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g = image.createGraphics();
-		g.setColor(Color.white);
-		g.fillRect(0, 0, width, height);
-		return image;
-	}
-
-	/**
-	 * Create a special image by drawing a "don't sign" on top of the given image...
-	 * 
-	 * @param image - the original image
-	 * @return the specialized image
-	 */
-	@Deprecated // (since = "only used for dummy creation")
-	protected static BufferedImage createSpecialImage(BufferedImage image)
-	{
-		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
-		Graphics2D g2d = image2.createGraphics();
-		g2d.drawImage(image, 0, 0, null);
-		g2d.setColor(Color.red);
-		int size = (int) Math.min(image2.getWidth() * 0.7F, image2.getHeight() * 0.7F);
-		g2d.setStroke(new BasicStroke(size / 7));
-		g2d.drawOval((image2.getWidth() - size) / 2, (image2.getHeight() - size) / 2, size, size);
-		int delta = (int) (size / 2 * 0.707F);
-		g2d.drawLine(image2.getWidth() / 2 - delta, image2.getHeight() / 2 + delta, image2.getWidth() / 2 + delta, image2.getHeight() / 2 - delta);
-		return image2;
 	}
 
 	///////////////////////////////////
@@ -1027,7 +1053,7 @@ public class KaroAPICache implements IDLookUp
 			return null;
 		});
 	}
-	
+
 	/**
 	 * The list of {@link Smilie}s
 	 */
@@ -1202,8 +1228,21 @@ public class KaroAPICache implements IDLookUp
 		m.setNight(random.nextDouble() < 0.10);
 		m.setRecord(random.nextInt(200));
 		m.setCode("DUMMY");
-		m.setImage(createSpecialImage(createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white)));
-		m.setImage(createSpecialImage(createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white)));
+		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white), ImageUtil.Symbol.DONT));
+		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white), ImageUtil.Symbol.DONT));
 		return m;
+	}
+
+	/**
+	 * Create a dummy {@link Generator}
+	 * 
+	 * @param id - the id to use
+	 * @return the {@link Generator}
+	 */
+	private Generator createDummyGenerator(String key)
+	{
+		HashMap<String, Object> settings = new HashMap<>();
+		settings.put("code", "XXXXXXX\nXOSOFOX\nXXXXXXX");
+		return new Generator(key, settings);
 	}
 }

@@ -31,6 +31,7 @@ import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.KarolenderBlatt;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
@@ -236,6 +237,7 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<NotesListEntry>>() {});
 	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
 	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	public static final Function<String, List<Generator>>						PARSER_GENERATOR_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Generator>>() {});
 	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
 	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
 	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
@@ -300,6 +302,10 @@ public class KaroAPI implements IDLookUp
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
 	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	// generators
+	protected final URLLoader													GENERATORS					= API.relative("/generators");
+	protected final URLLoader													GENERATOR_GENERATE_CODE		= GENERATORS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													GENERATOR_GENERATE_MAP		= API.relative("/mapgenerator/generate");
 	// chat
 	protected final URLLoader													CHAT						= API.relative("/chat");
 	protected final URLLoader													CHAT_LAST					= CHAT.relative("/last");
@@ -1159,6 +1165,46 @@ public class KaroAPI implements IDLookUp
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	///////////////////////
+	// generators
+	///////////////////////
+
+	/**
+	 * Get all generators
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GENERATORS
+	 * @return the list of all generators
+	 */
+	public CompletableFuture<List<Generator>> getGenerators()
+	{
+		return loadAsync(GENERATORS.doGet(), PARSER_GENERATOR_LIST);
+	}
+
+	/**
+	 * Generate map code by use of a generator
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GENERATOR_GENERATE_CODE
+	 * @return the map code generated
+	 */
+	public CompletableFuture<String> generateCode(Generator generator)
+	{
+		// TODO
+	}
+
+	/**
+	 * Generate a one time map by use of a generator
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GENERATOR_GENERATE_MAP
+	 * @return the map code generated
+	 */
+	public CompletableFuture<Map> generateMap(Generator generator)
+	{
+		// TODO
 	}
 
 	///////////////////////
