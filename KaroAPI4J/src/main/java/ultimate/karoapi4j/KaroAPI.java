@@ -1192,7 +1192,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<String> generateCode(Generator generator)
 	{
-		// TODO
+		return loadAsync(GENERATOR_GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(generator.getSettings()).doGet(), PARSER_RAW);
 	}
 
 	/**
@@ -1204,7 +1204,11 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<Map> generateMap(Generator generator)
 	{
-		// TODO
+		HashMap<String, Object> settings = new HashMap<>();
+		settings.putAll(generator.getSettings());
+		settings.put("generator", generator.getKey());
+		String json = JSONUtil.serialize(settings);
+		return loadAsync(GENERATOR_GENERATE_MAP.doPost(json, EnumContentType.json), PARSER_MAP);
 	}
 
 	///////////////////////

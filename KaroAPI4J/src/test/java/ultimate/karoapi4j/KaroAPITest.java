@@ -555,6 +555,65 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
+	public void test_generateCode() throws InterruptedException, ExecutionException
+	{
+		HashMap<String, Object> settings = new HashMap<>();
+		settings.put("dimx", 10);
+		settings.put("dimy", 10);
+		settings.put("seed", "1");
+		Generator generator = new Generator("couscous", settings);
+		
+		String code = karoAPI.generateCode(generator).get();
+		
+		// @formatter:off
+		String expected = "XXXXXXXXXX\n"
+						+ "XYYYXXXXXX\n"
+						+ "XYOSFYYXXX\n"
+						+ "XYSOFOYXXX\n"
+						+ "XYOSFOYXXX\n"
+						+ "XYSOFOYXXX\n"
+						+ "XYOSFYYXXX\n"
+						+ "XYYYXXXXXX\n"
+						+ "XXXXXXXXXX\n"
+						+ "XXXXXXXXXX";
+		// @formatter:on
+		
+		assertEquals(expected, code);
+	}
+
+	@Test
+	public void test_generateMap() throws InterruptedException, ExecutionException
+	{
+		HashMap<String, Object> settings = new HashMap<>();
+		settings.put("dimx", 10);
+		settings.put("dimy", 10);
+		settings.put("seed", "1");
+		Generator generator = new Generator("couscous", settings);
+		
+		Map map = karoAPI.generateMap(generator).get();
+		
+		// @formatter:off
+		String expected = "XXXXXXXXXX\n"
+						+ "XYYYXXXXXX\n"
+						+ "XYOSFYYXXX\n"
+						+ "XYSOFOYXXX\n"
+						+ "XYOSFOYXXX\n"
+						+ "XYSOFOYXXX\n"
+						+ "XYOSFYYXXX\n"
+						+ "XYYYXXXXXX\n"
+						+ "XXXXXXXXXX\n"
+						+ "XXXXXXXXXX";
+		// @formatter:on
+		
+		logger.info("map created with id = " + map.getId() + ", code=\n" + map.getCode());
+		
+		assertNotNull(map);
+		assertNotNull(map.getId());
+		assertTrue(map.getId() > 10000);
+		assertEquals(expected, map.getCode());
+	}
+
+	@Test
 	public void test_createGameAndMove() throws InterruptedException, ExecutionException
 	{
 		int sleep = 500;
