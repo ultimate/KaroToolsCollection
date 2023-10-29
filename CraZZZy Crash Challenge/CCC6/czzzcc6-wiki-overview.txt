@@ -44,14 +44,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||25
 ||ja
 ||50
-||2022.11.20 19:30
-||23
-||27
-||2023.06.26 15:02
-||32696
-||217.97
-||753
-||5.02
+||2022.11.20 18:30
+||20
+||30
+||2023.10.13 10:42
+||35781
+||238.54
+||868
+||5.79
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 2|Challenge 2]]
@@ -61,14 +61,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||1
 ||ja
 ||30
-||2022.12.04 04:00
-||17
-||13
-||2023.05.20 15:10
-||12797
-||85.31
-||855
-||5.70
+||2022.12.04 03:00
+||12
+||18
+||2023.10.26 15:07
+||14373
+||95.82
+||974
+||6.49
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 3|Challenge 3]]
@@ -78,14 +78,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||32
 ||ja
 ||30
-||2022.12.18 04:00
-||19
-||11
-||2023.06.15 19:06
-||14306
-||95.37
-||432
-||2.88
+||2022.12.18 03:00
+||14
+||16
+||2023.10.02 14:05
+||16290
+||108.60
+||530
+||3.53
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 4|Challenge 4]]
@@ -95,14 +95,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||2
 ||ja
 ||25
-||2023.01.01 04:00
-||17
-||8
-||2023.06.21 14:58
-||8678
-||57.85
-||558
-||3.72
+||2023.01.01 03:00
+||12
+||13
+||2023.10.09 13:38
+||10278
+||68.52
+||685
+||4.57
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 5|Challenge 5]]
@@ -112,14 +112,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||10
 ||ja
 ||25
-||2023.01.29 04:00
-||17
-||8
-||2023.06.20 18:41
-||7131
-||47.54
-||298
-||1.99
+||2023.01.29 03:00
+||13
+||12
+||2023.10.05 13:05
+||8739
+||58.26
+||460
+||3.07
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 6|Challenge 6]]
@@ -129,14 +129,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||10
 ||ja
 ||25
-||2023.01.15 04:00
-||19
-||6
-||2023.06.19 23:03
-||8652
-||57.68
-||439
-||2.93
+||2023.01.15 03:00
+||12
+||13
+||2023.10.02 16:37
+||10365
+||69.10
+||572
+||3.81
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 7|Challenge 7]]
@@ -146,14 +146,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||5
 ||ja
 ||50
-||2023.02.12 04:00
-||23
-||27
-||2023.06.22 10:35
-||16439
-||109.59
-||613
-||4.09
+||2023.02.12 03:00
+||15
+||35
+||2023.10.26 15:09
+||18368
+||122.45
+||679
+||4.53
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 8|Challenge 8]]
@@ -163,14 +163,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||6
 ||ja
 ||25
-||2023.02.26 04:00
-||18
-||7
-||2023.06.13 12:42
-||5885
-||39.23
-||370
-||2.47
+||2023.02.26 03:00
+||14
+||11
+||2023.08.31 13:32
+||7438
+||49.59
+||509
+||3.39
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 9|Challenge 9]]
@@ -180,14 +180,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||17
 ||ja
 ||25
-||2023.03.12 04:00
-||19
-||6
-||2023.06.06 14:37
-||5974
-||39.83
-||130
-||0.87
+||2023.03.12 03:00
+||12
+||13
+||2023.10.15 08:50
+||8219
+||54.79
+||261
+||1.74
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 10|Challenge 10]]
@@ -197,14 +197,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||8
 ||ja
 ||25
-||2023.03.26 04:01
-||21
-||4
-||2023.06.10 12:14
-||5107
-||34.05
-||354
-||2.36
+||2023.03.26 02:01
+||13
+||12
+||2023.10.28 05:29
+||7779
+||51.86
+||591
+||3.94
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 11|Challenge 11]]
@@ -214,14 +214,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||1
 ||ja
 ||50
-||2023.04.09 04:01
-||30
-||20
-||2023.06.27 15:44
-||13874
-||92.49
-||1261
-||8.41
+||2023.04.09 02:01
+||16
+||34
+||2023.10.10 18:31
+||18483
+||123.22
+||1759
+||11.73
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 12|Challenge 12]]
@@ -231,14 +231,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||6
 ||ja
 ||25
-||2023.04.23 04:01
-||22
-||3
-||2023.06.18 17:12
-||4152
-||27.68
-||204
-||1.36
+||2023.04.23 02:01
+||13
+||12
+||2023.10.27 12:37
+||6672
+||44.48
+||421
+||2.81
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 13|Challenge 13]]
@@ -248,14 +248,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||9
 ||ja
 ||50
-||2023.05.07 04:00
-||25
-||25
-||2023.06.26 17:58
-||9086
-||60.57
-||525
-||3.50
+||2023.05.07 02:00
+||14
+||36
+||2023.10.14 09:39
+||11794
+||78.63
+||714
+||4.76
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 14|Challenge 14]]
@@ -265,14 +265,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||5
 ||ja
 ||25
-||2023.05.21 04:01
-||23
-||2
-||2023.06.23 13:39
-||2190
-||14.60
-||57
-||0.38
+||2023.05.21 02:01
+||14
+||11
+||2023.10.26 06:03
+||5176
+||34.51
+||238
+||1.59
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 15|Challenge 15]]
@@ -282,14 +282,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13
 ||ja
 ||24
-||2023.06.04 04:01
-||24
-||0
-||
-||1415
-||9.43
-||29
-||0.19
+||2023.06.04 02:01
+||14
+||10
+||2023.10.18 06:58
+||5228
+||34.85
+||278
+||1.85
 |-
 
 ||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 16|Challenge 16]]
@@ -299,26 +299,179 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13
 ||ja
 ||48
-||2023.06.18 04:01
-||46
-||2
-||2023.06.24 19:16
-||3164
-||21.09
-||95
-||0.63
+||2023.06.18 02:01
+||23
+||25
+||2023.10.25 14:54
+||14057
+||93.71
+||694
+||4.63
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 17|Challenge 17]]
+||{{Karte|10043}} Karolettenpapier
+||24
+||4
+||11
+||ja
+||36
+||2023.07.20 02:01
+||21
+||15
+||2023.10.26 18:07
+||6144
+||40.96
+||350
+||2.33
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 18|Challenge 18]]
+||{{Karte|5}} (unbekannt)
+||24
+||4
+||8
+||ja
+||36
+||2023.07.20 02:01
+||17
+||19
+||2023.10.23 17:45
+||5622
+||37.48
+||531
+||3.54
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 19|Challenge 19]]
+||{{Karte|10028}} Rock'n'roll
+||24
+||4
+||7
+||ja
+||36
+||2023.07.30 02:01
+||16
+||20
+||2023.10.27 18:29
+||4275
+||28.50
+||126
+||0.84
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 20|Challenge 20]]
+||{{Karte|27}} Holperstrecke
+||24
+||6
+||0
+||ja
+||24
+||2023.08.13 02:01
+||17
+||7
+||2023.10.26 12:14
+||2956
+||19.71
+||307
+||2.05
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 21|Challenge 21]]
+||{{Karte|10055}} Stern (MOD)
+||24
+||4
+||4
+||ja
+||36
+||2023.08.27 02:01
+||20
+||16
+||2023.10.24 21:01
+||4396
+||29.31
+||456
+||3.04
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 22|Challenge 22]]
+||{{Karte|10048}} KaKiWo - Minikarocamp
+||24
+||4
+||3
+||ja
+||36
+||2023.09.10 02:01
+||23
+||13
+||2023.10.28 20:02
+||3733
+||24.89
+||320
+||2.13
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 23|Challenge 23]]
+||{{Karte|29}} FHTW Berlin I
+||24
+||3
+||7
+||ja
+||48
+||2023.09.24 02:02
+||22
+||26
+||2023.10.28 21:20
+||4474
+||29.83
+||206
+||1.37
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 24|Challenge 24]]
+||{{Karte|18}} Fruitmap
+||24
+||3
+||5
+||ja
+||48
+||2023.10.08 02:02
+||27
+||21
+||2023.10.28 15:06
+||2936
+||19.57
+||332
+||2.21
+|-
+
+||[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 25|Challenge 25]]
+||{{Karte|9}} Dragster-Race
+||24
+||4
+||1
+||ja
+||36
+||2023.10.22 02:01
+||35
+||1
+||2023.10.24 07:05
+||995
+||6.63
+||30
+||0.20
 |-
 
 |colspan=6|Gesamt-Statistik
 ||868
-||2022.11.20 19:30
-||363
-||169
-||2023.06.27 15:44
-||151546
-||40.41
-||6973
-||1.86
+||2022.11.20 18:30
+||429
+||439
+||2023.10.28 21:20
+||234571
+||62.55
+||12891
+||3.44
 |-
 |}
 
@@ -353,6 +506,15 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 !|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 14|14]]
 !|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 15|15]]
 !|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 16|16]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 17|17]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 18|18]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 19|19]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 20|20]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 21|21]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 22|22]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 23|23]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 24|24]]
+!|[[CraZZZy Crash Challenge 6 - Detailwertung Challenge 25|25]]
 !|Züge (gesamt)
 !|Crashs (gesamt)
 !|Endergebnis
@@ -362,627 +524,852 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 
 ||1.
 ||'''[[Benutzer:quabla|quabla]]'''
-||37&nbsp;<span style="font-size:50%">(3)</span>
-||48&nbsp;<span style="font-size:50%">(1)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
-||37&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(5)</span>
-||39&nbsp;<span style="font-size:50%">(5)</span>
-||39&nbsp;<span style="font-size:50%">(1)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||49&nbsp;<span style="font-size:50%">(1)</span>
+||47&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||44&nbsp;<span style="font-size:50%">(3)</span>
+||38&nbsp;<span style="font-size:50%">(1)</span>
+||45&nbsp;<span style="font-size:50%">(1)</span>
 ||45&nbsp;<span style="font-size:50%">(3)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||43&nbsp;<span style="font-size:50%">(5)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||46&nbsp;<span style="font-size:50%">(2)</span>
+||48&nbsp;<span style="font-size:50%">(2)</span>
+||41&nbsp;<span style="font-size:50%">(1)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||'''50'''&nbsp;<span style="font-size:50%">(1)</span>
+||43&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
 ||45&nbsp;<span style="font-size:50%">(3)</span>
-||48&nbsp;<span style="font-size:50%">(3)</span>
-||45&nbsp;<span style="font-size:50%">(5)</span>
-||47&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||5762
-||442
-||'''626'''
-||32
-||'''607'''
+||46&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
+||42&nbsp;<span style="font-size:50%">(3)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||8886
+||781
+||'''1061'''
+||93
+||'''1016'''
 |-
 
 ||2.
 ||'''[[Benutzer:ultimate|ultimate]]'''
-||36&nbsp;<span style="font-size:50%">(3)</span>
-||39&nbsp;<span style="font-size:50%">(3)</span>
-||38&nbsp;<span style="font-size:50%">(3)</span>
-||38&nbsp;<span style="font-size:50%">(5)</span>
-||40&nbsp;<span style="font-size:50%">(4)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(4)</span>
-||44&nbsp;<span style="font-size:50%">(3)</span>
-||39&nbsp;<span style="font-size:50%">(5)</span>
+||38&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(4)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||43&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||41
+||32&nbsp;<span style="font-size:50%">(3)</span>
 ||43&nbsp;<span style="font-size:50%">(1)</span>
-||47&nbsp;<span style="font-size:50%">(5)</span>
-||40&nbsp;<span style="font-size:50%">(2)</span>
-||42&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||46&nbsp;<span style="font-size:50%">(5)</span>
-||6340
-||'''454'''
-||'''623'''
-||35
-||'''594'''
+||41&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||23&nbsp;<span style="font-size:50%">(4)</span>
+||42&nbsp;<span style="font-size:50%">(2)</span>
+||26&nbsp;<span style="font-size:50%">(5)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||45&nbsp;<span style="font-size:50%">(2)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9526
+||'''783'''
+||'''951'''
+||92
+||'''899'''
 |-
 
 ||3.
-||'''[[Benutzer:hasi|hasi]]'''
-||37&nbsp;<span style="font-size:50%">(3)</span>
+||'''[[Benutzer:Karaser|Karaser]]'''
+||38&nbsp;<span style="font-size:50%">(4)</span>
+||36&nbsp;<span style="font-size:50%">(2)</span>
+||39&nbsp;<span style="font-size:50%">(4)</span>
+||31&nbsp;<span style="font-size:50%">(5)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
 ||43&nbsp;<span style="font-size:50%">(4)</span>
-||47&nbsp;<span style="font-size:50%">(3)</span>
 ||39&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(3)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||32&nbsp;<span style="font-size:50%">(1)</span>
-||33&nbsp;<span style="font-size:50%">(4)</span>
-||47&nbsp;<span style="font-size:50%">(4)</span>
-||40&nbsp;<span style="font-size:50%">(4)</span>
-||40&nbsp;<span style="font-size:50%">(2)</span>
-||45&nbsp;<span style="font-size:50%">(5)</span>
-||42&nbsp;<span style="font-size:50%">(1)</span>
-||46&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||5933
-||387
-||'''604'''
-||36
-||'''587'''
+||45&nbsp;<span style="font-size:50%">(3)</span>
+||44&nbsp;<span style="font-size:50%">(4)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||38&nbsp;<span style="font-size:50%">(4)</span>
+||34&nbsp;<span style="font-size:50%">(5)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||39&nbsp;<span style="font-size:50%">(5)</span>
+||36&nbsp;<span style="font-size:50%">(4)</span>
+||30&nbsp;<span style="font-size:50%">(3)</span>
+||39&nbsp;<span style="font-size:50%">(5)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||38&nbsp;<span style="font-size:50%">(5)</span>
+||13&nbsp;<span style="font-size:50%">(6)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||8003
+||538
+||'''833'''
+||49
+||'''889'''
 |-
 
 ||4.
-||'''[[Benutzer:Yashem|Yashem]]'''
-||39&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||27&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(3)</span>
-||42&nbsp;<span style="font-size:50%">(5)</span>
+||'''[[Benutzer:hasi|hasi]]'''
 ||37&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
-||44&nbsp;<span style="font-size:50%">(5)</span>
-||40&nbsp;<span style="font-size:50%">(4)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
-||41&nbsp;<span style="font-size:50%">(5)</span>
-||40&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||5900
-||392
-||'''587'''
-||33
-||'''586'''
+||43&nbsp;<span style="font-size:50%">(4)</span>
+||44&nbsp;<span style="font-size:50%">(2)</span>
+||36&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||32
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||46&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(4)</span>
+||42&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||44&nbsp;<span style="font-size:50%">(4)</span>
+||41&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(1)</span>
+||19&nbsp;<span style="font-size:50%">(5)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(4)</span>
+||24&nbsp;<span style="font-size:50%">(2)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9098
+||652
+||'''904'''
+||85
+||'''849'''
 |-
 
 ||5.
-||'''[[Benutzer:A300|A300]]'''
-||40&nbsp;<span style="font-size:50%">(1)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||38&nbsp;<span style="font-size:50%">(4)</span>
-||41&nbsp;<span style="font-size:50%">(5)</span>
-||44&nbsp;<span style="font-size:50%">(3)</span>
-||32&nbsp;<span style="font-size:50%">(4)</span>
-||30&nbsp;<span style="font-size:50%">(1)</span>
-||39&nbsp;<span style="font-size:50%">(5)</span>
+||'''[[Benutzer:Yashem|Yashem]]'''
 ||39&nbsp;<span style="font-size:50%">(3)</span>
-||42&nbsp;<span style="font-size:50%">(3)</span>
-||26&nbsp;<span style="font-size:50%">(5)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
+||36&nbsp;<span style="font-size:50%">(3)</span>
+||27&nbsp;<span style="font-size:50%">(3)</span>
+||37&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
 ||33&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6322
-||401
-||'''556'''
-||34
-||'''576'''
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||39&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
+||39&nbsp;<span style="font-size:50%">(3)</span>
+||37
+||36&nbsp;<span style="font-size:50%">(4)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||42&nbsp;<span style="font-size:50%">(2)</span>
+||30&nbsp;<span style="font-size:50%">(4)</span>
+||23&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||37&nbsp;<span style="font-size:50%">(4)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9361
+||731
+||'''897'''
+||87
+||'''847'''
 |-
 
 ||6.
-||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
-||44&nbsp;<span style="font-size:50%">(1)</span>
+||'''[[Benutzer:Slybotone|Slybotone]]'''
+||11
+||37&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||22&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
 ||38&nbsp;<span style="font-size:50%">(4)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(3)</span>
+||36
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(4)</span>
+||42&nbsp;<span style="font-size:50%">(2)</span>
 ||33&nbsp;<span style="font-size:50%">(1)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||45&nbsp;<span style="font-size:50%">(3)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||34&nbsp;<span style="font-size:50%">(4)</span>
-||29&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6218
-||345
-||'''533'''
-||35
-||'''567'''
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||42&nbsp;<span style="font-size:50%">(5)</span>
+||43&nbsp;<span style="font-size:50%">(2)</span>
+||46&nbsp;<span style="font-size:50%">(5)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
+||29&nbsp;<span style="font-size:50%">(3)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9946
+||582
+||'''892'''
+||93
+||'''836'''
 |-
 
 ||7.
-||'''[[Benutzer:Karaser|Karaser]]'''
-||38&nbsp;<span style="font-size:50%">(4)</span>
-||39&nbsp;<span style="font-size:50%">(3)</span>
-||40&nbsp;<span style="font-size:50%">(5)</span>
-||33&nbsp;<span style="font-size:50%">(5)</span>
-||44&nbsp;<span style="font-size:50%">(5)</span>
-||33&nbsp;<span style="font-size:50%">(4)</span>
+||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
+||43&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||43&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||35
+||28&nbsp;<span style="font-size:50%">(5)</span>
+||44&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(4)</span>
+||26&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(1)</span>
+||25&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||44&nbsp;<span style="font-size:50%">(3)</span>
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(1)</span>
 ||31&nbsp;<span style="font-size:50%">(4)</span>
-||39&nbsp;<span style="font-size:50%">(4)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||35&nbsp;<span style="font-size:50%">(5)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||4610
-||261
-||'''495'''
-||15
-||'''559'''
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9732
+||660
+||'''887'''
+||90
+||'''827'''
 |-
 
 ||8.
-||'''[[Benutzer:FinalD|FinalD]]'''
-||25&nbsp;<span style="font-size:50%">(1)</span>
-||28&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(3)</span>
-||34&nbsp;<span style="font-size:50%">(4)</span>
-||38&nbsp;<span style="font-size:50%">(4)</span>
-||32&nbsp;<span style="font-size:50%">(5)</span>
-||29&nbsp;<span style="font-size:50%">(2)</span>
-||42&nbsp;<span style="font-size:50%">(4)</span>
-||42&nbsp;<span style="font-size:50%">(3)</span>
-||40&nbsp;<span style="font-size:50%">(4)</span>
+||'''[[Benutzer:ulli|ulli]]'''
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
+||24&nbsp;<span style="font-size:50%">(3)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(3)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
 ||30&nbsp;<span style="font-size:50%">(3)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6874
-||415
-||'''526'''
-||34
-||'''551'''
+||43&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||47&nbsp;<span style="font-size:50%">(1)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(3)</span>
+||41&nbsp;<span style="font-size:50%">(4)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||43&nbsp;<span style="font-size:50%">(4)</span>
+||39&nbsp;<span style="font-size:50%">(4)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
+||30&nbsp;<span style="font-size:50%">(5)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9266
+||555
+||'''864'''
+||83
+||'''798'''
 |-
 
 ||9.
-||'''[[Benutzer:ulli|ulli]]'''
-||35&nbsp;<span style="font-size:50%">(2)</span>
-||34&nbsp;<span style="font-size:50%">(1)</span>
-||26&nbsp;<span style="font-size:50%">(5)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||32&nbsp;<span style="font-size:50%">(3)</span>
+||'''[[Benutzer:A300|A300]]'''
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
 ||35&nbsp;<span style="font-size:50%">(3)</span>
-||34&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(4)</span>
-||41&nbsp;<span style="font-size:50%">(4)</span>
-||43&nbsp;<span style="font-size:50%">(4)</span>
-||47&nbsp;<span style="font-size:50%">(3)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(2)</span>
-||46&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6062
-||315
-||'''563'''
-||38
-||'''534'''
+||42&nbsp;<span style="font-size:50%">(2)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||29
+||37&nbsp;<span style="font-size:50%">(5)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(1)</span>
+||22&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||26&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||23&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(3)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||26&nbsp;<span style="font-size:50%">(2)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||20&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||10108
+||714
+||'''814'''
+||93
+||'''762'''
 |-
 
 ||10.
-||'''[[Benutzer:Wobbel|Wobbel]]'''
-||37&nbsp;<span style="font-size:50%">(5)</span>
-||37&nbsp;<span style="font-size:50%">(3)</span>
-||9&nbsp;<span style="font-size:50%">(6)</span>
-||34&nbsp;<span style="font-size:50%">(4)</span>
-||30&nbsp;<span style="font-size:50%">(5)</span>
-||35&nbsp;<span style="font-size:50%">(5)</span>
-||32&nbsp;<span style="font-size:50%">(5)</span>
-||31&nbsp;<span style="font-size:50%">(5)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||24&nbsp;<span style="font-size:50%">(5)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||5034
-||273
-||'''432'''
-||11
-||'''520'''
+||'''[[Benutzer:FinalD|FinalD]]'''
+||26&nbsp;<span style="font-size:50%">(1)</span>
+||26&nbsp;<span style="font-size:50%">(3)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||28&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(4)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(4)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||29
+||17&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(3)</span>
+||29&nbsp;<span style="font-size:50%">(4)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(4)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(3)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||10308
+||707
+||'''786'''
+||86
+||'''729'''
 |-
 
 ||11.
-||'''[[Benutzer:Foley|Foley]]'''
-||35&nbsp;<span style="font-size:50%">(1)</span>
-||22&nbsp;<span style="font-size:50%">(4)</span>
-||38&nbsp;<span style="font-size:50%">(1)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
+||'''[[Benutzer:Wobbel|Wobbel]]'''
+||36&nbsp;<span style="font-size:50%">(3)</span>
+||36&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(4)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
 ||34&nbsp;<span style="font-size:50%">(4)</span>
-||35&nbsp;<span style="font-size:50%">(4)</span>
-||21&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(5)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||30
 ||28&nbsp;<span style="font-size:50%">(3)</span>
-||38&nbsp;<span style="font-size:50%">(4)</span>
-||39&nbsp;<span style="font-size:50%">(4)</span>
-||26&nbsp;<span style="font-size:50%">(3)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||30&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6656
-||353
-||'''501'''
-||37
-||'''517'''
+||25&nbsp;<span style="font-size:50%">(5)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||20&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(4)</span>
+||28&nbsp;<span style="font-size:50%">(3)</span>
+||31&nbsp;<span style="font-size:50%">(1)</span>
+||24&nbsp;<span style="font-size:50%">(4)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(5)</span>
+||31&nbsp;<span style="font-size:50%">(4)</span>
+||27&nbsp;<span style="font-size:50%">(4)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9595
+||640
+||'''785'''
+||73
+||'''728'''
 |-
 
 ||12.
-||'''[[Benutzer:Slybotone|Slybotone]]'''
-||11
-||36&nbsp;<span style="font-size:50%">(1)</span>
+||'''[[Benutzer:Foley|Foley]]'''
+||34
+||21&nbsp;<span style="font-size:50%">(3)</span>
+||37&nbsp;<span style="font-size:50%">(1)</span>
 ||37&nbsp;<span style="font-size:50%">(4)</span>
-||30&nbsp;<span style="font-size:50%">(3)</span>
-||23&nbsp;<span style="font-size:50%">(4)</span>
-||37&nbsp;<span style="font-size:50%">(3)</span>
+||36&nbsp;<span style="font-size:50%">(3)</span>
+||26&nbsp;<span style="font-size:50%">(2)</span>
+||21&nbsp;<span style="font-size:50%">(2)</span>
+||26&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||22&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(4)</span>
+||31
 ||32&nbsp;<span style="font-size:50%">(3)</span>
-||39&nbsp;<span style="font-size:50%">(2)</span>
-||38&nbsp;<span style="font-size:50%">(4)</span>
-||43&nbsp;<span style="font-size:50%">(5)</span>
-||39&nbsp;<span style="font-size:50%">(2)</span>
-||39&nbsp;<span style="font-size:50%">(5)</span>
-||42&nbsp;<span style="font-size:50%">(3)</span>
-||48&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||47&nbsp;<span style="font-size:50%">(4)</span>
-||7093
-||328
-||'''566'''
-||42
-||'''505'''
+||33&nbsp;<span style="font-size:50%">(4)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||27&nbsp;<span style="font-size:50%">(3)</span>
+||27&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(4)</span>
+||24&nbsp;<span style="font-size:50%">(2)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||10272
+||649
+||'''779'''
+||86
+||'''720'''
 |-
 
 ||13.
-||'''[[Benutzer:eris|eris]]'''
-||26&nbsp;<span style="font-size:50%">(2)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||20&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(5)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(1)</span>
-||28&nbsp;<span style="font-size:50%">(4)</span>
-||46&nbsp;<span style="font-size:50%">(5)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||39&nbsp;<span style="font-size:50%">(3)</span>
+||'''[[Benutzer:eisbaer04|eisbaer04]]'''
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||26&nbsp;<span style="font-size:50%">(1)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||33&nbsp;<span style="font-size:50%">(3)</span>
+||19&nbsp;<span style="font-size:50%">(3)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(3)</span>
+||23&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||37&nbsp;<span style="font-size:50%">(3)</span>
 ||28&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6298
-||331
-||'''469'''
-||35
-||'''496'''
+||26&nbsp;<span style="font-size:50%">(3)</span>
+||19&nbsp;<span style="font-size:50%">(1)</span>
+||33&nbsp;<span style="font-size:50%">(5)</span>
+||28&nbsp;<span style="font-size:50%">(3)</span>
+||42&nbsp;<span style="font-size:50%">(1)</span>
+||24&nbsp;<span style="font-size:50%">(4)</span>
+||30&nbsp;<span style="font-size:50%">(3)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(2)</span>
+||30&nbsp;<span style="font-size:50%">(4)</span>
+||36&nbsp;<span style="font-size:50%">(4)</span>
+||29&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(4)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9860
+||606
+||'''758'''
+||80
+||'''702'''
 |-
 
 ||14.
-||'''[[Benutzer:goodygoody|goodygoody]]'''
-||19&nbsp;<span style="font-size:50%">(1)</span>
-||27&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||29&nbsp;<span style="font-size:50%">(3)</span>
-||41&nbsp;<span style="font-size:50%">(4)</span>
-||33&nbsp;<span style="font-size:50%">(4)</span>
+||'''[[Benutzer:eris|eris]]'''
+||27&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||18&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||31&nbsp;<span style="font-size:50%">(1)</span>
+||25&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||16&nbsp;<span style="font-size:50%">(2)</span>
 ||28&nbsp;<span style="font-size:50%">(2)</span>
-||25&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(5)</span>
-||40&nbsp;<span style="font-size:50%">(5)</span>
-||22&nbsp;<span style="font-size:50%">(4)</span>
-||29&nbsp;<span style="font-size:50%">(5)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||7&nbsp;<span style="font-size:50%">(6)</span>
+||44&nbsp;<span style="font-size:50%">(4)</span>
 ||24&nbsp;<span style="font-size:50%">(2)</span>
-||42&nbsp;<span style="font-size:50%">(4)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6434
-||309
-||'''494'''
-||36
-||'''487'''
+||28&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(1)</span>
+||27&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(5)</span>
+||38&nbsp;<span style="font-size:50%">(3)</span>
+||26&nbsp;<span style="font-size:50%">(4)</span>
+||34&nbsp;<span style="font-size:50%">(1)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9781
+||599
+||'''739'''
+||84
+||'''700'''
 |-
 
 ||15.
 ||'''[[Benutzer:sir tobi|sir tobi]]'''
 ||8&nbsp;<span style="font-size:50%">(6)</span>
-||8&nbsp;<span style="font-size:50%">(6)</span>
-||9&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
 ||5&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||3&nbsp;<span style="font-size:50%">(6)</span>
+||7&nbsp;<span style="font-size:50%">(6)</span>
+||9&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
 ||6&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
 ||6&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||'''2028'''
-||59
-||'''238'''
+||9&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||13&nbsp;<span style="font-size:50%">(6)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||'''3680'''
+||132
+||'''211'''
 ||0
-||'''486'''
+||'''685'''
 |-
 
 ||16.
 ||'''[[Benutzer:Sly|Sly]]'''
 ||8&nbsp;<span style="font-size:50%">(6)</span>
-||8&nbsp;<span style="font-size:50%">(6)</span>
-||9&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||6&nbsp;<span style="font-size:50%">(6)</span>
+||4&nbsp;<span style="font-size:50%">(6)</span>
 ||5&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||21&nbsp;<span style="font-size:50%">(5)</span>
+||7&nbsp;<span style="font-size:50%">(6)</span>
+||9&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
 ||6&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
 ||6&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||2315
-||56
-||'''238'''
-||0
-||'''486'''
+||9&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||13&nbsp;<span style="font-size:50%">(6)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||4376
+||120
+||'''229'''
+||1
+||'''672'''
 |-
 
 ||17.
 ||'''[[Benutzer:aristarch|aristarch]]'''
-||40&nbsp;<span style="font-size:50%">(1)</span>
-||32&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(4)</span>
-||25&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(2)</span>
-||32&nbsp;<span style="font-size:50%">(3)</span>
+||40
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||39&nbsp;<span style="font-size:50%">(4)</span>
+||28&nbsp;<span style="font-size:50%">(2)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
+||29&nbsp;<span style="font-size:50%">(3)</span>
+||31&nbsp;<span style="font-size:50%">(1)</span>
+||22&nbsp;<span style="font-size:50%">(2)</span>
 ||31&nbsp;<span style="font-size:50%">(2)</span>
-||23&nbsp;<span style="font-size:50%">(3)</span>
-||35&nbsp;<span style="font-size:50%">(4)</span>
-||22&nbsp;<span style="font-size:50%">(5)</span>
-||18&nbsp;<span style="font-size:50%">(1)</span>
-||46&nbsp;<span style="font-size:50%">(4)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||43&nbsp;<span style="font-size:50%">(4)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
+||14&nbsp;<span style="font-size:50%">(4)</span>
+||14&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||17&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(1)</span>
+||23&nbsp;<span style="font-size:50%">(5)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||28&nbsp;<span style="font-size:50%">(3)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
 ||47&nbsp;<span style="font-size:50%">(5)</span>
-||7260
-||442
-||'''526'''
-||44
-||'''471'''
+||10716
+||705
+||'''754'''
+||93
+||'''668'''
 |-
 
 ||18.
-||'''[[Benutzer:eisbaer04|eisbaer04]]'''
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||28&nbsp;<span style="font-size:50%">(3)</span>
-||31&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(4)</span>
-||18&nbsp;<span style="font-size:50%">(4)</span>
+||'''[[DeepPink]]'''
+||11
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||16&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||13&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(4)</span>
+||13&nbsp;<span style="font-size:50%">(1)</span>
+||18&nbsp;<span style="font-size:50%">(3)</span>
+||47&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(3)</span>
+||29
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||17&nbsp;<span style="font-size:50%">(4)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||16&nbsp;<span style="font-size:50%">(2)</span>
+||23&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||47&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(1)</span>
 ||30&nbsp;<span style="font-size:50%">(3)</span>
-||29&nbsp;<span style="font-size:50%">(3)</span>
-||25&nbsp;<span style="font-size:50%">(3)</span>
-||35&nbsp;<span style="font-size:50%">(5)</span>
-||42&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(5)</span>
-||29&nbsp;<span style="font-size:50%">(5)</span>
-||21&nbsp;<span style="font-size:50%">(3)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||46&nbsp;<span style="font-size:50%">(5)</span>
-||6381
-||319
-||'''487'''
-||33
-||'''458'''
+||47&nbsp;<span style="font-size:50%">(4)</span>
+||10578
+||428
+||'''740'''
+||94
+||'''625'''
 |-
 
 ||19.
-||'''[[Benutzer:flinkman|flinkman]]'''
-||8&nbsp;<span style="font-size:50%">(6)</span>
-||8&nbsp;<span style="font-size:50%">(6)</span>
-||9&nbsp;<span style="font-size:50%">(6)</span>
-||8&nbsp;<span style="font-size:50%">(5)</span>
-||9&nbsp;<span style="font-size:50%">(5)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||6&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||3842
-||20
-||'''244'''
-||2
-||'''456'''
+||'''[[Benutzer:sparrows bruder|sparrows bruder]]'''
+||21&nbsp;<span style="font-size:50%">(3)</span>
+||14&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||15&nbsp;<span style="font-size:50%">(3)</span>
+||16&nbsp;<span style="font-size:50%">(3)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||27
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||25&nbsp;<span style="font-size:50%">(3)</span>
+||18&nbsp;<span style="font-size:50%">(1)</span>
+||21&nbsp;<span style="font-size:50%">(3)</span>
+||23
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+||19&nbsp;<span style="font-size:50%">(2)</span>
+||39&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(4)</span>
+||25&nbsp;<span style="font-size:50%">(2)</span>
+||37&nbsp;<span style="font-size:50%">(4)</span>
+||39&nbsp;<span style="font-size:50%">(3)</span>
+||25&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(3)</span>
+||24&nbsp;<span style="font-size:50%">(3)</span>
+||49&nbsp;<span style="font-size:50%">(5)</span>
+||10481
+||573
+||'''690'''
+||86
+||'''607'''
 |-
 
 ||20.
-||'''[[Benutzer:sparrows bruder|sparrows bruder]]'''
-||21&nbsp;<span style="font-size:50%">(3)</span>
-||18&nbsp;<span style="font-size:50%">(2)</span>
-||30&nbsp;<span style="font-size:50%">(4)</span>
-||14&nbsp;<span style="font-size:50%">(4)</span>
-||10&nbsp;<span style="font-size:50%">(4)</span>
-||33&nbsp;<span style="font-size:50%">(4)</span>
-||26&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(4)</span>
-||41&nbsp;<span style="font-size:50%">(5)</span>
-||37&nbsp;<span style="font-size:50%">(4)</span>
-||24&nbsp;<span style="font-size:50%">(1)</span>
-||28&nbsp;<span style="font-size:50%">(5)</span>
+||'''[[Benutzer:goodygoody|goodygoody]]'''
+||20&nbsp;<span style="font-size:50%">(1)</span>
+||20&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(4)</span>
+||25&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||22&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||16&nbsp;<span style="font-size:50%">(3)</span>
+||16&nbsp;<span style="font-size:50%">(4)</span>
+||20&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(1)</span>
+||12&nbsp;<span style="font-size:50%">(5)</span>
+||31&nbsp;<span style="font-size:50%">(3)</span>
+||17&nbsp;<span style="font-size:50%">(4)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
 ||28&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6895
-||323
-||'''437'''
-||35
-||'''417'''
+||11&nbsp;<span style="font-size:50%">(5)</span>
+||28&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(4)</span>
+||33&nbsp;<span style="font-size:50%">(4)</span>
+||31&nbsp;<span style="font-size:50%">(5)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||10014
+||540
+||'''665'''
+||76
+||'''597'''
 |-
 
 ||21.
-||'''[[Benutzer:Botrix|Botrix]]'''
+||'''[[Benutzer:haeckler|haeckler]]'''
+||21&nbsp;<span style="font-size:50%">(3)</span>
+||14&nbsp;<span style="font-size:50%">(2)</span>
+||15&nbsp;<span style="font-size:50%">(2)</span>
+||23&nbsp;<span style="font-size:50%">(2)</span>
+||36&nbsp;<span style="font-size:50%">(4)</span>
+||16&nbsp;<span style="font-size:50%">(3)</span>
+||19
+||13&nbsp;<span style="font-size:50%">(3)</span>
 ||33&nbsp;<span style="font-size:50%">(3)</span>
-||30&nbsp;<span style="font-size:50%">(3)</span>
-||15&nbsp;<span style="font-size:50%">(3)</span>
-||12&nbsp;<span style="font-size:50%">(4)</span>
-||16&nbsp;<span style="font-size:50%">(4)</span>
-||27&nbsp;<span style="font-size:50%">(3)</span>
-||35&nbsp;<span style="font-size:50%">(2)</span>
-||34&nbsp;<span style="font-size:50%">(5)</span>
-||19&nbsp;<span style="font-size:50%">(3)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||33&nbsp;<span style="font-size:50%">(4)</span>
-||36&nbsp;<span style="font-size:50%">(5)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||5962
-||164
-||'''434'''
-||31
-||'''406'''
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||17&nbsp;<span style="font-size:50%">(1)</span>
+||16&nbsp;<span style="font-size:50%">(2)</span>
+||15&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||21&nbsp;<span style="font-size:50%">(2)</span>
+||23&nbsp;<span style="font-size:50%">(4)</span>
+||36&nbsp;<span style="font-size:50%">(4)</span>
+||23&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(4)</span>
+||26&nbsp;<span style="font-size:50%">(4)</span>
+||36&nbsp;<span style="font-size:50%">(1)</span>
+||31&nbsp;<span style="font-size:50%">(4)</span>
+||12&nbsp;<span style="font-size:50%">(3)</span>
+||21&nbsp;<span style="font-size:50%">(3)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||10101
+||443
+||'''616'''
+||81
+||'''548'''
 |-
 
 ||22.
-||'''[[DeepPink]]'''
-||11
-||8&nbsp;<span style="font-size:50%">(6)</span>
-||17&nbsp;<span style="font-size:50%">(2)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
+||'''[[Benutzer:Botrix|Botrix]]'''
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(2)</span>
+||13&nbsp;<span style="font-size:50%">(2)</span>
+||12&nbsp;<span style="font-size:50%">(3)</span>
+||14&nbsp;<span style="font-size:50%">(2)</span>
+||24&nbsp;<span style="font-size:50%">(3)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||10&nbsp;<span style="font-size:50%">(1)</span>
+||19&nbsp;<span style="font-size:50%">(3)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||26&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(5)</span>
+||16&nbsp;<span style="font-size:50%">(2)</span>
+||24&nbsp;<span style="font-size:50%">(3)</span>
+||15&nbsp;<span style="font-size:50%">(1)</span>
+||20&nbsp;<span style="font-size:50%">(2)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
 ||15&nbsp;<span style="font-size:50%">(5)</span>
-||38&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(4)</span>
-||20&nbsp;<span style="font-size:50%">(4)</span>
-||24&nbsp;<span style="font-size:50%">(4)</span>
-||45&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(4)</span>
-||31&nbsp;<span style="font-size:50%">(1)</span>
-||44&nbsp;<span style="font-size:50%">(4)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||45&nbsp;<span style="font-size:50%">(5)</span>
-||7150
-||229
-||'''465'''
-||39
-||'''383'''
+||33&nbsp;<span style="font-size:50%">(5)</span>
+||32&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||48&nbsp;<span style="font-size:50%">(4)</span>
+||9693
+||321
+||'''642'''
+||88
+||'''516'''
 |-
 
 ||23.
 ||'''[[Benutzer:HX|HX]]'''
+||15&nbsp;<span style="font-size:50%">(3)</span>
+||11&nbsp;<span style="font-size:50%">(4)</span>
+||9&nbsp;<span style="font-size:50%">(1)</span>
 ||16&nbsp;<span style="font-size:50%">(4)</span>
-||12&nbsp;<span style="font-size:50%">(5)</span>
-||12&nbsp;<span style="font-size:50%">(2)</span>
-||20&nbsp;<span style="font-size:50%">(5)</span>
+||8&nbsp;<span style="font-size:50%">(3)</span>
+||11&nbsp;<span style="font-size:50%">(4)</span>
+||22&nbsp;<span style="font-size:50%">(3)</span>
+||28&nbsp;<span style="font-size:50%">(5)</span>
+||13&nbsp;<span style="font-size:50%">(3)</span>
 ||10&nbsp;<span style="font-size:50%">(4)</span>
-||15&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(4)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||15&nbsp;<span style="font-size:50%">(6)</span>
-||18&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||23&nbsp;<span style="font-size:50%">(6)</span>
-||11&nbsp;<span style="font-size:50%">(6)</span>
-||31&nbsp;<span style="font-size:50%">(6)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||5269
-||97
-||'''295'''
-||13
-||'''374'''
+||16&nbsp;<span style="font-size:50%">(3)</span>
+||12&nbsp;<span style="font-size:50%">(3)</span>
+||16&nbsp;<span style="font-size:50%">(4)</span>
+||34&nbsp;<span style="font-size:50%">(4)</span>
+||11&nbsp;<span style="font-size:50%">(5)</span>
+||35&nbsp;<span style="font-size:50%">(4)</span>
+||19&nbsp;<span style="font-size:50%">(3)</span>
+||18&nbsp;<span style="font-size:50%">(4)</span>
+||30&nbsp;<span style="font-size:50%">(3)</span>
+||25&nbsp;<span style="font-size:50%">(5)</span>
+||29&nbsp;<span style="font-size:50%">(5)</span>
+||29&nbsp;<span style="font-size:50%">(3)</span>
+||24&nbsp;<span style="font-size:50%">(2)</span>
+||22&nbsp;<span style="font-size:50%">(4)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||9633
+||281
+||'''508'''
+||58
+||'''414'''
 |-
 
 ||24.
-||'''[[Benutzer:haeckler|haeckler]]'''
-||25&nbsp;<span style="font-size:50%">(4)</span>
-||17&nbsp;<span style="font-size:50%">(3)</span>
-||16&nbsp;<span style="font-size:50%">(3)</span>
-||28&nbsp;<span style="font-size:50%">(3)</span>
-||35&nbsp;<span style="font-size:50%">(4)</span>
-||20&nbsp;<span style="font-size:50%">(5)</span>
-||18&nbsp;<span style="font-size:50%">(1)</span>
-||17&nbsp;<span style="font-size:50%">(4)</span>
-||37&nbsp;<span style="font-size:50%">(4)</span>
-||31&nbsp;<span style="font-size:50%">(5)</span>
-||17&nbsp;<span style="font-size:50%">(3)</span>
-||27&nbsp;<span style="font-size:50%">(4)</span>
-||19&nbsp;<span style="font-size:50%">(3)</span>
-||42&nbsp;<span style="font-size:50%">(5)</span>
-||25&nbsp;<span style="font-size:50%">(6)</span>
-||40&nbsp;<span style="font-size:50%">(6)</span>
-||6446
-||214
-||'''414'''
-||33
-||'''362'''
+||'''[[Benutzer:flinkman|flinkman]]'''
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||7&nbsp;<span style="font-size:50%">(2)</span>
+||8&nbsp;<span style="font-size:50%">(5)</span>
+||8&nbsp;<span style="font-size:50%">(1)</span>
+||9&nbsp;<span style="font-size:50%">(2)</span>
+||10&nbsp;<span style="font-size:50%">(5)</span>
+||11&nbsp;<span style="font-size:50%">(3)</span>
+||11&nbsp;<span style="font-size:50%">(5)</span>
+||8&nbsp;<span style="font-size:50%">(4)</span>
+||10&nbsp;<span style="font-size:50%">(4)</span>
+||14&nbsp;<span style="font-size:50%">(5)</span>
+||13&nbsp;<span style="font-size:50%">(4)</span>
+||6&nbsp;<span style="font-size:50%">(2)</span>
+||10&nbsp;<span style="font-size:50%">(4)</span>
+||11&nbsp;<span style="font-size:50%">(4)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||9&nbsp;<span style="font-size:50%">(5)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||32&nbsp;<span style="font-size:50%">(5)</span>
+||9&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||10&nbsp;<span style="font-size:50%">(6)</span>
+||8&nbsp;<span style="font-size:50%">(6)</span>
+||13&nbsp;<span style="font-size:50%">(6)</span>
+||45&nbsp;<span style="font-size:50%">(6)</span>
+||8765
+||107
+||'''298'''
+||36
+||'''409'''
 |-
 
 ||25.
 ||'''[[Benutzer:DerFlieger|DerFlieger]]'''
 ||12
-||10
-||11
 ||7
 ||8
-||12
+||7
 ||8
-||12
-||16
-||21
-||12
-||24
-||12
-||32
+||7
+||6
+||7
+||7
+||6
+||6
+||9
+||4
+||8
 ||-
 ||-
-||12462
+||-
+||-
+||-
+||-
+||-
+||-
+||-
+||-
+||-
+||12792
 ||44
-||'''197'''
+||'''102'''
 ||84
-||'''73'''
+||'''44'''
 |-
 |}
 
@@ -1007,5 +1394,7 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''20.11.2022 19:30''' Es geht los!!! Den ersten Spieltag habe ich manuell angestossen - alle folgenden kommen dann immer Sonntags um 4:00 Uhr
 * '''10.05.2023 10:00''' Fine-Tuning der Wertung
 * '''29.05.2023 19:00''' Da {{Benutzer|DerFlieger}} inaktiv ist, wurde er aus allen weiteren Challenges entfernt (also ab Challenge 15)
+* '''27.06.2023 18:00''' Bug-Fix im Auswertungs-Skript
+* '''19.07.2023 13:00''' Bug-Fix zum Bug-Fix im Auswertungs-Skript (Challenge 17 & 18 wurde nicht erstellt und werden jetzt nachgeholt)
 
 [[Kategorie:Meisterschaft]]
