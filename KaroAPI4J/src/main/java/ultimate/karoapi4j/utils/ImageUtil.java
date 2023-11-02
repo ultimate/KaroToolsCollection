@@ -2,7 +2,6 @@ package ultimate.karoapi4j.utils;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -12,13 +11,7 @@ import java.awt.image.BufferedImage;
  * @author ultimate
  */
 public abstract class ImageUtil
-{
-	public enum Symbol
-	{
-		DONT,
-		GENERATOR
-	}
-	
+{	
 	public static BufferedImage createSingleColorImage(int width, int height, Color color)
 	{
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -34,7 +27,7 @@ public abstract class ImageUtil
 	 * @param image - the original image
 	 * @return the specialized image
 	 */
-	public static BufferedImage createSpecialImage(BufferedImage image, Symbol symbol)
+	public static BufferedImage createSpecialImage(BufferedImage image, char symbol)
 	{
 		BufferedImage image2 = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2d = image2.createGraphics();
@@ -44,17 +37,10 @@ public abstract class ImageUtil
 		int centerX = image2.getWidth() / 2;
 		int centerY = image2.getHeight() / 2;
 				
-		switch(symbol)
-		{
-			case DONT:
-				drawDont(g2d, size, centerX, centerY);
-				break;
-			case GENERATOR:
-				drawGenerator(g2d, size, centerX, centerY);
-				break;
-			default:
-				break;
-		}
+		if(symbol == 0)
+			drawDont(g2d, size, centerX, centerY);
+		else
+			drawString(g2d, size, centerX, centerY, symbol);
 
 		return image2;
 	}
@@ -68,10 +54,10 @@ public abstract class ImageUtil
 		g2d.drawLine(centerX - delta, centerY + delta, centerX + delta, centerY - delta);
 	}
 	
-	private static void drawGenerator(Graphics2D g2d, int size, int centerX, int centerY)
+	private static void drawString(Graphics2D g2d, int size, int centerX, int centerY, char symbol)
 	{
-		g2d.setFont(Font.getFont("Arial").deriveFont(size));
-		g2d.drawString("\uF09F8EA8", centerX, centerY); // palette
-		g2d.drawString("\uF09F968C", centerX, centerY); // brush
+		g2d.setColor(Color.black);		
+		g2d.setFont(g2d.getFont().deriveFont((float) size));
+		g2d.drawString("" + symbol, centerX - size/3, centerY + size*2/5);
 	}
 }

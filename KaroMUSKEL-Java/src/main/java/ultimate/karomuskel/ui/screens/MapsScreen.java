@@ -42,7 +42,7 @@ public class MapsScreen extends Screen implements ActionListener
 
 	private int						minSupportedPlayersPerMap;
 
-	private TreeMap<Object, PlaceToRace>	maps;
+	private TreeMap<String, PlaceToRace>	maps;
 
 	public MapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -60,7 +60,7 @@ public class MapsScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
-		PlaceToRace[] maps = ((GenericListModel<Object, PlaceToRace>) selectedMapsLI.getModel()).getEntryArray();
+		PlaceToRace[] maps = ((GenericListModel<String, PlaceToRace>) selectedMapsLI.getModel()).getEntryArray();
 		if(maps.length == 0)
 			throw new GameSeriesException("screen.maps.nomap");
 		gameSeries.getMaps().clear();
@@ -130,13 +130,15 @@ public class MapsScreen extends Screen implements ActionListener
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
-			this.maps = new TreeMap<Object, PlaceToRace>();
-			this.maps.putAll(karoAPICache.getMapsById());
-			this.maps.putAll(karoAPICache.getGeneratorsByKey());
+			this.maps = new TreeMap<String, PlaceToRace>();
+			for(Map m: karoAPICache.getMaps())
+				this.maps.put(getKey(m), m);
+			for(Generator g: karoAPICache.getGenerators())
+				this.maps.put(getKey(g), g);
 			this.maps.values().removeIf(map -> { return map.getPlayers() < this.minSupportedPlayersPerMap; });
 
-			this.allMapsLI.setModel(new GenericListModel<Object, PlaceToRace>(PlaceToRace.class, this.maps));
-			this.selectedMapsLI.setModel(new GenericListModel<Object, PlaceToRace>(PlaceToRace.class, new TreeMap<Object, PlaceToRace>()));
+			this.allMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, this.maps));
+			this.selectedMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, new TreeMap<String, PlaceToRace>()));
 		}
 
 		if(this.firstShow)
@@ -149,24 +151,25 @@ public class MapsScreen extends Screen implements ActionListener
 		this.firstShow = false;
 	}
 	
-	private static Object getKey(PlaceToRace ptr)
+	private String getKey(PlaceToRace ptr)
 	{
+		logger.debug(ptr);
 		if(ptr instanceof Map)
-			return ((Map) ptr).getId();
+			return "map#" + ((Map) ptr).getId();
 		else if(ptr instanceof Generator)
-			return ((Generator) ptr).getKey();
+			return ((Generator) ptr).getKey() + "#" + ((Generator) ptr).getSettings().hashCode();
 		return null;
 	}
 
 	private void preselectMap(PlaceToRace map)
 	{
-		Object key = getKey(map);
+		String key = getKey(map);
 		logger.debug("preselect place to race: " + key);
 		// check map is present in list, if not, add first
-		if(!((GenericListModel<Object, PlaceToRace>) allMapsLI.getModel()).containsKey(key))
+		if(!((GenericListModel<String, PlaceToRace>) allMapsLI.getModel()).containsKey(key))
 		{
 			logger.warn("entry not present in list: " + key + " -> adding");
-			((GenericListModel<Object, PlaceToRace>) allMapsLI.getModel()).addElement(key, map);
+			((GenericListModel<String, PlaceToRace>) allMapsLI.getModel()).addElement(key, map);
 			allMapsLI.setModel(allMapsLI.getModel());
 		}
 		// select map, then add
@@ -193,12 +196,12 @@ public class MapsScreen extends Screen implements ActionListener
 				remLI = selectedMapsLI;
 			}
 			List<PlaceToRace> maps = remLI.getSelectedValuesList();
-			Object key;
+			String key;
 			for(PlaceToRace m : maps)
 			{
 				key = getKey(m);
-				((GenericListModel<Object, PlaceToRace>) remLI.getModel()).removeElement(key);
-				((GenericListModel<Object, PlaceToRace>) addLI.getModel()).addElement(key, m);
+				((GenericListModel<String, PlaceToRace>) remLI.getModel()).removeElement(key);
+				((GenericListModel<String, PlaceToRace>) addLI.getModel()).addElement(key, m);
 			}
 			repaint();
 		}

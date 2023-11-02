@@ -145,7 +145,7 @@ public class Generator implements PlaceToRace
                     logger.error(e);
                 }
             }
-        } 
+        }
         return KaroAPI.getIntProperty(KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.default");
     }
 
@@ -193,4 +193,10 @@ public class Generator implements PlaceToRace
             return false;
         return true;
     }
+
+	@Override
+	public String toString()
+	{
+		return "Generator '" + key + "': settings=" + settings;
+	}
 }

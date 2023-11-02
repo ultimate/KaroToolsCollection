@@ -1228,8 +1228,8 @@ public class KaroAPICache implements IDLookUp
 		m.setNight(random.nextDouble() < 0.10);
 		m.setRecord(random.nextInt(200));
 		m.setCode("DUMMY");
-		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white), ImageUtil.Symbol.DONT));
-		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white), ImageUtil.Symbol.DONT));
+		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white), (char) 0));
+		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white), (char) 0));
 		return m;
 	}
 
@@ -1242,7 +1242,8 @@ public class KaroAPICache implements IDLookUp
 	private Generator createDummyGenerator(String key)
 	{
 		HashMap<String, Object> settings = new HashMap<>();
-		settings.put("code", "XXXXXXX\nXOSOFOX\nXXXXXXX");
-		return new Generator(key, settings);
+		settings.put("code", "XXXXXXXXX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXOSOFOSOX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXXXXXXXXX");		
+		settings.put("players", 8);
+		return new Generator(key, key.toUpperCase(), "lorem ipsum", settings);
 	}
 }

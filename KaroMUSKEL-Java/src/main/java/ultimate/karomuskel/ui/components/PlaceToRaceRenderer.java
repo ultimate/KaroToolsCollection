@@ -94,7 +94,8 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 			
 			name = generator.getName();
 			
-			icon = new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), ImageUtil.Symbol.GENERATOR));
+			char symbol = (name != null ? name.charAt(0) : (char) 0);
+			icon = new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), symbol));	
 		}
 		else
 		{
