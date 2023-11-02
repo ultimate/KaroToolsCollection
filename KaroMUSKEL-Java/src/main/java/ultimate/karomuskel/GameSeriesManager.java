@@ -696,7 +696,7 @@ public abstract class GameSeriesManager
 			return null;
 		List<PlaceToRace> list = new ArrayList<>(list2.size());
 		for(Map m2 : list2)
-			list.add(new PlaceToRace(m2));
+			list.add(m2);
 		return list;
 	}
 
@@ -725,7 +725,7 @@ public abstract class GameSeriesManager
 			pg.setLeft(g2.left);
 			pg.setPlayers(new LinkedHashSet<>(convert(g2.players, User.class, karoAPICache)));
 			pg.setGame(g);
-			pg.setMap(new PlaceToRace(g != null ? g.getMap() : karoAPICache.getMap(g2.map.getId())));
+			pg.setMap(g != null ? g.getMap() : karoAPICache.getMap(g2.map.getId()));
 			pg.setOptions(convert(g2.rules).createOptions(null));
 
 			list.add(pg);
@@ -774,7 +774,7 @@ public abstract class GameSeriesManager
 		{
 			Team t = new Team(t2.name, new LinkedHashSet<>(convert(t2.players, User.class, karoAPICache)));
 			if(t2.homeMap != null)
-				t.setHomeMap(new PlaceToRace(karoAPICache.getMap(t2.homeMap.id)));
+				t.setHomeMap(karoAPICache.getMap(t2.homeMap.id));
 			list.add(t);
 		}
 		return list;
@@ -798,7 +798,7 @@ public abstract class GameSeriesManager
 		{
 			user = karoAPICache.getUser(e.getKey());
 			map = karoAPICache.getMap(e.getValue());
-			teams.add(new Team(user.getLogin(), user, new PlaceToRace(map)));
+			teams.add(new Team(user.getLogin(), user, map));
 		}
 		return teams;
 	}

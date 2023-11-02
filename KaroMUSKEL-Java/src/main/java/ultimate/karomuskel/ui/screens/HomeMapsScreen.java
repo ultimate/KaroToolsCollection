@@ -19,24 +19,26 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.components.MapRenderer;
+import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 
 public class HomeMapsScreen extends Screen
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long				serialVersionUID	= 1L;
 
-	private List<JLabel>			teamNameLabelList;
-	private List<JComboBox<Map>>	mapCBList;
+	private List<JLabel>					teamNameLabelList;
+	private List<JComboBox<PlaceToRace>>	mapCBList;
 
-	private int						numberOfTeams;
-	private int						minSupportedPlayersPerMap;
+	private int								numberOfTeams;
+	private int								minSupportedPlayersPerMap;
 
-	private TreeMap<Integer, Map>	maps;
+	private TreeMap<String, PlaceToRace>	maps;
 
 	public HomeMapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -58,10 +60,10 @@ public class HomeMapsScreen extends Screen
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries) || gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			Map homeMap;
+			PlaceToRace homeMap;
 			for(int i = 0; i < this.numberOfTeams; i++)
 			{
-				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
+				homeMap = (PlaceToRace) this.mapCBList.get(i).getSelectedItem();
 				gameSeries.getTeams().get(i).setHomeMap(homeMap);
 			}
 		}
@@ -92,7 +94,7 @@ public class HomeMapsScreen extends Screen
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.teamNameLabelList = new LinkedList<JLabel>();
-			this.mapCBList = new LinkedList<JComboBox<Map>>();
+			this.mapCBList = new LinkedList<JComboBox<PlaceToRace>>();
 			this.removeAll();
 
 			JPanel contentPanel = new JPanel();
@@ -107,7 +109,7 @@ public class HomeMapsScreen extends Screen
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 
 			JLabel teamLabel;
-			JComboBox<Map> mapCB;
+			JComboBox<PlaceToRace> mapCB;
 
 			for(int i = 0; i < maxTeams; i++)
 			{
@@ -118,7 +120,7 @@ public class HomeMapsScreen extends Screen
 				contentPanel.add(teamLabel, gbc);
 
 				mapCB = new JComboBox<>();
-				mapCB.setRenderer(new MapRenderer());
+				mapCB.setRenderer(new PlaceToRaceRenderer());
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
 
@@ -132,11 +134,15 @@ public class HomeMapsScreen extends Screen
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
-			this.maps = new TreeMap<>(karoAPICache.getMapsById());
+			this.maps = new TreeMap<String, PlaceToRace>();
+			for(Map m: karoAPICache.getMaps())
+				this.maps.put(getKey(m), m);
+			for(Generator g: karoAPICache.getGenerators())
+				this.maps.put(getKey(g), g);
 
-			List<Integer> removeList = new LinkedList<Integer>();
-			Map map;
-			for(Integer key : this.maps.keySet())
+			List<String> removeList = new LinkedList<String>();
+			PlaceToRace map;
+			for(String key : this.maps.keySet())
 			{
 				map = this.maps.get(key);
 				if(map.getPlayers() < this.minSupportedPlayersPerMap)
@@ -144,14 +150,14 @@ public class HomeMapsScreen extends Screen
 					removeList.add(key);
 				}
 			}
-			for(Integer key : removeList)
+			for(String key : removeList)
 			{
 				this.maps.remove(key);
 			}
 
 			for(int i = 0; i < this.mapCBList.size(); i++)
 			{
-				this.mapCBList.get(i).setModel(new DefaultComboBoxModel<Map>(maps.values().toArray(new Map[0])));
+				this.mapCBList.get(i).setModel(new DefaultComboBoxModel<PlaceToRace>(maps.values().toArray(new PlaceToRace[0])));
 			}
 		}
 
@@ -188,20 +194,30 @@ public class HomeMapsScreen extends Screen
 		this.firstShow = false;
 	}
 
-	private void preselectMap(Map map, int index)
+	private String getKey(PlaceToRace ptr)
 	{
-		logger.debug("preselect map: " + map.getId() + " for team " + this.teamNameLabelList.get(index).getText());
-		// check map is present in model, if not, add first
-		if(((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).getIndexOf(map) == -1)
-		{
-			logger.warn("map not present in list: " + map.getId() + " -> adding");
+		logger.debug(ptr);
+		if(ptr instanceof Map)
+			return "map#" + ((Map) ptr).getId();
+		else if(ptr instanceof Generator)
+			return ((Generator) ptr).getKey() + "#" + ((Generator) ptr).getSettings().hashCode();
+		return null;
+	}
 
+	private void preselectMap(PlaceToRace map, int index)
+	{
+		String key = getKey(map);
+		logger.debug("preselect place to race: " + key);
+		// check map is present in list, if not, add first
+		if(((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(index).getModel()).getIndexOf(map) == -1)
+		{
+			logger.warn("entry not present in list: " + key + " -> adding");
 			for(int i = 0; i < this.mapCBList.size(); i++)
 			{
-				((DefaultComboBoxModel<Map>) this.mapCBList.get(i).getModel()).addElement(map);
+				((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(i).getModel()).addElement(map);
 			}
 		}
 		// select map, then add
-		((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).setSelectedItem(map);
+		((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(index).getModel()).setSelectedItem(map);
 	}
 }
