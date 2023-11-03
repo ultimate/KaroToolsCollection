@@ -29,6 +29,7 @@ import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.GameSeriesManager;
@@ -40,7 +41,7 @@ import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
-import ultimate.karomuskel.ui.components.MapRenderer;
+import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener, ChangeListener
 {
@@ -49,7 +50,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	private static final String							ACTION_MAP_SELECT				= "mapSelect";
 	private static final String							ACTION_RECALC_NUMBER_OF_GAMES	= "recalcNumberOfGames";
 
-	private List<JComboBox<Map>>						mapCBList;
+	private List<JComboBox<PlaceToRace>>				mapCBList;
 	private List<JSpinner>								gamesPerPlayerSpinnerList;
 	private List<JSpinner>								numberOfPlayersSpinnerList;
 	private List<JSpinner>								minZzzSpinnerList;
@@ -127,7 +128,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 
 			JLabel label;
-			JComboBox<Map> mapCB;
+			JComboBox<PlaceToRace> mapCB;
 			JSpinner gamesPerPlayerSpinner;
 			JSpinner numberOfPlayersSpinner;
 			JSpinner minZzzSpinner;
@@ -137,7 +138,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 			JComboBox<Label<Boolean>> checkpointsActivatedCB;
 			JComboBox<Label<EnumGameDirection>> directionCB;
 
-			Map map;
+			PlaceToRace map;
 			Rules rules;
 			int gamesPerPlayer;
 			int numberOfPlayers;
@@ -154,7 +155,9 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				final int j = i;
 
 				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
-				LinkedList<Map> maps = new LinkedList<Map>(karoAPICache.getMaps());
+				LinkedList<PlaceToRace> maps = new LinkedList<PlaceToRace>();
+				maps.addAll(karoAPICache.getGenerators());
+				maps.addAll(karoAPICache.getMaps());
 				maps.removeIf(m -> {
 					return m.getPlayers() < 3;
 				});
@@ -194,8 +197,8 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				contentPanel.add(label, gbc);
 
 				mapCB = new JComboBox<>();
-				mapCB.setModel(new DefaultComboBoxModel<Map>(maps.toArray(new Map[0])));
-				mapCB.setRenderer(new MapRenderer());
+				mapCB.setModel(new DefaultComboBoxModel<PlaceToRace>(maps.toArray(new Map[0])));
+				mapCB.setRenderer(new PlaceToRaceRenderer());
 				mapCB.setSelectedItem(map);
 				mapCB.addActionListener(this);
 				mapCB.setActionCommand(ACTION_MAP_SELECT + i);

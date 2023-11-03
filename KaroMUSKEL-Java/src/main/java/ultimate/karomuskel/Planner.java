@@ -28,10 +28,12 @@ import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karomuskel.ui.Language;
 
 /**
@@ -140,7 +142,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param teams - the list of {@link Team}s
-	 * @param maps - the list of {@link Map}s
+	 * @param placesToRace - the list of {@link PlaceToRace}s
 	 * @param rules - the {@link Rules}
 	 * @param tags - the tags to set
 	 * @param numberOfGamesPerPair - the number of games per pair/combination
@@ -148,7 +150,7 @@ public abstract class Planner
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean shuffle, int numberOfGamesPerPair,
+	public static List<PlannedGame> planSeriesAllCombinations(String title, User creator, List<Team> teams, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean shuffle, int numberOfGamesPerPair,
 			int numberOfTeamsPerMatch)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -173,18 +175,18 @@ public abstract class Planner
 
 			for(Match match : matches)
 			{
-				map = maps.get(random.nextInt(maps.size()));
+				placeToRace = placesToRace.get(random.nextInt(placesToRace.size()));
 
 				gamePlayers = new LinkedHashSet<User>();
 				for(Team team : match.getTeams())
 					gamePlayers.addAll(team.getMembers());
 
 				placeholderValues = new HashMap<>();
-				placeholderValues.put("i", toString(count + 1, 1));
-				placeholderValues.put("spieltag", toString(round + 1, 1));
-				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+				placeholderValues.put("i", StringUtil.toString(count + 1, 1));
+				placeholderValues.put("spieltag", StringUtil.toString(round + 1, 1));
+				placeholderValues.put("spieltag.i", StringUtil.toString(dayCount + 1, 1));
 
-				game = planGame(title, creator, map, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
+				game = planGame(title, creator, placeToRace, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 
 				games.add(game);
 				count++;
@@ -200,7 +202,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param players - the list of {@link User}s
-	 * @param gameDayMaps - the {@link Map}s used sorted by game day
+	 * @param gameDayMaps - the {@link PlaceToRace}s used sorted by game day
 	 * @param gameDayRules - the {@link Rules} used sorted by game day
 	 * @param tags - the tags to set
 	 * @return the list of {@link PlannedGame}s
@@ -244,14 +246,14 @@ public abstract class Planner
 					gamePlayers.add(shuffledPlayers[day][g][p]);
 				}
 
-				map = gameDayMaps.get("" + day).get(random.nextInt(gameDayMaps.get("" + day).size()));
+				placeToRace = gameDayMaps.get("" + day).get(random.nextInt(gameDayMaps.get("" + day).size()));
 
 				placeholderValues = new HashMap<>();
-				placeholderValues.put("i", toString(count + 1, 1));
-				placeholderValues.put("spieltag", toString(day + 1, 1));
-				placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+				placeholderValues.put("i", StringUtil.toString(count + 1, 1));
+				placeholderValues.put("spieltag", StringUtil.toString(day + 1, 1));
+				placeholderValues.put("spieltag.i", StringUtil.toString(dayCount + 1, 1));
 
-				game = planGame(title, creator, map, gamePlayers, gameDayRules.get("" + day), tags, creatorParticipation, placeholderValues);
+				game = planGame(title, creator, placeToRace, gamePlayers, gameDayRules.get("" + day), tags, creatorParticipation, placeholderValues);
 
 				games.add(game);
 				count++;
@@ -517,7 +519,7 @@ public abstract class Planner
 			sb.append("\n");
 			for(int pl2 = 0; pl2 < result.totalWhoOnWho[pl1].length; pl2++)
 			{
-				sb.append(toString(result.totalWhoOnWho[pl1][pl2], 2) + " ");
+				sb.append(StringUtil.toString(result.totalWhoOnWho[pl1][pl2], 2) + " ");
 			}
 		}
 
@@ -532,7 +534,7 @@ public abstract class Planner
 					sb = new StringBuilder();
 					for(int pl2 = 0; pl2 < result.whoOnWho[m][pl1].length; pl2++)
 					{
-						sb.append(toString(result.whoOnWho[m][pl1][pl2], 2) + " ");
+						sb.append(StringUtil.toString(result.whoOnWho[m][pl1][pl2], 2) + " ");
 					}
 				}
 				logger.debug(sb.toString());
@@ -581,7 +583,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param playersByKey - the map of {@link User}s (by leagues)
-	 * @param teams - the list of (virtual) teams for all the {@link User}s with their home maps
+	 * @param teams - the list of (virtual) teams for all the {@link User}s with their home placesToRace
 	 * @param leagues - the number of leagues
 	 * @param groups - the number of groups
 	 * @param firstKO - the number of players for the first KO round
@@ -668,7 +670,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param playersByKey - the map of {@link User}s (by leagues)
-	 * @param teams - the list of (virtual) teams for all the {@link User}s with their home maps
+	 * @param teams - the list of (virtual) teams for all the {@link User}s with their home placesToRace
 	 * @param leagues - the number of leagues
 	 * @param groups - the number of groups
 	 * @param whoIsHome - logic to determine who is the home team
@@ -739,9 +741,9 @@ public abstract class Planner
 				for(Match match : matchesForDay)
 				{
 					placeholderValues = new HashMap<>();
-					placeholderValues.put("i", toString(count + 1, 1));
-					placeholderValues.put("spieltag", toString(day + 1, 1));
-					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+					placeholderValues.put("i", StringUtil.toString(count + 1, 1));
+					placeholderValues.put("spieltag", StringUtil.toString(day + 1, 1));
+					placeholderValues.put("spieltag.i", StringUtil.toString(dayCount + 1, 1));
 					placeholderValues.put("runde", toPlaceholderString(round, g, day, -1, -1));
 					placeholderValues.put("runde.x", toPlaceholderString(round, g, day, count, -1));
 
@@ -764,28 +766,28 @@ public abstract class Planner
 	 * @param title - the title (including placeholders)
 	 * @param winners - the teams in this round (pairs will be created ascending (2n) vs. (2n+1))
 	 * @param losers - the teams NOT in this round (who lost the last round) (optional)
-	 * @param maps - the list of maps to use (only used if !useHomeMaps; if size > 1 a random map will be used)
+	 * @param placesToRace - the list of placesToRace to use (only used if !useHomeMaps; if size > 1 a random map will be used)
 	 * @param whoIsHome - logic to determine who is the home team
 	 * @param rules - the {@link Rules} to use
 	 * @param tags - the tags to set
-	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
+	 * @param useHomeMaps - use a home {@link PlaceToRace} or a neutral map from the list
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @param numberOfGamesPerPair - the number of games per pairing
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> winners, List<Team> losers, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, Set<String> tags, 
+	public static List<PlannedGame> planSeriesKO(String title, User creator, List<Team> winners, List<Team> losers, List<PlaceToRace> placesToRace, BiFunction<Team, Team, Team> whoIsHome, Rules rules, Set<String> tags, 
 			EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair, int repeat)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
-		games.addAll(planSeriesKO0(title, creator, winners, maps, whoIsHome, rules, tags, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, false, repeat));
+		games.addAll(planSeriesKO0(title, creator, winners, placesToRace, whoIsHome, rules, tags, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, false, repeat));
 		if(losers != null)
-			games.addAll(planSeriesKO0(title, creator, losers, maps, whoIsHome, rules, tags, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, true, repeat));
+			games.addAll(planSeriesKO0(title, creator, losers, placesToRace, whoIsHome, rules, tags, creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, true, repeat));
 
 		return games;
 	}
 
-	static List<PlannedGame> planSeriesKO0(String title, User creator, List<Team> teams, List<Map> maps, BiFunction<Team, Team, Team> whoIsHome, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle,
+	static List<PlannedGame> planSeriesKO0(String title, User creator, List<Team> teams, List<PlaceToRace> placesToRace, BiFunction<Team, Team, Team> whoIsHome, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle,
 			int numberOfGamesPerPair, boolean losers, int repeat)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -798,7 +800,7 @@ public abstract class Planner
 		int count = 1;
 		PlannedGame game;
 		Team ti, ti1;
-		Map overwriteMap = null;
+		PlaceToRace overwriteMap = null;
 		HashMap<String, String> placeholderValues;
 
 		for(int i = 0; i < tmp.size(); i = i + 2)
@@ -809,14 +811,14 @@ public abstract class Planner
 			for(int j = 0; j < numberOfGamesPerPair; j++)
 			{
 				placeholderValues = new HashMap<>();
-				placeholderValues.put("i", toString(count + 1, 1));
+				placeholderValues.put("i", StringUtil.toString(count + 1, 1));
 				// placeholderValues.put("spieltag", toPlaceholderString(day + 1, 1));
 				// placeholderValues.put("spieltag.i", toPlaceholderString(dayCount + 1, 1));
 				placeholderValues.put("runde", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, -1, repeat));
 				placeholderValues.put("runde.x", toPlaceholderString(losers ? tmp.size() + 1 : tmp.size(), -1, -1, count, repeat));
 
-				if((!useHomeMaps || ((numberOfGamesPerPair % 2 == 1) && (j == numberOfGamesPerPair - 1))) && maps != null && maps.size() > 0)
-					overwriteMap = maps.get(random.nextInt(maps.size()));
+				if((!useHomeMaps || ((numberOfGamesPerPair % 2 == 1) && (j == numberOfGamesPerPair - 1))) && placesToRace != null && placesToRace.size() > 0)
+					overwriteMap = placesToRace.get(random.nextInt(placesToRace.size()));
 
 				if(j % 2 == 0)
 					game = planTeamGame(title, creator, ti, ti1, whoIsHome, overwriteMap, rules, tags, creatorParticipation, placeholderValues);
@@ -836,17 +838,17 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param teams - the list of {@link Team}s
-	 * @param maps - the list of {@link Map}s if useHomeMaps is set to false or if there is an uneven number of games per pair)
+	 * @param placesToRace - the list of {@link PlaceToRace}s if useHomeMaps is set to false or if there is an uneven number of games per pair)
 	 * @param rules - the {@link Rules} to use
 	 * @param tags - the tags to set
 	 * @param creatorParticipation - does the creator participate or not
-	 * @param useHomeMaps - use a home {@link Map} or a neutral map from the list
+	 * @param useHomeMaps - use a home {@link PlaceToRace} or a neutral map from the list
 	 * @param numberOfGamesPerPair - the number of games per pair (usually this is 2 = one for the first and one for the second half of the season)
 	 * @param shuffle - shuffle the teams before creating the matches (will randomize the KO pairs)
 	 * @param planFreeMatches - include "free" matches in case of an uneven number of teams
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<Map> maps, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair,
+	public static List<PlannedGame> planSeriesLeague(String title, User creator, List<Team> teams, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, boolean useHomeMaps, boolean shuffle, int numberOfGamesPerPair,
 			boolean planFreeMatches)
 	{
 		List<PlannedGame> games = new LinkedList<>();
@@ -860,7 +862,7 @@ public abstract class Planner
 
 		int day = 0;
 		PlannedGame game;
-		Map overwriteMap;
+		PlaceToRace overwritePlaceToRace;
 		int count = 0;
 		int dayCount;
 		HashMap<String, String> placeholderValues;
@@ -879,20 +881,20 @@ public abstract class Planner
 
 					// use a neutral map
 					if(!useHomeMaps)
-						overwriteMap = maps.get(random.nextInt(maps.size()));
+						overwritePlaceToRace = placesToRace.get(random.nextInt(placesToRace.size()));
 					// also use a neutral map if the number of rounds is uneven and it is the last round
-					else if(useHomeMaps && (round % 2 == 1) && (round == numberOfGamesPerPair) && maps != null)
-						overwriteMap = maps.get(random.nextInt(maps.size()));
+					else if(useHomeMaps && (round % 2 == 1) && (round == numberOfGamesPerPair) && placesToRace != null)
+						overwritePlaceToRace = placesToRace.get(random.nextInt(placesToRace.size()));
 					// use the home map
 					else
-						overwriteMap = null;
+						overwritePlaceToRace = null;
 
 					placeholderValues = new HashMap<>();
-					placeholderValues.put("i", toString(count + 1, 1));
-					placeholderValues.put("spieltag", toString(day + 1, 1));
-					placeholderValues.put("spieltag.i", toString(dayCount + 1, 1));
+					placeholderValues.put("i", StringUtil.toString(count + 1, 1));
+					placeholderValues.put("spieltag", StringUtil.toString(day + 1, 1));
+					placeholderValues.put("spieltag.i", StringUtil.toString(dayCount + 1, 1));
 
-					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, overwriteMap, rules, tags, creatorParticipation, placeholderValues);
+					game = planTeamGame(title, creator, match.getTeam(0), match.getTeam(1), whoIsHome, overwritePlaceToRace, rules, tags, creatorParticipation, placeholderValues);
 
 					games.add(game);
 					count++;
@@ -910,7 +912,7 @@ public abstract class Planner
 	 * 
 	 * @param title - the title (including placeholders)
 	 * @param players - the list of {@link User}s
-	 * @param maps - the list of {@link Map}s to chose from
+	 * @param placesToRace - the list of {@link PlaceToRace}s to chose from
 	 * @param rules - the {@link Rules} to use
 	 * @param tags - the tags to set
 	 * @param creatorParticipation - does the creator participate or not
@@ -932,7 +934,7 @@ public abstract class Planner
 
 		for(int i = 0; i < numberOfGames; i++)
 		{
-			placeToRace = maps.get(random.nextInt(maps.size()));
+			placeToRace = placesToRace.get(random.nextInt(placesToRace.size()));
 
 			gamePlayers = new LinkedHashSet<User>();
 			allPlayers = new LinkedList<User>(players);
@@ -941,19 +943,19 @@ public abstract class Planner
 			if(creatorParticipation != EnumCreatorParticipation.not_participating)
 				gamePlayers.add(creator);
 
-			while(gamePlayers.size() < Math.min(maxPlayersPerGame, map.getPlayers()))
+			while(gamePlayers.size() < Math.min(maxPlayersPerGame, placeToRace.getPlayers()))
 			{
 				if(allPlayers.size() == 0)
 					break;
 				player = allPlayers.remove(random.nextInt(allPlayers.size()));
-				if(player.isInvitable(map.isNight()))
+				if(player.isInvitable(placeToRace.isNight()))
 					gamePlayers.add(player);
 			}
 
 			placeholderValues = new HashMap<>();
-			placeholderValues.put("i", toString(count + 1, 1));
+			placeholderValues.put("i", StringUtil.toString(count + 1, 1));
 
-			game = planGame(title, creator, map, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
+			game = planGame(title, creator, placeToRace, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 
 			games.add(game);
 			count++;
@@ -970,7 +972,7 @@ public abstract class Planner
 	 * @param team1 - the first team
 	 * @param team2 - the second team
 	 * @param whoIsHome - logic to determine who is the home team, if null, team1 is used
-	 * @param overwriteMap - overwrite the map with a neutral one? If null, the home-map is used
+	 * @param overwritePlaceToRace - overwrite the place to race with a neutral one? If null, the home-map is used
 	 * @param rules - the {@link Rules} to use
 	 * @param tags - the tags to set
 	 * @param creatorParticipation - does the creator participate or not
@@ -1003,11 +1005,9 @@ public abstract class Planner
 		if(overwritePlaceToRace != null)
 			placeToRace = overwritePlaceToRace;
 		else if(home.getHomeMap() != null)
-			placeToRace = new PlaceToRace(home.getHomeMap());
-		else if(home.getHomeGenerator() != null)
-			placeToRace = new PlaceToRace(home.getHomeGenerator());
+			placeToRace = home.getHomeMap();
 		if(placeToRace == null) // can happen for dummyMatches
-			placeToRace = new PlaceToRace(guest.getHomeMap());
+			placeToRace = guest.getHomeMap();
 
 		PlannedGame g = planGame(title, creator, placeToRace, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
 		g.setHome(home.getName());
@@ -1021,7 +1021,7 @@ public abstract class Planner
 	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
 	 * 
 	 * @param title - the title (including placeholders)
-	 * @param placeToRace - the {@link Map} or{@link  Generator} to use
+	 * @param placeToRace - the {@link PlaceToRace} or{@link  Generator} to use
 	 * @param gamePlayers - the participating {@link User}s
 	 * @param rules - the {@link Rules} to use
 	 * @param tags - the tags to set
@@ -1039,7 +1039,7 @@ public abstract class Planner
 	 * Note: the placeholders in title will filled using the placeholderValues and {@link Planner#applyPlaceholders(String, java.util.Map)}
 	 * 
 	 * @param title - the title (including placeholders)
-	 * @param placeToRace - the {@link Map} or{@link  Generator} to use
+	 * @param placeToRace - the {@link PlaceToRace} or{@link  Generator} to use
 	 * @param gamePlayers - the participating {@link User}s
 	 * @param options - the {@link Options} to use
 	 * @param tags - the tags to set
@@ -1055,16 +1055,13 @@ public abstract class Planner
 		increasePlannedGames(gamePlayers);
 
 		// add default placeholder values
-		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(creator, map, gamePlayers, options);
+		java.util.Map<String, String> defaultPlaceholderValues = getDefaultPlaceholderValues(creator, placeToRace, gamePlayers, options);
 		for(Entry<String, String> pv : defaultPlaceholderValues.entrySet())
 			placeholderValues.putIfAbsent(pv.getKey(), pv.getValue());
 
 		String name = applyPlaceholders(title, placeholderValues);
 
-		if(placeToRace.isMap())
-			return new PlannedGame(name, placeToRace.getMap(), gamePlayers, options, tags, placeholderValues);
-		else
-			return new PlannedGame(name, placeToRace.getGenerator(), gamePlayers, options, tags, placeholderValues);
+		return new PlannedGame(name, placeToRace, gamePlayers, options, tags, placeholderValues);
 	}
 
 	/**
@@ -1302,11 +1299,11 @@ public abstract class Planner
 	}
 
 	/**
-	 * Get a {@link java.util.Map} with the default placeholder values for a {@link PlannedGame} based on the {@link Map}, the {@link User}s and the
+	 * Get a {@link java.util.Map} with the default placeholder values for a {@link PlannedGame} based on the {@link PlaceToRace}, the {@link User}s and the
 	 * {@link Options}.<br>
 	 * Additional placeholders can be added depending on the {@link GameSeries}.
 	 * 
-	 * @param placeToRace - the {@link Map} or{@link  Generator} to use
+	 * @param placeToRace - the {@link PlaceToRace} or{@link  Generator} to use
 	 * @param gamePlayers - the list of {@link User}s
 	 * @param options - the {@link Options}
 	 * @return the placeholder {@link java.util.Map}
@@ -1316,25 +1313,29 @@ public abstract class Planner
 		HashMap<String, String> defaultPlaceholderValues = new HashMap<>();
 
 		// karte or generator
-		if(placeToRace.isMap())
+		if(placeToRace instanceof Map)
 		{
-			defaultPlaceholderValues.put("karte.id", toString(placeToRace.getMap().getId(), 1));
-			defaultPlaceholderValues.put("karte.name", placeToRace.getMap().getName());
-			defaultPlaceholderValues.put("karte.author", placeToRace.getMap().getAuthor());
+			Map map = (Map) placeToRace;
+			defaultPlaceholderValues.put("karte.id", StringUtil.toString(map.getId(), 1));
+			defaultPlaceholderValues.put("karte.name", map.getName());
+			defaultPlaceholderValues.put("karte.author", map.getAuthor());
+			defaultPlaceholderValues.put("placetorace.short", StringUtil.toString(map.getId(), 1));
+			defaultPlaceholderValues.put("placetorace.long", map.getName());
 		}
-		if(placeToRace.isGenerator())
+		if(placeToRace instanceof Generator)
 		{
-			defaultPlaceholderValues.put("generator.key", placeToRace.getGenerator().getKey());
-			defaultPlaceholderValues.put("generator.name", placeToRace.getGenerator().getName());
-			// defaultPlaceholderValues.put("generator.settings", placeToRace.getGenerator().getSettings()); // TODO evtl. settings ausgebbar machen
+			Generator generator = (Generator) placeToRace;
+			defaultPlaceholderValues.put("generator.key", generator.getKey());
+			defaultPlaceholderValues.put("generator.name", generator.getName());
+			// defaultPlaceholderValues.put("generator.settings", generator.getSettings()); // TODO evtl. settings ausgebbar machen
+			defaultPlaceholderValues.put("placetorace.short", generator.getKey());
+			defaultPlaceholderValues.put("placetorace.long", generator.getName());
 		}
-		defaultPlaceholderValues.put("placetorace.short", (placeToRace.isMap() ? toString(placeToRace.getMap().getId(), 1) : placeToRace.getGenerator().getKey()));
-		defaultPlaceholderValues.put("placetorace.long", (placeToRace.isMap() ? placeToRace.getMap().getName() : placeToRace.getGenerator().getName()));
 
 		// spieler
 		defaultPlaceholderValues.put("spieler.ersteller", creator.getLogin());
-		defaultPlaceholderValues.put("spieler.anzahl", toString(gamePlayers.size(), 1));
-		defaultPlaceholderValues.put("spieler.anzahl.x", toString(gamePlayers.size() - 1, 1));
+		defaultPlaceholderValues.put("spieler.anzahl", StringUtil.toString(gamePlayers.size(), 1));
+		defaultPlaceholderValues.put("spieler.anzahl.x", StringUtil.toString(gamePlayers.size() - 1, 1));
 		defaultPlaceholderValues.put("spieler.namen", toPlaceholderString(gamePlayers));
 		List<User> playersWithoutCreator = new LinkedList<User>(gamePlayers);
 		playersWithoutCreator.remove(creator);
@@ -1388,21 +1389,6 @@ public abstract class Planner
 			name = name.substring(0, name.length() - 1);
 
 		return name;
-	}
-
-	/**
-	 * Fill a number with leading zeros ('0')
-	 * 
-	 * @param x - the number
-	 * @param minDigits - the minimum number of digits to achieve
-	 * @return the number as a string with leading zeros
-	 */
-	private static String toString(int x, int minDigits)
-	{
-		String s = "" + x;
-		while(s.length() < minDigits)
-			s = "0" + s;
-		return s;
 	}
 
 	/**
@@ -1523,7 +1509,7 @@ public abstract class Planner
 	}
 
 	/**
-	 * Check that both maps contain exactly the same keys. (as a consistency check)
+	 * Check that both placesToRace contain exactly the same keys. (as a consistency check)
 	 * 
 	 * @param <K> - the key type
 	 * @param map1 - the first {@link java.util.Map}

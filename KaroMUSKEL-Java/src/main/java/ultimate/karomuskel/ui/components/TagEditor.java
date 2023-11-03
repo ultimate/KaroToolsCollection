@@ -17,7 +17,9 @@ import ultimate.karoapi4j.model.official.Tag;
 
 public class TagEditor extends JPanel
 {
-    private List<Tag> suggestedTags;
+    private static final long serialVersionUID = 1L;
+
+	private List<Tag> suggestedTags;
 
 	private Map<String, JToggleButton>			tagsButtons;
 	private JTextField					tagsTF;

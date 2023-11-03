@@ -18,7 +18,6 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 
 /**
  * POJO PlannedGame (or game that shall be created) as defined by the {@link KaroAPI}
- * 
  * from https://www.karopapier.de/api/example/game/new
  * "name": "Neues Spiel",
  * "map": 105,
@@ -57,7 +56,7 @@ public class PlannedGame
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonFilter(value = JSONUtil.FILTER_UNOFFICIAL)
 	private String							guest;
-	
+
 	// additional temporary properties (not serialized at all)
 	@JsonIgnore
 	private java.util.Map<String, String>	placeHolderValues;
@@ -76,7 +75,11 @@ public class PlannedGame
 		this.map = map;
 		this.players = new LinkedHashSet<>(players);
 		this.options = options;
-		this.tags = new LinkedHashSet<>(tags);
+		
+		if(tags != null)
+			this.tags = new LinkedHashSet<>(tags);
+		else
+			this.tags = new LinkedHashSet<>();
 	}
 
 	public PlannedGame(String name, PlaceToRace map, Set<User> players, Options options, Set<String> tags, java.util.Map<String, String> placeHolderValues)

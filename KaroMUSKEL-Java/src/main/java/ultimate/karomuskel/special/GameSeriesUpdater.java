@@ -22,6 +22,7 @@ import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -58,13 +59,13 @@ public abstract class GameSeriesUpdater
 
 		logger.info("converting home maps...");
 		User user;
-		Map map;
+		PlaceToRace map;
 		Team t;
-		for(Entry<String, List<Map>> homeMapEntry : gs.getMapsByKey().entrySet())
+		for(Entry<String, List<PlaceToRace>> homeMapEntry : gs.getMapsByKey().entrySet())
 		{
 			user = cache.getUser(Integer.parseInt(homeMapEntry.getKey()));
 			map = homeMapEntry.getValue().get(0);
-			logger.debug("- " + user.getLogin() + " (" + user.getId() + ") -> " + map.getId());
+			logger.debug("- " + user.getLogin() + " (" + user.getId() + ") -> " + (map instanceof Map ? ((Map) map).getId() : ((Generator) map).getKey()));
 			t = new Team(user.getLogin(), user, map);
 			gs.getTeams().add(t);
 		}
@@ -232,7 +233,7 @@ public abstract class GameSeriesUpdater
 				gs.getPlayers().add(user);
 				gs.getPlayersByKey().get("group" + group).add(user);
 				gs.getPlayersByKey().get("league" + league).add(user);
-				gs.getTeams().add(new Team(username, user, new PlaceToRace(map)));
+				gs.getTeams().add(new Team(username, user, map));
 			}
 			else if(line.startsWith("| {{Benutzer|"))
 			{
@@ -269,7 +270,7 @@ public abstract class GameSeriesUpdater
 				players.add(user2);
 				players.add(creator);
 
-				pg = new PlannedGame(game.getName(), new PlaceToRace(map), players, options, null);
+				pg = new PlannedGame(game.getName(), map, players, options, null);
 				pg.setGame(game);
 				pg.setCreated(true);
 				pg.setLeft(true);

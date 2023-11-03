@@ -22,6 +22,7 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.MainFrame;
@@ -135,25 +136,13 @@ public class HomeMapsScreen extends Screen
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.maps = new TreeMap<String, PlaceToRace>();
-			for(Map m: karoAPICache.getMaps())
-				this.maps.put(getKey(m), m);
 			for(Generator g: karoAPICache.getGenerators())
 				this.maps.put(getKey(g), g);
-
-			List<String> removeList = new LinkedList<String>();
-			PlaceToRace map;
-			for(String key : this.maps.keySet())
-			{
-				map = this.maps.get(key);
-				if(map.getPlayers() < this.minSupportedPlayersPerMap)
-				{
-					removeList.add(key);
-				}
-			}
-			for(String key : removeList)
-			{
-				this.maps.remove(key);
-			}
+			for(Map m: karoAPICache.getMaps())
+				this.maps.put(getKey(m), m);
+			this.maps.values().removeIf(map -> {
+				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
+			});
 
 			for(int i = 0; i < this.mapCBList.size(); i++)
 			{
@@ -198,9 +187,9 @@ public class HomeMapsScreen extends Screen
 	{
 		logger.debug(ptr);
 		if(ptr instanceof Map)
-			return "map#" + ((Map) ptr).getId();
+			return "map#" + StringUtil.toString(((Map) ptr).getId(), 5);
 		else if(ptr instanceof Generator)
-			return ((Generator) ptr).getKey() + "#" + ((Generator) ptr).getSettings().hashCode();
+			return "generator#" + ((Generator) ptr).getKey();
 		return null;
 	}
 

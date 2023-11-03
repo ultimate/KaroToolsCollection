@@ -9,6 +9,7 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karopapier.utils.Table.Cell;
 
 public abstract class WikiUtil
@@ -121,9 +122,9 @@ public abstract class WikiUtil
 			sb.append("|");
 
 			if(row[col] == null || row[col].value == null)
-				sb.append(fixedLength("<null>", columnWidth));
+				sb.append(StringUtil.fixedLength("<null>", columnWidth));
 			else
-				sb.append(fixedLength(preprocess(row[col].value).toString(), columnWidth));
+				sb.append(StringUtil.fixedLength(preprocess(row[col].value).toString(), columnWidth));
 		}
 		sb.append("|-\r\n");
 	}
@@ -248,18 +249,5 @@ public abstract class WikiUtil
 		else if(d == Double.POSITIVE_INFINITY)
 			return d;
 		return Math.round(d * ROUND_FACTOR) / ROUND_FACTOR;
-	}
-
-	public static String fixedLength(String s, int length)
-	{
-		if(s.length() > length)
-			return s.substring(0, length - 3) + "...";
-		else
-		{
-			StringBuilder sb = new StringBuilder(s);
-			while(sb.length() < length)
-				sb.append(" ");
-			return sb.toString();
-		}
 	}
 }

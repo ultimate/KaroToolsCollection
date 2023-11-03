@@ -94,6 +94,9 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 			
 			name = generator.getName();
 			
+			if(generator.getUniqueId() > 0)
+				name += " (" + generator.getUniqueId() + ")";
+			
 			char symbol = (name != null ? name.charAt(0) : (char) 0);
 			icon = new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), symbol));	
 		}
@@ -101,6 +104,9 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 		{
 			logger.error("unknown PlaceToRace type: " + value);
 		}
+		
+//		logger.debug("name = " + name);
+//		logger.debug("icon = " + icon);
 
 		setText(name);
 		setIcon(icon);

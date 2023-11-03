@@ -1,9 +1,14 @@
 package ultimate.karoapi4j.model.official;
 
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
@@ -39,164 +44,239 @@ public class Generator implements PlaceToRace
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger	= LogManager.getLogger(getClass());
+	protected transient final Logger					logger		= LogManager.getLogger(getClass());
 
-    private String key;    
-	@JsonIgnore // not needed when serializing
-    private String name;
-	@JsonIgnore // not needed when serializing
-    private String description;
+	private String										key;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // not needed when serializing
+	private String										name;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // not needed when serializing
+	private String										description;
+
 	/**
 	 * generator specific settings
 	 */
-    private java.util.Map<String, Object> settings;
+	private java.util.Map<String, Object>				settings;
 
-    public Generator()
-    {
-        super();
-    }
+	@JsonIgnore
+	private int											uniqueId	= 0;
 
-    public Generator(String key, java.util.Map<String, Object> settings)
-    {
-        this();
-        this.key = key;
-        this.settings = settings;
-    }
+	private static final HashMap<String, AtomicInteger>	ID_COUNTERS	= new HashMap<>();
 
-    public Generator(String key, String name, String description, java.util.Map<String, Object> settings)
-    {
-        this(key, settings);
-        this.name = name;
-        this.description = description;
-    }
+	@JsonCreator
+	public Generator(@JsonProperty("key") String key)
+	{
+		super();
+		this.key = key;
+		synchronized(ID_COUNTERS)
+		{
+			if(!ID_COUNTERS.containsKey(key))
+				ID_COUNTERS.put(key, new AtomicInteger(0));
+			this.uniqueId = ID_COUNTERS.get(key).getAndIncrement();
+		}
+	}
 
-    public String getKey()
-    {
-        return key;
-    }
+	public Generator(String key, java.util.Map<String, Object> settings)
+	{
+		this(key);
+		this.settings = settings;
+	}
 
-    public void setKey(String key)
-    {
-        this.key = key;
-    }
+	public Generator(String key, String name, String description, java.util.Map<String, Object> settings)
+	{
+		this(key, settings);
+		this.name = name;
+		this.description = description;
+	}
 
-    public String getName()
-    {
-        return name;
-    }
+	public String getKey()
+	{
+		return key;
+	}
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+	public void setKey(String key)
+	{
+		this.key = key;
+	}
 
-    public String getDescription() 
-    {
-        return description;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
-    public java.util.Map<String, Object> getSettings()
-    {
-        return settings;
-    }
+	public String getDescription()
+	{
+		return description;
+	}
 
-    public void setSettings(java.util.Map<String, Object> settings)
-    {
-        this.settings = settings;
-    }    
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
 
-    @JsonIgnore
-    public boolean isNight()
-    {
-        String key = "night";
-        if(this.settings != null && this.settings.containsKey(key))
-        {
-            Object nightValue = this.settings.get(key);
-            if(nightValue instanceof String)
-                return Boolean.parseBoolean((String) nightValue);
-            else if(nightValue instanceof Integer)
-                return ((int) nightValue) == 1;
-        } 
-        return false;
-    }
+	public java.util.Map<String, Object> getSettings()
+	{
+		return settings;
+	}
 
-    @JsonIgnore
-    public int getPlayers()
-    {
-        String key = "players";
-        if(this.settings != null && this.settings.containsKey(key))
-        {
-            Object nightValue = this.settings.get(key);
-            if(nightValue instanceof Integer)
-                return (int) nightValue;
-            else if(nightValue instanceof String)
-            {
-                try
-                {
-                    return Integer.parseInt((String) nightValue);
-                }
-                catch(NumberFormatException e)
-                {
-                    logger.error(e);
-                }
-            }
-        }
-        return KaroAPI.getIntProperty(KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.default");
-    }
+	public void setSettings(java.util.Map<String, Object> settings)
+	{
+		this.settings = settings;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((key == null) ? 0 : key.hashCode());
-        //result = prime * result + ((name == null) ? 0 : name.hashCode());
-        //result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((settings == null) ? 0 : settings.hashCode());
-        return result;
-    }
+	public int getUniqueId()
+	{
+		return uniqueId;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Generator other = (Generator) obj;
-        if (key == null) {
-            if (other.key != null)
-                return false;
-        } else if (!key.equals(other.key))
-            return false;
-        /*
-        if (name == null) {
-            if (other.name != null)
-            return false;
-        } else if (!name.equals(other.name))
-        return false;
-        if (description == null) {
-            if (other.description != null)
-            return false;
-        } else if (!description.equals(other.description))
-        return false;
-        */
-        if (settings == null) {
-            if (other.settings != null)
-                return false;
-        } else if (!settings.equals(other.settings))
-            return false;
-        return true;
-    }
+	@JsonIgnore
+	public String getUniqueKey()
+	{
+		return key + " (" + (uniqueId == 0 ? "default" : uniqueId) + ")";
+	}
+
+	@JsonIgnore
+	public boolean isEditable()
+	{
+		return uniqueId > 0;
+	}
+
+	public Generator copy()
+	{
+		Generator g2 = new Generator(this.key);
+		g2.name = new String(this.name);
+		g2.description = new String(this.description);
+		g2.settings = new HashMap<>(this.settings);
+		return g2;
+	}
+
+	@JsonIgnore
+	public boolean isNight()
+	{
+		String key = "night";
+		if(this.settings != null && this.settings.containsKey(key))
+		{
+			Object nightValue = this.settings.get(key);
+			if(nightValue instanceof String)
+				return Boolean.parseBoolean((String) nightValue);
+			else if(nightValue instanceof Integer)
+				return ((int) nightValue) == 1;
+		}
+		return false;
+	}
+
+	@JsonIgnore
+	public int getPlayersMin()
+	{
+		String playersKey = KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.min";
+		if(KaroAPI.getStringProperty(playersKey) != null)
+		{
+			return KaroAPI.getIntProperty(playersKey);
+		}
+		else
+		{
+			logger.warn("players.min not defined for generator '" + this.getKey() + "'");
+			return 0;
+		}
+	}
+
+	@JsonIgnore
+	public int getPlayersMax()
+	{
+		String playersKey = KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.max";
+		if(KaroAPI.getStringProperty(playersKey) != null)
+		{
+			return KaroAPI.getIntProperty(playersKey);
+		}
+		else
+		{
+			logger.warn("players.max not defined for generator '" + this.getKey() + "'");
+			return 99;
+		}
+	}
+
+	@JsonIgnore
+	public int getPlayers()
+	{
+		String key = "players";
+		if(this.settings != null && this.settings.containsKey(key))
+		{
+			Object nightValue = this.settings.get(key);
+			if(nightValue instanceof Integer)
+				return (int) nightValue;
+			else if(nightValue instanceof String)
+			{
+				try
+				{
+					return Integer.parseInt((String) nightValue);
+				}
+				catch(NumberFormatException e)
+				{
+					logger.error(e);
+				}
+			}
+		}
+		return getPlayersMax();
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		// result = prime * result + ((name == null) ? 0 : name.hashCode());
+		// result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((settings == null) ? 0 : settings.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		Generator other = (Generator) obj;
+		if(key == null)
+		{
+			if(other.key != null)
+				return false;
+		}
+		else if(!key.equals(other.key))
+			return false;
+		/*
+		 * if (name == null) {
+		 * if (other.name != null)
+		 * return false;
+		 * } else if (!name.equals(other.name))
+		 * return false;
+		 * if (description == null) {
+		 * if (other.description != null)
+		 * return false;
+		 * } else if (!description.equals(other.description))
+		 * return false;
+		 */
+		if(settings == null)
+		{
+			if(other.settings != null)
+				return false;
+		}
+		else if(!settings.equals(other.settings))
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString()
 	{
-		return "Generator '" + key + "': settings=" + settings;
+		return "Generator '" + key + "' (" + getPlayers() + " Spieler) mit settings=" + settings;
 	}
 }

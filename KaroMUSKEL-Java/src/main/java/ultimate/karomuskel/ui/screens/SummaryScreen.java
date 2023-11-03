@@ -31,6 +31,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
+
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
@@ -50,7 +51,7 @@ import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
-import ultimate.karomuskel.ui.components.MapRenderer;
+import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 import ultimate.karomuskel.ui.components.SpinnerCellEditor;
 import ultimate.karomuskel.ui.components.TagCellEditor;
 import ultimate.karomuskel.ui.components.TagEditor;
@@ -458,7 +459,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			else if(table.getColumnClass(i).equals(Map.class))
 			{
 				JComboBox<Map> cb = new JComboBox<Map>(new DefaultComboBoxModel<Map>(karoAPICache.getMaps().toArray(new Map[0])));
-				cb.setRenderer(new MapRenderer());
+				cb.setRenderer(new PlaceToRaceRenderer());
 				col.setCellEditor(new DefaultCellEditor(cb));
 			}
 			else if(table.getColumnClass(i).equals(User.class))

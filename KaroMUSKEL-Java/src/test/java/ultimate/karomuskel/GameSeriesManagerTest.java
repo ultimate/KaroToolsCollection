@@ -38,6 +38,7 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
+import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.test.KaroMUSKELTestcase;
 
@@ -81,7 +82,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		gs.set(GameSeries.NUMBER_OF_GAMES, num);
 		gs.setRules(new Rules(minZzz, maxZzz, EnumGameTC.allowed, true, EnumGameDirection.formula1));
 		gs.setPlayers(Arrays.asList(creator, dummyCache.getUser(uid1), dummyCache.getUser(uid2)));
-		gs.setMaps(Arrays.asList(new PlaceToRace(dummyCache.getMap(mid0)), new PlaceToRace(dummyCache.getMap(mid1))));
+		gs.setMaps(Arrays.asList(dummyCache.getMap(mid0), dummyCache.getMap(mid1)));
 
 		File file = new File("target/test-classes/test" + System.currentTimeMillis() + ".json");
 		assertFalse(file.exists());
@@ -114,8 +115,8 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertEquals(dummyCache.getUser(uid2), loaded.getPlayers().get(2));
 		assertNotNull(loaded.getMaps());
 		assertEquals(2, loaded.getMaps().size());
-		assertEquals(new PlaceToRace(dummyCache.getMap(mid0)), loaded.getMaps().get(0));
-		assertEquals(new PlaceToRace(dummyCache.getMap(mid1)), loaded.getMaps().get(1));
+		assertEquals(dummyCache.getMap(mid0), loaded.getMaps().get(0));
+		assertEquals(dummyCache.getMap(mid1), loaded.getMaps().get(1));
 	}
 
 	@ParameterizedTest
@@ -599,7 +600,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		{
 			key = "" + t2.getKey();
 			assertEquals(1, byKey.get(key).size());
-			assertEquals(t2.getValue().getId(), byKey.get(key).get(0).getMap().getId());
+			assertEquals(t2.getValue().getId(), ((Map) byKey.get(key).get(0)).getId());
 		}
 	}
 
@@ -612,7 +613,7 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 			assertEquals(1, converted.get(i).getMembers().size());
 			assertEquals(cache.getUser(t2.getKey()).getLogin(), converted.get(i).getName());
 			assertEquals(t2.getKey(), ((User) converted.get(i).getMembers().toArray()[0]).getId());
-			assertEquals(t2.getValue(), converted.get(i).getHomeMap().getMap().getId());
+			assertEquals(t2.getValue(), ((Map) converted.get(i).getHomeMap()).getId());
 			i++;
 		}
 	}

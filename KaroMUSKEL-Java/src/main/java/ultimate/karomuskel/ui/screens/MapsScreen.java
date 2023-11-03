@@ -23,6 +23,7 @@ import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
@@ -33,14 +34,14 @@ import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 
 public class MapsScreen extends Screen implements ActionListener
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long				serialVersionUID	= 1L;
 
-	private JList<PlaceToRace>		allMapsLI;
-	private JList<PlaceToRace>		selectedMapsLI;
-	private JButton					addButton;
-	private JButton					removeButton;
+	private JList<PlaceToRace>				allMapsLI;
+	private JList<PlaceToRace>				selectedMapsLI;
+	private JButton							addButton;
+	private JButton							removeButton;
 
-	private int						minSupportedPlayersPerMap;
+	private int								minSupportedPlayersPerMap;
 
 	private TreeMap<String, PlaceToRace>	maps;
 
@@ -131,11 +132,13 @@ public class MapsScreen extends Screen implements ActionListener
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
 			this.maps = new TreeMap<String, PlaceToRace>();
-			for(Map m: karoAPICache.getMaps())
-				this.maps.put(getKey(m), m);
-			for(Generator g: karoAPICache.getGenerators())
+			for(Generator g : karoAPICache.getGenerators())
 				this.maps.put(getKey(g), g);
-			this.maps.values().removeIf(map -> { return map.getPlayers() < this.minSupportedPlayersPerMap; });
+			for(Map m : karoAPICache.getMaps())
+				this.maps.put(getKey(m), m);
+			this.maps.values().removeIf(map -> {
+				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
+			});
 
 			this.allMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, this.maps));
 			this.selectedMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, new TreeMap<String, PlaceToRace>()));
@@ -150,14 +153,14 @@ public class MapsScreen extends Screen implements ActionListener
 
 		this.firstShow = false;
 	}
-	
+
 	private String getKey(PlaceToRace ptr)
 	{
 		logger.debug(ptr);
 		if(ptr instanceof Map)
-			return "map#" + ((Map) ptr).getId();
+			return "map#" + StringUtil.toString(((Map) ptr).getId(), 5);
 		else if(ptr instanceof Generator)
-			return ((Generator) ptr).getKey() + "#" + ((Generator) ptr).getSettings().hashCode();
+			return "generator#" + ((Generator) ptr).getUniqueKey();
 		return null;
 	}
 
@@ -200,6 +203,12 @@ public class MapsScreen extends Screen implements ActionListener
 			for(PlaceToRace m : maps)
 			{
 				key = getKey(m);
+				if(m instanceof Generator && add)
+				{
+					// create a copy to add to the list to the right
+					m = ((Generator) m).copy();
+					key = getKey(m);
+				}
 				((GenericListModel<String, PlaceToRace>) remLI.getModel()).removeElement(key);
 				((GenericListModel<String, PlaceToRace>) addLI.getModel()).addElement(key, m);
 			}

@@ -157,4 +157,14 @@ public interface PlaceToRace
 
     public boolean isNight();
     public int getPlayers();
+    
+    default public int getPlayersMax()
+    {
+    	return getPlayers();
+    };
+    
+    default public int getPlayersMin()
+    {
+    	return getPlayers();
+    };
 }
