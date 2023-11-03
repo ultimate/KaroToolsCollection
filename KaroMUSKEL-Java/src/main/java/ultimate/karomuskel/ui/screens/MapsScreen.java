@@ -115,11 +115,18 @@ public class MapsScreen extends Screen implements ActionListener
 			gbc.gridy = 0;
 			buttonPanel.add(addButton, gbc);
 
+			this.configureButton = new JButton(Language.getString("option.configure"));
+			this.configureButton.setActionCommand("conf");
+			this.configureButton.addActionListener(this);
+			gbc.gridx = 0;
+			gbc.gridy = 1;
+			buttonPanel.add(configureButton, gbc);
+
 			this.removeButton = new JButton(Language.getString("option.remove"));
 			this.removeButton.setActionCommand("rem");
 			this.removeButton.addActionListener(this);
 			gbc.gridx = 0;
-			gbc.gridy = 1;
+			gbc.gridy = 2;
 			buttonPanel.add(removeButton, gbc);
 
 			this.selectedMapsLI = new JList<>();
@@ -203,7 +210,7 @@ public class MapsScreen extends Screen implements ActionListener
 			for(PlaceToRace m : maps)
 			{
 				key = getKey(m);
-				if(m instanceof Generator && add)
+				if(m instanceof Generator && add && ((Generator) m).getUniqueId() == 0)
 				{
 					// create a copy to add to the list to the right
 					m = ((Generator) m).copy();

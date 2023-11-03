@@ -19,8 +19,8 @@ import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.special.GameSeriesUpdater;
 import ultimate.karomuskel.ui.Language;
-import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
+import ultimate.karomuskel.ui.dialog.LoginDialog;
 
 /**
  * This is the Launcher for the KaroMUSKEL. It contains the {@link Launcher#main(String[])} to run the program.<br>

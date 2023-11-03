@@ -45,7 +45,6 @@ import ultimate.karomuskel.Creator;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
-import ultimate.karomuskel.ui.FileDialog;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
@@ -56,6 +55,7 @@ import ultimate.karomuskel.ui.components.SpinnerCellEditor;
 import ultimate.karomuskel.ui.components.TagCellEditor;
 import ultimate.karomuskel.ui.components.TagEditor;
 import ultimate.karomuskel.ui.components.UserCellEditor;
+import ultimate.karomuskel.ui.dialog.FileDialog;
 
 public class SummaryScreen extends Screen implements ActionListener
 {
