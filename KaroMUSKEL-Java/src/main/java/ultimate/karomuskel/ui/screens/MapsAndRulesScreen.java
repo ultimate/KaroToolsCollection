@@ -156,7 +156,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 
 				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
 				LinkedList<PlaceToRace> maps = new LinkedList<PlaceToRace>();
-				maps.addAll(karoAPICache.getGenerators());
+				maps.addAll(karoAPICache.getGenerators()); // TODO add copies here, so they can be edited
 				maps.addAll(karoAPICache.getMaps());
 				maps.removeIf(m -> {
 					return m.getPlayers() < 3;

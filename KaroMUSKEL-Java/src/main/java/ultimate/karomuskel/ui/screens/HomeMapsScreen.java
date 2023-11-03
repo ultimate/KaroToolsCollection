@@ -137,7 +137,7 @@ public class HomeMapsScreen extends Screen
 
 			this.maps = new TreeMap<String, PlaceToRace>();
 			for(Generator g: karoAPICache.getGenerators())
-				this.maps.put(getKey(g), g);
+				this.maps.put(getKey(g), g); // TODO add copies here, so they can be edited
 			for(Map m: karoAPICache.getMaps())
 				this.maps.put(getKey(m), m);
 			this.maps.values().removeIf(map -> {
@@ -189,7 +189,7 @@ public class HomeMapsScreen extends Screen
 		if(ptr instanceof Map)
 			return "map#" + StringUtil.toString(((Map) ptr).getId(), 5);
 		else if(ptr instanceof Generator)
-			return "generator#" + ((Generator) ptr).getKey();
+			return "generator#" + ((Generator) ptr).getUniqueKey();
 		return null;
 	}
 
