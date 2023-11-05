@@ -37,6 +37,7 @@ import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Tag;
@@ -456,9 +457,9 @@ public class SummaryScreen extends Screen implements ActionListener
 				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false))));
 			}
-			else if(table.getColumnClass(i).equals(Map.class))
+			else if(table.getColumnClass(i).equals(PlaceToRace.class))
 			{
-				JComboBox<Map> cb = new JComboBox<Map>(new DefaultComboBoxModel<Map>(karoAPICache.getMaps().toArray(new Map[0])));
+				JComboBox<PlaceToRace> cb = new JComboBox<PlaceToRace>(new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getMaps().toArray(new PlaceToRace[0])));
 				cb.setRenderer(new PlaceToRaceRenderer());
 				col.setCellEditor(new DefaultCellEditor(cb));
 			}
@@ -487,7 +488,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				else if(col == 1) // Tags
 					batchUpdateTags(col, Language.getString("screen.summary.table.tags"));
 				else if(col == 2) // Map
-					batchUpdateSelection(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel<Map>(karoAPICache.getMaps().toArray(new Map[0])));
+					batchUpdateSelection(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getMaps().toArray(new PlaceToRace[0])));
 				else if(col == 3) // Players
 					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
 				else if(col == 4) // ZZZ

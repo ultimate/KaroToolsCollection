@@ -14,6 +14,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -31,7 +32,7 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
-import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
 import ultimate.karomuskel.ui.EnumNavigation;
@@ -42,15 +43,18 @@ import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
+import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
 public class MapsAndRulesScreen extends Screen implements ActionListener, ChangeListener
 {
 	private static final long							serialVersionUID				= 1L;
 
 	private static final String							ACTION_MAP_SELECT				= "mapSelect";
+	private static final String							ACTION_MAP_CONFIGURE			= "mapConfigure";
 	private static final String							ACTION_RECALC_NUMBER_OF_GAMES	= "recalcNumberOfGames";
 
 	private List<JComboBox<PlaceToRace>>				mapCBList;
+	private List<JButton>								mapEditButtonList;
 	private List<JSpinner>								gamesPerPlayerSpinnerList;
 	private List<JSpinner>								numberOfPlayersSpinnerList;
 	private List<JSpinner>								minZzzSpinnerList;
@@ -82,14 +86,14 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
-		Map map;
+		PlaceToRace ptr;
 		Rules rules;
 		for(int i = 0; i < this.numberOfMaps; i++)
 		{
-			map = (Map) this.mapCBList.get(i).getSelectedItem();
+			ptr = (PlaceToRace) this.mapCBList.get(i).getSelectedItem();
 			rules = createRules(i);
 
-			gameSeries.getMapsByKey().put("" + i, Arrays.asList(map));
+			gameSeries.getMapsByKey().put("" + i, Arrays.asList(ptr));
 			gameSeries.getRulesByKey().put("" + i, rules);
 		}
 		return gameSeries;
@@ -106,6 +110,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 			this.numberOfMaps = numberOfMapsTmp;
 
 			this.mapCBList = new LinkedList<>();
+			this.mapEditButtonList = new LinkedList<>();
 			this.gamesPerPlayerSpinnerList = new LinkedList<>();
 			this.numberOfPlayersSpinnerList = new LinkedList<>();
 			this.minZzzSpinnerList = new LinkedList<>();
@@ -129,6 +134,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 
 			JLabel label;
 			JComboBox<PlaceToRace> mapCB;
+			JButton mapEditButton;
 			JSpinner gamesPerPlayerSpinner;
 			JSpinner numberOfPlayersSpinner;
 			JSpinner minZzzSpinner;
@@ -150,17 +156,17 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 
 			int maxGamesPerPlayer = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_GAMES_PER_PLAYER);
 
+			// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
+			LinkedList<PlaceToRace> maps = new LinkedList<PlaceToRace>();
+			maps.addAll(karoAPICache.getGenerators()); // TODO add copies here, so they can be edited
+			maps.addAll(karoAPICache.getMaps());
+			maps.removeIf(m -> {
+				return m.getPlayers() < 3;
+			});
+
 			for(int i = 0; i < this.numberOfMaps; i++)
 			{
 				final int j = i;
-
-				// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
-				LinkedList<PlaceToRace> maps = new LinkedList<PlaceToRace>();
-				maps.addAll(karoAPICache.getGenerators()); // TODO add copies here, so they can be edited
-				maps.addAll(karoAPICache.getMaps());
-				maps.removeIf(m -> {
-					return m.getPlayers() < 3;
-				});
 
 				if(gameSeries.getMapsByKey().containsKey("" + i) && gameSeries.getMapsByKey().get("" + i).size() > 0)
 					map = gameSeries.getMapsByKey().get("" + i).get(0);
@@ -197,7 +203,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				contentPanel.add(label, gbc);
 
 				mapCB = new JComboBox<>();
-				mapCB.setModel(new DefaultComboBoxModel<PlaceToRace>(maps.toArray(new Map[0])));
+				mapCB.setModel(new DefaultComboBoxModel<PlaceToRace>(maps.toArray(new PlaceToRace[0])));
 				mapCB.setRenderer(new PlaceToRaceRenderer());
 				mapCB.setSelectedItem(map);
 				mapCB.addActionListener(this);
@@ -206,7 +212,13 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
 
+				mapEditButton = new JButton(Language.getString("option.edit"));
+				mapEditButton.setEnabled(map instanceof Generator);
+				mapEditButton.addActionListener(this);
+				mapEditButton.setActionCommand(ACTION_MAP_CONFIGURE + i);
 				gbc.gridwidth = 1;
+				gbc.gridx = 5;
+				contentPanel.add(mapEditButton, gbc);
 
 				gbc.gridy++;
 
@@ -292,6 +304,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 				this.checkpointsActivatedCBList.add(checkpointsActivatedCB);
 				this.directionCBList.add(directionCB);
 				this.mapCBList.add(mapCB);
+				this.mapEditButtonList.add(mapEditButton);
 
 				actionPerformed(new ActionEvent(gamesPerPlayerSpinner, j, ACTION_RECALC_NUMBER_OF_GAMES + j));
 			}
@@ -326,11 +339,13 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 		if(e.getActionCommand().startsWith(ACTION_MAP_SELECT))
 		{
 			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_SELECT.length()));
-			int mapMax = ((Map) ((JComboBox<Map>) e.getSource()).getSelectedItem()).getPlayers();
+			PlaceToRace ptr = ((PlaceToRace) ((JComboBox<PlaceToRace>) e.getSource()).getSelectedItem());
+			int mapMax = ptr.getPlayers();
 			int max = Math.min(gameSeries.getPlayers().size() + 1, (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? mapMax : mapMax - 1));
 			((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setMaximum(max);
 			if(((Integer) ((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).getValue()) > max)
 				((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setValue(max);
+			this.mapEditButtonList.get(mapNumber).setEnabled(ptr instanceof Generator);				
 		}
 		else if(e.getActionCommand().startsWith(ACTION_RECALC_NUMBER_OF_GAMES))
 		{
@@ -343,6 +358,40 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 			// warning, when its not working out evenly
 			boolean warning = !Planner.checkNumberOfGamesWorksOutEvenly(totalNumberOfPlayers, gamesPerPlayer, numberOfPlayersPerGame);
 			this.numberOfGamesTFList.get(index).setText("" + expectedGames + (warning ? " " + Language.getString("screen.mapsAndRules.warning") : ""));
+		}
+		else if(e.getActionCommand().startsWith(ACTION_MAP_CONFIGURE))
+		{
+			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_CONFIGURE.length()));
+			PlaceToRace ptr = (PlaceToRace) this.mapCBList.get(mapNumber).getSelectedItem();
+			int selectedIndex = this.mapCBList.get(mapNumber).getSelectedIndex();
+			if(ptr instanceof Generator)
+			{
+				Generator g = (Generator) ptr;
+				int result = GeneratorDialog.getInstance().showEdit(this, g);
+				if(result == JOptionPane.OK_OPTION)
+				{
+					if(g.getUniqueId() == 0)
+					{
+						// create a copy first
+						g = g.copy();
+						// add the copy to all comboboxes
+						for(JComboBox<PlaceToRace> mapCB: this.mapCBList)
+						{
+							((DefaultComboBoxModel<PlaceToRace>) mapCB.getModel()).insertElementAt(g, selectedIndex + 1);
+						}
+						this.mapCBList.get(mapNumber).setSelectedItem(g);
+					}
+					// apply settings
+					logger.debug("updating settinsg for generator " + g.getUniqueKey());
+					g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
+					// update all combobox (to show the updated generator
+					for(JComboBox<PlaceToRace> mapCB: this.mapCBList)
+					{
+						// TODO
+//						((DefaultComboBoxModel<PlaceToRace>) mapCB.u.getModel().;
+					}
+				}
+			}
 		}
 	}
 
