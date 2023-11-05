@@ -1243,6 +1243,7 @@ public class KaroAPICache implements IDLookUp
 	{
 		HashMap<String, Object> settings = new HashMap<>();
 		settings.put("code", "XXXXXXXXX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXOSOFOSOX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXXXXXXXXX");		
+		settings.put("param", 5);
 		settings.put("players", 8);
 		return new Generator(key, key.toUpperCase(), "lorem ipsum", settings);
 	}

@@ -1,7 +1,9 @@
 package ultimate.karomuskel.ui.dialog;
 
 import java.awt.Component;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,7 +49,7 @@ public class GeneratorDialog
 		dialogtitle = Language.getString("generator.edit.title");
 	}
 
-	public int show(Component parent, Generator generator)
+	public int showEdit(Component parent, Generator generator)
 	{
 		this.key = generator.getKey();
 		this.settings = new HashMap<>(generator.getSettings());
@@ -74,18 +76,18 @@ public class GeneratorDialog
 		}
 
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(column1.size(), 4));
+		panel.setLayout(new GridBagLayout());
 
 		HashMap<String, JComponent> components = new HashMap<>();
 
 		JComponent c;
 		for(int i = 0; i < column1.size(); i++)
 		{
-			c = addSetting(panel, column1.get(i), this.settings.get(column1.get(i)));
+			c = addSetting(panel, column1.get(i), this.settings.get(column1.get(i)), i, 0);
 			if(c != null)
 				components.put(column1.get(i), c);
 			
-			c = addSetting(panel, column2.get(i), this.settings.get(column2.get(i)));
+			c = addSetting(panel, column2.get(i), this.settings.get(column2.get(i)), i, 1);
 			if(c != null)
 				components.put(column2.get(i), c);
 		}
@@ -114,34 +116,42 @@ public class GeneratorDialog
 		return result;
 	}
 
-	private JComponent addSetting(JPanel panel, String setting, Object value)
+	private JComponent addSetting(JPanel panel, String setting, Object value, int row, int column)
 	{
-		JLabel label = null;
-		JComponent component = null;
 		if(setting != null)
 		{
-			label = new JLabel(setting);
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = column * 2;
+			gbc.gridy = row;
+			gbc.anchor = GridBagConstraints.WEST;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.insets = new Insets(5, 5, 5, 5);
+			panel.add(new JLabel(setting), gbc);
+			
+			JComponent component = null;
+			gbc.gridx++;
+			gbc.anchor = GridBagConstraints.EAST;
 			if(value instanceof Integer)
 			{
-				int min = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".min");
-				int max = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".max");
-				int step = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".step");
+				int min = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".min", 0);
+				int max = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".max", 99);
+				int step = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".step", 1);
 				component = new JSpinner(new SpinnerNumberModel((int) value, min, max, step));
-				panel.add(component);
+				component.setEnabled(min != max);
 			}
 			else if(value instanceof String)
 			{
-				component = new JTextField((String) value);
+				component = new JTextField((String) value);//, 20);
+				gbc.gridwidth = 3;
 			}
+			panel.add(component, gbc);
+			
+			return component;
 		}
 		else
 		{
-			label = new JLabel(); // placeholder
-			component = new JLabel(); // placeholder
+			return null;
 		}
-		panel.add(label);
-		panel.add(component);
-		return component;
 	}
 
 	public Map<String, Object> getSettings()

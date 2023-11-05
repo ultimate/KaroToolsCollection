@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -13,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -31,8 +34,9 @@ import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
+import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
-public class MapsScreen extends Screen implements ActionListener
+public class MapsScreen extends Screen implements ActionListener, MouseListener
 {
 	private static final long				serialVersionUID	= 1L;
 
@@ -99,6 +103,7 @@ public class MapsScreen extends Screen implements ActionListener
 			this.allMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.allMapsLI.setFixedCellWidth(1500);
 			this.allMapsLI.setCellRenderer(new PlaceToRaceRenderer());
+			this.allMapsLI.addMouseListener(this);
 			JScrollPane allMapsSP = new JScrollPane(this.allMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			allMapsPanel.add(new JLabel(Language.getString("screen.maps.allmaps")), BorderLayout.NORTH);
@@ -115,24 +120,22 @@ public class MapsScreen extends Screen implements ActionListener
 			gbc.gridy = 0;
 			buttonPanel.add(addButton, gbc);
 
-			this.configureButton = new JButton(Language.getString("option.configure"));
-			this.configureButton.setActionCommand("conf");
-			this.configureButton.addActionListener(this);
-			gbc.gridx = 0;
-			gbc.gridy = 1;
-			buttonPanel.add(configureButton, gbc);
-
 			this.removeButton = new JButton(Language.getString("option.remove"));
 			this.removeButton.setActionCommand("rem");
 			this.removeButton.addActionListener(this);
 			gbc.gridx = 0;
-			gbc.gridy = 2;
+			gbc.gridy = 1;
 			buttonPanel.add(removeButton, gbc);
 
 			this.selectedMapsLI = new JList<>();
 			this.selectedMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.selectedMapsLI.setFixedCellWidth(1500);
-			this.selectedMapsLI.setCellRenderer(new PlaceToRaceRenderer());
+			this.selectedMapsLI.setCellRenderer(new PlaceToRaceRenderer(ptr -> {
+				if(ptr instanceof Generator && ((Generator) ptr).getUniqueId() != 0)
+					return Language.getString("screen.maps.editGenerator");
+				return null;
+			}));
+			this.selectedMapsLI.addMouseListener(this);
 			JScrollPane selectedMapsSP = new JScrollPane(this.selectedMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
@@ -221,5 +224,57 @@ public class MapsScreen extends Screen implements ActionListener
 			}
 			repaint();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		if(e.getSource() instanceof JList)
+		{
+			JList<PlaceToRace> list = (JList<PlaceToRace>) e.getSource();
+			if (e.getClickCount() == 2) {
+				// Double-click detected
+				int index = list.locationToIndex(e.getPoint());
+				PlaceToRace ptr = list.getModel().getElementAt(index);
+				if(ptr instanceof Generator)
+				{
+					Generator g = (Generator) ptr;
+					if(g.getUniqueId() != 0)
+					{
+						int result = GeneratorDialog.getInstance().showEdit(this, g);
+						if(result == JOptionPane.OK_OPTION)
+						{
+							logger.debug("updating settinsg for generator " + g.getUniqueKey());
+							g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
+						}
+					}
+				}
+			} 
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
 	}
 }

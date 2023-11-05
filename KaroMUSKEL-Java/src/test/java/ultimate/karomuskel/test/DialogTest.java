@@ -21,12 +21,14 @@ public class DialogTest
 		settings.put("zackMin", 5);
 		settings.put("zackMax", 15);
 		settings.put("cps", 4);
+		settings.put("seed", "");
+
 
 		generator.setSettings(settings);
 
 		System.out.println(generator.getSettings());
 
-		GeneratorDialog.getInstance().show(null, generator);
+		GeneratorDialog.getInstance().showEdit(null, generator);
 
 		System.out.println(GeneratorDialog.getInstance().getSettings());
 	}

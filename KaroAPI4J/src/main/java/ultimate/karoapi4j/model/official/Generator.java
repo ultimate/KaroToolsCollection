@@ -59,6 +59,8 @@ public class Generator implements PlaceToRace
 
 	@JsonIgnore
 	private int											uniqueId	= 0;
+	@JsonIgnore
+	private Generator									source		= null;
 
 	private static final HashMap<String, AtomicInteger>	ID_COUNTERS	= new HashMap<>();
 
@@ -134,6 +136,12 @@ public class Generator implements PlaceToRace
 	}
 
 	@JsonIgnore
+	public String getUniqueName()
+	{
+		return name + " (" + (uniqueId == 0 ? "default" : uniqueId) + ")";
+	}
+
+	@JsonIgnore
 	public String getUniqueKey()
 	{
 		return key + " (" + (uniqueId == 0 ? "default" : uniqueId) + ")";
@@ -145,12 +153,18 @@ public class Generator implements PlaceToRace
 		return uniqueId > 0;
 	}
 
+	public Generator getSource()
+	{
+		return source;
+	}
+
 	public Generator copy()
 	{
 		Generator g2 = new Generator(this.key);
 		g2.name = new String(this.name);
 		g2.description = new String(this.description);
 		g2.settings = new HashMap<>(this.settings);
+		g2.source = (this.source == null ? this : this.source);
 		return g2;
 	}
 
@@ -173,30 +187,14 @@ public class Generator implements PlaceToRace
 	public int getPlayersMin()
 	{
 		String playersKey = KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.min";
-		if(KaroAPI.getStringProperty(playersKey) != null)
-		{
-			return KaroAPI.getIntProperty(playersKey);
-		}
-		else
-		{
-			logger.warn("players.min not defined for generator '" + this.getKey() + "'");
-			return 0;
-		}
+		return KaroAPI.getIntProperty(playersKey, 0);
 	}
 
 	@JsonIgnore
 	public int getPlayersMax()
 	{
 		String playersKey = KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".players.max";
-		if(KaroAPI.getStringProperty(playersKey) != null)
-		{
-			return KaroAPI.getIntProperty(playersKey);
-		}
-		else
-		{
-			logger.warn("players.max not defined for generator '" + this.getKey() + "'");
-			return 99;
-		}
+		return KaroAPI.getIntProperty(playersKey, 99);
 	}
 
 	@JsonIgnore
@@ -278,5 +276,28 @@ public class Generator implements PlaceToRace
 	public String toString()
 	{
 		return "Generator '" + key + "' (" + getPlayers() + " Spieler) mit settings=" + settings;
+	}
+	
+	public String toSettingsString(boolean deviationsOnly)
+	{
+		HashMap<String, Object> deviation = new HashMap<>();
+		if(source == null)
+		{
+			if(!deviationsOnly)
+				deviation.putAll(this.settings);
+		}
+		else
+		{
+			deviation.putAll(this.settings);
+			if(deviationsOnly)
+			{
+				for(String key: source.settings.keySet())
+				{
+					if(deviation.containsKey(key) && deviation.get(key).equals(source.settings.get(key)))
+						deviation.remove(key);
+				}
+			}
+		}
+		return getUniqueName() + (deviation.size() > 0 ? " " + deviation : "");
 	}
 }

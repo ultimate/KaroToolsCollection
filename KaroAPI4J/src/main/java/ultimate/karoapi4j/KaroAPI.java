@@ -1474,18 +1474,28 @@ public class KaroAPI implements IDLookUp
 
 	public static int getIntProperty(String key)
 	{
+		return getIntProperty(key, 0);
+	}
+
+	public static int getIntProperty(String key, int defaultValue)
+	{
 		try
 		{
 			return Integer.parseInt(getStringProperty(key));
 		}
 		catch(NumberFormatException | NullPointerException e)
 		{
-			logger.warn(e);
-			return 0;
+			logger.warn("exception getting property '" + key + "'", e);
+			return defaultValue;
 		}
 	}
 
 	public static double getDoubleProperty(String key)
+	{
+		return getDoubleProperty(key, 0.0);
+	}
+
+	public static double getDoubleProperty(String key, double defaultValue)
 	{
 		try
 		{
@@ -1493,8 +1503,8 @@ public class KaroAPI implements IDLookUp
 		}
 		catch(NumberFormatException | NullPointerException e)
 		{
-			logger.warn(e);
-			return 0;
+			logger.warn("exception getting property '" + key + "'", e);
+			return defaultValue;
 		}
 	}
 
