@@ -102,7 +102,16 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 			this.allMapsLI = new JList<>();
 			this.allMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.allMapsLI.setFixedCellWidth(1500);
-			this.allMapsLI.setCellRenderer(new PlaceToRaceRenderer());
+			this.allMapsLI.setCellRenderer(new PlaceToRaceRenderer(ptr -> {
+				if(ptr instanceof Generator)
+				{
+					if(((Generator) ptr).getUniqueId() == 0)
+						return Language.getString("screen.maps.addGenerator");
+					else
+						return Language.getString("screen.maps.editGenerator");
+				}
+				return null;
+			}));
 			this.allMapsLI.addMouseListener(this);
 			JScrollPane allMapsSP = new JScrollPane(this.allMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
