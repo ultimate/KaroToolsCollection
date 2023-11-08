@@ -384,11 +384,10 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 					// apply settings
 					logger.debug("updating settinsg for generator " + g.getUniqueKey());
 					g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
-					// update all combobox (to show the updated generator
+					// update all combobox (to show the updated generator)
 					for(JComboBox<PlaceToRace> mapCB: this.mapCBList)
 					{
-						// TODO
-//						((DefaultComboBoxModel<PlaceToRace>) mapCB.u.getModel().;
+						mapCB.repaint();
 					}
 				}
 			}
