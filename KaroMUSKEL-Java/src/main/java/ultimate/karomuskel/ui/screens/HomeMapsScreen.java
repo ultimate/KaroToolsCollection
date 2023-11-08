@@ -3,6 +3,8 @@ package ultimate.karomuskel.ui.screens;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -25,16 +27,18 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 
-public class HomeMapsScreen extends Screen
+public class HomeMapsScreen extends MapComboBoxScreen implements ActionListener
 {
-	private static final long				serialVersionUID	= 1L;
+	private static final long				serialVersionUID		= 1L;
+
+	private static final String				ACTION_MAP_CONFIGURE	= "mapConfigure";
 
 	private List<JLabel>					teamNameLabelList;
-	private List<JComboBox<PlaceToRace>>	mapCBList;
 
 	private int								numberOfTeams;
 	private int								minSupportedPlayersPerMap;
@@ -95,7 +99,8 @@ public class HomeMapsScreen extends Screen
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.teamNameLabelList = new LinkedList<JLabel>();
-			this.mapCBList = new LinkedList<JComboBox<PlaceToRace>>();
+			this.mapCBList = new LinkedList<JComboBox<PlaceToRace>>(); // from super class
+			this.mapEditButtonList = new LinkedList<>(); // from super class
 			this.removeAll();
 
 			JPanel contentPanel = new JPanel();
@@ -111,6 +116,7 @@ public class HomeMapsScreen extends Screen
 
 			JLabel teamLabel;
 			JComboBox<PlaceToRace> mapCB;
+			JButton mapEditButton;
 
 			for(int i = 0; i < maxTeams; i++)
 			{
@@ -125,8 +131,15 @@ public class HomeMapsScreen extends Screen
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
 
+				mapEditButton = new JButton(Language.getString("option.edit"));
+				mapEditButton.addActionListener(this);
+				mapEditButton.setActionCommand(ACTION_MAP_CONFIGURE + i);
+				gbc.gridx = 2;
+				contentPanel.add(mapEditButton, gbc);
+
 				this.teamNameLabelList.add(teamLabel);
 				this.mapCBList.add(mapCB);
+				this.mapEditButtonList.add(mapEditButton);
 			}
 		}
 
@@ -136,9 +149,9 @@ public class HomeMapsScreen extends Screen
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.maps = new TreeMap<String, PlaceToRace>();
-			for(Generator g: karoAPICache.getGenerators())
+			for(Generator g : karoAPICache.getGenerators())
 				this.maps.put(getKey(g), g); // TODO add copies here, so they can be edited
-			for(Map m: karoAPICache.getMaps())
+			for(Map m : karoAPICache.getMaps())
 				this.maps.put(getKey(m), m);
 			this.maps.values().removeIf(map -> {
 				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
@@ -163,6 +176,7 @@ public class HomeMapsScreen extends Screen
 
 			this.teamNameLabelList.get(i).setText(label);
 			this.mapCBList.get(i).setEnabled(enabled);
+			this.mapEditButtonList.get(i).setEnabled(enabled);
 		}
 
 		// preselect values from gameseries
@@ -208,5 +222,16 @@ public class HomeMapsScreen extends Screen
 		}
 		// select map, then add
 		((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(index).getModel()).setSelectedItem(map);
+		this.mapEditButtonList.get(index).setEnabled(map instanceof Generator);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getActionCommand().startsWith(ACTION_MAP_CONFIGURE))
+		{
+			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_CONFIGURE.length()));
+			super.handleGeneratorConfigurationEvent(mapNumber);
+		}
 	}
 }

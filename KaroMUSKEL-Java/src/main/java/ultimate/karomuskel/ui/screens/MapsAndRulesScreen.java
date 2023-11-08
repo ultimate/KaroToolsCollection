@@ -14,15 +14,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
@@ -43,9 +40,8 @@ import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
-import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
-public class MapsAndRulesScreen extends Screen implements ActionListener, ChangeListener
+public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListener
 {
 	private static final long							serialVersionUID				= 1L;
 
@@ -53,8 +49,6 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 	private static final String							ACTION_MAP_CONFIGURE			= "mapConfigure";
 	private static final String							ACTION_RECALC_NUMBER_OF_GAMES	= "recalcNumberOfGames";
 
-	private List<JComboBox<PlaceToRace>>				mapCBList;
-	private List<JButton>								mapEditButtonList;
 	private List<JSpinner>								gamesPerPlayerSpinnerList;
 	private List<JSpinner>								numberOfPlayersSpinnerList;
 	private List<JSpinner>								minZzzSpinnerList;
@@ -109,8 +103,8 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 		{
 			this.numberOfMaps = numberOfMapsTmp;
 
-			this.mapCBList = new LinkedList<>();
-			this.mapEditButtonList = new LinkedList<>();
+			this.mapCBList = new LinkedList<>(); // from super class
+			this.mapEditButtonList = new LinkedList<>(); // from super class
 			this.gamesPerPlayerSpinnerList = new LinkedList<>();
 			this.numberOfPlayersSpinnerList = new LinkedList<>();
 			this.minZzzSpinnerList = new LinkedList<>();
@@ -362,40 +356,7 @@ public class MapsAndRulesScreen extends Screen implements ActionListener, Change
 		else if(e.getActionCommand().startsWith(ACTION_MAP_CONFIGURE))
 		{
 			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_CONFIGURE.length()));
-			PlaceToRace ptr = (PlaceToRace) this.mapCBList.get(mapNumber).getSelectedItem();
-			int selectedIndex = this.mapCBList.get(mapNumber).getSelectedIndex();
-			if(ptr instanceof Generator)
-			{
-				Generator g = (Generator) ptr;
-				int result = GeneratorDialog.getInstance().showEdit(this, g);
-				if(result == JOptionPane.OK_OPTION)
-				{
-					if(g.getUniqueId() == 0)
-					{
-						// create a copy first
-						g = g.copy();
-						// add the copy to all comboboxes
-						for(JComboBox<PlaceToRace> mapCB: this.mapCBList)
-						{
-							((DefaultComboBoxModel<PlaceToRace>) mapCB.getModel()).insertElementAt(g, selectedIndex + 1);
-						}
-						this.mapCBList.get(mapNumber).setSelectedItem(g);
-					}
-					// apply settings
-					logger.debug("updating settinsg for generator " + g.getUniqueKey());
-					g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
-					// update all combobox (to show the updated generator)
-					for(JComboBox<PlaceToRace> mapCB: this.mapCBList)
-					{
-						mapCB.repaint();
-					}
-				}
-			}
+			super.handleGeneratorConfigurationEvent(mapNumber);
 		}
-	}
-
-	@Override
-	public void stateChanged(ChangeEvent e)
-	{
 	}
 }
