@@ -9,9 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.swing.ComboBoxModel;
@@ -60,41 +62,43 @@ import ultimate.karomuskel.ui.dialog.FileDialog;
 
 public class SummaryScreen extends Screen implements ActionListener
 {
-	private static final long	serialVersionUID	= 1L;
+	private static final long			serialVersionUID	= 1L;
 
-	private Creator				creator;
+	private Creator						creator;
 
-	private GameSeries			gameSeries;
-	private Screen				startScreen;
+	private GameSeries					gameSeries;
+	private Screen						startScreen;
 
-	private boolean				skipPlan;
-	private String				key;
+	private boolean						skipPlan;
+	private String						key;
 
-	private List<PlannedGame>	gamesCreated;
-	private List<PlannedGame>	gamesLeft;
+	private List<PlannedGame>			gamesCreated;
+	private List<PlannedGame>			gamesLeft;
 
-	private List<PlannedGame>	gamesToCreate;
-	private List<PlannedGame>	gamesToLeave;
-	private List<PlannedGame>	gamesToLeaveTmp;
+	private List<PlannedGame>			gamesToCreate;
+	private List<PlannedGame>			gamesToLeave;
+	private List<PlannedGame>			gamesToLeaveTmp;
 
-	private JTable				table;
-	private JScrollPane			tableSP;
+	private JTable						table;
+	private JScrollPane					tableSP;
 
-	private JButton				createButton;
-	private JButton				leaveButton;
-	private JButton				saveButton;
+	private JButton						createButton;
+	private JButton						leaveButton;
+	private JButton						saveButton;
 
-	private SummaryModel		model;
+	private SummaryModel				model;
 
-	private boolean				inProgress;
+	private boolean						inProgress;
 
-	private static final int	OPEN				= 0;
-	private static final int	GENERATING_MAP		= 1;
-	private static final int	GENERATED_MAP		= 2;
-	private static final int	CREATING			= 3;
-	private static final int	CREATED				= 4;
-	private static final int	LEAVING				= 5;
-	private static final int	LEFT				= 6;
+	private HashMap<String, Integer>	batchUpdateMessages	= new HashMap<>();
+
+	private static final int			OPEN				= 0;
+	private static final int			GENERATING_MAP		= 1;
+	private static final int			GENERATED_MAP		= 2;
+	private static final int			CREATING			= 3;
+	private static final int			CREATED				= 4;
+	private static final int			LEAVING				= 5;
+	private static final int			LEFT				= 6;
 
 	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
 	{
@@ -449,12 +453,14 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(EnumGameTC.class))
 			{
-				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
+				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already
+				// selected
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false))));
 			}
 			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
-				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already selected
+				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already
+				// selected
 				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false))));
 			}
 			else if(table.getColumnClass(i).equals(PlaceToRace.class))
@@ -482,6 +488,8 @@ public class SummaryScreen extends Screen implements ActionListener
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
+				batchUpdateMessages.clear();
+
 				int col = table.columnAtPoint(e.getPoint());
 				if(col == 0) // Title
 					batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
@@ -503,6 +511,19 @@ public class SummaryScreen extends Screen implements ActionListener
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
 				else if(col == 9) // Leave
 					batchUpdateBoolean(col, Language.getString("screen.summary.table.leavestatus"));
+
+				if(batchUpdateMessages.size() > 0)
+				{
+					StringBuilder message = new StringBuilder();
+					for(Entry<String, Integer> entry : batchUpdateMessages.entrySet())
+					{
+						message.append(Language.getString(entry.getKey()));
+						if(entry.getValue() > 1)
+							message.append(" (" + entry.getValue() + " mal)");
+						message.append("\n");
+					}
+					JOptionPane.showMessageDialog(SummaryScreen.this, message);
+				}
 			}
 		});
 
@@ -514,7 +535,8 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdateBoolean(int column, String label)
 	{
 		JCheckBox checkbox = new JCheckBox(label);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -537,7 +559,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		panel.setLayout(new FlowLayout());
 		((FlowLayout) panel.getLayout()).setAlignment(FlowLayout.LEFT);
 
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -557,7 +580,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		JTextField textfield = new JTextField(50);
 		panel.add(new JLabel(label));
 		panel.add(textfield);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -577,7 +601,8 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdateSelection(int column, String label, ComboBoxModel<?> comboBoxModel)
 	{
 		JComboBox<?> combobox = new JComboBox<>(comboBoxModel);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -608,9 +633,11 @@ public class SummaryScreen extends Screen implements ActionListener
 			textField.setEditable(other.equals(combobox.getSelectedItem()));
 		});
 
-		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.tags.add"), Language.getString("screen.summary.batchUpdate.tags.remove"), Language.getString("option.cancel") };
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.tags.add"), Language.getString("screen.summary.batchUpdate.tags.remove"),
+				Language.getString("option.cancel") };
 
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox, textField }, Language.getString("screen.summary.batchUpdate.tags"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox, textField }, Language.getString("screen.summary.batchUpdate.tags"), 0, JOptionPane.QUESTION_MESSAGE,
+				null, options, null);
 
 		Set<String> updatedTags;
 		if(result == 0) // add
@@ -651,9 +678,11 @@ public class SummaryScreen extends Screen implements ActionListener
 		// players.remove(gameSeries.getCreator()); // don't prohibit removing the creator, display a warning instead
 		JComboBox<User> combobox = new JComboBox<>(new DefaultComboBoxModel<User>(players.toArray(new User[0])));
 
-		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"), Language.getString("option.cancel") };
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"),
+				Language.getString("option.cancel") };
 
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null,
+				options, null);
 
 		List<User> updatedPlayers;
 		if(result == 0) // add
@@ -852,7 +881,12 @@ public class SummaryScreen extends Screen implements ActionListener
 				case 2:
 					if(((Map) aValue).getPlayers() < game.getPlayers().size())
 					{
-						JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
+						String msgKey = "screen.summary.maptosmall";
+						if(!batchUpdateMessages.containsKey(msgKey))
+							batchUpdateMessages.put(msgKey, 1);
+						else
+							batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
+						// JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
 						return;
 					}
 					game.setMap((Map) aValue);
