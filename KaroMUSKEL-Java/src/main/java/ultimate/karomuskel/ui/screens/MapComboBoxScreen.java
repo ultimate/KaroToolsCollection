@@ -38,7 +38,6 @@ public abstract class MapComboBoxScreen extends Screen
 			throw new IllegalStateException("mapEditButtonList does not contain enough entries: index=" + index + ", size=" + this.mapEditButtonList.size());
 		
 		PlaceToRace ptr = (PlaceToRace) this.mapCBList.get(index).getSelectedItem();
-		int selectedIndex = this.mapCBList.get(index).getSelectedIndex();
 		if(ptr instanceof Generator)
 		{
 			Generator g = (Generator) ptr;
@@ -47,12 +46,15 @@ public abstract class MapComboBoxScreen extends Screen
 			{
 				if(g.getUniqueId() == 0)
 				{
+					Generator original = g;
 					// create a copy first
-					g = g.copy();
+					g = original.copy();
+					this.karoAPICache.cache(g);
 					// add the copy to all comboboxes
 					for(JComboBox<PlaceToRace> mapCB : this.mapCBList)
 					{
-						((DefaultComboBoxModel<PlaceToRace>) mapCB.getModel()).insertElementAt(g, selectedIndex + 1);
+						int originalIndex = ((DefaultComboBoxModel<PlaceToRace>) mapCB.getModel()).getIndexOf(original);
+						((DefaultComboBoxModel<PlaceToRace>) mapCB.getModel()).insertElementAt(g, originalIndex + 1);
 					}
 					this.mapCBList.get(index).setSelectedItem(g);
 				}
@@ -66,5 +68,23 @@ public abstract class MapComboBoxScreen extends Screen
 				}
 			}
 		}
+	}
+
+	protected void preselectMap(PlaceToRace map, int index)
+	{
+		String key = this.karoAPICache.getPlaceToRaceKey(map);
+		logger.debug("preselect place to race: " + key);
+		// check map is present in list, if not, add first
+		if(((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(index).getModel()).getIndexOf(map) == -1)
+		{
+			logger.warn("entry not present in list: " + key + " -> adding");
+			for(int i = 0; i < this.mapCBList.size(); i++)
+			{
+				((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(i).getModel()).addElement(map);
+			}
+		}
+		// select map, then add
+		((DefaultComboBoxModel<PlaceToRace>) this.mapCBList.get(index).getModel()).setSelectedItem(map);
+		this.mapEditButtonList.get(index).setEnabled(map instanceof Generator);
 	}
 }

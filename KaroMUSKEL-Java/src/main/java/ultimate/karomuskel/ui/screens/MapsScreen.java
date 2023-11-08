@@ -25,8 +25,6 @@ import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Generator;
-import ultimate.karoapi4j.model.official.Map;
-import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
@@ -38,16 +36,14 @@ import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
 public class MapsScreen extends Screen implements ActionListener, MouseListener
 {
-	private static final long				serialVersionUID	= 1L;
+	private static final long					serialVersionUID	= 1L;
 
-	private JList<PlaceToRace>				allMapsLI;
-	private JList<PlaceToRace>				selectedMapsLI;
-	private JButton							addButton;
-	private JButton							removeButton;
+	private JList<PlaceToRace>					allMapsLI;
+	private JList<PlaceToRace>					selectedMapsLI;
+	private JButton								addButton;
+	private JButton								removeButton;
 
-	private int								minSupportedPlayersPerMap;
-
-	private TreeMap<String, PlaceToRace>	maps;
+	private int									minSupportedPlayersPerMap;
 
 	public MapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -150,16 +146,12 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
-			this.maps = new TreeMap<String, PlaceToRace>();
-			for(Generator g : karoAPICache.getGenerators())
-				this.maps.put(getKey(g), g);
-			for(Map m : karoAPICache.getMaps())
-				this.maps.put(getKey(m), m);
-			this.maps.values().removeIf(map -> {
+			java.util.Map<String, PlaceToRace> maps = this.karoAPICache.getPlacesToRaceByKey();
+			maps.values().removeIf(map -> {
 				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
 			});
 
-			this.allMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, this.maps));
+			this.allMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, maps));
 			this.selectedMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, new TreeMap<String, PlaceToRace>()));
 		}
 
@@ -173,19 +165,9 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 		this.firstShow = false;
 	}
 
-	private String getKey(PlaceToRace ptr)
-	{
-		logger.debug(ptr);
-		if(ptr instanceof Map)
-			return "map#" + StringUtil.toString(((Map) ptr).getId(), 5);
-		else if(ptr instanceof Generator)
-			return "generator#" + ((Generator) ptr).getUniqueKey();
-		return null;
-	}
-
 	private void preselectMap(PlaceToRace map)
 	{
-		String key = getKey(map);
+		String key = karoAPICache.getPlaceToRaceKey(map);
 		logger.debug("preselect place to race: " + key);
 		// check map is present in list, if not, add first
 		if(!((GenericListModel<String, PlaceToRace>) allMapsLI.getModel()).containsKey(key))
@@ -221,12 +203,13 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 			String key;
 			for(PlaceToRace m : maps)
 			{
-				key = getKey(m);
+				key = karoAPICache.getPlaceToRaceKey(m);
 				if(m instanceof Generator && add && ((Generator) m).getUniqueId() == 0)
 				{
 					// create a copy to add to the list to the right
 					m = ((Generator) m).copy();
-					key = getKey(m);
+					this.karoAPICache.cache((Generator) m);
+					key = karoAPICache.getPlaceToRaceKey(m);
 				}
 				((GenericListModel<String, PlaceToRace>) remLI.getModel()).removeElement(key);
 				((GenericListModel<String, PlaceToRace>) addLI.getModel()).addElement(key, m);
@@ -242,7 +225,8 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 		if(e.getSource() instanceof JList)
 		{
 			JList<PlaceToRace> list = (JList<PlaceToRace>) e.getSource();
-			if (e.getClickCount() == 2) {
+			if(e.getClickCount() == 2)
+			{
 				// Double-click detected
 				int index = list.locationToIndex(e.getPoint());
 				PlaceToRace ptr = list.getModel().getElementAt(index);
@@ -254,12 +238,12 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 						int result = GeneratorDialog.getInstance().showEdit(this, g);
 						if(result == JOptionPane.OK_OPTION)
 						{
-							logger.debug("updating settinsg for generator " + g.getUniqueKey());
+							logger.debug("updating settings for generator " + g.getUniqueKey());
 							g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
 						}
 					}
 				}
-			} 
+			}
 		}
 	}
 

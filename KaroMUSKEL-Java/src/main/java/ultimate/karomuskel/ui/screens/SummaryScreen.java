@@ -15,6 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
@@ -29,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.AbstractTableModel;
@@ -40,7 +44,7 @@ import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
-import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
@@ -59,6 +63,7 @@ import ultimate.karomuskel.ui.components.TagCellEditor;
 import ultimate.karomuskel.ui.components.TagEditor;
 import ultimate.karomuskel.ui.components.UserCellEditor;
 import ultimate.karomuskel.ui.dialog.FileDialog;
+import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
 public class SummaryScreen extends Screen implements ActionListener
 {
@@ -90,6 +95,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private boolean						inProgress;
 
+	private AtomicBoolean				batchUpdate			= new AtomicBoolean(false);
 	private HashMap<String, Integer>	batchUpdateMessages	= new HashMap<>();
 
 	private static final int			OPEN				= 0;
@@ -465,8 +471,10 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(PlaceToRace.class))
 			{
-				JComboBox<PlaceToRace> cb = new JComboBox<PlaceToRace>(new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getMaps().toArray(new PlaceToRace[0])));
-				cb.setRenderer(new PlaceToRaceRenderer());
+				List<PlaceToRace> maps = this.karoAPICache.getPlacesToRace();
+
+				JComboBox<PlaceToRace> cb = new JComboBox<PlaceToRace>(new DefaultComboBoxModel<PlaceToRace>(maps.toArray(new PlaceToRace[0])));
+				cb.setRenderer(new PlaceToRaceRenderer(null, true));
 				col.setCellEditor(new DefaultCellEditor(cb));
 			}
 			else if(table.getColumnClass(i).equals(User.class))
@@ -488,41 +496,47 @@ public class SummaryScreen extends Screen implements ActionListener
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				batchUpdateMessages.clear();
-
-				int col = table.columnAtPoint(e.getPoint());
-				if(col == 0) // Title
-					batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
-				else if(col == 1) // Tags
-					batchUpdateTags(col, Language.getString("screen.summary.table.tags"));
-				else if(col == 2) // Map
-					batchUpdateSelection(col, Language.getString("screen.summary.table.map"), new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getMaps().toArray(new PlaceToRace[0])));
-				else if(col == 3) // Players
-					batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
-				else if(col == 4) // ZZZ
-					batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
-				else if(col == 5) // TC
-					batchUpdateSelection(col, Language.getString("screen.summary.table.crashs"), new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false));
-				else if(col == 6) // CPs
-					batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
-				else if(col == 7) // Direction
-					batchUpdateSelection(col, Language.getString("screen.summary.table.direction"), new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false));
-				else if(col == 8) // Create
-					batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
-				else if(col == 9) // Leave
-					batchUpdateBoolean(col, Language.getString("screen.summary.table.leavestatus"));
-
-				if(batchUpdateMessages.size() > 0)
+				synchronized(batchUpdate)
 				{
-					StringBuilder message = new StringBuilder();
-					for(Entry<String, Integer> entry : batchUpdateMessages.entrySet())
+					batchUpdate.set(true);
+					batchUpdateMessages.clear();
+
+					int col = table.columnAtPoint(e.getPoint());
+					if(col == 0) // Title
+						batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
+					else if(col == 1) // Tags
+						batchUpdateTags(col, Language.getString("screen.summary.table.tags"));
+					else if(col == 2) // PlaceToRace
+						batchUpdatePlaceToRace(col, Language.getString("screen.summary.table.map"));
+					else if(col == 3) // Players
+						batchUpdatePlayers(col, Language.getString("screen.summary.table.players"));
+					else if(col == 4) // ZZZ
+						batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
+					else if(col == 5) // TC
+						batchUpdateSelection(col, Language.getString("screen.summary.table.crashs"), new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false), null);
+					else if(col == 6) // CPs
+						batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
+					else if(col == 7) // Direction
+						batchUpdateSelection(col, Language.getString("screen.summary.table.direction"), new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false),
+								null);
+					else if(col == 8) // Create
+						batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
+					else if(col == 9) // Leave
+						batchUpdateBoolean(col, Language.getString("screen.summary.table.leavestatus"));
+
+					if(batchUpdateMessages.size() > 0)
 					{
-						message.append(Language.getString(entry.getKey()));
-						if(entry.getValue() > 1)
-							message.append(" (" + entry.getValue() + " mal)");
-						message.append("\n");
+						StringBuilder message = new StringBuilder();
+						for(Entry<String, Integer> entry : batchUpdateMessages.entrySet())
+						{
+							message.append(Language.getString(entry.getKey()));
+							if(entry.getValue() > 1)
+								message.append(" (" + entry.getValue() + " mal)");
+							message.append("\n");
+						}
+						JOptionPane.showMessageDialog(SummaryScreen.this, message);
 					}
-					JOptionPane.showMessageDialog(SummaryScreen.this, message);
+					batchUpdate.set(false);
 				}
 			}
 		});
@@ -532,22 +546,33 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.model.addRow(game);
 	}
 
-	private void batchUpdateBoolean(int column, String label)
+	private <V> void batchUpdateGeneric(int column, String label, Object message, Supplier<V> valueSupplier, BiFunction<PlannedGame, V, V> preprocessor)
 	{
-		JCheckBox checkbox = new JCheckBox(label);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { checkbox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, message, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
-			boolean value = checkbox.isSelected();
+			V value = valueSupplier.get();
 			logger.info("Setze " + label + "=" + value);
 			for(int row = 0; row < model.getRowCount(); row++)
 			{
 				if(model.isCellEditable(row, column))
+				{
+					if(preprocessor != null)
+						value = preprocessor.apply(model.getRow(row), value);
 					model.setValueAt(value, row, column);
+				}
 			}
 		}
+	}
+
+	private void batchUpdateBoolean(int column, String label)
+	{
+		JCheckBox checkbox = new JCheckBox(label);
+		Supplier<Boolean> valueSupplier = () -> {
+			return checkbox.isSelected();
+		};
+		batchUpdateGeneric(column, label, checkbox, valueSupplier, null);
 	}
 
 	private void batchUpdateInt(int column, String label, SpinnerModel spinnerModel)
@@ -559,19 +584,10 @@ public class SummaryScreen extends Screen implements ActionListener
 		panel.setLayout(new FlowLayout());
 		((FlowLayout) panel.getLayout()).setAlignment(FlowLayout.LEFT);
 
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
-
-		if(result == JOptionPane.OK_OPTION)
-		{
-			Integer value = (Integer) spinner.getValue();
-			logger.info("Setze " + label + "=" + value);
-			for(int row = 0; row < model.getRowCount(); row++)
-			{
-				if(model.isCellEditable(row, column))
-					model.setValueAt(value, row, column);
-			}
-		}
+		Supplier<Integer> valueSupplier = () -> {
+			return (Integer) spinner.getValue();
+		};
+		batchUpdateGeneric(column, label, panel, valueSupplier, null);
 	}
 
 	private void batchUpdateString(int column, String label, String note)
@@ -580,40 +596,72 @@ public class SummaryScreen extends Screen implements ActionListener
 		JTextField textfield = new JTextField(50);
 		panel.add(new JLabel(label));
 		panel.add(textfield);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { panel, note }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
 
-		if(result == JOptionPane.OK_OPTION)
-		{
-			String value = (String) textfield.getText();
-			logger.info("Setze " + label + "=" + value);
-			for(int row = 0; row < model.getRowCount(); row++)
-			{
-				if(model.isCellEditable(row, column))
-				{
-					String updateValue = Planner.applyPlaceholders(value, model.getRow(row).getPlaceHolderValues());
-					model.setValueAt(updateValue, row, column);
-				}
-			}
-		}
+		Supplier<String> valueSupplier = () -> {
+			return textfield.getText();
+		};
+		BiFunction<PlannedGame, String, String> preprocessor = (plannedGame, value) -> {
+			return Planner.applyPlaceholders(value, plannedGame.getPlaceHolderValues());
+		};
+		batchUpdateGeneric(column, label, new Object[] { panel, note }, valueSupplier, preprocessor);
 	}
 
-	private void batchUpdateSelection(int column, String label, ComboBoxModel<?> comboBoxModel)
+	private <T> void batchUpdateSelection(int column, String label, ComboBoxModel<T> comboBoxModel, ListCellRenderer<T> aRenderer)
 	{
-		JComboBox<?> combobox = new JComboBox<>(comboBoxModel);
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION,
-				JOptionPane.QUESTION_MESSAGE);
+		JComboBox<T> combobox = new JComboBox<>(comboBoxModel);
+		if(aRenderer != null)
+			combobox.setRenderer(aRenderer);
 
-		if(result == JOptionPane.OK_OPTION)
-		{
-			Object value = combobox.getSelectedItem();
-			logger.info("Setze " + label + "=" + value);
-			for(int row = 0; row < model.getRowCount(); row++)
+		Supplier<Object> valueSupplier = () -> {
+			return combobox.getSelectedItem();
+		};
+		batchUpdateGeneric(column, label, combobox, valueSupplier, null);
+	}
+
+	private void batchUpdatePlaceToRace(int column, String label)
+	{
+		JComboBox<PlaceToRace> combobox = new JComboBox<>(new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getPlacesToRace().toArray(new PlaceToRace[0])));
+		combobox.setRenderer(new PlaceToRaceRenderer());
+
+		JButton mapEditButton = new JButton(Language.getString("option.edit"));
+
+		combobox.addActionListener(e -> {
+			mapEditButton.setEnabled(combobox.getSelectedItem() instanceof Generator);
+		});
+
+		mapEditButton.addActionListener(e -> {
+			PlaceToRace ptr = (PlaceToRace) combobox.getSelectedItem();
+			if(ptr instanceof Generator)
 			{
-				if(model.isCellEditable(row, column))
-					model.setValueAt(value, row, column);
+				Generator g = (Generator) ptr;
+				int result = GeneratorDialog.getInstance().showEdit(this, g);
+				if(result == JOptionPane.OK_OPTION)
+				{
+					if(g.getUniqueId() == 0)
+					{
+						Generator original = g;
+						// create a copy first
+						g = original.copy();
+						this.karoAPICache.cache(g);
+						// add the copy to the combobox
+						int originalIndex = ((DefaultComboBoxModel<PlaceToRace>) combobox.getModel()).getIndexOf(original);
+						((DefaultComboBoxModel<PlaceToRace>) combobox.getModel()).insertElementAt(g, originalIndex + 1);
+						// now select
+						combobox.setSelectedItem(g);
+					}
+					// apply settings
+					logger.debug("updating settings for generator " + g.getUniqueKey());
+					g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
+					// update all combobox (to show the updated generator)
+					combobox.repaint();
+				}
 			}
-		}
+		});
+
+		Supplier<Object> valueSupplier = () -> {
+			return combobox.getSelectedItem();
+		};
+		batchUpdateGeneric(column, label, new Object[] { combobox, mapEditButton }, valueSupplier, null);
 	}
 
 	private void batchUpdateTags(int column, String label)
@@ -744,7 +792,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.tags"), Tag.class, 0);
-			this.addColumn(Language.getString("screen.summary.table.map"), Map.class, 0);
+			this.addColumn(Language.getString("screen.summary.table.map"), PlaceToRace.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.players"), User.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.zzz"), Integer.class, 40);
 			this.addColumn(Language.getString("screen.summary.table.crashs"), EnumGameTC.class, 90);
@@ -879,17 +927,23 @@ public class SummaryScreen extends Screen implements ActionListener
 					game.getTags().addAll((Collection<String>) aValue);
 					break;
 				case 2:
-					if(((Map) aValue).getPlayers() < game.getPlayers().size())
+					if(((PlaceToRace) aValue).getPlayers() < game.getPlayers().size())
 					{
-						String msgKey = "screen.summary.maptosmall";
-						if(!batchUpdateMessages.containsKey(msgKey))
-							batchUpdateMessages.put(msgKey, 1);
+						if(batchUpdate.get())
+						{
+							String msgKey = "screen.summary.maptosmall";
+							if(!batchUpdateMessages.containsKey(msgKey))
+								batchUpdateMessages.put(msgKey, 1);
+							else
+								batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
+						}
 						else
-							batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
-						// JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
+						{
+							JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
+						}
 						return;
 					}
-					game.setMap((Map) aValue);
+					game.setMap((PlaceToRace) aValue);
 					break;
 				case 3:
 					game.getPlayers().clear();

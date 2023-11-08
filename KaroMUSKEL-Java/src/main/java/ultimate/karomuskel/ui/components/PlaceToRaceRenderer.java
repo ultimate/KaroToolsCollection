@@ -28,13 +28,15 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 
 	protected transient final Logger						logger				= LogManager.getLogger(getClass());
 
-	public static final int									imageWidth			= 100;
-	public static final int									imageHeight			= 50;
-	public static final int									buttonPosition		= 250;
-	public static final int									buttonWidth			= 30;
-	public static final int									buttonHeight		= 30;
+	public static final int									IMAGE_WIDTH_LARGE	= 100;
+	public static final int									IMAGE_HEIGHT_LARGE	= 50;
+	public static final int									IMAGE_WIDTH_SMALL	= 40;
+	public static final int									IMAGE_HEIGHT_SMALL	= 20;
 
-	private static final HashMap<PlaceToRace, ImageIcon>	images				= new HashMap<PlaceToRace, ImageIcon>();
+	private static final HashMap<PlaceToRace, ImageIcon>	IMAGES_LARGE		= new HashMap<PlaceToRace, ImageIcon>();
+	private static final HashMap<PlaceToRace, ImageIcon>	IMAGES_SMALL		= new HashMap<PlaceToRace, ImageIcon>();
+
+	private boolean											small;
 
 	private Function<PlaceToRace, String>					conditionalMessage;
 
@@ -45,7 +47,13 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 
 	public PlaceToRaceRenderer(Function<PlaceToRace, String> conditionalMessage)
 	{
+		this(conditionalMessage, false);
+	}
+
+	public PlaceToRaceRenderer(Function<PlaceToRace, String> conditionalMessage, boolean small)
+	{
 		this.conditionalMessage = conditionalMessage;
+		this.small = small;
 	}
 
 	@Override
@@ -66,55 +74,19 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 			this.setForeground(list.getForeground());
 		}
 		this.setFont(list.getFont());
-
-		// Set the icon and text. If icon was null, say so.
-		String name = null;
+		
+		// Set the icon
 		ImageIcon icon = null;
-		if(value instanceof Map)
-		{
-			Map map = (Map) value;
+		HashMap<PlaceToRace, ImageIcon> images = (small ? IMAGES_SMALL: IMAGES_LARGE);
+		if(!images.containsKey(value))
+			images.put(value, createIcon(value, small));
+		icon = images.get(value);
+		this.setIcon(icon);
 
-			name = map.toString();
+		// Set the text
+		this.setText((icon == null ? "[" + Language.getString("image.notavailable") + "] ": "") + value.toString());
 
-			if(!images.containsKey(map) && (map.getImage() != null))
-			{
-				Image image = map.getImage();
-				BufferedImage bi = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_4BYTE_ABGR);
-				Graphics2D g2d = bi.createGraphics();
-
-				double dH = (double) imageHeight / (double) image.getHeight(null);
-				double dW = (double) imageWidth / (double) image.getWidth(null);
-				int hOrg = image.getHeight(null);
-				int wOrg = image.getWidth(null);
-
-				if(image != null)
-				{
-					if(dH < dW)
-						g2d.drawImage(image, (int) (imageWidth - dH * wOrg) / 2, 0, (int) (dH * wOrg), (int) (dH * hOrg), null);
-					else
-						g2d.drawImage(image, 0, (int) (imageHeight - dW * hOrg) / 2, (int) (dW * wOrg), (int) (dW * hOrg), null);
-				}
-				images.put(value, new ImageIcon(bi));
-			}
-			icon = images.get(value);
-			if(icon == null)
-				name = "[" + Language.getString("image.notavailable") + "] " + name;
-
-		}
-		else if(value instanceof Generator)
-		{
-			Generator generator = (Generator) value;
-
-			name = generator.toSettingsString(true);
-
-			char symbol = (name != null ? name.charAt(0) : (char) 0);
-			icon = new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), symbol));
-		}
-		else
-		{
-			logger.error("unknown PlaceToRace type: " + value);
-		}
-
+		// Set tooltip
 		String msg;
 		if(this.conditionalMessage != null && (msg = this.conditionalMessage.apply(value)) != null)
 			this.setToolTipText(msg);
@@ -124,8 +96,55 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 //		logger.debug("name = " + name);
 //		logger.debug("icon = " + icon);
 
-		this.setText(name);
-		this.setIcon(icon);
 		return this;
+	}
+
+	private ImageIcon createIcon(PlaceToRace ptr, boolean small)
+	{
+		int imageWidth, imageHeight;
+		if(small)
+		{
+			imageWidth = IMAGE_WIDTH_SMALL;
+			imageHeight = IMAGE_HEIGHT_SMALL;
+		}
+		else
+		{
+			imageWidth = IMAGE_WIDTH_LARGE;
+			imageHeight = IMAGE_HEIGHT_LARGE;
+		}
+		
+		if(ptr instanceof Map)
+		{
+			Map map = (Map) ptr;
+
+			Image image = map.getImage();
+			BufferedImage bi = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_4BYTE_ABGR);
+			Graphics2D g2d = bi.createGraphics();
+
+			double dH = (double) imageHeight / (double) image.getHeight(null);
+			double dW = (double) imageWidth / (double) image.getWidth(null);
+			int hOrg = image.getHeight(null);
+			int wOrg = image.getWidth(null);
+
+			if(image != null)
+			{
+				if(dH < dW)
+					g2d.drawImage(image, (int) (imageWidth - dH * wOrg) / 2, 0, (int) (dH * wOrg), (int) (dH * hOrg), null);
+				else
+					g2d.drawImage(image, 0, (int) (imageHeight - dW * hOrg) / 2, (int) (dW * wOrg), (int) (dW * hOrg), null);
+			}
+			return new ImageIcon(bi);
+		}
+		else if(ptr instanceof Generator)
+		{
+			String name = ((Generator) ptr).toSettingsString(true);
+			char symbol = (name != null ? name.charAt(0) : (char) 0);
+			return new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), symbol));
+		}
+		else
+		{
+			logger.error("unknown PlaceToRace type: " + ptr);
+			return null;
+		}
 	}
 }

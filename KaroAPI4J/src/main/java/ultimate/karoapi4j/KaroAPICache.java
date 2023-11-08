@@ -33,6 +33,7 @@ import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.enums.EnumUserState;
 import ultimate.karoapi4j.enums.EnumUserTheme;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
@@ -43,6 +44,7 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.ImageUtil;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
+import ultimate.karoapi4j.utils.StringUtil;
 
 /**
  * This class acts as a wrapper for the {@link KaroAPI} and allows cached access to the entities.<br>
@@ -114,6 +116,10 @@ public class KaroAPICache implements IDLookUp
 	 */
 	private java.util.Map<Integer, Map>			mapsById;
 	/**
+	 * The {@link Generator} cache (by id)
+	 */
+	private java.util.Map<Integer, Generator>	generatorsById;
+	/**
 	 * The {@link Generator} cache (by key)
 	 */
 	private java.util.Map<String, Generator>	generatorsByKey;
@@ -167,6 +173,7 @@ public class KaroAPICache implements IDLookUp
 		this.usersByLogin = new TreeMap<>();
 		this.gamesById = new TreeMap<>();
 		this.mapsById = new TreeMap<>();
+		this.generatorsById = new TreeMap<>();
 		this.generatorsByKey = new TreeMap<>();
 
 		this.config = config;
@@ -707,16 +714,42 @@ public class KaroAPICache implements IDLookUp
 	 */
 	protected Generator updateGenerator(Generator generator)
 	{
-		if(this.generatorsByKey.containsKey(generator.getKey()))
-			ReflectionsUtil.copyFields(generator, this.generatorsByKey.get(generator.getKey()), false);
+		if(this.generatorsById.containsKey(generator.getId()))
+			ReflectionsUtil.copyFields(generator, this.generatorsById.get(generator.getId()), false);
 		else
 		{
-			synchronized(this.generatorsByKey)
+			synchronized(this.generatorsById)
 			{
-				this.generatorsByKey.put(generator.getKey(), generator);
+				this.generatorsById.put(generator.getId(), generator);
+				this.generatorsByKey.put(generator.getUniqueKey(), generator);
 			}
 		}
-		return this.generatorsByKey.get(generator.getKey());
+		return this.generatorsById.get(generator.getId());
+	}
+
+	/**
+	 * get the {@link Generator} with the given ID from the cache
+	 * Note: loading it from the API is not supported (unless in debug mode)
+	 * 
+	 * @param id - the user id
+	 * @return the {@link Generator}
+	 */
+	protected Generator getGenerator(int id)
+	{
+		if(!this.generatorsById.containsKey(id))
+		{
+			if(this.karoAPI != null)
+			{
+				logger.error("could not get generator: " + id);
+			}
+			else
+			{
+				// debug mode
+				Generator g = createDummyGenerator("" + id);
+				updateGenerator(g);
+			}
+		}
+		return this.generatorsById.get(id);
 	}
 
 	/**
@@ -737,6 +770,44 @@ public class KaroAPICache implements IDLookUp
 	public java.util.Map<String, Generator> getGeneratorsByKey()
 	{
 		return Collections.unmodifiableMap(this.generatorsByKey);
+	}
+
+	/**
+	 * Get all {@link PlaceToRace}s from the cache
+	 * 
+	 * @return a temporary {@link List} of all cached {@link PlaceToRace}s
+	 */
+	public List<PlaceToRace> getPlacesToRace()
+	{
+		List<PlaceToRace> ptrs = new ArrayList<>(this.mapsById.size() + this.generatorsById.size());
+		ptrs.addAll(getGenerators());
+		ptrs.addAll(getMaps());
+		return ptrs;
+	}
+
+	/**
+	 * Get all {@link PlaceToRace}s from the cache
+	 * 
+	 * @return a temporary {@link Map} of all cached {@link PlaceToRace}s
+	 */
+	public java.util.Map<String, PlaceToRace> getPlacesToRaceByKey()
+	{
+		TreeMap<String, PlaceToRace> ptrs = new TreeMap<String, PlaceToRace>();
+		for(Generator g : getGenerators())
+			ptrs.put(getPlaceToRaceKey(g), g);
+		for(Map m : getMaps())
+			ptrs.put(getPlaceToRaceKey(m), m);
+		return ptrs;
+	}
+
+	public String getPlaceToRaceKey(PlaceToRace ptr)
+	{
+		// logger.debug(ptr);
+		if(ptr instanceof Map)
+			return "map#" + StringUtil.toString(((Map) ptr).getId(), 5);
+		else if(ptr instanceof Generator)
+			return "generator#" + ((Generator) ptr).getUniqueKey();
+		return null;
 	}
 
 	/**
@@ -888,6 +959,8 @@ public class KaroAPICache implements IDLookUp
 			return this.gamesById.containsKey(id);
 		else if(Map.class.equals(cls))
 			return this.mapsById.containsKey(id);
+		else if(Generator.class.equals(cls))
+			return this.generatorsById.containsKey(id);
 		else
 			logger.error("unsupported lookup type: " + cls.getName());
 		return false;
@@ -946,6 +1019,15 @@ public class KaroAPICache implements IDLookUp
 				t = (T) this.mapsById.remove(id);
 			}
 		}
+		else if(Generator.class.equals(cls))
+		{
+			synchronized(this.generatorsById)
+			{
+				t = (T) this.generatorsById.remove(id);
+				if(t != null)
+					this.generatorsByKey.remove(((Generator) t).getUniqueKey());
+			}
+		}
 		else
 			logger.error("unsupported lookup type: " + cls.getName());
 		return t != null;
@@ -969,6 +1051,11 @@ public class KaroAPICache implements IDLookUp
 		{
 			this.mapsById.clear();
 		}
+		synchronized(this.generatorsById)
+		{
+			this.generatorsById.clear();
+			this.generatorsByKey.clear();
+		}
 	}
 
 	/**
@@ -987,6 +1074,8 @@ public class KaroAPICache implements IDLookUp
 			return (T) updateGame((Game) t);
 		else if(t instanceof Map)
 			return (T) updateMap((Map) t);
+		else if(t instanceof Generator)
+			return (T) updateGenerator((Generator) t);
 		else
 			logger.error("unsupported type: " + (t == null ? null : t.getClass().getName()));
 		return null;
@@ -1010,6 +1099,8 @@ public class KaroAPICache implements IDLookUp
 			return (T) getGame(id);
 		else if(Map.class.equals(cls))
 			return (T) getMap(id);
+		else if(Map.class.equals(cls))
+			return (T) getGenerator(id);
 		else
 			logger.error("unsupported lookup type: " + cls.getName());
 		return null;
@@ -1242,7 +1333,7 @@ public class KaroAPICache implements IDLookUp
 	private Generator createDummyGenerator(String key)
 	{
 		HashMap<String, Object> settings = new HashMap<>();
-		settings.put("code", "XXXXXXXXX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXOSOFOSOX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXXXXXXXXX");		
+		settings.put("code", "XXXXXXXXX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXOSOFOSOX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXXXXXXXXX");
 		settings.put("param", 5);
 		settings.put("players", 8);
 		return new Generator(key, key.toUpperCase(), "lorem ipsum", settings);

@@ -60,7 +60,7 @@ public class Identifiable
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(id);
+		return Objects.hash(getId());
 	}
 
 	@Override
@@ -73,6 +73,6 @@ public class Identifiable
 		if(getClass() != obj.getClass())
 			return false;
 		Identifiable other = (Identifiable) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(getId(), other.getId());
 	}
 }

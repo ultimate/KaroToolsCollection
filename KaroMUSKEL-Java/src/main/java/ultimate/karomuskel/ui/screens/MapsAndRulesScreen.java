@@ -151,9 +151,7 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 			int maxGamesPerPlayer = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_GAMES_PER_PLAYER);
 
 			// remove maps with only less then 3 players (since only races with creator + 2 others make sense)
-			LinkedList<PlaceToRace> maps = new LinkedList<PlaceToRace>();
-			maps.addAll(karoAPICache.getGenerators()); // TODO add copies here, so they can be edited
-			maps.addAll(karoAPICache.getMaps());
+			List<PlaceToRace> maps = this.karoAPICache.getPlacesToRace();
 			maps.removeIf(m -> {
 				return m.getPlayers() < 3;
 			});
@@ -165,7 +163,7 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 				if(gameSeries.getMapsByKey().containsKey("" + i) && gameSeries.getMapsByKey().get("" + i).size() > 0)
 					map = gameSeries.getMapsByKey().get("" + i).get(0);
 				else
-					map = maps.getFirst();
+					map = maps.get(0);
 
 				rules = gameSeries.getRulesByKey().get("" + i);
 				if(rules != null)
@@ -299,6 +297,9 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 				this.directionCBList.add(directionCB);
 				this.mapCBList.add(mapCB);
 				this.mapEditButtonList.add(mapEditButton);
+				
+				// preselect values from gameseries
+				preselectMap(map, i);
 
 				actionPerformed(new ActionEvent(gamesPerPlayerSpinner, j, ACTION_RECALC_NUMBER_OF_GAMES + j));
 			}

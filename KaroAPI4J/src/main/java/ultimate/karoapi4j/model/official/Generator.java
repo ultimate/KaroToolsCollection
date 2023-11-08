@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 
 /**
@@ -40,7 +41,7 @@ import ultimate.karoapi4j.model.extended.PlaceToRace;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
-public class Generator implements PlaceToRace
+public class Generator extends Identifiable implements PlaceToRace
 {
 	/**
 	 * Logger-Instance
@@ -89,6 +90,20 @@ public class Generator implements PlaceToRace
 		this(key, settings);
 		this.name = name;
 		this.description = description;
+	}
+	
+	@JsonIgnore
+	@Override
+	public Integer getId()
+	{
+		return getUniqueKey().hashCode();
+	}
+
+	@JsonIgnore
+	@Override
+	public void setId(Integer id)
+	{
+		throw new UnsupportedOperationException("setting id for generator is not allowed");
 	}
 
 	public String getKey()
@@ -244,7 +259,8 @@ public class Generator implements PlaceToRace
 	@Override
 	public String toString()
 	{
-		return "Generator '" + key + "' (" + getPlayers() + " Spieler) mit settings=" + settings;
+		return toSettingsString(true);
+		//return "Generator '" + key + "' (" + getPlayers() + " Spieler) mit settings=" + settings;
 	}
 	
 	public String toSettingsString(boolean deviationsOnly)
