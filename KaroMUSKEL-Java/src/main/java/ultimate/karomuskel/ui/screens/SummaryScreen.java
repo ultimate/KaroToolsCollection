@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -51,6 +50,7 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
+import ultimate.karoapi4j.utils.Watchdog;
 import ultimate.karomuskel.Creator;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.Planner;
@@ -71,7 +71,7 @@ import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 public class SummaryScreen extends Screen implements ActionListener
 {
 	private static final long			serialVersionUID	= 1L;
-	
+
 	private Creator						creator;
 
 	private GameSeries					gameSeries;
@@ -97,8 +97,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	private SummaryModel				model;
 
 	private boolean						inProgress;
-	private long						lastProgressUpdate;
-	private Thread						watchdog;
+	private Watchdog					watchdog;
 
 	private AtomicBoolean				batchUpdate			= new AtomicBoolean(false);
 	private HashMap<String, Integer>	batchUpdateMessages	= new HashMap<>();
@@ -259,7 +258,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		int amount = this.gamesToCreate.size();
 		logger.info("Spiele zu erstellen: " + amount);
-		
+
 		// TODO hinweis bei Kartengeneratoren!!!
 
 		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.create.confirm").replace("%N", "" + amount));
@@ -278,6 +277,8 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToCreate.forEach(pg -> this.model.setStatus(pg, CREATING));
 				this.creator.createGames(this.gamesToCreate, pg -> this.notifyGameCreated(pg));
 			}
+			this.watchdog = new Watchdog(100, 300, (msg) -> { notifyTimeout(msg); }); // TODO set times
+			CompletableFuture.runAsync(this.watchdog);
 		}
 		else
 		{
@@ -316,6 +317,8 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
 				this.creator.leaveGames(this.gamesToCreate, pg -> this.notifyGameLeft(pg));
 			}
+			this.watchdog = new Watchdog(100, 300, (msg) -> { notifyTimeout(msg); }); // TODO set times
+			CompletableFuture.runAsync(this.watchdog);
 		}
 		else
 		{
@@ -333,7 +336,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToCreate.remove(game);
 				this.gamesCreated.add(game);
 				this.model.setStatus(game, CREATED);
-				this.lastProgressUpdate = System.currentTimeMillis();
+				this.watchdog.notifyActive("game created GID=" + game.getGame().getId());
 				logger.info("Spiele verbleibend: " + this.gamesToCreate.size());
 			}
 			if(this.gamesToCreate.size() == 0)
@@ -357,7 +360,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToLeaveTmp.remove(game);
 				this.gamesLeft.add(game);
 				this.model.setStatus(game, LEFT);
-				this.lastProgressUpdate = System.currentTimeMillis();
+				this.watchdog.notifyActive("game left GID=" + game.getGame().getId());
 				logger.info("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
 			}
 			if(this.gamesToLeaveTmp.size() == 0)
@@ -369,6 +372,12 @@ public class SummaryScreen extends Screen implements ActionListener
 				enableButtons();
 			}
 		}
+	}
+
+	public void notifyTimeout(String message)
+	{
+		logger.error("timeout! last event = " + message);
+		// TODO
 	}
 
 	@Override
@@ -995,9 +1004,9 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			int rowIndex = this.getRowIndex(game);
 			int columnIndex = getColumnCount() - 1;
-			
+
 			logger.debug("row=" + rowIndex + ", status=" + status);
-			
+
 			String genKey = "" + (game.getMap() instanceof Generator ? ((Generator) game.getMap()).getKey() : "???");
 			String mapId = "" + (game.getMap() instanceof Map ? ((Map) game.getMap()).getId() : "???");
 
