@@ -15,6 +15,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -45,6 +47,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Generator;
+import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
@@ -68,7 +71,7 @@ import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 public class SummaryScreen extends Screen implements ActionListener
 {
 	private static final long			serialVersionUID	= 1L;
-
+	
 	private Creator						creator;
 
 	private GameSeries					gameSeries;
@@ -94,6 +97,8 @@ public class SummaryScreen extends Screen implements ActionListener
 	private SummaryModel				model;
 
 	private boolean						inProgress;
+	private long						lastProgressUpdate;
+	private Thread						watchdog;
 
 	private AtomicBoolean				batchUpdate			= new AtomicBoolean(false);
 	private HashMap<String, Integer>	batchUpdateMessages	= new HashMap<>();
@@ -254,6 +259,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		int amount = this.gamesToCreate.size();
 		logger.info("Spiele zu erstellen: " + amount);
+		
+		// TODO hinweis bei Kartengeneratoren!!!
 
 		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.create.confirm").replace("%N", "" + amount));
 		if(result != JOptionPane.OK_OPTION)
@@ -268,13 +275,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToCreate)
 			{
-				for(PlannedGame plannedGame : this.gamesToCreate)
-				{
-					this.model.setStatus(plannedGame, CREATING);
-					this.creator.createGame(plannedGame).thenAcceptAsync(v -> {
-						notifyGameCreated(plannedGame);
-					});
-				}
+				this.gamesToCreate.forEach(pg -> this.model.setStatus(pg, CREATING));
+				this.creator.createGames(this.gamesToCreate, pg -> this.notifyGameCreated(pg));
 			}
 		}
 		else
@@ -291,7 +293,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gamesToLeaveTmp = new LinkedList<PlannedGame>();
 		for(PlannedGame game : this.gamesToLeave)
 		{
-			if(game.isCreated())
+			if(game.isCreated() && game.getGame() != null)
 				this.gamesToLeaveTmp.add(game);
 		}
 
@@ -311,16 +313,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToLeaveTmp)
 			{
-				for(PlannedGame plannedGame : this.gamesToLeaveTmp)
-				{
-					if(plannedGame.getGame() == null)
-						continue;
-
-					this.model.setStatus(plannedGame, LEAVING);
-					this.creator.leaveGame(plannedGame).thenAcceptAsync(v -> {
-						notifyGameLeft(plannedGame);
-					});
-				}
+				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
+				this.creator.leaveGames(this.gamesToCreate, pg -> this.notifyGameLeft(pg));
 			}
 		}
 		else
@@ -339,6 +333,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToCreate.remove(game);
 				this.gamesCreated.add(game);
 				this.model.setStatus(game, CREATED);
+				this.lastProgressUpdate = System.currentTimeMillis();
 				logger.info("Spiele verbleibend: " + this.gamesToCreate.size());
 			}
 			if(this.gamesToCreate.size() == 0)
@@ -362,6 +357,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToLeaveTmp.remove(game);
 				this.gamesLeft.add(game);
 				this.model.setStatus(game, LEFT);
+				this.lastProgressUpdate = System.currentTimeMillis();
 				logger.info("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
 			}
 			if(this.gamesToLeaveTmp.size() == 0)
@@ -800,7 +796,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.addColumn(Language.getString("screen.summary.table.direction"), EnumGameDirection.class, 90);
 			this.addColumn(Language.getString("screen.summary.table.createstatus"), Boolean.class, 70);
 			this.addColumn(Language.getString("screen.summary.table.leavestatus"), Boolean.class, 70);
-			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 165);
+			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 200);
 		}
 
 		public void addRow(PlannedGame game)
@@ -913,7 +909,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex)
 		{
-			if(inProgress && columnIndex != 9)
+			if(inProgress && columnIndex != getColumnCount() - 1)
 				return;
 
 			PlannedGame game = getRow(rowIndex);
@@ -999,30 +995,36 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			int rowIndex = this.getRowIndex(game);
 			int columnIndex = getColumnCount() - 1;
+			
+			logger.debug("row=" + rowIndex + ", status=" + status);
+			
+			String genKey = "" + (game.getMap() instanceof Generator ? ((Generator) game.getMap()).getKey() : "???");
+			String mapId = "" + (game.getMap() instanceof Map ? ((Map) game.getMap()).getId() : "???");
+
 			switch(status)
 			{
 				case OPEN:
 					setValueAt(Language.getString("screen.summary.table.status.open"), rowIndex, columnIndex);
 					break;
 				case GENERATING_MAP:
-					setValueAt(Language.getString("screen.summary.table.status.generatingMap"), rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.generatingMap") + " (GENERATOR=" + genKey + ")", rowIndex, columnIndex);
 					break;
 				case GENERATED_MAP:
-					setValueAt(Language.getString("screen.summary.table.status.generatedMap"), rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.generatedMap") + " (MID=" + mapId + ")", rowIndex, columnIndex);
 					break;
 				case CREATING:
-					setValueAt(Language.getString("screen.summary.table.status.creating"), rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.creating") + " (MID=" + mapId + ")", rowIndex, columnIndex);
 					break;
 				case CREATED:
 					game.setCreated(true);
-					setValueAt(Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")", rowIndex, columnIndex);
 					break;
 				case LEAVING:
-					setValueAt(Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")", rowIndex, columnIndex);
 					break;
 				case LEFT:
 					game.setLeft(true);
-					setValueAt(Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")", rowIndex, columnIndex);
 					break;
 			}
 		}

@@ -77,7 +77,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger		= LogManager.getLogger(KaroAPI.class);
+	protected static transient final Logger	logger			= LogManager.getLogger(KaroAPI.class);
 
 	///////////////////////////////////////////
 	// config & constants & static variables //
@@ -86,7 +86,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The config key
 	 */
-	public static final String				CONFIG_KEY	= "karoAPI";
+	public static final String				CONFIG_KEY		= "karoAPI";
 	/**
 	 * The generator key
 	 */
@@ -95,11 +95,11 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The default placeholder for API urls
 	 */
-	public static final String				PLACEHOLDER	= "$";
+	public static final String				PLACEHOLDER		= "$";
 	/**
 	 * The maximum number of allowed retries
 	 */
-	public static final int					MAX_RETRIES	= 10;
+	public static final int					MAX_RETRIES		= 10;
 
 	/**
 	 * The version of the {@link KaroAPI}
@@ -108,12 +108,12 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The version of the {@link KaroAPI}
 	 */
-	private static int						initTimeout = 30;
+	private static int						initTimeout		= 30;
 	/**
 	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
 	 * across multiple instances of the {@link KaroAPI}.
 	 */
-	private static ExecutorService			executor	= Executors.newFixedThreadPool(10);
+	private static ExecutorService			executor		= Executors.newFixedThreadPool(10);
 
 	/**
 	 * The name of the application using the {@link KaroAPI}
@@ -137,7 +137,7 @@ public class KaroAPI implements IDLookUp
 		try
 		{
 			apiProperties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
-			
+
 			version = apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".version");
 			logger.debug("version     = " + version);
 
@@ -304,8 +304,8 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// generators
 	protected final URLLoader													GENERATORS					= API.relative("/generators");
-	protected final URLLoader													GENERATOR_GENERATE_CODE		= GENERATORS.relative("/" + PLACEHOLDER);
-	protected final URLLoader													GENERATOR_GENERATE_MAP		= API.relative("/mapgenerator/generate");
+	protected final URLLoader													GENERATE_CODE				= GENERATORS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													GENERATE_MAP				= API.relative("/mapgenerator/generate");
 	// chat
 	protected final URLLoader													CHAT						= API.relative("/chat");
 	protected final URLLoader													CHAT_LAST					= CHAT.relative("/last");
@@ -862,18 +862,37 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Create a new game
+	 * Create a new game.
+	 * If the map is set to a {@link Generator} the map will be generated first.
+	 * 
+	 * Note: Watch out for thread safety: Generated maps are one-time maps. A game has to be started on the generated map first, before generating the next map!
 	 * 
 	 * @param plannedGame - the {@link PlannedGame} to create
 	 * @return the created {@link Game}
 	 */
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
+		CompletableFuture<Map> assureMap;
+		
 		if(plannedGame.getMap() == null)
 			throw new IllegalArgumentException("plannedGame.map must not be null!");
-		// TODO do not serialize generator (or discuss with Didi)
-		String json = JSONUtil.serialize(plannedGame);
-		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
+		else if(plannedGame.getMap() instanceof Generator)
+			assureMap = generateMap((Generator) plannedGame.getMap());
+		else if (plannedGame.getMap() instanceof Map)
+			assureMap = CompletableFuture.completedFuture((Map) plannedGame.getMap());
+		else
+			throw new IllegalArgumentException("unknown PlaceToRace type: " + plannedGame.getMap());
+		
+		return assureMap.thenApply(map -> {
+			if(map != plannedGame.getMap())
+			{
+				logger.debug("map generated : " + map.getId());
+				// overwrite the map generator with the generated map
+				plannedGame.setMap(map); 
+			}
+			String json = JSONUtil.serialize(plannedGame);
+			return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
+		}).thenCompose(Function.identity());
 	}
 
 	/**
@@ -1192,7 +1211,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<String> generateCode(Generator generator)
 	{
-		return loadAsync(GENERATOR_GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(generator.getSettings()).doGet(), PARSER_RAW);
+		return loadAsync(GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(generator.getSettings()).doGet(), PARSER_RAW);
 	}
 
 	/**
@@ -1208,7 +1227,7 @@ public class KaroAPI implements IDLookUp
 		settings.putAll(generator.getSettings());
 		settings.put("generator", generator.getKey());
 		String json = JSONUtil.serialize(settings);
-		return loadAsync(GENERATOR_GENERATE_MAP.doPost(json, EnumContentType.json), PARSER_MAP);
+		return loadAsync(GENERATE_MAP.doPost(json, EnumContentType.json), PARSER_MAP);
 	}
 
 	///////////////////////
@@ -1332,7 +1351,7 @@ public class KaroAPI implements IDLookUp
 
 	///////////////////////
 	// misc
-	///////////////////////	
+	///////////////////////
 
 	/**
 	 * Get all the Karolender-Blatt for a specific date
@@ -1462,7 +1481,7 @@ public class KaroAPI implements IDLookUp
 		}
 		return null;
 	}
-	
+
 	///////////////////////
 	// ADDITIONAL PROPERTIES
 	///////////////////////
