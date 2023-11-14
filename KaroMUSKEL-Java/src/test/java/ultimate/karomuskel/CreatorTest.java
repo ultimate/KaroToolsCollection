@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.Order;
@@ -39,7 +40,7 @@ public class CreatorTest extends KaroMUSKELTestcase
 		assertNull(plannedGame.getGame());
 		
 		// create game using the creator
-		creator.createGame(plannedGame).join();
+		creator.createGames(Arrays.asList(plannedGame), null).join();
 
 		Thread.sleep(sleep);
 		
@@ -61,7 +62,7 @@ public class CreatorTest extends KaroMUSKELTestcase
 		assertNotNull(plannedGame.getGame().getPlayers());
 		
 		// leave game using the creator
-		creator.leaveGame(plannedGame).join();
+		creator.leaveGames(Arrays.asList(plannedGame), null).join();
 
 		Thread.sleep(sleep);
 		

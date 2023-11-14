@@ -1,15 +1,15 @@
 package ultimate.karomuskel.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Properties;
-import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
 public abstract class Language
@@ -21,11 +21,12 @@ public abstract class Language
 	private static String					folder						= "lang";
 	private static final String				defaultLang					= "de";
 
-	private static final String				VERSION_HISTORY_INFO_PREFIX	= "version.";
-	private static final String				VERSION_HISTORY_INFO_SUFFIX	= ".about";
 	private static final String				PLACEHOLDER_ARG				= "%%ARG%%";
-	private static final String				PLACEHOLDER_VERSION			= "%%VERSION%%";
-	private static final String				PLACEHOLDER_HISTORY			= "%%HISTORY%%";
+	private static final String				PLACEHOLDER_VERSION			= "%%CURRENTVERSION%%";
+	private static final String				PLACEHOLDER_NEWEST			= "%%NEWESTVERSION%%";
+	private static final String				PLACEHOLDER_CHANGELOG			= "%%CHANGELOG%%";
+	
+	private static final String				PAGE_CHANGELOG 				= "KaroMUSKEL/Changelog";
 
 	private static Properties				lang;
 
@@ -33,8 +34,11 @@ public abstract class Language
 
 	private static String					about						= null;
 
+	private static KaroWikiAPI				wikiAPI						= null;
+
 	public static boolean load(String language)
 	{
+		wikiAPI = new KaroWikiAPI();
 		if("debug".equalsIgnoreCase(language))
 		{
 			debug = true;
@@ -102,38 +106,36 @@ public abstract class Language
 		return getString("karoMUSKEL.version");
 	}
 
+	public static String getAvailableVersion()
+	{
+		return "0.0.0";
+	}
+
+	public static String getChangelog()
+	{
+		if(debug)
+			return "@CHANGELOG";
+		try
+		{
+			return wikiAPI.getContent(PAGE_CHANGELOG, KaroWikiAPI.FORMAT_HTML).get(10, TimeUnit.SECONDS);
+		}
+		catch(InterruptedException | ExecutionException | TimeoutException e)
+		{
+			logger.error(e);
+			return e.getMessage();
+		}
+	}
+
 	public static String getAbout()
 	{
 		if(about == null)
 		{
 			Version currentVersion = new Version(getApplicationVersion());
-			about = Language.getString("mainframe.about").replace(PLACEHOLDER_VERSION, currentVersion.toString());
-
-			StringBuilder history = new StringBuilder();
-
-			@SuppressWarnings("unchecked")
-			Set<String> keys = (Set<String>) (Set<?>) lang.keySet();
-			List<Version> versions = new ArrayList<Version>();
-			for(String key : keys)
-			{
-				if(key.startsWith(VERSION_HISTORY_INFO_PREFIX))
-				{
-					Version version = new Version(key.substring(VERSION_HISTORY_INFO_PREFIX.length(), key.indexOf(VERSION_HISTORY_INFO_SUFFIX)));
-					if(version.compareTo(currentVersion) <= 0)
-					{
-						versions.add(version);
-					}
-				}
-			}
-			Collections.sort(versions, Collections.reverseOrder());
-			logger.info("Versions = " + versions);
-
-			for(Version v : versions)
-			{
-				history.append(getString(VERSION_HISTORY_INFO_PREFIX + v.toString() + VERSION_HISTORY_INFO_SUFFIX));
-			}
-
-			about = about.replace(PLACEHOLDER_HISTORY, history.toString());
+			Version newestVersion = new Version(getAvailableVersion());
+			about = Language.getString("mainframe.about");
+			about = about.replace(PLACEHOLDER_VERSION, currentVersion.toString());
+			about = about.replace(PLACEHOLDER_NEWEST, newestVersion.toString());
+			about = about.replace(PLACEHOLDER_CHANGELOG, getChangelog());
 		}
 		return about;
 	}

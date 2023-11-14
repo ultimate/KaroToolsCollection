@@ -268,7 +268,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		else if(e.getSource().equals(this.aboutButton))
 		{
 			JLabel aboutLabel = new JLabel(Language.getAbout());
-			JScrollPane aboutSP = new JScrollPane(aboutLabel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			JScrollPane aboutSP = new JScrollPane(aboutLabel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			aboutSP.setPreferredSize(aboutSize);
 			aboutSP.setSize(aboutSize);
 			aboutSP.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
