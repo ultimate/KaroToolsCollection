@@ -136,6 +136,13 @@ public class Generator extends Identifiable implements PlaceToRace
 		this.description = description;
 	}
 
+	@JsonIgnore
+	public String getAuthor()
+	{
+		String authorKey = KaroAPI.GENERATOR_KEY + "." + this.getKey() + ".author";
+		return KaroAPI.getStringProperty(authorKey, "unbekannt");
+	}
+
 	public java.util.Map<String, Object> getSettings()
 	{
 		return settings;

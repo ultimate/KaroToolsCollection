@@ -1319,17 +1319,14 @@ public abstract class Planner
 			defaultPlaceholderValues.put("karte.id", StringUtil.toString(map.getId(), 1));
 			defaultPlaceholderValues.put("karte.name", map.getName());
 			defaultPlaceholderValues.put("karte.author", map.getAuthor());
-			defaultPlaceholderValues.put("placetorace.short", StringUtil.toString(map.getId(), 1));
-			defaultPlaceholderValues.put("placetorace.long", map.getName());
 		}
 		if(placeToRace instanceof Generator)
 		{
 			Generator generator = (Generator) placeToRace;
-			defaultPlaceholderValues.put("generator.key", generator.getKey());
-			defaultPlaceholderValues.put("generator.name", generator.getName());
+			defaultPlaceholderValues.put("karte.id", generator.getKey());
+			defaultPlaceholderValues.put("karte.name", generator.getName());
+			defaultPlaceholderValues.put("karte.author", generator.getAuthor());
 			// defaultPlaceholderValues.put("generator.settings", generator.getSettings()); // TODO evtl. settings ausgebbar machen
-			defaultPlaceholderValues.put("placetorace.short", generator.getKey());
-			defaultPlaceholderValues.put("placetorace.long", generator.getName());
 		}
 
 		// spieler
