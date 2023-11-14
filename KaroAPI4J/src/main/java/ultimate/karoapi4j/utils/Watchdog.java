@@ -21,9 +21,9 @@ public class Watchdog implements Runnable
 	public Watchdog(int interval, int timeout, Consumer<String> onTimeout)
 	{
 		if(interval > timeout)
-			throw new IllegalArgumentException("interval must be less then or equal to timeout");
+			throw new IllegalArgumentException("interval (" + interval + ") must be less then or equal to timeout (" + timeout + ")");
 		if(interval <= 0)
-			throw new IllegalArgumentException("interval must be positive");
+			throw new IllegalArgumentException("interval (" + interval + ") must be positive");
 		if(onTimeout == null)
 			throw new IllegalArgumentException("onTimeout must not be null");
 
@@ -33,12 +33,27 @@ public class Watchdog implements Runnable
 		this.onTimeout = onTimeout;
 	}
 
+	public int getTimeout()
+	{
+		return timeout;
+	}
+
+	public String getLastMessage()
+	{
+		return lastMessage;
+	}
+
+	public long getLastUpdate()
+	{
+		return lastUpdate;
+	}
+
 	@Override
 	public void run()
 	{
-		logger.info("watchdog started");
+		logger.debug("watchdog started");
 		this.canceled = false;
-		notifyActive("Watchdog started");
+		notifyActive("watchdog started");
 		long now;
 		do
 		{
@@ -51,27 +66,33 @@ public class Watchdog implements Runnable
 				e.printStackTrace();
 			}
 			now = System.currentTimeMillis();
-		} while(!canceled && now > lastUpdate + timeout);
+			if(logger.isTraceEnabled())
+			{
+				logger.trace("now                  = " + now);
+				logger.trace("lastUpdate           = " + lastUpdate);
+				logger.trace("timeout                                + " + timeout);
+				logger.trace("lastUpdate + timeout = " + (lastUpdate + timeout));
+			}
+		} while(!this.canceled && now < (this.lastUpdate + this.timeout));
 		
-		if(canceled)
+		if(this.canceled)
 		{
-			logger.info("watchdog canceled");
+			logger.debug("watchdog canceled");
 			return;
 		}	
 			
-		logger.info("watchdog timeout");
-		onTimeout.accept(lastMessage);
+		logger.debug("watchdog timeout");
+		onTimeout.accept(this.lastMessage);
 	}
 
 	public void cancel()
 	{
-		logger.info("watchdog canceled");
 		this.canceled = true;
 	}
 
 	public void notifyActive(String message)
 	{
-		logger.info("watchdog active: " + message);
+		logger.info("watchdog event: " + message);
 		this.lastUpdate = System.currentTimeMillis();
 		this.lastMessage = message;
 	}

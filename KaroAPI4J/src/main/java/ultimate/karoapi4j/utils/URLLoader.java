@@ -1,5 +1,6 @@
 package ultimate.karoapi4j.utils;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,7 @@ import java.util.function.Supplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil.Parser;
 
@@ -87,12 +89,26 @@ public class URLLoader
 	public static final Map<String, String>	POST_PROPERTIES_JSON		= new HashMap<>();
 
 	/**
+	 * see {@link HttpURLConnection#setConnectTimeout(int)}
+	 */
+	public static final int					HTTP_CONNECT_TIMEOUT;
+	/**
+	 * see {@link HttpURLConnection#setReadTimeout(int)}
+	 */
+	public static final int					HTTP_READ_TIMEOUT;
+
+	/**
 	 * init some constants
 	 */
 	static
 	{
 		POST_PROPERTIES_URL_ENCODED.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		POST_PROPERTIES_JSON.put("Content-Type", "application/json; charset=utf-8");
+
+		HTTP_CONNECT_TIMEOUT = KaroAPI.getIntProperty(KaroAPI.CONFIG_KEY + ".http.connectTimeout", 0);
+		logger.debug("http.connectTimeout =" + HTTP_CONNECT_TIMEOUT);
+		HTTP_READ_TIMEOUT = KaroAPI.getIntProperty(KaroAPI.CONFIG_KEY + ".http.readTimeout", 0);
+		logger.debug("http.readTimeout    =" + HTTP_READ_TIMEOUT);
 	}
 
 	/**
@@ -181,6 +197,8 @@ public class URLLoader
 		connection.setUseCaches(false);
 		connection.setAllowUserInteraction(false);
 		connection.setRequestMethod(method);
+		connection.setConnectTimeout(HTTP_CONNECT_TIMEOUT);
+		connection.setReadTimeout(HTTP_READ_TIMEOUT);
 
 		if(requestProperties != null)
 			for(Entry<String, String> reqProp : requestProperties.entrySet())
@@ -203,7 +221,7 @@ public class URLLoader
 		}
 
 		connection.connect();
-		InputStream is = connection.getInputStream();
+		InputStream is = new BufferedInputStream(connection.getInputStream());
 		// updated for Java 8 compatibility
 		String result = new String(readAllBytes(is), charset);
 

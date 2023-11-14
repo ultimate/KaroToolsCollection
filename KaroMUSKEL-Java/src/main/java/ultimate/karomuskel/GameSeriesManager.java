@@ -209,13 +209,27 @@ public abstract class GameSeriesManager
 	 */
 	public static int getIntConfig(GameSeries gs, String key)
 	{
+		return getIntConfig(gs, key, 0);
+	}
+
+	/**
+	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
+	 * <code>Integer.parseInt(getStringConfig(gameseries, key));</code>
+	 * 
+	 * @see GameSeriesManager#getStringConfig(GameSeries, String)
+	 * @param gs - the {@link GameSeries}
+	 * @param key - the key
+	 * @return the config value as int
+	 */
+	public static int getIntConfig(GameSeries gs, String key, int defaultValue)
+	{
 		try
 		{
 			return Integer.parseInt(getStringConfig(gs, key));
 		}
 		catch(NumberFormatException e)
 		{
-			return 0;
+			return defaultValue;
 		}
 	}
 
@@ -813,7 +827,8 @@ public abstract class GameSeriesManager
 	 * @param karoAPICache
 	 * @return
 	 */
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls, KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
+			KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
 			return null;
@@ -909,7 +924,8 @@ public abstract class GameSeriesManager
 				int koround = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.CURRENT_ROUND) : teams * 2);
 				while(teams > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams >= koround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams >= koround,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
 
 					if(gs.isLoaded() && teams == koround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -965,7 +981,8 @@ public abstract class GameSeriesManager
 				players = firstKO;
 				while(players > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players >= klcround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players >= klcround,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
 
 					if(gs.isLoaded() && players == klcround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -981,10 +998,12 @@ public abstract class GameSeriesManager
 				{
 					// create previous repeat screens
 					for(int i = 1; i <= repeat; i++)
-						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, true, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + i));
+						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, true,
+								gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + i));
 					startScreen.setNext(screens.getLast()); // jump to the last summary
-					// add another final repeat 
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + (repeat+1)));
+					// add another final repeat
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + (repeat + 1)));
 				}
 				break;
 			case Simple:

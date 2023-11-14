@@ -143,10 +143,10 @@ public class KaroAPI implements IDLookUp
 			apiProperties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
 
 			version = apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".version");
-			logger.debug("version     = " + version);
+			logger.debug("version       = " + version);
 
 			initTimeout = Integer.parseInt(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
-			logger.debug("initTimeout = " + initTimeout);
+			logger.debug("initTimeout   = " + initTimeout);
 
 			ensureMapSeed = Boolean.parseBoolean(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".ensureMapSeed"));
 			logger.debug("ensureMapSeed = " + ensureMapSeed);

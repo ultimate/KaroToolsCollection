@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -70,7 +73,7 @@ import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
 public class SummaryScreen extends Screen implements ActionListener
 {
-	private static final long			serialVersionUID	= 1L;
+	private static final long			serialVersionUID		= 1L;
 
 	private Creator						creator;
 
@@ -97,18 +100,20 @@ public class SummaryScreen extends Screen implements ActionListener
 	private SummaryModel				model;
 
 	private boolean						inProgress;
+	private CompletableFuture<Void>		creatorCF;
 	private Watchdog					watchdog;
+	private static final int			WATCHDOG_TIME_FACTOR	= 1000;
 
-	private AtomicBoolean				batchUpdate			= new AtomicBoolean(false);
-	private HashMap<String, Integer>	batchUpdateMessages	= new HashMap<>();
+	private AtomicBoolean				batchUpdate				= new AtomicBoolean(false);
+	private HashMap<String, Integer>	batchUpdateMessages		= new HashMap<>();
 
-	private static final int			OPEN				= 0;
-	private static final int			GENERATING_MAP		= 1;
-	private static final int			GENERATED_MAP		= 2;
-	private static final int			CREATING			= 3;
-	private static final int			CREATED				= 4;
-	private static final int			LEAVING				= 5;
-	private static final int			LEFT				= 6;
+	private static final int			OPEN					= 0;
+	private static final int			GENERATING_MAP			= 1;
+	private static final int			GENERATED_MAP			= 2;
+	private static final int			CREATING				= 3;
+	private static final int			CREATED					= 4;
+	private static final int			LEAVING					= 5;
+	private static final int			LEFT					= 6;
 
 	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
 	{
@@ -129,6 +134,13 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.key = key;
 
 		this.creator = new Creator(karoAPICache);
+
+		int interval = GameSeriesManager.getIntConfig(null, "watchdog.interval", 1);
+		int timeout = GameSeriesManager.getIntConfig(null, "watchdog.timeout", 30);
+
+		this.watchdog = new Watchdog(interval * WATCHDOG_TIME_FACTOR, timeout * WATCHDOG_TIME_FACTOR, (msg) -> {
+			notifyTimeout(msg);
+		});
 	}
 
 	@Override
@@ -259,9 +271,19 @@ public class SummaryScreen extends Screen implements ActionListener
 		int amount = this.gamesToCreate.size();
 		logger.info("Spiele zu erstellen: " + amount);
 
-		// TODO hinweis bei Kartengeneratoren!!!
+		String message = Language.getString("screen.summary.create.confirm").replace("%N", "" + amount);
 
-		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.create.confirm").replace("%N", "" + amount));
+		// hinweis bei Kartengeneratoren!!!
+		int mapGeneratorsUsed = 0;
+		for(PlannedGame pg : this.gamesToCreate)
+		{
+			if(pg.getMap() instanceof Generator)
+				mapGeneratorsUsed++;
+		}
+		if(mapGeneratorsUsed > 0)
+			message += "\n\n" + Language.getString("screen.summary.create.generators").replace("%N", "" + mapGeneratorsUsed);
+
+		int result = JOptionPane.showConfirmDialog(this, message);
 		if(result != JOptionPane.OK_OPTION)
 		{
 			enableButtons();
@@ -275,10 +297,10 @@ public class SummaryScreen extends Screen implements ActionListener
 			synchronized(this.gamesToCreate)
 			{
 				this.gamesToCreate.forEach(pg -> this.model.setStatus(pg, CREATING));
-				this.creator.createGames(this.gamesToCreate, pg -> this.notifyGameCreated(pg));
+				this.watchdog.cancel();
+				CompletableFuture.runAsync(this.watchdog);
+				this.creatorCF = this.creator.createGames(this.gamesToCreate, pg -> this.notifyGameCreated(pg));
 			}
-			this.watchdog = new Watchdog(100, 300, (msg) -> { notifyTimeout(msg); }); // TODO set times
-			CompletableFuture.runAsync(this.watchdog);
 		}
 		else
 		{
@@ -301,7 +323,9 @@ public class SummaryScreen extends Screen implements ActionListener
 		int amount = this.gamesToLeaveTmp.size();
 		logger.info("Spiele zu verlassen: " + amount);
 
-		int result = JOptionPane.showConfirmDialog(this, Language.getString("screen.summary.leave.confirm").replace("%N", "" + amount));
+		String message = Language.getString("screen.summary.leave.confirm").replace("%N", "" + amount);
+
+		int result = JOptionPane.showConfirmDialog(this, message);
 		if(result != JOptionPane.OK_OPTION)
 		{
 			enableButtons();
@@ -315,10 +339,10 @@ public class SummaryScreen extends Screen implements ActionListener
 			synchronized(this.gamesToLeaveTmp)
 			{
 				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
-				this.creator.leaveGames(this.gamesToCreate, pg -> this.notifyGameLeft(pg));
+				this.watchdog.cancel();
+				CompletableFuture.runAsync(this.watchdog);
+				this.creatorCF = this.creator.leaveGames(this.gamesToCreate, pg -> this.notifyGameLeft(pg));
 			}
-			this.watchdog = new Watchdog(100, 300, (msg) -> { notifyTimeout(msg); }); // TODO set times
-			CompletableFuture.runAsync(this.watchdog);
 		}
 		else
 		{
@@ -342,6 +366,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.gamesToCreate.size() == 0)
 			{
 				this.inProgress = false;
+				this.watchdog.cancel();
 
 				GameSeriesManager.autosave(this.gameSeries);
 
@@ -366,6 +391,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(this.gamesToLeaveTmp.size() == 0)
 			{
 				this.inProgress = false;
+				this.watchdog.cancel();
 
 				GameSeriesManager.autosave(this.gameSeries);
 
@@ -374,10 +400,25 @@ public class SummaryScreen extends Screen implements ActionListener
 		}
 	}
 
-	public void notifyTimeout(String message)
+	public void notifyTimeout(String lastMessage)
 	{
-		logger.error("timeout! last event = " + message);
-		// TODO
+		logger.warn("timeout! last event = " + lastMessage);
+		try
+		{
+			// cancel all CFs by applying a hard timeout
+			creatorCF.get(1, TimeUnit.MILLISECONDS);
+		}
+		catch(InterruptedException | ExecutionException e)
+		{
+			logger.error(e);
+		}
+		catch(TimeoutException e)
+		{
+			// this is the expected
+		}
+		String message = Language.getString("watchdog.timeout").replace("%M", "" + lastMessage).replace("%T", "" + (this.watchdog.getTimeout() / 1000));
+		String title = Language.getString("error.title");
+		JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
