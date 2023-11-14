@@ -106,9 +106,13 @@ public class KaroAPI implements IDLookUp
 	 */
 	private static String					version;
 	/**
-	 * The version of the {@link KaroAPI}
+	 * Init timeout set via property karoAPI.initTimeout
 	 */
 	private static int						initTimeout		= 30;
+	/**
+	 * Feature flag "ensureMapSee" set via property karoAPI.ensureMapSeed
+	 */
+	private static boolean					ensureMapSeed	= true;
 	/**
 	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
 	 * across multiple instances of the {@link KaroAPI}.
@@ -126,7 +130,7 @@ public class KaroAPI implements IDLookUp
 	private static String					applicationVersion;
 
 	/**
-	 * Additionaly API properties
+	 * Additional API properties
 	 */
 	private static Properties				apiProperties;
 
@@ -143,6 +147,9 @@ public class KaroAPI implements IDLookUp
 
 			initTimeout = Integer.parseInt(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
 			logger.debug("initTimeout = " + initTimeout);
+
+			ensureMapSeed = Boolean.parseBoolean(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".ensureMapSeed"));
+			logger.debug("ensureMapSeed = " + ensureMapSeed);
 		}
 		catch(IOException e)
 		{
@@ -864,31 +871,31 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Create a new game.
 	 * If the map is set to a {@link Generator} the map will be generated first.
-	 * 
-	 * Note: Watch out for thread safety: Generated maps are one-time maps. A game has to be started on the generated map first, before generating the next map!
+	 * Note: Watch out for thread safety: Generated maps are one-time maps. A game has to be started on the generated map first, before generating the
+	 * next map!
 	 * 
 	 * @param plannedGame - the {@link PlannedGame} to create
 	 * @return the created {@link Game}
 	 */
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
-		CompletableFuture<Map> assureMap;
-		
+		CompletableFuture<Map> ensureMap;
+
 		if(plannedGame.getMap() == null)
 			throw new IllegalArgumentException("plannedGame.map must not be null!");
 		else if(plannedGame.getMap() instanceof Generator)
-			assureMap = generateMap((Generator) plannedGame.getMap());
-		else if (plannedGame.getMap() instanceof Map)
-			assureMap = CompletableFuture.completedFuture((Map) plannedGame.getMap());
+			ensureMap = generateMap((Generator) plannedGame.getMap());
+		else if(plannedGame.getMap() instanceof Map)
+			ensureMap = CompletableFuture.completedFuture((Map) plannedGame.getMap());
 		else
 			throw new IllegalArgumentException("unknown PlaceToRace type: " + plannedGame.getMap());
-		
-		return assureMap.thenApply(map -> {
+
+		return ensureMap.thenApply(map -> {
 			if(map != plannedGame.getMap())
 			{
 				logger.debug("map generated : " + map.getId());
 				// overwrite the map generator with the generated map
-				plannedGame.setMap(map); 
+				plannedGame.setMap(map);
 			}
 			String json = JSONUtil.serialize(plannedGame);
 			return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
@@ -1211,7 +1218,9 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<String> generateCode(Generator generator)
 	{
-		return loadAsync(GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(generator.getSettings()).doGet(), PARSER_RAW);
+		HashMap<String, Object> settings = new HashMap<>(generator.getSettings());
+		ensureMapSeed(settings);
+		return loadAsync(GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(settings).doGet(), PARSER_RAW);
 	}
 
 	/**
@@ -1223,11 +1232,30 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<Map> generateMap(Generator generator)
 	{
-		HashMap<String, Object> settings = new HashMap<>();
-		settings.putAll(generator.getSettings());
+		HashMap<String, Object> settings = new HashMap<>(generator.getSettings());
 		settings.put("generator", generator.getKey());
+		ensureMapSeed(settings);
 		String json = JSONUtil.serialize(settings);
 		return loadAsync(GENERATE_MAP.doPost(json, EnumContentType.json), PARSER_MAP);
+	}
+
+	/**
+	 * Make sure that the settings contain a seed.
+	 * This is necessary if games are created right after another (within a second or less) because the seed on karopapier is based on server time
+	 * with just seconds.
+	 * 
+	 * @param settings
+	 */
+	private void ensureMapSeed(HashMap<String, Object> settings)
+	{
+		logger.debug("ensureMapSeed?" + ensureMapSeed + ", seed?" + settings.containsKey("seed") + ", seed=" + settings.get("seed"));
+		if(ensureMapSeed && (!settings.containsKey("seed") || "".equals(settings.get("seed"))))
+		{
+			// doesn't matter if we use int or string here because both are encoded the same way in the url
+			int seed = (int) (settings.hashCode() ^ System.currentTimeMillis());
+			logger.debug("generating random seed: " + seed);
+			settings.put("seed", seed);
+		}
 	}
 
 	///////////////////////
@@ -1489,6 +1517,11 @@ public class KaroAPI implements IDLookUp
 	public static String getStringProperty(String key)
 	{
 		return apiProperties.getProperty(key);
+	}
+
+	public static String getStringProperty(String key, String defaultValue)
+	{
+		return apiProperties.getProperty(key, defaultValue);
 	}
 
 	public static int getIntProperty(String key)

@@ -21,13 +21,12 @@ public class Creator
 	/**
 	 * Logger-Instance
 	 */
-	protected transient final Logger	logger			= LogManager.getLogger(getClass());
+	protected transient final Logger	logger						= LogManager.getLogger(getClass());
 
-	private static final int			SLEEP_TIME_ON_MAP_CREATION	= 1000;
 	private static final int			SLEEP_TIME_ON_SIMULATION	= 500;
 	private KaroAPICache				karoAPICache;
-	private Random						random			= new Random();
-	private AtomicInteger				counter			= new AtomicInteger();
+	private Random						random						= new Random();
+	private AtomicInteger				counter						= new AtomicInteger();
 
 	public Creator(KaroAPICache karoAPICache)
 	{
@@ -50,9 +49,7 @@ public class Creator
 			cf = this.karoAPICache.getKaroAPI().createGame(plannedGame);
 		else
 			cf = CompletableFuture.supplyAsync(() -> {
-				logger.debug(plannedGame.getName() + " start");
 				randomSleep();
-				logger.debug(plannedGame.getName() + " stop");
 				if(plannedGame.getMap() instanceof Generator)
 					plannedGame.setMap(new Map(10000 + counter.incrementAndGet()));
 				return new Game(plannedGame.hashCode() & 0x7FFFF);
@@ -94,9 +91,6 @@ public class Creator
 				// call create game after the chain
 				cfsWithMapGenerators = cfsWithMapGenerators.thenCompose(v -> {
 					return createGame(plannedGame, consumer);
-				}).thenAccept(v -> {
-					// sleep at least one second to ensure the seed is different
-					sleep(SLEEP_TIME_ON_MAP_CREATION);
 				});
 			}
 			else
