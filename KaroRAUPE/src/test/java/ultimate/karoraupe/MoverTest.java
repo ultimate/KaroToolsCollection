@@ -24,6 +24,7 @@ import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoraupe.test.KaroRAUPETestcase;
 
@@ -170,5 +171,112 @@ public class MoverTest extends KaroRAUPETestcase
 		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertTrue(game.isFinished());
+	}
+	
+	@Test
+	public void test_isNotification() throws InterruptedException, ExecutionException 
+	{
+		Game game;
+		Player player;
+		Move move;
+
+		// test game 136397
+		game = karoAPI.getGame(136397, false, true, true).get();
+		
+		// Ich bin von KaroMAMA rausgeworfen worden
+		player = game.getPlayers().get(1);
+		assertEquals("DerFlieger", player.getName());
+		move = player.getMotion();
+		logger.info(move);
+		assertTrue(Mover.isNotification(move.getMsg()));		
+
+		// Ich werde 25 Züge zurückgesetzt
+		player = game.getPlayers().get(0);
+		assertEquals("sparrows bruder", player.getName());
+		move = player.getMoves().get(60);
+		logger.info(move);
+		assertTrue(Mover.isNotification(move.getMsg()));	
+		
+		// test game 63430
+		game = karoAPI.getGame(63430, false, true, true).get();
+
+		// Ich bin ausgestiegen
+		player = game.getPlayers().get(1);
+		assertEquals("quabla", player.getName());
+		move = player.getMotion();
+		logger.info(move);
+		assertTrue(Mover.isNotification(move.getMsg()));		
+
+		// Ich wurde von KaroMAMA rausgeworfen
+		player = game.getPlayers().get(game.getPlayers().size()-1);
+		assertEquals("Gwendoline", player.getName());
+		move = player.getMotion();
+		logger.info(move);
+		assertTrue(Mover.isNotification(move.getMsg()));		
+
+		// Ich wurde 4 Züge zurückgesetzt
+		player = game.getPlayers().get(2);
+		assertEquals("Akari", player.getName());
+		move = player.getMoves().get(26);
+		logger.info(move);
+		assertTrue(Mover.isNotification(move.getMsg()));	
+
+		// :gold:
+		player = game.getPlayers().get(0);
+		assertEquals("Wobbel", player.getName());
+		move = player.getMoves().get(player.getMoves().size()-2);
+		logger.info(move);
+		assertFalse(Mover.isNotification(move.getMsg()));
+		
+		// Ne, ohne mich!
+		player = game.getPlayers().get(12);
+		assertEquals("MrMM", player.getName());
+		move = player.getMotion();
+		logger.info(move);
+		assertFalse(Mover.isNotification(move.getMsg()));
+	}
+	
+	@Test
+	public void test_isRemuladeGame()
+	{
+		assertTrue(Mover.isRemuladeGame("§ REmulAde §"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde § some title"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde §some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade §"));
+		assertTrue(Mover.isRemuladeGame("§ remulade § some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade §some title"));
+		
+		assertTrue(Mover.isRemuladeGame("§REmulAde §"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde § some title"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde §some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade §"));
+		assertTrue(Mover.isRemuladeGame("§remulade § some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade §some title"));
+
+		assertTrue(Mover.isRemuladeGame("§ REmulAde§"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde§ some title"));
+		assertTrue(Mover.isRemuladeGame("§ REmulAde§some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade§"));
+		assertTrue(Mover.isRemuladeGame("§ remulade§ some title"));
+		assertTrue(Mover.isRemuladeGame("§ remulade§some title"));
+
+		assertTrue(Mover.isRemuladeGame("§REmulAde§"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde§ some title"));
+		assertTrue(Mover.isRemuladeGame("§REmulAde§some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade§"));
+		assertTrue(Mover.isRemuladeGame("§remulade§ some title"));
+		assertTrue(Mover.isRemuladeGame("§remulade§some title"));
+		
+		assertFalse(Mover.isRemuladeGame("§RAmulAde§"));
+		assertFalse(Mover.isRemuladeGame("§RAmulAde§ some title"));
+		assertFalse(Mover.isRemuladeGame("§RAmulAde§some title"));
+		assertFalse(Mover.isRemuladeGame("§ramulade§"));
+		assertFalse(Mover.isRemuladeGame("§ramulade§ some title"));
+		assertFalse(Mover.isRemuladeGame("§ramulade§some title"));
+		
+		assertFalse(Mover.isRemuladeGame("some title § REmulAde §"));
+		assertFalse(Mover.isRemuladeGame("some title §REmulAde §"));
+		assertFalse(Mover.isRemuladeGame("some title § REmulAde§"));
+		assertFalse(Mover.isRemuladeGame("some title §REmulAde§"));
 	}
 }

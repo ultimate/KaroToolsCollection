@@ -1,11 +1,12 @@
 package ultimate.karoraupe;
 
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,21 +17,6 @@ import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.enums.EnumMoveTrigger;
-import ultimate.karoraupe.rules.AfterCrashRule;
-import ultimate.karoraupe.rules.EnabledRule;
-import ultimate.karoraupe.rules.FinishedRule;
-import ultimate.karoraupe.rules.FollowPlanRule;
-import ultimate.karoraupe.rules.MessageRule;
-import ultimate.karoraupe.rules.NoPossiblesRule;
-import ultimate.karoraupe.rules.RandomRule;
-import ultimate.karoraupe.rules.RemuladeRule;
-import ultimate.karoraupe.rules.RepeatRule;
-import ultimate.karoraupe.rules.Rule;
-import ultimate.karoraupe.rules.SingleOptionRule;
-import ultimate.karoraupe.rules.StartPositionRule;
-import ultimate.karoraupe.rules.TimeoutRule;
-import ultimate.karoraupe.rules.UserTurnRule;
-import ultimate.karoraupe.rules.Rule.Result;
 
 /**
  * The Mover to check and process games
@@ -42,7 +28,7 @@ public class Mover
 	/**
 	 * Logger-Instance
 	 */
-	protected static final Logger	logger								= LogManager.getLogger(Mover.class);
+	protected transient final Logger	logger								= LogManager.getLogger(getClass());
 
 	public static final int				TIME_SCALE							= 1000;
 
@@ -53,14 +39,23 @@ public class Mover
 	public static final String			KEY_INTERVAL						= KEY_PREFIX + ".interval";
 	public static final String			KEY_MESSAGE							= KEY_PREFIX + ".message";
 	public static final String			KEY_STRICT							= KEY_PREFIX + ".strict";
+	public static final String			KEY_SPECIAL_REMULADE				= KEY_PREFIX + ".remulade";
+	public static final String			KEY_SPECIAL_REMULADE_MESSAGE		= KEY_SPECIAL_REMULADE + ".message";
+	public static final String			KEY_SPECIAL_SINGLEOPTION			= KEY_PREFIX + ".singleoption";
+	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".message";
+	public static final String			KEY_SPECIAL_RANDOM					= KEY_PREFIX + ".random";
+	public static final String			KEY_SPECIAL_RANDOM_MAXSPEED			= KEY_SPECIAL_RANDOM + ".maxspeed";
+	public static final String			KEY_SPECIAL_RANDOM_MESSAGE			= KEY_SPECIAL_RANDOM + ".message";
+
+	/**
+	 * {@link DateFormat} for log output
+	 */
+	private static final DateFormat		DATE_FORMAT							= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
 	 * The default / fallback config
 	 */
 	private static Properties			defaultConfig;
-
-	private Map<String, Class<?>> supportedProperties;
-	private List<Rule> rules;
 
 	static
 	{
@@ -95,6 +90,10 @@ public class Mover
 	 * Is the {@link Mover} set to debug? This will disable move execution
 	 */
 	private boolean		debug;
+	/**
+	 * Random used for random moving
+	 */
+	private Random random = new Random();
 
 	/**
 	 * Initiate the Mover.<br>
@@ -107,29 +106,7 @@ public class Mover
 	public Mover(KaroAPI api, Properties config, boolean debug)
 	{
 		this.api = api;
-		this.debug = debug;		
-
-		this.supportedProperties = new HashMap<>();
-		this.supportedProperties.put(KEY_TRIGGER, EnumMoveTrigger.class);
-		this.supportedProperties.put(KEY_TIMEOUT, int.class);
-		this.supportedProperties.put(KEY_INTERVAL, int.class);
-		this.supportedProperties.put(KEY_MESSAGE, String.class);
-		this.supportedProperties.put(KEY_STRICT, boolean.class);
-
-		this.rules = new LinkedList<>();
-		this.rules.add(new EnabledRule());
-		this.rules.add(new FinishedRule());
-		this.rules.add(new UserTurnRule());
-		this.rules.add(new StartPositionRule());
-		this.rules.add(new AfterCrashRule());
-		this.rules.add(new TimeoutRule());
-		this.rules.add(new MessageRule());
-		this.rules.add(new NoPossiblesRule());
-		this.rules.add(new RemuladeRule());
-		this.rules.add(new SingleOptionRule());
-		this.rules.add(new FollowPlanRule()); // the most important rule!!!
-		this.rules.add(new RepeatRule());
-		this.rules.add(new RandomRule());
+		this.debug = debug;
 
 		this.globalConfig = new Properties(defaultConfig);
 		if(config != null)
@@ -149,7 +126,7 @@ public class Mover
 				// NOTE: store all keys lower case
 				this.globalConfig.put(key.toLowerCase(), value);
 			}
-		}		
+		}
 	}
 
 	/**
@@ -172,80 +149,59 @@ public class Mover
 	 * @param value
 	 * @return
 	 */
-	private boolean isPropertyValid(String key, String value)
+	private static boolean isPropertyValid(String key, String value)
 	{
-		for(Entry<String, Class<?>> sp: supportedProperties.entrySet())
+		if(key.equalsIgnoreCase(KEY_TRIGGER))
 		{
-			if(key.equalsIgnoreCase(sp.getKey()))
+			// check enum
+			try
 			{
-				try
-				{
-					return checkValueForType(value, sp.getValue());
-				}
-				catch(IllegalArgumentException | NullPointerException e)
-				{
-					return false;
-				}
+				EnumMoveTrigger enumValue = EnumMoveTrigger.valueOf(value);
+				return enumValue != EnumMoveTrigger.invalid;
+			}
+			catch(IllegalArgumentException | NullPointerException e)
+			{
+				return false;
 			}
 		}
-		
-		for(Rule rule: rules)
+		else if(key.equalsIgnoreCase(KEY_TIMEOUT) || key.equalsIgnoreCase(KEY_INTERVAL))
 		{
-			for(Entry<String, Class<?>> sp: rule.getSupportedProperties().entrySet())
+			// check numbers
+			try
 			{
-				if(key.equalsIgnoreCase(sp.getKey()))
-				{
-					try
-					{
-						return checkValueForType(value, sp.getValue());
-					}
-					catch(IllegalArgumentException | NullPointerException e)
-					{
-						return false;
-					}
-				}
+				int numberValue = Integer.parseInt(value);
+				return numberValue >= 0;
+			}
+			catch(NumberFormatException | NullPointerException e)
+			{
+				return false;
 			}
 		}
-
-		return false;
-	}
-
-	/**
-	 * Check that a property value is valid for that type.<br/>
-	 * This method will try to cast the value and check it for valid values.
-	 * 
-	 * @param value
-	 * @param type
-	 * @return
-	 */
-	private static boolean checkValueForType(String value, Class<?> type)
-	{
-		if(type == boolean.class)
+		else if(key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MAXSPEED))
 		{
+			// check numbers
+			try
+			{
+				double numberValue = Double.parseDouble(value);
+				return numberValue >= 0;
+			}
+			catch(NumberFormatException | NullPointerException e)
+			{
+				return false;
+			}
+		}
+		else if(key.equalsIgnoreCase(KEY_STRICT) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM))
+		{
+			// check booleans
 			return value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false");
 		}
-		else if(type == int.class)
+		else if(key.equalsIgnoreCase(KEY_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_REMULADE_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_SINGLEOPTION_MESSAGE) || key.equalsIgnoreCase(KEY_SPECIAL_RANDOM_MESSAGE))
 		{
-			int numberValue = Integer.parseInt(value);
-			return numberValue >= 0;
-		}
-		else if(type == double.class)
-		{
-			double numberValue = Double.parseDouble(value);
-			return numberValue >= 0;
-		}
-		else if(type == EnumMoveTrigger.class)
-		{
-			EnumMoveTrigger enumValue = EnumMoveTrigger.valueOf(value);
-			return enumValue != EnumMoveTrigger.invalid;
-		}
-		else if(type == String.class)
-		{
+			// nothing to check - this is a string
 			return true;
 		}
 		else
 		{
-			logger.warn("unsupported property type: " + type);
 			return false;
 		}
 	}
@@ -299,67 +255,212 @@ public class Mover
 		{
 			logger.debug("  GID = " + game.getId() + " --> loading game details");
 			game = api.getGameWithDetails(game.getId()).get();
-			
-			Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
 
-			// scan players to find the player matching the current user
-			Player player = null;
-			for(Player p : game.getPlayers())
+			if(game.isFinished())
 			{
-				if(p.getId() == userId)
+				logger.warn("  GID = " + game.getId() + " --> game is finished");
+			}
+			else if(game.getNext().getId() != userId)
+			{
+				logger.warn("  GID = " + game.getId() + " --> wrong user's turn");
+			}
+			else
+			{
+				Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
+
+				EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(KEY_TRIGGER)).standardize();
+				boolean special_remulade = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_REMULADE));
+				boolean special_singleOption = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION));
+				boolean special_random = Boolean.valueOf(gameConfig.getProperty(KEY_SPECIAL_RANDOM));
+				int timeout = Integer.parseInt(gameConfig.getProperty(KEY_TIMEOUT));
+
+				if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
 				{
-					player = p;
-					break;
+					logger.debug("  GID = " + game.getId() + " --> SKIPPING --> KaroRAUPE not enabled for this game");
+					return false;
 				}
-			}				
 
-			Result result;	
-			String lastReason = "";		
-			int ruleCount = 0;
-			for(Rule rule: rules)
-			{
-				ruleCount++;
-				try
-				{					
-					result = rule.evaluate(game, player, gameConfig);
-
-					logger.debug("  GID = " + game.getId() + " --> #" + fill(ruleCount, 2) + " " + fill(rule.getClass().getSimpleName(), 17) + " --> " + fill(result.shallMove() == null ? "null" : result.shallMove().toString(), 5) + " (" + result.getReason() + ")");
-
-					if(result.shallMove() == null)
+				// scan players to find the player matching the current user
+				Player player = null;
+				for(Player p : game.getPlayers())
+				{
+					if(p.getId() == userId)
 					{
-						if(result.getReason() != null)
-							lastReason = result.getReason();
+						player = p;
+						break;
+					}
+				}
+				if(player == null)
+				{
+					logger.warn("  GID = " + game.getId() + " --> user not participating in this game");
+					return false;
+				}
+
+				Move lastPlayerMove = player.getMotion();
+				logger.debug("  GID = " + game.getId() + " --> player moved last: "
+						+ (lastPlayerMove == null ? "never" : DATE_FORMAT.format(lastPlayerMove.getT()) + " (" + ((new Date().getTime() - lastPlayerMove.getT().getTime()) / TIME_SCALE) + "s ago)"));
+
+				if(lastPlayerMove == null)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> no start position selected yet");
+					return false;
+				}
+
+				// scan other players for messages and last move made
+				Date lastMoveDate = game.getStarteddate();
+				boolean messageFound = false;
+				boolean notificationFound = false;
+				boolean anybodyMoved = false;
+
+				boolean reProtection = false;
+				int repeatX = lastPlayerMove.getX() + lastPlayerMove.getXv();
+				int repeatY = lastPlayerMove.getY() + lastPlayerMove.getYv();
+
+				for(Player p : game.getPlayers())
+				{
+					if(p.getMoves() == null)
 						continue;
-					}
-					else if(result.shallMove().booleanValue() == false)
+
+					if(p.isMoved() && p != player)
+						anybodyMoved = true;
+
+					if(p.getMotion() != null && p.getMotion().getX() == repeatX && p.getMotion().getY() == repeatY)
+						reProtection = true;
+
+					for(Move m : p.getMoves())
 					{
-						logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + result.getReason());
-						return false;
-					}
-					else if(result.shallMove().booleanValue() == true)
-					{
-						Move m = result.getMove();
-						if(m == null)
+						// look for the last move made in the game
+						if(m.getT().after(lastMoveDate))
+							lastMoveDate = m.getT();
+						// look for messages
+						if((lastPlayerMove == null || m.getT().after(lastPlayerMove.getT())) && m.getMsg() != null && !m.getMsg().isEmpty())
 						{
-							logger.error("  GID = " + game.getId() + " --> ERROR    --> no move returned");
+							if(isNotification(m.getMsg()))
+							{
+								notificationFound = true;
+							}
+							else
+							{
+								messageFound = true;
+								notificationFound = true;
+							}
+						}
+					}
+				}
+
+				if(lastPlayerMove.getXv() == 0 && lastPlayerMove.getYv() == 0)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> restart after crash");
+					return false;
+				}
+
+				long timeSinceLastMove = (new Date().getTime() - lastMoveDate.getTime()) / TIME_SCALE; // convert to seconds
+				logger.debug("  GID = " + game.getId() + " --> others moved last: " + (DATE_FORMAT.format(lastMoveDate) + " (" + timeSinceLastMove + "s ago)"));
+				if(timeSinceLastMove < timeout)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> timeout not yet reached (timeout = " + timeout + "s, last move = " + timeSinceLastMove + "s ago)");
+					return false;
+				}
+
+				if(notificationFound && trigger == EnumMoveTrigger.nonotification)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> notification found");
+					return false;
+				}
+
+				if(messageFound && trigger == EnumMoveTrigger.nomessage)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> message found");
+					return false;
+				}
+
+				if(player.getPossibles() == null || player.getPossibles().size() == 0)
+				{
+					logger.warn("  GID = " + game.getId() + " --> SKIPPING --> possibles = 0 --> can't move");
+					return false;
+				}
+
+				// check remulade stuff
+				Move repeatMove = null;
+				for(Move m : player.getPossibles())
+				{
+					if(m.getXv() == player.getMotion().getXv() && m.getYv() == player.getMotion().getYv())
+						repeatMove = m;
+				}
+				if(isRemuladeGame(game.getName()))
+					logger.debug("  GID = " + game.getId() + " --> RemulAde: RE = " + (!anybodyMoved) + ", canRepeat = " + (repeatMove != null) + ", reProtection = " + reProtection + ", activated = "
+							+ special_remulade);
+
+				Move m;
+				if(isRemuladeGame(game.getName()) && !anybodyMoved && (repeatMove != null) && !reProtection && special_remulade)
+				{
+					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> REmulAde");
+					m = repeatMove;
+					if(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE).isEmpty())
+						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_REMULADE_MESSAGE));
+				}
+				else if(player.getPossibles().size() == 1 && special_singleOption)
+				{
+					logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Single-Option");
+					m = player.getPossibles().get(0);
+					if(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE).isEmpty())
+						m.setMsg(gameConfig.getProperty(KEY_SPECIAL_SINGLEOPTION_MESSAGE));
+				}
+				else if(game.getPlannedMoves() == null || game.getPlannedMoves().size() == 0)
+				{
+					if(special_random)
+					{
+						double maxSpeed = Integer.parseInt(gameConfig.getProperty(KEY_MESSAGE, "99"));
+						player.getPossibles().removeIf(mi -> { return (mi.getXv() * mi.getXv() + mi.getYv() * mi.getYv()) > (maxSpeed * maxSpeed); });
+						if(player.getPossibles().size() > 0)
+						{
+							logger.info("  GID = " + game.getId() + " --> SPECIAL  --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
+							m = player.getPossibles().get(random.nextInt(player.getPossibles().size()) );
+							if(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE) != null && !gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE).isEmpty())
+								m.setMsg(gameConfig.getProperty(KEY_SPECIAL_RANDOM_MESSAGE));
+						}
+						else
+						{
+							logger.info("  GID = " + game.getId() + " --> SKIPPING --> Random, possibles with speed <= " + maxSpeed + ": " + player.getPossibles().size());
 							return false;
 						}
-
-						logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(result.getReason(), 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
-							+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
-
-						if(!debug)
-							return this.api.move(game.getId(), m).get();
-						else
-							return true;
+					}
+					else
+					{
+						logger.debug("  GID = " + game.getId() + " --> SKIPPING --> no planned moves found");
+						return false;
 					}
 				}
-				catch(Exception e)
+				else
 				{
-					logger.error("  GID = " + game.getId() + " --> #" + rule.getClass().getSimpleName() + " --> ", e);
+					boolean strict = Boolean.valueOf(gameConfig.getProperty(KEY_STRICT));
+					List<Move> options = findMove(lastPlayerMove, player.getPossibles(), game.getPlannedMoves(), strict);
+					logger.debug("  GID = " + game.getId() + " --> " + options);
+
+					if(options.size() == 0)
+					{
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = 0" + (strict ? " (strict)" : ""));
+						return false;
+					}
+					else if(options.size() > 1)
+					{
+						logger.info("  GID = " + game.getId() + " --> SKIPPING --> possibles = " + player.getPossibles().size() + ", matches = " + options.size() + (strict ? " (strict)" : ")")
+								+ " --> can't decide");
+						return false;
+					}
+					m = options.get(0);
+					if(gameConfig.getProperty(KEY_MESSAGE) != null && !gameConfig.getProperty(KEY_MESSAGE).isEmpty())
+						m.setMsg(gameConfig.getProperty(KEY_MESSAGE));
 				}
+
+				logger.info("  GID = " + game.getId() + " --> MOVING --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
+
+				if(!debug)
+					return this.api.move(game.getId(), m).get();
+				else
+					return true;
 			}
-			logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + lastReason);
 		}
 		catch(IllegalArgumentException e)
 		{
@@ -370,6 +471,53 @@ public class Mover
 			logger.error(e);
 		}
 		return false;
+	}
+
+	/**
+	 * Match the possibles against the planned moves.<br>
+	 * A move will only be selected, if the current move is in the planned moves and has a successor which is also a possible move.
+	 * 
+	 * @param currentMove
+	 * @param possibles
+	 * @param plannedMoves
+	 * @param strict
+	 * @return
+	 */
+	public List<Move> findMove(Move currentMove, List<Move> possibles, List<Move> plannedMoves, boolean strict)
+	{
+		List<Move> matches = new ArrayList<>();
+
+		if(plannedMoves != null)
+		{
+			Move pm, prevpm;
+			for(int i = 0; i < plannedMoves.size(); i++)
+			{
+				pm = plannedMoves.get(i);
+
+				if(strict)
+				{
+					// previous move must match the current move to allow the planned move
+					if(i == 0)
+						continue;
+					prevpm = plannedMoves.get(i - 1);
+
+					if(prevpm.getX() != currentMove.getX() || prevpm.getY() != currentMove.getY() || prevpm.getXv() != currentMove.getXv() || prevpm.getYv() != currentMove.getYv())
+						continue; // previous move does not match
+				}
+
+				// look if the planned moves contain the current move
+
+				for(Move possible : possibles)
+				{
+					if(pm.getX() == possible.getX() && pm.getY() == possible.getY() && pm.getXv() == possible.getXv() && pm.getYv() == possible.getYv())
+					{
+						matches.add(possible);
+						break;
+					}
+				}
+			}
+		}
+		return matches;
 	}
 
 	/**
@@ -400,18 +548,27 @@ public class Mover
 		return movesMade;
 	}
 
-	private static String fill(int i, int length)
+	protected static boolean isNotification(String message)
 	{
-		String s = "" + i;
-		while(s.length() < length)
-		 	s = "0" + i;
-		return s;
+		if(!message.startsWith("-:K"))
+			return false;
+		else if(!message.endsWith("K:-"))
+			return false;
+
+		else if(message.matches("-:KIch bin ausgestiegenK:-"))
+			return true;
+		else if(message.matches("-:KIch bin von (Didi|KaroMAMA) rausgeworfen wordenK:-"))
+			return true;
+		else if(message.matches("-:KIch wurde von (Didi|KaroMAMA) rausgeworfenK:-"))
+			return true;
+		else if(message.matches("-:KIch werde \\d+ Z&uuml;ge zur&uuml;ckgesetztK:-"))
+			return true;
+
+		return false;
 	}
 
-	private static String fill(String s, int length)
+	protected static boolean isRemuladeGame(String title)
 	{
-		while(s.length() < length)
-		 	s += " ";
-		return s;
+		return title.toLowerCase().replace(" ", "").startsWith("§remulade§");
 	}
 }
