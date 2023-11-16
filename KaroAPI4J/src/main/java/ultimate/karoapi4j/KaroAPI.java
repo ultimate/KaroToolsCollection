@@ -49,6 +49,7 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
+import ultimate.karoapi4j.utils.Version;
 
 /**
  * This is the wrapper for accessing the Karo API.<br>
@@ -104,7 +105,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The version of the {@link KaroAPI}
 	 */
-	private static String					version;
+	private static Version					version;
 	/**
 	 * Init timeout set via property karoAPI.initTimeout
 	 */
@@ -127,7 +128,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The version of the application using the {@link KaroAPI}
 	 */
-	private static String					applicationVersion;
+	private static Version					applicationVersion;
 
 	/**
 	 * Additional API properties
@@ -142,7 +143,7 @@ public class KaroAPI implements IDLookUp
 		{
 			apiProperties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
 
-			version = apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".version");
+			version = new Version(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".version"));
 			logger.debug("version       = " + version);
 
 			initTimeout = Integer.parseInt(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
@@ -160,7 +161,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * @return the version of the {@link KaroAPI}
 	 */
-	public static String getVersion()
+	public static Version getVersion()
 	{
 		return version;
 	}
@@ -176,7 +177,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * @return the version of the application using the {@link KaroAPI}
 	 */
-	public static String getApplicationVersion()
+	public static Version getApplicationVersion()
 	{
 		return applicationVersion;
 	}
@@ -186,7 +187,7 @@ public class KaroAPI implements IDLookUp
 	 * 
 	 * @param applicationName - the name
 	 */
-	public static void setApplication(String applicationName, String applicationVersion)
+	public static void setApplication(String applicationName, Version applicationVersion)
 	{
 		KaroAPI.applicationName = applicationName;
 		KaroAPI.applicationVersion = applicationVersion;

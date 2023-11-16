@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.URLLoader;
+import ultimate.karoapi4j.utils.Version;
 
 /**
  * This is the wrapper for accessing the Karo Wiki API. It provides the basic functionality such as:
@@ -117,7 +118,7 @@ public class KaroWikiAPI
 	 * @see KaroAPI#getVersion()
 	 * @return the version of the {@link KaroAPI}
 	 */
-	public static String getVersion()
+	public static Version getVersion()
 	{
 		return KaroAPI.getVersion();
 	}
@@ -440,7 +441,7 @@ public class KaroWikiAPI
 	@SuppressWarnings("unchecked")
 	public CompletableFuture<Map<String, Object>> parse(String title, String format)
 	{
-		
+
 		logger.debug("Performing parse format=" + format + " for page \"" + title + "\"...");
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
@@ -508,11 +509,11 @@ public class KaroWikiAPI
 			formatProp = PARAMETER_ACTION_PARSE_PROP_WIKI;
 		else
 			throw new IllegalArgumentException("format must be either 'wiki' or 'html'");
-		
+
 		//@formatter:off
 		return parse(title, formatProp)
 				.thenApply(properties -> {
-					logger.debug(properties);
+//					logger.debug(properties);
 					return (String) ((Map<String, Object>) properties.get(formatProp)).get("*");
 				});
 		//@formatter:on

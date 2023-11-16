@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroWikiAPI;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karoapi4j.utils.Version;
 
 public abstract class Language
 {
@@ -28,12 +29,17 @@ public abstract class Language
 
 	private static final String				PAGE_CHANGELOG			= "KaroMUSKEL/Changelog";
 
+	private static final String				VERSION_START			= ">Version ";
+	private static final String				VERSION_DATE_START		= " (";
+	private static final String				VERSION_END				= "<";
+
 	private static Properties				lang;
 
 	private static boolean					debug					= false;
 
 	private static String					about					= null;
 	private static String					changelog				= null;
+	private static Version					availableVersion		= null;
 
 	private static KaroWikiAPI				wikiAPI					= null;
 
@@ -102,14 +108,56 @@ public abstract class Language
 		return getString("karoMUSKEL.name") + (debug ? "-debug" : "");
 	}
 
-	public static String getApplicationVersion()
+	public static Version getApplicationVersion()
 	{
-		return getString("karoMUSKEL.version");
+		return new Version(getString("karoMUSKEL.version"));
 	}
 
-	public static String getAvailableVersion()
+	public static Version getAvailableVersion()
 	{
-		return "0.0.0";
+		if(availableVersion == null)
+		{
+			getChangelog();
+
+			int start = changelog.indexOf(VERSION_START);
+			int end;
+			String versionString;
+			availableVersion = new Version("0");
+			Version version;
+			while(start > 0)
+			{
+				start += VERSION_START.length();
+				end = changelog.indexOf(VERSION_END, start);
+
+				versionString = changelog.substring(start, end);
+				if(versionString.contains(VERSION_DATE_START))
+					versionString = versionString.substring(0, versionString.indexOf(VERSION_DATE_START));
+
+				try
+				{
+					version = new Version(versionString);
+
+					logger.trace("changelog version found: '" + versionString + "' => " + version + "");
+
+					if(version.compareTo(availableVersion) > 0)
+						availableVersion = version;
+				}
+				catch(Exception e)
+				{
+					logger.warn("changelog version found: '" + versionString + "' => INVALID");
+				}
+
+				start = changelog.indexOf(VERSION_START, end + 1);
+			}
+		}
+		return availableVersion;
+	}
+
+	public static String insertVersions(String s)
+	{
+		s = s.replace(PLACEHOLDER_VERSION, getApplicationVersion().toString());
+		s = s.replace(PLACEHOLDER_NEWEST, getAvailableVersion().toString());
+		return s;
 	}
 
 	public static String getChangelog()
@@ -122,11 +170,11 @@ public abstract class Language
 			try
 			{
 				changelog = wikiAPI.getContent(PAGE_CHANGELOG, KaroWikiAPI.FORMAT_HTML).get(10, TimeUnit.SECONDS);
-				
+
 //				System.out.println("---------------------------------------");
 //				System.out.println(changelog);
 //				System.out.println("---------------------------------------");
-				
+
 			}
 			catch(InterruptedException | ExecutionException | TimeoutException e)
 			{
@@ -141,46 +189,11 @@ public abstract class Language
 	{
 		if(about == null)
 		{
-			Version currentVersion = new Version(getApplicationVersion());
-			Version newestVersion = new Version(getAvailableVersion());
 			about = Language.getString("mainframe.about");
-			about = about.replace(PLACEHOLDER_VERSION, currentVersion.toString());
-			about = about.replace(PLACEHOLDER_NEWEST, newestVersion.toString());
+			about = insertVersions(about);
 			about = about.replace(PLACEHOLDER_CHANGELOG, getChangelog());
 		}
 		return about;
-	}
-
-	private static class Version implements Comparable<Version>
-	{
-		private int	major;
-		private int	minor;
-
-		public Version(String version)
-		{
-			int firstDot = version.indexOf('.');
-			int secondDot = version.indexOf('.', firstDot + 1);
-
-			major = Integer.parseInt(version.substring(0, firstDot));
-			if(secondDot > 0)
-				minor = Integer.parseInt(version.substring(firstDot + 1, secondDot));
-			else
-				minor = Integer.parseInt(version.substring(firstDot + 1));
-		}
-
-		@Override
-		public String toString()
-		{
-			return major + "." + minor;
-		}
-
-		@Override
-		public int compareTo(Version o)
-		{
-			if(this.major == o.major)
-				return this.minor - o.minor;
-			return this.major - o.major;
-		}
 	}
 
 	public static class Label<V>

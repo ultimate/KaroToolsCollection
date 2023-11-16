@@ -193,6 +193,18 @@ public class Launcher
 		KaroAPI.setApplication(Language.getApplicationName(), Language.getApplicationVersion());
 		logger.info("version loaded: " + KaroAPI.getApplicationName() + "-" + KaroAPI.getApplicationVersion() + " | KaroAPI-" + KaroAPI.getVersion());		
 
+		if(Language.getAvailableVersion().compareTo(Language.getApplicationVersion()) > 0)
+		{
+			logger.info("a newer version is available: " + Language.getAvailableVersion());
+			String message = Language.getString("warning.newVersion");
+			message = Language.insertVersions(message);
+			JOptionPane.showMessageDialog(gui, message, Language.getString("warning.title"), JOptionPane.WARNING_MESSAGE, null);
+		}
+		else
+		{
+			logger.info("version is up to date :)");
+		}
+		
 		if(config.containsKey(KEY_THREADS))
 		{
 			try
