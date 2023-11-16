@@ -1,5 +1,7 @@
 package ultimate.karoapi4j.utils;
 
+import java.util.Objects;
+
 public class Version implements Comparable<Version>
 {
 	public static final String	DELIMITERS	= "[\\.-]";
@@ -49,5 +51,24 @@ public class Version implements Comparable<Version>
 			return this.minor - o.minor;
 		}
 		return this.major - o.major;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(major, minor, patch);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(this == obj)
+			return true;
+		if(obj == null)
+			return false;
+		if(getClass() != obj.getClass())
+			return false;
+		Version other = (Version) obj;
+		return major == other.major && minor == other.minor && patch == other.patch;
 	}
 }

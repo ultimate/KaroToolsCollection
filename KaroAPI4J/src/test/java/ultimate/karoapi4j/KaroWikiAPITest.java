@@ -41,7 +41,7 @@ public class KaroWikiAPITest
 
 	public static final String				PAGE_WITH_FIXED_CONTENT	= "Test/Test";
 	public static final String				FIXED_CONTENT_WIKI		= "Bitte nicht verändern.\n{{Benutzer|ultimate}} benutzt das hier zum Testen...\n\n=== Kopfzeile ===\n* Aufgezählter Listeneintrag\n* Aufgezählter Listeneintrag\n* Aufgezählter Listeneintrag\n\nEnde";
-	public static final String				FIXED_CONTENT_HTML		= "<div class=\"mw-parser-output\"><p>Bitte nicht verändern.\n<a href=\"/Benutzer:Ultimate\" title=\"Benutzer:Ultimate\">ultimate</a> benutzt das hier zum Testen...\n</p>\n<h3><span class=\"mw-headline\" id=\"Kopfzeile\">Kopfzeile</span><span class=\"mw-editsection\"><span class=\"mw-editsection-bracket\">[</span><a href=\"/index.php?title=Test/Test&amp;action=edit&amp;section=1\" title=\"Abschnitt bearbeiten: Kopfzeile\">Bearbeiten</a><span class=\"mw-editsection-bracket\">]</span></span></h3>\n<ul><li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li></ul>\n<p>Ende\n</p>";
+	public static final String				FIXED_CONTENT_HTML		= "<div class=\"mw-parser-output\"><p>Bitte nicht verändern.\n<a href=\"/Benutzer:Ultimate\" title=\"Benutzer:Ultimate\">ultimate</a> benutzt das hier zum Testen...\n</p>\n<h3><span class=\"mw-headline\" id=\"Kopfzeile\">Kopfzeile</span></h3>\n<ul><li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li></ul>\n<p>Ende\n</p></div>";
 
 	static
 	{
@@ -239,7 +239,12 @@ public class KaroWikiAPITest
 			assertTrue(wl.login(username, password).get());
 			String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_HTML).get();
 			assertNotNull(content);
-			assertTrue(content.startsWith(FIXED_CONTENT_HTML + "\n<!--"));
+			
+//			System.out.println("----------------------------------------------");
+//			System.out.println(content);
+//			System.out.println("----------------------------------------------");
+			
+			assertEquals(FIXED_CONTENT_HTML, content);
 		}
 		finally
 		{

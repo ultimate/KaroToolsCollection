@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
@@ -55,6 +56,7 @@ import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.MethodComparator;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karoapi4j.utils.Version;
 
 public class KaroAPITest extends KaroAPITestcase
 {
@@ -116,7 +118,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals("1.3.0", KaroAPI.getVersion());
+		assertEquals(new Version("1.3.0"), KaroAPI.getVersion());
 	}
 
 	@Test

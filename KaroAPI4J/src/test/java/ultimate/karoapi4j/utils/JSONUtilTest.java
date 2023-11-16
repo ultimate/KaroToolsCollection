@@ -489,7 +489,9 @@ public class JSONUtilTest
 
 		assertEquals(team.getName(), deserialized.getName());
 		assertEquals(team.getMembers(), deserialized.getMembers());
-		assertEquals(team.getHomeMap(), deserialized.getHomeMap());
+		assertTrue(deserialized.getHomeMap() instanceof Generator);
+		assertEquals(((Generator) team.getHomeMap()).getKey(), ((Generator) deserialized.getHomeMap()).getKey());
+		assertEquals(((Generator) team.getHomeMap()).getSettings(), ((Generator) deserialized.getHomeMap()).getSettings());
 	} 
 
 	@Test
@@ -621,8 +623,15 @@ public class JSONUtilTest
 		assertEquals(uid2, deserialized.getPlayers().get(2).getId());
 		assertNotNull(deserialized.getMaps());
 		assertEquals(2, deserialized.getMaps().size());
-		assertEquals(g1, ((Generator) deserialized.getMaps().get(0)));
-		assertEquals(g2, ((Generator) deserialized.getMaps().get(1)));
+		
+		assertTrue(deserialized.getMaps().get(0) instanceof Generator);
+		assertEquals(g1.getKey(), ((Generator) deserialized.getMaps().get(0)).getKey());
+		assertEquals(g1.getSettings(), ((Generator) deserialized.getMaps().get(0)).getSettings());
+		
+		assertTrue(deserialized.getMaps().get(1) instanceof Generator);
+		assertEquals(g2.getKey(), ((Generator) deserialized.getMaps().get(1)).getKey());
+		assertEquals(g2.getSettings(), ((Generator) deserialized.getMaps().get(1)).getSettings());
+		
 	}
 
 	@Test
