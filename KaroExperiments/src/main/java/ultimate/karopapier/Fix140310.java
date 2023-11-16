@@ -1,25 +1,16 @@
 package ultimate.karopapier;
 
-import java.awt.HeadlessException;
-import java.awt.MouseInfo;
-import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ultimate.karoapi4j.KaroAPI;
-import ultimate.karoapi4j.KaroAPICache;
-import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
-import ultimate.karoapi4j.model.official.Player;
-import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
-import ultimate.karoapi4j.utils.URLLoader;
 
 public class Fix140310
 {

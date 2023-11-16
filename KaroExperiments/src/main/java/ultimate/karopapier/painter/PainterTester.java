@@ -1,8 +1,5 @@
 package ultimate.karopapier.painter;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
