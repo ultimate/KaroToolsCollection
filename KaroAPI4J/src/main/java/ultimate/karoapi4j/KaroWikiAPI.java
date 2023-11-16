@@ -448,6 +448,9 @@ public class KaroWikiAPI
 		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
 		parameters.put(PARAMETER_ACTION_PARSE_PAGE, title);
 		parameters.put(PARAMETER_ACTION_PARSE_PROP, format);
+		parameters.put("disablelimitreport", true);
+		parameters.put("disableeditsection", true);
+		parameters.put("disabletoc", true);
 
 		//@formatter:off
 		return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text))

@@ -17,24 +17,25 @@ public abstract class Language
 	/**
 	 * Logger-Instance
 	 */
-	private static transient final Logger	logger						= LogManager.getLogger(Language.class);
-	private static String					folder						= "lang";
-	private static final String				defaultLang					= "de";
+	private static transient final Logger	logger					= LogManager.getLogger(Language.class);
+	private static String					folder					= "lang";
+	private static final String				defaultLang				= "de";
 
-	private static final String				PLACEHOLDER_ARG				= "%%ARG%%";
-	private static final String				PLACEHOLDER_VERSION			= "%%CURRENTVERSION%%";
-	private static final String				PLACEHOLDER_NEWEST			= "%%NEWESTVERSION%%";
-	private static final String				PLACEHOLDER_CHANGELOG			= "%%CHANGELOG%%";
-	
-	private static final String				PAGE_CHANGELOG 				= "KaroMUSKEL/Changelog";
+	private static final String				PLACEHOLDER_ARG			= "%%ARG%%";
+	private static final String				PLACEHOLDER_VERSION		= "%%CURRENTVERSION%%";
+	private static final String				PLACEHOLDER_NEWEST		= "%%NEWESTVERSION%%";
+	private static final String				PLACEHOLDER_CHANGELOG	= "%%CHANGELOG%%";
+
+	private static final String				PAGE_CHANGELOG			= "KaroMUSKEL/Changelog";
 
 	private static Properties				lang;
 
-	private static boolean					debug						= false;
+	private static boolean					debug					= false;
 
-	private static String					about						= null;
+	private static String					about					= null;
+	private static String					changelog				= null;
 
-	private static KaroWikiAPI				wikiAPI						= null;
+	private static KaroWikiAPI				wikiAPI					= null;
 
 	public static boolean load(String language)
 	{
@@ -115,15 +116,25 @@ public abstract class Language
 	{
 		if(debug)
 			return "@CHANGELOG";
-		try
+
+		if(changelog == null)
 		{
-			return wikiAPI.getContent(PAGE_CHANGELOG, KaroWikiAPI.FORMAT_HTML).get(10, TimeUnit.SECONDS);
+			try
+			{
+				changelog = wikiAPI.getContent(PAGE_CHANGELOG, KaroWikiAPI.FORMAT_HTML).get(10, TimeUnit.SECONDS);
+				
+//				System.out.println("---------------------------------------");
+//				System.out.println(changelog);
+//				System.out.println("---------------------------------------");
+				
+			}
+			catch(InterruptedException | ExecutionException | TimeoutException e)
+			{
+				logger.error(e);
+				return e.getMessage();
+			}
 		}
-		catch(InterruptedException | ExecutionException | TimeoutException e)
-		{
-			logger.error(e);
-			return e.getMessage();
-		}
+		return changelog;
 	}
 
 	public static String getAbout()
