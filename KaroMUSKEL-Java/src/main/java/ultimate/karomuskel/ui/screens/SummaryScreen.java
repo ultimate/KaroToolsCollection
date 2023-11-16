@@ -419,6 +419,10 @@ public class SummaryScreen extends Screen implements ActionListener
 		String message = Language.getString("watchdog.timeout").replace("%M", "" + lastMessage).replace("%T", "" + (this.watchdog.getTimeout() / 1000));
 		String title = Language.getString("error.title");
 		JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
+
+		GameSeriesManager.autosave(this.gameSeries);
+
+		enableButtons();
 	}
 
 	@Override
