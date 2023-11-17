@@ -1319,8 +1319,8 @@ public class KaroAPICache implements IDLookUp
 		m.setNight(random.nextDouble() < 0.10);
 		m.setRecord(random.nextInt(200));
 		m.setCode("DUMMY");
-		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white), (char) 0));
-		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white), (char) 0));
+		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols() * MAP_SCALE, m.getRows() * MAP_SCALE, m.isNight() ? Color.black : Color.white), (char) 0, Color.red));
+		m.setImage(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(m.getCols(), m.getRows(), m.isNight() ? Color.black : Color.white), (char) 0, Color.red));
 		return m;
 	}
 
@@ -1336,6 +1336,7 @@ public class KaroAPICache implements IDLookUp
 		settings.put("code", "XXXXXXXXX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXOSOFOSOX\nXOOOOOOOX\nXOSOSOSOX\nXOOOOOOOX\nXXXXXXXXX");
 		settings.put("param", 5);
 		settings.put("players", 8);
+		settings.put("night", false);
 		return new Generator(key, key.toUpperCase(), "lorem ipsum", settings);
 	}
 }

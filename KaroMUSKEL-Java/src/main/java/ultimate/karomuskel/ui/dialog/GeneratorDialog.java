@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -86,7 +87,7 @@ public class GeneratorDialog
 			c = addSetting(panel, column1.get(i), this.settings.get(column1.get(i)), i, 0);
 			if(c != null)
 				components.put(column1.get(i), c);
-			
+
 			c = addSetting(panel, column2.get(i), this.settings.get(column2.get(i)), i, 1);
 			if(c != null)
 				components.put(column2.get(i), c);
@@ -101,12 +102,14 @@ public class GeneratorDialog
 		else
 		{
 			Object value;
-			for(Entry<String, JComponent> ce: components.entrySet())
+			for(Entry<String, JComponent> ce : components.entrySet())
 			{
 				if(ce.getValue() instanceof JTextComponent)
 					value = ((JTextField) ce.getValue()).getText();
 				else if(ce.getValue() instanceof JSpinner)
 					value = ((JSpinner) ce.getValue()).getValue();
+				else if(ce.getValue() instanceof JCheckBox)
+					value = ((JCheckBox) ce.getValue()).isSelected();
 				else
 					value = null;
 				if(ce.getKey() != null)
@@ -127,7 +130,7 @@ public class GeneratorDialog
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			gbc.insets = new Insets(5, 5, 5, 5);
 			panel.add(new JLabel(setting), gbc);
-			
+
 			JComponent component = null;
 			gbc.gridx++;
 			gbc.anchor = GridBagConstraints.EAST;
@@ -141,11 +144,15 @@ public class GeneratorDialog
 			}
 			else if(value instanceof String)
 			{
-				component = new JTextField((String) value);//, 20);
+				component = new JTextField((String) value);// , 20);
 				gbc.gridwidth = 3;
 			}
+			else if(value instanceof Boolean)
+			{
+				component = new JCheckBox("", (boolean) value);
+			}
 			panel.add(component, gbc);
-			
+
 			return component;
 		}
 		else

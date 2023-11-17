@@ -74,17 +74,17 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 			this.setForeground(list.getForeground());
 		}
 		this.setFont(list.getFont());
-		
+
 		// Set the icon
 		ImageIcon icon = null;
-		HashMap<PlaceToRace, ImageIcon> images = (small ? IMAGES_SMALL: IMAGES_LARGE);
+		HashMap<PlaceToRace, ImageIcon> images = (small ? IMAGES_SMALL : IMAGES_LARGE);
 		if(!images.containsKey(value))
 			images.put(value, createIcon(value, small));
 		icon = images.get(value);
 		this.setIcon(icon);
 
 		// Set the text
-		this.setText((icon == null ? "[" + Language.getString("image.notavailable") + "] ": "") + value.toString());
+		this.setText((icon == null ? "[" + Language.getString("image.notavailable") + "] " : "") + value.toString());
 
 		// Set tooltip
 		String msg;
@@ -112,7 +112,7 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 			imageWidth = IMAGE_WIDTH_LARGE;
 			imageHeight = IMAGE_HEIGHT_LARGE;
 		}
-		
+
 		if(ptr instanceof Map)
 		{
 			Map map = (Map) ptr;
@@ -139,7 +139,10 @@ public class PlaceToRaceRenderer extends JLabel implements ListCellRenderer<Plac
 		{
 			String name = ((Generator) ptr).toSettingsString(true);
 			char symbol = (name != null ? name.charAt(0) : (char) 0);
-			return new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), symbol));
+			if(((Generator) ptr).isNight())
+				return new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.black), symbol, Color.white));
+			else
+				return new ImageIcon(ImageUtil.createSpecialImage(ImageUtil.createSingleColorImage(imageWidth, imageHeight, Color.white), symbol, Color.black));
 		}
 		else
 		{

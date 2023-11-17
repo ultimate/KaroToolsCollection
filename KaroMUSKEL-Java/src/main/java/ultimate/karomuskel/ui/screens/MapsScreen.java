@@ -82,7 +82,7 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.removeAll();
-
+			
 			JPanel allMapsPanel = new JPanel();
 			allMapsPanel.setLayout(new BorderLayout(5, 5));
 			this.add(allMapsPanel);
@@ -250,24 +250,20 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 	}
 }

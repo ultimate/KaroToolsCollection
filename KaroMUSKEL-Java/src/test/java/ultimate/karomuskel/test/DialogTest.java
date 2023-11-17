@@ -22,6 +22,7 @@ public class DialogTest
 		settings.put("zackMax", 15);
 		settings.put("cps", 4);
 		settings.put("seed", "");
+		settings.put("night", false);
 
 
 		generator.setSettings(settings);

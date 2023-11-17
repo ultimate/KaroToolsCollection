@@ -64,7 +64,14 @@ public class Generator extends Identifiable implements PlaceToRace
 	@JsonIgnore
 	private Generator									source		= null;
 
+	/**
+	 * Counters to uniquely identify generator configuration with the same key
+	 */
 	private static final HashMap<String, AtomicInteger>	ID_COUNTERS	= new HashMap<>();
+	/**
+	 * Original generators aka "sources" for modified generators by key
+	 */
+	private static final HashMap<String, Generator>		SOURCES		= new HashMap<>();
 
 	@JsonCreator
 	public Generator(@JsonProperty("key") String key)
@@ -74,8 +81,16 @@ public class Generator extends Identifiable implements PlaceToRace
 		synchronized(ID_COUNTERS)
 		{
 			if(!ID_COUNTERS.containsKey(key))
+			{
 				ID_COUNTERS.put(key, new AtomicInteger(0));
-			this.uniqueId = ID_COUNTERS.get(key).getAndIncrement();
+				this.uniqueId = 0;
+				SOURCES.put(key, this);
+			}
+			else
+			{
+				this.uniqueId = ID_COUNTERS.get(key).incrementAndGet();
+				this.source = SOURCES.get(key);
+			}
 		}
 	}
 
@@ -91,7 +106,7 @@ public class Generator extends Identifiable implements PlaceToRace
 		this.name = name;
 		this.description = description;
 	}
-	
+
 	@JsonIgnore
 	@Override
 	public Integer getId()
@@ -197,11 +212,13 @@ public class Generator extends Identifiable implements PlaceToRace
 		String key = "night";
 		if(this.settings != null && this.settings.containsKey(key))
 		{
-			Object nightValue = this.settings.get(key);
-			if(nightValue instanceof String)
-				return Boolean.parseBoolean((String) nightValue);
-			else if(nightValue instanceof Integer)
-				return ((int) nightValue) == 1;
+			Object value = this.settings.get(key);
+			if(value instanceof Boolean)
+				return (boolean) value;
+			else if(value instanceof String)
+				return Boolean.parseBoolean((String) value);
+			else if(value instanceof Integer)
+				return ((int) value) == 1;
 		}
 		return false;
 	}
@@ -226,14 +243,14 @@ public class Generator extends Identifiable implements PlaceToRace
 		String key = "players";
 		if(this.settings != null && this.settings.containsKey(key))
 		{
-			Object nightValue = this.settings.get(key);
-			if(nightValue instanceof Integer)
-				return (int) nightValue;
-			else if(nightValue instanceof String)
+			Object value = this.settings.get(key);
+			if(value instanceof Integer)
+				return (int) value;
+			else if(value instanceof String)
 			{
 				try
 				{
-					return Integer.parseInt((String) nightValue);
+					return Integer.parseInt((String) value);
 				}
 				catch(NumberFormatException e)
 				{
@@ -267,9 +284,9 @@ public class Generator extends Identifiable implements PlaceToRace
 	public String toString()
 	{
 		return toSettingsString(true);
-		//return "Generator '" + key + "' (" + getPlayers() + " Spieler) mit settings=" + settings;
+		// return "Generator '" + key + "' (" + getPlayers() + " Spieler) mit settings=" + settings;
 	}
-	
+
 	public String toSettingsString(boolean deviationsOnly)
 	{
 		HashMap<String, Object> deviation = new HashMap<>();
@@ -283,7 +300,7 @@ public class Generator extends Identifiable implements PlaceToRace
 			deviation.putAll(this.settings);
 			if(deviationsOnly)
 			{
-				for(String key: source.settings.keySet())
+				for(String key : source.settings.keySet())
 				{
 					if(deviation.containsKey(key) && deviation.get(key).equals(source.settings.get(key)))
 						deviation.remove(key);

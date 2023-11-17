@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -1207,7 +1208,13 @@ public class KaroAPI implements IDLookUp
 	 */
 	public CompletableFuture<List<Generator>> getGenerators()
 	{
-		return loadAsync(GENERATORS.doGet(), PARSER_GENERATOR_LIST);
+		return loadAsync(GENERATORS.doGet(), PARSER_GENERATOR_LIST).thenApply(gens -> {
+			gens.forEach(g -> {
+				if(!"fernschreiber".equalsIgnoreCase(g.getKey()))
+					g.getSettings().put("night", false);
+			});
+			return gens;
+		});
 	}
 
 	/**
@@ -1220,6 +1227,7 @@ public class KaroAPI implements IDLookUp
 	public CompletableFuture<String> generateCode(Generator generator)
 	{
 		HashMap<String, Object> settings = new HashMap<>(generator.getSettings());
+		convertValues(settings);
 		ensureMapSeed(settings);
 		return loadAsync(GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(settings).doGet(), PARSER_RAW);
 	}
@@ -1235,6 +1243,7 @@ public class KaroAPI implements IDLookUp
 	{
 		HashMap<String, Object> settings = new HashMap<>(generator.getSettings());
 		settings.put("generator", generator.getKey());
+		convertValues(settings);
 		ensureMapSeed(settings);
 		String json = JSONUtil.serialize(settings);
 		return loadAsync(GENERATE_MAP.doPost(json, EnumContentType.json), PARSER_MAP);
@@ -1256,6 +1265,20 @@ public class KaroAPI implements IDLookUp
 			int seed = (int) (settings.hashCode() ^ System.currentTimeMillis());
 			logger.debug("generating random seed: " + seed);
 			settings.put("seed", seed);
+		}
+	}
+
+	/**
+	 * Make sure that values are understandable by karopapier (e.g. convert booleans to 0 or 1)
+	 * 
+	 * @param settings
+	 */
+	private void convertValues(HashMap<String, Object> settings)
+	{
+		for(Entry<String, Object> e: settings.entrySet())
+		{
+			if(e.getValue() instanceof Boolean)
+				settings.put(e.getKey(), (boolean) e.getValue() ? 1 : 0);
 		}
 	}
 
