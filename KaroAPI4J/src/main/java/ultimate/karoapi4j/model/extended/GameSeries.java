@@ -95,10 +95,10 @@ public class GameSeries
 	 * the gameseries title (including placeholders)
 	 */
 	protected String									title;
-	@JsonInclude(value = Include.NON_NULL)
 	/**
 	 * the gameseries tags
 	 */
+	@JsonInclude(value = Include.NON_NULL)
 	private Set<String>									tags;
 	/**
 	 * the creator
