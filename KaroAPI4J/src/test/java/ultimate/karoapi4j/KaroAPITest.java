@@ -1067,10 +1067,10 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 		//@formatter:off
 	    return Stream.of(
-	        arguments("2021-05-01", "Heute vor 8 Jahren diskutieren aristarch und kili ueber den moeglichst effizienten Download von Game-Logfiles mittels wget."),
-	        arguments("2022-03-08", "Heute vor 9 Jahren taucht Gott, JESUS und Der heilige Geist im Chat auf und streiten sich."),
-	        arguments("2023-03-08", "Heute vor 10 Jahren taucht Gott, JESUS und Der heilige Geist im Chat auf und streiten sich."),
-	        arguments("2023-09-15", "Heute vor 17 Jahren finden finale Salat-ohne-Ei-und-Schinken-Planungen fuer das erste Karocamp (irgendwo im Laendle mit Zelt und Isomatte) statt.")
+	        arguments("2021-05-01", "Heute vor acht Jahren diskutieren aristarch und kili ueber den moeglichst effizienten Download von Game-Logfiles mittels wget."),
+	        arguments("2022-03-08", "Heute vor neun Jahren taucht Gott, JESUS und Der heilige Geist im Chat auf und streiten sich."),
+	        arguments("2023-03-08", "Heute vor zehn Jahren taucht Gott, JESUS und Der heilige Geist im Chat auf und streiten sich."),
+	        arguments("2023-09-15", "Heute vor siebzehn Jahren finden finale Salat-ohne-Ei-und-Schinken-Planungen fuer das erste Karocamp (irgendwo im Laendle mit Zelt und Isomatte) statt.")
 	    );
 	    //@formatter:on
 	}
