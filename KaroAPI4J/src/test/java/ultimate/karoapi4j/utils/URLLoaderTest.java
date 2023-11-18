@@ -51,8 +51,14 @@ public class URLLoaderTest
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 
 		String result;
-		String expected = "<!DOCTYPE html>\n" + "<html>\n" + "    <head>\n" + "        <meta charset=\"UTF-8\"/>\n" + "        <meta name=”theme-color” content=”#333399”>\n"
-				+ "        <title>Karopapier - Autofahren wie in der Vorlesung</title>";
+		//@formatter:off
+		String expected = "<!DOCTYPE html>\n"
+					    + "<html>\n"
+						+ "    <head>\n"
+						+ "        <meta charset=\"UTF-8\"/>\n"
+						+ "        <meta name=\"theme-color\" content=\"#333399\">\n"
+						+ "        <title>Karopapier - Autofahren wie in der Vorlesung</title>";
+		//@formatter:on
 
 		// simple get
 		result = URLLoader.doLoad(connection, "GET", null, null, "UTF-8");

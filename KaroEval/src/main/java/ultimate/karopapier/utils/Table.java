@@ -98,6 +98,7 @@ public class Table
 	public static class Cell
 	{
 		public Object	value;
+		// TODO change this to bold and add color
 		public boolean	highlight;
 		public int		colspan	= 1;
 

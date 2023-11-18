@@ -91,22 +91,27 @@ public class Launcher
 			}
 		}
 
-		// load properties from args
-		Properties config = PropertiesUtil.loadProperties(new File(configFile));
-		// init KaroAPI
-		api = new KaroAPI(config.getProperty("karoAPI.user"), config.getProperty("karoAPI.password"));
-		// Note: we don't need a KaroAPICache because we always want to have the latest information
-
 		logger.info("-------------------------------------------------------------------------");
 
-		// initiate the mover
-		Mover mover = new Mover(api, config, debug);
+		// load properties from args
+		logger.info("loading properties: " + configFile);
+		Properties config = PropertiesUtil.loadProperties(new File(configFile));
+
+		// init KaroAPI
+		logger.info("initiating KaroAPI");
+		api = new KaroAPI(config.getProperty("karoAPI.user"), config.getProperty("karoAPI.password"));
+		// Note: we don't need a KaroAPICache because we always want to have the latest information
 
 		User currentUser = api.check().get();
 		logger.info("current user = " + currentUser.getLogin());
 
+		// initiate the mover
+		logger.info("initiating Mover");
+		Mover mover = new Mover(api, config, debug);
+
 		if(scanning)
 		{
+			logger.info("starting scanning");
 			// scanning mode --> the Mover.checkAndProcessGames will be called periodically
 			int interval = Integer.parseInt(mover.getGlobalConfig().getProperty("karoraupe.interval")) * Mover.TIME_SCALE;
 			Timer timer = new Timer();

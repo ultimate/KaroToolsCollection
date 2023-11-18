@@ -3,9 +3,10 @@ package ultimate.karomuskel.ui.screens;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -19,24 +20,24 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
-import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
+import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.components.MapRenderer;
+import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 
-public class HomeMapsScreen extends Screen
+public class HomeMapsScreen extends MapComboBoxScreen implements ActionListener
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long	serialVersionUID		= 1L;
 
-	private List<JLabel>			teamNameLabelList;
-	private List<JComboBox<Map>>	mapCBList;
+	private static final String	ACTION_MAP_CONFIGURE	= "mapConfigure";
 
-	private int						numberOfTeams;
-	private int						minSupportedPlayersPerMap;
+	private List<JLabel>		teamNameLabelList;
 
-	private TreeMap<Integer, Map>	maps;
+	private int					numberOfTeams;
+	private int					minSupportedPlayersPerMap;
 
 	public HomeMapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -58,10 +59,10 @@ public class HomeMapsScreen extends Screen
 	{
 		if(GameSeriesManager.isTeamBased(gameSeries) || gameSeries.getType() == EnumGameSeriesType.KLC)
 		{
-			Map homeMap;
+			PlaceToRace homeMap;
 			for(int i = 0; i < this.numberOfTeams; i++)
 			{
-				homeMap = (Map) this.mapCBList.get(i).getSelectedItem();
+				homeMap = (PlaceToRace) this.mapCBList.get(i).getSelectedItem();
 				gameSeries.getTeams().get(i).setHomeMap(homeMap);
 			}
 		}
@@ -92,7 +93,8 @@ public class HomeMapsScreen extends Screen
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.teamNameLabelList = new LinkedList<JLabel>();
-			this.mapCBList = new LinkedList<JComboBox<Map>>();
+			this.mapCBList = new LinkedList<JComboBox<PlaceToRace>>(); // from super class
+			this.mapEditButtonList = new LinkedList<>(); // from super class
 			this.removeAll();
 
 			JPanel contentPanel = new JPanel();
@@ -107,7 +109,8 @@ public class HomeMapsScreen extends Screen
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 
 			JLabel teamLabel;
-			JComboBox<Map> mapCB;
+			JComboBox<PlaceToRace> mapCB;
+			JButton mapEditButton;
 
 			for(int i = 0; i < maxTeams; i++)
 			{
@@ -118,12 +121,19 @@ public class HomeMapsScreen extends Screen
 				contentPanel.add(teamLabel, gbc);
 
 				mapCB = new JComboBox<>();
-				mapCB.setRenderer(new MapRenderer());
+				mapCB.setRenderer(new PlaceToRaceRenderer());
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
 
+				mapEditButton = new JButton(Language.getString("option.edit"));
+				mapEditButton.addActionListener(this);
+				mapEditButton.setActionCommand(ACTION_MAP_CONFIGURE + i);
+				gbc.gridx = 2;
+				contentPanel.add(mapEditButton, gbc);
+
 				this.teamNameLabelList.add(teamLabel);
 				this.mapCBList.add(mapCB);
+				this.mapEditButtonList.add(mapEditButton);
 			}
 		}
 
@@ -132,26 +142,14 @@ public class HomeMapsScreen extends Screen
 			this.numberOfTeams = numberOfTeamsTmp;
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
-			this.maps = new TreeMap<>(karoAPICache.getMapsById());
-
-			List<Integer> removeList = new LinkedList<Integer>();
-			Map map;
-			for(Integer key : this.maps.keySet())
-			{
-				map = this.maps.get(key);
-				if(map.getPlayers() < this.minSupportedPlayersPerMap)
-				{
-					removeList.add(key);
-				}
-			}
-			for(Integer key : removeList)
-			{
-				this.maps.remove(key);
-			}
+			List<PlaceToRace> maps = this.karoAPICache.getPlacesToRace();
+			maps.removeIf(map -> {
+				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
+			});
 
 			for(int i = 0; i < this.mapCBList.size(); i++)
 			{
-				this.mapCBList.get(i).setModel(new DefaultComboBoxModel<Map>(maps.values().toArray(new Map[0])));
+				this.mapCBList.get(i).setModel(new DefaultComboBoxModel<PlaceToRace>(maps.toArray(new PlaceToRace[0])));
 			}
 		}
 
@@ -168,6 +166,7 @@ public class HomeMapsScreen extends Screen
 
 			this.teamNameLabelList.get(i).setText(label);
 			this.mapCBList.get(i).setEnabled(enabled);
+			this.mapEditButtonList.get(i).setEnabled(enabled);
 		}
 
 		// preselect values from gameseries
@@ -188,20 +187,13 @@ public class HomeMapsScreen extends Screen
 		this.firstShow = false;
 	}
 
-	private void preselectMap(Map map, int index)
+	@Override
+	public void actionPerformed(ActionEvent e)
 	{
-		logger.debug("preselect map: " + map.getId() + " for team " + this.teamNameLabelList.get(index).getText());
-		// check map is present in model, if not, add first
-		if(((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).getIndexOf(map) == -1)
+		if(e.getActionCommand().startsWith(ACTION_MAP_CONFIGURE))
 		{
-			logger.warn("map not present in list: " + map.getId() + " -> adding");
-
-			for(int i = 0; i < this.mapCBList.size(); i++)
-			{
-				((DefaultComboBoxModel<Map>) this.mapCBList.get(i).getModel()).addElement(map);
-			}
+			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_CONFIGURE.length()));
+			super.handleGeneratorConfigurationEvent(mapNumber);
 		}
-		// select map, then add
-		((DefaultComboBoxModel<Map>) this.mapCBList.get(index).getModel()).setSelectedItem(map);
 	}
 }

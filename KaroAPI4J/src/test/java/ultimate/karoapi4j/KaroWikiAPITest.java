@@ -27,16 +27,21 @@ public class KaroWikiAPITest
 	/**
 	 * Logger-Instance
 	 */
-	protected transient static final Logger	logger				= LogManager.getLogger(KaroWikiAPITest.class);
+	protected transient static final Logger	logger					= LogManager.getLogger(KaroWikiAPITest.class);
 
 	private static String					username;
 	private static String					password;
 
-	public static final String				PAGE_EXISTING		= "Test";
-	public static final String				PAGE_TEST_SECTION	= "== Ultimates Test Section ==";
-	public static final String				PAGE_NEXT_HEADLINE	= "==";
-	public static final String				PAGE_MISSING		= "Asdfasdfasdfasdf";
-	private static final int				EDIT_TESTS			= 1;
+	public static final String				PAGE_EXISTING			= "Test";
+	public static final String				PAGE_TEST_SECTION		= "== Ultimates Test Section ==";
+	public static final String				PAGE_NEXT_HEADLINE		= "==";
+	public static final String				PAGE_MISSING			= "Asdfasdfasdfasdf";
+	public static final String				DOUBLE_LINE_BREAK		= "\n\n";
+	private static final int				EDIT_TESTS				= 1;
+
+	public static final String				PAGE_WITH_FIXED_CONTENT	= "Test/Test";
+	public static final String				FIXED_CONTENT_WIKI		= "Bitte nicht verändern.\n{{Benutzer|ultimate}} benutzt das hier zum Testen...\n\n=== Kopfzeile ===\n* Aufgezählter Listeneintrag\n* Aufgezählter Listeneintrag\n* Aufgezählter Listeneintrag\n\nEnde";
+	public static final String				FIXED_CONTENT_HTML		= "<div class=\"mw-parser-output\"><p>Bitte nicht verändern.\n<a href=\"/Benutzer:Ultimate\" title=\"Benutzer:Ultimate\">ultimate</a> benutzt das hier zum Testen...\n</p>\n<h3><span class=\"mw-headline\" id=\"Kopfzeile\">Kopfzeile</span></h3>\n<ul><li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li></ul>\n<p>Ende\n</p></div>";
 
 	static
 	{
@@ -158,17 +163,17 @@ public class KaroWikiAPITest
 				if(index >= 0)
 				{
 					index = content.indexOf(PAGE_NEXT_HEADLINE, index + PAGE_TEST_SECTION.length());
-					newContent = content.substring(0, index) + "some new line --~~~~\n\n" + content.substring(index);
+					newContent = content.substring(0, index) + "some new line --~~~~" + DOUBLE_LINE_BREAK + content.substring(index);
 				}
 				else
 				{
-					newContent = content + "\n\nsome new line --~~~~";
+					newContent = content + DOUBLE_LINE_BREAK + "some new line --~~~~";
 				}
 
 				LocalDateTime date = LocalDateTime.now();
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
-				
+
 				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm, d. MMM. yyyy", Locale.GERMAN);
 				String dateString = dateFormatter.format(date);
 				dateString = dateString.replace("Mai.", "Mai");
@@ -187,13 +192,12 @@ public class KaroWikiAPITest
 			assertTrue(wl.logout().get());
 		}
 	}
-	
+
 	@Test
-	
 	public void test_dateFormat() throws Exception
 	{
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm, d. MMM. yyyy", Locale.GERMAN);
-		
+
 		logger.debug("current date time = " + dateFormatter.format(LocalDateTime.now()));
 		assertEquals("12:00, 1. Jan. 2022", dateFormatter.format(LocalDateTime.of(2022, 1, 1, 12, 00)));
 		assertEquals("12:00, 1. Feb. 2022", dateFormatter.format(LocalDateTime.of(2022, 2, 1, 12, 00)));
@@ -207,5 +211,44 @@ public class KaroWikiAPITest
 		assertEquals("12:00, 1. Okt. 2022", dateFormatter.format(LocalDateTime.of(2022, 10, 1, 12, 00)));
 		assertEquals("12:00, 1. Nov. 2022", dateFormatter.format(LocalDateTime.of(2022, 11, 1, 12, 00)));
 		assertEquals("12:00, 1. Dez. 2022", dateFormatter.format(LocalDateTime.of(2022, 12, 1, 12, 00)));
+	}
+
+	@Test
+	public void test_getContent_wiki() throws Exception
+	{
+		KaroWikiAPI wl = new KaroWikiAPI();
+		try
+		{
+			assertTrue(wl.login(username, password).get());
+			String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_WIKI).get();
+			assertNotNull(content);
+			assertEquals(FIXED_CONTENT_WIKI, content);
+		}
+		finally
+		{
+			assertTrue(wl.logout().get());
+		}
+	}
+
+	@Test
+	public void test_getContent_html() throws Exception
+	{
+		KaroWikiAPI wl = new KaroWikiAPI();
+		try
+		{
+			assertTrue(wl.login(username, password).get());
+			String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_HTML).get();
+			assertNotNull(content);
+			
+//			System.out.println("----------------------------------------------");
+//			System.out.println(content);
+//			System.out.println("----------------------------------------------");
+			
+			assertEquals(FIXED_CONTENT_HTML, content);
+		}
+		finally
+		{
+			assertTrue(wl.logout().get());
+		}
 	}
 }

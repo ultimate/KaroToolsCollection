@@ -22,10 +22,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -60,7 +62,11 @@ public abstract class JSONUtil
 	/**
 	 * The date format used
 	 */
-	public static final String				DATE_FORMAT			= "yyyy-MM-dd HH:mm:ss";
+	public static final String				DATE_FORMAT			= "yyyy-MM-dd";
+	/**
+	 * The datetime format used
+	 */
+	public static final String				DATETIME_FORMAT		= DATE_FORMAT + " HH:mm:ss";
 	/**
 	 * The date format used
 	 */
@@ -100,7 +106,7 @@ public abstract class JSONUtil
 		ObjectMapper mapper = new ObjectMapper();
 
 		// set the date format
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		DateFormat df = new SimpleDateFormat(DATETIME_FORMAT);
 		df.setTimeZone(TimeZone.getTimeZone("CET"));
 		mapper.setDateFormat(df);
 		// set the sort order for maps
@@ -737,4 +743,127 @@ public abstract class JSONUtil
 			return new LinkedHashSet<>(array.length);
 		}
 	}
+
+	/**
+	 * Custom serializer that can be used to convert {@link Identifiable} to IDs only
+	 * 
+	 * @author ultimate
+	 */
+    public static class IdentifiableSerializer<T extends Identifiable> extends JsonSerializer<T>
+    {
+		private Class<T> classRef;
+
+		public IdentifiableSerializer(Class<T> classRef)
+		{
+			super();
+			this.classRef = classRef;
+		}
+
+        @Override
+        public void serialize(T value, JsonGenerator gen, SerializerProvider serializers) throws IOException
+        {
+			if(value != null)
+			{
+				int id = value.getId();
+				logger.debug("writing " + classRef.getSimpleName() + " as id #" + id);
+				serializers.defaultSerializeValue(id, gen);
+			}
+			else
+			{
+				logger.debug("writing " + classRef.getSimpleName() + " as null");
+				serializers.defaultSerializeNull(gen);
+			}
+        }
+    }
+
+
+	/**
+	 * Custom deserializer that can be used to convert {@link Identifiable} from IDs only
+	 * 
+	 * @author ultimate
+	 */
+	public static class IdentifiableDeserializer<T extends Identifiable> extends JsonDeserializer<T>
+    {
+		private Class<T> classRef;
+
+		public IdentifiableDeserializer(Class<T> classRef)
+		{
+			super();
+			this.classRef = classRef;
+		}
+
+        @Override
+        public T deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
+        {
+            final JsonToken token= p.getCurrentToken();
+
+			Integer id = null;
+			// try to get the id
+			if (JsonToken.VALUE_NUMBER_INT.equals(token))
+			{
+				id = p.getIntValue(); // just read the id
+			}
+			else if (JsonToken.START_OBJECT.equals(token))
+            {
+				// read object as java.util.Map to be able to extract the id				
+				@SuppressWarnings("unchecked")
+				Map<String, Object> objAsMap = p.readValueAs(Map.class);				
+				// look for an id in the map (to be able to look up later)
+				if(objAsMap.containsKey("id"))
+				{
+					try
+					{
+						id = (Integer) objAsMap.get("id");
+					}
+					catch(ClassCastException e)
+					{						
+						logger.warn("could not cast id to Integer: " + objAsMap.get("id")); 
+					}
+				}
+				else
+				{					
+					logger.warn("no id found in object: " + objAsMap); 
+				}
+			}
+			else if (JsonToken.VALUE_NULL.equals(token))
+			{
+				id = null;
+			}
+			else
+			{
+				@SuppressWarnings("unchecked")
+				T unhandled = (T) ctxt.handleUnexpectedToken(classRef, p);
+				return unhandled;
+			}
+
+			if(id == null)
+				return null; // just return null
+
+			T entity = null;
+			// try to retrieve the entity
+			if(lookUp != null)
+			{
+				logger.trace("lookup " + classRef.getSimpleName() + " #" + id);
+				entity = lookUp.get(classRef, id);
+				logger.debug("lookup " + classRef.getSimpleName() + " #" + id + " --> " + entity);
+			}
+			else
+			{					
+				logger.warn("lookup is null");
+			}
+			if(entity == null)
+			{
+				logger.debug("lookup " + classRef.getSimpleName() + " #" + id + " failed --> instantiating empty Identifiable with id #" + id);
+				try
+				{						
+					entity = classRef.getDeclaredConstructor(Integer.class).newInstance(id);
+				}
+				catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
+				{
+					logger.error("could not instantiate Identifiable", e);
+				}
+			}
+			return entity;
+        }
+    }
 }

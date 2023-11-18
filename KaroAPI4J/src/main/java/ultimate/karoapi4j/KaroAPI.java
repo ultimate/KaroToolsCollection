@@ -4,9 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -29,11 +32,15 @@ import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
+import ultimate.karoapi4j.model.official.KarolenderBlatt;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.MovesListEntry;
 import ultimate.karoapi4j.model.official.NotesListEntry;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Smilie;
+import ultimate.karoapi4j.model.official.Tag;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.model.official.UserMessage;
 import ultimate.karoapi4j.utils.CollectionsUtil;
@@ -43,6 +50,7 @@ import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
+import ultimate.karoapi4j.utils.Version;
 
 /**
  * This is the wrapper for accessing the Karo API.<br>
@@ -71,7 +79,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Logger-Instance
 	 */
-	protected static transient final Logger	logger		= LogManager.getLogger(KaroAPI.class);
+	protected static transient final Logger	logger			= LogManager.getLogger(KaroAPI.class);
 
 	///////////////////////////////////////////
 	// config & constants & static variables //
@@ -80,30 +88,38 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The config key
 	 */
-	public static final String				CONFIG_KEY	= "karoAPI";
+	public static final String				CONFIG_KEY		= "karoAPI";
+	/**
+	 * The generator key
+	 */
+	public static final String				GENERATOR_KEY	= "generator";
 
 	/**
 	 * The default placeholder for API urls
 	 */
-	public static final String				PLACEHOLDER	= "$";
+	public static final String				PLACEHOLDER		= "$";
 	/**
 	 * The maximum number of allowed retries
 	 */
-	public static final int					MAX_RETRIES	= 10;
+	public static final int					MAX_RETRIES		= 10;
 
 	/**
 	 * The version of the {@link KaroAPI}
 	 */
-	private static String					version;
+	private static Version					version;
 	/**
-	 * The version of the {@link KaroAPI}
+	 * Init timeout set via property karoAPI.initTimeout
 	 */
-	private static int						initTimeout = 30;
+	private static int						initTimeout		= 30;
+	/**
+	 * Feature flag "ensureMapSee" set via property karoAPI.ensureMapSeed
+	 */
+	private static boolean					ensureMapSeed	= true;
 	/**
 	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
 	 * across multiple instances of the {@link KaroAPI}.
 	 */
-	private static ExecutorService			executor	= Executors.newFixedThreadPool(10);
+	private static ExecutorService			executor		= Executors.newFixedThreadPool(10);
 
 	/**
 	 * The name of the application using the {@link KaroAPI}
@@ -113,7 +129,12 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * The version of the application using the {@link KaroAPI}
 	 */
-	private static String					applicationVersion;
+	private static Version					applicationVersion;
+
+	/**
+	 * Additional API properties
+	 */
+	private static Properties				apiProperties;
 
 	static
 	{
@@ -121,13 +142,16 @@ public class KaroAPI implements IDLookUp
 		logger.debug("loading KaroAPI version");
 		try
 		{
-			Properties properties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
-			
-			version = properties.getProperty(KaroAPI.CONFIG_KEY + ".version");
-			logger.debug("version     = " + version);
+			apiProperties = PropertiesUtil.loadProperties(KaroAPI.class, "karoapi4j.properties");
 
-			initTimeout = Integer.parseInt(properties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
-			logger.debug("initTimeout = " + initTimeout);
+			version = new Version(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".version"));
+			logger.debug("version       = " + version);
+
+			initTimeout = Integer.parseInt(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".initTimeout"));
+			logger.debug("initTimeout   = " + initTimeout);
+
+			ensureMapSeed = Boolean.parseBoolean(apiProperties.getProperty(KaroAPI.CONFIG_KEY + ".ensureMapSeed"));
+			logger.debug("ensureMapSeed = " + ensureMapSeed);
 		}
 		catch(IOException e)
 		{
@@ -138,7 +162,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * @return the version of the {@link KaroAPI}
 	 */
-	public static String getVersion()
+	public static Version getVersion()
 	{
 		return version;
 	}
@@ -154,7 +178,7 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * @return the version of the application using the {@link KaroAPI}
 	 */
-	public static String getApplicationVersion()
+	public static Version getApplicationVersion()
 	{
 		return applicationVersion;
 	}
@@ -164,7 +188,7 @@ public class KaroAPI implements IDLookUp
 	 * 
 	 * @param applicationName - the name
 	 */
-	public static void setApplication(String applicationName, String applicationVersion)
+	public static void setApplication(String applicationName, Version applicationVersion)
 	{
 		KaroAPI.applicationName = applicationName;
 		KaroAPI.applicationVersion = applicationVersion;
@@ -222,10 +246,14 @@ public class KaroAPI implements IDLookUp
 	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<NotesListEntry>>() {});
 	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
 	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	public static final Function<String, List<Generator>>						PARSER_GENERATOR_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Generator>>() {});
 	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
 	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
 	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
 	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
+	public static final Function<String, List<KarolenderBlatt>>					PARSER_KAROLENDERBLATT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<KarolenderBlatt>>() {});
+	public static final Function<String, List<Smilie>>							PARSER_SMILIE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Smilie>>() {});
+	public static final Function<String, List<Tag>>								PARSER_TAG_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Tag>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES_MAP			= (result) -> {
 																												return CollectionsUtil
@@ -283,6 +311,10 @@ public class KaroAPI implements IDLookUp
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
 	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	// generators
+	protected final URLLoader													GENERATORS					= API.relative("/generators");
+	protected final URLLoader													GENERATE_CODE				= GENERATORS.relative("/" + PLACEHOLDER);
+	protected final URLLoader													GENERATE_MAP				= API.relative("/mapgenerator/generate");
 	// chat
 	protected final URLLoader													CHAT						= API.relative("/chat");
 	protected final URLLoader													CHAT_LAST					= CHAT.relative("/last");
@@ -290,6 +322,12 @@ public class KaroAPI implements IDLookUp
 	// messaging
 	protected final URLLoader													CONTACTS					= API.relative("/contacts");
 	protected final URLLoader													MESSAGES					= API.relative("/messages/" + PLACEHOLDER);
+	// misc
+	protected final URLLoader													KAROLENDERBLATT				= API.relative("/karolenderblatt");
+	protected final URLLoader													KAROLENDERBLATT_FOR_DATE	= KAROLENDERBLATT.relative("/" + PLACEHOLDER);
+	protected final URLLoader													SMILIES						= API.relative("/smilies");
+	protected final URLLoader													TAGS						= API.relative("/tags");
+	protected final URLLoader													TAGS_SUGGESTED				= TAGS.relative("/suggested-tags");
 
 	/**
 	 * The number of retries to perform.<br>
@@ -833,15 +871,37 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Create a new game
+	 * Create a new game.
+	 * If the map is set to a {@link Generator} the map will be generated first.
+	 * Note: Watch out for thread safety: Generated maps are one-time maps. A game has to be started on the generated map first, before generating the
+	 * next map!
 	 * 
 	 * @param plannedGame - the {@link PlannedGame} to create
 	 * @return the created {@link Game}
 	 */
 	public CompletableFuture<Game> createGame(PlannedGame plannedGame)
 	{
-		String json = JSONUtil.serialize(plannedGame);
-		return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
+		CompletableFuture<Map> ensureMap;
+
+		if(plannedGame.getMap() == null)
+			throw new IllegalArgumentException("plannedGame.map must not be null!");
+		else if(plannedGame.getMap() instanceof Generator)
+			ensureMap = generateMap((Generator) plannedGame.getMap());
+		else if(plannedGame.getMap() instanceof Map)
+			ensureMap = CompletableFuture.completedFuture((Map) plannedGame.getMap());
+		else
+			throw new IllegalArgumentException("unknown PlaceToRace type: " + plannedGame.getMap());
+
+		return ensureMap.thenApply(map -> {
+			if(map != plannedGame.getMap())
+			{
+				logger.debug("map generated : " + map.getId());
+				// overwrite the map generator with the generated map
+				plannedGame.setMap(map);
+			}
+			String json = JSONUtil.serialize(plannedGame);
+			return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
+		}).thenCompose(Function.identity());
 	}
 
 	/**
@@ -1136,6 +1196,93 @@ public class KaroAPI implements IDLookUp
 	}
 
 	///////////////////////
+	// generators
+	///////////////////////
+
+	/**
+	 * Get all generators
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GENERATORS
+	 * @return the list of all generators
+	 */
+	public CompletableFuture<List<Generator>> getGenerators()
+	{
+		return loadAsync(GENERATORS.doGet(), PARSER_GENERATOR_LIST).thenApply(gens -> {
+			gens.forEach(g -> {
+				if(!"fernschreiber".equalsIgnoreCase(g.getKey()))
+					g.getSettings().put("night", false);
+			});
+			return gens;
+		});
+	}
+
+	/**
+	 * Generate map code by use of a generator
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GENERATOR_GENERATE_CODE
+	 * @return the map code generated
+	 */
+	public CompletableFuture<String> generateCode(Generator generator)
+	{
+		HashMap<String, Object> settings = new HashMap<>(generator.getSettings());
+		convertValues(settings);
+		ensureMapSeed(settings);
+		return loadAsync(GENERATE_CODE.replace(PLACEHOLDER, generator.getKey()).parameterize(settings).doGet(), PARSER_RAW);
+	}
+
+	/**
+	 * Generate a one time map by use of a generator
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GENERATOR_GENERATE_MAP
+	 * @return the map code generated
+	 */
+	public CompletableFuture<Map> generateMap(Generator generator)
+	{
+		HashMap<String, Object> settings = new HashMap<>(generator.getSettings());
+		settings.put("generator", generator.getKey());
+		convertValues(settings);
+		ensureMapSeed(settings);
+		String json = JSONUtil.serialize(settings);
+		return loadAsync(GENERATE_MAP.doPost(json, EnumContentType.json), PARSER_MAP);
+	}
+
+	/**
+	 * Make sure that the settings contain a seed.
+	 * This is necessary if games are created right after another (within a second or less) because the seed on karopapier is based on server time
+	 * with just seconds.
+	 * 
+	 * @param settings
+	 */
+	private void ensureMapSeed(HashMap<String, Object> settings)
+	{
+		logger.debug("ensureMapSeed?" + ensureMapSeed + ", seed?" + settings.containsKey("seed") + ", seed=" + settings.get("seed"));
+		if(ensureMapSeed && (!settings.containsKey("seed") || "".equals(settings.get("seed"))))
+		{
+			// doesn't matter if we use int or string here because both are encoded the same way in the url
+			int seed = (int) (settings.hashCode() ^ System.currentTimeMillis());
+			logger.debug("generating random seed: " + seed);
+			settings.put("seed", seed);
+		}
+	}
+
+	/**
+	 * Make sure that values are understandable by karopapier (e.g. convert booleans to 0 or 1)
+	 * 
+	 * @param settings
+	 */
+	private void convertValues(HashMap<String, Object> settings)
+	{
+		for(Entry<String, Object> e: settings.entrySet())
+		{
+			if(e.getValue() instanceof Boolean)
+				settings.put(e.getKey(), (boolean) e.getValue() ? 1 : 0);
+		}
+	}
+
+	///////////////////////
 	// chat
 	///////////////////////
 
@@ -1255,6 +1402,48 @@ public class KaroAPI implements IDLookUp
 	}
 
 	///////////////////////
+	// misc
+	///////////////////////
+
+	/**
+	 * Get all the Karolender-Blatt for a specific date
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#KAROLENDERBLATT_FOR_DATE
+	 * @param date - the date to get the Karolenderblatt for
+	 * @return the Karolenderblatt entry
+	 */
+	public CompletableFuture<List<KarolenderBlatt>> getKarolenderBlatt(Date date)
+	{
+		String dateString = new SimpleDateFormat(JSONUtil.DATE_FORMAT).format(date);
+		return loadAsync(KAROLENDERBLATT_FOR_DATE.replace(PLACEHOLDER, dateString).doGet(), PARSER_KAROLENDERBLATT_LIST);
+	}
+
+	/**
+	 * Get the list of supported smilies
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#SMILIES
+	 * @return the list of smilies
+	 */
+	public CompletableFuture<List<Smilie>> getSmilies()
+	{
+		return loadAsync(SMILIES.doGet(), PARSER_SMILIE_LIST);
+	}
+
+	/**
+	 * Get the list of suggested tags
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#TAGS_SUGGESTED
+	 * @return the list of tags
+	 */
+	public CompletableFuture<List<Tag>> getSuggestedTags()
+	{
+		return loadAsync(TAGS_SUGGESTED.doGet(), PARSER_TAG_LIST);
+	}
+
+	///////////////////////
 	// load logic
 	///////////////////////
 
@@ -1343,5 +1532,60 @@ public class KaroAPI implements IDLookUp
 			logger.error("could not look up " + cls.getName() + " with id " + id, e);
 		}
 		return null;
+	}
+
+	///////////////////////
+	// ADDITIONAL PROPERTIES
+	///////////////////////
+
+	public static String getStringProperty(String key)
+	{
+		return apiProperties.getProperty(key);
+	}
+
+	public static String getStringProperty(String key, String defaultValue)
+	{
+		return apiProperties.getProperty(key, defaultValue);
+	}
+
+	public static int getIntProperty(String key)
+	{
+		return getIntProperty(key, 0);
+	}
+
+	public static int getIntProperty(String key, int defaultValue)
+	{
+		try
+		{
+			return Integer.parseInt(getStringProperty(key));
+		}
+		catch(NumberFormatException | NullPointerException e)
+		{
+			logger.warn("exception getting property '" + key + "'", e);
+			return defaultValue;
+		}
+	}
+
+	public static double getDoubleProperty(String key)
+	{
+		return getDoubleProperty(key, 0.0);
+	}
+
+	public static double getDoubleProperty(String key, double defaultValue)
+	{
+		try
+		{
+			return Double.parseDouble(getStringProperty(key));
+		}
+		catch(NumberFormatException | NullPointerException e)
+		{
+			logger.warn("exception getting property '" + key + "'", e);
+			return defaultValue;
+		}
+	}
+
+	public static boolean getBooleanProperty(String key)
+	{
+		return Boolean.parseBoolean(getStringProperty(key));
 	}
 }

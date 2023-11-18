@@ -7,18 +7,17 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 /**
  * POJO Options as defined by the {@link KaroAPI}
  * 
+ * From game creation
+ * "zzz": 2,
+ * "cps": true,
+ * "startdirection": "classic",
+ * "crashallowed": "forbidden"
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
 public class Options
 {
-	/*
-	 * From game creation
-	 * "zzz": 2,
-	 * "cps": true,
-	 * "startdirection": "classic",
-	 * "crashallowed": "forbidden"
-	 */
 	private int					zzz;
 	private boolean				cps;
 	private EnumGameDirection	startdirection;

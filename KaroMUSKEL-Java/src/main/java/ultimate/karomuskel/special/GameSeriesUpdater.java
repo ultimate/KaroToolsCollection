@@ -18,9 +18,11 @@ import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.Options;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -57,13 +59,13 @@ public abstract class GameSeriesUpdater
 
 		logger.info("converting home maps...");
 		User user;
-		Map map;
+		PlaceToRace map;
 		Team t;
-		for(Entry<String, List<Map>> homeMapEntry : gs.getMapsByKey().entrySet())
+		for(Entry<String, List<PlaceToRace>> homeMapEntry : gs.getMapsByKey().entrySet())
 		{
 			user = cache.getUser(Integer.parseInt(homeMapEntry.getKey()));
 			map = homeMapEntry.getValue().get(0);
-			logger.debug("- " + user.getLogin() + " (" + user.getId() + ") -> " + map.getId());
+			logger.debug("- " + user.getLogin() + " (" + user.getId() + ") -> " + (map instanceof Map ? ((Map) map).getId() : ((Generator) map).getKey()));
 			t = new Team(user.getLogin(), user, map);
 			gs.getTeams().add(t);
 		}
@@ -268,7 +270,7 @@ public abstract class GameSeriesUpdater
 				players.add(user2);
 				players.add(creator);
 
-				pg = new PlannedGame(game.getName(), map, players, options);
+				pg = new PlannedGame(game.getName(), map, players, options, null);
 				pg.setGame(game);
 				pg.setCreated(true);
 				pg.setLeft(true);
@@ -301,7 +303,7 @@ public abstract class GameSeriesUpdater
 		plannedGames.removeIf(pg -> { return !pg.isCreated(); });
 		logger.debug("plannedGamesStarted:  " + plannedGames.size());
 
-		List<Map> mapsStarted = new ArrayList<>();
+		List<PlaceToRace> mapsStarted = new ArrayList<>();
 		for(PlannedGame pg: plannedGames)
 		{
 			if(!mapsStarted.contains(pg.getMap()))
@@ -317,7 +319,7 @@ public abstract class GameSeriesUpdater
 				r.setNumberOfPlayers(4);
 		}
 
-		List<PlannedGame> plannedGamesNew = Planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), gs.getCreatorParticipation());
+		List<PlannedGame> plannedGamesNew = Planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), null, gs.getCreatorParticipation());
 		logger.debug("plannedGamesNew:     " + plannedGamesNew.size());		
 		
 		plannedGamesNew.removeIf(pg -> { return mapsStarted.contains(pg.getMap()); });

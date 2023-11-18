@@ -11,12 +11,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 
 /**
  * POJO PlannedGame (or game that shall be created) as defined by the {@link KaroAPI}
+ * from https://www.karopapier.de/api/example/game/new
+ * "name": "Neues Spiel",
+ * "map": 105,
+ * "players": [ 2241 ],
+ * "options": { .. } // see options
  * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
@@ -24,21 +30,16 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDConverter;
 @JsonFilter(value = JSONUtil.FILTER_UNOFFICIAL)
 public class PlannedGame
 {
-	/*
-	 * from https://www.karopapier.de/api/example/game/new
-	 * "name": "Neues Spiel",
-	 * "map": 105,
-	 * "players": [ 2241 ],
-	 * "options": { .. } // see options
-	 */
 	private String							name;
-	@JsonSerialize(converter = ToIDConverter.class)
-	@JsonDeserialize(converter = Map.FromIDConverter.class)
-	private Map								map;
+	@JsonSerialize(using = PlaceToRace.Serializer.class)
+	@JsonDeserialize(using = PlaceToRace.Deserializer.class)
+	private PlaceToRace						map;
 	@JsonSerialize(converter = ToIDArrayConverter.class)
 	@JsonDeserialize(converter = User.FromIDArrayToSetConverter.class)
 	private Set<User>						players;
 	private Options							options;
+	@JsonInclude(value = Include.NON_NULL)
+	private Set<String>						tags;
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonSerialize(converter = ToIDConverter.class)
 	@JsonDeserialize(converter = Game.FromIDConverter.class)
@@ -55,7 +56,7 @@ public class PlannedGame
 	@JsonInclude(value = Include.NON_NULL)
 	@JsonFilter(value = JSONUtil.FILTER_UNOFFICIAL)
 	private String							guest;
-	
+
 	// additional temporary properties (not serialized at all)
 	@JsonIgnore
 	private java.util.Map<String, String>	placeHolderValues;
@@ -67,18 +68,23 @@ public class PlannedGame
 		this.players = new LinkedHashSet<>();
 	}
 
-	public PlannedGame(String name, Map map, Set<User> players, Options options)
+	public PlannedGame(String name, PlaceToRace map, Set<User> players, Options options, Set<String> tags)
 	{
 		this();
 		this.name = name;
 		this.map = map;
 		this.players = new LinkedHashSet<>(players);
 		this.options = options;
+		
+		if(tags != null)
+			this.tags = new LinkedHashSet<>(tags);
+		else
+			this.tags = new LinkedHashSet<>();
 	}
 
-	public PlannedGame(String name, Map map, Set<User> players, Options options, java.util.Map<String, String> placeHolderValues)
+	public PlannedGame(String name, PlaceToRace map, Set<User> players, Options options, Set<String> tags, java.util.Map<String, String> placeHolderValues)
 	{
-		this(name, map, players, options);
+		this(name, map, players, options, tags);
 		this.placeHolderValues = placeHolderValues;
 	}
 
@@ -92,12 +98,12 @@ public class PlannedGame
 		this.name = name;
 	}
 
-	public Map getMap()
+	public PlaceToRace getMap()
 	{
 		return map;
 	}
 
-	public void setMap(Map map)
+	public void setMap(PlaceToRace map)
 	{
 		this.map = map;
 	}
@@ -120,6 +126,16 @@ public class PlannedGame
 	public void setOptions(Options options)
 	{
 		this.options = options;
+	}
+
+	public Set<String> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(Set<String> tags)
+	{
+		this.tags = tags;
 	}
 
 	public Game getGame()

@@ -165,7 +165,7 @@ public class RandomGameCreator
 			pg.setOptions(rules.createOptions(random, preferStandards));
 
 			sb.append("\n -> name           = " + pg.getName());
-			sb.append("\n -> map            = " + pg.getMap().getId());
+			sb.append("\n -> map            = " + pg.getMap());
 			sb.append("\n -> players        = " + toString(pg.getPlayers()));
 			sb.append("\n -> zzz            = " + pg.getOptions().getZzz());
 			sb.append("\n -> crashallowed   = " + pg.getOptions().getCrashallowed());

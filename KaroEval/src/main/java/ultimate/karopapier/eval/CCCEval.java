@@ -539,7 +539,7 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 	protected Map getMap(int challenge)
 	{
-		return this.data.getMapsByKey().get("" + challenge).get(0);
+		return (Map) this.data.getMapsByKey().get("" + challenge).get(0);
 	}
 
 	protected PlannedGame getGame(int challenge, int game)

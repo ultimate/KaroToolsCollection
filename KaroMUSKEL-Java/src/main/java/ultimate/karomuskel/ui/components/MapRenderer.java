@@ -14,6 +14,7 @@ import javax.swing.ListCellRenderer;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karomuskel.ui.Language;
 
+@Deprecated
 public class MapRenderer extends JLabel implements ListCellRenderer<Map>
 {
 	private static final long						serialVersionUID	= 1L;

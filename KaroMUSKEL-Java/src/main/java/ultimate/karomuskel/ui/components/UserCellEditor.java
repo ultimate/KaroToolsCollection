@@ -31,14 +31,14 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import ultimate.karoapi4j.KaroAPICache;
-import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.CollectionsUtil;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.screens.SummaryScreen.SummaryModel;
 
-// TODO IDEA Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die auch f�r die Serie ausgewählt wurden
+// TODO IDEA Filterung ermöglichen, nach der in der linken Liste nur die Spieler angezeigt werden, die auch für die Serie ausgewählt wurden
 public class UserCellEditor extends AbstractCellEditor implements TableCellEditor, ActionListener, TableCellRenderer
 {
 	private static final long	serialVersionUID	= 1L;
@@ -95,7 +95,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		return this.button;
 	}
 
-	private String userCollectionToString(Collection<User> users)
+	private static String userCollectionToString(Collection<User> users)
 	{
 		StringBuilder sb = new StringBuilder();
 		for(User user : users)
@@ -120,7 +120,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		{
 			List<User> tmpUsers = this.chooser.notSelectedUsersLI.getSelectedValuesList();
 			this.chooser.notSelectedUsersLI.clearSelection();
-			Map map = this.chooser.game.getMap();
+			PlaceToRace map = this.chooser.game.getMap();
 			for(User u : tmpUsers)
 			{
 				if(this.chooser.users.size() >= map.getPlayers())
@@ -211,6 +211,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 		{
 			super(frame);
 
+			this.setTitle(Language.getString("screen.summary.edit.players"));
 			this.setModal(true);
 			this.addWindowListener(this);
 

@@ -8,11 +8,12 @@ import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Test;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.utils.Version;
 
 public class LauncherTest
 {
-	private static final String	apiVersion	= "1.2.7";
-	private static final String	appVersion	= "3.1.5";
+	private static final Version	apiVersion	= new Version("1.3.0");
+	private static final Version	appVersion	= new Version("3.2.0");
 
 	@Test
 	public void test_APIVersion() throws InterruptedException, ExecutionException

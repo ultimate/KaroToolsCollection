@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.URLLoader;
+import ultimate.karoapi4j.utils.Version;
 
 /**
  * This is the wrapper for accessing the Karo Wiki API. It provides the basic functionality such as:
@@ -54,11 +55,11 @@ public class KaroWikiAPI
 	 * Logger-Instance
 	 */
 	protected transient final Logger	logger								= LogManager.getLogger(KaroWikiAPI.class);
-	
+
 	/**
 	 * The config key
 	 */
-	public static final String				CONFIG_KEY	= "karoWIKI";
+	public static final String			CONFIG_KEY							= "karoWIKI";
 
 	//////////////
 	// api URLs //
@@ -93,6 +94,12 @@ public class KaroWikiAPI
 	public static final String			PARAMETER_ACTION_QUERY_INPROP		= "inprop";
 	public static final String			PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
 
+	public static final String			ACTION_PARSE						= "parse";
+	public static final String			PARAMETER_ACTION_PARSE_PAGE			= "page";
+	public static final String			PARAMETER_ACTION_PARSE_PROP			= "prop";
+	public static final String			PARAMETER_ACTION_PARSE_PROP_TEXT	= "text";
+	public static final String			PARAMETER_ACTION_PARSE_PROP_WIKI	= "wikitext";
+
 	public static final String			ACTION_EDIT							= "edit";
 	public static final String			PARAMETER_ACTION_EDIT_TITLE			= "title";
 	public static final String			PARAMETER_ACTION_EDIT_TEXT			= "text";
@@ -104,12 +111,14 @@ public class KaroWikiAPI
 	public static final String			PARAMETER_ACTION_EDIT_BOT			= "bot";
 
 	public static final String			FORMAT_JSON							= "json";
+	public static final String			FORMAT_WIKI							= "wiki";
+	public static final String			FORMAT_HTML							= "html";
 
 	/**
 	 * @see KaroAPI#getVersion()
 	 * @return the version of the {@link KaroAPI}
 	 */
-	public static String getVersion()
+	public static Version getVersion()
 	{
 		return KaroAPI.getVersion();
 	}
@@ -422,22 +431,90 @@ public class KaroWikiAPI
 	}
 
 	/**
+	 * Parse a given page
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @param format - 'wiki' or 'html'
+	 * @return the map with the queried properties
+	 */
+	@SuppressWarnings("unchecked")
+	public CompletableFuture<Map<String, Object>> parse(String title, String format)
+	{
+
+		logger.debug("Performing parse format=" + format + " for page \"" + title + "\"...");
+
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		parameters.put(PARAMETER_ACTION, ACTION_PARSE);
+		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
+		parameters.put(PARAMETER_ACTION_PARSE_PAGE, title);
+		parameters.put(PARAMETER_ACTION_PARSE_PROP, format);
+		parameters.put("disablelimitreport", true);
+		parameters.put("disableeditsection", true);
+		parameters.put("disabletoc", true);
+
+		//@formatter:off
+		return CompletableFuture.supplyAsync(API.doPost(parameters, EnumContentType.text))
+				.thenApply(PARSER_JSON_OBJECT)
+				.thenApply(jsonObject -> {
+					if(jsonObject.containsKey("parse"))
+					{
+						Map<String, Object> result = (Map<String, Object>) jsonObject.get("parse");
+						int id = (int) result.get("pageid");
+						logger.debug("  Page existing with id " + id);
+						return result;
+					}
+					else
+					{
+						logger.debug("  Page not existing");
+						return null;
+					}
+				})
+				.exceptionally((ex) -> {
+					
+					logger.debug("  " + "Failed (" + ex + ")");
+					return null;
+					
+				});
+		//@formatter:on
+	}
+
+	/**
 	 * Get the content of the page with the given title
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @param title - the title of the page
 	 * @return the content
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public CompletableFuture<String> getContent(String title)
 	{
+		return getContent(title, FORMAT_WIKI);
+	}
+
+	/**
+	 * Get the content of the page with the given title
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @param title - the title of the page
+	 * @param format - 'wiki' or 'html'
+	 * @return the content
+	 */
+	@SuppressWarnings("unchecked")
+	public CompletableFuture<String> getContent(String title, String format)
+	{
+		String formatProp;
+		if(FORMAT_HTML.equalsIgnoreCase(format))
+			formatProp = PARAMETER_ACTION_PARSE_PROP_TEXT;
+		else if(FORMAT_WIKI.equalsIgnoreCase(format))
+			formatProp = PARAMETER_ACTION_PARSE_PROP_WIKI;
+		else
+			throw new IllegalArgumentException("format must be either 'wiki' or 'html'");
+
 		//@formatter:off
-		return queryRevisionProperties(title, "content")
+		return parse(title, formatProp)
 				.thenApply(properties -> {
-					if(properties.containsKey("missing"))
-						return null;
-					List<?> revisions = (List) properties.get("revisions");
-					return (String) ((Map<String, Object>) revisions.get(revisions.size() - 1)).get("*");
+//					logger.debug(properties);
+					return (String) ((Map<String, Object>) properties.get(formatProp)).get("*");
 				});
 		//@formatter:on
 	}

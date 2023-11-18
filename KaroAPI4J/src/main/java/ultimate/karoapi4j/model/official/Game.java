@@ -2,6 +2,7 @@ package ultimate.karoapi4j.model.official;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,26 @@ import ultimate.karoapi4j.utils.JSONUtil;
 /**
  * POJO Game as defined by the {@link KaroAPI}
  * 
+ * https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
+ * "id": 132000,
+ * "name": "Paket !KaroIQ!",
+ * "map": { }, // see type Map
+ * "cps": true,
+ * "zzz": 2,
+ * "crashallowed": "forbidden",
+ * "startdirection": "classic",
+ * "started": true,
+ * "finished": false,
+ * "starteddate": "2021-10-16 06:59:17",
+ * "finisheddate": "2021-10-16 06:59:17",
+ * "creator": "KaBotte",
+ * "next": { "id": 1641, "name": "ImThinkin" }, // reduced user
+ * "blocked": 1,
+ * "players": [ ] // see type Player
+ * "planned-moves": [ ] // see type Move
+ * "notes": ""
+ * "tags": ["tag1", "tag2"]
+ * 
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
@@ -26,26 +47,6 @@ public class Game extends Identifiable
 	public static class FromIDArrayToListConverter extends JSONUtil.FromIDArrayToListConverter<Game> { public FromIDArrayToListConverter() { super(Game.class); } };
 	//@formatter:on
 
-	/*
-	 * https://www.karopapier.de/api/games/44773?mapcode=1&players=1&moves=1
-	 * "id": 132000,
-	 * "name": "Paket !KaroIQ!",
-	 * "map": { }, // see type Map
-	 * "cps": true,
-	 * "zzz": 2,
-	 * "crashallowed": "forbidden",
-	 * "startdirection": "classic",
-	 * "started": true,
-	 * "finished": false,
-	 * "starteddate": "2021-10-16 06:59:17",
-	 * "finisheddate": "2021-10-16 06:59:17",
-	 * "creator": "KaBotte",
-	 * "next": { "id": 1641, "name": "ImThinkin" }, // reduced user
-	 * "blocked": 1,
-	 * "players": [ ] // see type Player
-	 * "planned-moves": [ ] // see type Move
-	 * "notes": ""
-	 */
 	// for id see super class
 	// private int id; // see super class
 	private String				name;
@@ -65,6 +66,7 @@ public class Game extends Identifiable
 	@JsonProperty("planned-moves")
 	private List<Move>			plannedMoves;
 	private String				notes;
+	private Set<String>		tags;
 
 	public Game()
 	{
@@ -234,6 +236,16 @@ public class Game extends Identifiable
 	public void setNotes(String notes)
 	{
 		this.notes = notes;
+	}
+
+	public Set<String> getTags()
+	{
+		return tags;
+	}
+
+	public void setTags(Set<String> tags)
+	{
+		this.tags = tags;
 	}
 
 	@Override

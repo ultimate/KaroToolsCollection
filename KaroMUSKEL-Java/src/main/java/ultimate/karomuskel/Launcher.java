@@ -19,8 +19,8 @@ import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.special.GameSeriesUpdater;
 import ultimate.karomuskel.ui.Language;
-import ultimate.karomuskel.ui.LoginDialog;
 import ultimate.karomuskel.ui.MainFrame;
+import ultimate.karomuskel.ui.dialog.LoginDialog;
 
 /**
  * This is the Launcher for the KaroMUSKEL. It contains the {@link Launcher#main(String[])} to run the program.<br>
@@ -193,6 +193,18 @@ public class Launcher
 		KaroAPI.setApplication(Language.getApplicationName(), Language.getApplicationVersion());
 		logger.info("version loaded: " + KaroAPI.getApplicationName() + "-" + KaroAPI.getApplicationVersion() + " | KaroAPI-" + KaroAPI.getVersion());		
 
+		if(Language.getAvailableVersion().compareTo(Language.getApplicationVersion()) > 0)
+		{
+			logger.info("a newer version is available: " + Language.getAvailableVersion());
+			String message = Language.getString("warning.newVersion");
+			message = Language.insertVersions(message);
+			JOptionPane.showMessageDialog(gui, message, Language.getString("warning.title"), JOptionPane.WARNING_MESSAGE, null);
+		}
+		else
+		{
+			logger.info("version is up to date :)");
+		}
+		
 		if(config.containsKey(KEY_THREADS))
 		{
 			try

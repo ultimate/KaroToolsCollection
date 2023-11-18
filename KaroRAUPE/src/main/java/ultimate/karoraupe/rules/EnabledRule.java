@@ -9,9 +9,21 @@ import ultimate.karoraupe.enums.EnumMoveTrigger;
 
 public class EnabledRule extends Rule
 {
+    private boolean test;
+    
     public EnabledRule()
     {
         this.supportedProperties.put(Mover.KEY_TRIGGER, EnumMoveTrigger.class);
+    }
+
+    public boolean isTest()
+    {
+        return test;
+    }
+
+    public void setTest(boolean test)
+    {
+        this.test = test;
     }
 
     @Override
@@ -22,6 +34,10 @@ public class EnabledRule extends Rule
         if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
         {
             return Result.dontMove("KaroRAUPE not enabled for this game");
+        }
+        else if(!test && trigger == EnumMoveTrigger.test)
+        {
+            return Result.dontMove("KaroRAUPE not enabled for this game (TEST)");
         }
         return Result.noResult();      
     }

@@ -46,6 +46,7 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
@@ -208,13 +209,27 @@ public abstract class GameSeriesManager
 	 */
 	public static int getIntConfig(GameSeries gs, String key)
 	{
+		return getIntConfig(gs, key, 0);
+	}
+
+	/**
+	 * Get a int config by key for a given {@link EnumGameSeriesType}. This is convienence for
+	 * <code>Integer.parseInt(getStringConfig(gameseries, key));</code>
+	 * 
+	 * @see GameSeriesManager#getStringConfig(GameSeries, String)
+	 * @param gs - the {@link GameSeries}
+	 * @param key - the key
+	 * @return the config value as int
+	 */
+	public static int getIntConfig(GameSeries gs, String key, int defaultValue)
+	{
 		try
 		{
 			return Integer.parseInt(getStringConfig(gs, key));
 		}
 		catch(NumberFormatException e)
 		{
-			return 0;
+			return defaultValue;
 		}
 	}
 
@@ -573,7 +588,12 @@ public abstract class GameSeriesManager
 			gs = new GameSeries(EnumGameSeriesType.Balanced);
 			gs.set(GameSeries.V2_TEAM_BASED, false);
 			gs.set(GameSeries.NUMBER_OF_MAPS, ((BalancedGameSeries) gs2).numberOfMaps);
-			gs.setMapsByKey(convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache));
+			java.util.Map<String, List<Map>> maps = convert(((BalancedGameSeries) gs2).mapList, Map.class, karoAPICache);
+			java.util.Map<String, List<PlaceToRace>> ptrs = new HashMap<>();
+			maps.entrySet().forEach(e -> {
+				ptrs.put(e.getKey(), convertMaps(e.getValue()));
+			});
+			gs.setMapsByKey(ptrs);
 			gs.setRulesByKey(convert(((BalancedGameSeries) gs2).rulesList));
 			// ((BalancedGameSeries) gs2).shuffledPlayers // ignore
 		}
@@ -655,7 +675,7 @@ public abstract class GameSeriesManager
 		gs.setLoaded(true);
 		if(gs.getPlayers() == null || gs.getPlayers().size() == 0) // only do this if the players have not yet been set (--> KLCGameSeries)
 			gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
-		gs.setMaps(convert(gs2.maps, Map.class, karoAPICache));
+		gs.setMaps(convertMaps(convert(gs2.maps, Map.class, karoAPICache)));
 		gs.setGames(convertGames(gs2.games, gs, karoAPICache));
 		gs.setRules(convert(gs2.rules));
 		gs.setCreatorGiveUp(gs2.rules.creatorGiveUp);
@@ -681,6 +701,16 @@ public abstract class GameSeriesManager
 		List<T> list = new ArrayList<>(list2.size());
 		for(T2 o2 : list2)
 			list.add(karoAPICache.get(cls, o2.getId()));
+		return list;
+	}
+
+	protected static List<PlaceToRace> convertMaps(List<Map> list2)
+	{
+		if(list2 == null)
+			return null;
+		List<PlaceToRace> list = new ArrayList<>(list2.size());
+		for(Map m2 : list2)
+			list.add(m2);
 		return list;
 	}
 
@@ -797,7 +827,8 @@ public abstract class GameSeriesManager
 	 * @param karoAPICache
 	 * @return
 	 */
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls, KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
+			KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
 			return null;
@@ -893,7 +924,8 @@ public abstract class GameSeriesManager
 				int koround = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.CURRENT_ROUND) : teams * 2);
 				while(teams > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams >= koround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && teams >= koround,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + teams));
 
 					if(gs.isLoaded() && teams == koround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -949,7 +981,8 @@ public abstract class GameSeriesManager
 				players = firstKO;
 				while(players > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players >= klcround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players >= klcround,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
 
 					if(gs.isLoaded() && players == klcround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -965,10 +998,12 @@ public abstract class GameSeriesManager
 				{
 					// create previous repeat screens
 					for(int i = 1; i <= repeat; i++)
-						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, true, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + i));
+						screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, true,
+								gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + i));
 					startScreen.setNext(screens.getLast()); // jump to the last summary
-					// add another final repeat 
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + (repeat+1)));
+					// add another final repeat
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, false,
+							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players + "." + GameSeries.KEY_REPEAT + (repeat + 1)));
 				}
 				break;
 			case Simple:

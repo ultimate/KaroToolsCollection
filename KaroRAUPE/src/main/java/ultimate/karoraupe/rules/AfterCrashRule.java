@@ -4,20 +4,26 @@ import java.util.Properties;
 
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoraupe.Mover;
 
 public class AfterCrashRule extends Rule
 {
+	public static final String			KEY_FROMZERO				= Mover.KEY_PREFIX + ".fromZero";
+
     public AfterCrashRule()
     {
-        //this.supportedProperties.put("key", class);
+        this.supportedProperties.put(KEY_FROMZERO, boolean.class);
     }
 
     @Override
     public Result evaluate(Game game, Player player, Properties gameConfig)
     {
-        if(player.getMotion() != null && player.getMotion().getXv() == 0 && player.getMotion().getYv() == 0)
+        if(player.getMotion() != null && player.getMotion().isCrash())
         {
-            return Result.dontMove("restart after crash");
+            if(!Boolean.valueOf(gameConfig.getProperty(KEY_FROMZERO)))
+                return Result.dontMove("start from zero");
+            else
+                return Result.noResult();
         }
         return Result.noResult();
     }

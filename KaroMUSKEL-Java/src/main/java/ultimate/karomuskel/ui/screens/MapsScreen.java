@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -13,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -20,27 +23,27 @@ import javax.swing.ListSelectionModel;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
-import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.components.GenericListModel;
-import ultimate.karomuskel.ui.components.MapRenderer;
+import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
+import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
-public class MapsScreen extends Screen implements ActionListener
+public class MapsScreen extends Screen implements ActionListener, MouseListener
 {
-	private static final long		serialVersionUID	= 1L;
+	private static final long					serialVersionUID	= 1L;
 
-	private JList<Map>				allMapsLI;
-	private JList<Map>				selectedMapsLI;
-	private JButton					addButton;
-	private JButton					removeButton;
+	private JList<PlaceToRace>					allMapsLI;
+	private JList<PlaceToRace>					selectedMapsLI;
+	private JButton								addButton;
+	private JButton								removeButton;
 
-	private int						minSupportedPlayersPerMap;
-
-	private TreeMap<Integer, Map>	maps;
+	private int									minSupportedPlayersPerMap;
 
 	public MapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
@@ -58,13 +61,13 @@ public class MapsScreen extends Screen implements ActionListener
 	@Override
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
-		Object[] maps = ((GenericListModel<Integer, Map>) selectedMapsLI.getModel()).getEntryArray();
+		PlaceToRace[] maps = ((GenericListModel<String, PlaceToRace>) selectedMapsLI.getModel()).getEntryArray();
 		if(maps.length == 0)
 			throw new GameSeriesException("screen.maps.nomap");
 		gameSeries.getMaps().clear();
-		for(Object map : maps)
+		for(PlaceToRace map : maps)
 		{
-			gameSeries.getMaps().add((Map) map);
+			gameSeries.getMaps().add(map);
 		}
 		return gameSeries;
 	}
@@ -79,7 +82,7 @@ public class MapsScreen extends Screen implements ActionListener
 			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 
 			this.removeAll();
-
+			
 			JPanel allMapsPanel = new JPanel();
 			allMapsPanel.setLayout(new BorderLayout(5, 5));
 			this.add(allMapsPanel);
@@ -95,7 +98,17 @@ public class MapsScreen extends Screen implements ActionListener
 			this.allMapsLI = new JList<>();
 			this.allMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.allMapsLI.setFixedCellWidth(1500);
-			this.allMapsLI.setCellRenderer(new MapRenderer());
+			this.allMapsLI.setCellRenderer(new PlaceToRaceRenderer(ptr -> {
+				if(ptr instanceof Generator)
+				{
+					if(((Generator) ptr).getUniqueId() == 0)
+						return Language.getString("screen.maps.addGenerator");
+					else
+						return Language.getString("screen.maps.editGenerator");
+				}
+				return null;
+			}));
+			this.allMapsLI.addMouseListener(this);
 			JScrollPane allMapsSP = new JScrollPane(this.allMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			allMapsPanel.add(new JLabel(Language.getString("screen.maps.allmaps")), BorderLayout.NORTH);
@@ -122,37 +135,45 @@ public class MapsScreen extends Screen implements ActionListener
 			this.selectedMapsLI = new JList<>();
 			this.selectedMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			this.selectedMapsLI.setFixedCellWidth(1500);
-			this.selectedMapsLI.setCellRenderer(new MapRenderer());
+			this.selectedMapsLI.setCellRenderer(new PlaceToRaceRenderer(ptr -> {
+				if(ptr instanceof Generator && ((Generator) ptr).getUniqueId() != 0)
+					return Language.getString("screen.maps.editGenerator");
+				return null;
+			}));
+			this.selectedMapsLI.addMouseListener(this);
 			JScrollPane selectedMapsSP = new JScrollPane(this.selectedMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
-			this.maps = new TreeMap<Integer, Map>(karoAPICache.getMapsById());
-			this.maps.values().removeIf(map -> { return map.getPlayers() < this.minSupportedPlayersPerMap; });
+			java.util.Map<String, PlaceToRace> maps = this.karoAPICache.getPlacesToRaceByKey();
+			maps.values().removeIf(map -> {
+				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
+			});
 
-			this.allMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, this.maps));
-			this.selectedMapsLI.setModel(new GenericListModel<Integer, Map>(Map.class, new TreeMap<Integer, Map>()));
+			this.allMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, maps));
+			this.selectedMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, new TreeMap<String, PlaceToRace>()));
 		}
 
 		if(this.firstShow)
 		{
 			// preselect values from gameseries
-			for(Map map : gameSeries.getMaps())
+			for(PlaceToRace map : gameSeries.getMaps())
 				preselectMap(map);
 		}
 
 		this.firstShow = false;
 	}
 
-	private void preselectMap(Map map)
+	private void preselectMap(PlaceToRace map)
 	{
-		logger.debug("preselect map: " + map.getId());
+		String key = karoAPICache.getPlaceToRaceKey(map);
+		logger.debug("preselect place to race: " + key);
 		// check map is present in list, if not, add first
-		if(!((GenericListModel<Integer, Map>) allMapsLI.getModel()).containsKey(map.getId()))
+		if(!((GenericListModel<String, PlaceToRace>) allMapsLI.getModel()).containsKey(key))
 		{
-			logger.warn("map not present in list: " + map.getId() + " -> adding");
-			((GenericListModel<Integer, Map>) allMapsLI.getModel()).addElement(map.getId(), map);
+			logger.warn("entry not present in list: " + key + " -> adding");
+			((GenericListModel<String, PlaceToRace>) allMapsLI.getModel()).addElement(key, map);
 			allMapsLI.setModel(allMapsLI.getModel());
 		}
 		// select map, then add
@@ -167,7 +188,7 @@ public class MapsScreen extends Screen implements ActionListener
 		{
 			boolean add = e.getActionCommand().startsWith("add");
 
-			JList<Map> addLI, remLI;
+			JList<PlaceToRace> addLI, remLI;
 			if(add)
 			{
 				addLI = selectedMapsLI;
@@ -178,15 +199,71 @@ public class MapsScreen extends Screen implements ActionListener
 				addLI = allMapsLI;
 				remLI = selectedMapsLI;
 			}
-			List<Map> maps = remLI.getSelectedValuesList();
-			Integer key;
-			for(Map m : maps)
+			List<PlaceToRace> maps = remLI.getSelectedValuesList();
+			String key;
+			for(PlaceToRace m : maps)
 			{
-				key = m.getId();
-				((GenericListModel<Integer, Map>) remLI.getModel()).removeElement(key);
-				((GenericListModel<Integer, Map>) addLI.getModel()).addElement(key, m);
+				key = karoAPICache.getPlaceToRaceKey(m);
+				if(m instanceof Generator && add && ((Generator) m).getUniqueId() == 0)
+				{
+					// create a copy to add to the list to the right
+					m = ((Generator) m).copy();
+					this.karoAPICache.cache((Generator) m);
+					key = karoAPICache.getPlaceToRaceKey(m);
+				}
+				((GenericListModel<String, PlaceToRace>) remLI.getModel()).removeElement(key);
+				((GenericListModel<String, PlaceToRace>) addLI.getModel()).addElement(key, m);
 			}
 			repaint();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		if(e.getSource() instanceof JList)
+		{
+			JList<PlaceToRace> list = (JList<PlaceToRace>) e.getSource();
+			if(e.getClickCount() == 2)
+			{
+				// Double-click detected
+				int index = list.locationToIndex(e.getPoint());
+				PlaceToRace ptr = list.getModel().getElementAt(index);
+				if(ptr instanceof Generator)
+				{
+					Generator g = (Generator) ptr;
+					if(g.getUniqueId() != 0)
+					{
+						int result = GeneratorDialog.getInstance().showEdit(this, g);
+						if(result == JOptionPane.OK_OPTION)
+						{
+							logger.debug("updating settings for generator " + g.getUniqueKey());
+							g.getSettings().putAll(GeneratorDialog.getInstance().getSettings());
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
 	}
 }

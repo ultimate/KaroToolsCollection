@@ -3,6 +3,7 @@ package ultimate.karoapi4j.model.extended;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +15,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
-import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
@@ -96,6 +96,11 @@ public class GameSeries
 	 */
 	protected String									title;
 	/**
+	 * the gameseries tags
+	 */
+	@JsonInclude(value = Include.NON_NULL)
+	private Set<String>									tags;
+	/**
 	 * the creator
 	 */
 	@JsonSerialize(converter = ToIDConverter.class)
@@ -141,10 +146,10 @@ public class GameSeries
 	/**
 	 * the list of maps used (optional)
 	 */
-	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDArrayConverter.class)
-	@JsonDeserialize(converter = Map.FromIDArrayToListConverter.class)
-	protected List<Map>									maps;
+	@JsonInclude(value = Include.NON_EMPTY)	
+	@JsonSerialize(using = PlaceToRace.ListSerializer.class)
+	@JsonDeserialize(using = PlaceToRace.ListDeserializer.class)
+	protected List<PlaceToRace>							maps;
 	/**
 	 * the general rules used
 	 */
@@ -168,9 +173,9 @@ public class GameSeries
 	 * additional map lists by key (optional)
 	 */
 	@JsonInclude(value = Include.NON_EMPTY)
-	@JsonSerialize(converter = ToIDMapConverter.class)
-	@JsonDeserialize(converter = Map.FromIDMapToListConverter.class)
-	protected java.util.Map<String, List<Map>>			mapsByKey;
+	@JsonSerialize(using = PlaceToRace.ListMapSerializer.class)
+	@JsonDeserialize(using = PlaceToRace.ListMapDeserializer.class)
+	protected java.util.Map<String, List<PlaceToRace>>	mapsByKey;
 	/**
 	 * additional rules by key (optional)
 	 */
@@ -244,6 +249,22 @@ public class GameSeries
 	public void setTitle(String title)
 	{
 		this.title = title;
+	}
+
+	/**
+	 * @return the gameseries tags 
+	 */
+	public Set<String> getTags()
+	{
+		return tags;
+	}
+
+	/**
+	 * @param tags - the gameseries tags
+	 */
+	public void setTags(Set<String> tags)
+	{
+		this.tags = tags;
 	}
 
 	/**
@@ -366,7 +387,7 @@ public class GameSeries
 	/**
 	 * @return the list of maps used (optional)
 	 */
-	public List<Map> getMaps()
+	public List<PlaceToRace> getMaps()
 	{
 		return maps;
 	}
@@ -374,7 +395,7 @@ public class GameSeries
 	/**
 	 * @param maps - the list of maps used (optional)
 	 */
-	public void setMaps(List<Map> maps)
+	public void setMaps(List<PlaceToRace> maps)
 	{
 		this.maps = maps;
 	}
@@ -430,7 +451,7 @@ public class GameSeries
 	/**
 	 * @return additional map lists by key (optional)
 	 */
-	public java.util.Map<String, List<Map>> getMapsByKey()
+	public java.util.Map<String, List<PlaceToRace>> getMapsByKey()
 	{
 		return mapsByKey;
 	}
@@ -438,7 +459,7 @@ public class GameSeries
 	/**
 	 * @param mapsByKey - additional map lists by key (optional)
 	 */
-	public void setMapsByKey(java.util.Map<String, List<Map>> mapsByKey)
+	public void setMapsByKey(java.util.Map<String, List<PlaceToRace>> mapsByKey)
 	{
 		this.mapsByKey = mapsByKey;
 	}
