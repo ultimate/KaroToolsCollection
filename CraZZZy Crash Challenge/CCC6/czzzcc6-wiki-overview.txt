@@ -48,7 +48,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||18
 ||32
 ||2023.11.08 17:27
-||37060
+||37061
 ||247.07
 ||891
 ||5.94
@@ -65,8 +65,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||11
 ||19
 ||2023.11.18 15:42
-||14529
-||96.86
+||14560
+||97.07
 ||988
 ||6.59
 |-
@@ -82,8 +82,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||14
 ||16
 ||2023.10.02 16:05
-||16513
-||110.09
+||16695
+||111.30
 ||540
 ||3.60
 |-
@@ -99,8 +99,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||10
 ||15
 ||2023.11.18 16:25
-||10530
-||70.20
+||10580
+||70.53
 ||709
 ||4.73
 |-
@@ -116,8 +116,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||12
 ||13
 ||2023.11.11 22:18
-||9025
-||60.17
+||9296
+||61.97
 ||485
 ||3.23
 |-
@@ -133,8 +133,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||12
 ||13
 ||2023.10.02 18:37
-||10569
-||70.46
+||10593
+||70.62
 ||587
 ||3.91
 |-
@@ -150,8 +150,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||14
 ||36
 ||2023.11.16 12:52
-||18678
-||124.52
+||18910
+||126.07
 ||690
 ||4.60
 |-
@@ -167,8 +167,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13
 ||12
 ||2023.11.16 11:14
-||7805
-||52.03
+||7881
+||52.54
 ||541
 ||3.61
 |-
@@ -184,8 +184,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||12
 ||13
 ||2023.10.15 10:50
-||8458
-||56.39
+||8465
+||56.43
 ||290
 ||1.93
 |-
@@ -235,8 +235,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13
 ||12
 ||2023.10.27 14:37
-||6881
-||45.87
+||7070
+||47.13
 ||439
 ||2.93
 |-
@@ -252,8 +252,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||12
 ||38
 ||2023.11.11 22:56
-||12045
-||80.30
+||12102
+||80.68
 ||729
 ||4.86
 |-
@@ -269,8 +269,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||14
 ||11
 ||2023.10.26 08:03
-||5390
-||35.93
+||5394
+||35.96
 ||252
 ||1.68
 |-
@@ -286,8 +286,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||11
 ||13
 ||2023.11.19 19:25
-||5580
-||37.20
+||5602
+||37.35
 ||304
 ||2.03
 |-
@@ -371,8 +371,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13
 ||11
 ||2023.11.17 22:43
-||3378
-||22.52
+||3384
+||22.56
 ||369
 ||2.46
 |-
@@ -422,8 +422,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||16
 ||32
 ||2023.11.20 17:10
-||4966
-||33.11
+||4986
+||33.24
 ||224
 ||1.49
 |-
@@ -439,8 +439,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||14
 ||34
 ||2023.11.20 19:32
-||3574
-||23.83
+||3784
+||25.23
 ||444
 ||2.96
 |-
@@ -456,8 +456,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||18
 ||18
 ||2023.11.16 07:59
-||2065
-||13.77
+||2370
+||15.80
 ||89
 ||0.59
 |-
@@ -468,8 +468,8 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||355
 ||513
 ||2023.11.20 19:32
-||245087
-||65.36
+||246774
+||65.81
 ||13701
 ||3.65
 |-
@@ -548,15 +548,49 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||36&nbsp;<span style="font-size:50%">(2)</span>
 | style="background:#AAFFAA;"|45&nbsp;<span style="font-size:50%">(2)</span>
 ||41&nbsp;<span style="font-size:50%">(1)</span>
-||38&nbsp;<span style="font-size:50%">(2)</span>
+||44&nbsp;<span style="font-size:50%">(2)</span>
 ||9143
 ||812
-||'''1057'''
+||'''1063'''
 ||103
-||'''1015'''
+||'''1021'''
 |-
 
 ||2.
+||'''[[Benutzer:ultimate|ultimate]]'''
+||38&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(1)</span>
+| style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(4)</span>
+||40&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||43&nbsp;<span style="font-size:50%">(3)</span>
+||36&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||41
+||32&nbsp;<span style="font-size:50%">(3)</span>
+||43&nbsp;<span style="font-size:50%">(1)</span>
+||41&nbsp;<span style="font-size:50%">(1)</span>
+||39&nbsp;<span style="font-size:50%">(2)</span>
+| style="background:#AAFFAA;"|42&nbsp;<span style="font-size:50%">(2)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||18&nbsp;<span style="font-size:50%">(4)</span>
+||43&nbsp;<span style="font-size:50%">(1)</span>
+||24&nbsp;<span style="font-size:50%">(4)</span>
+||38
+| style="background:#AAFFAA;"|46&nbsp;<span style="font-size:50%">(1)</span>
+||43&nbsp;<span style="font-size:50%">(2)</span>
+||9777
+| style="background:#AAFFAA;"|822
+||'''945'''
+||102
+||'''898'''
+|-
+
+||3.
 ||'''[[Benutzer:Karaser|Karaser]]'''
 ||38&nbsp;<span style="font-size:50%">(4)</span>
 ||37&nbsp;<span style="font-size:50%">(1)</span>
@@ -590,40 +624,6 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||'''891'''
 |-
 
-||3.
-||'''[[Benutzer:ultimate|ultimate]]'''
-||38&nbsp;<span style="font-size:50%">(1)</span>
-||41&nbsp;<span style="font-size:50%">(2)</span>
-||38&nbsp;<span style="font-size:50%">(1)</span>
-| style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(4)</span>
-||40&nbsp;<span style="font-size:50%">(2)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||34&nbsp;<span style="font-size:50%">(2)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||43&nbsp;<span style="font-size:50%">(3)</span>
-||36&nbsp;<span style="font-size:50%">(2)</span>
-||40&nbsp;<span style="font-size:50%">(1)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||41
-||32&nbsp;<span style="font-size:50%">(3)</span>
-||43&nbsp;<span style="font-size:50%">(1)</span>
-||41&nbsp;<span style="font-size:50%">(1)</span>
-||39&nbsp;<span style="font-size:50%">(2)</span>
-| style="background:#AAFFAA;"|42&nbsp;<span style="font-size:50%">(2)</span>
-||38&nbsp;<span style="font-size:50%">(2)</span>
-||18&nbsp;<span style="font-size:50%">(4)</span>
-||43&nbsp;<span style="font-size:50%">(1)</span>
-||24&nbsp;<span style="font-size:50%">(4)</span>
-||38
-| style="background:#AAFFAA;"|44&nbsp;<span style="font-size:50%">(1)</span>
-||37&nbsp;<span style="font-size:50%">(2)</span>
-||9777
-| style="background:#AAFFAA;"|822
-||'''936'''
-||102
-||'''889'''
-|-
-
 ||4.
 ||'''[[Benutzer:hasi|hasi]]'''
 ||37&nbsp;<span style="font-size:50%">(2)</span>
@@ -650,12 +650,12 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||27&nbsp;<span style="font-size:50%">(3)</span>
 ||25&nbsp;<span style="font-size:50%">(1)</span>
 ||39&nbsp;<span style="font-size:50%">(1)</span>
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||9435
+||39&nbsp;<span style="font-size:50%">(3)</span>
+||9436
 ||683
-||'''890'''
+||'''896'''
 ||99
-||'''845'''
+||'''851'''
 |-
 
 ||5.
@@ -683,18 +683,52 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||39&nbsp;<span style="font-size:50%">(1)</span>
 ||31&nbsp;<span style="font-size:50%">(3)</span>
 ||38&nbsp;<span style="font-size:50%">(2)</span>
-||38&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(2)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
 ||9651
 ||763
-||'''883'''
+||'''891'''
 ||101
-||'''839'''
+||'''849'''
 |-
 
 ||6.
+||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
+| style="background:#AAFFAA;"|43&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(1)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+| style="background:#AAFFAA;"|42&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||34
+||28&nbsp;<span style="font-size:50%">(5)</span>
+||44&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||26&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(1)</span>
+||25&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||44&nbsp;<span style="font-size:50%">(3)</span>
+||31&nbsp;<span style="font-size:50%">(3)</span>
+| style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(1)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(1)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(3)</span>
+||29&nbsp;<span style="font-size:50%">(1)</span>
+||37&nbsp;<span style="font-size:50%">(3)</span>
+||38&nbsp;<span style="font-size:50%">(2)</span>
+||10054
+||692
+||'''865'''
+||102
+||'''809'''
+|-
+
+||7.
 ||'''[[Benutzer:Slybotone|Slybotone]]'''
-||10
+||11
 ||37&nbsp;<span style="font-size:50%">(1)</span>
 ||34&nbsp;<span style="font-size:50%">(3)</span>
 ||29&nbsp;<span style="font-size:50%">(2)</span>
@@ -717,47 +751,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||42&nbsp;<span style="font-size:50%">(1)</span>
 ||39&nbsp;<span style="font-size:50%">(3)</span>
 ||36
-||32&nbsp;<span style="font-size:50%">(1)</span>
-||32&nbsp;<span style="font-size:50%">(4)</span>
-||10365
+||34&nbsp;<span style="font-size:50%">(1)</span>
+||18&nbsp;<span style="font-size:50%">(4)</span>
+||10394
 ||599
-||'''874'''
+||'''863'''
 ||104
-||'''818'''
-|-
-
-||7.
-||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
-| style="background:#AAFFAA;"|43&nbsp;<span style="font-size:50%">(1)</span>
-||34&nbsp;<span style="font-size:50%">(3)</span>
-||40&nbsp;<span style="font-size:50%">(1)</span>
-||29&nbsp;<span style="font-size:50%">(2)</span>
-| style="background:#AAFFAA;"|42&nbsp;<span style="font-size:50%">(2)</span>
-||32&nbsp;<span style="font-size:50%">(2)</span>
-||34
-||28&nbsp;<span style="font-size:50%">(5)</span>
-||44&nbsp;<span style="font-size:50%">(1)</span>
-||34&nbsp;<span style="font-size:50%">(3)</span>
-||26&nbsp;<span style="font-size:50%">(2)</span>
-||29&nbsp;<span style="font-size:50%">(1)</span>
-||25&nbsp;<span style="font-size:50%">(1)</span>
-||38&nbsp;<span style="font-size:50%">(2)</span>
-||44&nbsp;<span style="font-size:50%">(3)</span>
-||31&nbsp;<span style="font-size:50%">(3)</span>
-| style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(1)</span>
-||38&nbsp;<span style="font-size:50%">(2)</span>
-||32&nbsp;<span style="font-size:50%">(1)</span>
-||27&nbsp;<span style="font-size:50%">(1)</span>
-||35&nbsp;<span style="font-size:50%">(2)</span>
-||33&nbsp;<span style="font-size:50%">(3)</span>
-||29&nbsp;<span style="font-size:50%">(1)</span>
-||35&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||10054
-||692
-||'''855'''
-||102
-||'''799'''
+||'''807'''
 |-
 
 ||8.
@@ -785,50 +785,16 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||43&nbsp;<span style="font-size:50%">(3)</span>
 ||35&nbsp;<span style="font-size:50%">(2)</span>
 ||33&nbsp;<span style="font-size:50%">(1)</span>
-||23&nbsp;<span style="font-size:50%">(2)</span>
-||37&nbsp;<span style="font-size:50%">(2)</span>
-||9629
+||21&nbsp;<span style="font-size:50%">(2)</span>
+||42&nbsp;<span style="font-size:50%">(2)</span>
+||9640
 ||585
-||'''840'''
+||'''843'''
 ||101
-||'''780'''
+||'''783'''
 |-
 
 ||9.
-||'''[[Benutzer:Wobbel|Wobbel]]'''
-||37&nbsp;<span style="font-size:50%">(2)</span>
-||36&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(4)</span>
-| style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(1)</span>
-||34&nbsp;<span style="font-size:50%">(3)</span>
-||31&nbsp;<span style="font-size:50%">(2)</span>
-||32&nbsp;<span style="font-size:50%">(2)</span>
-||24&nbsp;<span style="font-size:50%">(4)</span>
-||34&nbsp;<span style="font-size:50%">(3)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||29
-||28&nbsp;<span style="font-size:50%">(3)</span>
-||27&nbsp;<span style="font-size:50%">(3)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||34&nbsp;<span style="font-size:50%">(2)</span>
-||20&nbsp;<span style="font-size:50%">(2)</span>
-||28&nbsp;<span style="font-size:50%">(4)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||32&nbsp;<span style="font-size:50%">(1)</span>
-||30&nbsp;<span style="font-size:50%">(3)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||32&nbsp;<span style="font-size:50%">(4)</span>
-||28&nbsp;<span style="font-size:50%">(4)</span>
-||20&nbsp;<span style="font-size:50%">(1)</span>
-| style="background:#AAFFAA;"|44&nbsp;<span style="font-size:50%">(2)</span>
-||10147
-||704
-||'''784'''
-||90
-||'''739'''
-|-
-
-||10.
 ||'''[[Benutzer:A300|A300]]'''
 ||40&nbsp;<span style="font-size:50%">(1)</span>
 ||31&nbsp;<span style="font-size:50%">(1)</span>
@@ -836,7 +802,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||34&nbsp;<span style="font-size:50%">(2)</span>
 ||40&nbsp;<span style="font-size:50%">(2)</span>
 ||30&nbsp;<span style="font-size:50%">(2)</span>
-||29
+||30
 ||37&nbsp;<span style="font-size:50%">(5)</span>
 ||37&nbsp;<span style="font-size:50%">(2)</span>
 ||38&nbsp;<span style="font-size:50%">(1)</span>
@@ -853,13 +819,47 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||29&nbsp;<span style="font-size:50%">(1)</span>
 ||32&nbsp;<span style="font-size:50%">(2)</span>
 ||19&nbsp;<span style="font-size:50%">(3)</span>
-||29
-||25&nbsp;<span style="font-size:50%">(4)</span>
-||10364
+||35
+||31&nbsp;<span style="font-size:50%">(4)</span>
+||10365
 ||742
-||'''785'''
+||'''798'''
 ||102
-||'''736'''
+||'''749'''
+|-
+
+||10.
+||'''[[Benutzer:Wobbel|Wobbel]]'''
+||37&nbsp;<span style="font-size:50%">(2)</span>
+||36&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+| style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(1)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(2)</span>
+||25&nbsp;<span style="font-size:50%">(4)</span>
+||34&nbsp;<span style="font-size:50%">(3)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||29
+||28&nbsp;<span style="font-size:50%">(3)</span>
+||27&nbsp;<span style="font-size:50%">(3)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||20&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(4)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(1)</span>
+||30&nbsp;<span style="font-size:50%">(3)</span>
+||33&nbsp;<span style="font-size:50%">(2)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||28&nbsp;<span style="font-size:50%">(4)</span>
+||19&nbsp;<span style="font-size:50%">(1)</span>
+| style="background:#AAFFAA;"|49&nbsp;<span style="font-size:50%">(2)</span>
+||10157
+||704
+||'''790'''
+||90
+||'''747'''
 |-
 
 ||11.
@@ -869,13 +869,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||32&nbsp;<span style="font-size:50%">(3)</span>
 ||29&nbsp;<span style="font-size:50%">(1)</span>
 ||37&nbsp;<span style="font-size:50%">(4)</span>
-||29&nbsp;<span style="font-size:50%">(2)</span>
-||29&nbsp;<span style="font-size:50%">(1)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
 ||40&nbsp;<span style="font-size:50%">(4)</span>
 ||38&nbsp;<span style="font-size:50%">(2)</span>
 ||34&nbsp;<span style="font-size:50%">(2)</span>
 ||29
-||17&nbsp;<span style="font-size:50%">(3)</span>
+||12&nbsp;<span style="font-size:50%">(3)</span>
 ||29&nbsp;<span style="font-size:50%">(1)</span>
 ||39&nbsp;<span style="font-size:50%">(2)</span>
 ||34&nbsp;<span style="font-size:50%">(1)</span>
@@ -887,13 +887,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||28&nbsp;<span style="font-size:50%">(3)</span>
 ||31&nbsp;<span style="font-size:50%">(1)</span>
 ||30&nbsp;<span style="font-size:50%">(3)</span>
-||28&nbsp;<span style="font-size:50%">(1)</span>
-||29&nbsp;<span style="font-size:50%">(2)</span>
-||10698
+||34&nbsp;<span style="font-size:50%">(1)</span>
+||36&nbsp;<span style="font-size:50%">(2)</span>
+||10753
 ||752
-||'''765'''
+||'''775'''
 ||98
-||'''711'''
+||'''724'''
 |-
 
 ||12.
@@ -909,7 +909,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||37&nbsp;<span style="font-size:50%">(2)</span>
 ||38&nbsp;<span style="font-size:50%">(3)</span>
 ||22&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(4)</span>
+||34&nbsp;<span style="font-size:50%">(4)</span>
 ||31
 ||32&nbsp;<span style="font-size:50%">(3)</span>
 ||33&nbsp;<span style="font-size:50%">(3)</span>
@@ -921,50 +921,16 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||30&nbsp;<span style="font-size:50%">(2)</span>
 ||27&nbsp;<span style="font-size:50%">(2)</span>
 ||26&nbsp;<span style="font-size:50%">(1)</span>
-||31
-||27&nbsp;<span style="font-size:50%">(2)</span>
-||10601
+||37
+||31&nbsp;<span style="font-size:50%">(2)</span>
+||10615
 ||689
-||'''760'''
+||'''773'''
 ||100
-||'''708'''
+||'''721'''
 |-
 
 ||13.
-||'''[[Benutzer:eris|eris]]'''
-||27&nbsp;<span style="font-size:50%">(2)</span>
-||29&nbsp;<span style="font-size:50%">(2)</span>
-||18&nbsp;<span style="font-size:50%">(3)</span>
-||35&nbsp;<span style="font-size:50%">(3)</span>
-||35&nbsp;<span style="font-size:50%">(1)</span>
-||32&nbsp;<span style="font-size:50%">(4)</span>
-||30&nbsp;<span style="font-size:50%">(1)</span>
-||25&nbsp;<span style="font-size:50%">(1)</span>
-||40&nbsp;<span style="font-size:50%">(3)</span>
-||16&nbsp;<span style="font-size:50%">(2)</span>
-||28&nbsp;<span style="font-size:50%">(2)</span>
-||31&nbsp;<span style="font-size:50%">(2)</span>
-||27&nbsp;<span style="font-size:50%">(1)</span>
-| style="background:#FFAAAA;"|7&nbsp;<span style="font-size:50%">(6)</span>
-||41&nbsp;<span style="font-size:50%">(3)</span>
-||25&nbsp;<span style="font-size:50%">(2)</span>
-||28&nbsp;<span style="font-size:50%">(1)</span>
-||28&nbsp;<span style="font-size:50%">(1)</span>
-||27&nbsp;<span style="font-size:50%">(2)</span>
-||35&nbsp;<span style="font-size:50%">(3)</span>
-||37&nbsp;<span style="font-size:50%">(2)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||33&nbsp;<span style="font-size:50%">(1)</span>
-||30&nbsp;<span style="font-size:50%">(1)</span>
-||32&nbsp;<span style="font-size:50%">(4)</span>
-||10117
-||631
-||'''726'''
-||95
-||'''689'''
-|-
-
-||14.
 ||'''[[Benutzer:eisbaer04|eisbaer04]]'''
 ||32&nbsp;<span style="font-size:50%">(3)</span>
 ||26&nbsp;<span style="font-size:50%">(1)</span>
@@ -977,7 +943,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||35&nbsp;<span style="font-size:50%">(3)</span>
 ||36&nbsp;<span style="font-size:50%">(3)</span>
 ||28&nbsp;<span style="font-size:50%">(2)</span>
-||26&nbsp;<span style="font-size:50%">(3)</span>
+||27&nbsp;<span style="font-size:50%">(3)</span>
 ||18
 ||33&nbsp;<span style="font-size:50%">(5)</span>
 ||25&nbsp;<span style="font-size:50%">(2)</span>
@@ -989,16 +955,16 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||29&nbsp;<span style="font-size:50%">(3)</span>
 ||36&nbsp;<span style="font-size:50%">(4)</span>
 ||30
-||29&nbsp;<span style="font-size:50%">(1)</span>
-||27&nbsp;<span style="font-size:50%">(2)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
+||35&nbsp;<span style="font-size:50%">(2)</span>
 ||10298
 ||660
-||'''734'''
+||'''749'''
 ||95
-||'''685'''
+||'''702'''
 |-
 
-||15.
+||14.
 ||'''[[Benutzer:aristarch|aristarch]]'''
 ||41
 ||30&nbsp;<span style="font-size:50%">(3)</span>
@@ -1023,13 +989,47 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||27
 ||27&nbsp;<span style="font-size:50%">(3)</span>
 ||33&nbsp;<span style="font-size:50%">(1)</span>
-||35&nbsp;<span style="font-size:50%">(1)</span>
-||41&nbsp;<span style="font-size:50%">(3)</span>
-||10984
+||37&nbsp;<span style="font-size:50%">(1)</span>
+||46&nbsp;<span style="font-size:50%">(3)</span>
+||10987
 ||726
-||'''741'''
+||'''748'''
 ||101
-||'''680'''
+||'''687'''
+|-
+
+||15.
+||'''[[Benutzer:eris|eris]]'''
+||27&nbsp;<span style="font-size:50%">(2)</span>
+||29&nbsp;<span style="font-size:50%">(2)</span>
+||15&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||35&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(4)</span>
+||30&nbsp;<span style="font-size:50%">(1)</span>
+||25&nbsp;<span style="font-size:50%">(1)</span>
+||40&nbsp;<span style="font-size:50%">(3)</span>
+||16&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(2)</span>
+||34&nbsp;<span style="font-size:50%">(2)</span>
+||27&nbsp;<span style="font-size:50%">(1)</span>
+| style="background:#FFAAAA;"|7&nbsp;<span style="font-size:50%">(6)</span>
+||41&nbsp;<span style="font-size:50%">(3)</span>
+||25&nbsp;<span style="font-size:50%">(2)</span>
+||28&nbsp;<span style="font-size:50%">(1)</span>
+||28&nbsp;<span style="font-size:50%">(1)</span>
+||27&nbsp;<span style="font-size:50%">(2)</span>
+||35&nbsp;<span style="font-size:50%">(3)</span>
+||37&nbsp;<span style="font-size:50%">(2)</span>
+||30&nbsp;<span style="font-size:50%">(2)</span>
+||33&nbsp;<span style="font-size:50%">(1)</span>
+||32&nbsp;<span style="font-size:50%">(1)</span>
+||26&nbsp;<span style="font-size:50%">(4)</span>
+||10162
+||631
+||'''722'''
+||95
+||'''687'''
 |-
 
 ||16.
@@ -1063,7 +1063,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||144
 ||'''158'''
 ||0
-||'''663'''
+||'''660'''
 |-
 
 ||17.
@@ -1074,7 +1074,7 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 | style="background:#FFAAAA;"|4&nbsp;<span style="font-size:50%">(6)</span>
 | style="background:#FFAAAA;"|6&nbsp;<span style="font-size:50%">(6)</span>
 | style="background:#FFAAAA;"|6&nbsp;<span style="font-size:50%">(6)</span>
-||23&nbsp;<span style="font-size:50%">(5)</span>
+||24&nbsp;<span style="font-size:50%">(5)</span>
 | style="background:#FFAAAA;"|5&nbsp;<span style="font-size:50%">(6)</span>
 | style="background:#FFAAAA;"|6&nbsp;<span style="font-size:50%">(6)</span>
 | style="background:#FFAAAA;"|4&nbsp;<span style="font-size:50%">(6)</span>
@@ -1095,18 +1095,18 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13&nbsp;<span style="font-size:50%">(6)</span>
 ||4781
 ||141
-||'''197'''
+||'''198'''
 ||2
-||'''644'''
+||'''642'''
 |-
 
 ||18.
 ||'''[[DeepPink]]'''
-||10
+||11
 ||42&nbsp;<span style="font-size:50%">(3)</span>
-||16&nbsp;<span style="font-size:50%">(1)</span>
+||17&nbsp;<span style="font-size:50%">(1)</span>
 ||39&nbsp;<span style="font-size:50%">(2)</span>
-||13&nbsp;<span style="font-size:50%">(3)</span>
+||14&nbsp;<span style="font-size:50%">(3)</span>
 ||34&nbsp;<span style="font-size:50%">(3)</span>
 ||31&nbsp;<span style="font-size:50%">(1)</span>
 ||33&nbsp;<span style="font-size:50%">(4)</span>
@@ -1125,13 +1125,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||42&nbsp;<span style="font-size:50%">(2)</span>
 | style="background:#AAFFAA;"|40&nbsp;<span style="font-size:50%">(2)</span>
 ||33&nbsp;<span style="font-size:50%">(1)</span>
-||28&nbsp;<span style="font-size:50%">(1)</span>
-||31&nbsp;<span style="font-size:50%">(3)</span>
-||11033
+||12&nbsp;<span style="font-size:50%">(1)</span>
+||18&nbsp;<span style="font-size:50%">(3)</span>
+||11133
 ||446
-||'''726'''
+||'''700'''
 ||103
-||'''636'''
+||'''610'''
 |-
 
 ||19.
@@ -1140,14 +1140,14 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||14&nbsp;<span style="font-size:50%">(2)</span>
 ||27&nbsp;<span style="font-size:50%">(1)</span>
 ||16&nbsp;<span style="font-size:50%">(3)</span>
-||17&nbsp;<span style="font-size:50%">(3)</span>
+||14&nbsp;<span style="font-size:50%">(3)</span>
 ||32&nbsp;<span style="font-size:50%">(4)</span>
 ||26
-||29&nbsp;<span style="font-size:50%">(2)</span>
+||31&nbsp;<span style="font-size:50%">(2)</span>
 ||34&nbsp;<span style="font-size:50%">(2)</span>
 ||25&nbsp;<span style="font-size:50%">(3)</span>
 ||18&nbsp;<span style="font-size:50%">(1)</span>
-||21&nbsp;<span style="font-size:50%">(3)</span>
+||17&nbsp;<span style="font-size:50%">(3)</span>
 ||23
 ||31&nbsp;<span style="font-size:50%">(3)</span>
 ||38&nbsp;<span style="font-size:50%">(2)</span>
@@ -1159,13 +1159,13 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||34&nbsp;<span style="font-size:50%">(2)</span>
 ||21&nbsp;<span style="font-size:50%">(2)</span>
 ||27&nbsp;<span style="font-size:50%">(2)</span>
-||24&nbsp;<span style="font-size:50%">(1)</span>
-||19&nbsp;<span style="font-size:50%">(2)</span>
-||10849
+||23&nbsp;<span style="font-size:50%">(1)</span>
+||20&nbsp;<span style="font-size:50%">(2)</span>
+||10953
 ||612
-||'''648'''
+||'''643'''
 ||100
-||'''588'''
+||'''581'''
 |-
 
 ||20.
@@ -1177,29 +1177,29 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||36&nbsp;<span style="font-size:50%">(3)</span>
 ||25&nbsp;<span style="font-size:50%">(3)</span>
 ||29&nbsp;<span style="font-size:50%">(1)</span>
-||22&nbsp;<span style="font-size:50%">(3)</span>
+||24&nbsp;<span style="font-size:50%">(3)</span>
 ||34&nbsp;<span style="font-size:50%">(3)</span>
 ||33&nbsp;<span style="font-size:50%">(2)</span>
 ||16&nbsp;<span style="font-size:50%">(3)</span>
-||16&nbsp;<span style="font-size:50%">(4)</span>
+||12&nbsp;<span style="font-size:50%">(4)</span>
 ||20&nbsp;<span style="font-size:50%">(1)</span>
 ||31&nbsp;<span style="font-size:50%">(1)</span>
-||11&nbsp;<span style="font-size:50%">(4)</span>
+||10&nbsp;<span style="font-size:50%">(4)</span>
 ||31&nbsp;<span style="font-size:50%">(3)</span>
 ||25&nbsp;<span style="font-size:50%">(3)</span>
 ||24&nbsp;<span style="font-size:50%">(1)</span>
 ||28&nbsp;<span style="font-size:50%">(2)</span>
-||9&nbsp;<span style="font-size:50%">(5)</span>
+||10&nbsp;<span style="font-size:50%">(5)</span>
 ||26&nbsp;<span style="font-size:50%">(2)</span>
 ||29&nbsp;<span style="font-size:50%">(4)</span>
 ||36&nbsp;<span style="font-size:50%">(2)</span>
-||13&nbsp;<span style="font-size:50%">(3)</span>
-||31&nbsp;<span style="font-size:50%">(3)</span>
-||10470
+||15&nbsp;<span style="font-size:50%">(3)</span>
+||18&nbsp;<span style="font-size:50%">(3)</span>
+||10575
 ||566
-||'''625'''
+||'''612'''
 ||87
-||'''558'''
+||'''545'''
 |-
 
 ||21.
@@ -1211,11 +1211,11 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||37&nbsp;<span style="font-size:50%">(4)</span>
 ||16&nbsp;<span style="font-size:50%">(3)</span>
 ||18
-||11&nbsp;<span style="font-size:50%">(3)</span>
+||8&nbsp;<span style="font-size:50%">(3)</span>
 ||33&nbsp;<span style="font-size:50%">(3)</span>
 ||32&nbsp;<span style="font-size:50%">(3)</span>
 ||17&nbsp;<span style="font-size:50%">(1)</span>
-||16&nbsp;<span style="font-size:50%">(2)</span>
+||20&nbsp;<span style="font-size:50%">(2)</span>
 ||15&nbsp;<span style="font-size:50%">(2)</span>
 ||34&nbsp;<span style="font-size:50%">(3)</span>
 ||21&nbsp;<span style="font-size:50%">(2)</span>
@@ -1227,22 +1227,22 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||36&nbsp;<span style="font-size:50%">(1)</span>
 ||29&nbsp;<span style="font-size:50%">(3)</span>
 ||12
-||20&nbsp;<span style="font-size:50%">(1)</span>
-||30&nbsp;<span style="font-size:50%">(2)</span>
-||10512
+||24&nbsp;<span style="font-size:50%">(1)</span>
+||36&nbsp;<span style="font-size:50%">(2)</span>
+||10564
 ||467
-||'''587'''
+||'''598'''
 ||96
-||'''525'''
+||'''534'''
 |-
 
 ||22.
 ||'''[[Benutzer:Botrix|Botrix]]'''
 ||33&nbsp;<span style="font-size:50%">(2)</span>
 ||28&nbsp;<span style="font-size:50%">(2)</span>
-||13&nbsp;<span style="font-size:50%">(2)</span>
-||12&nbsp;<span style="font-size:50%">(2)</span>
 ||14&nbsp;<span style="font-size:50%">(2)</span>
+||13&nbsp;<span style="font-size:50%">(2)</span>
+||15&nbsp;<span style="font-size:50%">(2)</span>
 ||24&nbsp;<span style="font-size:50%">(3)</span>
 ||33&nbsp;<span style="font-size:50%">(2)</span>
 ||33&nbsp;<span style="font-size:50%">(2)</span>
@@ -1257,17 +1257,17 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||13&nbsp;<span style="font-size:50%">(1)</span>
 ||20&nbsp;<span style="font-size:50%">(2)</span>
 ||37&nbsp;<span style="font-size:50%">(2)</span>
-||10&nbsp;<span style="font-size:50%">(4)</span>
+||8&nbsp;<span style="font-size:50%">(4)</span>
 ||34&nbsp;<span style="font-size:50%">(3)</span>
 ||32&nbsp;<span style="font-size:50%">(1)</span>
 ||37&nbsp;<span style="font-size:50%">(1)</span>
-||27&nbsp;<span style="font-size:50%">(1)</span>
-||33&nbsp;<span style="font-size:50%">(2)</span>
-||10016
+||12&nbsp;<span style="font-size:50%">(1)</span>
+||18&nbsp;<span style="font-size:50%">(2)</span>
+||10142
 ||335
-||'''618'''
+||'''589'''
 ||99
-||'''518'''
+||'''491'''
 |-
 
 ||23.
@@ -1276,17 +1276,17 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||11&nbsp;<span style="font-size:50%">(3)</span>
 ||9&nbsp;<span style="font-size:50%">(1)</span>
 ||17&nbsp;<span style="font-size:50%">(2)</span>
-||8&nbsp;<span style="font-size:50%">(3)</span>
-||11&nbsp;<span style="font-size:50%">(4)</span>
-||21&nbsp;<span style="font-size:50%">(3)</span>
+||9&nbsp;<span style="font-size:50%">(3)</span>
+||12&nbsp;<span style="font-size:50%">(4)</span>
+||22&nbsp;<span style="font-size:50%">(3)</span>
 ||28&nbsp;<span style="font-size:50%">(5)</span>
 ||13&nbsp;<span style="font-size:50%">(3)</span>
 ||10&nbsp;<span style="font-size:50%">(4)</span>
 ||15&nbsp;<span style="font-size:50%">(3)</span>
-||12&nbsp;<span style="font-size:50%">(3)</span>
+||14&nbsp;<span style="font-size:50%">(3)</span>
 ||15&nbsp;<span style="font-size:50%">(2)</span>
 ||34&nbsp;<span style="font-size:50%">(4)</span>
-||11&nbsp;<span style="font-size:50%">(3)</span>
+||12&nbsp;<span style="font-size:50%">(3)</span>
 ||32&nbsp;<span style="font-size:50%">(3)</span>
 ||17&nbsp;<span style="font-size:50%">(3)</span>
 ||17&nbsp;<span style="font-size:50%">(3)</span>
@@ -1295,32 +1295,32 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||28&nbsp;<span style="font-size:50%">(3)</span>
 ||25&nbsp;<span style="font-size:50%">(2)</span>
 ||21&nbsp;<span style="font-size:50%">(2)</span>
-||19&nbsp;<span style="font-size:50%">(3)</span>
-||34&nbsp;<span style="font-size:50%">(1)</span>
-||10380
+||23&nbsp;<span style="font-size:50%">(3)</span>
+||18&nbsp;<span style="font-size:50%">(1)</span>
+||10707
 ||341
-||'''466'''
+||'''460'''
 ||78
-||'''371'''
+||'''365'''
 |-
 
 ||24.
 ||'''[[Benutzer:flinkman|flinkman]]'''
 ||11&nbsp;<span style="font-size:50%">(5)</span>
 ||7&nbsp;<span style="font-size:50%">(2)</span>
-||8&nbsp;<span style="font-size:50%">(5)</span>
-||8&nbsp;<span style="font-size:50%">(1)</span>
+||9&nbsp;<span style="font-size:50%">(5)</span>
+||7&nbsp;<span style="font-size:50%">(1)</span>
 ||9&nbsp;<span style="font-size:50%">(1)</span>
-||10&nbsp;<span style="font-size:50%">(5)</span>
-||10&nbsp;<span style="font-size:50%">(3)</span>
-||19&nbsp;<span style="font-size:50%">(3)</span>
+||8&nbsp;<span style="font-size:50%">(5)</span>
+||6&nbsp;<span style="font-size:50%">(3)</span>
+||15&nbsp;<span style="font-size:50%">(3)</span>
 ||8&nbsp;<span style="font-size:50%">(4)</span>
 ||10&nbsp;<span style="font-size:50%">(4)</span>
 ||14&nbsp;<span style="font-size:50%">(4)</span>
-||13&nbsp;<span style="font-size:50%">(4)</span>
+||12&nbsp;<span style="font-size:50%">(4)</span>
 ||6&nbsp;<span style="font-size:50%">(2)</span>
 ||10&nbsp;<span style="font-size:50%">(4)</span>
-||9&nbsp;<span style="font-size:50%">(3)</span>
+||10&nbsp;<span style="font-size:50%">(3)</span>
 ||10&nbsp;<span style="font-size:50%">(6)</span>
 ||10&nbsp;<span style="font-size:50%">(2)</span>
 ||8&nbsp;<span style="font-size:50%">(6)</span>
@@ -1329,29 +1329,29 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 ||8&nbsp;<span style="font-size:50%">(5)</span>
 ||12&nbsp;<span style="font-size:50%">(4)</span>
 ||8&nbsp;<span style="font-size:50%">(3)</span>
-||21&nbsp;<span style="font-size:50%">(1)</span>
-||21&nbsp;<span style="font-size:50%">(5)</span>
-||10040
+||12&nbsp;<span style="font-size:50%">(1)</span>
+||29&nbsp;<span style="font-size:50%">(5)</span>
+||10744
 ||139
-||'''305'''
+||'''294'''
 ||61
-||'''257'''
+||'''244'''
 |-
 
 ||25.
 ||'''[[Benutzer:DerFlieger|DerFlieger]]'''
-||11
+||12
 ||7
+||10
+||7
+||10
 ||8
-||7
-||8
-||7
 ||4
 ||6
-||7
+||8
 ||6
 ||6
-||9
+||12
 ||4
 ||8
 | style="background:#FFAAAA;"|-
@@ -1367,9 +1367,9 @@ Folgende Challenges werden bei der CraZZZy Crash Challenge 6 gefahren:
 | style="background:#FFAAAA;"|-
 | style="background:#FFAAAA;"|13128
 | style="background:#FFAAAA;"|44
-||'''98'''
+||'''108'''
 ||84
-||'''44'''
+||'''54'''
 |-
 |}
 

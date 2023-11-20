@@ -536,7 +536,9 @@ public class CCCEvalNew extends CCCEval
 	{
 		// moves
 		int moves = 0;
-		if(player.getStatus() == EnumPlayerStatus.ok && player.getRank() == 0)
+		if(forbidden)
+			moves = (int) (this.challengeMetrics[c][METRICS_GAME_MAXMOVES] + 1); // disqualified
+		else if(player.getStatus() == EnumPlayerStatus.ok && player.getRank() == 0)
 			moves = player.getMoveCount(); // still racing
 		else if(player.getStatus() == EnumPlayerStatus.ok)
 			moves = player.getMoveCount() - 1; // parc ferme
