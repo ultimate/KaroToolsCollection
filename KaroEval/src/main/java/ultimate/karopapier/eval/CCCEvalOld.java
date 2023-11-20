@@ -161,7 +161,7 @@ public class CCCEvalOld extends CCCEval
 				row[col] = userChallengeStats[c].get(user.getId()).scaled;
 
 				if(userChallengeStats[c].get(user.getId()).scaled >= 100.0)
-					row[col] = WikiUtil.highlight(WikiUtil.preprocess(row[col]));
+					row[col] = WikiUtil.bold(WikiUtil.preprocess(row[col]));
 
 				if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
 				{
@@ -184,17 +184,17 @@ public class CCCEvalOld extends CCCEval
 			finalTable.addRow(row);
 
 			// set highlights
-			finalTable.setHighlight(rows, 1, true);
+			finalTable.setBold(rows, 1, true);
 			if(us.basic == maxs.basic)
-				finalTable.setHighlight(rows, stats_challengesCreated + 2, true);
+				finalTable.setBold(rows, stats_challengesCreated + 2, true);
 			if(us.crashs == maxs.crashs)
-				finalTable.setHighlight(rows, stats_challengesCreated + 3, true);
+				finalTable.setBold(rows, stats_challengesCreated + 3, true);
 			if(us.moves == mins.moves)
-				finalTable.setHighlight(rows, stats_challengesCreated + 4, true);
+				finalTable.setBold(rows, stats_challengesCreated + 4, true);
 			if(us.bonus2 > 0)
-				finalTable.setHighlight(rows, stats_challengesCreated + 7, true);
-			finalTable.setHighlight(rows, stats_challengesCreated + 8, true); // total
-			finalTable.setHighlight(rows, stats_challengesCreated + 10, true); // totalExpected
+				finalTable.setBold(rows, stats_challengesCreated + 7, true);
+			finalTable.setBold(rows, stats_challengesCreated + 8, true); // total
+			finalTable.setBold(rows, stats_challengesCreated + 10, true); // totalExpected
 
 			rows++;
 		}
@@ -283,19 +283,19 @@ public class CCCEvalOld extends CCCEval
 				row[col++] = "-";
 			totalTables[c].addRow(row);
 
-			totalTables[c].setHighlight(rows, 0, true);
+			totalTables[c].setBold(rows, 0, true);
 			if(userChallengeStats[c].get(user.getId()).basic == maxs.basic)
-				totalTables[c].setHighlight(rows, challengeGames[c] + 1, true);
+				totalTables[c].setBold(rows, challengeGames[c] + 1, true);
 			if(userChallengeStats[c].get(user.getId()).crashs == maxs.crashs)
-				totalTables[c].setHighlight(rows, challengeGames[c] + 2, true);
+				totalTables[c].setBold(rows, challengeGames[c] + 2, true);
 			if(userChallengeStats[c].get(user.getId()).moves == mins.moves)
-				totalTables[c].setHighlight(rows, challengeGames[c] + 3, true);
+				totalTables[c].setBold(rows, challengeGames[c] + 3, true);
 			if(userChallengeStats[c].get(user.getId()).unscaled == maxs.unscaled)
-				totalTables[c].setHighlight(rows, challengeGames[c] + 4, true);
+				totalTables[c].setBold(rows, challengeGames[c] + 4, true);
 			if(userChallengeStats[c].get(user.getId()).scaled == maxs.scaled)
-				totalTables[c].setHighlight(rows, challengeGames[c] + 5, true);
+				totalTables[c].setBold(rows, challengeGames[c] + 5, true);
 			if(userChallengeStats[c].get(user.getId()).bonus1 > 0)
-				totalTables[c].setHighlight(rows, challengeGames[c] + 6, true);
+				totalTables[c].setBold(rows, challengeGames[c] + 6, true);
 
 			rows++;
 		}

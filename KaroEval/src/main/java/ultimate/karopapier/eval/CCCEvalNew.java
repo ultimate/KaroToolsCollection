@@ -160,7 +160,7 @@ public class CCCEvalNew extends CCCEval
 				}
 
 				if(userChallengeStats[c].get(user.getId()).total >= stats_challengePointsMax)
-					row[col] = WikiUtil.highlight(WikiUtil.preprocess(row[col]));
+					row[col] = WikiUtil.bold(WikiUtil.preprocess(row[col]));
 
 				if(!challengeUsers[c].contains(user))
 				{
@@ -198,12 +198,12 @@ public class CCCEvalNew extends CCCEval
 			finalTable.addRow(row);
 
 			// set highlights
-			finalTable.setHighlight(rows, 1, true);
-			finalTable.setHighlight(rows, stats_challengesCreated + 2, us.moves == mins.moves); // moves
-			finalTable.setHighlight(rows, stats_challengesCreated + 3, us.crashs == maxs.crashs); // crashs
-			finalTable.setHighlight(rows, stats_challengesCreated + 4, true); // total
-			finalTable.setHighlight(rows, stats_challengesCreated + 5, false); // finished
-			finalTable.setHighlight(rows, stats_challengesCreated + 6, true); // expected
+			finalTable.setBold(rows, 1, true);
+			finalTable.setBold(rows, stats_challengesCreated + 2, us.moves == mins.moves); // moves
+			finalTable.setBold(rows, stats_challengesCreated + 3, us.crashs == maxs.crashs); // crashs
+			finalTable.setBold(rows, stats_challengesCreated + 4, true); // total
+			finalTable.setBold(rows, stats_challengesCreated + 5, false); // finished
+			finalTable.setBold(rows, stats_challengesCreated + 6, true); // expected
 
 			rows++;
 		}
@@ -474,8 +474,8 @@ public class CCCEvalNew extends CCCEval
 			if(currentPoints == maxPoints)
 			{
 				// add colors / highlight
-				table.setHighlight(r, valueColumn, true);
-				table.setHighlight(r, pointColumn, true);
+				table.setBold(r, valueColumn, true);
+				table.setBold(r, pointColumn, true);
 			}
 
 			previousValue = currentValue;

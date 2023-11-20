@@ -67,14 +67,14 @@ public class Table
 		return rows.get(row);
 	}
 
-	public void setHighlight(int row, int column, boolean highlight)
+	public void setBold(int row, int column, boolean bold)
 	{
-		rows.get(row)[column].highlight = highlight;
+		rows.get(row)[column].bold = bold;
 	}
 
-	public boolean isHighlight(int row, int column)
+	public boolean isBold(int row, int column)
 	{
-		return rows.get(row)[column].highlight;
+		return rows.get(row)[column].bold;
 	}
 
 	public Object getValue(int row, int column)
@@ -98,9 +98,9 @@ public class Table
 	public static class Cell
 	{
 		public Object	value;
-		// TODO change this to bold and add color
-		public boolean	highlight;
+		public boolean	bold;
 		public int		colspan	= 1;
+		public String 	style;
 
 		public Cell()
 		{
@@ -110,7 +110,8 @@ public class Table
 		public Cell(Object value)
 		{
 			this.value = value;
-			this.highlight = false;
+			this.bold = false;
+			this.style = null;
 		}
 	}
 }

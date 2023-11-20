@@ -14,7 +14,7 @@ import ultimate.karopapier.utils.Table.Cell;
 
 public abstract class WikiUtil
 {
-	public static final String		HIGHLIGHT		= "'''";
+	public static final String		BOLD		= "'''";
 	public static final String		SORTABLE		= "sortable";
 	public static final String		START_CELL		= "|";
 	public static final String		START_HEADER	= "!";
@@ -84,15 +84,19 @@ public abstract class WikiUtil
 			sb.append(isHeader ? START_HEADER : START_CELL);
 			if(row[col].colspan > 1)
 			{
-				sb.append("colspan=" + row[col].colspan);
+				sb.append(" colspan=" + row[col].colspan);
 				ci += (row[col].colspan - 1);
+			}
+			if(row[col].style != null)
+			{
+				sb.append(" style=\"" + row[col].style + "\"");
 			}
 			sb.append("|");
 
 			if(row[col] == null || row[col].value == null)
 				sb.append(nullValue);
-			else if(row[col].highlight)
-				sb.append(highlight(preprocess(row[col].value)));
+			else if(row[col].bold)
+				sb.append(bold(preprocess(row[col].value)));
 			else
 				sb.append(preprocess(row[col].value));
 		}
@@ -157,9 +161,9 @@ public abstract class WikiUtil
 		return value;
 	}
 
-	public static String highlight(Object o)
+	public static String bold(Object o)
 	{
-		return HIGHLIGHT + String.valueOf(o) + HIGHLIGHT;
+		return BOLD + String.valueOf(o) + BOLD;
 	}
 
 	public static String createLink(String text, String target)
