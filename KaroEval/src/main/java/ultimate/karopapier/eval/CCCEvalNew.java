@@ -25,6 +25,9 @@ public class CCCEvalNew extends CCCEval
 	protected static final String	STATUS_LEFT				= "&#128128;";			// skull
 	protected static final String	STATUS_FORBIDDEN		= "&#128683;";			// forbidden
 
+	protected static final String	BACKGROUND_POSITIVE		= "background:#AAFFAA;";
+	protected static final String	BACKGROUND_NEGATIVE		= "background:#FFAAAA;";
+
 	protected static final String	PROPERTY_CLUSTER_SIZE	= "points.clusterSize";
 	protected static final String	PROPERTY_CALC_MODE		= "points.calcMode";
 	protected static final String	PROPERTY_CAP_NEGATIVE	= "points.capNegative";
@@ -98,6 +101,15 @@ public class CCCEvalNew extends CCCEval
 		UserStats mins = getMins(userStats.values());
 		UserStats maxs = getMaxs(userStats.values());
 
+		// calc maxs
+		UserStats[] minsPerChallenge = new UserStats[stats_challengesCreated];
+		UserStats[] maxsPerChallenge = new UserStats[stats_challengesCreated];
+		for(int c = 0; c < stats_challengesCreated; c++)
+		{
+			minsPerChallenge[c] = getMins(userChallengeStats[c].values());
+			maxsPerChallenge[c] = getMaxs(userChallengeStats[c].values());
+		}
+
 		logger.debug("              min\t| max: ");
 		logger.debug("  finished  = " + mins.finished + "\t| " + maxs.finished);
 		logger.debug("  left      = " + mins.left + "\t| " + maxs.left);
@@ -159,9 +171,6 @@ public class CCCEvalNew extends CCCEval
 						break;
 				}
 
-				if(userChallengeStats[c].get(user.getId()).total >= stats_challengePointsMax)
-					row[col] = WikiUtil.bold(WikiUtil.preprocess(row[col]));
-
 				if(!challengeUsers[c].contains(user))
 				{
 					// user disqualified
@@ -169,7 +178,8 @@ public class CCCEvalNew extends CCCEval
 				}
 				else if(userChallengeStats[c].get(user.getId()).finished < stats_gamesPerPlayerPerChallenge)
 				{
-					row[col] = WikiUtil.preprocess(row[col]) + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished) + ")</span>";
+					row[col] = WikiUtil.preprocess(row[col]) + "&nbsp;<span style=\"font-size:50%\">(" + (stats_gamesPerPlayerPerChallenge - userChallengeStats[c].get(user.getId()).finished)
+							+ ")</span>";
 					finished = false;
 				}
 
@@ -178,7 +188,7 @@ public class CCCEvalNew extends CCCEval
 
 			row[col++] = us.moves;
 			row[col++] = us.crashs;
-			
+
 			switch(CALC_MODE)
 			{
 				case "multiply":
@@ -199,8 +209,24 @@ public class CCCEvalNew extends CCCEval
 
 			// set highlights
 			finalTable.setBold(rows, 1, true);
-			finalTable.setBold(rows, stats_challengesCreated + 2, us.moves == mins.moves); // moves
-			finalTable.setBold(rows, stats_challengesCreated + 3, us.crashs == maxs.crashs); // crashs
+
+			for(int c = 0; c < stats_challengesCreated; c++)
+			{
+				if(userChallengeStats[c].get(user.getId()).total >= maxsPerChallenge[c].total)
+					finalTable.setStyle(rows, 2 + c, BACKGROUND_POSITIVE);
+				if(userChallengeStats[c].get(user.getId()).total <= minsPerChallenge[c].total)
+					finalTable.setStyle(rows, 2 + c, BACKGROUND_NEGATIVE);
+				if(userChallengeStats[c].get(user.getId()).total >= stats_challengePointsMax)
+					finalTable.setBold(rows, 2 + c, true);
+			}
+			if(us.moves == mins.moves) // moves
+				finalTable.setStyle(rows, stats_challengesCreated + 2, BACKGROUND_POSITIVE);
+			else if(us.moves == maxs.moves)
+				finalTable.setStyle(rows, stats_challengesCreated + 2, BACKGROUND_NEGATIVE);
+			if(us.crashs == maxs.crashs) // crashs
+				finalTable.setStyle(rows, stats_challengesCreated + 3, BACKGROUND_POSITIVE);
+			else if(us.crashs == mins.crashs)
+				finalTable.setStyle(rows, stats_challengesCreated + 3, BACKGROUND_NEGATIVE);
 			finalTable.setBold(rows, stats_challengesCreated + 4, true); // total
 			finalTable.setBold(rows, stats_challengesCreated + 5, false); // finished
 			finalTable.setBold(rows, stats_challengesCreated + 6, true); // expected
@@ -404,16 +430,16 @@ public class CCCEvalNew extends CCCEval
 			if(challengeUsers[c].contains(user))
 			{
 				movesPoints = (int) table.getValue(r, movesPointsColumn);
-				crashPoints = (int) table.getValue(r, crashPointsColumn);	
+				crashPoints = (int) table.getValue(r, crashPointsColumn);
 				totalPoints = calculatePoints(movesPoints, crashPoints);
 			}
 			else
 			{
 				movesPoints = 0;
-				crashPoints = 0;				
+				crashPoints = 0;
 				totalPoints = 0;
 			}
-			
+
 			switch(CALC_MODE)
 			{
 				case "multiply":
@@ -570,7 +596,8 @@ public class CCCEvalNew extends CCCEval
 			logger.debug(" - moves:   min=" + mins.moves + ", max=" + maxs.moves);
 			logger.debug(" - crashes: min=" + mins.crashs + ", max=" + maxs.crashs);
 
-			Table tmpTable = new Table(new String[] { "User", "Finished Games", "Moves Actual", "Moves Expected", "Points", "Crashs Actual", "Crashs Expected", "Points", "Erwartungswert", "Aktuelle Punkte" });
+			Table tmpTable = new Table(
+					new String[] { "User", "Finished Games", "Moves Actual", "Moves Expected", "Points", "Crashs Actual", "Crashs Expected", "Points", "Erwartungswert", "Aktuelle Punkte" });
 
 			if(challengeStats[c].finished > 0)
 			{
@@ -628,7 +655,8 @@ public class CCCEvalNew extends CCCEval
 					expectedCrashs = actualCrashs * stats_gamesPerPlayerPerChallenge / (double) userChallengeStats[c].get(user.getId()).finished;
 
 				}
-				tmpTable.addRow(user, userChallengeStats[c].get(user.getId()).finished, actualMoves, expectedMoves, null, actualCrashs, expectedCrashs, null, null, userChallengeStats[c].get(user.getId()).total);
+				tmpTable.addRow(user, userChallengeStats[c].get(user.getId()).finished, actualMoves, expectedMoves, null, actualCrashs, expectedCrashs, null, null,
+						userChallengeStats[c].get(user.getId()).total);
 			}
 
 			assignPointsAndSort(tmpTable, c, 3, 4, 6, 7, tmpTable.getColumns() - 2, true);

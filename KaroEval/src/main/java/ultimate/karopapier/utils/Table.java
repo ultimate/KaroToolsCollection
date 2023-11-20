@@ -77,6 +77,16 @@ public class Table
 		return rows.get(row)[column].bold;
 	}
 
+	public void setStyle(int row, int column, String style)
+	{
+		rows.get(row)[column].style = style;
+	}
+
+	public String getStyle(int row, int column)
+	{
+		return rows.get(row)[column].style;
+	}
+
 	public Object getValue(int row, int column)
 	{
 		return getRow(row)[column].value;
