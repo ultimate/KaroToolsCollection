@@ -3,7 +3,7 @@
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss} %-5p [%t] %C.%M(%L) | %m%n"/>
     </Console>
-    <RollingFile name="FILE" fileName="logs/karomuskel.log" filePattern="logs/karomuskel %d{yyyy-MM-dd HH-mm-ss}.log">
+    <RollingFile name="FILE" fileName="logs/karoraupe.log" filePattern="logs/karoraupe %d{yyyy-MM-dd HH-mm-ss}.log">
       <PatternLayout pattern="%d{HH:mm:ss} %-5p [%t] %C.%M(%L) | %m%n"/>
       <Policies>
         <OnStartupTriggeringPolicy />
@@ -13,7 +13,7 @@
   <Loggers>
     <Root level="info">
       <AppenderRef ref="STDOUT"/>
-      <AppenderRef ref="FILE"/>
+      <AppenderRef ref="FILE"/> <!-- add this here to have also files written when running the application in eclipse / otherwise use Run Configuration > Classpath > exclude testcode -->
     </Root>
     <Logger name="ultimate" level="info"/>
     <Logger name="ultimate.karoraupe" level="debug"/>

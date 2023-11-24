@@ -3,12 +3,19 @@
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss} %-5p [%t] %C.%M(%L) | %m%n"/>
     </Console>
+    <RollingFile name="FILE" fileName="logs/karomuskel.log" filePattern="logs/karomuskel %d{yyyy-MM-dd HH-mm-ss}.log">
+      <PatternLayout pattern="%d{HH:mm:ss} %-5p [%t] %C.%M(%L) | %m%n"/>
+      <Policies>
+        <OnStartupTriggeringPolicy />
+      </Policies>
+    </RollingFile>
   </Appenders>
   <Loggers>
-    <Logger name="ultimate" level="debug"/>
-    <Logger name="ultimate.karoapi4j.KaroAPICache" level="info"/>
     <Root level="info">
       <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="FILE"/> <!-- add this here to have also files written when running the application in eclipse / otherwise use Run Configuration > Classpath > exclude testcode -->
     </Root>
+    <Logger name="ultimate" level="debug"/>
+    <Logger name="ultimate.karoapi4j.KaroAPICache" level="info"/>
   </Loggers>
 </Configuration>
