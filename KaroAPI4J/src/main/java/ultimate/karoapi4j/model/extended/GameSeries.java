@@ -1,6 +1,7 @@
 package ultimate.karoapi4j.model.extended;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -204,6 +205,8 @@ public class GameSeries
 		if(type == null)
 			throw new IllegalArgumentException("type must not be null");
 		this.type = type;
+		
+		this.tags = new HashSet<>();
 
 		this.games = new HashMap<>();
 

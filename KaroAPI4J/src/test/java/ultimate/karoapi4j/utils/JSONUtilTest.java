@@ -95,6 +95,7 @@ public class JSONUtilTest
 		//@formatter:off
 		return "{\"type\":\"" + gs.getType() + "\","
 				+ "\"title\":\"" + gs.getTitle() + "\","
+			    + "\"tags\":" + gs.getTags() + ","
 				+ "\"creator\":" + gs.getCreator().getId() + ","
 				+ "\"players\":" + toJson(gs.getPlayers()) + ","
 				+ "\"maps\":" + toJson2(gs.getMaps()) + ","
