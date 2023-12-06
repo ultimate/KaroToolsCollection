@@ -116,7 +116,9 @@ public class GameSeriesManagerTest extends KaroMUSKELTestcase
 		assertNotNull(loaded.getMaps());
 		assertEquals(2, loaded.getMaps().size());
 		assertEquals(dummyCache.getMap(mid0), loaded.getMaps().get(0));
+		assertEquals(dummyCache.getMap(mid0).getName(), ((Map) loaded.getMaps().get(0)).getName());
 		assertEquals(dummyCache.getMap(mid1), loaded.getMaps().get(1));
+		assertEquals(dummyCache.getMap(mid1).getName(), ((Map) loaded.getMaps().get(1)).getName());
 	}
 
 	@ParameterizedTest

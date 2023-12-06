@@ -38,15 +38,22 @@ public interface PlaceToRace
 
 	public static class Deserializer extends JsonDeserializer<PlaceToRace>
 	{
+		private Map.FromIDConverter mapConverter = new Map.FromIDConverter();
+		
 		@Override
 		public PlaceToRace deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
 		{
 			final JsonToken token = p.getCurrentToken();
 
 			if(JsonToken.START_OBJECT.equals(token))
+			{
 				return (Generator) ctxt.findRootValueDeserializer(ctxt.constructType(Generator.class)).deserialize(p, ctxt);
+			}
 			else if(JsonToken.VALUE_NUMBER_INT.equals(token))
-				return (Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt);
+			{
+				// cannot use the default deserializer here, since this would create a map with just an ID (and all other properties empty)
+				return mapConverter.convert(p.getIntValue());
+			}
 			return (PlaceToRace) ctxt.handleUnexpectedToken(PlaceToRace.class, p);
 		}
 	}
@@ -72,6 +79,8 @@ public interface PlaceToRace
 
 	public static class ListDeserializer extends JsonDeserializer<List<PlaceToRace>>
 	{
+		private Map.FromIDConverter mapConverter = new Map.FromIDConverter();
+		
 		@Override
 		public List<PlaceToRace> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException
 		{
@@ -88,7 +97,8 @@ public interface PlaceToRace
 					}
 					else if(JsonToken.VALUE_NUMBER_INT.equals(token))
 					{
-						list.add((Map) ctxt.findRootValueDeserializer(ctxt.constructType(Map.class)).deserialize(p, ctxt));
+						// cannot use the default deserializer here, since this would create a map with just an ID (and all other properties empty)
+						list.add(mapConverter.convert(p.getIntValue())); 
 					}
 					token = p.nextToken();
 				}
