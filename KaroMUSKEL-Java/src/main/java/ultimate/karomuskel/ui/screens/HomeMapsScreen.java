@@ -21,6 +21,7 @@ import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
@@ -109,8 +110,6 @@ public class HomeMapsScreen extends MapComboBoxScreen implements ActionListener
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 
 			JLabel teamLabel;
-			JComboBox<PlaceToRace> mapCB;
-			JButton mapEditButton;
 
 			for(int i = 0; i < maxTeams; i++)
 			{
@@ -120,16 +119,20 @@ public class HomeMapsScreen extends MapComboBoxScreen implements ActionListener
 				gbc.gridx = 0;
 				contentPanel.add(teamLabel, gbc);
 
-				mapCB = new JComboBox<>();
+				JComboBox<PlaceToRace> mapCB = new JComboBox<>();
 				mapCB.setRenderer(new PlaceToRaceRenderer());
 				gbc.gridx = 1;
 				contentPanel.add(mapCB, gbc);
 
-				mapEditButton = new JButton(Language.getString("option.edit"));
+				JButton mapEditButton = new JButton(Language.getString("option.edit"));
 				mapEditButton.addActionListener(this);
 				mapEditButton.setActionCommand(ACTION_MAP_CONFIGURE + i);
 				gbc.gridx = 2;
 				contentPanel.add(mapEditButton, gbc);
+				
+				mapCB.addActionListener(e -> {
+					mapEditButton.setEnabled(mapCB.getSelectedItem() instanceof Generator);
+				});
 
 				this.teamNameLabelList.add(teamLabel);
 				this.mapCBList.add(mapCB);
