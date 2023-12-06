@@ -37,6 +37,7 @@ import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.UIUtil;
 import ultimate.karomuskel.ui.components.GenericListModel;
 
 public class PlayersScreen extends Screen implements ActionListener
@@ -548,6 +549,9 @@ public class PlayersScreen extends Screen implements ActionListener
 						((GenericListModel<String, User>) allPlayersLI.getModel()).removeElement(key);
 					((GenericListModel<String, User>) teamLI.getModel()).addElement(key, player);
 				}
+				
+				// make sure to shift selection after removing items so we don't end up with index out of bounds on next action
+				UIUtil.fixSelection(allPlayersLI);
 			}
 			else
 			{
@@ -560,6 +564,9 @@ public class PlayersScreen extends Screen implements ActionListener
 					if(!this.multipleTeams)
 						((GenericListModel<String, User>) allPlayersLI.getModel()).addElement(key, player);
 				}
+				
+				// make sure to shift selection after removing items so we don't end up with index out of bounds on next action
+				UIUtil.fixSelection(teamLI);
 			}
 
 			if(this.autoNameTeams && oldNameGenerated)

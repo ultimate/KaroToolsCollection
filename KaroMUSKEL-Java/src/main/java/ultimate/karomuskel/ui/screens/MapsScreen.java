@@ -30,6 +30,7 @@ import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.UIUtil;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 import ultimate.karomuskel.ui.dialog.GeneratorDialog;
@@ -199,6 +200,7 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 				addLI = allMapsLI;
 				remLI = selectedMapsLI;
 			}
+			
 			List<PlaceToRace> maps = remLI.getSelectedValuesList();
 			String key;
 			for(PlaceToRace m : maps)
@@ -214,6 +216,10 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 				((GenericListModel<String, PlaceToRace>) remLI.getModel()).removeElement(key);
 				((GenericListModel<String, PlaceToRace>) addLI.getModel()).addElement(key, m);
 			}
+			
+			// make sure to shift selection after removing items so we don't end up with index out of bounds on next action
+			UIUtil.fixSelection(remLI);
+			
 			repaint();
 		}
 	}
