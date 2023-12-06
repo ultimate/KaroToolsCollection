@@ -367,9 +367,12 @@ public class KaroAPICache implements IDLookUp
 
 			for(String idS : idArray)
 			{
+				idS = idS.trim();
+				if(idS.isEmpty())
+					continue;
 				try
 				{
-					id = Integer.parseInt(idS.trim());
+					id = Integer.parseInt(idS);
 					t = karoAPI.get(cls, id);
 					if(t != null)
 					{
