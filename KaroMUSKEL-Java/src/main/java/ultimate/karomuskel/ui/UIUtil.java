@@ -1,5 +1,8 @@
 package ultimate.karomuskel.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JList;
 
 /**
@@ -25,16 +28,21 @@ public abstract class UIUtil
 	 */
 	public static void fixSelection(JList<?> list)
 	{
-		int[] indeces = list.getSelectedIndices();
+		List<Integer> newSelection = new ArrayList<>();
 		int lastPossibleSelection = list.getModel().getSize() - 1;
-		for(int i = indeces.length - 1; i >= 0; i--)
+		for(int i = list.getSelectedIndices().length - 1; i >= 0; i--)
 		{
-			if(indeces[i] > lastPossibleSelection)
+			if(list.getSelectedIndices()[i] > lastPossibleSelection)
 			{
-				indeces[i] = lastPossibleSelection;
+				newSelection.add(lastPossibleSelection);
 				lastPossibleSelection--;
 			}
+			if(lastPossibleSelection < 0)
+				break;
 		}
-		list.setSelectedIndices(indeces);
+		int[] newSelectionArray = new int[newSelection.size()];
+		for(int i = 0; i < newSelectionArray.length; i++)
+			newSelectionArray[i] = newSelection.get(i);
+		list.setSelectedIndices(newSelectionArray);
 	}
 }
