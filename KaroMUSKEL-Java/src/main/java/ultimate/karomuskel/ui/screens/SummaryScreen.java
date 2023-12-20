@@ -341,7 +341,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
-				this.creatorCF = this.creator.leaveGames(this.gamesToCreate, pg -> this.notifyGameLeft(pg));
+				this.creatorCF = this.creator.leaveGames(this.gamesToLeaveTmp, pg -> this.notifyGameLeft(pg));
 			}
 		}
 		else
