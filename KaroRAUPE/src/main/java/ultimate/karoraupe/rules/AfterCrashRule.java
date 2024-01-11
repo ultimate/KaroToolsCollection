@@ -8,7 +8,7 @@ import ultimate.karoraupe.Mover;
 
 public class AfterCrashRule extends Rule
 {
-	public static final String			KEY_FROMZERO				= Mover.KEY_PREFIX + ".fromZero";
+	public static final String			KEY_FROMZERO				= Mover.KEY_PREFIX + ".fromzero";
 
     public AfterCrashRule()
     {
