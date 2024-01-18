@@ -94,7 +94,7 @@ public class RulesScreen extends Screen
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.removeAll();
 
@@ -186,5 +186,7 @@ public class RulesScreen extends Screen
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;
 		this.add(new JLabel(Language.getString("screen.rules.ignoreinvitable.description", totalWidth)), gbc);
+		
+		return null;
 	}
 }

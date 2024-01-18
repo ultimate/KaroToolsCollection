@@ -94,7 +94,7 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.gameSeries = gameSeries;
 
@@ -306,6 +306,8 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 		}
 
 		this.firstShow = false;
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

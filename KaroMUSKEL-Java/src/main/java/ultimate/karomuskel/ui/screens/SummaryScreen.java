@@ -173,7 +173,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.gameSeries = gameSeries;
 
@@ -238,6 +238,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		enableButtons();
 
 		this.firstShow = false;
+		
+		return null;
 	}
 
 	@Override

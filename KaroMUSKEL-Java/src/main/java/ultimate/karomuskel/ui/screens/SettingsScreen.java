@@ -112,7 +112,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		if(this.gameSeries != gameSeries)
 		{
@@ -409,6 +409,8 @@ public class SettingsScreen extends Screen implements ChangeListener
 			}
 		}
 		this.titleTF.requestFocus();
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

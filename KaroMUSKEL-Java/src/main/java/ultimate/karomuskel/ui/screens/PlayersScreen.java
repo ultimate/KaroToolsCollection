@@ -163,7 +163,7 @@ public class PlayersScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		int teamsTmp = 1;
 		int maxPlayersPerTeamTmp = 25;
@@ -502,6 +502,8 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 
 		this.firstShow = false;
+		
+		return null;
 	}
 
 	private void preselectPlayer(User player, int teamIndex)
