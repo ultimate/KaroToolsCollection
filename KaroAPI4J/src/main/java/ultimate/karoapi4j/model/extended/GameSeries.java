@@ -24,8 +24,10 @@ import ultimate.karoapi4j.utils.JSONUtil.ToIDMapConverter;
 
 /**
  * Generic POJO for storing all the informations about a GameSeries.<br>
- * Depending on the {@link EnumGameSeriesType} of the {@link GameSeries} different fields will be used.<br>
- * For complex types predefined containers are provided which can hold the objects either universally or by key:
+ * Depending on the {@link EnumGameSeriesType} of the {@link GameSeries} different fields will be
+ * used.<br>
+ * For complex types predefined containers are provided which can hold the objects either
+ * universally or by key:
  * <ul>
  * <li>{@link GameSeries#players} or {@link GameSeries#playersByKey}</li>
  * <li>{@link GameSeries#teams} or {@link GameSeries#teamsByKey}</li>
@@ -41,7 +43,7 @@ public class GameSeries
 {
 	// keys for type specific settings
 	// relevant game series types
-	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
 	public static final String							NUMBER_OF_GAMES				= "games";				// ______________________X__
 	public static final String							NUMBER_OF_MAPS				= "maps";				// ______X__________________
@@ -52,6 +54,7 @@ public class GameSeries
 	public static final String							CURRENT_REPEAT				= "repeat";				// ______________X__________
 	public static final String							MIN_PLAYERS_PER_GAME		= "minPlayersPerGame";	// ______________________X__
 	public static final String							MAX_PLAYERS_PER_GAME		= "maxPlayersPerGame";	// ______________________X__
+	public static final String							MIN_EMPTY_SLOTS				= "minEmptySlots";		// ______________________X__
 	public static final String							MIN_PLAYERS_PER_TEAM		= "minPlayersPerTeam";	// __X_______X_______X______
 	public static final String							MAX_PLAYERS_PER_TEAM		= "maxPlayersPerTeam";	// __X_______X_______X______
 	// boolean
@@ -63,10 +66,11 @@ public class GameSeries
 	public static final String							SMALL_FINAL					= "smallFinal";			// __________X______________
 	public static final String							DUMMY_MATCHES				= "dummyMatches";		// __________________X______
 	public static final String							V2_TEAM_BASED				= "teamBased";			// __X___X___X___X___X___X__
+	public static final String							FILL_TO_MAX					= "fillToMax";			// ______________________X__
 
 	// keys for type specific configuration: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types
-	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	// int
 	public static final String							CONF_MAX_TEAMS				= "maxTeams";			// __X_______X_______X______
 	public static final String							CONF_TEAM_STEP_SIZE			= "teamStepSize";		// __X_______X_______X______
@@ -78,10 +82,11 @@ public class GameSeries
 	public static final String							CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
 	public static final String							CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
 	public static final String							CONF_LEAGUE_DUMMY_TEAM		= "dummyTeam";			// __________________X______
+	public static final String							CONF_MAX_FREE_SLOTS			= "maxFreeSlots";	    // __________________X______
 
-	// keys for type specific lists: these are MAX values to prevent misuse (unless config is edited)
+	// keys for type specific lists
 	// relevant game series types
-	// _________________________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
+	// _________________________________________________________________________________________________________ACo_Bal_KO__KLC_Lig_Spl_
 	public static final String							KEY_LEAGUE					= "league";				// ______________X__________
 	public static final String							KEY_GROUP					= "group";				// ______________X__________
 	public static final String							KEY_ROUND					= "roundOf";			// ______________X__________
@@ -147,7 +152,7 @@ public class GameSeries
 	/**
 	 * the list of maps used (optional)
 	 */
-	@JsonInclude(value = Include.NON_EMPTY)	
+	@JsonInclude(value = Include.NON_EMPTY)
 	@JsonSerialize(using = PlaceToRace.ListSerializer.class)
 	@JsonDeserialize(using = PlaceToRace.ListDeserializer.class)
 	protected List<PlaceToRace>							maps;
@@ -205,7 +210,7 @@ public class GameSeries
 		if(type == null)
 			throw new IllegalArgumentException("type must not be null");
 		this.type = type;
-		
+
 		this.tags = new HashSet<>();
 
 		this.games = new HashMap<>();
@@ -255,7 +260,7 @@ public class GameSeries
 	}
 
 	/**
-	 * @return the gameseries tags 
+	 * @return the gameseries tags
 	 */
 	public Set<String> getTags()
 	{

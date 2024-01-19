@@ -94,6 +94,12 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JLabel						maxPlayersPerTeamLabel;
 	private JSpinner					maxPlayersPerTeamSpinner;
 
+	private JLabel						fillToMaxLabel;
+	private JComboBox<Label<Boolean>>	fillToMaxCB;
+	
+	private JLabel						minFreeSlotsLabel;
+	private JSpinner					minFreeSlotsSpinner;
+	
 	public SettingsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.settings.header");
@@ -315,7 +321,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 				if(gameSeries.getType() == EnumGameSeriesType.Simple)
 				{
-					minPlayersPerGameLabel = new JLabel(Language.getString("screen.settings.minplayerspergame", cellWidth));
+					minPlayersPerGameLabel = new JLabel(Language.getString("screen.settings.playerspergame.min", cellWidth));
 					int minPlayersPerGameInit = (gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) != null ? (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) : 6);
 					minPlayersPerGameSpinner = new JSpinner(new SpinnerNumberModel(minPlayersPerGameInit, 1, Integer.MAX_VALUE, 1));
 					((NumberEditor) this.minPlayersPerGameSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
@@ -326,7 +332,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gbc.gridy = 10;
 					this.add(minPlayersPerGameSpinner, gbc);
 
-					maxPlayersPerGameLabel = new JLabel(Language.getString("screen.settings.maxplayerspergame", cellWidth));
+					maxPlayersPerGameLabel = new JLabel(Language.getString("screen.settings.playerspergame.max", cellWidth));
 					int maxPlayersPerGameInit = (gameSeries.get(GameSeries.MAX_PLAYERS_PER_GAME) != null ? (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_GAME) : 8);
 					maxPlayersPerGameSpinner = new JSpinner(new SpinnerNumberModel(maxPlayersPerGameInit, 2, Integer.MAX_VALUE, 1));
 					((NumberEditor) this.maxPlayersPerGameSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
@@ -336,8 +342,30 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(maxPlayersPerGameLabel, gbc);
 					gbc.gridy = 10;
 					this.add(maxPlayersPerGameSpinner, gbc);
+					
+					fillToMaxLabel = new JLabel(Language.getString("screen.settings.filltomax", cellWidth));
+					boolean fillToMaxInit = (gameSeries.get(GameSeries.FILL_TO_MAX) != null ? (boolean) gameSeries.get(GameSeries.FILL_TO_MAX) : true);
+					fillToMaxCB = new JComboBox<>(new BooleanModel(fillToMaxInit, false));
+					gbc.gridwidth = 1;
+					gbc.gridx = 2;
+					gbc.gridy = 9;
+					this.add(fillToMaxLabel, gbc);
+					gbc.fill = GridBagConstraints.HORIZONTAL;
+					gbc.gridy = 10;
+					this.add(fillToMaxCB, gbc);
 
-					this.playersDescLabel = new JLabel(Language.getString("screen.settings.minplayerspergame.description", totalWidth));
+					minFreeSlotsLabel = new JLabel(Language.getString("screen.settings.minfreeslots", cellWidth));
+					int minFreeSlotsInit = (gameSeries.get(GameSeries.MIN_EMPTY_SLOTS) != null ? (int) gameSeries.get(GameSeries.MIN_EMPTY_SLOTS) : 0);
+					minFreeSlotsSpinner = new JSpinner(new SpinnerNumberModel(minFreeSlotsInit, 0, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_FREE_SLOTS), 1));
+					((NumberEditor) this.minFreeSlotsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
+					gbc.gridwidth = 1;
+					gbc.gridx = 3;
+					gbc.gridy = 9;
+					this.add(minFreeSlotsLabel, gbc);
+					gbc.gridy = 10;
+					this.add(minFreeSlotsSpinner, gbc);
+
+					this.playersDescLabel = new JLabel(Language.getString("screen.settings.playerspergame.description", totalWidth));
 					gbc.gridwidth = gridwidth;
 					gbc.gridx = 0;
 					gbc.gridy = 11;
@@ -345,7 +373,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 				}
 				else if(GameSeriesManager.isTeamBased(gameSeries))
 				{
-					minPlayersPerTeamLabel = new JLabel(Language.getString("screen.settings.minplayersperteam", cellWidth));
+					minPlayersPerTeamLabel = new JLabel(Language.getString("screen.settings.playersperteam.min", cellWidth));
 					int minPlayersPerTeamInit = (gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM) != null ? (int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_TEAM) : 1);
 					minPlayersPerTeamSpinner = new JSpinner(new SpinnerNumberModel(minPlayersPerTeamInit, 1, Integer.MAX_VALUE, 1));
 					((NumberEditor) this.minPlayersPerTeamSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
@@ -356,7 +384,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gbc.gridy = 10;
 					this.add(minPlayersPerTeamSpinner, gbc);
 
-					maxPlayersPerTeamLabel = new JLabel(Language.getString("screen.settings.maxplayersperteam", cellWidth));
+					maxPlayersPerTeamLabel = new JLabel(Language.getString("screen.settings.playersperteam.max", cellWidth));
 					int maxPlayersPerTeamInit = (gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM) != null ? (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_TEAM) : 1);
 					maxPlayersPerTeamSpinner = new JSpinner(new SpinnerNumberModel(maxPlayersPerTeamInit, 1, Integer.MAX_VALUE, 1));
 					((NumberEditor) this.maxPlayersPerTeamSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
@@ -400,7 +428,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					gbc.gridy = 10;
 					this.add(creatorTeamCB, gbc);
 
-					this.playersDescLabel = new JLabel(Language.getString("screen.settings.minplayersperteam.description", totalWidth));
+					this.playersDescLabel = new JLabel(Language.getString("screen.settings.playersperteam.description", totalWidth));
 					gbc.gridwidth = gridwidth;
 					gbc.gridx = 0;
 					gbc.gridy = 11;
@@ -427,6 +455,8 @@ public class SettingsScreen extends Screen implements ChangeListener
 			gameSeries.set(GameSeries.NUMBER_OF_GAMES, (Integer) numberOfGamesSpinner.getValue());
 			gameSeries.set(GameSeries.MIN_PLAYERS_PER_GAME, (Integer) minPlayersPerGameSpinner.getValue());
 			gameSeries.set(GameSeries.MAX_PLAYERS_PER_GAME, (Integer) maxPlayersPerGameSpinner.getValue());
+			gameSeries.set(GameSeries.FILL_TO_MAX, ((Label<Boolean>) fillToMaxCB.getSelectedItem()).getValue());
+			gameSeries.set(GameSeries.MIN_EMPTY_SLOTS, (Integer) minFreeSlotsSpinner.getValue());
 			if((int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_GAME))
 				throw new GameSeriesException("screen.settings.minabovemax");
 		}
