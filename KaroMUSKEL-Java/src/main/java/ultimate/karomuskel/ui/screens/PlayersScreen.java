@@ -248,8 +248,7 @@ public class PlayersScreen extends Screen implements ActionListener
 
 				teamPlayersLI = new JList<>(new GenericListModel<String, User>(User.class, new HashMap<String, User>()));
 				teamPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-				this.allPlayersLI.setFixedCellWidth(1500);
-				teamPlayersLI.setFixedCellWidth(1500);
+				teamPlayersLI.setFixedCellWidth(listFixedCellWidth);
 				teamPlayersSP = new JScrollPane(teamPlayersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 				teamPanel.add(new JLabel(Language.getString("screen.players.selectedplayers")), BorderLayout.NORTH);

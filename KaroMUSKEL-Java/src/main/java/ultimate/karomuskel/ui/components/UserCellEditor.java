@@ -125,7 +125,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			{
 				if(this.chooser.users.size() >= map.getPlayers())
 				{
-					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getPlayers()), Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.maplimit", map.getPlayers()), Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					break;
 				}
 				this.chooser.notSelectedUsers.remove(u);

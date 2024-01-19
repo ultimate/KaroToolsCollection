@@ -46,6 +46,7 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.official.Generator;
@@ -87,8 +88,10 @@ public class SummaryScreen extends Screen implements ActionListener
 	private List<PlannedGame>			gamesLeft;
 
 	private List<PlannedGame>			gamesToCreate;
+	private List<PlannedGame>			gamesToCreateTmp;
 	private List<PlannedGame>			gamesToLeave;
 	private List<PlannedGame>			gamesToLeaveTmp;
+	private List<PlannedGame>			gamesWithExceptions;
 
 	private JTable						table;
 	private JScrollPane					tableSP;
@@ -114,8 +117,10 @@ public class SummaryScreen extends Screen implements ActionListener
 	private static final int			CREATED					= 4;
 	private static final int			LEAVING					= 5;
 	private static final int			LEFT					= 6;
+	private static final int			EXCEPTION				= -1;
 
-	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan, String key)
+	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan,
+			String key)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.summary.header");
 		this.startScreen = this;
@@ -156,19 +161,9 @@ public class SummaryScreen extends Screen implements ActionListener
 			return "screen.summary.next";
 	}
 
-	// public boolean isSkipPlan()
-	// {
-	// return skipPlan;
-	// }
-	//
-	// public void setSkipPlan(boolean skipPlan)
-	// {
-	// this.skipPlan = skipPlan;
-	// }
-
 	public void resetPlannedGames()
 	{
-		this.gameSeries.getGames().put(this.key, null); // removeIf(g -> { return !gamesBackup.contains(g); });
+		this.gameSeries.getGames().put(this.key, null);
 		Planner.resetPlannedGames(this.gameSeries.getPlayers());
 	}
 
@@ -185,7 +180,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		if(!this.skipPlan && direction == EnumNavigation.next)
 		{
 			if(this.key.contains(GameSeries.KEY_REPEAT))
-				this.gameSeries.set(GameSeries.CURRENT_REPEAT, Integer.parseInt(this.key.substring(this.key.indexOf(GameSeries.KEY_REPEAT) + GameSeries.KEY_REPEAT.length())));
+				this.gameSeries.set(GameSeries.CURRENT_REPEAT,
+						Integer.parseInt(this.key.substring(this.key.indexOf(GameSeries.KEY_REPEAT) + GameSeries.KEY_REPEAT.length())));
 
 			if(!firstShow)
 				resetPlannedGames();
@@ -213,12 +209,14 @@ public class SummaryScreen extends Screen implements ActionListener
 		buttonPanel.setLayout(new GridLayout(1, 3, 5, 5));
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
-		this.createButton = new JButton(); // Text will be set in enable buttons Language.getString("screen.summary.create"));
+		this.createButton = new JButton(); // Text will be set in enable buttons
+											// Language.getString("screen.summary.create"));
 		this.createButton.setActionCommand("create");
 		this.createButton.addActionListener(this);
 		buttonPanel.add(this.createButton);
 
-		this.leaveButton = new JButton(); // Text will be set in enable buttons Language.getString("screen.summary.leave"));
+		this.leaveButton = new JButton(); // Text will be set in enable buttons
+											// Language.getString("screen.summary.leave"));
 		this.leaveButton.setActionCommand("leave");
 		this.leaveButton.addActionListener(this);
 		buttonPanel.add(this.leaveButton);
@@ -238,7 +236,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		enableButtons();
 
 		this.firstShow = false;
-		
+
 		return null;
 	}
 
@@ -270,20 +268,21 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		GameSeriesManager.autosave(this.gameSeries);
 
-		int amount = this.gamesToCreate.size();
+		this.gamesToCreateTmp = new LinkedList<PlannedGame>(this.gamesToCreate);
+		int amount = this.gamesToCreateTmp.size();
 		logger.info("Spiele zu erstellen: " + amount);
 
-		String message = Language.getString("screen.summary.create.confirm").replace("%N", "" + amount);
+		String message = Language.getString("screen.summary.create.confirm", amount);
 
-		// hinweis bei Kartengeneratoren!!!
+		// show a message in case map generators are used (because processing might need more time)
 		int mapGeneratorsUsed = 0;
-		for(PlannedGame pg : this.gamesToCreate)
+		for(PlannedGame pg : this.gamesToCreateTmp)
 		{
 			if(pg.getMap() instanceof Generator)
 				mapGeneratorsUsed++;
 		}
 		if(mapGeneratorsUsed > 0)
-			message += "\n\n" + Language.getString("screen.summary.create.generators").replace("%N", "" + mapGeneratorsUsed);
+			message += "\n\n" + Language.getString("screen.summary.create.generators", mapGeneratorsUsed);
 
 		int result = JOptionPane.showConfirmDialog(this, message);
 		if(result != JOptionPane.OK_OPTION)
@@ -294,14 +293,15 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.inProgress = true;
 
-		if(this.gamesToCreate.size() > 0)
+		if(this.gamesToCreateTmp.size() > 0)
 		{
-			synchronized(this.gamesToCreate)
+			synchronized(this.gamesToCreateTmp)
 			{
-				this.gamesToCreate.forEach(pg -> this.model.setStatus(pg, CREATING));
+				this.gamesWithExceptions = new LinkedList<PlannedGame>();
+				this.gamesToCreateTmp.forEach(pg -> this.model.setStatus(pg, CREATING));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
-				this.creatorCF = this.creator.createGames(this.gamesToCreate, pg -> this.notifyGameCreated(pg));
+				this.creatorCF = this.creator.createGames(this.gamesToCreateTmp, pg -> this.notifyGameCreated(pg));
 			}
 		}
 		else
@@ -325,7 +325,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		int amount = this.gamesToLeaveTmp.size();
 		logger.info("Spiele zu verlassen: " + amount);
 
-		String message = Language.getString("screen.summary.leave.confirm").replace("%N", "" + amount);
+		String message = Language.getString("screen.summary.leave.confirm", amount);
 
 		int result = JOptionPane.showConfirmDialog(this, message);
 		if(result != JOptionPane.OK_OPTION)
@@ -340,6 +340,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToLeaveTmp)
 			{
+				this.gamesWithExceptions = new LinkedList<PlannedGame>();
 				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
@@ -355,24 +356,29 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	public void notifyGameCreated(PlannedGame game)
 	{
-		synchronized(this.gamesToCreate)
+		synchronized(this.gamesToCreateTmp)
 		{
 			if(game != null)
 			{
-				this.gamesToCreate.remove(game);
 				this.gamesCreated.add(game);
-				this.model.setStatus(game, CREATED);
-				this.watchdog.notifyActive("game created GID=" + game.getGame().getId());
-				logger.info("Spiele verbleibend: " + this.gamesToCreate.size());
+				this.gamesToCreateTmp.remove(game);
+				if(!game.hasException())
+				{
+					this.gamesToCreate.remove(game);
+					this.model.setStatus(game, CREATED);
+					this.watchdog.notifyActive("game created GID=" + game.getGame().getId());
+				}
+				else
+				{
+					this.model.setStatus(game, EXCEPTION);
+					this.watchdog.notifyActive("game creation failed " + game.getException());
+					this.gamesWithExceptions.add(game);
+				}
+				logger.info("Spiele verbleibend: " + this.gamesToCreateTmp.size());
 			}
-			if(this.gamesToCreate.size() == 0)
+			if(this.gamesToCreateTmp.size() == 0)
 			{
-				this.inProgress = false;
-				this.watchdog.cancel();
-
-				GameSeriesManager.autosave(this.gameSeries);
-
-				enableButtons();
+				notifyFinished();
 			}
 		}
 	}
@@ -383,22 +389,52 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			if(game != null)
 			{
-				this.gamesToLeave.remove(game);
-				this.gamesToLeaveTmp.remove(game);
 				this.gamesLeft.add(game);
-				this.model.setStatus(game, LEFT);
-				this.watchdog.notifyActive("game left GID=" + game.getGame().getId());
+				this.gamesToLeaveTmp.remove(game);
+				if(!game.hasException())
+				{
+					this.gamesToLeave.remove(game);
+					this.model.setStatus(game, LEFT);
+					this.watchdog.notifyActive("game left GID=" + game.getGame().getId());
+				}
+				else
+				{
+					this.model.setStatus(game, EXCEPTION);
+					this.watchdog.notifyActive("game creation failed " + game.getException());
+					this.gamesWithExceptions.add(game);
+				}
 				logger.info("Spiele verbleibend: " + this.gamesToLeaveTmp.size());
 			}
 			if(this.gamesToLeaveTmp.size() == 0)
+				notifyFinished();
+		}
+	}
+
+	private void notifyFinished()
+	{
+		this.inProgress = false;
+		this.watchdog.cancel();
+
+		GameSeriesManager.autosave(this.gameSeries);
+
+		enableButtons();
+
+		if(this.gamesWithExceptions.size() > 0)
+		{
+			StringBuilder msgSpec = new StringBuilder();
+			msgSpec.append("\n");
+			for(PlannedGame game : this.gamesWithExceptions)
 			{
-				this.inProgress = false;
-				this.watchdog.cancel();
-
-				GameSeriesManager.autosave(this.gameSeries);
-
-				enableButtons();
+				msgSpec.append("\u2022 ");
+				msgSpec.append(game.getName());
+				msgSpec.append(" -> ");
+				msgSpec.append(getExceptionMessage(game.getException()));
+				msgSpec.append("\n");
 			}
+
+			GameSeriesException ex = new GameSeriesException("screen.summary.errors", msgSpec.toString(), "" + gamesWithExceptions.size());
+
+			this.gui.notify(ex, JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -418,7 +454,8 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			// this is the expected
 		}
-		String message = Language.getString("watchdog.timeout").replace("%M", "" + lastMessage).replace("%T", "" + (this.watchdog.getTimeout() / 1000));
+		String message = Language.getString("watchdog.timeout").replace("%M", "" + lastMessage).replace("%T",
+				"" + (this.watchdog.getTimeout() / 1000));
 		String title = Language.getString("error.title");
 		JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
 
@@ -511,15 +548,17 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 			else if(table.getColumnClass(i).equals(EnumGameTC.class))
 			{
-				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already
-				// selected
-				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false))));
+				// issue #138 don't set a selected value here or otherwise the combobox will always
+				// start with that value no matter what is already selected
+				col.setCellEditor(
+						new DefaultCellEditor(new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false))));
 			}
 			else if(table.getColumnClass(i).equals(EnumGameDirection.class))
 			{
-				// issue #138 don't set a selected value here or otherwise the combobox will always start with that value no matter what is already
-				// selected
-				col.setCellEditor(new DefaultCellEditor(new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false))));
+				// issue #138 don't set a selected value here or otherwise the combobox will always
+				// start with that value no matter what is already selected
+				col.setCellEditor(new DefaultCellEditor(
+						new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false))));
 			}
 			else if(table.getColumnClass(i).equals(PlaceToRace.class))
 			{
@@ -555,7 +594,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 					int col = table.columnAtPoint(e.getPoint());
 					if(col == 0) // Title
-						batchUpdateString(col, Language.getString("screen.summary.table.name"), Language.getString("screen.summary.batchUpdate.note.name"));
+						batchUpdateString(col, Language.getString("screen.summary.table.name"),
+								Language.getString("screen.summary.batchUpdate.note.name"));
 					else if(col == 1) // Tags
 						batchUpdateTags(col, Language.getString("screen.summary.table.tags"));
 					else if(col == 2) // PlaceToRace
@@ -565,12 +605,13 @@ public class SummaryScreen extends Screen implements ActionListener
 					else if(col == 4) // ZZZ
 						batchUpdateInt(col, Language.getString("screen.summary.table.zzz"), new SpinnerNumberModel(2, 0, Integer.MAX_VALUE, 1));
 					else if(col == 5) // TC
-						batchUpdateSelection(col, Language.getString("screen.summary.table.crashs"), new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false), null);
+						batchUpdateSelection(col, Language.getString("screen.summary.table.crashs"),
+								new GenericEnumModel<EnumGameTC>(EnumGameTC.class, EnumGameTC.free, false), null);
 					else if(col == 6) // CPs
 						batchUpdateBoolean(col, Language.getString("screen.summary.table.cps"));
 					else if(col == 7) // Direction
-						batchUpdateSelection(col, Language.getString("screen.summary.table.direction"), new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false),
-								null);
+						batchUpdateSelection(col, Language.getString("screen.summary.table.direction"),
+								new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, EnumGameDirection.free, false), null);
 					else if(col == 8) // Create
 						batchUpdateBoolean(col, Language.getString("screen.summary.table.createstatus"));
 					else if(col == 9) // Leave
@@ -598,9 +639,11 @@ public class SummaryScreen extends Screen implements ActionListener
 				this.model.addRow(game);
 	}
 
-	private <V> void batchUpdateGeneric(int column, String label, Object message, Supplier<V> valueSupplier, BiFunction<PlannedGame, V, V> preprocessor)
+	private <V> void batchUpdateGeneric(int column, String label, Object message, Supplier<V> valueSupplier,
+			BiFunction<PlannedGame, V, V> preprocessor)
 	{
-		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, message, Language.getString("screen.summary.batchUpdate"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(SummaryScreen.this, message, Language.getString("screen.summary.batchUpdate"),
+				JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 
 		if(result == JOptionPane.OK_OPTION)
 		{
@@ -672,7 +715,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 	private void batchUpdatePlaceToRace(int column, String label)
 	{
-		JComboBox<PlaceToRace> combobox = new JComboBox<>(new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getPlacesToRace().toArray(new PlaceToRace[0])));
+		JComboBox<PlaceToRace> combobox = new JComboBox<>(
+				new DefaultComboBoxModel<PlaceToRace>(karoAPICache.getPlacesToRace().toArray(new PlaceToRace[0])));
 		combobox.setRenderer(new PlaceToRaceRenderer());
 
 		JButton mapEditButton = new JButton(Language.getString("option.edit"));
@@ -733,11 +777,11 @@ public class SummaryScreen extends Screen implements ActionListener
 			textField.setEditable(other.equals(combobox.getSelectedItem()));
 		});
 
-		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.tags.add"), Language.getString("screen.summary.batchUpdate.tags.remove"),
-				Language.getString("option.cancel") };
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.tags.add"),
+				Language.getString("screen.summary.batchUpdate.tags.remove"), Language.getString("option.cancel") };
 
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox, textField }, Language.getString("screen.summary.batchUpdate.tags"), 0, JOptionPane.QUESTION_MESSAGE,
-				null, options, null);
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox, textField },
+				Language.getString("screen.summary.batchUpdate.tags"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
 
 		Set<String> updatedTags;
 		if(result == 0) // add
@@ -775,14 +819,15 @@ public class SummaryScreen extends Screen implements ActionListener
 	private void batchUpdatePlayers(int column, String label)
 	{
 		List<User> players = new ArrayList<>(karoAPICache.getUsersByLogin().values());
-		// players.remove(gameSeries.getCreator()); // don't prohibit removing the creator, display a warning instead
+		// players.remove(gameSeries.getCreator()); // don't prohibit removing the creator, display
+		// a warning instead
 		JComboBox<User> combobox = new JComboBox<>(new DefaultComboBoxModel<User>(players.toArray(new User[0])));
 
-		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"), Language.getString("screen.summary.batchUpdate.players.remove"),
-				Language.getString("option.cancel") };
+		Object[] options = new Object[] { Language.getString("screen.summary.batchUpdate.players.add"),
+				Language.getString("screen.summary.batchUpdate.players.remove"), Language.getString("option.cancel") };
 
-		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox }, Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null,
-				options, null);
+		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox },
+				Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
 
 		List<User> updatedPlayers;
 		if(result == 0) // add
@@ -868,7 +913,8 @@ public class SummaryScreen extends Screen implements ActionListener
 			row[col++] = game.getOptions().getZzz();
 			row[col++] = new Label<>(Language.getString(EnumGameTC.class, game.getOptions().getCrashallowed()), game.getOptions().getCrashallowed());
 			row[col++] = game.getOptions().isCps();
-			row[col++] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
+			row[col++] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()),
+					game.getOptions().getStartdirection());
 			row[col++] = true;
 			row[col++] = (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave) || game.isLeft();
 
@@ -1063,7 +1109,8 @@ public class SummaryScreen extends Screen implements ActionListener
 					setValueAt(Language.getString("screen.summary.table.status.open"), rowIndex, columnIndex);
 					break;
 				case GENERATING_MAP:
-					setValueAt(Language.getString("screen.summary.table.status.generatingMap") + " (GENERATOR=" + genKey + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.generatingMap") + " (GENERATOR=" + genKey + ")", rowIndex,
+							columnIndex);
 					break;
 				case GENERATED_MAP:
 					setValueAt(Language.getString("screen.summary.table.status.generatedMap") + " (MID=" + mapId + ")", rowIndex, columnIndex);
@@ -1073,16 +1120,42 @@ public class SummaryScreen extends Screen implements ActionListener
 					break;
 				case CREATED:
 					game.setCreated(true);
-					setValueAt(Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")",
+							rowIndex, columnIndex);
 					break;
 				case LEAVING:
-					setValueAt(Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")",
+							rowIndex, columnIndex);
 					break;
 				case LEFT:
 					game.setLeft(true);
-					setValueAt(Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")", rowIndex, columnIndex);
+					setValueAt(Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")",
+							rowIndex, columnIndex);
+					break;
+				case EXCEPTION:
+					String message = getExceptionMessage(game.getException());
+					setValueAt(Language.getString("screen.summary.table.status.exception") + " (" + message + ")", rowIndex, columnIndex);
 					break;
 			}
 		}
+	}
+
+	private static final String HTTP_ERROR_PREFIX = "Server returned HTTP response code: ";
+
+	private String getExceptionMessage(Throwable t)
+	{
+		// unwrap exception
+		while(t.getCause() != null)
+			t = t.getCause();
+
+		String msg = t.getMessage();
+
+		if(msg.startsWith(HTTP_ERROR_PREFIX))
+		{
+			int status = Integer.parseInt(t.getMessage().substring(HTTP_ERROR_PREFIX.length(), HTTP_ERROR_PREFIX.length() + 3));
+			msg = "HTTP " + status;
+		}
+
+		return msg;
 	}
 }

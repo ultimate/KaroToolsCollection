@@ -61,6 +61,9 @@ public class PlannedGame
 	@JsonIgnore
 	private java.util.Map<String, String>	placeHolderValues;
 
+	@JsonIgnore
+	private Throwable						exception;
+
 	public PlannedGame()
 	{
 		this.created = false;
@@ -196,5 +199,21 @@ public class PlannedGame
 	public void setPlaceHolderValues(java.util.Map<String, String> placeHolderValues)
 	{
 		this.placeHolderValues = placeHolderValues;
+	}
+
+	public Throwable getException()
+	{
+		return exception;
+	}
+
+	public void setException(Throwable exception)
+	{
+		this.exception = exception;
+	}
+	
+	@JsonIgnore
+	public boolean hasException()
+	{
+		return this.exception != null;
 	}
 }

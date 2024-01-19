@@ -825,6 +825,39 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
+	public void test_createGameWithNotInvitablePlayer() throws InterruptedException, ExecutionException
+	{
+		// don't use CraZZZy for this test as he is supercreator
+		KaroAPI karoAPI2 = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user2"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password2"));
+		
+		User user = karoAPI2.check().get();
+		
+		User notInvitableUser = karoAPI2.getUser(709).get(); // XOSOFOX
+
+		PlannedGame plannedGame = new PlannedGame();
+		plannedGame.setMap(new Map(1));
+		plannedGame.getPlayers().add(user);
+		plannedGame.getPlayers().add(notInvitableUser);
+		plannedGame.setName("KaroAPI-Test-Game");
+		plannedGame.setOptions(new Options(2, true, EnumGameDirection.free, EnumGameTC.free));
+
+		try
+		{
+			Game game = karoAPI2.createGame(plannedGame).get();
+			
+			logger.error("game created with GID=" + game.getId() + ": " + game);
+			
+			fail("expected exception not ocurred");
+		}
+		catch(Exception e)
+		{
+			logger.info("expected error creating game: ", e);
+			assertNotNull(e);
+			assertTrue(e.getMessage().contains("Server returned HTTP response code: 422"));
+		}
+	}
+
+	@Test
 	public void test_favs() throws InterruptedException, ExecutionException
 	{
 		int gameId = TEST_GAMES_IDS[0];
