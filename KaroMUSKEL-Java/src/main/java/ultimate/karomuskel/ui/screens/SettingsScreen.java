@@ -355,7 +355,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(fillToMaxCB, gbc);
 
 					minFreeSlotsLabel = new JLabel(Language.getString("screen.settings.minfreeslots", cellWidth));
-					int minFreeSlotsInit = (gameSeries.get(GameSeries.MIN_EMPTY_SLOTS) != null ? (int) gameSeries.get(GameSeries.MIN_EMPTY_SLOTS) : 0);
+					int minFreeSlotsInit = (gameSeries.get(GameSeries.MIN_FREE_SLOTS) != null ? (int) gameSeries.get(GameSeries.MIN_FREE_SLOTS) : 0);
 					minFreeSlotsSpinner = new JSpinner(new SpinnerNumberModel(minFreeSlotsInit, 0, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_FREE_SLOTS), 1));
 					((NumberEditor) this.minFreeSlotsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
@@ -456,7 +456,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 			gameSeries.set(GameSeries.MIN_PLAYERS_PER_GAME, (Integer) minPlayersPerGameSpinner.getValue());
 			gameSeries.set(GameSeries.MAX_PLAYERS_PER_GAME, (Integer) maxPlayersPerGameSpinner.getValue());
 			gameSeries.set(GameSeries.FILL_TO_MAX, ((Label<Boolean>) fillToMaxCB.getSelectedItem()).getValue());
-			gameSeries.set(GameSeries.MIN_EMPTY_SLOTS, (Integer) minFreeSlotsSpinner.getValue());
+			gameSeries.set(GameSeries.MIN_FREE_SLOTS, (Integer) minFreeSlotsSpinner.getValue());
 			if((int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_GAME))
 				throw new GameSeriesException("screen.settings.minabovemax");
 		}
