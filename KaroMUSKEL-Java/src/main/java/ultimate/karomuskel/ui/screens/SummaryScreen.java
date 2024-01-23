@@ -1044,6 +1044,22 @@ public class SummaryScreen extends Screen implements ActionListener
 					game.setMap((PlaceToRace) aValue);
 					break;
 				case 3:
+					if(game.getMap().getPlayers() < ((Collection<User>) aValue).size())
+					{
+						if(batchUpdate.get())
+						{
+							String msgKey = "screen.summary.maptosmall";
+							if(!batchUpdateMessages.containsKey(msgKey))
+								batchUpdateMessages.put(msgKey, 1);
+							else
+								batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
+						}
+						return;
+					}
 					game.getPlayers().clear();
 					game.getPlayers().addAll((Collection<User>) aValue);
 					break;
