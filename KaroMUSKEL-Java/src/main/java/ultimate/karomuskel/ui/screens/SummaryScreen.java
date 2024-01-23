@@ -623,7 +623,7 @@ public class SummaryScreen extends Screen implements ActionListener
 						for(Entry<String, Integer> entry : batchUpdateMessages.entrySet())
 						{
 							message.append(Language.getString(entry.getKey()));
-							if(entry.getValue() > 1)
+							//if(entry.getValue() > 1)
 								message.append(" (" + entry.getValue() + " mal)");
 							message.append("\n");
 						}
@@ -829,7 +829,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		int result = JOptionPane.showOptionDialog(SummaryScreen.this, new Object[] { combobox },
 				Language.getString("screen.summary.batchUpdate.players"), 0, JOptionPane.QUESTION_MESSAGE, null, options, null);
 
-		List<User> updatedPlayers;
+		Set<User> updatedPlayers;
 		if(result == 0) // add
 		{
 			User value = (User) combobox.getSelectedItem();
@@ -838,7 +838,12 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				if(model.isCellEditable(row, column))
 				{
-					updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
+					updatedPlayers = new LinkedHashSet<User>(model.getRow(row).getPlayers());
+					if(updatedPlayers.contains(value))
+					{
+						addBatchUpdateMessage("screen.summary.batchUpdate.players.duplicate");
+						continue;
+					}
 					updatedPlayers.add(value);
 					model.setValueAt(updatedPlayers, row, column);
 				}
@@ -858,12 +863,20 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				if(model.isCellEditable(row, column))
 				{
-					updatedPlayers = new ArrayList<User>(model.getRow(row).getPlayers());
+					updatedPlayers = new LinkedHashSet<User>(model.getRow(row).getPlayers());
 					updatedPlayers.remove(value);
 					model.setValueAt(updatedPlayers, row, column);
 				}
 			}
 		}
+	}
+	
+	private void addBatchUpdateMessage(String msgKey)
+	{
+		if(!batchUpdateMessages.containsKey(msgKey))
+			batchUpdateMessages.put(msgKey, 1);
+		else
+			batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
 	}
 
 	public class SummaryModel extends AbstractTableModel
@@ -1028,17 +1041,9 @@ public class SummaryScreen extends Screen implements ActionListener
 					if(((PlaceToRace) aValue).getPlayers() < game.getPlayers().size())
 					{
 						if(batchUpdate.get())
-						{
-							String msgKey = "screen.summary.maptosmall";
-							if(!batchUpdateMessages.containsKey(msgKey))
-								batchUpdateMessages.put(msgKey, 1);
-							else
-								batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
-						}
+							addBatchUpdateMessage("screen.summary.maptosmall");
 						else
-						{
 							JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
-						}
 						return;
 					}
 					game.setMap((PlaceToRace) aValue);
@@ -1047,17 +1052,9 @@ public class SummaryScreen extends Screen implements ActionListener
 					if(game.getMap().getPlayers() < ((Collection<User>) aValue).size())
 					{
 						if(batchUpdate.get())
-						{
-							String msgKey = "screen.summary.maptosmall";
-							if(!batchUpdateMessages.containsKey(msgKey))
-								batchUpdateMessages.put(msgKey, 1);
-							else
-								batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
-						}
+							addBatchUpdateMessage("screen.summary.maptosmall");
 						else
-						{
 							JOptionPane.showMessageDialog(SummaryScreen.this, Language.getString("screen.summary.maptosmall"));
-						}
 						return;
 					}
 					game.getPlayers().clear();
