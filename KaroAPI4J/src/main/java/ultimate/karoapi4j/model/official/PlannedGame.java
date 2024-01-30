@@ -216,4 +216,10 @@ public class PlannedGame
 	{
 		return this.exception != null;
 	}
+	
+	@JsonIgnore
+	public void clearException()
+	{
+		this.exception = null;
+	}
 }

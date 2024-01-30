@@ -134,6 +134,8 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.gamesToCreate = new LinkedList<PlannedGame>();
 		this.gamesToLeave = new LinkedList<PlannedGame>();
+		
+		this.gamesWithExceptions = new LinkedList<PlannedGame>();
 
 		this.skipPlan = skipPlan;
 		this.key = key;
@@ -186,7 +188,16 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(!firstShow)
 				resetPlannedGames();
 
-			this.gameSeries.getGames().put(this.key, Planner.planSeries(gameSeries));
+			List<PlannedGame> games = Planner.planSeries(gameSeries);
+			this.gameSeries.getGames().put(this.key, games);
+
+			for(PlannedGame pg : games)
+			{
+				if(pg.hasException())
+					this.gamesWithExceptions.add(pg);
+			}
+			if(this.gamesWithExceptions.size() > 0)
+				notifyExceptions();
 		}
 		else
 		{
@@ -297,7 +308,6 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToCreateTmp)
 			{
-				this.gamesWithExceptions = new LinkedList<PlannedGame>();
 				this.gamesToCreateTmp.forEach(pg -> this.model.setStatus(pg, CREATING));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
@@ -340,7 +350,6 @@ public class SummaryScreen extends Screen implements ActionListener
 		{
 			synchronized(this.gamesToLeaveTmp)
 			{
-				this.gamesWithExceptions = new LinkedList<PlannedGame>();
 				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
@@ -420,22 +429,34 @@ public class SummaryScreen extends Screen implements ActionListener
 		enableButtons();
 
 		if(this.gamesWithExceptions.size() > 0)
+			notifyExceptions();
+	}
+
+	private void notifyExceptions()
+	{
+		if(this.gamesWithExceptions.size() == 0)
+			return;
+		
+		StringBuilder msgSpec = new StringBuilder();
+		msgSpec.append("\n");
+		for(PlannedGame game : this.gamesWithExceptions)
 		{
-			StringBuilder msgSpec = new StringBuilder();
+			msgSpec.append("\u2022 ");
+			msgSpec.append(game.getName());
+			msgSpec.append(" -> ");
+			msgSpec.append(getExceptionMessage(game.getException()));
 			msgSpec.append("\n");
-			for(PlannedGame game : this.gamesWithExceptions)
-			{
-				msgSpec.append("\u2022 ");
-				msgSpec.append(game.getName());
-				msgSpec.append(" -> ");
-				msgSpec.append(getExceptionMessage(game.getException()));
-				msgSpec.append("\n");
-			}
-
-			GameSeriesException ex = new GameSeriesException("screen.summary.errors", msgSpec.toString(), "" + gamesWithExceptions.size());
-
-			this.gui.notify(ex, JOptionPane.ERROR_MESSAGE);
+			
+			game.clearException();
 		}
+
+		GameSeriesException ex = new GameSeriesException("screen.summary.errors", msgSpec.toString(), "" + this.gamesWithExceptions.size());
+
+		this.gui.notify(ex, JOptionPane.ERROR_MESSAGE);
+		
+		// clear the exception
+		this.gamesWithExceptions.forEach(pg -> pg.clearException());
+		this.gamesWithExceptions.clear();
 	}
 
 	public void notifyTimeout(String lastMessage)
@@ -623,8 +644,8 @@ public class SummaryScreen extends Screen implements ActionListener
 						for(Entry<String, Integer> entry : batchUpdateMessages.entrySet())
 						{
 							message.append(Language.getString(entry.getKey()));
-							//if(entry.getValue() > 1)
-								message.append(" (" + entry.getValue() + " mal)");
+							// if(entry.getValue() > 1)
+							message.append(" (" + entry.getValue() + " mal)");
 							message.append("\n");
 						}
 						JOptionPane.showMessageDialog(SummaryScreen.this, message);
@@ -870,7 +891,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			}
 		}
 	}
-	
+
 	private void addBatchUpdateMessage(String msgKey)
 	{
 		if(!batchUpdateMessages.containsKey(msgKey))

@@ -66,7 +66,6 @@ public class GameSeries
 	public static final String							SMALL_FINAL					= "smallFinal";			// __________X______________
 	public static final String							DUMMY_MATCHES				= "dummyMatches";		// __________________X______
 	public static final String							V2_TEAM_BASED				= "teamBased";			// __X___X___X___X___X___X__
-	public static final String							FILL_TO_MAX					= "fillToMax";			// ______________________X__
 
 	// keys for type specific configuration: these are MAX values to prevent misuse (unless config is edited)
 	// relevant game series types

@@ -436,44 +436,40 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		for(EnumCreatorParticipation creatorParticipation : EnumCreatorParticipation.values())
 		{
-			boolean[] fills = new boolean[] { true, false };
-			for(boolean fill: fills)
-			{
-				games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, maps, rules, null, creatorParticipation, numberOfGames, minNumberOfPlayersPerGame, maxNumberOfPlayersPerGame, fill, minFreeSlots);
-	
-				assertNotNull(games);
-				assertEquals(numberOfGames, games.size());
-	
-				for(PlannedGame g : games)
-				{
-					logger.debug("min = " + minNumberOfPlayersPerGame +
-								"\tmax = " + maxNumberOfPlayersPerGame +
-								"\tmap = " + g.getMap().getPlayers() +
-								"\tfree = " + minFreeSlots +
-								"\tplayers = " + g.getPlayers().size());
+			games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, maps, rules, null, creatorParticipation, numberOfGames, minNumberOfPlayersPerGame, maxNumberOfPlayersPerGame, minFreeSlots);
 
-					assertTrue(g.getPlayers().size() >= minNumberOfPlayersPerGame);
-					assertTrue(g.getPlayers().size() <= Math.min(maxNumberOfPlayersPerGame, g.getMap().getPlayers() - minFreeSlots));
-	
-					// check creator
-					if(creatorParticipation != EnumCreatorParticipation.not_participating)
-						assertTrue(g.getPlayers().contains(dummyCache.getCurrentUser()));
-					else
-						assertFalse(g.getPlayers().contains(dummyCache.getCurrentUser()));
-	
-					for(User p : g.getPlayers())
-					{
-						// don't check the creator
-						if(p == dummyCache.getCurrentUser())
-							continue;
-	
-						logger.debug("user " + p.getId() + " has games: \tactive=" + p.getActiveGames() + "\tplanned=" + p.getPlannedGames() + "\tmax=" + p.getMaxGames());
-						assertTrue(p.getActiveGames() + p.getPlannedGames() <= p.getMaxGames() || p.getMaxGames() == 0);
-					}
+			assertNotNull(games);
+			assertEquals(numberOfGames, games.size());
+
+			for(PlannedGame g : games)
+			{
+				logger.debug("min = " + minNumberOfPlayersPerGame +
+							"\tmax = " + maxNumberOfPlayersPerGame +
+							"\tmap = " + g.getMap().getPlayers() +
+							"\tfree = " + minFreeSlots +
+							"\tplayers = " + g.getPlayers().size());
+
+				assertTrue(g.getPlayers().size() >= minNumberOfPlayersPerGame);
+				assertTrue(g.getPlayers().size() <= Math.min(maxNumberOfPlayersPerGame, g.getMap().getPlayers() - minFreeSlots));
+
+				// check creator
+				if(creatorParticipation != EnumCreatorParticipation.not_participating)
+					assertTrue(g.getPlayers().contains(dummyCache.getCurrentUser()));
+				else
+					assertFalse(g.getPlayers().contains(dummyCache.getCurrentUser()));
+
+				for(User p : g.getPlayers())
+				{
+					// don't check the creator
+					if(p == dummyCache.getCurrentUser())
+						continue;
+
+					logger.debug("user " + p.getId() + " has games: \tactive=" + p.getActiveGames() + "\tplanned=" + p.getPlannedGames() + "\tmax=" + p.getMaxGames());
+					assertTrue(p.getActiveGames() + p.getPlannedGames() <= p.getMaxGames() || p.getMaxGames() == 0);
 				}
-	
-				Planner.resetPlannedGames(players);
 			}
+	
+			Planner.resetPlannedGames(players);
 		}
 	}
 	

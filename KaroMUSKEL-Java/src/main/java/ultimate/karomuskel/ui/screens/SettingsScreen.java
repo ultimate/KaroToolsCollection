@@ -93,9 +93,6 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JSpinner					minPlayersPerTeamSpinner;
 	private JLabel						maxPlayersPerTeamLabel;
 	private JSpinner					maxPlayersPerTeamSpinner;
-
-	private JLabel						fillToMaxLabel;
-	private JComboBox<Label<Boolean>>	fillToMaxCB;
 	
 	private JLabel						minFreeSlotsLabel;
 	private JSpinner					minFreeSlotsSpinner;
@@ -342,24 +339,13 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(maxPlayersPerGameLabel, gbc);
 					gbc.gridy = 10;
 					this.add(maxPlayersPerGameSpinner, gbc);
-					
-					fillToMaxLabel = new JLabel(Language.getString("screen.settings.filltomax", cellWidth));
-					boolean fillToMaxInit = (gameSeries.get(GameSeries.FILL_TO_MAX) != null ? (boolean) gameSeries.get(GameSeries.FILL_TO_MAX) : true);
-					fillToMaxCB = new JComboBox<>(new BooleanModel(fillToMaxInit, false));
-					gbc.gridwidth = 1;
-					gbc.gridx = 2;
-					gbc.gridy = 9;
-					this.add(fillToMaxLabel, gbc);
-					gbc.fill = GridBagConstraints.HORIZONTAL;
-					gbc.gridy = 10;
-					this.add(fillToMaxCB, gbc);
 
 					minFreeSlotsLabel = new JLabel(Language.getString("screen.settings.minfreeslots", cellWidth));
 					int minFreeSlotsInit = (gameSeries.get(GameSeries.MIN_FREE_SLOTS) != null ? (int) gameSeries.get(GameSeries.MIN_FREE_SLOTS) : 0);
 					minFreeSlotsSpinner = new JSpinner(new SpinnerNumberModel(minFreeSlotsInit, 0, GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_MAX_FREE_SLOTS), 1));
 					((NumberEditor) this.minFreeSlotsSpinner.getEditor()).getTextField().setColumns(spinnerColumns);
 					gbc.gridwidth = 1;
-					gbc.gridx = 3;
+					gbc.gridx = 2;
 					gbc.gridy = 9;
 					this.add(minFreeSlotsLabel, gbc);
 					gbc.gridy = 10;
@@ -455,7 +441,6 @@ public class SettingsScreen extends Screen implements ChangeListener
 			gameSeries.set(GameSeries.NUMBER_OF_GAMES, (Integer) numberOfGamesSpinner.getValue());
 			gameSeries.set(GameSeries.MIN_PLAYERS_PER_GAME, (Integer) minPlayersPerGameSpinner.getValue());
 			gameSeries.set(GameSeries.MAX_PLAYERS_PER_GAME, (Integer) maxPlayersPerGameSpinner.getValue());
-			gameSeries.set(GameSeries.FILL_TO_MAX, ((Label<Boolean>) fillToMaxCB.getSelectedItem()).getValue());
 			gameSeries.set(GameSeries.MIN_FREE_SLOTS, (Integer) minFreeSlotsSpinner.getValue());
 			if((int) gameSeries.get(GameSeries.MIN_PLAYERS_PER_GAME) > (int) gameSeries.get(GameSeries.MAX_PLAYERS_PER_GAME))
 				throw new GameSeriesException("screen.settings.minabovemax");
