@@ -65,6 +65,7 @@ public class Map extends Identifiable implements PlaceToRace
 		super(id);
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
@@ -115,6 +116,7 @@ public class Map extends Identifiable implements PlaceToRace
 		this.rating = rating;
 	}
 
+	@Override
 	public int getPlayers()
 	{
 		return players;
@@ -145,6 +147,7 @@ public class Map extends Identifiable implements PlaceToRace
 		this.active = active;
 	}
 
+	@Override
 	public boolean isNight()
 	{
 		return night;
