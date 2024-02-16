@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
@@ -18,7 +19,9 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
@@ -50,10 +53,20 @@ public class RandomGameCreator
 		logger.debug("users: " + cache.getUsers().size());
 		logger.debug("maps:  " + cache.getMaps().size());
 
+		int gamesMax = Integer.parseInt(gameseries.getProperty("games.max"));
 		int gamesCount = Integer.parseInt(gameseries.getProperty("games.count"));
 		int gamesPerExecution = Integer.parseInt(gameseries.getProperty("games.perExecution"));
-		logger.info("games created so far: " + gamesCount);
-		logger.info("games to create now:  " + gamesPerExecution);
+		int gamesToCreateNow = Math.min(gamesMax - gamesCount, gamesPerExecution);
+		logger.info("games to create overall: " + gamesMax);
+		logger.info("games created so far:    " + gamesCount);
+		logger.info("games per exection:      " + gamesPerExecution);
+		logger.info("games to create now:     " + gamesToCreateNow);
+		
+		if(gamesToCreateNow == 0)
+		{
+			logger.info("no more games to create - exiting");
+			return;
+		}
 
 		logger.info("creating rules...");
 		Rules rules = new Rules();
@@ -99,11 +112,11 @@ public class RandomGameCreator
 
 		logger.info("creating games...");
 		Random random = new Random();
-		for(int i = gamesCount + 1; i <= gamesCount + gamesPerExecution; i++)
+		for(int i = 1; i <= gamesToCreateNow; i++)
 		{
 			// @formatter:off
 			createGame(	cache,
-						i,
+						gamesCount + i,
 						gameseries.getProperty("name"),
 						gameseries.getProperty("map"),
 						creator,
@@ -118,10 +131,11 @@ public class RandomGameCreator
 		}
 
 		logger.info("writing updated properties...");
-		gameseries.setProperty("games.count", "" + (gamesCount + gamesPerExecution));
+		gameseries.setProperty("games.count", "" + (gamesCount + gamesToCreateNow));
 		PropertiesUtil.storeProperties(gameseriesProperties, gameseries, null);
 
 		logger.info("exiting");
+		System.exit(0);
 	}
 
 	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Collection<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
@@ -130,7 +144,7 @@ public class RandomGameCreator
 		try
 		{
 			PlannedGame pg;
-			Map map;
+			PlaceToRace ptr;
 			LinkedList<User> playersCopy = new LinkedList<>(players);
 			Collections.shuffle(playersCopy);
 			Set<User> selectedPlayers = new LinkedHashSet<>();
@@ -140,27 +154,72 @@ public class RandomGameCreator
 			{
 				do
 				{
-					map = cache.getMaps().toArray(new Map[0])[random.nextInt(cache.getMaps().size())];
-				} while((map.getPlayers() < minPlayers) || (map.isNight() && !allowNightMaps));
+					ptr = cache.getMaps().toArray(new Map[0])[random.nextInt(cache.getMaps().size())];
+				} while((ptr.getPlayers() < minPlayers) || (ptr.isNight() && !allowNightMaps));
+			}
+			else if(mapID.equalsIgnoreCase("%generated"))
+			{
+				do
+				{
+					Generator gen = cache.getGenerators().toArray(new Generator[0])[random.nextInt(cache.getGenerators().size())];
+					
+					if(gen.getKey().equalsIgnoreCase("fernschreiber"))
+					{
+						ptr = null;
+						continue;
+					}
+					
+					String key;
+					Object value;
+					logger.info("randomizing generator settings for '" + gen.getKey() + "':");
+					for(Entry<String, Object> setting: gen.getSettings().entrySet())
+					{
+						key = setting.getKey();
+						value = setting.getValue();
+						if(value instanceof Integer)
+						{
+							int min = KaroAPI.getIntProperty("generator." + gen.getKey() + "." + key + ".min", 0);
+							int max = KaroAPI.getIntProperty("generator." + gen.getKey() + "." + key + ".max", 99);
+							int step = KaroAPI.getIntProperty("generator." + gen.getKey() + "." + key + ".step", 1);
+							
+							value = random.nextInt(max - min + 1) /step*step + min; // use /step*step to round to step if necessary
+						}
+						else if(value instanceof String)
+						{
+							if(key.equalsIgnoreCase("seed"))
+								value = "" + random.nextInt();
+						}
+						else if(value instanceof Boolean)
+						{
+							if(key.equalsIgnoreCase("night") && !allowNightMaps)
+								value = false;
+							else
+								value = random.nextBoolean();
+						}
+						logger.info(" -> " + key + "=" + value);
+					}
+					
+					ptr = gen;					
+				} while(ptr == null || (ptr.getPlayers() < minPlayers) || (ptr.isNight() && !allowNightMaps));
 			}
 			else
 			{
-				map = cache.getMap(Integer.parseInt(mapID));
+				ptr = cache.getMap(Integer.parseInt(mapID));
 			}
 
 			// remove not invitable players
-			boolean night = map.isNight();
+			boolean night = ptr.isNight();
 			playersCopy.removeIf(p -> {
 				return !p.isInvitable(night);
 			});
 
 			selectedPlayers.add(creator);
-			while(selectedPlayers.size() < map.getPlayers() && !playersCopy.isEmpty())
+			while(selectedPlayers.size() < ptr.getPlayers() && !playersCopy.isEmpty())
 				selectedPlayers.add(playersCopy.poll());
 
 			pg = new PlannedGame();
 			pg.setName(name.replace("%i", "" + toString(i, 3)));
-			pg.setMap(map);
+			pg.setMap(ptr);
 			pg.setPlayers(selectedPlayers);
 			pg.setOptions(rules.createOptions(random, preferStandards));
 
@@ -178,7 +237,7 @@ public class RandomGameCreator
 
 			logger.info(" GID = " + (pg.getGame() != null ? pg.getGame().getId() : "?"));
 
-			return pg.getGame().getId();
+			return (pg.getGame() != null ? pg.getGame().getId() : 0);
 		}
 		catch(Exception e)
 		{
