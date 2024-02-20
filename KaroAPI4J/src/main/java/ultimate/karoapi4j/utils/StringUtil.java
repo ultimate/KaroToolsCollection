@@ -1,5 +1,9 @@
 package ultimate.karoapi4j.utils;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.function.Function;
+
 public abstract class StringUtil
 {
 	private StringUtil()
@@ -39,5 +43,83 @@ public abstract class StringUtil
 				sb.append(" ");
 			return sb.toString();
 		}
+	}
+
+	/**
+	 * Process a html section into a list of items that are represented by the same tag.
+	 * E.g. process a table row
+	 * <code>&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;</code>
+	 * with tag <code>td</code> to <code>["1", "2", "3"]</code>
+	 * 
+	 * @param <T>
+	 * @param section
+	 * @param tagToLookFor
+	 * @param parser
+	 * @return
+	 */
+	public static <T> List<T> processHTMLSection(String section, String tagToLookFor, Function<String, T> parser)
+	{
+		String START_TAG = "<" + tagToLookFor + "";
+		String END_TAG = "</" + tagToLookFor + ">";
+
+		List<T> items = new LinkedList<T>();
+
+		int itemStart = section.indexOf(START_TAG);
+		
+		if(itemStart < 0)
+			return items;
+
+		int itemEnd = 0;
+
+		do
+		{
+			itemStart = section.indexOf(">", itemStart) + 1;
+			itemEnd = section.indexOf(END_TAG, itemStart);
+			items.add(parser.apply(section.substring(itemStart, itemEnd)));
+			itemStart = section.indexOf(START_TAG, itemEnd);
+		} while(itemStart >= 0);
+
+		return items;
+	}
+
+	/**
+	 * Trim tags from a html snippet and just keep the remaining text
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String trimTags(String value)
+	{
+		int index = 0;
+		for(; index < value.length(); index++)
+		{
+			if(value.charAt(index) == '<')
+				value = value.replace(value.substring(index, value.indexOf('>', index) + 1), "");
+		}
+		return value.trim();
+	}
+
+	/**
+	 * Trim text from a text snippet and just keep the first occurrence that is a number
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public static String trimToNumber(String value)
+	{
+		value = trimTags(value);
+
+		String allowedChars = "0123456789.";
+
+		int start = 0;
+		for(; start < value.length() && allowedChars.indexOf(value.charAt(start)) < 0; start++);
+		
+		if(start >= value.length())
+			return "0";
+
+		int end = start + 1;
+		for(; end < value.length() && allowedChars.indexOf(value.charAt(end)) >= 0; end++);
+
+		return value.substring(start, end);
 	}
 }

@@ -39,6 +39,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
+import ultimate.karoapi4j.model.extended.AddictInfo;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Generator;
@@ -179,7 +180,7 @@ public class KaroAPITest extends KaroAPITestcase
 		// all users in this list should be invitable
 		Predicate<User> findInvitable = (user) -> {
 			return user.isInvitable(false) || user.isInvitable(true);
-		}; 
+		};
 		assertEquals(invitables.size(), CollectionsUtil.count(invitables, findInvitable));
 		// the users in invitable should match the invitables from the global user list
 		List<User> users_filteredToInvitables = new ArrayList<User>(users);
@@ -315,6 +316,49 @@ public class KaroAPITest extends KaroAPITestcase
 	}
 
 	@Test
+	public void test_getAddicts() throws InterruptedException, ExecutionException
+	{
+		java.util.Map<String, AddictInfo> addicts = karoAPI.getAddicts().get();
+		
+		User sbo = karoAPI.getUser(2738).get();
+		assertTrue(addicts.containsKey(sbo.getLogin()));
+		AddictInfo sboAI = addicts.get(sbo.getLogin());
+		assertEquals(sbo.getSignup(), sboAI.getSignup());
+		assertTrue(sboAI.getGamesTotal() > 18000);
+		assertTrue(sboAI.getMovesTotal() > 1200000);
+		assertTrue(sboAI.getMovesPerDay() > (1200000 / (double) sbo.getSignup()));
+		assertTrue(sboAI.getWollustMax() > 136000);
+		assertTrue(sboAI.getWollust() > 100);
+		assertTrue(sboAI.getKaroMeter() > 22300);
+		assertTrue(sboAI.getKaroMilliMeterPerHour() > (22300*1000 / ((double) sbo.getSignup() * 24)));
+		
+		User ultimate = karoAPI.getUser(1411).get();
+		assertTrue(addicts.containsKey(ultimate.getLogin()));
+		AddictInfo ultimateAI = addicts.get(ultimate.getLogin());
+		assertEquals(ultimate.getSignup(), ultimateAI.getSignup());
+		assertTrue(ultimateAI.getGamesTotal() > 9200);
+		assertTrue(ultimateAI.getMovesTotal() > 830000);
+		assertTrue(ultimateAI.getMovesPerDay() > (830000 / (double) ultimate.getSignup()));
+		assertTrue(ultimateAI.getWollustMax() > 19000);
+		assertTrue(ultimateAI.getWollust() > 100);
+		assertTrue(ultimateAI.getKaroMeter() > 12600);
+		assertTrue(ultimateAI.getKaroMilliMeterPerHour() > (12600*1000 / ((double) ultimate.getSignup() * 24)));
+		
+		// goodygoody is not in the first view
+		User goodygoody = karoAPI.getUser(2730).get();
+		assertTrue(addicts.containsKey(goodygoody.getLogin()));
+		AddictInfo goodygoodyAI = addicts.get(goodygoody.getLogin());
+		assertEquals(goodygoody.getSignup(), goodygoodyAI.getSignup());
+		assertTrue(goodygoodyAI.getGamesTotal() > 1500);
+		assertTrue(goodygoodyAI.getMovesTotal() > 111000);
+		assertTrue(goodygoodyAI.getMovesPerDay() > (111000 / (double) goodygoody.getSignup()));
+		assertTrue(goodygoodyAI.getWollustMax() > 2700);
+		assertTrue(goodygoodyAI.getWollust() == 0);
+		assertTrue(goodygoodyAI.getKaroMeter() > 1950);
+		assertTrue(goodygoodyAI.getKaroMilliMeterPerHour() > (1950*1000 / ((double) goodygoody.getSignup() * 24)));
+	}
+
+	@Test
 	public void test_getGames() throws InterruptedException, ExecutionException
 	{
 		List<Game> games = karoAPI.getGames().get();
@@ -346,7 +390,8 @@ public class KaroAPITest extends KaroAPITestcase
 			assertEquals(1, CollectionsUtil.count(games1, findGame));
 		}
 		// check the games are sorted by id (first print them for debugging)
-		CollectionsUtil.sortAscending(games1, "getId"); // TODO currently the gid-sort does not work properly
+		CollectionsUtil.sortAscending(games1, "getId"); // TODO currently the gid-sort does not work
+														// properly
 		for(int i = 0; i < games1.size(); i++)
 			logger.debug(i + ": id=" + games1.get(i).getId() + ", name=" + games1.get(i).getName());
 		for(int i = 0; i < games1.size(); i++)
@@ -367,7 +412,8 @@ public class KaroAPITest extends KaroAPITestcase
 		{
 			limited = karoAPI.getGames(null, EnumUserGamesort.name, null, true, TEST_GAMES_NAME, 0, 1, i).get();
 			assertNotNull(limited);
-			// assertEquals(1, limited.size()); // currently the limit is not working, but the offset does
+			// assertEquals(1, limited.size()); // currently the limit is not working, but the
+			// offset does
 			assertEquals(TEST_GAMES_NAME + (i + 1), limited.get(0).getName());
 		}
 	}
@@ -538,13 +584,13 @@ public class KaroAPITest extends KaroAPITestcase
 		// should be more than just a few maps...
 		assertTrue(generators.size() >= 6);
 
-		String[] knownKeys = new String[] { "bagger", "couscous", "fernschreiber", "irrkarten", "kartograph", "zickzack"};
-		
+		String[] knownKeys = new String[] { "bagger", "couscous", "fernschreiber", "irrkarten", "kartograph", "zickzack" };
+
 		boolean found = false;
-		for(String key: knownKeys)
+		for(String key : knownKeys)
 		{
 			found = false;
-			for(Generator g: generators)
+			for(Generator g : generators)
 			{
 				if(g.getKey().equalsIgnoreCase(key))
 				{
@@ -564,9 +610,9 @@ public class KaroAPITest extends KaroAPITestcase
 		settings.put("dimy", 10);
 		settings.put("seed", "1");
 		Generator generator = new Generator("couscous", settings);
-		
+
 		String code = karoAPI.generateCode(generator).get();
-		
+
 		// @formatter:off
 		String expected = "XXXXXXXXXX\n"
 						+ "XYYYXXXXXX\n"
@@ -579,7 +625,7 @@ public class KaroAPITest extends KaroAPITestcase
 						+ "XXXXXXXXXX\n"
 						+ "XXXXXXXXXX";
 		// @formatter:on
-		
+
 		assertEquals(expected, code);
 	}
 
@@ -591,9 +637,9 @@ public class KaroAPITest extends KaroAPITestcase
 		settings.put("dimy", 10);
 		settings.put("seed", "1");
 		Generator generator = new Generator("couscous", settings);
-		
+
 		Map map = karoAPI.generateMap(generator).get();
-		
+
 		// @formatter:off
 		String expected = "XXXXXXXXXX\n"
 						+ "XYYYXXXXXX\n"
@@ -606,9 +652,9 @@ public class KaroAPITest extends KaroAPITestcase
 						+ "XXXXXXXXXX\n"
 						+ "XXXXXXXXXX";
 		// @formatter:on
-		
+
 		logger.info("map created with id = " + map.getId() + ", code=\n" + map.getCode());
-		
+
 		assertNotNull(map);
 		assertNotNull(map.getId());
 		assertTrue(map.getId() > 10000);
@@ -1029,10 +1075,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(plannedMoves.size(), actuallyPlannedMoves.size());
 		for(int i = 0; i < plannedMoves.size(); i++)
 		{
-			logger.debug("plannedMoves.get(" + i + ")         = from " + plannedMoves.get(i).getX() + "|" + plannedMoves.get(i).getY() + " --> vec " + plannedMoves.get(i).getXv() + "|"
-					+ plannedMoves.get(i).getYv());
-			logger.debug("actuallyPlannedMoves.get(" + i + ") = from " + actuallyPlannedMoves.get(i).getX() + "|" + actuallyPlannedMoves.get(i).getY() + " --> vec "
-					+ actuallyPlannedMoves.get(i).getXv() + "|" + actuallyPlannedMoves.get(i).getYv());
+			logger.debug("plannedMoves.get(" + i + ")         = from " + plannedMoves.get(i).getX() + "|" + plannedMoves.get(i).getY() + " --> vec "
+					+ plannedMoves.get(i).getXv() + "|" + plannedMoves.get(i).getYv());
+			logger.debug("actuallyPlannedMoves.get(" + i + ") = from " + actuallyPlannedMoves.get(i).getX() + "|" + actuallyPlannedMoves.get(i).getY()
+					+ " --> vec " + actuallyPlannedMoves.get(i).getXv() + "|" + actuallyPlannedMoves.get(i).getYv());
 			assertTrue(movesEqual.apply(plannedMoves.get(i), actuallyPlannedMoves.get(i)), "moves at index " + i + " do not match");
 		}
 
@@ -1077,7 +1123,8 @@ public class KaroAPITest extends KaroAPITestcase
 
 	@ParameterizedTest
 	@MethodSource("provideKBSamples")
-	public void test_getKarolenderBlatt(String queryDate, String expectedKarolenderBlatt) throws InterruptedException, ExecutionException, ParseException
+	public void test_getKarolenderBlatt(String queryDate, String expectedKarolenderBlatt)
+			throws InterruptedException, ExecutionException, ParseException
 	{
 		DateFormat df = new SimpleDateFormat(JSONUtil.DATE_FORMAT);
 
@@ -1139,7 +1186,8 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), karoAPI.check().get().getLogin());
 
 		// create a second instance
-		KaroAPI karoAPI2 = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user2"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password2"));
+		KaroAPI karoAPI2 = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user2"),
+				properties.getProperty(KaroAPI.CONFIG_KEY + ".password2"));
 		// check the login there
 		User user2 = karoAPI2.check().get();
 		assertEquals(properties.getProperty(KaroAPI.CONFIG_KEY + ".user2"), user2.getLogin());
@@ -1264,7 +1312,8 @@ public class KaroAPITest extends KaroAPITestcase
 	@Test
 	public void test_errorHandling() throws InterruptedException, ExecutionException
 	{
-		KaroAPI karoAPIwithFailingCall = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password"));
+		KaroAPI karoAPIwithFailingCall = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"),
+				properties.getProperty(KaroAPI.CONFIG_KEY + ".password"));
 		karoAPIwithFailingCall.KAROPAPIER.addRequestProperty("X-Auth-Key", "wrong key");
 		CompletableFuture<User> completableFuture = karoAPIwithFailingCall.check();
 
@@ -1345,7 +1394,8 @@ public class KaroAPITest extends KaroAPITestcase
 		logger.debug("current time     = " + df.format(now));
 		logger.debug("game starteddate = " + df.format(game.getStarteddate()));
 
-		assertEquals(now.getTime(), game.getStarteddate().getTime(), 10000.0); // toleranze of 10 seconds
+		assertEquals(now.getTime(), game.getStarteddate().getTime(), 10000.0); // toleranze of 10
+																				// seconds
 
 		Thread.sleep(sleep);
 
@@ -1355,19 +1405,19 @@ public class KaroAPITest extends KaroAPITestcase
 		assertTrue(left);
 	}
 
-//	@Test
-//	public void test_createGameWithIllegalMap() throws InterruptedException, ExecutionException
-//	{
-//		// real test
-//		PlannedGame pg = new PlannedGame();
-//		pg.setPlayers(new LinkedHashSet<>(Arrays.asList(karoAPICache.getUser("ultimate"))));
-//		pg.setMap(karoAPICache.getMap(10056));
-//		pg.setOptions(new Options(0, false, EnumGameDirection.free, EnumGameTC.free));
-//		pg.setName("Test");
-//		
-//		Game g = karoAPI.createGame(pg).join();
-//		assertNotNull(g);
-//		assertEquals(pg.getName(), g.getName());
-//		assertEquals(pg.getMap(), g.getMap());
-//	}
+	// @Test
+	// public void test_createGameWithIllegalMap() throws InterruptedException, ExecutionException
+	// {
+	// // real test
+	// PlannedGame pg = new PlannedGame();
+	// pg.setPlayers(new LinkedHashSet<>(Arrays.asList(karoAPICache.getUser("ultimate"))));
+	// pg.setMap(karoAPICache.getMap(10056));
+	// pg.setOptions(new Options(0, false, EnumGameDirection.free, EnumGameTC.free));
+	// pg.setName("Test");
+	//
+	// Game g = karoAPI.createGame(pg).join();
+	// assertNotNull(g);
+	// assertEquals(pg.getName(), g.getName());
+	// assertEquals(pg.getMap(), g.getMap());
+	// }
 }

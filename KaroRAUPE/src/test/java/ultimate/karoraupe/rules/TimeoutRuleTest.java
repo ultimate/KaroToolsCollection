@@ -24,7 +24,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class TimeoutRuleTest extends KaroRAUPETestcase
 {	
-	private TimeoutRule rule = new TimeoutRule();
+	private TimeoutRule rule = new TimeoutRule(karoAPI);
 
 	@Test
 	public void test_getLastMoveDate()

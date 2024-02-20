@@ -25,7 +25,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class MessageRuleTest extends KaroRAUPETestcase
 {	
-	private MessageRule rule = new MessageRule();
+	private MessageRule rule = new MessageRule(karoAPI);
 
 	private static Move createMove(long time, String msg)
 	{

@@ -12,7 +12,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class UserTurnRuleTest extends KaroRAUPETestcase
 {	
-	private UserTurnRule rule = new UserTurnRule();
+	private UserTurnRule rule = new UserTurnRule(karoAPI);
 
 	@Test
 	public void test_evaluate()

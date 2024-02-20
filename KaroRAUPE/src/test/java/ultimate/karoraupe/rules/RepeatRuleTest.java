@@ -22,7 +22,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class RepeatRuleTest extends KaroRAUPETestcase
 {	
-	private RepeatRule rule = new RepeatRule();
+	private RepeatRule rule = new RepeatRule(karoAPI);
 
 	public static Stream<Arguments> provideConfigAndPossibles()
 	{

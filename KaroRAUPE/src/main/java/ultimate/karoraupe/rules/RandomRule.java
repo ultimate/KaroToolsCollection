@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -21,8 +22,9 @@ public class RandomRule extends Rule
 	 */
 	private static final Random random = new Random();
 
-    public RandomRule()
+    public RandomRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(KEY_SPECIAL_RANDOM, boolean.class);
         this.supportedProperties.put(KEY_SPECIAL_RANDOM_MAXSPEED, double.class);
         this.supportedProperties.put(KEY_SPECIAL_RANDOM_MESSAGE, String.class);

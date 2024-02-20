@@ -2,6 +2,7 @@ package ultimate.karoraupe.rules;
 
 import java.util.Properties;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -12,8 +13,9 @@ public class SingleOptionRule extends Rule
 	public static final String			KEY_SPECIAL_SINGLEOPTION			= Mover.KEY_PREFIX + ".singleoption";
 	public static final String			KEY_SPECIAL_SINGLEOPTION_MESSAGE	= KEY_SPECIAL_SINGLEOPTION + ".message";
 
-    public SingleOptionRule()
+    public SingleOptionRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(KEY_SPECIAL_SINGLEOPTION, boolean.class);
         this.supportedProperties.put(KEY_SPECIAL_SINGLEOPTION_MESSAGE, String.class);
     }

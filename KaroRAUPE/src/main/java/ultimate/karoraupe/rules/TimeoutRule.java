@@ -3,6 +3,7 @@ package ultimate.karoraupe.rules;
 import java.util.Date;
 import java.util.Properties;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -10,8 +11,9 @@ import ultimate.karoraupe.Mover;
 
 public class TimeoutRule extends Rule
 {
-    public TimeoutRule()
+    public TimeoutRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(Mover.KEY_TIMEOUT, int.class);
     }
 

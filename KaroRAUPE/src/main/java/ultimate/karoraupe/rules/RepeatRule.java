@@ -1,6 +1,8 @@
 package ultimate.karoraupe.rules;
 
 import java.util.Properties;
+
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -13,8 +15,9 @@ public class RepeatRule extends Rule
 	public static final String			KEY_SPECIAL_REPEAT_MESSAGE			= KEY_SPECIAL_REPEAT + ".message";
 
 
-    public RepeatRule()
+    public RepeatRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(KEY_SPECIAL_REPEAT, boolean.class);
         this.supportedProperties.put(KEY_SPECIAL_REPEAT_MOVES, int.class);
         this.supportedProperties.put(KEY_SPECIAL_REPEAT_MESSAGE, String.class);
