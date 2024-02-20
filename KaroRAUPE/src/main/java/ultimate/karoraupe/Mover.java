@@ -18,6 +18,7 @@ import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.enums.EnumMoveTrigger;
 import ultimate.karoraupe.rules.AfterCrashRule;
+import ultimate.karoraupe.rules.AntiAddictRule;
 import ultimate.karoraupe.rules.EnabledRule;
 import ultimate.karoraupe.rules.FinishedRule;
 import ultimate.karoraupe.rules.FollowPlanRule;
@@ -131,6 +132,7 @@ public class Mover
 		this.rules.add(new NoPossiblesRule(this.api));
 		this.rules.add(new AfterCrashRule(this.api));
 		this.rules.add(new TimeoutRule(this.api));
+		this.rules.add(new AntiAddictRule(this.api));
 		this.rules.add(new MessageRule(this.api));
 		this.rules.add(new RemuladeRule(this.api));
 		this.rules.add(new SingleOptionRule(this.api));
