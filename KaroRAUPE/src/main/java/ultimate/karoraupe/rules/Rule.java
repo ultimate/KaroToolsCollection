@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -17,9 +18,29 @@ public abstract class Rule
 	 * Logger-Instance
 	 */
 	protected transient final Logger	logger								= LogManager.getLogger(getClass());
+	/**
+	 * KaroAPI-Instance
+	 */
+	protected final KaroAPI api;
     
-    protected Map<String, Class<?>> supportedProperties = new HashMap<>();;
+	/**
+	 * Map of supported properties with name and type for this {@link Rule}
+	 */
+    protected Map<String, Class<?>> supportedProperties = new HashMap<>();
 
+    /**
+     * @param api
+     */
+    public Rule(KaroAPI api)
+	{
+		super();
+		this.api = api;
+	}
+
+	/**
+	 * Map of supported properties with name and type for this {@link Rule}
+     * @return
+     */
     public Map<String, Class<?>> getSupportedProperties()
     {
         return this.supportedProperties;

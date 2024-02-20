@@ -2,6 +2,7 @@ package ultimate.karoraupe.rules;
 
 import java.util.Properties;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -10,8 +11,9 @@ import ultimate.karoraupe.enums.EnumMoveTrigger;
 
 public class MessageRule extends Rule
 {
-    public MessageRule()
+    public MessageRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(Mover.KEY_TRIGGER, EnumMoveTrigger.class);
     }
 

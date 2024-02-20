@@ -2,6 +2,7 @@ package ultimate.karoraupe.rules;
 
 import java.util.Properties;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.Mover;
@@ -11,8 +12,9 @@ public class EnabledRule extends Rule
 {
     private boolean test;
     
-    public EnabledRule()
+    public EnabledRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(Mover.KEY_TRIGGER, EnumMoveTrigger.class);
     }
 

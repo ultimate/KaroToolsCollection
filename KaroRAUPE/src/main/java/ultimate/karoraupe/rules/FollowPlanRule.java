@@ -3,6 +3,8 @@ package ultimate.karoraupe.rules;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -11,8 +13,9 @@ import ultimate.karoraupe.Mover;
 public class FollowPlanRule extends Rule
 {
 
-    public FollowPlanRule()
+    public FollowPlanRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(Mover.KEY_MESSAGE, String.class);
         this.supportedProperties.put(Mover.KEY_STRICT, boolean.class);
     }

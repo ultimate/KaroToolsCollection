@@ -2,13 +2,15 @@ package ultimate.karoraupe.rules;
 
 import java.util.Properties;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Player;
 
 public class UserTurnRule extends Rule
 {
-    public UserTurnRule()
+    public UserTurnRule(KaroAPI api)
     {
+    	super(api);
         //this.supportedProperties.put(Mover.KEY_TRIGGER, EnumMoveTrigger.class);
     }
 
