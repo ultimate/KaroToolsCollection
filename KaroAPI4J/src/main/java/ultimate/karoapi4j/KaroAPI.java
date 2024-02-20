@@ -30,6 +30,7 @@ import ultimate.karoapi4j.enums.EnumContentType;
 import ultimate.karoapi4j.enums.EnumUserGamesort;
 import ultimate.karoapi4j.exceptions.KaroAPIException;
 import ultimate.karoapi4j.model.base.Identifiable;
+import ultimate.karoapi4j.model.extended.AddictInfo;
 import ultimate.karoapi4j.model.official.ChatMessage;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Generator;
@@ -48,6 +49,7 @@ import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.JSONUtil.IDLookUp;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karoapi4j.utils.ReflectionsUtil;
+import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karoapi4j.utils.URLLoader;
 import ultimate.karoapi4j.utils.URLLoader.BackgroundLoader;
 import ultimate.karoapi4j.utils.Version;
@@ -55,13 +57,16 @@ import ultimate.karoapi4j.utils.Version;
 /**
  * This is the wrapper for accessing the Karo API.<br>
  * <br>
- * Note: Accessing the API requires a user and password for www.karopapier.de which can be passed with the constructor. Afterwards it is
+ * Note: Accessing the API requires a user and password for www.karopapier.de which can be passed
+ * with the constructor. Afterwards it is
  * recommended to check the successful login using {@link KaroAPI#check()}.<br>
  * <br>
- * Each API call will return a {@link CompletableFuture} which wraps the underlying API call and which then can be used to either load the results
+ * Each API call will return a {@link CompletableFuture} which wraps the underlying API call and
+ * which then can be used to either load the results
  * either blocking or asynchronously (see {@link URLLoader}).<br>
  * <br>
- * For calls with filter arguments, each argument is applied only if it is set to a non null value. If the argument is null, it will be ignored.
+ * For calls with filter arguments, each argument is applied only if it is set to a non null value.
+ * If the argument is null, it will be ignored.
  * For example
  * <ul>
  * <li><code>getUsers(null, null, null)</code> = get all</li>
@@ -116,7 +121,8 @@ public class KaroAPI implements IDLookUp
 	 */
 	private static boolean					ensureMapSeed	= true;
 	/**
-	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService}
+	 * is static since load balancing shall be possible
 	 * across multiple instances of the {@link KaroAPI}.
 	 */
 	private static ExecutorService			executor		= Executors.newFixedThreadPool(10);
@@ -196,13 +202,14 @@ public class KaroAPI implements IDLookUp
 
 	public static String getUserAgent()
 	{
-		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java "
-				+ System.getProperty("java.version") + ")";
+		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/"
+				+ (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
 	}
 
 	/**
 	 * Set a new {@link ExecutorService}:<br>
-	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService}
+	 * is static since load balancing shall be possible
 	 * across multiple instances of the {@link KaroAPI}.
 	 * 
 	 * @param e - the new {@link ExecutorService}
@@ -216,7 +223,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get the current {@link ExecutorService}:<br>
-	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService} is static since load balancing shall be possible
+	 * The {@link ExecutorService} used to run all BackgroundLoaders. This {@link ExecutorService}
+	 * is static since load balancing shall be possible
 	 * across multiple
 	 * instances of the {@link KaroAPI}.
 	 * 
@@ -234,43 +242,73 @@ public class KaroAPI implements IDLookUp
 																												return null;
 																											};
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
-	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(new TypeReference<java.util.Map<String, Object>>() {});
-	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
-	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
-	public static final Function<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
-	public static final Function<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
-	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
-	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
-	public static final Function<String, List<Move>>							PARSER_MOVE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Move>>() {});
-	public static final Function<String, List<MovesListEntry>>					PARSER_MOVES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<MovesListEntry>>() {});
-	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<NotesListEntry>>() {});
-	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
-	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
-	public static final Function<String, List<Generator>>						PARSER_GENERATOR_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Generator>>() {});
-	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
-	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
-	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
-	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
-	public static final Function<String, List<KarolenderBlatt>>					PARSER_KAROLENDERBLATT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<KarolenderBlatt>>() {});
-	public static final Function<String, List<Smilie>>							PARSER_SMILIE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Smilie>>() {});
-	public static final Function<String, List<Tag>>								PARSER_TAG_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Tag>>() {});
-	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the ids are the keys and the texts are the values
+	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(
+			new TypeReference<java.util.Map<String, Object>>() {});
+	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<java.util.Map<String, Object>>>() {});
+	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(
+			new TypeReference<User>() {});
+	public static final Function<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<User>>() {});
+	public static final Function<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(
+			new TypeReference<Game>() {});
+	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(
+			new TypeReference<Game>() {}, "game");
+	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<Game>>() {});
+	public static final Function<String, List<Move>>							PARSER_MOVE_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<Move>>() {});
+	public static final Function<String, List<MovesListEntry>>					PARSER_MOVES_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<MovesListEntry>>() {});
+	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<NotesListEntry>>() {});
+	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(
+			new TypeReference<Map>() {});
+	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(
+			new TypeReference<List<Map>>() {});
+	public static final Function<String, List<Generator>>						PARSER_GENERATOR_LIST		= new JSONUtil.Parser<>(
+			new TypeReference<List<Generator>>() {});
+	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(
+			new TypeReference<ChatMessage>() {});
+	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<ChatMessage>>() {});
+	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(
+			new TypeReference<UserMessage>() {});
+	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(
+			new TypeReference<List<UserMessage>>() {});
+	public static final Function<String, List<KarolenderBlatt>>					PARSER_KAROLENDERBLATT_LIST	= new JSONUtil.Parser<>(
+			new TypeReference<List<KarolenderBlatt>>() {});
+	public static final Function<String, List<Smilie>>							PARSER_SMILIE_LIST			= new JSONUtil.Parser<>(
+			new TypeReference<List<Smilie>>() {});
+	public static final Function<String, List<Tag>>								PARSER_TAG_LIST				= new JSONUtil.Parser<>(
+			new TypeReference<List<Tag>>() {});
+	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the
+	// ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES_MAP			= (result) -> {
-																												return CollectionsUtil
-																														.flattenMap(CollectionsUtil.toMap(PARSER_NOTES_LIST.apply(result)), "text");
+																												return CollectionsUtil.flattenMap(
+																														CollectionsUtil.toMap(
+																																PARSER_NOTES_LIST
+																																		.apply(result)),
+																														"text");
 																											};
 	public static final Function<String, java.util.Map<Integer, List<Move>>>	PARSER_MOVES_MAP			= (result) -> {
-																												return CollectionsUtil
-																														.flattenMap(CollectionsUtil.toMap(PARSER_MOVES_LIST.apply(result)), "moves");
+																												return CollectionsUtil.flattenMap(
+																														CollectionsUtil.toMap(
+																																PARSER_MOVES_LIST
+																																		.apply(result)),
+																														"moves");
 																											};
-	// public static final Function<String, java.util.Map<Integer, String>> PARSER_NOTES_LIST = (result) -> {
+	// public static final Function<String, java.util.Map<Integer, String>> PARSER_NOTES_LIST =
+	// (result) -> {
 	// return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
 	// };
 	public static final Function<String, String>								PARSER_NOTE					= (result) -> {
-																												return (String) PARSER_GENERIC.apply(result).get("text");
+																												return (String) PARSER_GENERIC
+																														.apply(result).get("text");
 																											};
 	public static final Function<String, String>								PARSER_KEY					= (result) -> {
-																												return (String) PARSER_GENERIC.apply(result).get("api_key");
+																												return (String) PARSER_GENERIC
+																														.apply(result).get("api_key");
 																											};
 
 	//////////////
@@ -278,7 +316,8 @@ public class KaroAPI implements IDLookUp
 	//////////////
 
 	// base
-	protected final URLLoader													KAROPAPIER					= new URLLoader("https://www.karopapier.de");
+	protected final URLLoader													KAROPAPIER					= new URLLoader(
+			"https://www.karopapier.de");
 	protected final URLLoader													API							= KAROPAPIER.relative("/api");
 	protected final URLLoader													KEY							= API.relative("/key");
 	// users
@@ -295,7 +334,11 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													NOTES						= API.relative("/notes");
 	protected final URLLoader													NOTES_FOR_GAME				= NOTES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													PLANNED_MOVES				= API.relative("/planned-moves");
-	protected final URLLoader													PLANNED_MOVES_FOR_GAME		= PLANNED_MOVES.relative("/" + PLACEHOLDER);
+	protected final URLLoader													PLANNED_MOVES_FOR_GAME		= PLANNED_MOVES
+			.relative("/" + PLACEHOLDER);
+	// addicts
+	protected final URLLoader													ADDICTS						= KAROPAPIER
+			.relative("/addicts?by=" + PLACEHOLDER);
 	// games
 	protected final URLLoader													GAMES						= API.relative("/games");
 	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
@@ -303,14 +346,17 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
 	@Deprecated // (since = "3.0.7")
 	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
-	protected final URLLoader													GAME_REFRESH				= KAROPAPIER.relative("/showmap.php?GID=" + PLACEHOLDER);
+	protected final URLLoader													GAME_REFRESH				= KAROPAPIER
+			.relative("/showmap.php?GID=" + PLACEHOLDER);
 	// maps
 	protected final URLLoader													MAPS						= API.relative("/maps");
 	protected final URLLoader													MAP							= MAPS.relative("/" + PLACEHOLDER);
-	protected final URLLoader													MAP_CODE					= API.relative("/mapcode/" + PLACEHOLDER + ".txt");
+	protected final URLLoader													MAP_CODE					= API
+			.relative("/mapcode/" + PLACEHOLDER + ".txt");
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
-	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
+	protected final URLLoader													MAP_IMAGE					= KAROPAPIER
+			.relative("/map/" + PLACEHOLDER + ".png");
 	// generators
 	protected final URLLoader													GENERATORS					= API.relative("/generators");
 	protected final URLLoader													GENERATE_CODE				= GENERATORS.relative("/" + PLACEHOLDER);
@@ -321,10 +367,12 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													CHAT_USERS					= CHAT.relative("/users");
 	// messaging
 	protected final URLLoader													CONTACTS					= API.relative("/contacts");
-	protected final URLLoader													MESSAGES					= API.relative("/messages/" + PLACEHOLDER);
+	protected final URLLoader													MESSAGES					= API
+			.relative("/messages/" + PLACEHOLDER);
 	// misc
 	protected final URLLoader													KAROLENDERBLATT				= API.relative("/karolenderblatt");
-	protected final URLLoader													KAROLENDERBLATT_FOR_DATE	= KAROLENDERBLATT.relative("/" + PLACEHOLDER);
+	protected final URLLoader													KAROLENDERBLATT_FOR_DATE	= KAROLENDERBLATT
+			.relative("/" + PLACEHOLDER);
 	protected final URLLoader													SMILIES						= API.relative("/smilies");
 	protected final URLLoader													TAGS						= API.relative("/tags");
 	protected final URLLoader													TAGS_SUGGESTED				= TAGS.relative("/suggested-tags");
@@ -345,7 +393,8 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Get an instance for the given API-Key
 	 * 
-	 * @param apiKey - the API-Key retrieved previously from <a href="https://www.karopapier.de/api/key">https://www.karopapier.de/api/key</a>
+	 * @param apiKey - the API-Key retrieved previously from
+	 *            <a href="https://www.karopapier.de/api/key">https://www.karopapier.de/api/key</a>
 	 */
 	public KaroAPI(String apiKey) throws KaroAPIException
 	{
@@ -447,7 +496,8 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Non-static wrappeer for calling {@link KaroAPI#loadAsync(BackgroundLoader, Function, int)} that passes the currently set number of retries for
+	 * Non-static wrappeer for calling {@link KaroAPI#loadAsync(BackgroundLoader, Function, int)}
+	 * that passes the currently set number of retries for
 	 * this instance.
 	 *
 	 * @see KaroAPI#loadAsync(BackgroundLoader, Function, int)
@@ -464,13 +514,15 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Asynchronously schedule and execute a {@link BackgroundLoader}.<br>
-	 * This method will create {@link CompletableFuture} that is passed to the set {@link KaroAPI#executor} for asynchronous execution.<br>
+	 * This method will create {@link CompletableFuture} that is passed to the set
+	 * {@link KaroAPI#executor} for asynchronous execution.<br>
 	 * It is further capable of appending retries to the {@link CompletableFuture} optionally.
 	 * 
 	 * @param <T> - the type that the parser will return
 	 * @param backgroundLoader - the {@link BackgroundLoader} to execute
 	 * @param parser - the parser that shall be used to parse the loaded content
-	 * @param retries - the number of <b>additional</b> retries to perform if the first execution fails.
+	 * @param retries - the number of <b>additional</b> retries to perform if the first execution
+	 *            fails.
 	 * @return the {@link CompletableFuture}
 	 */
 	private <T> CompletableFuture<T> loadAsync(BackgroundLoader backgroundLoader, Function<String, T> parser, int retries)
@@ -558,7 +610,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get the users filtered.<br>
-	 * Each filter is applied only if it is set (not null). If the filter is null, it will be ignored (see class description).<br>
+	 * Each filter is applied only if it is set (not null). If the filter is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#USERS
@@ -761,7 +814,110 @@ public class KaroAPI implements IDLookUp
 	public CompletableFuture<Void> removePlannedMoves(int gameId)
 	{
 		return addPlannedMoves(gameId, null);
-//		return loadAsync(PLANNED_MOVES_FOR_GAME.replace(PLACEHOLDER, gameId).doDelete(), PARSER_VOID);
+		// return loadAsync(PLANNED_MOVES_FOR_GAME.replace(PLACEHOLDER, gameId).doDelete(),
+		// PARSER_VOID);
+	}
+
+	///////////////////////
+	// addicts
+	///////////////////////
+
+	public CompletableFuture<java.util.Map<String, AddictInfo>> getAddicts()
+	{
+		HashMap<String, AddictInfo> addicts = new HashMap<String, AddictInfo>();
+
+		@Deprecated
+		Function<String, Void> parser = (html) -> {
+			int tableBegin, tableEnd;
+
+			Function<String, String> cellParser = Function.identity();
+			Function<String, List<String>> rowParser = (row) -> {
+				return StringUtil.processHTMLSection(row, "td", cellParser);
+			};
+
+			// process first table
+			tableBegin = html.indexOf("<TABLE CLASS=general CELLPADDING=3 WIDTH=98%>");
+			tableEnd = html.indexOf("</table>", tableBegin) + "</table>".length();
+			List<List<String>> firstTable = StringUtil.processHTMLSection(html.substring(tableBegin, tableEnd), "tr", rowParser);
+
+			AddictInfo ai;
+			String login;
+			for(List<String> row : firstTable)
+			{
+				if(row.size() < 10)
+					continue;
+				try
+				{
+
+					login = StringUtil.trimTags(row.get(1));
+					synchronized(addicts)
+					{
+						if(addicts.containsKey(login))
+							ai = addicts.get(login);
+						else
+						{
+							ai = new AddictInfo(login);
+							addicts.put(login, ai);
+						}
+					}
+					ai.setSignup(Integer.parseInt(StringUtil.trimToNumber(row.get(4))));
+					ai.setGamesTotal(Integer.parseInt(StringUtil.trimToNumber(row.get(5))));
+					ai.setMovesTotal(Integer.parseInt(StringUtil.trimToNumber(row.get(6))));
+					ai.setMovesPerDay(Double.parseDouble(StringUtil.trimToNumber(row.get(7))));
+					ai.setWollustMax(Integer.parseInt(StringUtil.trimToNumber(row.get(8))));
+					String[] split = row.get(9).split("\\(");
+					ai.setKaroMeter(Integer.parseInt(StringUtil.trimToNumber(split[0])));
+					ai.setKaroMilliMeterPerHour(Integer.parseInt(StringUtil.trimToNumber(split[1])));
+
+					addicts.put(ai.getLogin(), ai);
+				}
+				catch(NumberFormatException e)
+				{
+					logger.error("error parsing AddictInfo", e);
+				}
+			}
+
+			// process second table
+			tableBegin = html.indexOf("<table>", html.indexOf("<h3>WOLLUST, die WOchen-Liste"));
+			tableEnd = html.indexOf("</table>", tableBegin) + "</table>".length();
+			List<List<String>> secondTable = StringUtil.processHTMLSection(html.substring(tableBegin, tableEnd), "tr", rowParser);
+
+			for(List<String> row : secondTable)
+			{
+				if(row.size() < 3)
+					continue;
+				try
+				{
+					login = StringUtil.trimTags(row.get(1));
+					synchronized(addicts)
+					{
+						if(addicts.containsKey(login))
+							ai = addicts.get(login);
+						else
+						{
+							ai = new AddictInfo(login);
+							addicts.put(login, ai);
+						}
+					}
+					ai.setWollust(Integer.parseInt(StringUtil.trimToNumber(row.get(2))));
+				}
+				catch(NumberFormatException e)
+				{
+					logger.error("error parsing Wollust", e);
+				}
+			}
+			return null;
+		};
+
+		// load all possible sortings for addicts to obtain the maximum amount of information possible 
+		// @formatter:off
+		return CompletableFuture.allOf(
+				loadAsync(ADDICTS.replace(PLACEHOLDER, "automoves").doGet(), parser),
+				loadAsync(ADDICTS.replace(PLACEHOLDER, "perday").doGet(), parser),
+				loadAsync(ADDICTS.replace(PLACEHOLDER, "wollust").doGet(), parser),
+				loadAsync(ADDICTS.replace(PLACEHOLDER, "km").doGet(), parser)
+			).thenApply(v -> addicts);
+		// @formatter:on
 	}
 
 	///////////////////////
@@ -782,7 +938,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get the games filtered.<br>
-	 * Each filter is applied only if it is set (not null). If the filter is null, it will be ignored (see class description).<br>
+	 * Each filter is applied only if it is set (not null). If the filter is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#GAMES
@@ -796,7 +953,8 @@ public class KaroAPI implements IDLookUp
 	 * @param offset - the offset filter
 	 * @return the list of all games filtered by the given criteria
 	 */
-	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Integer nameStart, Integer limit, Integer offset)
+	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Integer nameStart,
+			Integer limit, Integer offset)
 	{
 		HashMap<String, Object> args = new HashMap<>();
 		if(mine != null)
@@ -847,7 +1005,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get a game by id with optional additional information.<br>
-	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
+	 * Each argument is applied only if it is set (not null). If the argument is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MAP
@@ -873,7 +1032,8 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * Create a new game.
 	 * If the map is set to a {@link Generator} the map will be generated first.
-	 * Note: Watch out for thread safety: Generated maps are one-time maps. A game has to be started on the generated map first, before generating the
+	 * Note: Watch out for thread safety: Generated maps are one-time maps. A game has to be started
+	 * on the generated map first, before generating the
 	 * next map!
 	 * 
 	 * @param plannedGame - the {@link PlannedGame} to create
@@ -1004,7 +1164,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get all maps with or without mapcode.<br>
-	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
+	 * Each argument is applied only if it is set (not null). If the argument is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MAPS
@@ -1048,7 +1209,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get a map by id with optional mapcode.<br>
-	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
+	 * Each argument is applied only if it is set (not null). If the argument is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MAP
@@ -1097,7 +1259,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get a map thumb image.<br>
-	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
+	 * Each argument is applied only if it is set (not null). If the argument is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MAP_IMAGE
@@ -1118,7 +1281,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get a map by id with optional arguments.<br>
-	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
+	 * Each argument is applied only if it is set (not null). If the argument is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MAP_IMAGE
@@ -1142,7 +1306,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get a map by id with optional arguments.<br>
-	 * Each argument is applied only if it is set (not null). If the argument is null, it will be ignored (see class description).<br>
+	 * Each argument is applied only if it is set (not null). If the argument is null, it will be
+	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MAP_IMAGE
@@ -1167,7 +1332,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Get a map by id with optional arguments.<br>
-	 * Internal method for use by {@link KaroAPI#getMapImage(int)}, {@link KaroAPI#getMapImageByDimension(int, Integer, Integer, Boolean)}, and
+	 * Internal method for use by {@link KaroAPI#getMapImage(int)},
+	 * {@link KaroAPI#getMapImageByDimension(int, Integer, Integer, Boolean)}, and
 	 * {@link KaroAPI#getMapImageByPixelSize(int, int, Integer, Boolean)} instead.
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
@@ -1251,7 +1417,8 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Make sure that the settings contain a seed.
-	 * This is necessary if games are created right after another (within a second or less) because the seed on karopapier is based on server time
+	 * This is necessary if games are created right after another (within a second or less) because
+	 * the seed on karopapier is based on server time
 	 * with just seconds.
 	 * 
 	 * @param settings
@@ -1261,7 +1428,8 @@ public class KaroAPI implements IDLookUp
 		logger.debug("ensureMapSeed?" + ensureMapSeed + ", seed?" + settings.containsKey("seed") + ", seed=" + settings.get("seed"));
 		if(ensureMapSeed && (!settings.containsKey("seed") || "".equals(settings.get("seed"))))
 		{
-			// doesn't matter if we use int or string here because both are encoded the same way in the url
+			// doesn't matter if we use int or string here because both are encoded the same way in
+			// the url
 			int seed = (int) (settings.hashCode() ^ System.currentTimeMillis());
 			logger.debug("generating random seed: " + seed);
 			settings.put("seed", seed);
@@ -1275,7 +1443,7 @@ public class KaroAPI implements IDLookUp
 	 */
 	private void convertValues(HashMap<String, Object> settings)
 	{
-		for(Entry<String, Object> e: settings.entrySet())
+		for(Entry<String, Object> e : settings.entrySet())
 		{
 			if(e.getValue() instanceof Boolean)
 				settings.put(e.getKey(), (boolean) e.getValue() ? 1 : 0);
@@ -1375,7 +1543,8 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
-	 * Get all messages that have been sent to or received from another user using the in game messaging system.
+	 * Get all messages that have been sent to or received from another user using the in game
+	 * messaging system.
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
 	 * @see KaroAPI#MESSAGES
@@ -1450,8 +1619,10 @@ public class KaroAPI implements IDLookUp
 	/**
 	 * (Re)-Load a given object from the API:<br>
 	 * <br>
-	 * The object passed must have an ID set (see {@link Identifiable#getId()}. This method then performs a get for the given object type and ID at
-	 * the KaroAPI. When the request is finished, the content of the newly loaded object will be copied to the original object to updated it.<br>
+	 * The object passed must have an ID set (see {@link Identifiable#getId()}. This method then
+	 * performs a get for the given object type and ID at
+	 * the KaroAPI. When the request is finished, the content of the newly loaded object will be
+	 * copied to the original object to updated it.<br>
 	 * <br>
 	 * Currently supported types are:
 	 * <ul>
@@ -1461,7 +1632,8 @@ public class KaroAPI implements IDLookUp
 	 * </ul>
 	 * Example:
 	 * <ol>
-	 * <li>you load a user from the backend, say user {"id":9999, "login":"foo","activeGames":10, ...}</li>
+	 * <li>you load a user from the backend, say user {"id":9999, "login":"foo","activeGames":10,
+	 * ...}</li>
 	 * <li>now you create 5 games with that user -&gt; activeGames should increase</li>
 	 * <li>by use of {@link KaroAPI#load(Identifiable)} you can update the existing object:
 	 * 
@@ -1474,7 +1646,8 @@ public class KaroAPI implements IDLookUp
 	 * </pre>
 	 * 
 	 * </li>
-	 * <li>you can continue using the original object where it is already in use (no need to replace it in arrays, lists or references)</li>
+	 * <li>you can continue using the original object where it is already in use (no need to replace
+	 * it in arrays, lists or references)</li>
 	 * </ol>
 	 *
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
