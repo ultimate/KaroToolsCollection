@@ -71,13 +71,10 @@ public abstract class StringUtil
 
 		int itemEnd = 0;
 
-		System.out.println(section);
 		do
 		{
 			itemStart = section.indexOf(">", itemStart) + 1;
 			itemEnd = section.indexOf(END_TAG, itemStart);
-			
-			System.out.println(itemStart + "->" + itemEnd);
 			items.add(parser.apply(section.substring(itemStart, itemEnd)));
 			itemStart = section.indexOf(START_TAG, itemEnd);
 		} while(itemStart >= 0);
