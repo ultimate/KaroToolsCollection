@@ -20,7 +20,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class RandomRuleTest extends KaroRAUPETestcase
 {	
-	private RandomRule rule = new RandomRule();
+	private RandomRule rule = new RandomRule(karoAPI);
 
 	public static Stream<Arguments> provideConfigAndPossibles()
 	{

@@ -10,7 +10,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class FinishedRuleTest extends KaroRAUPETestcase
 {	
-	private FinishedRule rule = new FinishedRule();
+	private FinishedRule rule = new FinishedRule(karoAPI);
 
 	@Test
 	public void test_evaluate()

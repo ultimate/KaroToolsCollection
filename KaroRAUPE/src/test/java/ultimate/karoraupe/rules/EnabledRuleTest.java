@@ -15,7 +15,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class EnabledRuleTest extends KaroRAUPETestcase
 {	
-	private EnabledRule rule = new EnabledRule();
+	private EnabledRule rule = new EnabledRule(karoAPI);
 
 	public static Stream<Arguments> provideConfigAndTestState()
 	{

@@ -19,7 +19,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class NoPossiblesRuleTest extends KaroRAUPETestcase
 {	
-	private NoPossiblesRule rule = new NoPossiblesRule();
+	private NoPossiblesRule rule = new NoPossiblesRule(karoAPI);
 
 	public static Stream<Arguments> providePossibles()
 	{

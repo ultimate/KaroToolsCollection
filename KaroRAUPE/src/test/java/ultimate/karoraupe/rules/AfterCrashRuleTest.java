@@ -18,7 +18,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class AfterCrashRuleTest extends KaroRAUPETestcase
 {	
-	private AfterCrashRule rule = new AfterCrashRule();
+	private AfterCrashRule rule = new AfterCrashRule(karoAPI);
 
 	private static Move createCrash()
 	{

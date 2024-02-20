@@ -21,7 +21,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class SingleOptionRuleTest extends KaroRAUPETestcase
 {	
-	private SingleOptionRule rule = new SingleOptionRule();
+	private SingleOptionRule rule = new SingleOptionRule(karoAPI);
 
 	public static Stream<Arguments> providePossibles()
 	{
