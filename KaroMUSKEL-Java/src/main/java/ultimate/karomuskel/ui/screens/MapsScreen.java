@@ -13,13 +13,16 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
@@ -32,6 +35,8 @@ import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.UIUtil;
+import ultimate.karomuskel.ui.Language.Label;
+import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 import ultimate.karomuskel.ui.dialog.GeneratorDialog;
@@ -84,6 +89,17 @@ public class MapsScreen extends FilterScreen<String, PlaceToRace> implements Act
 			// initialize search
 			this.addFilterComponent("screen.maps.filter.name", new JTextField(),
 					(name, ptr) -> ptr.getName().toLowerCase().contains(((String) name).toLowerCase()));
+			this.addFilterComponent("screen.maps.filter.players.min", new JSpinner(new SpinnerNumberModel(minSupportedPlayersPerMapTmp, minSupportedPlayersPerMapTmp, 999, 1)),
+					(minPlayers, ptr) -> ptr.getPlayers() >= (Integer) minPlayers);
+			this.addFilterComponent("screen.maps.filter.players.max", new JSpinner(new SpinnerNumberModel(999, minSupportedPlayersPerMapTmp, 999, 1)),
+					(maxPlayers, ptr) -> ptr.getPlayers() <= (Integer) maxPlayers);
+			this.addFilterComponent("screen.maps.filter.night", new JComboBox<Label<Boolean>>(new BooleanModel(null, true)),
+					(night, ptr) -> {
+						@SuppressWarnings("unchecked")
+						Boolean value = ((Label<Boolean>) night).getValue();
+						if(value == null) return true;
+						else return ptr.isNight() == value;						
+					});
 
 			// initialize content
 			JPanel allMapsPanel = new JPanel();

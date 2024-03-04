@@ -1,13 +1,13 @@
 package ultimate.karomuskel.ui.screens;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -28,6 +28,9 @@ import ultimate.karomuskel.ui.components.GenericListModel;
 public abstract class FilterScreen<K, V> extends Screen
 {
 	private static final long				serialVersionUID	= 1L;
+	
+	private Dimension 						labelSize = new Dimension(100, 20);
+	private Dimension 						spacerSize = new Dimension(10, 20);
 
 	private JPanel							filterPanel;
 	private JPanel							contentPanel;
@@ -40,22 +43,20 @@ public abstract class FilterScreen<K, V> extends Screen
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header");
 
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setBackground(Color.red);
-//		this.setLayout(new BorderLayout(5, 5));
-
-		this.add(new JLabel(Language.getString("screen.filter")));//, BorderLayout.NORTH);
+		this.setLayout(new BorderLayout(5, 5));
 
 		this.filterPanel = new JPanel();
-		this.filterPanel.setBackground(Color.green);
-		this.filterPanel.setAlignmentX(LEFT_ALIGNMENT);
 		this.filterPanel.setLayout(new BoxLayout(this.filterPanel, BoxLayout.X_AXIS));
-		this.add(this.filterPanel);//, BorderLayout.CENTER);
-		
+		this.add(this.filterPanel, BorderLayout.NORTH);
+
+		JLabel label = new JLabel(Language.getString("screen.filter"));
+		label.setPreferredSize(this.labelSize);
+		label.setMaximumSize(this.labelSize);
+		this.filterPanel.add(label);
 
 		this.contentPanel = new JPanel();
 		this.contentPanel.setLayout(new BoxLayout(this.contentPanel, BoxLayout.X_AXIS));
-		this.add(this.contentPanel);//, BorderLayout.SOUTH);
+		this.add(this.contentPanel, BorderLayout.CENTER);
 
 		this.filters = new LinkedList<Function<V, Boolean>>();
 	}
@@ -132,10 +133,8 @@ public abstract class FilterScreen<K, V> extends Screen
 		else
 			throw new IllegalArgumentException("unsupported component type: " + component.getClass());
 
-		JLabel label = new JLabel(Language.getString(labelKey));
-		label.setMaximumSize(new Dimension(100, 20));
-		this.filterPanel.add(label);
-		component.setMaximumSize(new Dimension(100, 20));
+		this.filterPanel.add(Box.createRigidArea(this.spacerSize));
+		this.filterPanel.add(new JLabel(Language.getString(labelKey) + ": "));
 		this.filterPanel.add(component);
 		this.filters.add(internalFilter);
 	}

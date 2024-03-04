@@ -264,7 +264,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						useHomeMapsLabel = new JLabel(Language.getString("screen.settings.usehomemaps", cellWidth));
 						boolean useHomeMapsInit = (gameSeries.get(GameSeries.USE_HOME_MAPS) != null ? (boolean) gameSeries.get(GameSeries.USE_HOME_MAPS) : true);
-						useHomeMapsCB = new JComboBox<>(new BooleanModel(useHomeMapsInit, false));
+						useHomeMapsCB = new JComboBox<>(new BooleanModel(useHomeMapsInit));
 						gbc.gridwidth = 1;
 						gbc.gridx = 3;
 						gbc.gridy = 6;
@@ -276,7 +276,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 					shuffleTeamsLabel = new JLabel(Language.getString("screen.settings.shuffleteams", cellWidth));
 					boolean shuffleTeamsInit = (gameSeries.get(GameSeries.SHUFFLE_TEAMS) != null ? (boolean) gameSeries.get(GameSeries.SHUFFLE_TEAMS) : false);
-					shuffleTeamsCB = new JComboBox<>(new BooleanModel(shuffleTeamsInit, false));
+					shuffleTeamsCB = new JComboBox<>(new BooleanModel(shuffleTeamsInit));
 					gbc.gridwidth = 1;
 					gbc.gridx = 4;
 					gbc.gridy = 6;
@@ -289,7 +289,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						smallFinalLabel = new JLabel(Language.getString("screen.settings.smallFinal", cellWidth));
 						boolean smallFinalInit = (gameSeries.get(GameSeries.SMALL_FINAL) != null ? (boolean) gameSeries.get(GameSeries.SMALL_FINAL) : false);
-						smallFinalCB = new JComboBox<>(new BooleanModel(smallFinalInit, false));
+						smallFinalCB = new JComboBox<>(new BooleanModel(smallFinalInit));
 						gbc.gridwidth = 1;
 						gbc.gridx = 5;
 						gbc.gridy = 6;
@@ -302,7 +302,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 					{
 						dummyMatchesLabel = new JLabel(Language.getString("screen.settings.dummyMatches", cellWidth));
 						boolean dummyMatchesInit = (gameSeries.get(GameSeries.DUMMY_MATCHES) != null ? (boolean) gameSeries.get(GameSeries.DUMMY_MATCHES) : false);
-						dummyMatchesCB = new JComboBox<>(new BooleanModel(dummyMatchesInit, false));
+						dummyMatchesCB = new JComboBox<>(new BooleanModel(dummyMatchesInit));
 						dummyMatchesCB.addActionListener(e -> { stateChanged(null); });
 						gbc.gridwidth = 1;
 						gbc.gridx = 5;
@@ -383,7 +383,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 					autoNameTeamsLabel = new JLabel(Language.getString("screen.settings.autonameteams", cellWidth));
 					boolean autoNameTeamsInit = (gameSeries.get(GameSeries.AUTO_NAME_TEAMS) != null ? (boolean) gameSeries.get(GameSeries.AUTO_NAME_TEAMS) : true);
-					autoNameTeamsCB = new JComboBox<>(new BooleanModel(autoNameTeamsInit, false));
+					autoNameTeamsCB = new JComboBox<>(new BooleanModel(autoNameTeamsInit));
 					gbc.gridwidth = 1;
 					gbc.gridx = 2;
 					gbc.gridy = 9;
@@ -394,7 +394,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 					multipleTeamsLabel = new JLabel(Language.getString("screen.settings.multipleteams", cellWidth));
 					boolean multipleTeamsInit = (gameSeries.get(GameSeries.ALLOW_MULTIPLE_TEAMS) != null ? (boolean) gameSeries.get(GameSeries.ALLOW_MULTIPLE_TEAMS) : false);
-					multipleTeamsCB = new JComboBox<>(new BooleanModel(multipleTeamsInit, false));
+					multipleTeamsCB = new JComboBox<>(new BooleanModel(multipleTeamsInit));
 					gbc.gridwidth = 1;
 					gbc.gridx = 3;
 					gbc.gridy = 9;
@@ -405,7 +405,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 
 					creatorTeamLabel = new JLabel(Language.getString("screen.settings.creatorteam", cellWidth));
 					boolean creatorTeamInit = (gameSeries.get(GameSeries.USE_CREATOR_TEAM) != null ? (boolean) gameSeries.get(GameSeries.USE_CREATOR_TEAM) : true);
-					creatorTeamCB = new JComboBox<>(new BooleanModel(creatorTeamInit, false));
+					creatorTeamCB = new JComboBox<>(new BooleanModel(creatorTeamInit));
 					gbc.gridwidth = 1;
 					gbc.gridx = 4;
 					gbc.gridy = 9;

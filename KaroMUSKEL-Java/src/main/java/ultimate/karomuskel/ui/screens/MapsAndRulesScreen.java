@@ -276,7 +276,7 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 				label = new JLabel(Language.getString("screen.rules.cps"));
 				gbc.gridx = 1;
 				contentPanel.add(label, gbc);
-				checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivated, true));
+				checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivated, true, "option.boolean.random"));
 				gbc.gridx++;
 				contentPanel.add(checkpointsActivatedCB, gbc);
 

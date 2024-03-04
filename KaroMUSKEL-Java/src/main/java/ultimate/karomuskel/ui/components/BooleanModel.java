@@ -9,13 +9,23 @@ public class BooleanModel extends DefaultComboBoxModel<Label<Boolean>>
 {
 	private static final long	serialVersionUID	= 1L;
 
-	public BooleanModel(Boolean value, boolean randomEnabled)
+	public BooleanModel(Boolean value)
+	{
+		this(value, false, null);
+	}
+	
+	public BooleanModel(Boolean value, boolean nullEnabled)
+	{
+		this(value, nullEnabled, "option.boolean.null");
+	}
+	
+	public BooleanModel(Boolean value, boolean nullEnabled, String nullLabelKey)
 	{
 		super();
 		this.addElement(new Label<Boolean>(Language.getString("option.boolean.true"), true));
 		this.addElement(new Label<Boolean>(Language.getString("option.boolean.false"), false));
-		if(randomEnabled)
-			this.addElement(new Label<Boolean>(Language.getString("option.boolean.random"), null));
+		if(nullEnabled)
+			this.addElement(new Label<Boolean>(Language.getString(nullLabelKey), null));
 		
 		for(int i = 0; i < this.getSize(); i++)
 		{

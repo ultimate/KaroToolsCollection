@@ -108,7 +108,7 @@ public class RulesScreen extends Screen
 		this.crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowedInit, true));
 
 		Boolean checkpointsActivatedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCps() : Boolean.TRUE);
-		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, true));
+		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, true, "option.boolean.random"));
 
 		EnumGameDirection directionInit = (gameSeries.getRules() != null ? gameSeries.getRules().getStartdirection() : EnumGameDirection.classic);
 		this.directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, directionInit, true));
@@ -119,7 +119,7 @@ public class RulesScreen extends Screen
 		this.creatorParticipationCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(null, GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
 
 		boolean ignoreInvitableInit = gameSeries.isIgnoreInvitable();
-		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(ignoreInvitableInit, false));
+		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(ignoreInvitableInit));
 		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(null, GameSeriesManager.CONFIG_ALLOW_IGNORE_INVITABLE));
 
 		gbc.gridy = 0;
