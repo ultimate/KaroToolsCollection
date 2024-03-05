@@ -11,7 +11,7 @@ import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-public class GenericListModel<K, V> implements ListModel<V>
+public class GenericListModel<K, V> implements ListModel<V>, FilterModel<V>
 {
 	private List<ListDataListener>	listDataListeners;
 

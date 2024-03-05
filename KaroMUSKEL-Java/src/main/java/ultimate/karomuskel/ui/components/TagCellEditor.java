@@ -83,7 +83,7 @@ public class TagCellEditor extends AbstractCellEditor implements TableCellEditor
 	{
 		logger.debug("getTableCellEditorComponent: " + value);
 		this.tags = (Collection<String>) value;
-		this.game = model.getRow(row);
+		this.game = model.getGame(row);
 		this.button.setText(tagCollectionToString(this.tags));
 		return this.button;
 	}

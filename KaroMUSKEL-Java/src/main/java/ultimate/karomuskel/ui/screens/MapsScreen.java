@@ -41,7 +41,7 @@ import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
-public class MapsScreen extends FilterScreen<String, PlaceToRace> implements ActionListener, MouseListener
+public class MapsScreen extends FilterScreen<PlaceToRace> implements ActionListener, MouseListener
 {
 	private static final long	serialVersionUID	= 1L;
 

@@ -45,7 +45,7 @@ import ultimate.karomuskel.ui.UIUtil;
 import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericListModel;
 
-public class PlayersScreen extends FilterScreen<String, User> implements ActionListener
+public class PlayersScreen extends FilterScreen<User> implements ActionListener
 {
 	private static final long		serialVersionUID	= 1L;
 

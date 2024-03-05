@@ -90,7 +90,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 	{
 		this.users = (Collection<User>) value;
-		this.game = model.getRow(row);
+		this.game = model.getGame(row);
 		this.button.setText(userCollectionToString((Collection<User>) value));
 		return this.button;
 	}

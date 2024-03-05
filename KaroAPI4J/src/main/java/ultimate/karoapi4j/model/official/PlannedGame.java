@@ -62,6 +62,8 @@ public class PlannedGame
 	private java.util.Map<String, String>	placeHolderValues;
 
 	@JsonIgnore
+	private String							statusMessage;
+	@JsonIgnore
 	private Throwable						exception;
 
 	public PlannedGame()
@@ -199,6 +201,16 @@ public class PlannedGame
 	public void setPlaceHolderValues(java.util.Map<String, String> placeHolderValues)
 	{
 		this.placeHolderValues = placeHolderValues;
+	}
+
+	public String getStatusMessage()
+	{
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage)
+	{
+		this.statusMessage = statusMessage;
 	}
 
 	public Throwable getException()

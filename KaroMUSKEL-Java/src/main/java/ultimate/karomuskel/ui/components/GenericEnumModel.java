@@ -19,9 +19,31 @@ public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel<La
 	 */
 	public GenericEnumModel(Class<E> enumType, E selectedValue, boolean randomEnabled)
 	{
+		this(enumType, selectedValue, randomEnabled, false);
+	}
+	
+	/**
+	 * 
+	 * @param enumType
+	 * @param selectedValue
+	 * @param randomEnabled
+	 * @param emptyEnabled - add empty option?
+	 */
+	public GenericEnumModel(Class<E> enumType, E selectedValue, boolean randomEnabled, boolean emptyEnabled)
+	{
 		this(enumType, selectedValue, e -> {
 			return !e.toString().equalsIgnoreCase("random") || randomEnabled;
-		});
+		}, emptyEnabled);
+	}
+
+	/** 
+	 * @param enumType - the Enum type
+	 * @param selectedValue - the initial value selected
+	 * @param predicate - an optional filter used to control adding the enum values. Only values for which the predicate returns true are added to the model
+	 */
+	public GenericEnumModel(Class<E> enumType, E selectedValue, Predicate<E> predicate)
+	{
+		this(enumType, selectedValue, predicate, false);
 	}
 
 	/**
@@ -30,10 +52,14 @@ public class GenericEnumModel<E extends Enum<E>> extends DefaultComboBoxModel<La
 	 * @param enumType - the Enum type
 	 * @param selectedValue - the initial value selected
 	 * @param predicate - an optional filter used to control adding the enum values. Only values for which the predicate returns true are added to the model
+	 * @param emptyEnabled - add empty option?
 	 */
-	public GenericEnumModel(Class<E> enumType, E selectedValue, Predicate<E> predicate)
+	public GenericEnumModel(Class<E> enumType, E selectedValue, Predicate<E> predicate, boolean emptyEnabled)
 	{
 		super();
+		
+		if(emptyEnabled)
+			this.addElement(null);
 
 		for(E e : enumType.getEnumConstants())
 		{

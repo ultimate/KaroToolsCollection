@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.swing.ComboBoxModel;
@@ -63,6 +64,8 @@ import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.BooleanModel;
+import ultimate.karomuskel.ui.components.FilterModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 import ultimate.karomuskel.ui.components.SpinnerCellEditor;
@@ -72,7 +75,7 @@ import ultimate.karomuskel.ui.components.UserCellEditor;
 import ultimate.karomuskel.ui.dialog.FileDialog;
 import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
-public class SummaryScreen extends Screen implements ActionListener
+public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionListener
 {
 	private static final long			serialVersionUID		= 1L;
 
@@ -134,7 +137,7 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		this.gamesToCreate = new LinkedList<PlannedGame>();
 		this.gamesToLeave = new LinkedList<PlannedGame>();
-		
+
 		this.gamesWithExceptions = new LinkedList<PlannedGame>();
 
 		this.skipPlan = skipPlan;
@@ -168,6 +171,17 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gameSeries.getGames().put(this.key, null);
 		Planner.resetPlannedGames(this.gameSeries.getPlayers());
 	}
+	
+	private boolean multiSearch(String haystack, String needle)
+	{
+		String[] needles = needle.split(",");
+		for(String n: needles)
+		{
+			if(haystack.toLowerCase().contains(n.toLowerCase().trim()))
+				return true;
+		}
+		return false;
+	}
 
 	@Override
 	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
@@ -178,6 +192,49 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.gamesLeft.clear();
 		this.gamesToCreate.clear();
 		this.gamesToLeave.clear();
+		
+		if(this.firstShow)
+		{
+			// initialize search
+			this.addFilterComponent("screen.summary.filter.name", new JTextField(),
+					(text, game) -> game.getName().toLowerCase().contains(((String) text).toLowerCase()));
+			this.addFilterComponent("screen.summary.filter.tags", new JTextField(),
+					(text, game) -> multiSearch(game.getTags().toString(), (String) text));
+			this.addFilterComponent("screen.summary.filter.map", new JTextField(),
+					(text, game) -> multiSearch(game.getMap().toString(), (String) text));
+			this.addFilterComponent("screen.summary.filter.players", new JTextField(),
+					(text, game) -> multiSearch(game.getPlayers().toString(), (String) text));
+			this.addFilterComponent("screen.summary.filter.zzz.min", new JSpinner(new SpinnerNumberModel(0, 0, 999, 1)),
+					(minZzz, game) -> game.getOptions().getZzz() >= (int) minZzz);
+			this.addFilterComponent("screen.summary.filter.zzz.max", new JSpinner(new SpinnerNumberModel(999, 0, 999, 1)),
+					(maxZzz, game) -> game.getOptions().getZzz() <= (int) maxZzz);
+			this.addFilterComponent("screen.summary.filter.crashallowed", new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false, true)),
+					(tc, game) -> {
+						if(tc == null) return true;
+						@SuppressWarnings("unchecked")
+						EnumGameTC value = ((Label<EnumGameTC>) tc).getValue();
+						return game.getOptions().getCrashallowed() == value;						
+					});
+//			this.addFilterComponent("screen.summary.filter.checkpoints", new JComboBox<Label<Boolean>>(new BooleanModel(null, true, "option.boolean.empty")),
+//					(cps, game) -> {
+//						@SuppressWarnings("unchecked")
+//						Boolean value = ((Label<Boolean>) cps).getValue();
+//						if(value == null) return true;
+//						return game.getOptions().isCps() == value;						
+//					});
+			this.addFilterComponent("screen.summary.filter.direction", new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false, true)),
+					(dir, game) -> {
+						if(dir == null) return true;
+						@SuppressWarnings("unchecked")
+						EnumGameDirection value = ((Label<EnumGameDirection>) dir).getValue();
+						return game.getOptions().getStartdirection() == value;						
+					});
+			
+// TODO
+//screen.summary.filter.toBeCreated             = Erstellung
+//screen.summary.filter.toBeLeft                = Ausstieg
+//screen.summary.filter.status	              = Status
+		}
 
 		if(!this.skipPlan && direction == EnumNavigation.next)
 		{
@@ -213,12 +270,12 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		GameSeriesManager.autosave(this.gameSeries);
 
-		this.removeAll();
-		this.setLayout(new BorderLayout());
+		this.getContentPanel().removeAll();
+		this.getContentPanel().setLayout(new BorderLayout());
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 3, 5, 5));
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		this.getContentPanel().add(buttonPanel, BorderLayout.SOUTH);
 
 		this.createButton = new JButton(); // Text will be set in enable buttons
 											// Language.getString("screen.summary.create"));
@@ -242,7 +299,7 @@ public class SummaryScreen extends Screen implements ActionListener
 		this.table.setFillsViewportHeight(true);
 		this.initTable(this.table);
 		this.tableSP = new JScrollPane(this.table);
-		this.add(this.tableSP, BorderLayout.CENTER);
+		this.getContentPanel().add(this.tableSP, BorderLayout.CENTER);
 
 		enableButtons();
 
@@ -436,7 +493,7 @@ public class SummaryScreen extends Screen implements ActionListener
 	{
 		if(this.gamesWithExceptions.size() == 0)
 			return;
-		
+
 		StringBuilder msgSpec = new StringBuilder();
 		msgSpec.append("\n");
 		for(PlannedGame game : this.gamesWithExceptions)
@@ -446,14 +503,14 @@ public class SummaryScreen extends Screen implements ActionListener
 			msgSpec.append(" -> ");
 			msgSpec.append(getExceptionMessage(game.getException()));
 			msgSpec.append("\n");
-			
+
 			game.clearException();
 		}
 
 		GameSeriesException ex = new GameSeriesException("screen.summary.errors", msgSpec.toString(), "" + this.gamesWithExceptions.size());
 
 		this.gui.notify(ex, JOptionPane.ERROR_MESSAGE);
-		
+
 		// clear the exception
 		this.gamesWithExceptions.forEach(pg -> pg.clearException());
 		this.gamesWithExceptions.clear();
@@ -656,8 +713,12 @@ public class SummaryScreen extends Screen implements ActionListener
 		});
 
 		if(this.gameSeries.getGames().get(this.key) != null)
+		{
 			for(PlannedGame game : this.gameSeries.getGames().get(this.key))
-				this.model.addRow(game);
+				this.model.addGame(game);
+			this.model.refresh();
+		}
+		this.setModel(this.model);
 	}
 
 	private <V> void batchUpdateGeneric(int column, String label, Object message, Supplier<V> valueSupplier,
@@ -675,7 +736,7 @@ public class SummaryScreen extends Screen implements ActionListener
 				if(model.isCellEditable(row, column))
 				{
 					if(preprocessor != null)
-						value = preprocessor.apply(model.getRow(row), value);
+						value = preprocessor.apply(model.getGame(row), value);
 					model.setValueAt(value, row, column);
 				}
 			}
@@ -814,7 +875,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				if(model.isCellEditable(row, column))
 				{
-					updatedTags = new LinkedHashSet<>(model.getRow(row).getTags());
+					updatedTags = new LinkedHashSet<>(model.getGame(row).getTags());
 					updatedTags.addAll(tagsToChange);
 					model.setValueAt(updatedTags, row, column);
 				}
@@ -829,7 +890,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				if(model.isCellEditable(row, column))
 				{
-					updatedTags = new LinkedHashSet<>(model.getRow(row).getTags());
+					updatedTags = new LinkedHashSet<>(model.getGame(row).getTags());
 					updatedTags.removeAll(tagsToChange);
 					model.setValueAt(updatedTags, row, column);
 				}
@@ -859,7 +920,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				if(model.isCellEditable(row, column))
 				{
-					updatedPlayers = new LinkedHashSet<User>(model.getRow(row).getPlayers());
+					updatedPlayers = new LinkedHashSet<User>(model.getGame(row).getPlayers());
 					if(updatedPlayers.contains(value))
 					{
 						addBatchUpdateMessage("screen.summary.batchUpdate.players.duplicate");
@@ -884,7 +945,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			{
 				if(model.isCellEditable(row, column))
 				{
-					updatedPlayers = new LinkedHashSet<User>(model.getRow(row).getPlayers());
+					updatedPlayers = new LinkedHashSet<User>(model.getGame(row).getPlayers());
 					updatedPlayers.remove(value);
 					model.setValueAt(updatedPlayers, row, column);
 				}
@@ -900,17 +961,18 @@ public class SummaryScreen extends Screen implements ActionListener
 			batchUpdateMessages.put(msgKey, batchUpdateMessages.get(msgKey) + 1);
 	}
 
-	public class SummaryModel extends AbstractTableModel
+	public class SummaryModel extends AbstractTableModel implements FilterModel<PlannedGame>
 	{
-		private static final long	serialVersionUID	= 1L;
+		private static final long			serialVersionUID	= 1L;
 
-		private List<String>		columnNames;
-		private List<Class<?>>		columnClasses;
-		private List<Integer>		columnWidths;
+		private List<String>				columnNames;
+		private List<Class<?>>				columnClasses;
+		private List<Integer>				columnWidths;
 
-		private List<Object[]>		rows;
+		private List<PlannedGame>			allGames;
+		private List<PlannedGame>			visibleGames;
 
-		private List<PlannedGame>	games;
+		private Function<PlannedGame, Boolean>	filter;
 
 		public SummaryModel()
 		{
@@ -918,8 +980,8 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.columnClasses = new ArrayList<Class<?>>();
 			this.columnWidths = new ArrayList<Integer>();
 
-			this.games = new ArrayList<PlannedGame>(gameSeries.getGames().size());
-			this.rows = new ArrayList<Object[]>(gameSeries.getGames().size());
+			this.allGames = new ArrayList<PlannedGame>(gameSeries.getGames().size());
+			this.visibleGames = new ArrayList<PlannedGame>(gameSeries.getGames().size());
 
 			this.addColumn(Language.getString("screen.summary.table.name"), String.class, 0);
 			this.addColumn(Language.getString("screen.summary.table.tags"), Tag.class, 0);
@@ -933,32 +995,15 @@ public class SummaryScreen extends Screen implements ActionListener
 			this.addColumn(Language.getString("screen.summary.table.leavestatus"), Boolean.class, 70);
 			this.addColumn(Language.getString("screen.summary.table.status"), String.class, 200);
 		}
-
-		public void addRow(PlannedGame game)
+		
+		public void addGame(PlannedGame game)
 		{
-			Object[] row = new Object[getColumnCount()];
-
-			int col = 0;
-
-			row[col++] = game.getName();
-			row[col++] = game.getTags();
-			row[col++] = game.getMap();
-			row[col++] = game.getPlayers();
-			row[col++] = game.getOptions().getZzz();
-			row[col++] = new Label<>(Language.getString(EnumGameTC.class, game.getOptions().getCrashallowed()), game.getOptions().getCrashallowed());
-			row[col++] = game.getOptions().isCps();
-			row[col++] = new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()),
-					game.getOptions().getStartdirection());
-			row[col++] = true;
-			row[col++] = (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave) || game.isLeft();
-
+			this.allGames.add(game);
+			
 			if(!game.isCreated())
 				gamesToCreate.add(game);
 			if(!game.isLeft() && (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave))
 				gamesToLeave.add(game);
-
-			this.rows.add(row);
-			this.games.add(game);
 
 			int status = OPEN;
 			if(game.isLeft())
@@ -967,17 +1012,12 @@ public class SummaryScreen extends Screen implements ActionListener
 				status = CREATED;
 			setStatus(game, status);
 		}
-
-		public PlannedGame getRow(int rowIndex)
+		
+		public PlannedGame getGame(int rowIndex)
 		{
-			return this.games.get(rowIndex);
+			return this.visibleGames.get(rowIndex);
 		}
-
-		public int getRowIndex(PlannedGame game)
-		{
-			return this.games.indexOf(game);
-		}
-
+		
 		private void addColumn(String title, Class<?> cls, int width)
 		{
 			this.columnNames.add(title);
@@ -994,13 +1034,41 @@ public class SummaryScreen extends Screen implements ActionListener
 		@Override
 		public int getRowCount()
 		{
-			return this.games.size();
+			return this.visibleGames.size();
 		}
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex)
 		{
-			return this.rows.get(rowIndex)[columnIndex];
+			PlannedGame game = this.visibleGames.get(rowIndex);
+			switch(columnIndex)
+			{
+				case 0:
+					return game.getName();
+				case 1:
+					return game.getTags();
+				case 2:
+					return game.getMap();
+				case 3:
+					return game.getPlayers();
+				case 4:
+					return game.getOptions().getZzz();
+				case 5:
+					return new Label<>(Language.getString(EnumGameTC.class, game.getOptions().getCrashallowed()), game.getOptions().getCrashallowed());
+				case 6:
+					return game.getOptions().isCps();
+				case 7:
+					return new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
+				case 8:
+					return gamesToCreate.contains(game);
+				case 9:
+					return gamesToLeave.contains(game);
+				case 10:
+					return game.getStatusMessage();
+				default:
+					break;
+			}
+			return "invalid column";
 		}
 
 		@Override
@@ -1029,14 +1097,14 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(columnIndex == getColumnCount() - 1) // status
 				return false;
 
-			if(getRow(rowIndex).isLeft())
+			if(this.visibleGames.get(rowIndex).isLeft())
 				return false;
 
-			if(getRow(rowIndex).isCreated() && columnIndex < getColumnCount() - 2)
+			if(this.visibleGames.get(rowIndex).isCreated() && columnIndex < getColumnCount() - 2)
 				return false;
 
 			if(columnIndex == getColumnCount() - 2) // leave
-				return getRow(rowIndex).getPlayers().contains(karoAPICache.getCurrentUser());
+				return this.visibleGames.get(rowIndex).getPlayers().contains(karoAPICache.getCurrentUser());
 
 			return true;
 		}
@@ -1048,7 +1116,7 @@ public class SummaryScreen extends Screen implements ActionListener
 			if(inProgress && columnIndex != getColumnCount() - 1)
 				return;
 
-			PlannedGame game = getRow(rowIndex);
+			PlannedGame game = this.visibleGames.get(rowIndex);
 			switch(columnIndex)
 			{
 				case 0:
@@ -1115,10 +1183,11 @@ public class SummaryScreen extends Screen implements ActionListener
 						gamesToLeave.remove(game);
 					}
 					break;
+				case 10:
+					game.setStatusMessage((String) aValue);
 				default:
 					break;
 			}
-			this.rows.get(rowIndex)[columnIndex] = aValue;
 
 			fireTableCellUpdated(rowIndex, columnIndex);
 			if(!inProgress)
@@ -1129,48 +1198,63 @@ public class SummaryScreen extends Screen implements ActionListener
 
 		public void setStatus(PlannedGame game, int status)
 		{
-			int rowIndex = this.getRowIndex(game);
-			int columnIndex = getColumnCount() - 1;
-
-			logger.debug("row=" + rowIndex + ", status=" + status);
-
 			String genKey = "" + (game.getMap() instanceof Generator ? ((Generator) game.getMap()).getKey() : "???");
 			String mapId = "" + (game.getMap() instanceof Map ? ((Map) game.getMap()).getId() : "???");
+			
+			String statusMessage = null;
 
 			switch(status)
 			{
 				case OPEN:
-					setValueAt(Language.getString("screen.summary.table.status.open"), rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.open");
 					break;
 				case GENERATING_MAP:
-					setValueAt(Language.getString("screen.summary.table.status.generatingMap") + " (GENERATOR=" + genKey + ")", rowIndex,
-							columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.generatingMap") + " (GENERATOR=" + genKey + ")";
 					break;
 				case GENERATED_MAP:
-					setValueAt(Language.getString("screen.summary.table.status.generatedMap") + " (MID=" + mapId + ")", rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.generatedMap") + " (MID=" + mapId + ")";
 					break;
 				case CREATING:
-					setValueAt(Language.getString("screen.summary.table.status.creating") + " (MID=" + mapId + ")", rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.creating") + " (MID=" + mapId + ")";
 					break;
 				case CREATED:
 					game.setCreated(true);
-					setValueAt(Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")",
-							rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
 					break;
 				case LEAVING:
-					setValueAt(Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")",
-							rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
 					break;
 				case LEFT:
 					game.setLeft(true);
-					setValueAt(Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")",
-							rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
 					break;
 				case EXCEPTION:
-					String message = getExceptionMessage(game.getException());
-					setValueAt(Language.getString("screen.summary.table.status.exception") + " (" + message + ")", rowIndex, columnIndex);
+					statusMessage = Language.getString("screen.summary.table.status.exception") + " (" + getExceptionMessage(game.getException()) + ")";
 					break;
 			}
+			game.setStatusMessage(statusMessage);
+		}
+
+		@Override
+		public Function<PlannedGame, Boolean> getFilter()
+		{
+			return this.filter;
+		}
+
+		@Override
+		public void setFilter(Function<PlannedGame, Boolean> filter)
+		{
+			logger.debug("set filter: " + filter);
+			this.filter = filter;
+		}
+
+		@Override
+		public void refresh()
+		{
+			this.visibleGames = new LinkedList<>(this.allGames);
+			if(this.filter != null)
+				this.visibleGames.removeIf(v -> !this.filter.apply(v));
+			this.fireTableDataChanged();
 		}
 	}
 

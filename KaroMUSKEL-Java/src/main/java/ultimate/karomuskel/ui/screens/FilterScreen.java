@@ -23,21 +23,21 @@ import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.components.GenericListModel;
+import ultimate.karomuskel.ui.components.FilterModel;
 
-public abstract class FilterScreen<K, V> extends Screen
+public abstract class FilterScreen<V> extends Screen
 {
-	private static final long				serialVersionUID	= 1L;
-	
-	private Dimension 						labelSize = new Dimension(100, 20);
-	private Dimension 						spacerSize = new Dimension(10, 20);
+	private static final long			serialVersionUID	= 1L;
 
-	private JPanel							filterPanel;
-	private JPanel							contentPanel;
+	private Dimension					labelSize			= new Dimension(100, 20);
+	private Dimension					spacerSize			= new Dimension(10, 20);
+
+	private JPanel						filterPanel;
+	private JPanel						contentPanel;
 
 	private List<Function<V, Boolean>>	filters;
 
-	private GenericListModel<K, V>			model;
+	private FilterModel<V>			model;
 
 	public FilterScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey)
 	{
@@ -71,19 +71,19 @@ public abstract class FilterScreen<K, V> extends Screen
 		return this.contentPanel;
 	}
 
-	protected GenericListModel<K, V> getModel()
+	protected FilterModel<V> getModel()
 	{
 		return model;
 	}
 
-	protected void setModel(GenericListModel<K, V> model)
+	protected void setModel(FilterModel<V> model)
 	{
 		this.model = model;
 		this.model.setFilter((t) -> {
 			for(Function<V, Boolean> filter : this.filters)
 			{
 				boolean result = filter.apply(t);
-				logger.debug("item " + t + " ? " + result);
+				// logger.debug("item " + t + " ? " + result);
 				if(!result)
 					return false;
 			}
