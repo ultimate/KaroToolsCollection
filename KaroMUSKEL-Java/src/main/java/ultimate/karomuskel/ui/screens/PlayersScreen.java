@@ -18,12 +18,15 @@ import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
@@ -35,12 +38,14 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.UIUtil;
+import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericListModel;
 
-public class PlayersScreen extends Screen implements ActionListener
+public class PlayersScreen extends FilterScreen<String, User> implements ActionListener
 {
 	private static final long		serialVersionUID	= 1L;
 
@@ -65,7 +70,7 @@ public class PlayersScreen extends Screen implements ActionListener
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.players.header");
 
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.getContentPanel().setLayout(new BoxLayout(this.getContentPanel(), BoxLayout.X_AXIS));
 	}
 
 	@Override
@@ -187,6 +192,19 @@ public class PlayersScreen extends Screen implements ActionListener
 
 		if(this.firstShow)
 		{
+			// initialize search
+			this.addFilterComponent("screen.players.filter.loginOrId", new JTextField(),
+					(name, user) -> user.getLogin().toLowerCase().contains(((String) name).toLowerCase()) || user.getId().toString().contains((String) name));
+			this.addFilterComponent("screen.players.filter.freeGames", new JSpinner(new SpinnerNumberModel(0, 0, 999, 1)),
+					(freeGames, user) -> user.getMaxGames() <= 0 || user.getMaxGames() - user.getActiveGames() >=  (Integer) freeGames);
+			this.addFilterComponent("screen.players.filter.nightGames", new JComboBox<Label<Boolean>>(new BooleanModel(null, true)),
+					(night, user) -> {
+						@SuppressWarnings("unchecked")
+						Boolean value = ((Label<Boolean>) night).getValue();
+						if(value == null) return true;
+						else return user.isAcceptsNightGames() == value;						
+					});			
+			
 			this.teamLIList = new LinkedList<>();
 			this.teamNameTFList = new LinkedList<>();
 			this.addButtonList = new LinkedList<>();
@@ -195,11 +213,11 @@ public class PlayersScreen extends Screen implements ActionListener
 			this.teams = teamsTmp;
 			this.maxPlayersPerTeam = maxPlayersPerTeamTmp;
 
-			this.removeAll();
+			this.getContentPanel().removeAll();
 
 			JPanel allPlayersPanel = new JPanel();
 			allPlayersPanel.setLayout(new BorderLayout(5, 5));
-			this.add(allPlayersPanel);
+			this.getContentPanel().add(allPlayersPanel);
 
 			this.allPlayersLI = new JList<>();
 			this.allPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -222,11 +240,11 @@ public class PlayersScreen extends Screen implements ActionListener
 			{
 				buttonPanel = new JPanel();
 				buttonPanel.setLayout(new GridBagLayout());
-				this.add(buttonPanel);
+				this.getContentPanel().add(buttonPanel);
 
 				teamPanel = new JPanel();
 				teamPanel.setLayout(new BorderLayout(5, 5));
-				this.add(teamPanel);
+				this.getContentPanel().add(teamPanel);
 
 				GridBagConstraints gbc = new GridBagConstraints();
 				gbc.insets = new Insets(5, 5, 5, 5);
@@ -262,7 +280,7 @@ public class PlayersScreen extends Screen implements ActionListener
 			{
 				JPanel outerTeamsPanel = new JPanel();
 				outerTeamsPanel.setLayout(new BorderLayout(5, 5));
-				this.add(outerTeamsPanel);
+				this.getContentPanel().add(outerTeamsPanel);
 
 				JPanel innerTeamsPanel = new JPanel();
 				innerTeamsPanel.setLayout(new BoxLayout(innerTeamsPanel, BoxLayout.Y_AXIS));
@@ -456,7 +474,10 @@ public class PlayersScreen extends Screen implements ActionListener
 					}
 				}
 			}
-			this.allPlayersLI.setModel(new GenericListModel<String, User>(User.class, allPlayersTmp));
+			// create a model for filtering
+			GenericListModel<String, User> model = new GenericListModel<String, User>(User.class, allPlayersTmp);
+			this.setModel(model);
+			this.allPlayersLI.setModel(model);
 		}
 
 		if(this.firstShow)
