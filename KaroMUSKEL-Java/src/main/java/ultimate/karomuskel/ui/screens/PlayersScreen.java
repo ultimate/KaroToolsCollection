@@ -117,6 +117,9 @@ public class PlayersScreen extends FilterScreen<String, User> implements ActionL
 		else if(gameSeries.getType() == EnumGameSeriesType.Balanced)
 		{
 			User[] players = ((GenericListModel<String, User>) this.teamLIList.get(0).getModel()).getEntryArray();
+			int minPlayers = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_BALANCED_MIN_PLAYERS);
+			if(direction == EnumNavigation.next && players.length < minPlayers)
+				throw new GameSeriesException("screen.players.notenoughplayers.balanced", null, "" + minPlayers);
 			gameSeries.getPlayers().clear();
 			for(User player : players)
 			{

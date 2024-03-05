@@ -80,6 +80,7 @@ public class GameSeries
 	public static final String							CONF_KLC_GROUPS				= "groups";				// ______________X__________
 	public static final String							CONF_KLC_LEAGUES			= "leagues";			// ______________X__________
 	public static final String							CONF_KLC_FIRST_KO_ROUND		= "firstKORound";		// ______________X__________
+	public static final String							CONF_BALANCED_MIN_PLAYERS   = "minPlayers";		    // ______X__________________
 	public static final String							CONF_LEAGUE_DUMMY_TEAM		= "dummyTeam";			// __________________X______
 	public static final String							CONF_MAX_FREE_SLOTS			= "maxFreeSlots";	    // __________________X______
 
