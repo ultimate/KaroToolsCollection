@@ -227,8 +227,8 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 				label = new JLabel(Language.getString("screen.mapsAndRules.numberOfPlayers"));
 				gbc.gridx++;
 				contentPanel.add(label, gbc);
-				int value = Math.min(gameSeries.getPlayers().size() + 1, numberOfPlayers);
-				int max = Math.min(gameSeries.getPlayers().size() + 1, (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? map.getPlayers() : map.getPlayers() - 1));
+				int value = Math.min(gameSeries.getPlayers().size(), numberOfPlayers);
+				int max = Math.min(gameSeries.getPlayers().size(), (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? map.getPlayers() : map.getPlayers() - 1));
 				value = Math.min(value, max); // usually value should not be > max; but with manipulation this can lead to an error, so handle it here
 				numberOfPlayersSpinner = new JSpinner(new SpinnerNumberModel(value, 2, max, 1));
 				numberOfPlayersSpinner.addChangeListener(e -> {
@@ -338,7 +338,7 @@ public class MapsAndRulesScreen extends MapComboBoxScreen implements ActionListe
 			int mapNumber = Integer.parseInt(e.getActionCommand().substring(ACTION_MAP_SELECT.length()));
 			PlaceToRace ptr = ((PlaceToRace) ((JComboBox<PlaceToRace>) e.getSource()).getSelectedItem());
 			int mapMax = ptr.getPlayers();
-			int max = Math.min(gameSeries.getPlayers().size() + 1, (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? mapMax : mapMax - 1));
+			int max = Math.min(gameSeries.getPlayers().size(), (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? mapMax : mapMax - 1));
 			((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setMaximum(max);
 			if(((Integer) ((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).getValue()) > max)
 				((SpinnerNumberModel) this.numberOfPlayersSpinnerList.get(mapNumber).getModel()).setValue(max);
