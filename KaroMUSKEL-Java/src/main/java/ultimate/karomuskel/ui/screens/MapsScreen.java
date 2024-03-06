@@ -93,7 +93,7 @@ public class MapsScreen extends FilterScreen<PlaceToRace> implements ActionListe
 					(minPlayers, ptr) -> ptr.getPlayers() >= (Integer) minPlayers);
 			this.addFilterComponent("screen.maps.filter.players.max", new JSpinner(new SpinnerNumberModel(999, minSupportedPlayersPerMapTmp, 999, 1)),
 					(maxPlayers, ptr) -> ptr.getPlayers() <= (Integer) maxPlayers);
-			this.addFilterComponent("screen.maps.filter.night", new JComboBox<Label<Boolean>>(new BooleanModel(null, true)),
+			this.addFilterComponent("screen.maps.filter.night", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
 					(night, ptr) -> {
 						@SuppressWarnings("unchecked")
 						Boolean value = ((Label<Boolean>) night).getValue();

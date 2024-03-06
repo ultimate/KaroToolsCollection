@@ -200,7 +200,7 @@ public class PlayersScreen extends FilterScreen<User> implements ActionListener
 					(name, user) -> user.getLogin().toLowerCase().contains(((String) name).toLowerCase()) || user.getId().toString().contains((String) name));
 			this.addFilterComponent("screen.players.filter.freeGames", new JSpinner(new SpinnerNumberModel(0, 0, 999, 1)),
 					(freeGames, user) -> user.getMaxGames() <= 0 || user.getMaxGames() - user.getActiveGames() >=  (Integer) freeGames);
-			this.addFilterComponent("screen.players.filter.nightGames", new JComboBox<Label<Boolean>>(new BooleanModel(null, true)),
+			this.addFilterComponent("screen.players.filter.nightGames", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
 					(night, user) -> {
 						@SuppressWarnings("unchecked")
 						Boolean value = ((Label<Boolean>) night).getValue();
