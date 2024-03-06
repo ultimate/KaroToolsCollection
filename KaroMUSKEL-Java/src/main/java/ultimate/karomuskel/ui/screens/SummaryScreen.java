@@ -215,13 +215,13 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 						EnumGameTC value = ((Label<EnumGameTC>) tc).getValue();
 						return game.getOptions().getCrashallowed() == value;						
 					});
-//			this.addFilterComponent("screen.summary.filter.checkpoints", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-//					(cps, game) -> {
-//						@SuppressWarnings("unchecked")
-//						Boolean value = ((Label<Boolean>) cps).getValue();
-//						if(value == null) return true;
-//						return game.getOptions().isCps() == value;						
-//					});
+			this.addFilterComponent("screen.summary.filter.checkpoints", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
+					(cps, game) -> {
+						@SuppressWarnings("unchecked")
+						Boolean value = ((Label<Boolean>) cps).getValue();
+						if(value == null) return true;
+						return game.getOptions().isCps() == value;						
+					});
 			this.addFilterComponent("screen.summary.filter.direction", new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false, true)),
 					(dir, game) -> {
 						if(dir == null) return true;
@@ -229,20 +229,20 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 						EnumGameDirection value = ((Label<EnumGameDirection>) dir).getValue();
 						return game.getOptions().getStartdirection() == value;						
 					});
-//			this.addFilterComponent("screen.summary.filter.toBeCreated", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-//					(toBeCreated, game) -> {
-//						@SuppressWarnings("unchecked")
-//						Boolean value = ((Label<Boolean>) toBeCreated).getValue();
-//						if(value == null) return true;
-//						return (gamesToCreate.contains(game) || game.isCreated()) == value;						
-//					});
-//			this.addFilterComponent("screen.summary.filter.toBeLeft", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-//					(toBeLeft, game) -> {
-//						@SuppressWarnings("unchecked")
-//						Boolean value = ((Label<Boolean>) toBeLeft).getValue();
-//						if(value == null) return true;
-//						return (gamesToLeave.contains(game) || game.isLeft()) == value;						
-//					});
+			this.addFilterComponent("screen.summary.filter.toBeCreated", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
+					(toBeCreated, game) -> {
+						@SuppressWarnings("unchecked")
+						Boolean value = ((Label<Boolean>) toBeCreated).getValue();
+						if(value == null) return true;
+						return (gamesToCreate.contains(game) || game.isCreated()) == value;						
+					});
+			this.addFilterComponent("screen.summary.filter.toBeLeft", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
+					(toBeLeft, game) -> {
+						@SuppressWarnings("unchecked")
+						Boolean value = ((Label<Boolean>) toBeLeft).getValue();
+						if(value == null) return true;
+						return (gamesToLeave.contains(game) || game.isLeft()) == value;						
+					});
 			
 //screen.summary.filter.status	              = Status
 		}
@@ -1071,9 +1071,9 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 				case 7:
 					return new Label<>(Language.getString(EnumGameDirection.class, game.getOptions().getStartdirection()), game.getOptions().getStartdirection());
 				case 8:
-					return gamesToCreate.contains(game);// TODO || game.isCreated();
+					return gamesToCreate.contains(game) || game.isCreated();
 				case 9:
-					return gamesToLeave.contains(game);// TODO || game.isLeft();
+					return gamesToLeave.contains(game) || game.isLeft();
 				case 10:
 					return game.getStatusMessage();
 				default:
