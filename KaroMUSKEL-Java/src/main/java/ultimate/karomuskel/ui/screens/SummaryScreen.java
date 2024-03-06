@@ -244,7 +244,7 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 						return (gamesToLeave.contains(game) || game.isLeft()) == value;						
 					});
 			
-//screen.summary.filter.status	              = Status
+			//TODO screen.summary.filter.status	              = Status
 		}
 
 		if(!this.skipPlan && direction == EnumNavigation.next)
@@ -1245,12 +1245,12 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 			}
 			game.setStatusMessage(statusMessage);
 
-			// TODO
-//			fireTableCellUpdated(visibleGames.indexOf(game), 10);
-//			if(!inProgress)
-//			{
-//				enableButtons();
-//			}
+			if(visibleGames.contains(game))
+				fireTableCellUpdated(visibleGames.indexOf(game), 10);
+			if(!inProgress)
+			{
+				enableButtons();
+			}
 		}
 
 		@Override
