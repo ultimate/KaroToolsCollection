@@ -46,6 +46,7 @@ import javax.swing.table.TableColumn;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
+import ultimate.karoapi4j.enums.EnumGameStatus;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.extended.GameSeries;
@@ -112,15 +113,6 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 
 	private AtomicBoolean				batchUpdate				= new AtomicBoolean(false);
 	private HashMap<String, Integer>	batchUpdateMessages		= new HashMap<>();
-
-	private static final int			OPEN					= 0;
-	private static final int			GENERATING_MAP			= 1;
-	private static final int			GENERATED_MAP			= 2;
-	private static final int			CREATING				= 3;
-	private static final int			CREATED					= 4;
-	private static final int			LEAVING					= 5;
-	private static final int			LEFT					= 6;
-	private static final int			EXCEPTION				= -1;
 
 	public SummaryScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, boolean skipPlan,
 			String key)
@@ -242,6 +234,13 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 						Boolean value = ((Label<Boolean>) toBeLeft).getValue();
 						if(value == null) return true;
 						return (gamesToLeave.contains(game) || game.isLeft()) == value;						
+					});
+			this.addFilterComponent("screen.summary.filter.status", new JComboBox<Label<EnumGameStatus>>(new GenericEnumModel<EnumGameStatus>(EnumGameStatus.class, null, false, true)),
+					(status, game) -> {
+						if(status == null) return true;
+						@SuppressWarnings("unchecked")
+						EnumGameStatus value = ((Label<EnumGameStatus>) status).getValue();
+						return game.getStatus() == value;						
 					});
 			
 			//TODO screen.summary.filter.status	              = Status
@@ -376,7 +375,7 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		{
 			synchronized(this.gamesToCreateTmp)
 			{
-				this.gamesToCreateTmp.forEach(pg -> this.model.setStatus(pg, CREATING));
+				this.gamesToCreateTmp.forEach(pg -> this.model.setStatus(pg, EnumGameStatus.creating));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
 				this.creatorCF = this.creator.createGames(this.gamesToCreateTmp, pg -> this.notifyGameCreated(pg));
@@ -418,7 +417,7 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		{
 			synchronized(this.gamesToLeaveTmp)
 			{
-				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, LEAVING));
+				this.gamesToLeaveTmp.forEach(pg -> this.model.setStatus(pg, EnumGameStatus.leaving));
 				this.watchdog.cancel();
 				CompletableFuture.runAsync(this.watchdog);
 				this.creatorCF = this.creator.leaveGames(this.gamesToLeaveTmp, pg -> this.notifyGameLeft(pg));
@@ -442,12 +441,12 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 				if(!game.hasException())
 				{
 					this.gamesToCreate.remove(game);
-					this.model.setStatus(game, CREATED);
+					this.model.setStatus(game, EnumGameStatus.created);
 					this.watchdog.notifyActive("game created GID=" + game.getGame().getId());
 				}
 				else
 				{
-					this.model.setStatus(game, EXCEPTION);
+					this.model.setStatus(game, EnumGameStatus.exception);
 					this.watchdog.notifyActive("game creation failed " + game.getException());
 					this.gamesWithExceptions.add(game);
 				}
@@ -471,12 +470,12 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 				if(!game.hasException())
 				{
 					this.gamesToLeave.remove(game);
-					this.model.setStatus(game, LEFT);
+					this.model.setStatus(game, EnumGameStatus.left);
 					this.watchdog.notifyActive("game left GID=" + game.getGame().getId());
 				}
 				else
 				{
-					this.model.setStatus(game, EXCEPTION);
+					this.model.setStatus(game, EnumGameStatus.exception);
 					this.watchdog.notifyActive("game creation failed " + game.getException());
 					this.gamesWithExceptions.add(game);
 				}
@@ -1016,11 +1015,11 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 			if(!game.isLeft() && (gameSeries.getCreatorParticipation() == EnumCreatorParticipation.leave))
 				gamesToLeave.add(game);
 
-			int status = OPEN;
+			EnumGameStatus status = EnumGameStatus.open;
 			if(game.isLeft())
-				status = LEFT;
+				status = EnumGameStatus.left;
 			else if(game.isCreated())
-				status = CREATED;
+				status = EnumGameStatus.created;
 			setStatus(game, status);
 		}
 		
@@ -1075,7 +1074,20 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 				case 9:
 					return gamesToLeave.contains(game) || game.isLeft();
 				case 10:
-					return game.getStatusMessage();
+					String genKey = "" + (game.getMap() instanceof Generator ? ((Generator) game.getMap()).getKey() : "???");
+					String mapId = "" + (game.getMap() instanceof Map ? ((Map) game.getMap()).getId() : "???");
+					switch(game.getStatus())
+					{
+						case open: 			return Language.getString("EnumGameStatus.open");
+						case generatingMap:	return Language.getString("EnumGameStatus.generatingMap") + " (GENERATOR=" + genKey + ")";
+						case generatedMap:	return Language.getString("EnumGameStatus.generatedMap") + " (MID=" + mapId + ")";
+						case creating:		return Language.getString("EnumGameStatus.creating") + " (MID=" + mapId + ")";
+						case created:		return Language.getString("EnumGameStatus.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
+						case leaving:		return Language.getString("EnumGameStatus.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
+						case left:			return Language.getString("EnumGameStatus.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
+						case exception:		return Language.getString("EnumGameStatus.exception") + " (" + getExceptionMessage(game.getException()) + ")";
+						default:			return "unknown";
+					}
 				default:
 					break;
 			}
@@ -1195,7 +1207,7 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 					}
 					break;
 				case 10:
-					game.setStatusMessage((String) aValue);
+					setStatus(game, (EnumGameStatus) aValue);
 				default:
 					break;
 			}
@@ -1207,43 +1219,13 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 			}
 		}
 
-		public void setStatus(PlannedGame game, int status)
+		public void setStatus(PlannedGame game, EnumGameStatus status)
 		{
-			String genKey = "" + (game.getMap() instanceof Generator ? ((Generator) game.getMap()).getKey() : "???");
-			String mapId = "" + (game.getMap() instanceof Map ? ((Map) game.getMap()).getId() : "???");
-			
-			String statusMessage = null;
-
-			switch(status)
-			{
-				case OPEN:
-					statusMessage = Language.getString("screen.summary.table.status.open");
-					break;
-				case GENERATING_MAP:
-					statusMessage = Language.getString("screen.summary.table.status.generatingMap") + " (GENERATOR=" + genKey + ")";
-					break;
-				case GENERATED_MAP:
-					statusMessage = Language.getString("screen.summary.table.status.generatedMap") + " (MID=" + mapId + ")";
-					break;
-				case CREATING:
-					statusMessage = Language.getString("screen.summary.table.status.creating") + " (MID=" + mapId + ")";
-					break;
-				case CREATED:
-					game.setCreated(true);
-					statusMessage = Language.getString("screen.summary.table.status.created") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
-					break;
-				case LEAVING:
-					statusMessage = Language.getString("screen.summary.table.status.leaving") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
-					break;
-				case LEFT:
-					game.setLeft(true);
-					statusMessage = Language.getString("screen.summary.table.status.left") + " (GID=" + game.getGame().getId() + ", MID=" + mapId + ")";
-					break;
-				case EXCEPTION:
-					statusMessage = Language.getString("screen.summary.table.status.exception") + " (" + getExceptionMessage(game.getException()) + ")";
-					break;
-			}
-			game.setStatusMessage(statusMessage);
+			game.setStatus(status);
+			if(status == EnumGameStatus.created)
+				game.setCreated(true);
+			if(status == EnumGameStatus.left)
+				game.setLeft(true);
 
 			if(visibleGames.contains(game))
 				fireTableCellUpdated(visibleGames.indexOf(game), 10);
