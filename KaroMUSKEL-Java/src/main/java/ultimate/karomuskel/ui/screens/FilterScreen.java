@@ -4,26 +4,30 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karomuskel.ui.Language;
+import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
+import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.FilterModel;
+import ultimate.karomuskel.ui.components.GenericEnumModel;
 
 public abstract class FilterScreen<V> extends Screen
 {
@@ -37,7 +41,16 @@ public abstract class FilterScreen<V> extends Screen
 
 	private List<Function<V, Boolean>>	filters;
 
-	private FilterModel<V>			model;
+	private FilterModel<V>				model;
+	
+	public enum NumberFilterMode
+	{
+		eq,
+		lt,
+		lteq,
+		gt,
+		gteq
+	}
 
 	public FilterScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton, String headerKey)
 	{
@@ -53,6 +66,8 @@ public abstract class FilterScreen<V> extends Screen
 		label.setPreferredSize(this.labelSize);
 		label.setMaximumSize(this.labelSize);
 		this.filterPanel.add(label);
+
+		// TODO support multiple lines for the filters
 
 		this.contentPanel = new JPanel();
 		this.contentPanel.setLayout(new BoxLayout(this.contentPanel, BoxLayout.X_AXIS));
@@ -102,41 +117,133 @@ public abstract class FilterScreen<V> extends Screen
 	}
 
 	/**
+	 * Add a text filter to this {@link FilterScreen} that is defined by a {@link Function} to
+	 * extract the text value from the items in the {@link FilterModel}.
+	 * The text filter will add a JTextField plus the given label to the screen
 	 * 
+	 * @param labelKey
+	 * @param valueExtractor 
+	 * @param multiSearch
+	 */
+	protected void addTextFilter(String labelKey, Function<V, String> valueExtractor, boolean multiSearch)
+	{
+		JTextField component = new JTextField();
+		component.getDocument().addDocumentListener(new DocumentChangeListener(component));
+		Function<V, Boolean> filter = item -> {
+			String haystack = valueExtractor.apply(item).toLowerCase();
+			String needle = component.getText().toLowerCase();
+
+			if(!multiSearch)
+				return haystack.contains(needle);
+
+			String[] needles = needle.split(",");
+			for(String n : needles)
+			{
+				if(haystack.contains(n.trim()))
+					return true;
+			}
+			return false;
+		};
+		this.addFilter(labelKey, component, filter);
+	}
+
+	/**
+	 * Add a boolean filter to this {@link FilterScreen} that is defined by a {@link Function} to
+	 * extract the boolean value from the items in the {@link FilterModel}.
+	 * The text filter will add a JComboBox plus the given label to the screen
+	 * 
+	 * @param labelKey
+	 * @param valueExtractor
+	 * @param multiSearch
+	 */
+	protected void addBooleanFilter(String labelKey, Function<V, Boolean> valueExtractor)
+	{
+		addDropdownFilter(labelKey, valueExtractor, new BooleanModel(null, "option.boolean.empty", 0));
+	}
+
+	/**
+	 * Add a enum filter to this {@link FilterScreen} that is defined by a {@link Function} to
+	 * extract the enum value from the items in the {@link FilterModel}.
+	 * The text filter will add a JComboBox plus the given label to the screen
+	 * 
+	 * @param labelKey
+	 * @param valueExtractor
+	 * @param multiSearch
+	 */
+	protected <E extends Enum<E>> void addEnumFilter(String labelKey, Function<V, E> valueExtractor, Class<E> enumType)
+	{
+		addDropdownFilter(labelKey, valueExtractor, new GenericEnumModel<E>(enumType, null, false, true));
+	}	
+
+	/**
+	 * Add a dropdown filter to this {@link FilterScreen} that is defined by a {@link Function} to
+	 * extract the dropdown value from the items in the {@link FilterModel}.
+	 * The text filter will add a JComboBox plus the given label to the screen
+	 * 
+	 * @param labelKey
+	 * @param valueExtractor
+	 * @param multiSearch
+	 */
+	protected <T> void addDropdownFilter(String labelKey, Function<V, T> valueExtractor, ComboBoxModel<Label<T>> comboboxModel)
+	{
+		JComboBox<Label<T>> component = new JComboBox<>(comboboxModel);
+		component.addItemListener(e -> filtersChanged(component));
+		Function<V, Boolean> filter = item -> {
+			@SuppressWarnings("unchecked")
+			Label<T> filterItem = (Label<T>) component.getSelectedItem();
+			T itemValue = valueExtractor.apply(item);
+
+			if(filterItem == null || filterItem.getValue() == null)
+				return true;
+			return filterItem.getValue() == itemValue;
+		};
+		this.addFilter(labelKey, component, filter);		
+	}
+
+	/**
+	 * Add a number filter to this {@link FilterScreen} that is defined by a {@link Function} to
+	 * extract the number value from the items in the {@link FilterModel}.
+	 * The text filter will add a JComboBox plus the given label to the screen
+	 * 
+	 * @param labelKey
+	 * @param valueExtractor
+	 * @param multiSearch
+	 */
+	protected void addNumberFilter(String labelKey, Function<V, Integer> valueExtractor, NumberFilterMode mode, int initialValue, int min, int max)
+	{
+		JSpinner component = new JSpinner(new SpinnerNumberModel(initialValue, min, max, 1));
+		component.addChangeListener(e -> filtersChanged(component));
+		Function<V, Boolean> filter = item -> {
+			int filterValue = (int) component.getValue();
+			int itemValue = valueExtractor.apply(item);
+
+			switch(mode)
+			{
+				case eq: 	return itemValue == filterValue;
+				case gt:	return itemValue > filterValue;
+				case gteq: 	return itemValue >= filterValue;
+				case lt:	return itemValue < filterValue;
+				case lteq:	return itemValue <= filterValue;
+			}
+			return true;			
+		};
+		this.addFilter(labelKey, component, filter);		
+	}
+	
+	
+	/**
 	 * Add a component and a matching filter to this {@link Screen}
-	 * This will allow you to retrieve the compound filter for all components via
-	 * {@link FilterScreen#getCompoundFilter()} and listen to change events via
-	 * {@link FilterScreen#filtersChanged(JComponent)}
 	 * 
 	 * @param labelKey
 	 * @param component
 	 * @param filter
 	 */
-	protected void addFilterComponent(String labelKey, JComponent component, BiFunction<Object, V, Boolean> filter)
+	private void addFilter(String labelKey, JComponent component, Function<V, Boolean> filter)
 	{
-		Function<V, Boolean> internalFilter;
-		if(component instanceof JSpinner)
-		{
-			((JSpinner) component).addChangeListener(e -> filtersChanged(component));
-			internalFilter = item -> filter.apply(((JSpinner) component).getValue(), item);
-		}
-		else if(component instanceof JComboBox)
-		{
-			((JComboBox<?>) component).addItemListener(e -> filtersChanged(component));
-			internalFilter = item -> filter.apply(((JComboBox<?>) component).getSelectedItem(), item);
-		}
-		else if(component instanceof JTextComponent)
-		{
-			((JTextComponent) component).getDocument().addDocumentListener(new DocumentChangeListener(component));
-			internalFilter = item -> filter.apply(((JTextComponent) component).getText(), item);
-		}
-		else
-			throw new IllegalArgumentException("unsupported component type: " + component.getClass());
-
 		this.filterPanel.add(Box.createRigidArea(this.spacerSize));
 		this.filterPanel.add(new JLabel(Language.getString(labelKey) + ": "));
 		this.filterPanel.add(component);
-		this.filters.add(internalFilter);
+		this.filters.add(filter);
 	}
 
 	/**

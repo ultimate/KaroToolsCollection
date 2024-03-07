@@ -18,15 +18,12 @@ import java.util.TreeMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerNumberModel;
 
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumCreatorParticipation;
@@ -38,11 +35,9 @@ import ultimate.karoapi4j.model.official.User;
 import ultimate.karomuskel.GameSeriesManager;
 import ultimate.karomuskel.ui.EnumNavigation;
 import ultimate.karomuskel.ui.Language;
-import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.UIUtil;
-import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.GenericListModel;
 
 public class PlayersScreen extends FilterScreen<User> implements ActionListener
@@ -196,17 +191,9 @@ public class PlayersScreen extends FilterScreen<User> implements ActionListener
 		if(this.firstShow)
 		{
 			// initialize search
-			this.addFilterComponent("screen.players.filter.loginOrId", new JTextField(),
-					(name, user) -> user.getLogin().toLowerCase().contains(((String) name).toLowerCase()) || user.getId().toString().contains((String) name));
-			this.addFilterComponent("screen.players.filter.freeGames", new JSpinner(new SpinnerNumberModel(0, 0, 999, 1)),
-					(freeGames, user) -> user.getMaxGames() <= 0 || user.getMaxGames() - user.getActiveGames() >=  (Integer) freeGames);
-			this.addFilterComponent("screen.players.filter.nightGames", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-					(night, user) -> {
-						@SuppressWarnings("unchecked")
-						Boolean value = ((Label<Boolean>) night).getValue();
-						if(value == null) return true;
-						else return user.isAcceptsNightGames() == value;						
-					});			
+			this.addTextFilter("screen.players.filter.loginOrId", user -> user.getId() + ":" + user.getLogin(), true);
+			this.addNumberFilter("screen.players.filter.freeGames", user -> (user.getMaxGames() <= 0 ? Integer.MAX_VALUE : user.getMaxGames() - user.getActiveGames()), NumberFilterMode.gteq, 0, 0, 999);
+			this.addBooleanFilter("screen.players.filter.nightGames", user -> user.isAcceptsNightGames());
 			
 			this.teamLIList = new LinkedList<>();
 			this.teamNameTFList = new LinkedList<>();

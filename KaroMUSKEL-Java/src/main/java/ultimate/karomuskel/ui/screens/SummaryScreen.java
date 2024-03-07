@@ -65,7 +65,6 @@ import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.Language.Label;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
-import ultimate.karomuskel.ui.components.BooleanModel;
 import ultimate.karomuskel.ui.components.FilterModel;
 import ultimate.karomuskel.ui.components.GenericEnumModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
@@ -163,17 +162,6 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		this.gameSeries.getGames().put(this.key, null);
 		Planner.resetPlannedGames(this.gameSeries.getPlayers());
 	}
-	
-	private boolean multiSearch(String haystack, String needle)
-	{
-		String[] needles = needle.split(",");
-		for(String n: needles)
-		{
-			if(haystack.toLowerCase().contains(n.toLowerCase().trim()))
-				return true;
-		}
-		return false;
-	}
 
 	@Override
 	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
@@ -188,62 +176,18 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		if(this.firstShow)
 		{
 			// initialize search
-			this.addFilterComponent("screen.summary.filter.name", new JTextField(),
-					(text, game) -> game.getName().toLowerCase().contains(((String) text).toLowerCase()));
-			this.addFilterComponent("screen.summary.filter.tags", new JTextField(),
-					(text, game) -> multiSearch(game.getTags().toString(), (String) text));
-			this.addFilterComponent("screen.summary.filter.map", new JTextField(),
-					(text, game) -> multiSearch(game.getMap().toString(), (String) text));
-			this.addFilterComponent("screen.summary.filter.players", new JTextField(),
-					(text, game) -> multiSearch(game.getPlayers().toString(), (String) text));
-			this.addFilterComponent("screen.summary.filter.zzz.min", new JSpinner(new SpinnerNumberModel(0, 0, 999, 1)),
-					(minZzz, game) -> game.getOptions().getZzz() >= (int) minZzz);
-			this.addFilterComponent("screen.summary.filter.zzz.max", new JSpinner(new SpinnerNumberModel(999, 0, 999, 1)),
-					(maxZzz, game) -> game.getOptions().getZzz() <= (int) maxZzz);
-			this.addFilterComponent("screen.summary.filter.crashallowed", new JComboBox<Label<EnumGameTC>>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, null, false, true)),
-					(tc, game) -> {
-						if(tc == null) return true;
-						@SuppressWarnings("unchecked")
-						EnumGameTC value = ((Label<EnumGameTC>) tc).getValue();
-						return game.getOptions().getCrashallowed() == value;						
-					});
-			this.addFilterComponent("screen.summary.filter.checkpoints", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-					(cps, game) -> {
-						@SuppressWarnings("unchecked")
-						Boolean value = ((Label<Boolean>) cps).getValue();
-						if(value == null) return true;
-						return game.getOptions().isCps() == value;						
-					});
-			this.addFilterComponent("screen.summary.filter.direction", new JComboBox<Label<EnumGameDirection>>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, null, false, true)),
-					(dir, game) -> {
-						if(dir == null) return true;
-						@SuppressWarnings("unchecked")
-						EnumGameDirection value = ((Label<EnumGameDirection>) dir).getValue();
-						return game.getOptions().getStartdirection() == value;						
-					});
-			this.addFilterComponent("screen.summary.filter.toBeCreated", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-					(toBeCreated, game) -> {
-						@SuppressWarnings("unchecked")
-						Boolean value = ((Label<Boolean>) toBeCreated).getValue();
-						if(value == null) return true;
-						return (gamesToCreate.contains(game) || game.isCreated()) == value;						
-					});
-			this.addFilterComponent("screen.summary.filter.toBeLeft", new JComboBox<Label<Boolean>>(new BooleanModel(null, "option.boolean.empty", 0)),
-					(toBeLeft, game) -> {
-						@SuppressWarnings("unchecked")
-						Boolean value = ((Label<Boolean>) toBeLeft).getValue();
-						if(value == null) return true;
-						return (gamesToLeave.contains(game) || game.isLeft()) == value;						
-					});
-			this.addFilterComponent("screen.summary.filter.status", new JComboBox<Label<EnumGameStatus>>(new GenericEnumModel<EnumGameStatus>(EnumGameStatus.class, null, false, true)),
-					(status, game) -> {
-						if(status == null) return true;
-						@SuppressWarnings("unchecked")
-						EnumGameStatus value = ((Label<EnumGameStatus>) status).getValue();
-						return game.getStatus() == value;						
-					});
-			
-			//TODO screen.summary.filter.status	              = Status
+			this.addTextFilter("screen.summary.filter.name", game -> game.getName(), false);
+			this.addTextFilter("screen.summary.filter.tags", game -> game.getTags().toString(), true);
+			this.addTextFilter("screen.summary.filter.map", game -> game.getMap().toString(), true);
+			this.addTextFilter("screen.summary.filter.players", game -> game.getPlayers().toString(), true);
+			this.addNumberFilter("screen.summary.filter.zzz.min", game -> game.getOptions().getZzz(), NumberFilterMode.gteq, 0, 0, 999);
+			this.addNumberFilter("screen.summary.filter.zzz.max", game -> game.getOptions().getZzz(), NumberFilterMode.lteq, 999, 0, 999);
+			this.addEnumFilter("screen.summary.filter.crashallowed", game -> game.getOptions().getCrashallowed(), EnumGameTC.class);
+			this.addBooleanFilter("screen.summary.filter.checkpoints", game -> game.getOptions().isCps());
+			this.addEnumFilter("screen.summary.filter.direction", game -> game.getOptions().getStartdirection(), EnumGameDirection.class);
+			this.addBooleanFilter("screen.summary.filter.toBeCreated", game -> (gamesToCreate.contains(game) || game.isCreated()));
+			this.addBooleanFilter("screen.summary.filter.toBeLeft", game -> (gamesToLeave.contains(game) || game.isLeft()));
+			this.addEnumFilter("screen.summary.filter.status", game -> game.getStatus(), EnumGameStatus.class);
 		}
 
 		if(!this.skipPlan && direction == EnumNavigation.next)
