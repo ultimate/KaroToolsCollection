@@ -197,6 +197,7 @@ public class RandomGameCreator
 								value = random.nextBoolean();
 						}
 						logger.info(" -> " + key + "=" + value);
+						gen.getSettings().put(key, value);
 					}
 					
 					ptr = gen;					
