@@ -65,10 +65,16 @@ public abstract class FilterScreen<V> extends Screen
 		JPanel outerFilterPanel = new JPanel();
 		outerFilterPanel.setLayout(new BoxLayout(outerFilterPanel, BoxLayout.X_AXIS));
 
+		JPanel labelPanel = new JPanel();
+		labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
+		
 		JLabel label = new JLabel(Language.getString("screen.filter"));
 		label.setPreferredSize(this.labelSize);
 		label.setMaximumSize(this.labelSize);
-		outerFilterPanel.add(label);
+		labelPanel.add(label);
+		labelPanel.add(Box.createVerticalGlue());
+		
+		outerFilterPanel.add(labelPanel);
 
 		this.filterPanel = new JPanel();
 		this.filterPanel.setLayout(new GridBagLayout());
@@ -263,6 +269,7 @@ public abstract class FilterScreen<V> extends Screen
 	private void addFilter(String labelKey, JComponent component, Function<V, Boolean> filter)
 	{
 		this.filterPanel.add(new JLabel(Language.getString(labelKey) + ": "), this.filterGBC);
+		component.setPreferredSize(labelSize);
 		this.filterPanel.add(component, this.filterGBC);
 		this.filterPanel.add(Box.createRigidArea(this.spacerSize), this.filterGBC);
 		this.filters.add(filter);
