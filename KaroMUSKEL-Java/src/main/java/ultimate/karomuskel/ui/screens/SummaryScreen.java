@@ -227,7 +227,10 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		GameSeriesManager.autosave(this.gameSeries);
 
 		this.getContentPanel().removeAll();
-		this.getContentPanel().setLayout(new BorderLayout());
+		this.getContentPanel().setLayout(new BorderLayout(5, 5));
+		
+		JLabel titleLabel = new JLabel(Language.getString("screen.summary.title"));
+		this.getContentPanel().add(titleLabel, BorderLayout.NORTH);		
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(1, 3, 5, 5));
