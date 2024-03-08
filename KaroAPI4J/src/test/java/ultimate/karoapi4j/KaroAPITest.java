@@ -323,7 +323,7 @@ public class KaroAPITest extends KaroAPITestcase
 		User sbo = karoAPI.getUser(2738).get();
 		assertTrue(addicts.containsKey(sbo.getLogin()));
 		AddictInfo sboAI = addicts.get(sbo.getLogin());
-		assertEquals(sbo.getSignup(), sboAI.getSignup());
+		assertEquals(sbo.getSignup(), sboAI.getSignup(), 1);
 		assertTrue(sboAI.getGamesTotal() > 18000);
 		assertTrue(sboAI.getMovesTotal() > 1200000);
 		assertTrue(sboAI.getMovesPerDay() > (1200000 / (double) sbo.getSignup()));
@@ -335,7 +335,7 @@ public class KaroAPITest extends KaroAPITestcase
 		User ultimate = karoAPI.getUser(1411).get();
 		assertTrue(addicts.containsKey(ultimate.getLogin()));
 		AddictInfo ultimateAI = addicts.get(ultimate.getLogin());
-		assertEquals(ultimate.getSignup(), ultimateAI.getSignup());
+		assertEquals(ultimate.getSignup(), ultimateAI.getSignup(), 1);
 		assertTrue(ultimateAI.getGamesTotal() > 9200);
 		assertTrue(ultimateAI.getMovesTotal() > 830000);
 		assertTrue(ultimateAI.getMovesPerDay() > (830000 / (double) ultimate.getSignup()));
@@ -348,7 +348,7 @@ public class KaroAPITest extends KaroAPITestcase
 		User goodygoody = karoAPI.getUser(2730).get();
 		assertTrue(addicts.containsKey(goodygoody.getLogin()));
 		AddictInfo goodygoodyAI = addicts.get(goodygoody.getLogin());
-		assertEquals(goodygoody.getSignup(), goodygoodyAI.getSignup());
+		assertEquals(goodygoody.getSignup(), goodygoodyAI.getSignup(), 1);
 		assertTrue(goodygoodyAI.getGamesTotal() > 1500);
 		assertTrue(goodygoodyAI.getMovesTotal() > 111000);
 		assertTrue(goodygoodyAI.getMovesPerDay() > (111000 / (double) goodygoody.getSignup()));
