@@ -79,6 +79,8 @@ public class ImageToMapCode
 	private static char colorToChar(int pixel)
 	{
 		// using MS paint standard colors
+		//   TV7L56XW1S
+		//   NSZ8GY4329
 		// * are colors not present in the standard palette but added for convenience
 		switch(pixel)
 		{
