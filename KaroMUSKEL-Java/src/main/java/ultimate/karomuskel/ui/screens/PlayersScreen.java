@@ -40,7 +40,7 @@ import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.UIUtil;
 import ultimate.karomuskel.ui.components.GenericListModel;
 
-public class PlayersScreen extends Screen implements ActionListener
+public class PlayersScreen extends FilterScreen<User> implements ActionListener
 {
 	private static final long		serialVersionUID	= 1L;
 
@@ -65,7 +65,7 @@ public class PlayersScreen extends Screen implements ActionListener
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.players.header");
 
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.getContentPanel().setLayout(new BoxLayout(this.getContentPanel(), BoxLayout.X_AXIS));
 	}
 
 	@Override
@@ -112,6 +112,9 @@ public class PlayersScreen extends Screen implements ActionListener
 		else if(gameSeries.getType() == EnumGameSeriesType.Balanced)
 		{
 			User[] players = ((GenericListModel<String, User>) this.teamLIList.get(0).getModel()).getEntryArray();
+			int minPlayers = GameSeriesManager.getIntConfig(gameSeries, GameSeries.CONF_BALANCED_MIN_PLAYERS);
+			if(direction == EnumNavigation.next && players.length < minPlayers)
+				throw new GameSeriesException("screen.players.notenoughplayers.balanced", null, "" + minPlayers);
 			gameSeries.getPlayers().clear();
 			for(User player : players)
 			{
@@ -163,7 +166,7 @@ public class PlayersScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		int teamsTmp = 1;
 		int maxPlayersPerTeamTmp = 25;
@@ -187,6 +190,12 @@ public class PlayersScreen extends Screen implements ActionListener
 
 		if(this.firstShow)
 		{
+			// initialize search
+			this.addTextFilter("screen.players.filter.loginOrId", user -> user.getId() + ":" + user.getLogin(), true);
+			this.addNumberFilter("screen.players.filter.freeGames", user -> (user.getMaxGames() <= 0 ? Integer.MAX_VALUE : user.getMaxGames() - user.getActiveGames()), NumberFilterMode.gteq, 0, 0, 999);
+			this.addBooleanFilter("screen.players.filter.nightGames", user -> user.isAcceptsNightGames());
+			this.nextFilterLine();
+			
 			this.teamLIList = new LinkedList<>();
 			this.teamNameTFList = new LinkedList<>();
 			this.addButtonList = new LinkedList<>();
@@ -195,11 +204,11 @@ public class PlayersScreen extends Screen implements ActionListener
 			this.teams = teamsTmp;
 			this.maxPlayersPerTeam = maxPlayersPerTeamTmp;
 
-			this.removeAll();
+			this.getContentPanel().removeAll();
 
 			JPanel allPlayersPanel = new JPanel();
 			allPlayersPanel.setLayout(new BorderLayout(5, 5));
-			this.add(allPlayersPanel);
+			this.getContentPanel().add(allPlayersPanel);
 
 			this.allPlayersLI = new JList<>();
 			this.allPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -222,11 +231,11 @@ public class PlayersScreen extends Screen implements ActionListener
 			{
 				buttonPanel = new JPanel();
 				buttonPanel.setLayout(new GridBagLayout());
-				this.add(buttonPanel);
+				this.getContentPanel().add(buttonPanel);
 
 				teamPanel = new JPanel();
 				teamPanel.setLayout(new BorderLayout(5, 5));
-				this.add(teamPanel);
+				this.getContentPanel().add(teamPanel);
 
 				GridBagConstraints gbc = new GridBagConstraints();
 				gbc.insets = new Insets(5, 5, 5, 5);
@@ -248,8 +257,7 @@ public class PlayersScreen extends Screen implements ActionListener
 
 				teamPlayersLI = new JList<>(new GenericListModel<String, User>(User.class, new HashMap<String, User>()));
 				teamPlayersLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-				this.allPlayersLI.setFixedCellWidth(1500);
-				teamPlayersLI.setFixedCellWidth(1500);
+				teamPlayersLI.setFixedCellWidth(listFixedCellWidth);
 				teamPlayersSP = new JScrollPane(teamPlayersLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 				teamPanel.add(new JLabel(Language.getString("screen.players.selectedplayers")), BorderLayout.NORTH);
@@ -263,7 +271,7 @@ public class PlayersScreen extends Screen implements ActionListener
 			{
 				JPanel outerTeamsPanel = new JPanel();
 				outerTeamsPanel.setLayout(new BorderLayout(5, 5));
-				this.add(outerTeamsPanel);
+				this.getContentPanel().add(outerTeamsPanel);
 
 				JPanel innerTeamsPanel = new JPanel();
 				innerTeamsPanel.setLayout(new BoxLayout(innerTeamsPanel, BoxLayout.Y_AXIS));
@@ -457,7 +465,10 @@ public class PlayersScreen extends Screen implements ActionListener
 					}
 				}
 			}
-			this.allPlayersLI.setModel(new GenericListModel<String, User>(User.class, allPlayersTmp));
+			// create a model for filtering
+			GenericListModel<String, User> model = new GenericListModel<String, User>(User.class, allPlayersTmp);
+			this.setModel(model);
+			this.allPlayersLI.setModel(model);
 		}
 
 		if(this.firstShow)
@@ -502,6 +513,8 @@ public class PlayersScreen extends Screen implements ActionListener
 		}
 
 		this.firstShow = false;
+		
+		return null;
 	}
 
 	private void preselectPlayer(User player, int teamIndex)

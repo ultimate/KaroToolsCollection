@@ -71,7 +71,7 @@ public class HomeMapsScreen extends MapComboBoxScreen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		int maxTeams = 0;
 		int numberOfTeamsTmp = 0;
@@ -188,6 +188,8 @@ public class HomeMapsScreen extends MapComboBoxScreen implements ActionListener
 		}
 
 		this.firstShow = false;
+		
+		return null;
 	}
 
 	@Override

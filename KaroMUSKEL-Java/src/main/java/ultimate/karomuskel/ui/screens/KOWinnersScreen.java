@@ -130,7 +130,7 @@ public class KOWinnersScreen extends Screen implements ActionListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		if(direction == EnumNavigation.previous)
 		{
@@ -277,7 +277,8 @@ public class KOWinnersScreen extends Screen implements ActionListener
 			}
 		}
 		this.firstShow = false;
-
+		
+		return null;
 	}
 
 	@Override

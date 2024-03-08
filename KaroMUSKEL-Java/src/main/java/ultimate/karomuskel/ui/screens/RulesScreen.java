@@ -94,7 +94,7 @@ public class RulesScreen extends Screen
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
 		this.removeAll();
 
@@ -108,7 +108,7 @@ public class RulesScreen extends Screen
 		this.crashingAllowedCB = new JComboBox<>(new GenericEnumModel<EnumGameTC>(EnumGameTC.class, crashingAllowedInit, true));
 
 		Boolean checkpointsActivatedInit = (gameSeries.getRules() != null ? gameSeries.getRules().getCps() : Boolean.TRUE);
-		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, true));
+		this.checkpointsActivatedCB = new JComboBox<>(new BooleanModel(checkpointsActivatedInit, "option.boolean.random", 2));
 
 		EnumGameDirection directionInit = (gameSeries.getRules() != null ? gameSeries.getRules().getStartdirection() : EnumGameDirection.classic);
 		this.directionCB = new JComboBox<>(new GenericEnumModel<EnumGameDirection>(EnumGameDirection.class, directionInit, true));
@@ -119,7 +119,7 @@ public class RulesScreen extends Screen
 		this.creatorParticipationCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(null, GameSeriesManager.CONFIG_ALLOW_CREATOR_GIVE_UP));
 
 		boolean ignoreInvitableInit = gameSeries.isIgnoreInvitable();
-		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(ignoreInvitableInit, false));
+		this.ignoreInvitableCB = new JComboBox<>(new BooleanModel(ignoreInvitableInit));
 		this.ignoreInvitableCB.setEnabled(this.karoAPICache.getCurrentUser().isSuperCreator() || GameSeriesManager.getBooleanConfig(null, GameSeriesManager.CONFIG_ALLOW_IGNORE_INVITABLE));
 
 		gbc.gridy = 0;
@@ -186,5 +186,7 @@ public class RulesScreen extends Screen
 		gbc.gridx = 0;
 		gbc.gridwidth = 4;
 		this.add(new JLabel(Language.getString("screen.rules.ignoreinvitable.description", totalWidth)), gbc);
+		
+		return null;
 	}
 }

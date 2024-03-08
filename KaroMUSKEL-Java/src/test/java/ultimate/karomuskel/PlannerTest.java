@@ -423,22 +423,34 @@ public class PlannerTest extends KaroMUSKELTestcase
 	@ValueSource(ints = { 10, 100, 1000 })
 	public void test_planSeriesSimple(int numberOfGames)
 	{
-		int numberOfPlayersPerGame = 5;
+		int minNumberOfPlayersPerGame = 3;
+		int maxNumberOfPlayersPerGame = 5;
+		int minFreeSlots = 1;
 		Rules rules = new Rules();
 		List<User> players = new ArrayList<>(dummyCache.getUsers());
 		players.remove(dummyCache.getCurrentUser());
 		List<PlannedGame> games;
+		
+		List<PlaceToRace> maps = new ArrayList<>(dummyCache.getMaps());
+		maps.removeIf(m -> m.getPlayers() < minNumberOfPlayersPerGame + minFreeSlots);
 
 		for(EnumCreatorParticipation creatorParticipation : EnumCreatorParticipation.values())
 		{
-			games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, new ArrayList<>(dummyCache.getMaps()), rules, null, creatorParticipation, numberOfGames, numberOfPlayersPerGame);
+			games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, maps, rules, null, creatorParticipation, numberOfGames, minNumberOfPlayersPerGame, maxNumberOfPlayersPerGame, minFreeSlots);
 
 			assertNotNull(games);
 			assertEquals(numberOfGames, games.size());
 
 			for(PlannedGame g : games)
 			{
-				assertTrue(g.getPlayers().size() <= numberOfPlayersPerGame);
+				logger.debug("min = " + minNumberOfPlayersPerGame +
+							"\tmax = " + maxNumberOfPlayersPerGame +
+							"\tmap = " + g.getMap().getPlayers() +
+							"\tfree = " + minFreeSlots +
+							"\tplayers = " + g.getPlayers().size());
+
+				assertTrue(g.getPlayers().size() >= minNumberOfPlayersPerGame);
+				assertTrue(g.getPlayers().size() <= Math.min(maxNumberOfPlayersPerGame, g.getMap().getPlayers() - minFreeSlots));
 
 				// check creator
 				if(creatorParticipation != EnumCreatorParticipation.not_participating)
@@ -456,7 +468,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 					assertTrue(p.getActiveGames() + p.getPlannedGames() <= p.getMaxGames() || p.getMaxGames() == 0);
 				}
 			}
-
+	
 			Planner.resetPlannedGames(players);
 		}
 	}

@@ -86,7 +86,7 @@ public abstract class Planner
 		if(gs == null || gs.getType() == null)
 			throw new IllegalArgumentException("gameseries & type must not be null!");
 
-		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, repeat, groups, leagues, firstKO, numberOfGames, maxPlayersPerGame;
+		int numberOfGamesPerPair, numberOfTeamsPerMatch, round, repeat, groups, leagues, firstKO, numberOfGames, maxPlayersPerGame, minPlayersPerGame, minFreeSlots;
 		boolean useHomeMaps, loserRound, shuffle, dummyMatches;
 
 		User creator = gs.getCreator();
@@ -130,8 +130,10 @@ public abstract class Planner
 				return planSeriesLeague(gs.getTitle(), creator, gs.getTeams(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, useHomeMaps, shuffle, numberOfGamesPerPair, dummyMatches);
 			case Simple:
 				numberOfGames = (int) gs.get(GameSeries.NUMBER_OF_GAMES);
+				minPlayersPerGame = (int) gs.get(GameSeries.MIN_PLAYERS_PER_GAME);
 				maxPlayersPerGame = (int) gs.get(GameSeries.MAX_PLAYERS_PER_GAME);
-				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, numberOfGames, maxPlayersPerGame);
+				minFreeSlots = (int) gs.get(GameSeries.MIN_FREE_SLOTS);
+				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, numberOfGames, minPlayersPerGame, maxPlayersPerGame, minFreeSlots);
 			default:
 				return null;
 		}
@@ -906,6 +908,9 @@ public abstract class Planner
 
 		return games;
 	}
+	
+	/**
+	 * 
 
 	/**
 	 * Plan the games for a {@link EnumGameSeriesType#Simple} {@link GameSeries}
@@ -917,10 +922,12 @@ public abstract class Planner
 	 * @param tags - the tags to set
 	 * @param creatorParticipation - does the creator participate or not
 	 * @param numberOfGames - the number of games to create
+	 * @param minPlayersPerGame - the min number of {@link User}s per {@link PlannedGame}
 	 * @param maxPlayersPerGame - the max number of {@link User}s per {@link PlannedGame}
+	 * @param minFreeSlots - the min number of slots to keep free on the map
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int maxPlayersPerGame)
+	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int minPlayersPerGame, int maxPlayersPerGame, int minFreeSlots)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -930,10 +937,14 @@ public abstract class Planner
 		User player;
 		PlaceToRace placeToRace;
 		int count = 0;
+		int pTarget, pMin, pMax;
 		HashMap<String, String> placeholderValues;
+		RuntimeException ex;
 
 		for(int i = 0; i < numberOfGames; i++)
 		{
+			ex = null;
+			
 			placeToRace = placesToRace.get(random.nextInt(placesToRace.size()));
 
 			gamePlayers = new LinkedHashSet<User>();
@@ -943,7 +954,16 @@ public abstract class Planner
 			if(creatorParticipation != EnumCreatorParticipation.not_participating)
 				gamePlayers.add(creator);
 
-			while(gamePlayers.size() < Math.min(maxPlayersPerGame, placeToRace.getPlayers()))
+			// by default we fill to max
+			if(placeToRace.getPlayers() - minFreeSlots < minPlayersPerGame) {
+				ex = new RuntimeException("map is smaller than it should be: cannot add requested number of players and keep " + minFreeSlots + " slots free: minPlayersPerGame=" + minPlayersPerGame + ", map.getPlayers()=" + placeToRace.getPlayers());
+				logger.warn(ex.getMessage());
+			}
+			pMax = Math.min(maxPlayersPerGame, placeToRace.getPlayers() - minFreeSlots);
+			pMin = Math.min(minPlayersPerGame, placeToRace.getPlayers() - minFreeSlots);
+			pTarget = random.nextInt(pMax - pMin + 1) + pMin;
+			
+			while(gamePlayers.size() < pTarget)
 			{
 				if(allPlayers.size() == 0)
 					break;
@@ -956,7 +976,9 @@ public abstract class Planner
 			placeholderValues.put("i", StringUtil.toString(count + 1, 1));
 
 			game = planGame(title, creator, placeToRace, gamePlayers, rules, tags, creatorParticipation, placeholderValues);
-
+			if(ex != null)
+				game.setException(ex);
+			
 			games.add(game);
 			count++;
 		}

@@ -5,18 +5,21 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
-public class GenericListModel<K, V> implements ListModel<V>
+public class GenericListModel<K, V> implements ListModel<V>, FilterModel<V>
 {
 	private List<ListDataListener>	listDataListeners;
 
 	private Class<V>				valueClass;
 	private TreeMap<K, V>			entries;
 	private V[]						entryArray;
+
+	private Function<V, Boolean>	filter;
 
 	public GenericListModel(Class<V> valueClass, Map<K, V> entries)
 	{
@@ -31,6 +34,7 @@ public class GenericListModel<K, V> implements ListModel<V>
 	{
 		this.listDataListeners.add(l);
 	}
+
 	public void addElement(K k, V v)
 	{
 		this.entries.put(k, v);
@@ -90,12 +94,32 @@ public class GenericListModel<K, V> implements ListModel<V>
 	@SuppressWarnings("unchecked")
 	private void mapToArray()
 	{
-		this.entryArray = (V[]) Array.newInstance(valueClass, entries.size());
+		List<V> tmp = new LinkedList<V>(entries.values());
+		if(this.filter != null)
+			tmp.removeIf(v -> !this.filter.apply(v));
+		
+		this.entryArray = tmp.toArray((V[]) Array.newInstance(valueClass, tmp.size()));
+	}	
 
-		int i = 0;
-		for(V v : entries.values())
-		{
-			entryArray[i++] = v;
-		}
+	public Function<V, Boolean> getFilter()
+	{
+		return filter;
+	}
+
+	public void setFilter(Function<V, Boolean> filter)
+	{
+		this.filter = filter;
+		refresh();
+	}
+
+	/**
+	 * Refresh this model and recreate the internal entryArray for example if the filter changed
+	 */
+	public void refresh()
+	{
+		// recreate array based on the filter set
+		mapToArray();
+		// fire listeners to update view
+		fireListeners();
 	}
 }

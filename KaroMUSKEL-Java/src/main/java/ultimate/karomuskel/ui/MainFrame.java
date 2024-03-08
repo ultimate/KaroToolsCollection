@@ -118,7 +118,7 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	public void setScreen(Screen screen, EnumNavigation direction)
 	{
-		screen.updateBeforeShow(this.gameSeries, direction);
+		Screen.Message message = screen.updateBeforeShow(this.gameSeries, direction);
 		this.currentScreen = screen;
 		this.screenPanel.removeAll();
 		this.screenPanel.add(screen);
@@ -127,19 +127,22 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 		this.previousButton.setText(Language.getString("navigation.previous"));
 		this.nextButton.setText(Language.getString(screen.getNextKey()));
 		repaint();
+		if(message != null)
+			notify(message);
 	}
 
 	public boolean confirm(String messageKey)
 	{
 		if(messageKey == null)
 			return true;
-		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey, Screen.totalWidth * 2 / 3), Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey, Screen.totalWidth * 2 / 3),
+				Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if(result == JOptionPane.OK_OPTION)
 			return true;
 		return false;
 	}
 
-	public void notify(GameSeriesException e, int type)
+	private void notify(String text, int type)
 	{
 		String titleKey;
 		switch(type)
@@ -159,7 +162,20 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 				break;
 		}
 
-		JOptionPane.showMessageDialog(this, Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification()), Language.getString(titleKey), type);
+		JOptionPane.showMessageDialog(this, text, Language.getString(titleKey), type);
+	}
+
+	public void notify(Screen.Message message)
+	{
+		if(message == null)
+			return;
+		notify(message.text, message.type);
+	}
+
+	public void notify(GameSeriesException e, int type)
+	{
+		String message = Language.getString(e.getMessage(), e.getValue()) + (e.getSpecification() == null ? "" : "\n -> " + e.getSpecification());
+		notify(message, type);
 	}
 
 	private void navigate(EnumNavigation direction)
@@ -214,7 +230,8 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 	private void addTitle(JComponent component, String titleKey, int outersize, int innersize)
 	{
 		Border b = BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(outersize, outersize, outersize, outersize),
-				BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(Language.getString(titleKey)), BorderFactory.createEmptyBorder(innersize, innersize, innersize, innersize)));
+				BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(Language.getString(titleKey)),
+						BorderFactory.createEmptyBorder(innersize, innersize, innersize, innersize)));
 		component.setBorder(b);
 	}
 

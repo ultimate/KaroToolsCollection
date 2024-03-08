@@ -1,6 +1,7 @@
 package ultimate.karomuskel.ui;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -222,6 +223,25 @@ public abstract class Language
 		{
 			return label;
 		}
-	}
 
+		@Override
+		public int hashCode()
+		{
+			return Objects.hash(label, value);
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if(this == obj)
+				return true;
+			if(obj == null)
+				return false;
+			if(getClass() != obj.getClass())
+				return false;
+			@SuppressWarnings("rawtypes")
+			Label other = (Label) obj;
+			return Objects.equals(label, other.label) && Objects.equals(value, other.value);
+		}
+	}
 }

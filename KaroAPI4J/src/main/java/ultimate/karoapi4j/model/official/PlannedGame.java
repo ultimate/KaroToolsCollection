@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.enums.EnumGameStatus;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.JSONUtil.ToIDArrayConverter;
@@ -60,6 +61,12 @@ public class PlannedGame
 	// additional temporary properties (not serialized at all)
 	@JsonIgnore
 	private java.util.Map<String, String>	placeHolderValues;
+
+	// additional temporary properties (not serialized at all) for the KaroMUSKEL or useful for game creation
+	@JsonIgnore
+	private EnumGameStatus					status;
+	@JsonIgnore
+	private Throwable						exception;
 
 	public PlannedGame()
 	{
@@ -196,5 +203,37 @@ public class PlannedGame
 	public void setPlaceHolderValues(java.util.Map<String, String> placeHolderValues)
 	{
 		this.placeHolderValues = placeHolderValues;
+	}
+
+	public EnumGameStatus getStatus()
+	{
+		return status;
+	}
+
+	public void setStatus(EnumGameStatus status)
+	{
+		this.status = status;
+	}
+
+	public Throwable getException()
+	{
+		return exception;
+	}
+
+	public void setException(Throwable exception)
+	{
+		this.exception = exception;
+	}
+	
+	@JsonIgnore
+	public boolean hasException()
+	{
+		return this.exception != null;
+	}
+	
+	@JsonIgnore
+	public void clearException()
+	{
+		this.exception = null;
 	}
 }

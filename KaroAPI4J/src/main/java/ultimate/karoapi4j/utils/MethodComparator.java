@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 /**
  * Comparator, der zwei Objekte anhand einer bestimmten Methode vergleicht. Die
- * Methode wird dabei über ihren Namen angegeben. Durch eine Zusätzliche
+ * Methode wird dabei ueber ihren Namen angegeben. Durch eine zusaetzliche
  * Orientierung kann zwischen auf- und absteigend gewechselt werden.
  * 
  * @author ultimate
@@ -15,26 +15,26 @@ import java.util.Comparator;
 public class MethodComparator<T> implements Comparator<T>
 {
 	/**
-	 * Orientierung für aufsteigende Sortierung
+	 * Orientierung fuer aufsteigende Sortierung
 	 * 
 	 * @see CollectionsUtil#ASCENDING
 	 */
 	public static final int	ASCENDING	= CollectionsUtil.ASCENDING;
 	/**
-	 * Orientierung für absteigende Sortierung
+	 * Orientierung fuer absteigende Sortierung
 	 * 
 	 * @see CollectionsUtil#DESCENDING
 	 */
 	public static final int	DESCENDING	= CollectionsUtil.DESCENDING;
 
 	/**
-	 * Name der Methode für den Vergleich
+	 * Name der Methode fuer den Vergleich
 	 */
 	private String			methodName;
 	/**
 	 * Die Orientierung.
 	 * Es sind ASCENDING und DESCENDING empfehlenswert, es sind jedoch auch
-	 * andere Faktoren möglich. 0 ist nicht möglich, da sonst das Ergebnis immer
+	 * andere Faktoren moelich. 0 ist nicht moeglich, da sonst das Ergebnis immer
 	 * 0 ist.
 	 * 
 	 * @see CollectionsUtil#ASCENDING
@@ -45,7 +45,7 @@ public class MethodComparator<T> implements Comparator<T>
 	/**
 	 * Erstellt einen neuen Comparator mit Methodenname und Orientierung
 	 * 
-	 * @param methodName - Name der Methode für den Vergleich
+	 * @param methodName - Name der Methode fuer den Vergleich
 	 * @param orientation - die Orientierung
 	 */
 	public MethodComparator(String methodName, int orientation)
@@ -58,7 +58,7 @@ public class MethodComparator<T> implements Comparator<T>
 
 	/**
 	 * Vergleicht die zwei gegebenen Objekte anhand der definierten Methode. Die
-	 * Objekte selbst dürfen nicht null sein, der Rückgabewert der Methode
+	 * Objekte selbst duerfen nicht null sein, der Rueckgabewert der Methode
 	 * dagegen darf null sein.
 	 */
 	@SuppressWarnings("unchecked")

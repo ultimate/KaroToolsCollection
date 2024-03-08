@@ -164,6 +164,8 @@ public interface PlaceToRace
 			}
 		}
 	}
+	
+	public String getName();
 
 	public boolean isNight();
 

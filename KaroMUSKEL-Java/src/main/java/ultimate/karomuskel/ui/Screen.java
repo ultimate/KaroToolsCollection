@@ -107,8 +107,24 @@ public abstract class Screen extends JPanel
 		return null;
 	}
 
-	public abstract void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction);
+	/**
+	 * Update the screen before showing it.
+	 * The method may optionally return a String message to show. If null is returned no message is shown.
+	 * 
+	 * @param gameSeries
+	 * @param direction
+	 * @return
+	 */
+	public abstract Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction);
 
+	/**
+	 * Apply the settings from this screen to the gameseries before changing the screen
+	 * 
+	 * @param gameSeries
+	 * @param direction
+	 * @return
+	 * @throws GameSeriesException
+	 */
 	public abstract GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException;
 
 	/**
@@ -157,5 +173,18 @@ public abstract class Screen extends JPanel
 		if(size == null || imageIcon.getIconHeight() == size)
 			return imageIcon;
 		return new ImageIcon(imageIcon.getImage().getScaledInstance(size, size, Image.SCALE_SMOOTH));
+	}
+
+	public class Message
+	{
+		public String	text;
+		public int		type;
+
+		public Message(String text, int type)
+		{
+			super();
+			this.text = text;
+			this.type = type;
+		}
 	}
 }

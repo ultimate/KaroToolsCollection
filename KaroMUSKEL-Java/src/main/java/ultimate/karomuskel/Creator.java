@@ -64,6 +64,12 @@ public class Creator
 		}).thenAcceptAsync(v -> {
 			if(consumer != null)
 				consumer.accept(plannedGame);
+		}).exceptionally(ex -> {
+			logger.error("error creating game", ex);
+			plannedGame.setException(ex);
+			if(consumer != null)
+				consumer.accept(plannedGame);
+			return null;
 		});
 	}
 
@@ -123,6 +129,12 @@ public class Creator
 		}).thenAcceptAsync(v -> {
 			if(consumer != null)
 				consumer.accept(plannedGame);
+		}).exceptionally(ex -> {
+			logger.error("error creating game", ex);
+			plannedGame.setException(ex);
+			if(consumer != null)
+				consumer.accept(plannedGame);
+			return null;
 		});
 	}
 

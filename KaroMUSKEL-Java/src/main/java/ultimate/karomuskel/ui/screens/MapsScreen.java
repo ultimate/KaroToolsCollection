@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -35,22 +35,20 @@ import ultimate.karomuskel.ui.components.GenericListModel;
 import ultimate.karomuskel.ui.components.PlaceToRaceRenderer;
 import ultimate.karomuskel.ui.dialog.GeneratorDialog;
 
-public class MapsScreen extends Screen implements ActionListener, MouseListener
+public class MapsScreen extends FilterScreen<PlaceToRace> implements ActionListener, MouseListener
 {
-	private static final long					serialVersionUID	= 1L;
+	private static final long	serialVersionUID	= 1L;
 
-	private JList<PlaceToRace>					allMapsLI;
-	private JList<PlaceToRace>					selectedMapsLI;
-	private JButton								addButton;
-	private JButton								removeButton;
+	private JList<PlaceToRace>	allMapsLI;
+	private JList<PlaceToRace>	selectedMapsLI;
+	private JButton				addButton;
+	private JButton				removeButton;
 
-	private int									minSupportedPlayersPerMap;
+	private int					minSupportedPlayersPerMap;
 
 	public MapsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header");
-
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	}
 
 	@Override
@@ -74,27 +72,34 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 	}
 
 	@Override
-	public void updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
+	public Message updateBeforeShow(GameSeries gameSeries, EnumNavigation direction)
 	{
+		Message message = null;
+
 		int minSupportedPlayersPerMapTmp = GameSeriesManager.getMinSupportedPlayersPerMap(gameSeries);
 
-		if(this.minSupportedPlayersPerMap != minSupportedPlayersPerMapTmp)
+		if(this.firstShow)
 		{
-			this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
+			// initialize search
 
-			this.removeAll();
-			
+			this.addTextFilter("screen.maps.filter.name", ptr -> ptr.getName(), true);
+			this.addNumberFilter("screen.maps.filter.players.min", ptr -> ptr.getPlayers(), NumberFilterMode.gteq, 0, 0, 999);
+			this.addNumberFilter("screen.maps.filter.players.max", ptr -> ptr.getPlayers(), NumberFilterMode.lteq, 999, 0, 999);
+			this.addBooleanFilter("screen.maps.filter.night", ptr -> ptr.isNight());
+			this.nextFilterLine();
+
+			// initialize content
 			JPanel allMapsPanel = new JPanel();
 			allMapsPanel.setLayout(new BorderLayout(5, 5));
-			this.add(allMapsPanel);
+			this.getContentPanel().add(allMapsPanel);
 
 			JPanel buttonPanel = new JPanel();
 			buttonPanel.setLayout(new GridBagLayout());
-			this.add(buttonPanel);
+			this.getContentPanel().add(buttonPanel);
 
 			JPanel selectedMapsPanel = new JPanel();
 			selectedMapsPanel.setLayout(new BorderLayout(5, 5));
-			this.add(selectedMapsPanel);
+			this.getContentPanel().add(selectedMapsPanel);
 
 			this.allMapsLI = new JList<>();
 			this.allMapsLI.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -142,28 +147,77 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 				return null;
 			}));
 			this.selectedMapsLI.addMouseListener(this);
-			JScrollPane selectedMapsSP = new JScrollPane(this.selectedMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			JScrollPane selectedMapsSP = new JScrollPane(this.selectedMapsLI, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 			selectedMapsPanel.add(new JLabel(Language.getString("screen.maps.selectedmaps")), BorderLayout.NORTH);
 			selectedMapsPanel.add(selectedMapsSP, BorderLayout.CENTER);
 
 			java.util.Map<String, PlaceToRace> maps = this.karoAPICache.getPlacesToRaceByKey();
 			maps.values().removeIf(map -> {
-				return map.getPlayersMax() < this.minSupportedPlayersPerMap;
+				return map.getPlayersMax() < minSupportedPlayersPerMapTmp;
 			});
 
-			this.allMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, maps));
-			this.selectedMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, new TreeMap<String, PlaceToRace>()));
-		}
+			// create a model for filtering
+			GenericListModel<String, PlaceToRace> model = new GenericListModel<String, PlaceToRace>(PlaceToRace.class, maps);
+			this.setModel(model);
 
-		if(this.firstShow)
-		{
+			this.allMapsLI.setModel(model);
+			this.selectedMapsLI.setModel(new GenericListModel<String, PlaceToRace>(PlaceToRace.class, new TreeMap<String, PlaceToRace>()));
+
 			// preselect values from gameseries
 			for(PlaceToRace map : gameSeries.getMaps())
 				preselectMap(map);
 		}
 
+		if(!firstShow && minSupportedPlayersPerMapTmp != this.minSupportedPlayersPerMap)
+		{
+			if(minSupportedPlayersPerMapTmp > this.minSupportedPlayersPerMap)
+			{
+				logger.debug("removing all maps which do not have enough places anymore");
+
+				// remove all maps which do not have enough places from allMapsLI
+				GenericListModel<String, PlaceToRace> allModel = (GenericListModel<String, PlaceToRace>) this.allMapsLI.getModel();
+				for(PlaceToRace map : allModel.getEntryArray())
+				{
+					if(map.getPlayersMax() < minSupportedPlayersPerMapTmp)
+						allModel.removeElement(karoAPICache.getPlaceToRaceKey(map));
+				}
+
+				// remove all maps which do not have enough places from selectedMapsLI
+				GenericListModel<String, PlaceToRace> selectedModel = (GenericListModel<String, PlaceToRace>) this.selectedMapsLI.getModel();
+				for(PlaceToRace map : selectedModel.getEntryArray())
+				{
+					if(map.getPlayersMax() < minSupportedPlayersPerMapTmp)
+						selectedModel.removeElement(karoAPICache.getPlaceToRaceKey(map));
+				}
+
+				message = new Message(Language.getString("screen.maps.minPlayers.increased"), JOptionPane.WARNING_MESSAGE);
+			}
+			else
+			{
+				logger.debug("adding new maps which now have enough places");
+
+				// get all maps which didn't have enough places before
+				java.util.Map<String, PlaceToRace> maps = this.karoAPICache.getPlacesToRaceByKey();
+				maps.values().removeIf(map -> {
+					return map.getPlayersMax() < minSupportedPlayersPerMapTmp || map.getPlayersMax() >= this.minSupportedPlayersPerMap;
+				});
+
+				// add these maps to the allMapLI
+				GenericListModel<String, PlaceToRace> allModel = (GenericListModel<String, PlaceToRace>) this.allMapsLI.getModel();
+				for(Entry<String, PlaceToRace> entry : maps.entrySet())
+				{
+					allModel.addElement(entry.getKey(), entry.getValue());
+				}
+				message = new Message(Language.getString("screen.maps.minPlayers.decreased"), JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+
+		this.minSupportedPlayersPerMap = minSupportedPlayersPerMapTmp;
 		this.firstShow = false;
+
+		return message;
 	}
 
 	private void preselectMap(PlaceToRace map)
@@ -175,7 +229,6 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 		{
 			logger.warn("entry not present in list: " + key + " -> adding");
 			((GenericListModel<String, PlaceToRace>) allMapsLI.getModel()).addElement(key, map);
-			allMapsLI.setModel(allMapsLI.getModel());
 		}
 		// select map, then add
 		allMapsLI.setSelectedValue(map, false);
@@ -200,7 +253,7 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 				addLI = allMapsLI;
 				remLI = selectedMapsLI;
 			}
-			
+
 			List<PlaceToRace> maps = remLI.getSelectedValuesList();
 			String key;
 			for(PlaceToRace m : maps)
@@ -216,10 +269,11 @@ public class MapsScreen extends Screen implements ActionListener, MouseListener
 				((GenericListModel<String, PlaceToRace>) remLI.getModel()).removeElement(key);
 				((GenericListModel<String, PlaceToRace>) addLI.getModel()).addElement(key, m);
 			}
-			
-			// make sure to shift selection after removing items so we don't end up with index out of bounds on next action
+
+			// make sure to shift selection after removing items so we don't end up with
+			// index out of bounds on next action
 			UIUtil.fixSelection(remLI);
-			
+
 			repaint();
 		}
 	}

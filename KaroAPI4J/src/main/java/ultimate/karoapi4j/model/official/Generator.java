@@ -131,6 +131,7 @@ public class Generator extends Identifiable implements PlaceToRace
 		this.key = key;
 	}
 
+	@Override
 	public String getName()
 	{
 		return name;
@@ -207,6 +208,7 @@ public class Generator extends Identifiable implements PlaceToRace
 	}
 
 	@JsonIgnore
+	@Override
 	public boolean isNight()
 	{
 		String key = "night";
@@ -238,6 +240,7 @@ public class Generator extends Identifiable implements PlaceToRace
 	}
 
 	@JsonIgnore
+	@Override
 	public int getPlayers()
 	{
 		String key = "players";

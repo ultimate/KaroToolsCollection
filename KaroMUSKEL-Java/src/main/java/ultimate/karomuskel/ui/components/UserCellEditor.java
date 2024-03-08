@@ -90,7 +90,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 	{
 		this.users = (Collection<User>) value;
-		this.game = model.getRow(row);
+		this.game = model.getGame(row);
 		this.button.setText(userCollectionToString((Collection<User>) value));
 		return this.button;
 	}
@@ -125,12 +125,12 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			{
 				if(this.chooser.users.size() >= map.getPlayers())
 				{
-					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.maplimit").replace("%N", "" + map.getPlayers()), Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.playeredit.maplimit", map.getPlayers()), Language.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					break;
 				}
 				this.chooser.notSelectedUsers.remove(u);
 				this.chooser.users.add(u);
-				CollectionsUtil.sortAscending(this.chooser.users, "getLoginLowerCase");
+//				CollectionsUtil.sortAscending(this.chooser.users, "getLoginLowerCase"); // keep the original order
 			}
 			this.chooser.fireContentChanged();
 		}
@@ -142,7 +142,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			{
 				if(u.equals(karoAPICache.getCurrentUser()))
 				{
-					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.useredit.creatorremove"), Language.getString("screen.summary.useredit.errortitle"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.gui, Language.getString("screen.summary.playeredit.creatorremove"), Language.getString("screen.summary.playeredit.errortitle"), JOptionPane.ERROR_MESSAGE);
 					continue;
 				}
 				this.chooser.users.remove(u);
@@ -312,6 +312,7 @@ public class UserCellEditor extends AbstractCellEditor implements TableCellEdito
 			this.notSelectedUsers.clear();
 			this.notSelectedUsers.addAll(allUsers);
 			this.notSelectedUsers.removeAll(this.users);
+			CollectionsUtil.sortAscending(this.notSelectedUsers, "getLoginLowerCase");
 
 			this.fireContentChanged();
 		}

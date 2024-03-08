@@ -277,7 +277,7 @@ public abstract class GameSeriesManager
 			case KLC:
 				return (gs.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? 2 : 3);
 			case Simple:
-				return (int) gs.get(GameSeries.MIN_PLAYERS_PER_GAME);
+				return (int) gs.get(GameSeries.MIN_PLAYERS_PER_GAME) + (int) gs.get(GameSeries.MIN_FREE_SLOTS);
 			case Balanced:
 			default:
 				return 0;
