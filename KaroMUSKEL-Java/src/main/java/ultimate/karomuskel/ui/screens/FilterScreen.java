@@ -2,6 +2,8 @@ package ultimate.karomuskel.ui.screens;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
@@ -35,6 +37,7 @@ public abstract class FilterScreen<V> extends Screen
 
 	private Dimension					labelSize			= new Dimension(100, 20);
 	private Dimension					spacerSize			= new Dimension(10, 20);
+	private GridBagConstraints			filterGBC;
 
 	private JPanel						filterPanel;
 	private JPanel						contentPanel;
@@ -42,6 +45,7 @@ public abstract class FilterScreen<V> extends Screen
 	private List<Function<V, Boolean>>	filters;
 
 	private FilterModel<V>				model;
+	
 	
 	public enum NumberFilterMode
 	{
@@ -57,17 +61,25 @@ public abstract class FilterScreen<V> extends Screen
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.maps.header");
 
 		this.setLayout(new BorderLayout(5, 5));
-
-		this.filterPanel = new JPanel();
-		this.filterPanel.setLayout(new BoxLayout(this.filterPanel, BoxLayout.X_AXIS));
-		this.add(this.filterPanel, BorderLayout.NORTH);
+		
+		JPanel outerFilterPanel = new JPanel();
+		outerFilterPanel.setLayout(new BoxLayout(outerFilterPanel, BoxLayout.X_AXIS));
 
 		JLabel label = new JLabel(Language.getString("screen.filter"));
 		label.setPreferredSize(this.labelSize);
 		label.setMaximumSize(this.labelSize);
-		this.filterPanel.add(label);
+		outerFilterPanel.add(label);
 
-		// TODO support multiple lines for the filters
+		this.filterPanel = new JPanel();
+		this.filterPanel.setLayout(new GridBagLayout());
+		outerFilterPanel.add(this.filterPanel);
+		
+		this.filterGBC = new GridBagConstraints();
+		this.filterGBC.gridy = 0;
+		this.filterGBC.fill = GridBagConstraints.HORIZONTAL;
+		this.filterGBC.anchor = GridBagConstraints.LINE_START;
+		
+		this.add(outerFilterPanel, BorderLayout.NORTH);
 
 		this.contentPanel = new JPanel();
 		this.contentPanel.setLayout(new BoxLayout(this.contentPanel, BoxLayout.X_AXIS));
@@ -127,7 +139,7 @@ public abstract class FilterScreen<V> extends Screen
 	 */
 	protected void addTextFilter(String labelKey, Function<V, String> valueExtractor, boolean multiSearch)
 	{
-		JTextField component = new JTextField();
+		JTextField component = new JTextField(10);
 		component.getDocument().addDocumentListener(new DocumentChangeListener(component));
 		Function<V, Boolean> filter = item -> {
 			String haystack = valueExtractor.apply(item).toLowerCase();
@@ -230,6 +242,16 @@ public abstract class FilterScreen<V> extends Screen
 		this.addFilter(labelKey, component, filter);		
 	}
 	
+	protected void nextFilterLine()
+	{
+		this.filterGBC.weightx = 1;
+		this.filterGBC.gridx = 99;
+		this.filterPanel.add(Box.createRigidArea(this.spacerSize), this.filterGBC);
+		this.filterGBC.weightx = 0;
+		this.filterGBC.gridx = GridBagConstraints.RELATIVE;
+		this.filterGBC.gridy++;
+	}
+	
 	
 	/**
 	 * Add a component and a matching filter to this {@link Screen}
@@ -240,9 +262,9 @@ public abstract class FilterScreen<V> extends Screen
 	 */
 	private void addFilter(String labelKey, JComponent component, Function<V, Boolean> filter)
 	{
-		this.filterPanel.add(Box.createRigidArea(this.spacerSize));
-		this.filterPanel.add(new JLabel(Language.getString(labelKey) + ": "));
-		this.filterPanel.add(component);
+		this.filterPanel.add(new JLabel(Language.getString(labelKey) + ": "), this.filterGBC);
+		this.filterPanel.add(component, this.filterGBC);
+		this.filterPanel.add(Box.createRigidArea(this.spacerSize), this.filterGBC);
 		this.filters.add(filter);
 	}
 

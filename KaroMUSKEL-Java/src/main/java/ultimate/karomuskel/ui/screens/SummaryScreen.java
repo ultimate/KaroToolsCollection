@@ -180,11 +180,13 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 			this.addTextFilter("screen.summary.filter.tags", game -> game.getTags().toString(), true);
 			this.addTextFilter("screen.summary.filter.map", game -> game.getMap().toString(), true);
 			this.addTextFilter("screen.summary.filter.players", game -> game.getPlayers().toString(), true);
+			this.nextFilterLine();
 			this.addNumberFilter("screen.summary.filter.zzz.min", game -> game.getOptions().getZzz(), NumberFilterMode.gteq, 0, 0, 999);
 			this.addNumberFilter("screen.summary.filter.zzz.max", game -> game.getOptions().getZzz(), NumberFilterMode.lteq, 999, 0, 999);
 			this.addEnumFilter("screen.summary.filter.crashallowed", game -> game.getOptions().getCrashallowed(), EnumGameTC.class);
 			this.addBooleanFilter("screen.summary.filter.checkpoints", game -> game.getOptions().isCps());
 			this.addEnumFilter("screen.summary.filter.direction", game -> game.getOptions().getStartdirection(), EnumGameDirection.class);
+			this.nextFilterLine();
 			this.addBooleanFilter("screen.summary.filter.toBeCreated", game -> (gamesToCreate.contains(game) || game.isCreated()));
 			this.addBooleanFilter("screen.summary.filter.toBeLeft", game -> (gamesToLeave.contains(game) || game.isLeft()));
 			this.addEnumFilter("screen.summary.filter.status", game -> game.getStatus(), EnumGameStatus.class);

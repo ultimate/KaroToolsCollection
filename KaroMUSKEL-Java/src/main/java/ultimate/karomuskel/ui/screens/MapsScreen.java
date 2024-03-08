@@ -86,6 +86,7 @@ public class MapsScreen extends FilterScreen<PlaceToRace> implements ActionListe
 			this.addNumberFilter("screen.maps.filter.players.min", ptr -> ptr.getPlayers(), NumberFilterMode.gteq, 0, 0, 999);
 			this.addNumberFilter("screen.maps.filter.players.max", ptr -> ptr.getPlayers(), NumberFilterMode.lteq, 999, 0, 999);
 			this.addBooleanFilter("screen.maps.filter.night", ptr -> ptr.isNight());
+			this.nextFilterLine();
 
 			// initialize content
 			JPanel allMapsPanel = new JPanel();
