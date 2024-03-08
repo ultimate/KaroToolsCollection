@@ -11,7 +11,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class StartPositionRuleTest extends KaroRAUPETestcase
 {	
-	private StartPositionRule rule = new StartPositionRule();
+	private StartPositionRule rule = new StartPositionRule(karoAPI);
 
 	@Test
 	public void test_evaluate()

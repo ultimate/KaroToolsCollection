@@ -26,7 +26,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class FollowPlanRuleTest extends KaroRAUPETestcase
 {	
-	private FollowPlanRule rule = new FollowPlanRule();
+	private FollowPlanRule rule = new FollowPlanRule(karoAPI);
 
 	private static void move(List<Move> moves, int xv, int yv)
 	{

@@ -18,6 +18,7 @@ import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoraupe.enums.EnumMoveTrigger;
 import ultimate.karoraupe.rules.AfterCrashRule;
+import ultimate.karoraupe.rules.AntiAddictRule;
 import ultimate.karoraupe.rules.EnabledRule;
 import ultimate.karoraupe.rules.FinishedRule;
 import ultimate.karoraupe.rules.FollowPlanRule;
@@ -124,19 +125,20 @@ public class Mover
 		this.supportedProperties.put(KEY_STRICT, boolean.class);
 
 		this.rules = new LinkedList<>();
-		this.rules.add(new EnabledRule());
-		this.rules.add(new FinishedRule());
-		this.rules.add(new UserTurnRule());
-		this.rules.add(new StartPositionRule());
-		this.rules.add(new AfterCrashRule());
-		this.rules.add(new TimeoutRule());
-		this.rules.add(new MessageRule());
-		this.rules.add(new NoPossiblesRule());
-		this.rules.add(new RemuladeRule());
-		this.rules.add(new SingleOptionRule());
-		this.rules.add(new FollowPlanRule()); // the most important rule!!!
-		this.rules.add(new RepeatRule());
-		this.rules.add(new RandomRule());
+		this.rules.add(new EnabledRule(this.api));
+		this.rules.add(new FinishedRule(this.api));
+		this.rules.add(new UserTurnRule(this.api));
+		this.rules.add(new StartPositionRule(this.api));
+		this.rules.add(new NoPossiblesRule(this.api));
+		this.rules.add(new AfterCrashRule(this.api));
+		this.rules.add(new TimeoutRule(this.api));
+		this.rules.add(new AntiAddictRule(this.api));
+		this.rules.add(new MessageRule(this.api));
+		this.rules.add(new RemuladeRule(this.api));
+		this.rules.add(new SingleOptionRule(this.api));
+		this.rules.add(new FollowPlanRule(this.api)); // the most important rule!!!
+		this.rules.add(new RepeatRule(this.api));
+		this.rules.add(new RandomRule(this.api));
 
 		this.globalConfig = new Properties(defaultConfig);
 		if(config != null)

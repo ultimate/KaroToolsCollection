@@ -30,7 +30,7 @@ import ultimate.karoraupe.test.KaroRAUPETestcase;
 
 public class RemuladeRuleTest extends KaroRAUPETestcase
 {	
-	private RemuladeRule rule = new RemuladeRule();
+	private RemuladeRule rule = new RemuladeRule(karoAPI);
 
 	public static Stream<Arguments> provideTitlesAndTags()
 	{

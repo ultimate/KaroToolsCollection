@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Set;
 
+import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
@@ -14,8 +15,9 @@ public class RemuladeRule extends Rule
 	public static final String			KEY_SPECIAL_REMULADE				= Mover.KEY_PREFIX + ".remulade";
 	public static final String			KEY_SPECIAL_REMULADE_MESSAGE		= KEY_SPECIAL_REMULADE + ".message";
 
-    public RemuladeRule()
+    public RemuladeRule(KaroAPI api)
     {
+    	super(api);
         this.supportedProperties.put(KEY_SPECIAL_REMULADE, boolean.class);
         this.supportedProperties.put(KEY_SPECIAL_REMULADE_MESSAGE, String.class);
     }
