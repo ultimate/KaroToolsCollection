@@ -45,7 +45,7 @@ public class MethodComparator<T> implements Comparator<T>
 	/**
 	 * Erstellt einen neuen Comparator mit Methodenname und Orientierung
 	 * 
-	 * @param methodName - Name der Methode f�r den Vergleich
+	 * @param methodName - Name der Methode fuer den Vergleich
 	 * @param orientation - die Orientierung
 	 */
 	public MethodComparator(String methodName, int orientation)
