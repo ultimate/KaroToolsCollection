@@ -138,6 +138,58 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		return array;
 	}
 	
+	public static boolean isRoad(char c)
+	{
+		return "SOF123456789".indexOf(c) != -1;
+	}
+	
+//	public static int PATTERN_CHECKBOX = 0b101010101;
+//	public static int PATTERN_EDGE_BR  = 0b000001011;
+	
+	public static boolean isCheckBoard(char[][] map, int x, int y)
+	{
+		if(x <= 0 || y <= 0)
+			return false;
+		if(x >= map[0].length - 1 || y >= map.length - 1)
+			return false;
+		
+		boolean centerIsRoad = isRoad(map[y][x]);
+		
+		// @formatter:off
+		return isRoad(map[y-1][x-1]) == centerIsRoad
+			&& isRoad(map[y-1][x  ]) == !centerIsRoad
+			&& isRoad(map[y-1][x+1]) == centerIsRoad
+			&& isRoad(map[y  ][x-1]) == !centerIsRoad
+			&& isRoad(map[y  ][x-0]) == centerIsRoad
+			&& isRoad(map[y  ][x+1]) == !centerIsRoad
+			&& isRoad(map[y+1][x-1]) == centerIsRoad
+			&& isRoad(map[y+1][x-0]) == !centerIsRoad
+			&& isRoad(map[y+1][x+1]) == centerIsRoad;
+		// @formatter:on
+	}
+	
+	// TODO partial checkboards
+	
+	public static boolean isEdgeBR(char[][] map, int x, int y)
+	{
+		if(x <= 0 || y <= 0)
+			return false;
+		if(x >= map[0].length - 1 || y >= map.length - 1)
+			return false;
+		
+		// @formatter:off
+		return isRoad(map[y-1][x-1]) == false
+			&& isRoad(map[y-1][x  ]) == false
+			&& isRoad(map[y-1][x+1]) == false
+			&& isRoad(map[y  ][x-1]) == false
+			&& isRoad(map[y  ][x-0]) == false
+			&& isRoad(map[y  ][x+1]) == true
+			&& isRoad(map[y+1][x-1]) == false
+			&& isRoad(map[y+1][x-0]) == true
+			&& isRoad(map[y+1][x+1]) == true;
+		// @formatter:on
+	}
+	
 	public static void printMatrix(double[][] matrix)
 	{
 		System.out.println(matrix[0][0] + "\t" + matrix[0][1] + "\t" + matrix[0][2]);
@@ -145,7 +197,7 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		System.out.println(matrix[2][0] + "\t" + matrix[2][1] + "\t" + matrix[2][2]);
 	}
 
-	public static char[][] transform(char[][] original, double[][] matrix)
+	public static char[][] transform(char[][] original, double[][] matrix, boolean smartScale)
 	{
 //		System.out.println("matrix = ");
 //		printMatrix(matrix);
@@ -159,20 +211,51 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		int newSizeY = (int) (matrix[1][0] * oldSizeX + matrix[1][1] * oldSizeY);
 		
 		char[][] scaled = new char[newSizeY][];
-		
+
+		double originXd, originYd;
 		int originX, originY;
+		double xd, yd;
 		for(int y = 0; y < newSizeY; y++)
 		{
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
-				originX = (int)(inv[0][0] * x + inv[0][1] * y + inv[0][2]);
-				originY = (int)(inv[1][0] * x + inv[1][1] * y + inv[1][2]);
+				originXd = (inv[0][0] * x + inv[0][1] * y + inv[0][2]);
+				originYd = (inv[1][0] * x + inv[1][1] * y + inv[1][2]);
+				originX = (int)(originXd);
+				originY = (int)(originYd);
+				
+				xd = originXd - originX;
+				yd = originYd - originY;
 				
 				originX = Math.min(Math.max(0,  originX), oldSizeX);
 				originY = Math.min(Math.max(0,  originY), oldSizeY);
 				
-				scaled[y][x] = original[originY][originX];
+				if(smartScale)
+				{
+					if(isCheckBoard(original, originX, originY))
+					{
+						if((x+y)%2 == (originY+originX)%2)
+							scaled[y][x] = original[originY][originX];
+						else
+							scaled[y][x] = original[originY-1][originX];
+					}
+					else if(isEdgeBR(original, originX, originY))
+					{
+						if(xd + yd > 1)
+							scaled[y][x] = original[originY+1][originX+1];
+						else
+							scaled[y][x] = original[originY][originX];
+					}
+					else
+					{
+						scaled[y][x] = original[originY][originX];
+					}
+				}
+				else
+				{
+					scaled[y][x] = original[originY][originX];
+				}	
 			}
 		}
 		return scaled;
@@ -257,7 +340,8 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 
 	private JTextField		scaleTF;
 	private JSlider		scaleSlider;
-	private Canvas		canvas;
+	private Canvas		canvas1;
+	private Canvas		canvas2;
 	private JTextArea	codeArea;
 
 	public MapTransformer(String mapCode)
@@ -265,17 +349,25 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		scaleTF = new JTextField("1.0");
 		scaleTF.setEditable(false);
 		scaleSlider = new JSlider(1, 100, 10);
-		canvas = new Canvas();
+		canvas1 = new Canvas();
+		canvas2 = new Canvas();
 		codeArea = new JTextArea(mapCode);
 		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
 		this.getContentPane().setLayout(new BorderLayout());
+		
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 		topPanel.add(scaleSlider);
 		topPanel.add(scaleTF);
 		this.getContentPane().add(topPanel, BorderLayout.NORTH);
-		this.getContentPane().add(canvas, BorderLayout.CENTER);
+
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.X_AXIS));
+		centerPanel.add(canvas1);
+		centerPanel.add(canvas2);
+		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
+		
 		this.getContentPane().add(codeArea, BorderLayout.SOUTH);
 
 		codeArea.getDocument().addDocumentListener(this);
@@ -298,15 +390,27 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 
 		char[][] original = toArray(mapCode);
 
-		char[][] scaled = transform(original, matrix);
+		char[][] scaled1 = transform(original, matrix, false);
 
-		Graphics g = canvas.getGraphics();
-		g.clearRect(0, 0, 10000, 10000);
-		for(int y = 0; y < scaled.length; y++)
+		Graphics g1 = canvas1.getGraphics();
+		g1.clearRect(0, 0, 10000, 10000);
+		for(int y = 0; y < scaled1.length; y++)
 		{
-			for(int x = 0; x < scaled[y].length; x++)
+			for(int x = 0; x < scaled1[y].length; x++)
 			{
-				drawKaro(g, x, y, scaled[y][x]);
+				drawKaro(g1, x, y, scaled1[y][x]);
+			}
+		}
+
+		char[][] scaled2 = transform(original, matrix, true);
+
+		Graphics g2 = canvas2.getGraphics();
+		g2.clearRect(0, 0, 10000, 10000);
+		for(int y = 0; y < scaled2.length; y++)
+		{
+			for(int x = 0; x < scaled2[y].length; x++)
+			{
+				drawKaro(g2, x, y, scaled2[y][x]);
 			}
 		}
 	}
