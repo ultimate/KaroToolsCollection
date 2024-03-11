@@ -5,8 +5,19 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -18,8 +29,13 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class MapTransformer extends JFrame implements DocumentListener, ChangeListener
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.model.official.Map;
+import ultimate.karoapi4j.utils.PropertiesUtil;
+
+public class MapTransformer extends JFrame implements DocumentListener, ChangeListener, ActionListener, ComponentListener
 {
+	private static final long serialVersionUID = 1L;
 	// @formatter:off
 	public static final String MAP_1  = "PXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"+
 										"PXXXXOOOOOOOFSOOOOOOOOOOOOOOOOOOOOOO1OOOOOOOOOOOOOOOXXXXXXXX\n"+
@@ -73,12 +89,16 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 	public static final int DRAW_SCALE = 9;
 	// @formatter:on
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
-		MapTransformer frame = new MapTransformer(MAP_28);
+		Properties properties = PropertiesUtil.loadProperties(new File(args[0]));
+		KaroAPI api = new KaroAPI(properties.getProperty("karoAPI.user"), properties.getProperty("karoAPI.password"));
+
+		MapTransformer frame = new MapTransformer(api);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		new Thread() {
-			public void run() {
+			public void run()
+			{
 				try
 				{
 					Thread.sleep(100);
@@ -131,30 +151,36 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 	{
 		String[] lines = mapCode.split(LINE_SEPARATOR);
 		char[][] array = new char[lines.length][];
+		
+		int lineLength = lines[0].length(); 
 
 		for(int i = 0; i < lines.length; i++)
+		{
+			while(lines[i].length() < lineLength)
+				lines[i] += "L";
 			array[i] = lines[i].toCharArray();
+		}
 
 		return array;
 	}
-	
+
 	public static boolean isRoad(char c)
 	{
 		return "SOF123456789".indexOf(c) != -1;
 	}
-	
-//	public static int PATTERN_CHECKBOX = 0b101010101;
-//	public static int PATTERN_EDGE_BR  = 0b000001011;
-	
+
+	// public static int PATTERN_CHECKBOX = 0b101010101;
+	// public static int PATTERN_EDGE_BR = 0b000001011;
+
 	public static boolean isCheckBoard(char[][] map, int x, int y)
 	{
 		if(x <= 0 || y <= 0)
 			return false;
 		if(x >= map[0].length - 1 || y >= map.length - 1)
 			return false;
-		
+
 		boolean centerIsRoad = isRoad(map[y][x]);
-		
+
 		// @formatter:off
 		return isRoad(map[y-1][x-1]) == centerIsRoad
 			&& isRoad(map[y-1][x  ]) == !centerIsRoad
@@ -167,16 +193,16 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 			&& isRoad(map[y+1][x+1]) == centerIsRoad;
 		// @formatter:on
 	}
-	
+
 	// TODO partial checkboards
-	
+
 	public static boolean isEdgeBR(char[][] map, int x, int y)
 	{
 		if(x <= 0 || y <= 0)
 			return false;
 		if(x >= map[0].length - 1 || y >= map.length - 1)
 			return false;
-		
+
 		// @formatter:off
 		return isRoad(map[y-1][x-1]) == false
 			&& isRoad(map[y-1][x  ]) == false
@@ -189,7 +215,7 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 			&& isRoad(map[y+1][x+1]) == true;
 		// @formatter:on
 	}
-	
+
 	public static void printMatrix(double[][] matrix)
 	{
 		System.out.println(matrix[0][0] + "\t" + matrix[0][1] + "\t" + matrix[0][2]);
@@ -199,17 +225,17 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 
 	public static char[][] transform(char[][] original, double[][] matrix, boolean smartScale)
 	{
-//		System.out.println("matrix = ");
-//		printMatrix(matrix);
+		// System.out.println("matrix = ");
+		// printMatrix(matrix);
 		double[][] inv = invertMatrix(matrix);
-//		System.out.println("inv = ");
-//		printMatrix(inv);
-		
+		// System.out.println("inv = ");
+		// printMatrix(inv);
+
 		int oldSizeY = original.length;
-		int oldSizeX = original[oldSizeY-1].length;
+		int oldSizeX = original[0].length;
 		int newSizeX = (int) (matrix[0][0] * oldSizeX + matrix[0][1] * oldSizeY);
 		int newSizeY = (int) (matrix[1][0] * oldSizeX + matrix[1][1] * oldSizeY);
-		
+
 		char[][] scaled = new char[newSizeY][];
 
 		double originXd, originYd;
@@ -222,28 +248,28 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 			{
 				originXd = (inv[0][0] * x + inv[0][1] * y + inv[0][2]);
 				originYd = (inv[1][0] * x + inv[1][1] * y + inv[1][2]);
-				originX = (int)(originXd);
-				originY = (int)(originYd);
-				
+				originX = (int) (originXd);
+				originY = (int) (originYd);
+
 				xd = originXd - originX;
 				yd = originYd - originY;
-				
-				originX = Math.min(Math.max(0,  originX), oldSizeX);
-				originY = Math.min(Math.max(0,  originY), oldSizeY);
-				
+
+				originX = Math.min(Math.max(0, originX), oldSizeX);
+				originY = Math.min(Math.max(0, originY), oldSizeY);
+
 				if(smartScale)
 				{
 					if(isCheckBoard(original, originX, originY))
 					{
-						if((x+y)%2 == (originY+originX)%2)
+						if((x + y) % 2 == (originY + originX) % 2)
 							scaled[y][x] = original[originY][originX];
 						else
-							scaled[y][x] = original[originY-1][originX];
+							scaled[y][x] = original[originY - 1][originX];
 					}
 					else if(isEdgeBR(original, originX, originY))
 					{
 						if(xd + yd > 1)
-							scaled[y][x] = original[originY+1][originX+1];
+							scaled[y][x] = original[originY + 1][originX + 1];
 						else
 							scaled[y][x] = original[originY][originX];
 					}
@@ -255,7 +281,7 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 				else
 				{
 					scaled[y][x] = original[originY][originX];
-				}	
+				}
 			}
 		}
 		return scaled;
@@ -338,26 +364,30 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		g.fillRect(x * DRAW_SCALE + 3 * DRAW_SCALE / 4, y * DRAW_SCALE + 3 * DRAW_SCALE / 4, DRAW_SCALE / 4, DRAW_SCALE / 4);
 	}
 
+	private JComboBox<Map>	mapCB;
 	private JTextField		scaleTF;
-	private JSlider		scaleSlider;
-	private Canvas		canvas1;
-	private Canvas		canvas2;
-	private JTextArea	codeArea;
+	private JSlider			scaleSlider;
+	private Canvas			canvas1;
+	private Canvas			canvas2;
+	private JTextArea		codeArea;
 
-	public MapTransformer(String mapCode)
-	{ 
+	public MapTransformer(KaroAPI api) throws InterruptedException, ExecutionException
+	{
+		List<Map> maps = api.getMaps(true).get();
+		mapCB = new JComboBox<>(new DefaultComboBoxModel<Map>(maps.toArray(new Map[0])));
 		scaleTF = new JTextField("1.0");
 		scaleTF.setEditable(false);
 		scaleSlider = new JSlider(1, 100, 10);
 		canvas1 = new Canvas();
 		canvas2 = new Canvas();
-		codeArea = new JTextArea(mapCode);
+		codeArea = new JTextArea("");
 		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
 		this.getContentPane().setLayout(new BorderLayout());
-		
+
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
+		topPanel.add(mapCB);
 		topPanel.add(scaleSlider);
 		topPanel.add(scaleTF);
 		this.getContentPane().add(topPanel, BorderLayout.NORTH);
@@ -367,14 +397,17 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		centerPanel.add(canvas1);
 		centerPanel.add(canvas2);
 		this.getContentPane().add(centerPanel, BorderLayout.CENTER);
-		
+
 		this.getContentPane().add(codeArea, BorderLayout.SOUTH);
 
+		mapCB.addActionListener(this);
 		codeArea.getDocument().addDocumentListener(this);
 		scaleSlider.addChangeListener(this);
-
+		this.addComponentListener(this);
+		
 		this.setSize(1920, 1080);
 		this.setVisible(true);
+		mapCB.setSelectedIndex(26);
 		this.requestFocus();
 	}
 
@@ -383,7 +416,7 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 		String mapCode = codeArea.getText();
 
 		double scale = scaleSlider.getValue() / 10.0;
-		
+
 		System.out.println(scale);
 
 		double[][] matrix = createScaleMatrix(scale);
@@ -438,5 +471,33 @@ public class MapTransformer extends JFrame implements DocumentListener, ChangeLi
 	public void changedUpdate(DocumentEvent e)
 	{
 		redraw();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		codeArea.setText(((Map) mapCB.getSelectedItem()).getCode());
+		redraw();
+	}
+
+	@Override
+	public void componentResized(ComponentEvent e)
+	{
+//		redraw();
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e)
+	{
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e)
+	{
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e)
+	{
 	}
 }
