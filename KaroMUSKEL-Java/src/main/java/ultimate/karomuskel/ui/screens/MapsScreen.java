@@ -61,7 +61,7 @@ public class MapsScreen extends FilterScreen<PlaceToRace> implements ActionListe
 	public GameSeries applySettings(GameSeries gameSeries, EnumNavigation direction) throws GameSeriesException
 	{
 		PlaceToRace[] maps = ((GenericListModel<String, PlaceToRace>) selectedMapsLI.getModel()).getEntryArray();
-		if(maps.length == 0)
+		if(direction == EnumNavigation.next && maps.length == 0)
 			throw new GameSeriesException("screen.maps.nomap");
 		gameSeries.getMaps().clear();
 		for(PlaceToRace map : maps)
