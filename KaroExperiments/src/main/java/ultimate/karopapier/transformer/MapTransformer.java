@@ -229,7 +229,7 @@ public class MapTransformer
 
 		char[][] scaled = new char[newSizeY][];
 
-		double originXd, originYd;
+		Point2D.Double origin;
 		int originX, originY;
 		double xd, yd;
 		for(int y = 0; y < newSizeY; y++)
@@ -237,17 +237,12 @@ public class MapTransformer
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
-				// TODO use applyMatrix
-				originXd = (inv[0][0] * x + inv[0][1] * y + inv[0][2]);
-				originYd = (inv[1][0] * x + inv[1][1] * y + inv[1][2]);
-				originX = (int) (originXd);
-				originY = (int) (originYd);
+				origin = applyMatrix(inv, new Point2D.Double(x,y));
+				originX = (int) (origin.x);
+				originY = (int) (origin.y);
 
-				xd = originXd - originX;
-				yd = originYd - originY;
-
-				originX = Math.min(Math.max(0, originX), oldSizeX);
-				originY = Math.min(Math.max(0, originY), oldSizeY);
+				xd = origin.x - originX;
+				yd = origin.y - originY;
 
 				if(smartScale)
 				{
