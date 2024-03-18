@@ -192,7 +192,7 @@ public class PlayersScreen extends FilterScreen<User> implements ActionListener
 		{
 			// initialize search
 			this.addTextFilter("screen.players.filter.loginOrId", user -> user.getId() + ":" + user.getLogin(), true);
-			this.addNumberFilter("screen.players.filter.freeGames", user -> (user.getMaxGames() <= 0 ? Integer.MAX_VALUE : user.getMaxGames() - user.getActiveGames()), NumberFilterMode.gteq, 0, 0, 999);
+			this.addNumberFilter("screen.players.filter.freeGames", user -> (user.getMaxGames() <= 0 ? Integer.MAX_VALUE : Math.max(0, user.getMaxGames() - user.getActiveGames())), NumberFilterMode.gteq, 0, 0, 999);
 			this.addBooleanFilter("screen.players.filter.nightGames", user -> user.isAcceptsNightGames());
 			this.nextFilterLine();
 			
