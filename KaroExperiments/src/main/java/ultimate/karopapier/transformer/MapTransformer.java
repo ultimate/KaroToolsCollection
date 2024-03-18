@@ -33,14 +33,49 @@ public class MapTransformer
 	// @formatter:on
 
 	// @formatter:off
-	public static double[][] createMatrix(double scale, int rotation)
+	public static double[][] createMatrix(double scale, int rotation, int mapWidth, int mapHeight)
 	{
-		// TODO
-		return new double[][] {
-			{ scale, 0, 0 },
-			{ 0, scale, 0 },
+		double sin = Math.sin(rotation * Math.PI / 180.0);
+		double cos = Math.cos(rotation * Math.PI / 180.0);
+		
+		double[][] matrix = new double[][] {
+			{ cos*scale, -sin*scale, 0 },
+			{ sin*scale, cos*scale, 0 },
 			{ 0, 0, 1 } 
 		};
+		
+		// compensate offset
+		double minX = 0;
+		double minY = 0;
+		double[][] corners = new double[][] {
+			{ 0, 0 },
+			{ 0, mapHeight },
+			{ mapWidth, 0 },
+			{ mapWidth, mapHeight }
+		};
+		for(double[] corner: corners)
+		{
+			double newX = matrix[0][0] * corner[0] + matrix[0][1] * corner[1] + matrix[0][2];
+			double newY = matrix[1][0] * corner[0] + matrix[1][1] * corner[1] + matrix[1][2];
+			
+			System.out.println(corner[0] + "|" + corner[1] + " -> " + newX + "|" + newY);
+			if(newX < minX )
+				minX = newX;
+			if(newY < minY )
+				minY = newY;
+		}
+		matrix[0][2] = -minX;
+		matrix[1][2] = -minY;
+		
+		for(double[] corner: corners)
+		{
+			double newX = matrix[0][0] * corner[0] + matrix[0][1] * corner[1] + matrix[0][2];
+			double newY = matrix[1][0] * corner[0] + matrix[1][1] * corner[1] + matrix[1][2];
+			
+			System.out.println(corner[0] + "|" + corner[1] + " -> " + newX + "|" + newY);
+		}
+		
+		return matrix;
 	}
 	
 	public static double[][] invertMatrix(double[][] matrix)
@@ -139,6 +174,20 @@ public class MapTransformer
 		System.out.println(matrix[1][0] + "\t" + matrix[1][1] + "\t" + matrix[1][2]);
 		System.out.println(matrix[2][0] + "\t" + matrix[2][1] + "\t" + matrix[2][2]);
 	}
+	
+	private static char getValue(char[][] map, int x, int y)
+	{
+		if(y < 0)
+			y = 0;
+		else if(y >= map.length)
+			y = map.length-1;
+		if(x < 0)
+			x = 0;
+		else if(x >= map[y].length)
+			x = map[y].length-1;
+		
+		return map[y][x];
+	}
 
 	public static char[][] transform(char[][] original, double[][] matrix, boolean smartScale)
 	{
@@ -150,8 +199,29 @@ public class MapTransformer
 
 		int oldSizeY = original.length;
 		int oldSizeX = original[0].length;
-		int newSizeX = (int) (matrix[0][0] * oldSizeX + matrix[0][1] * oldSizeY);
-		int newSizeY = (int) (matrix[1][0] * oldSizeX + matrix[1][1] * oldSizeY);
+		
+		// calculate new size
+		double maxX = 0;
+		double maxY = 0;
+		double[][] corners = new double[][] {
+			{ 0, 0 },
+			{ 0, oldSizeY },
+			{ oldSizeX, 0 },
+			{ oldSizeX, oldSizeY }
+		};
+		for(double[] corner: corners)
+		{
+			double newX = matrix[0][0] * corner[0] + matrix[0][1] * corner[1] + matrix[0][2];
+			double newY = matrix[1][0] * corner[0] + matrix[1][1] * corner[1] + matrix[1][2];
+			
+			System.out.println(corner[0] + "|" + corner[1] + " -> " + newX + "|" + newY);
+			if(newX > maxX )
+				maxX = newX;
+			if(newY > maxY )
+				maxY = newY;
+		}
+		int newSizeX = (int) Math.ceil(maxX); 
+		int newSizeY = (int) Math.ceil(maxY);
 
 		char[][] scaled = new char[newSizeY][];
 
@@ -181,25 +251,25 @@ public class MapTransformer
 					if(isCheckBoard(original, originX, originY))
 					{
 						if((x + y) % 2 == (originY + originX) % 2)
-							scaled[y][x] = original[originY][originX];
+							scaled[y][x] = getValue(original, originX, originY);
 						else
-							scaled[y][x] = original[originY - 1][originX];
+							scaled[y][x] = getValue(original, originX, originY - 1);
 					}
 					else if(isEdgeBR(original, originX, originY))
 					{
 						if(xd + yd > 1)
-							scaled[y][x] = original[originY + 1][originX + 1];
+							scaled[y][x] = getValue(original, originX + 1, originY + 1);
 						else
-							scaled[y][x] = original[originY][originX];
+							scaled[y][x] = getValue(original, originX, originY);
 					}
 					else
 					{
-						scaled[y][x] = original[originY][originX];
+						scaled[y][x] = getValue(original, originX, originY);
 					}
 				}
 				else
 				{
-					scaled[y][x] = original[originY][originX];
+					scaled[y][x] = getValue(original, originX, originY);
 				}
 			}
 		}

@@ -90,7 +90,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		this.getContentPane().add(scaleTF);
 
 		// rotation
-		rotationLabel = new JLabel("Rotation:");
+		rotationLabel = new JLabel("Rotation (CCW):");
 		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 2, COL, ROW);
 		this.getContentPane().add(rotationLabel);
 		rotationSlider = new JSlider(0, 360, 0);
@@ -167,9 +167,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 		// System.out.println("scale = " + scale + "\trotation=" + rotation);
 
-		double[][] matrix = MapTransformer.createMatrix(scale, rotation);
-
 		char[][] original = MapTransformer.toArray(mapCode);
+
+		double[][] matrix = MapTransformer.createMatrix(scale, rotation, original[0].length, original.length);
 
 		char[][] scaled1 = MapTransformer.transform(original, matrix, false);
 		
@@ -211,6 +211,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			case 'S':
 				g.setColor(Color.GRAY);
 				break;
+			case 'P':
+				g.setColor(Color.LIGHT_GRAY);
+				break;
 			case 'F':
 				g.setColor(Color.WHITE);
 				break;
@@ -224,10 +227,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				break;
 			case '5':
 			case '6':
+			case 'G':
 				g.setColor(Color.YELLOW);
 				break;
 			case '7':
 			case '8':
+			case 'L':
 				g.setColor(Color.RED);
 				break;
 			case '9':
@@ -239,9 +244,6 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 		switch(c)
 		{
-			case 'X':
-			case 'O':
-				return;
 			case 'S':
 				g.setColor(Color.BLACK);
 				g.fillRect(x * drawSize + drawSize / 3, y * drawSize + drawSize / 3, drawSize / 3, drawSize / 3);
@@ -260,6 +262,10 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			case '8':
 				g.setColor(Color.WHITE);
 				break;
+			case 'X':
+			case 'O':
+			default:
+				return;
 		}
 
 		g.fillRect(x * drawSize, y * drawSize, drawSize / 4, drawSize / 4);
