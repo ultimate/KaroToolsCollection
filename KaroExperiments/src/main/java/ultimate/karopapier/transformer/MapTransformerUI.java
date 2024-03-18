@@ -1,12 +1,9 @@
 package ultimate.karopapier.transformer;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -18,12 +15,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
@@ -46,7 +41,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private static final int	ROW					= 30;
 	private static final int	COL					= 100;
 
-	public static final int		DRAW_SCALE			= 9;
+	private JLabel				drawSizeLabel;
+	private JSlider				drawSizeSlider;
+	private JTextField			drawSizeTF;
 
 	private JLabel				scaleLabel;
 	private JSlider				scaleSlider;
@@ -66,29 +63,42 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	{
 		this.getContentPane().setLayout(null);
 
+		// draw size
+		drawSizeLabel = new JLabel("Draw Size:");
+		drawSizeLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 0, COL, ROW);
+		this.getContentPane().add(drawSizeLabel);
+		drawSizeSlider = new JSlider(1, 20, 9);
+		drawSizeSlider.setBounds(GAP * 2 + COL * 1, GAP * 1 + ROW * 0, 2 * COL, ROW);
+		drawSizeSlider.addChangeListener(this);
+		this.getContentPane().add(drawSizeSlider);
+		drawSizeTF = new JTextField(drawSizeSlider.getValue() + " Pixel/Karo");
+		drawSizeTF.setBounds(GAP * 3 + COL * 3, GAP * 1 + ROW * 0, COL, ROW);
+		drawSizeTF.setEditable(false);
+		this.getContentPane().add(drawSizeTF);
+
 		// scaling
 		scaleLabel = new JLabel("Scale:");
-		scaleLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 0, COL, ROW);
+		scaleLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 1, COL, ROW);
 		this.getContentPane().add(scaleLabel);
 		scaleSlider = new JSlider(1, 100, 10);
-		scaleSlider.setBounds(GAP * 2 + COL * 1, GAP * 1 + ROW * 0, 2 * COL, ROW);
+		scaleSlider.setBounds(GAP * 2 + COL * 1, GAP * 1 + ROW * 1, 2 * COL, ROW);
 		scaleSlider.addChangeListener(this);
 		this.getContentPane().add(scaleSlider);
-		scaleTF = new JTextField("1.0");
-		scaleTF.setBounds(GAP * 3 + COL * 3, GAP * 1 + ROW * 0, COL, ROW);
+		scaleTF = new JTextField(scaleSlider.getValue() / 10.0 + "");
+		scaleTF.setBounds(GAP * 3 + COL * 3, GAP * 1 + ROW * 1, COL, ROW);
 		scaleTF.setEditable(false);
 		this.getContentPane().add(scaleTF);
 
 		// rotation
 		rotationLabel = new JLabel("Rotation:");
-		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 1, COL, ROW);
+		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 2, COL, ROW);
 		this.getContentPane().add(rotationLabel);
 		rotationSlider = new JSlider(0, 360, 0);
-		rotationSlider.setBounds(GAP * 2 + COL * 1, GAP * 2 + ROW * 1, 2 * COL, ROW);
+		rotationSlider.setBounds(GAP * 2 + COL * 1, GAP * 2 + ROW * 2, 2 * COL, ROW);
 		rotationSlider.addChangeListener(this);
 		this.getContentPane().add(rotationSlider);
-		rotationTF = new JTextField("0 deg");
-		rotationTF.setBounds(GAP * 3 + COL * 3, GAP * 2 + ROW * 1, COL, ROW);
+		rotationTF = new JTextField(rotationSlider.getValue() + " deg");
+		rotationTF.setBounds(GAP * 3 + COL * 3, GAP * 2 + ROW * 2, COL, ROW);
 		rotationTF.setEditable(false);
 		this.getContentPane().add(rotationTF);
 
@@ -96,7 +106,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		DefaultComboBoxModel<Map> model = new DefaultComboBoxModel<Map>(maps.toArray(new Map[0]));
 		mapCB = new JComboBox<>(model);
 		mapCB.addActionListener(this);
-		mapCB.setBounds(GAP * 1 + COL * 0, GAP * 3 + ROW * 2, 4 * COL + 2 * GAP, ROW);
+		mapCB.setBounds(GAP * 1 + COL * 0, GAP * 3 + ROW * 3, 4 * COL + 2 * GAP, ROW);
 		this.getContentPane().add(mapCB);
 
 		// code
@@ -104,7 +114,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		codeArea.getDocument().addDocumentListener(this);
 		JScrollPane scroll = new JScrollPane(codeArea);
-		scroll.setBounds(GAP * 1 + COL * 0, GAP * 4 + ROW * 3, 4 * COL + 2 * GAP, ROW * 20);
+		scroll.setBounds(GAP * 1 + COL * 0, GAP * 4 + ROW * 4, 4 * COL + 2 * GAP, ROW * 20);
 		this.getContentPane().add(scroll);
 
 		// canvases
@@ -162,6 +172,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		char[][] original = MapTransformer.toArray(mapCode);
 
 		char[][] scaled1 = MapTransformer.transform(original, matrix, false);
+		
+		int drawSize = drawSizeSlider.getValue();
 
 		Graphics g1 = canvas1.getGraphics();
 		g1.clearRect(0, 0, 10000, 10000);
@@ -169,7 +181,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		{
 			for(int x = 0; x < scaled1[y].length; x++)
 			{
-				drawKaro(g1, x, y, scaled1[y][x]);
+				drawKaro(g1, x, y, scaled1[y][x], drawSize);
 			}
 		}
 
@@ -181,12 +193,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		{
 			for(int x = 0; x < scaled2[y].length; x++)
 			{
-				drawKaro(g2, x, y, scaled2[y][x]);
+				drawKaro(g2, x, y, scaled2[y][x], drawSize);
 			}
 		}
 	}
 
-	private void drawKaro(Graphics g, int x, int y, char c)
+	private void drawKaro(Graphics g, int x, int y, char c, int drawSize)
 	{
 		switch(c)
 		{
@@ -223,7 +235,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				break;
 		}
 
-		g.fillRect(x * DRAW_SCALE, y * DRAW_SCALE, DRAW_SCALE, DRAW_SCALE);
+		g.fillRect(x * drawSize, y * drawSize, drawSize, drawSize);
 
 		switch(c)
 		{
@@ -232,7 +244,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				return;
 			case 'S':
 				g.setColor(Color.BLACK);
-				g.fillRect(x * DRAW_SCALE + DRAW_SCALE / 3, y * DRAW_SCALE + DRAW_SCALE / 3, DRAW_SCALE / 3, DRAW_SCALE / 3);
+				g.fillRect(x * drawSize + drawSize / 3, y * drawSize + drawSize / 3, drawSize / 3, drawSize / 3);
 				return;
 			case 'F':
 			case '1':
@@ -250,22 +262,23 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				break;
 		}
 
-		g.fillRect(x * DRAW_SCALE, y * DRAW_SCALE, DRAW_SCALE / 4, DRAW_SCALE / 4);
-		g.fillRect(x * DRAW_SCALE + DRAW_SCALE / 2, y * DRAW_SCALE, DRAW_SCALE / 4, DRAW_SCALE / 4);
+		g.fillRect(x * drawSize, y * drawSize, drawSize / 4, drawSize / 4);
+		g.fillRect(x * drawSize + drawSize / 2, y * drawSize, drawSize / 4, drawSize / 4);
 
-		g.fillRect(x * DRAW_SCALE + DRAW_SCALE / 4, y * DRAW_SCALE + DRAW_SCALE / 4, DRAW_SCALE / 4, DRAW_SCALE / 4);
-		g.fillRect(x * DRAW_SCALE + 3 * DRAW_SCALE / 4, y * DRAW_SCALE + DRAW_SCALE / 4, DRAW_SCALE / 4, DRAW_SCALE / 4);
+		g.fillRect(x * drawSize + drawSize / 4, y * drawSize + drawSize / 4, drawSize / 4, drawSize / 4);
+		g.fillRect(x * drawSize + 3 * drawSize / 4, y * drawSize + drawSize / 4, drawSize / 4, drawSize / 4);
 
-		g.fillRect(x * DRAW_SCALE, y * DRAW_SCALE + DRAW_SCALE / 2, DRAW_SCALE / 4, DRAW_SCALE / 4);
-		g.fillRect(x * DRAW_SCALE + DRAW_SCALE / 2, y * DRAW_SCALE + DRAW_SCALE / 2, DRAW_SCALE / 4, DRAW_SCALE / 4);
+		g.fillRect(x * drawSize, y * drawSize + drawSize / 2, drawSize / 4, drawSize / 4);
+		g.fillRect(x * drawSize + drawSize / 2, y * drawSize + drawSize / 2, drawSize / 4, drawSize / 4);
 
-		g.fillRect(x * DRAW_SCALE + DRAW_SCALE / 4, y * DRAW_SCALE + 3 * DRAW_SCALE / 4, DRAW_SCALE / 4, DRAW_SCALE / 4);
-		g.fillRect(x * DRAW_SCALE + 3 * DRAW_SCALE / 4, y * DRAW_SCALE + 3 * DRAW_SCALE / 4, DRAW_SCALE / 4, DRAW_SCALE / 4);
+		g.fillRect(x * drawSize + drawSize / 4, y * drawSize + 3 * drawSize / 4, drawSize / 4, drawSize / 4);
+		g.fillRect(x * drawSize + 3 * drawSize / 4, y * drawSize + 3 * drawSize / 4, drawSize / 4, drawSize / 4);
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
+		this.drawSizeTF.setText("" + this.drawSizeSlider.getValue() + " Pixel/Karo");
 		this.scaleTF.setText("" + (this.scaleSlider.getValue() / 10.0));
 		this.rotationTF.setText(this.rotationSlider.getValue() + " deg");
 		redraw();
