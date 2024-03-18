@@ -91,6 +91,7 @@ public abstract class Planner
 
 		User creator = gs.getCreator();
 		EnumCreatorParticipation creatorParticipation = gs.getCreatorParticipation();
+		boolean ignoreInvitable = gs.isIgnoreInvitable();
 
 		switch(gs.getType())
 		{
@@ -133,7 +134,7 @@ public abstract class Planner
 				minPlayersPerGame = (int) gs.get(GameSeries.MIN_PLAYERS_PER_GAME);
 				maxPlayersPerGame = (int) gs.get(GameSeries.MAX_PLAYERS_PER_GAME);
 				minFreeSlots = (int) gs.get(GameSeries.MIN_FREE_SLOTS);
-				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, numberOfGames, minPlayersPerGame, maxPlayersPerGame, minFreeSlots);
+				return planSeriesSimple(gs.getTitle(), creator, gs.getPlayers(), gs.getMaps(), gs.getRules(), gs.getTags(), creatorParticipation, numberOfGames, minPlayersPerGame, maxPlayersPerGame, minFreeSlots, ignoreInvitable);
 			default:
 				return null;
 		}
@@ -925,9 +926,10 @@ public abstract class Planner
 	 * @param minPlayersPerGame - the min number of {@link User}s per {@link PlannedGame}
 	 * @param maxPlayersPerGame - the max number of {@link User}s per {@link PlannedGame}
 	 * @param minFreeSlots - the min number of slots to keep free on the map
+	 * @param ignoreInvitable - ignore invitable for all players
 	 * @return the list of {@link PlannedGame}s
 	 */
-	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int minPlayersPerGame, int maxPlayersPerGame, int minFreeSlots)
+	public static List<PlannedGame> planSeriesSimple(String title, User creator, List<User> players, List<PlaceToRace> placesToRace, Rules rules, Set<String> tags, EnumCreatorParticipation creatorParticipation, int numberOfGames, int minPlayersPerGame, int maxPlayersPerGame, int minFreeSlots, boolean ignoreInvitable)
 	{
 		List<PlannedGame> games = new LinkedList<>();
 
@@ -968,7 +970,7 @@ public abstract class Planner
 				if(allPlayers.size() == 0)
 					break;
 				player = allPlayers.remove(random.nextInt(allPlayers.size()));
-				if(player.isInvitable(placeToRace.isNight()))
+				if(ignoreInvitable || player.isInvitable(placeToRace.isNight()))
 					gamePlayers.add(player);
 			}
 

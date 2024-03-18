@@ -436,7 +436,7 @@ public class PlannerTest extends KaroMUSKELTestcase
 
 		for(EnumCreatorParticipation creatorParticipation : EnumCreatorParticipation.values())
 		{
-			games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, maps, rules, null, creatorParticipation, numberOfGames, minNumberOfPlayersPerGame, maxNumberOfPlayersPerGame, minFreeSlots);
+			games = Planner.planSeriesSimple("test", dummyCache.getCurrentUser(), players, maps, rules, null, creatorParticipation, numberOfGames, minNumberOfPlayersPerGame, maxNumberOfPlayersPerGame, minFreeSlots, false);
 
 			assertNotNull(games);
 			assertEquals(numberOfGames, games.size());
