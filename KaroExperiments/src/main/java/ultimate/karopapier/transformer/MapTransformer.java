@@ -237,6 +237,7 @@ public class MapTransformer
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
+				// TODO use applyMatrix
 				originXd = (inv[0][0] * x + inv[0][1] * y + inv[0][2]);
 				originYd = (inv[1][0] * x + inv[1][1] * y + inv[1][2]);
 				originX = (int) (originXd);
