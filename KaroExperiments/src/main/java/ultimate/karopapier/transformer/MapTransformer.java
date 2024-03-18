@@ -1,5 +1,7 @@
 package ultimate.karopapier.transformer;
 
+import java.awt.geom.Point2D;
+
 public class MapTransformer
 {
 	// @formatter:off
@@ -45,37 +47,51 @@ public class MapTransformer
 		};
 		
 		// compensate offset
-		double minX = 0;
-		double minY = 0;
-		double[][] corners = new double[][] {
-			{ 0, 0 },
-			{ 0, mapHeight },
-			{ mapWidth, 0 },
-			{ mapWidth, mapHeight }
+		Point2D.Double[] transformedCorners = new Point2D.Double[] {
+			applyMatrix(matrix, new Point2D.Double( 0, 0 )),
+			applyMatrix(matrix, new Point2D.Double( 0, mapHeight )),
+			applyMatrix(matrix, new Point2D.Double( mapWidth, 0 )),
+			applyMatrix(matrix, new Point2D.Double( mapWidth, mapHeight))
 		};
-		for(double[] corner: corners)
-		{
-			double newX = matrix[0][0] * corner[0] + matrix[0][1] * corner[1] + matrix[0][2];
-			double newY = matrix[1][0] * corner[0] + matrix[1][1] * corner[1] + matrix[1][2];
-			
-			System.out.println(corner[0] + "|" + corner[1] + " -> " + newX + "|" + newY);
-			if(newX < minX )
-				minX = newX;
-			if(newY < minY )
-				minY = newY;
-		}
-		matrix[0][2] = -minX;
-		matrix[1][2] = -minY;
-		
-		for(double[] corner: corners)
-		{
-			double newX = matrix[0][0] * corner[0] + matrix[0][1] * corner[1] + matrix[0][2];
-			double newY = matrix[1][0] * corner[0] + matrix[1][1] * corner[1] + matrix[1][2];
-			
-			System.out.println(corner[0] + "|" + corner[1] + " -> " + newX + "|" + newY);
-		}
+		Point2D.Double min = min(transformedCorners);
+		matrix[0][2] = -min.x;
+		matrix[1][2] = -min.y;
 		
 		return matrix;
+	}
+	
+	public static Point2D.Double min(Point2D.Double... points)
+	{
+		Point2D.Double min = new Point2D.Double(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+		for(Point2D.Double p: points)
+		{
+			if(p.x < min.x)
+				min.x = p.x;
+			if(p.y < min.y)
+				min.y = p.y;
+		}
+		return min;
+	}
+	
+	public static Point2D.Double max(Point2D.Double... points)
+	{
+		Point2D.Double max = new Point2D.Double(0, 0);
+		for(Point2D.Double p: points)
+		{
+			if(p.x > max.x)
+				max.x = p.x;
+			if(p.y > max.y)
+				max.y = p.y;
+		}
+		return max;
+	}
+	
+	public static Point2D.Double applyMatrix(double[][] matrix, Point2D.Double point)
+	{
+		return new Point2D.Double(
+				matrix[0][0] * point.x + matrix[0][1] * point.y + matrix[0][2],
+				matrix[1][0] * point.x + matrix[1][1] * point.y + matrix[1][2]
+		);
 	}
 	
 	public static double[][] invertMatrix(double[][] matrix)
@@ -106,8 +122,8 @@ public class MapTransformer
 	{
 		String[] lines = mapCode.split(LINE_SEPARATOR);
 		char[][] array = new char[lines.length][];
-		
-		int lineLength = lines[0].length(); 
+
+		int lineLength = lines[0].length();
 
 		for(int i = 0; i < lines.length; i++)
 		{
@@ -174,18 +190,18 @@ public class MapTransformer
 		System.out.println(matrix[1][0] + "\t" + matrix[1][1] + "\t" + matrix[1][2]);
 		System.out.println(matrix[2][0] + "\t" + matrix[2][1] + "\t" + matrix[2][2]);
 	}
-	
+
 	private static char getValue(char[][] map, int x, int y)
 	{
 		if(y < 0)
 			y = 0;
 		else if(y >= map.length)
-			y = map.length-1;
+			y = map.length - 1;
 		if(x < 0)
 			x = 0;
 		else if(x >= map[y].length)
-			x = map[y].length-1;
-		
+			x = map[y].length - 1;
+
 		return map[y][x];
 	}
 
@@ -199,29 +215,17 @@ public class MapTransformer
 
 		int oldSizeY = original.length;
 		int oldSizeX = original[0].length;
-		
+
 		// calculate new size
-		double maxX = 0;
-		double maxY = 0;
-		double[][] corners = new double[][] {
-			{ 0, 0 },
-			{ 0, oldSizeY },
-			{ oldSizeX, 0 },
-			{ oldSizeX, oldSizeY }
+		Point2D.Double[] transformedCorners = new Point2D.Double[] {
+			applyMatrix(matrix, new Point2D.Double( 0, 0 )),
+			applyMatrix(matrix, new Point2D.Double( 0, oldSizeY )),
+			applyMatrix(matrix, new Point2D.Double( oldSizeX, 0 )),
+			applyMatrix(matrix, new Point2D.Double( oldSizeX, oldSizeY))
 		};
-		for(double[] corner: corners)
-		{
-			double newX = matrix[0][0] * corner[0] + matrix[0][1] * corner[1] + matrix[0][2];
-			double newY = matrix[1][0] * corner[0] + matrix[1][1] * corner[1] + matrix[1][2];
-			
-			System.out.println(corner[0] + "|" + corner[1] + " -> " + newX + "|" + newY);
-			if(newX > maxX )
-				maxX = newX;
-			if(newY > maxY )
-				maxY = newY;
-		}
-		int newSizeX = (int) Math.ceil(maxX); 
-		int newSizeY = (int) Math.ceil(maxY);
+		Point2D.Double max = max(transformedCorners);
+		int newSizeX = (int) Math.ceil(max.x);
+		int newSizeY = (int) Math.ceil(max.y);
 
 		char[][] scaled = new char[newSizeY][];
 
