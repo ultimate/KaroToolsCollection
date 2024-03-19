@@ -160,43 +160,54 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 	public void redraw()
 	{
-		String mapCode = codeArea.getText();
-
-		double scale = scaleSlider.getValue() / 10.0;
-		int rotation = rotationSlider.getValue();
-
-		// System.out.println("scale = " + scale + "\trotation=" + rotation);
-
-		char[][] original = MapTransformer.toArray(mapCode);
-
-		double[][] matrix = MapTransformer.createMatrix(scale, rotation, original[0].length, original.length);
-
-		char[][] scaled1 = MapTransformer.transform(original, matrix, false);
-		
-		int drawSize = drawSizeSlider.getValue();
-
-		Graphics g1 = canvas1.getGraphics();
-		g1.clearRect(0, 0, 10000, 10000);
-		for(int y = 0; y < scaled1.length; y++)
-		{
-			for(int x = 0; x < scaled1[y].length; x++)
+		try {
+			String mapCode = codeArea.getText();
+	
+			double scale = scaleSlider.getValue() / 10.0;
+			int rotation = rotationSlider.getValue();
+	
+			// System.out.println("scale = " + scale + "\trotation=" + rotation);
+	
+			char[][] original = MapTransformer.toArray(mapCode);
+			
+//			System.out.println("original = " + original[0].length + " x " + original.length);
+	
+			double[][] matrix = MapTransformer.createMatrix(scale, rotation, original[0].length, original.length);
+	
+			char[][] scaled1 = MapTransformer.transform(original, matrix, false);
+			
+			int drawSize = drawSizeSlider.getValue();
+	
+			Graphics g1 = canvas1.getGraphics();
+			g1.clearRect(0, 0, 10000, 10000);
+			for(int y = 0; y < scaled1.length; y++)
 			{
-				drawKaro(g1, x, y, scaled1[y][x], drawSize);
+				for(int x = 0; x < scaled1[y].length; x++)
+				{
+					drawKaro(g1, x, y, scaled1[y][x], drawSize);
+				}
+			}
+	
+			char[][] scaled2 = MapTransformer.transform(original, matrix, true);
+	
+			Graphics g2 = canvas2.getGraphics();
+			g2.clearRect(0, 0, 10000, 10000);
+			for(int y = 0; y < scaled2.length; y++)
+			{
+				for(int x = 0; x < scaled2[y].length; x++)
+				{
+					drawKaro(g2, x, y, scaled2[y][x], drawSize);
+				}
 			}
 		}
-
-		char[][] scaled2 = MapTransformer.transform(original, matrix, true);
-
-		Graphics g2 = canvas2.getGraphics();
-		g2.clearRect(0, 0, 10000, 10000);
-		for(int y = 0; y < scaled2.length; y++)
+		catch(Exception e)
 		{
-			for(int x = 0; x < scaled2[y].length; x++)
-			{
-				drawKaro(g2, x, y, scaled2[y][x], drawSize);
-			}
+			e.printStackTrace();
 		}
 	}
+	
+	private static Color SAND = new Color(228,230,127);
+	private static Color MUD = new Color(97,70,16);
 
 	private void drawKaro(Graphics g, int x, int y, char c, int drawSize)
 	{
@@ -219,6 +230,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				break;
 			case '1':
 			case '2':
+			case 'W':
 				g.setColor(Color.BLUE);
 				break;
 			case '3':
@@ -238,6 +250,14 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			case '9':
 				g.setColor(Color.PINK);
 				break;
+			case 'Y':
+				g.setColor(SAND);
+				break;
+			case 'Z':
+				g.setColor(MUD);
+				break;
+			default:
+				System.out.println("invalid char = '" + c + "'");
 		}
 
 		g.fillRect(x * drawSize, y * drawSize, drawSize, drawSize);

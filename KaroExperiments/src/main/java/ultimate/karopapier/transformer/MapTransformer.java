@@ -5,31 +5,23 @@ import java.awt.geom.Point2D;
 public class MapTransformer
 {
 	// @formatter:off
-	public static final String TEST_CODE  = "PXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"+
-											"PXXXXOOOOOOOFSOOOOOOOOOOOOOOOOOOOOOO1OOOOOOOOOOOOOOOXXXXXXXX\n"+
-											"PXXOOOOOOOOOFSOOOOOOOOOOOOOOOOOOOOO1O1OOOOOOOOOOOOOOOOOXXXXX\n"+
-											"PXOOOOOOOOOOFSOOOOOOOOOOOOOOOOOOOO1O1O1OOOOOOOOOOOOOOOOOOXXX\n"+
-											"PXOOOOOOOOOOFSOOOOOOOOOOOOOOOOOOO1O1O1O1OOOOOOOOOOOOOOOOOOOX\n"+
-											"XOOOOOOOOOOOFSOOOOOOOOOOOOOOOOOO1O1O1O1O1OOOOOOOOOOOOOOOOOOX\n"+
-											"XXOOOOOOOOXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOX\n"+
-											"XOOOOOOOXXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOXXXXXXXOOOOOOOOX\n"+
-											"XOOOOOOXXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOXXXXXXOOOOOOOXX\n"+
-											"X77777XXXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOOOOOOOOXXXOOOOOOOOXX\n"+
-											"XOOOOOXXXXXXXXXXXXXXXXXXXXXXXOOOOOOOOXXOOOOOOO33XXX2O2O2O2XX\n"+
-											"XOOOOOOXXXXXXXXXXXXXXXXXXXXXOOOOOOOOOXXXXXOO3333OXX2222222XX\n"+
-											"XOOOOOOOOXXXXXXXXXXXXXXXXXXXXOOOOOOOXXXXXXXX333OOOOOOOOOOXXX\n"+
-											"XOOOOOOOOXXXXXXXXXXXXXXXXXXXXX444444XXXXXXXXXOOOOOOOOOOOOXXX\n"+
-											"XXOOOOOOOOOXXXXXXXXXXXXXXXXXXXXOOOOOOXXXXXXXXOOOOOOOOOOOXXXX\n"+
-											"XXXOOOOOOO666XXXXXXXXXXXXXXXXXXXOOOOOOOXXXXXXXXOOOOOOOOXXXXX\n"+
-											"XXXOOOOOO66OOOOOOOOOOXXXXXXXXXXXXOOOOOOOXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXOOOOOO6OOOOOOOOOOOOOOXXXXXXXXOOOOOOOOXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXX6OOOOOOOOOOOOOOOOXXXOOOOOOOOOOOXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXXXXXXXXXOOOOOOOOOO555OOOOOOOOOOXXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXXXXXXXXXXXXOOOOOOO555OOOOOOOOXXXXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXXXXXXXXXXXXXXOOOOO555OOOOOOXXXXXXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXXXXXXXXXXXXXXXXXXO555OOOXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n"+
-											"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+	public static final String TEST_CODE  = "XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOO\n"+
+											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOO\n"+
+											"XYOYOYOYXYXOXYXYXYOOXOXOXOOOOXOOOOOO\n"+
+											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOO\n"+
+											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYOYXYXYXYOYXYXOOOOOXOOOOOOOXOOOO\n"+
+											"XYXYOOXYXYXYOOXYXYOOOOXXOOOOOOXXOOOO\n"+
+											"YXOOOOOXYXYOOOOOXYOOXXXXXOOOOXXXXXOO\n"+
+											"XYXOOOOOXYOOOOOXYXOOOXXXXXOOXXXXXOOO\n"+
+											"YXYXOOYXYXYXOOXYXYOOOOXXOOOOOOXXOOOO\n"+
+											"XYXYOYXYXYXYXOYXYXOOOOXOOOOOOOOXOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO";
 	
 	public static final String LINE_SEPARATOR = "\n";
 	// @formatter:on
@@ -135,55 +127,6 @@ public class MapTransformer
 		return array;
 	}
 
-	public static boolean isRoad(char c)
-	{
-		return "SOF123456789".indexOf(c) != -1;
-	}
-
-	public static boolean isCheckBoard(char[][] map, int x, int y)
-	{
-		if(x <= 0 || y <= 0)
-			return false;
-		if(x >= map[0].length - 1 || y >= map.length - 1)
-			return false;
-
-		boolean centerIsRoad = isRoad(map[y][x]);
-
-		// @formatter:off
-		return isRoad(map[y-1][x-1]) == centerIsRoad
-			&& isRoad(map[y-1][x  ]) == !centerIsRoad
-			&& isRoad(map[y-1][x+1]) == centerIsRoad
-			&& isRoad(map[y  ][x-1]) == !centerIsRoad
-			&& isRoad(map[y  ][x-0]) == centerIsRoad
-			&& isRoad(map[y  ][x+1]) == !centerIsRoad
-			&& isRoad(map[y+1][x-1]) == centerIsRoad
-			&& isRoad(map[y+1][x-0]) == !centerIsRoad
-			&& isRoad(map[y+1][x+1]) == centerIsRoad;
-		// @formatter:on
-	}
-
-	// TODO partial checkboards
-
-	public static boolean isEdgeBR(char[][] map, int x, int y)
-	{
-		if(x <= 0 || y <= 0)
-			return false;
-		if(x >= map[0].length - 1 || y >= map.length - 1)
-			return false;
-
-		// @formatter:off
-		return isRoad(map[y-1][x-1]) == false
-			&& isRoad(map[y-1][x  ]) == false
-			&& isRoad(map[y-1][x+1]) == false
-			&& isRoad(map[y  ][x-1]) == false
-			&& isRoad(map[y  ][x-0]) == false
-			&& isRoad(map[y  ][x+1]) == true
-			&& isRoad(map[y+1][x-1]) == false
-			&& isRoad(map[y+1][x-0]) == true
-			&& isRoad(map[y+1][x+1]) == true;
-		// @formatter:on
-	}
-
 	public static void printMatrix(double[][] matrix)
 	{
 		System.out.println(matrix[0][0] + "\t" + matrix[0][1] + "\t" + matrix[0][2]);
@@ -191,20 +134,124 @@ public class MapTransformer
 		System.out.println(matrix[2][0] + "\t" + matrix[2][1] + "\t" + matrix[2][2]);
 	}
 
-	private static char getValue(char[][] map, int x, int y)
+	public static void printMap(char[][] map)
 	{
-		if(y < 0)
-			y = 0;
-		else if(y >= map.length)
-			y = map.length - 1;
-		if(x < 0)
-			x = 0;
-		else if(x >= map[y].length)
-			x = map[y].length - 1;
-
-		return map[y][x];
+		for(char[] row: map)
+		{
+			if(row == null)
+			{
+				System.out.println("null");
+				continue;
+			}
+			for(char c: row)
+				System.out.print(c);
+			System.out.println();
+		}
 	}
 
+	public static boolean isRoad(char c)
+	{
+		return "SOF123456789".indexOf(c) != -1;
+	}
+
+	public static char getValue(char[][] map, int x, int y)
+	{
+		try
+		{
+			if(y < 0 || y >= map.length)
+				return 'X';
+			if(x < 0 || x >= map[y].length)
+				return 'X';
+			return map[y][x];
+		}
+		catch(NullPointerException e)
+		{
+			printMap(map);
+			return 'X';
+		}
+	}
+	
+	public static int getMask(char[][] map, int x, int y)
+	{
+		boolean centerIsRoad = isRoad(getValue(map, x, y));
+		int mask = 0;
+		mask += (isRoad(getValue(map, x-1, y-1)) == centerIsRoad ? 128 : 0);
+		mask += (isRoad(getValue(map, x+0, y-1)) == centerIsRoad ? 64 : 0);
+		mask += (isRoad(getValue(map, x+1, y-1)) == centerIsRoad ? 32 : 0);
+		mask += (isRoad(getValue(map, x+1, y+0)) == centerIsRoad ? 16 : 0);
+		mask += (isRoad(getValue(map, x+1, y+1)) == centerIsRoad ? 8 : 0);
+		mask += (isRoad(getValue(map, x+0, y+1)) == centerIsRoad ? 4 : 0);
+		mask += (isRoad(getValue(map, x-1, y+1)) == centerIsRoad ? 2 : 0);
+		mask += (isRoad(getValue(map, x-1, y+0)) == centerIsRoad ? 1 : 0);
+		return mask;
+	}
+	
+	public enum Corner
+	{
+		center,
+		northeast,
+		southeast,
+		southwest,
+		northwest
+	}
+	
+	public static Corner getCorner(double xd, double yd)
+	{
+		if(xd + yd >= 1.5)
+			return Corner.southeast;
+		if(xd + yd < 0.5)
+			return Corner.northwest;
+		if(xd - yd >= 0.5)
+			return Corner.northeast;
+		if(xd - yd < -0.5)
+			return Corner.southwest;
+		return Corner.center;
+	}
+	
+	public enum Zone
+	{
+		north,
+		east,
+		south,
+		west
+	}
+	
+	public static Zone getZone(double xd, double yd)
+	{
+		if(xd + yd > 1)
+			if(xd - yd > 0)
+				return Zone.east;
+			else
+				return Zone.south;
+		else
+			if(xd - yd > 0)
+				return Zone.north;
+			else
+				return Zone.west;
+	}
+	
+	public static char getNeighborValue(char[][] map, int x, int y, Zone zone)
+	{
+		if(zone == Zone.north)
+			return getValue(map, x + 0, y - 1);
+		if(zone == Zone.east)
+			return getValue(map, x + 1, y + 0);
+		if(zone == Zone.south)
+			return getValue(map, x + 0, y + 1);
+		if(zone == Zone.west)
+			return getValue(map, x - 1, y + 0);
+		return getValue(map, x, y);
+	}
+
+	public static char getCheckValue(char[][] map, int x, int y, int mod, Zone zone)
+	{
+//		System.out.println("x=" + x + ", y=" + y + ", mod=" + mod + ", zone=" + zone);
+		if(mod == (x + y) % 2)
+			return getValue(map, x, y);
+		else
+			return getNeighborValue(map, x, y, zone);
+	}
+	
 	public static char[][] transform(char[][] original, double[][] matrix, boolean smartScale)
 	{
 		// System.out.println("matrix = ");
@@ -231,7 +278,10 @@ public class MapTransformer
 
 		Point2D.Double origin;
 		int originX, originY;
-		double xd, yd;
+		int mask, mod;
+		Corner corner;
+		Zone zone;
+		char scaledValue, originCenterValue;
 		for(int y = 0; y < newSizeY; y++)
 		{
 			scaled[y] = new char[newSizeX];
@@ -240,39 +290,457 @@ public class MapTransformer
 				origin = applyMatrix(inv, new Point2D.Double(x,y));
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
+//				originX = (int) Math.round(origin.x);
+//				originY = (int) Math.round(origin.y);
 
-				xd = origin.x - originX;
-				yd = origin.y - originY;
+				corner = getCorner(origin.x - originX, origin.y - originY);
+				zone = getZone(origin.x - originX, origin.y - originY);
 
+				originCenterValue = getValue(original, originX, originY);
 				if(smartScale)
 				{
-					// TODO calc mask
-					// switch mask
-					if(isCheckBoard(original, originX, originY))
+					mask = getMask(original, originX, originY);
+					mod = (x + y) % 2;
+//					System.out.println("originX=" + originX + ",originY=" + originY + " -> mask=" + Integer.toBinaryString(mask) + ", mod=" + mod + ", xd=" + xd + ", yd=" + yd);
+					switch(mask)
 					{
-						if((x + y) % 2 == (originY + originX) % 2)
-							scaled[y][x] = getValue(original, originX, originY);
-						else
-							scaled[y][x] = getValue(original, originX, originY - 1);
-					}
-					else if(isEdgeBR(original, originX, originY))
-					{
-						if(xd + yd > 1)
-							scaled[y][x] = getValue(original, originX + 1, originY + 1);
-						else
-							scaled[y][x] = getValue(original, originX, originY);
-					}
-					else
-					{
-						scaled[y][x] = getValue(original, originX, originY);
+						// @formatter:off
+						// single other corner										
+						case 0b01111111: //	Center
+						case 0b11011111: //	Center
+						case 0b11110111: //	Center
+						case 0b11111101: //	Center
+						// single other edge										
+						case 0b10111111: //	Peak
+						case 0b11101111: //	Peak
+						case 0b11111011: //	Peak
+						case 0b11111110: //	Peak
+						// 2 opposite other edges										
+						case 0b10111011: //	Center
+						case 0b11101110: //	Center
+						// other corner + 1 adjacent edge										
+						case 0b00111111: //	Center
+						case 0b10011111: //	Center
+						case 0b11001111: //	Center
+						case 0b11100111: //	Center
+						case 0b11110011: //	Center
+						case 0b11111001: //	Center
+						case 0b11111100: //	Center
+						case 0b01111110: //	Center
+						// other corner + 2 adjacent edges										
+						case 0b00111110: //	Small Triangle
+						case 0b10001111: //	Small Triangle
+						case 0b11100011: //	Small Triangle
+						case 0b11111000: //	Small Triangle
+						// 2 independent other corners										
+						case 0b01011111: //	Center
+						case 0b11010111: //	Center
+						case 0b11110101: //	Center
+						case 0b01111101: //	Center
+						case 0b01110111: //	Center
+						case 0b11011101: //	Center
+						// 3 independent other corners										
+						case 0b01010111: //	Center
+						case 0b01011101: //	Center
+						case 0b01110101: //	Center
+						case 0b11010101: //	Center
+						// + shape										
+						case 0b01010101: //	Center
+						// full other edge = 2 corners + edge in between										
+						case 0b00011111: //	Center
+						case 0b11000111: //	Center
+						case 0b11110001: //	Center
+						case 0b01111100: //	Center
+						// other corner + independent edge										
+						case 0b01101111: //	Center
+						case 0b01111011: //	Center
+						case 0b11011011: //	Center
+						case 0b11011110: //	Center
+						case 0b11110110: //	Center
+						case 0b10110111: //	Center
+						case 0b10111101: //	Center
+						case 0b11101101: //	Center
+						// other corner + opposite corner with edge (grass on street)										
+						case 0b00110111: //	Center
+						case 0b10011101: //	Center
+						case 0b11001101: //	Center
+						case 0b01100111: //	Center
+						case 0b01110011: //	Center
+						case 0b11011001: //	Center
+						case 0b11011100: //	Center
+						case 0b01110110: //	Center
+						// other corner + neighbor corner with edge										
+						case 0b00111101: //	Center
+						case 0b10010111: //	Center
+						case 0b01001111: //	Center
+						case 0b11100101: //	Center
+						case 0b11010011: //	Center
+						case 0b01111001: //	Center
+						case 0b11110100: //	Center
+						case 0b01011110: //	Center
+						// other corner L shape										
+						case 0b00001111: //	Small Triangle
+						case 0b10000111: //	Small Triangle
+						case 0b11000011: //	Small Triangle
+						case 0b11100001: //	Small Triangle
+						case 0b11110000: //	Small Triangle
+						case 0b01111000: //	Small Triangle
+						case 0b00111100: //	Small Triangle
+						case 0b00011110: //	Small Triangle
+						// other corner double L shape = 2x2 same										
+						case 0b00000111: //	Center
+						case 0b11000001: //	Center
+						case 0b01110000: //	Center
+						case 0b00011100: //	Center
+						// other full edge + 2 corners										
+						case 0b00010101: //	Center
+						case 0b01000101: //	Center
+						case 0b01010001: //	Center
+						case 0b01010100: //	Center
+						// 2 other full edges = 2 opposite same edges										
+						case 0b00010001: //	Center
+						case 0b01000100: //	Center
+						// other corner L shape + opposite corner										
+						case 0b00001101: //	Triangle
+						case 0b10000101: //	Triangle
+						case 0b01000011: //	Triangle
+						case 0b01100001: //	Triangle
+						case 0b11010000: //	Triangle
+						case 0b01011000: //	Triangle
+						case 0b00110100: //	Triangle
+						case 0b00010110: //	Triangle
+						// other corner double L shape + opposite corner										
+						case 0b00000101: //	Center
+						case 0b01000001: //	Center
+						case 0b01010000: //	Center
+						case 0b00010100: //	Center
+						// full same edge										
+						case 0b11100000: //	Center
+						case 0b00111000: //	Center
+						case 0b00001110: //	Center
+						case 0b10000011: //	Center
+						// single same corner										
+						case 0b10000000: //	Check
+						case 0b00100000: //	Check
+						case 0b00001000: //	Check
+						case 0b00000010: //	Check
+						// single same edge										
+						case 0b01000000: //	Center
+						case 0b00010000: //	Center
+						case 0b00000100: //	Center
+						case 0b00000001: //	Center
+						// same corner + 1 adjacent edge										
+						case 0b11000000: //	Triangle
+						case 0b01100000: //	Triangle
+						case 0b00110000: //	Triangle
+						case 0b00011000: //	Triangle
+						case 0b00001100: //	Triangle
+						case 0b00000110: //	Triangle
+						case 0b00000011: //	Triangle
+						case 0b10000001: //	Triangle
+						// same edge + 1 independent corner										
+						case 0b01001000: //	Center
+						case 0b01000010: //	Center
+						case 0b00010010: //	Center
+						case 0b10010000: //	Center
+						case 0b10000100: //	Center
+						case 0b00100100: //	Center
+						case 0b00001001: //	Center
+						case 0b00100001: //	Center
+						// same edge + 2 independent corner (Y-shape)										
+						case 0b01001010: //	Center
+						case 0b10010010: //	Center
+						case 0b10100100: //	Center
+						case 0b00101001: //	Center
+						// same edge + adjacent corner + far corner										
+						case 0b11001000: //	Check Triangle
+						case 0b01100010: //	Check Triangle
+						case 0b00110010: //	Check Triangle
+						case 0b10011000: //	Check Triangle
+						case 0b10001100: //	Check Triangle
+						case 0b00100110: //	Check Triangle
+						case 0b00100011: //	Check Triangle
+						case 0b10001001: //	Check Triangle
+						// same edge + adjacent corner + near corner										
+						case 0b11000010: //	Check Triangle
+						case 0b01101000: //	Check Triangle
+						case 0b10110000: //	Check Triangle
+						case 0b00011010: //	Check Triangle
+						case 0b00101100: //	Check Triangle
+						case 0b10000110: //	Check Triangle
+						case 0b00001011: //	Check Triangle
+						case 0b10100001: //	Check Triangle
+						// same edge + adjacent corner + straight edge										
+						case 0b11000100: //	Center
+						case 0b01100100: //	Center
+						case 0b00110001: //	Center
+						case 0b00011001: //	Center
+						case 0b01001100: //	Center
+						case 0b01000110: //	Center
+						case 0b00010011: //	Center
+						case 0b10010001: //	Center
+						// same T shape										
+						case 0b11100100: //	Center
+						case 0b00111001: //	Center
+						case 0b01001110: //	Center
+						case 0b10010011: //	Center
+						// same full edge + corner										
+						case 0b11101000: //	Triangle
+						case 0b11100010: //	Triangle
+						case 0b00111010: //	Triangle
+						case 0b10111000: //	Triangle
+						case 0b10001110: //	Triangle
+						case 0b00101110: //	Triangle
+						case 0b10100011: //	Triangle
+						case 0b10001011: //	Triangle
+						// stair shape										
+						case 0b11011000: //	Triangle
+						case 0b00110110: //	Triangle
+						case 0b10001101: //	Triangle
+						case 0b01100011: //	Triangle
+						// 2x2 same + 1 edge										
+						case 0b01110100: //	Center
+						case 0b01110001: //	Center
+						case 0b00011101: //	Center
+						case 0b01011100: //	Center
+						case 0b01000111: //	Center
+						case 0b00010111: //	Center
+						case 0b11010001: //	Center
+						case 0b11000101: //	Center
+						// 2x2 same + opposite corner										
+						case 0b01110010: //	Center
+						case 0b10011100: //	Center
+						case 0b00100111: //	Center
+						case 0b11001001: //	Center
+						// C shape										
+						case 0b01101100: //	Center
+						case 0b00011011: //	Center
+						case 0b11000110: //	Center
+						case 0b10110001: //	Center
+						// same edge + adjacent corner + 2 corners										
+						case 0b11001010: //	Check Triangle
+						case 0b01101010: //	Check Triangle
+						case 0b10110010: //	Check Triangle
+						case 0b10011010: //	Check Triangle
+						case 0b10101100: //	Check Triangle
+						case 0b10100110: //	Check Triangle
+						case 0b00101011: //	Check Triangle
+						case 0b10101001: //	Check Triangle
+						// 2 other edges next to each other + 1 corner										
+						case 0b00101111: //	Center
+						case 0b10100111: //	Center
+						case 0b11001011: //	Center
+						case 0b11101001: //	Center
+						case 0b11110010: //	Center
+						case 0b01111010: //	Center
+						case 0b10111100: //	Center
+						case 0b10011110: //	Center
+						// T+L shape										
+						case 0b11101100: //	Center
+						case 0b11100110: //	Center
+						case 0b00111011: //	Center
+						case 0b10111001: //	Center
+						case 0b11001110: //	Center
+						case 0b01101110: //	Center
+						case 0b10110011: //	Center
+						case 0b10011011: //	Center
+						// 3 same edges + corners on the 4th side										
+						case 0b11010110: //	Center
+						case 0b10110101: //	Center
+						case 0b01101101: //	Center
+						case 0b01011011: //	Center
+						// 2 neighbored same edges + opposite corner (diagonal Y shape)										
+						case 0b01010010: //	Check Triangle
+						case 0b10010100: //	Check Triangle
+						case 0b00100101: //	Check Triangle
+						case 0b01001001: //	Check Triangle
+						// inner T shape + 1 adjacent corner										
+						case 0b01010110: //	Center
+						case 0b11010100: //	Center
+						case 0b10010101: //	Center
+						case 0b00110101: //	Center
+						case 0b01100101: //	Center
+						case 0b01001101: //	Center
+						case 0b01011001: //	Center
+						case 0b01010011: //	Center
+						// same corner + same corner with edge + edge										
+						case 0b10110100: //	Center
+						case 0b01011010: //	Center
+						case 0b00101101: //	Center
+						case 0b10010110: //	Center
+						case 0b01001011: //	Center
+						case 0b10100101: //	Center
+						case 0b11010010: //	Center
+						case 0b01101001: //	Center
+						// 2 opposite same edges with opposite same corners										
+						case 0b11001100: //	Center
+						case 0b01100110: //	Center
+						case 0b00110011: //	Center
+						case 0b10011001: //	Center
+						// 3 same corners + edges for the outer corners										
+						case 0b10101101: //	Center
+						case 0b01101011: //	Center
+						case 0b11011010: //	Center
+						case 0b10110110: //	Center
+							
+						// full same edge, rest checkered										
+						case 0b11101010: //	Check
+						case 0b10111010: //	Check
+						case 0b10101110: //	Check
+						case 0b10101011: //	Check	
+							
+							scaledValue = originCenterValue;
+							break;
+						// TODO everything above	
+						
+						///////////////////////////////
+						// different check patterns		
+						///////////////////////////////		
+
+						// x shape										
+						case 0b10101010: //	Check	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+							
+						// 3 same corners										
+						case 0b10101000: //	Check
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b00101010: //	Check
+							if(corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b10001010: //	Check
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b10100010: //	Check
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+							
+						// 2 opposite same corners										
+						case 0b10001000: //	Check Triangle
+							if(corner == Corner.northeast || corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b00100010: //	Check Triangle
+							if(corner == Corner.northwest || corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+							
+						// 2 adjacent same corners										
+						case 0b10100000: //	Check
+//							if(xd + yd <= 0.5 && xd - yd >= -0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else if(xd + yd > 0.5)
+//								scaledValue = getValue(original, originX+1, originY+1);	
+//							else //if(xd - yd < -0.5)
+//								scaledValue = getValue(original, originX-1, originY+1);		
+//							break;		
+						case 0b00101000: //	Check
+//							if(xd + yd >= -0.5 && xd - yd >= -0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else if(xd + yd < -0.5)
+//								scaledValue = getValue(original, originX-1, originY-1);	
+//							else //if(xd - yd < -0.5)
+//								scaledValue = getValue(original, originX-1, originY+1);		
+//							break;		
+						case 0b00001010: //	Check
+//							if(xd + yd >= -0.5 && xd - yd <= 0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else if(xd + yd < 0.5)
+//								scaledValue = getValue(original, originX-1, originY-1);	
+//							else //if(xd - yd > 0.5)
+//								scaledValue = getValue(original, originX+1, originY-1);		
+//							break;		
+						case 0b10000010: //	Check
+//							if(xd + yd <= 0.5 && xd - yd <= 0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else if(xd + yd > 0.5)
+//								scaledValue = getValue(original, originX+1, originY+1);	
+//							else //if(xd - yd > 0.5)
+//								scaledValue = getValue(original, originX+1, originY-1);		
+//							break;	
+							
+						// 2 other edges next to each other										
+						case 0b10101111: //	Check (was Center before)
+//							if(xd - yd >= 0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else //if(xd - yd < 0.5)
+//								scaledValue = getValue(original, originX, originY);		
+//							break;	
+						case 0b11101011: //	Check (was Center before)
+//							if(xd + yd >= 0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else //if(xd + yd < 0.5)
+//								scaledValue = getValue(original, originX, originY);		
+//							break;	
+						case 0b11111010: //	Check (was Center before)
+//							if(xd - yd <= -0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else //if(xd - yd > -0.5)
+//								scaledValue = getValue(original, originX, originY);		
+//							break;	
+						case 0b10111110: //	Check (was Center before)	
+//							if(xd + yd <= -0.5)
+//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
+//							else //if(xd + yd > -0.5)
+//								scaledValue = getValue(original, originX, originY);		
+//							break;	
+
+						//////////////////////////////////////////////////////////////		
+						// everything below here will be default = center value
+						//////////////////////////////////////////////////////////////	
+							
+						// filled same										
+						case 0b11111111:
+						// surrounded other										
+						case 0b00000000:
+							
+						// default
+						default:
+							scaledValue = originCenterValue;
+						// @formatter:on
 					}
 				}
 				else
 				{
-					scaled[y][x] = getValue(original, originX, originY);
+					scaledValue = originCenterValue;
 				}
+				scaled[y][x] = scaledValue;
 			}
 		}
 		return scaled;
+	}
+	
+	public static void main(String[] args)
+	{
+		
 	}
 }
