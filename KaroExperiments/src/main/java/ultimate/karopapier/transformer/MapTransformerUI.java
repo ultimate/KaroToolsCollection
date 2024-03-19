@@ -217,15 +217,20 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				g.setColor(Color.GREEN);
 				break;
 			case 'O':
-				g.setColor(Color.GRAY);
-				break;
 			case 'S':
 				g.setColor(Color.GRAY);
 				break;
 			case 'P':
 				g.setColor(Color.LIGHT_GRAY);
 				break;
+			case 'V':
+				g.setColor(Color.DARK_GRAY);
+				break;
+			case 'T':
+				g.setColor(Color.BLACK);
+				break;
 			case 'F':
+			case 'N':
 				g.setColor(Color.WHITE);
 				break;
 			case '1':

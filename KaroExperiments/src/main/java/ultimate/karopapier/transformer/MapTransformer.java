@@ -158,10 +158,14 @@ public class MapTransformer
 	{
 		try
 		{
-			if(y < 0 || y >= map.length)
-				return 'X';
-			if(x < 0 || x >= map[y].length)
-				return 'X';
+			if(y < 0)
+				y = 0;
+			else if(y >= map.length)
+				y = map.length - 1;
+			if(x < 0)
+				x = 0;
+			else if(x >= map[y].length)
+				x = map[y].length - 1;
 			return map[y][x];
 		}
 		catch(NullPointerException e)
