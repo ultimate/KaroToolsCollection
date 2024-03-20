@@ -872,10 +872,37 @@ public class MapTransformer
 							
 						// stair shape										
 						case 0b11011000: //	Triangle
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 						case 0b00110110: //	Triangle
+							if(corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 						case 0b10001101: //	Triangle
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 						case 0b01100011: //	Triangle
-							// TODO
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 							
 						//////////////////////////////////////////////////////////////		
 						// everything below here will be default = center value
