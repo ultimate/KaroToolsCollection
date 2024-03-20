@@ -136,14 +136,14 @@ public class MapTransformer
 
 	public static void printMap(char[][] map)
 	{
-		for(char[] row: map)
+		for(char[] row : map)
 		{
 			if(row == null)
 			{
 				System.out.println("null");
 				continue;
 			}
-			for(char c: row)
+			for(char c : row)
 				System.out.print(c);
 			System.out.println();
 		}
@@ -174,52 +174,45 @@ public class MapTransformer
 			return 'X';
 		}
 	}
-	
+
 	public static int getMask(char[][] map, int x, int y)
 	{
 		boolean centerIsRoad = isRoad(getValue(map, x, y));
 		int mask = 0;
-		mask += (isRoad(getValue(map, x-1, y-1)) == centerIsRoad ? 128 : 0);
-		mask += (isRoad(getValue(map, x+0, y-1)) == centerIsRoad ? 64 : 0);
-		mask += (isRoad(getValue(map, x+1, y-1)) == centerIsRoad ? 32 : 0);
-		mask += (isRoad(getValue(map, x+1, y+0)) == centerIsRoad ? 16 : 0);
-		mask += (isRoad(getValue(map, x+1, y+1)) == centerIsRoad ? 8 : 0);
-		mask += (isRoad(getValue(map, x+0, y+1)) == centerIsRoad ? 4 : 0);
-		mask += (isRoad(getValue(map, x-1, y+1)) == centerIsRoad ? 2 : 0);
-		mask += (isRoad(getValue(map, x-1, y+0)) == centerIsRoad ? 1 : 0);
+		mask += (isRoad(getValue(map, x - 1, y - 1)) == centerIsRoad ? 128 : 0);
+		mask += (isRoad(getValue(map, x + 0, y - 1)) == centerIsRoad ? 64 : 0);
+		mask += (isRoad(getValue(map, x + 1, y - 1)) == centerIsRoad ? 32 : 0);
+		mask += (isRoad(getValue(map, x + 1, y + 0)) == centerIsRoad ? 16 : 0);
+		mask += (isRoad(getValue(map, x + 1, y + 1)) == centerIsRoad ? 8 : 0);
+		mask += (isRoad(getValue(map, x + 0, y + 1)) == centerIsRoad ? 4 : 0);
+		mask += (isRoad(getValue(map, x - 1, y + 1)) == centerIsRoad ? 2 : 0);
+		mask += (isRoad(getValue(map, x - 1, y + 0)) == centerIsRoad ? 1 : 0);
 		return mask;
 	}
-	
+
 	public enum Corner
 	{
-		center,
-		northeast,
-		southeast,
-		southwest,
-		northwest
+		center, northeast, southeast, southwest, northwest
 	}
-	
+
 	public static Corner getCorner(double xd, double yd)
 	{
-		if(xd + yd >= 1.5)
+		if(xd + yd > 1.5)
 			return Corner.southeast;
 		if(xd + yd < 0.5)
 			return Corner.northwest;
-		if(xd - yd >= 0.5)
+		if(xd - yd > 0.5)
 			return Corner.northeast;
 		if(xd - yd < -0.5)
 			return Corner.southwest;
 		return Corner.center;
 	}
-	
+
 	public enum Zone
 	{
-		north,
-		east,
-		south,
-		west
+		north, east, south, west
 	}
-	
+
 	public static Zone getZone(double xd, double yd)
 	{
 		if(xd + yd > 1)
@@ -227,13 +220,12 @@ public class MapTransformer
 				return Zone.east;
 			else
 				return Zone.south;
+		else if(xd - yd > 0)
+			return Zone.north;
 		else
-			if(xd - yd > 0)
-				return Zone.north;
-			else
-				return Zone.west;
+			return Zone.west;
 	}
-	
+
 	public static char getNeighborValue(char[][] map, int x, int y, Zone zone)
 	{
 		if(zone == Zone.north)
@@ -249,13 +241,13 @@ public class MapTransformer
 
 	public static char getCheckValue(char[][] map, int x, int y, int mod, Zone zone)
 	{
-//		System.out.println("x=" + x + ", y=" + y + ", mod=" + mod + ", zone=" + zone);
+		// System.out.println("x=" + x + ", y=" + y + ", mod=" + mod + ", zone=" + zone);
 		if(mod == (x + y) % 2)
 			return getValue(map, x, y);
 		else
 			return getNeighborValue(map, x, y, zone);
 	}
-	
+
 	public static char[][] transform(char[][] original, double[][] matrix, boolean smartScale)
 	{
 		// System.out.println("matrix = ");
@@ -268,17 +260,21 @@ public class MapTransformer
 		int oldSizeX = original[0].length;
 
 		// calculate new size
-		Point2D.Double[] transformedCorners = new Point2D.Double[] {
-			applyMatrix(matrix, new Point2D.Double( 0, 0 )),
-			applyMatrix(matrix, new Point2D.Double( 0, oldSizeY )),
-			applyMatrix(matrix, new Point2D.Double( oldSizeX, 0 )),
-			applyMatrix(matrix, new Point2D.Double( oldSizeX, oldSizeY))
-		};
+		Point2D.Double[] transformedCorners = new Point2D.Double[] { applyMatrix(matrix, new Point2D.Double(0, 0)),
+				applyMatrix(matrix, new Point2D.Double(0, oldSizeY)), applyMatrix(matrix, new Point2D.Double(oldSizeX, 0)),
+				applyMatrix(matrix, new Point2D.Double(oldSizeX, oldSizeY)) };
 		Point2D.Double max = max(transformedCorners);
 		int newSizeX = (int) Math.ceil(max.x);
 		int newSizeY = (int) Math.ceil(max.y);
 
 		char[][] scaled = new char[newSizeY][];
+
+		Point2D.Double p0 = applyMatrix(inv, new Point2D.Double(0, 0));
+		Point2D.Double p1 = applyMatrix(inv, new Point2D.Double(1, 1));
+		double scaleX = p1.x - p0.x;
+		double scaleY = p1.y - p0.y;
+
+		System.out.println("scaleX=" + scaleX + ", scaleY=" + scaleY);
 
 		Point2D.Double origin;
 		int originX, originY;
@@ -291,13 +287,11 @@ public class MapTransformer
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
-				origin = applyMatrix(inv, new Point2D.Double(x,y));
+				origin = applyMatrix(inv, new Point2D.Double(x, y));
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
-//				originX = (int) Math.round(origin.x);
-//				originY = (int) Math.round(origin.y);
 
-				corner = getCorner(origin.x - originX, origin.y - originY);
+				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2);
 				zone = getZone(origin.x - originX, origin.y - originY);
 
 				originCenterValue = getValue(original, originX, originY);
@@ -305,7 +299,19 @@ public class MapTransformer
 				{
 					mask = getMask(original, originX, originY);
 					mod = (x + y) % 2;
-//					System.out.println("originX=" + originX + ",originY=" + originY + " -> mask=" + Integer.toBinaryString(mask) + ", mod=" + mod + ", xd=" + xd + ", yd=" + yd);
+
+					if(originX == 10 && originY == 5)
+					{
+						// @formatter:off
+						System.out.println("originX=" + originX + ",originY=" + originY +
+								" -> mask=" + Integer.toBinaryString(mask) +
+								", mod=" + mod +
+								", corner=" + corner +
+								", zone=" + zone +
+								", fractions=" + (origin.x - originX) + "/" + (origin.y - originY));
+						// @formatter:on
+					}
+
 					switch(mask)
 					{
 						// @formatter:off
@@ -587,12 +593,6 @@ public class MapTransformer
 						case 0b11011010: //	Center
 						case 0b10110110: //	Center
 							
-						// full same edge, rest checkered										
-						case 0b11101010: //	Check
-						case 0b10111010: //	Check
-						case 0b10101110: //	Check
-						case 0b10101011: //	Check	
-							
 							scaledValue = originCenterValue;
 							break;
 						// TODO everything above	
@@ -659,38 +659,72 @@ public class MapTransformer
 							break;
 							
 						// 2 adjacent same corners										
-						case 0b10100000: //	Check
-//							if(xd + yd <= 0.5 && xd - yd >= -0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else if(xd + yd > 0.5)
-//								scaledValue = getValue(original, originX+1, originY+1);	
-//							else //if(xd - yd < -0.5)
-//								scaledValue = getValue(original, originX-1, originY+1);		
-//							break;		
-						case 0b00101000: //	Check
-//							if(xd + yd >= -0.5 && xd - yd >= -0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else if(xd + yd < -0.5)
-//								scaledValue = getValue(original, originX-1, originY-1);	
-//							else //if(xd - yd < -0.5)
-//								scaledValue = getValue(original, originX-1, originY+1);		
-//							break;		
-						case 0b00001010: //	Check
-//							if(xd + yd >= -0.5 && xd - yd <= 0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else if(xd + yd < 0.5)
-//								scaledValue = getValue(original, originX-1, originY-1);	
-//							else //if(xd - yd > 0.5)
-//								scaledValue = getValue(original, originX+1, originY-1);		
-//							break;		
-						case 0b10000010: //	Check
-//							if(xd + yd <= 0.5 && xd - yd <= 0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else if(xd + yd > 0.5)
-//								scaledValue = getValue(original, originX+1, originY+1);	
-//							else //if(xd - yd > 0.5)
-//								scaledValue = getValue(original, originX+1, originY-1);		
-//							break;	
+						case 0b10100000: //	Check Triangle (was Check before)
+							if(corner == Corner.southwest || corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b00101000: //	Check Triangle (was Check before)
+							if(corner == Corner.southwest || corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b00001010: //	Check Triangle (was Check before)
+							if(corner == Corner.northwest || corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+						case 0b10000010: //	Check Triangle (was Check before)
+							if(corner == Corner.southeast || corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = getCheckValue(original, originX, originY, mod, zone);
+							break;
+							
+						// full same edge, rest checkered										
+						case 0b11101010: //	Check Triangle (was Check before)
+							if(corner == Corner.southeast || corner == Corner.southwest)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10111010: //	Check Triangle (was Check before)
+							if(corner == Corner.northwest || corner == Corner.southwest)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10101110: //	Check Triangle (was Check before)
+							if(corner == Corner.northwest || corner == Corner.northeast)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10101011: //	Check Triangle (was Check before)
+							if(corner == Corner.southeast || corner == Corner.northeast)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 							
 						// 2 other edges next to each other										
 						case 0b10101111: //	Check (was Center before)
@@ -742,9 +776,9 @@ public class MapTransformer
 		}
 		return scaled;
 	}
-	
+
 	public static void main(String[] args)
 	{
-		
+
 	}
 }

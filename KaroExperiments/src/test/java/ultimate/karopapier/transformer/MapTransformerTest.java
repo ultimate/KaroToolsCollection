@@ -40,10 +40,10 @@ public class MapTransformerTest
 		assertEquals(0b10101010, MapTransformer.getMask(map, 2, 2));
 		assertEquals(0b10101010, MapTransformer.getMask(map, 1, 2));
 		
-		assertEquals(0b00001000, MapTransformer.getMask(map, 0, 0));
-		assertEquals(0b11111010, MapTransformer.getMask(map, 3, 0));
-		assertEquals(0b10000000, MapTransformer.getMask(map, 3, 3));
-		assertEquals(0b10101111, MapTransformer.getMask(map, 0, 3));
+		assertEquals(0b11001001, MapTransformer.getMask(map, 0, 0));
+		assertEquals(0b01110010, MapTransformer.getMask(map, 3, 0));
+		assertEquals(0b10011100, MapTransformer.getMask(map, 3, 3));
+		assertEquals(0b00100111, MapTransformer.getMask(map, 0, 3));
 		
 		map = MapTransformer.toArray("XXXX\nXOOX\nXOOX\nXXXX");
 		
