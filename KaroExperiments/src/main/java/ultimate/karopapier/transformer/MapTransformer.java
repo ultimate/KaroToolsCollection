@@ -5,16 +5,16 @@ import java.awt.geom.Point2D;
 public class MapTransformer
 {
 	// @formatter:off
-	public static final String TEST_CODE  = "XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOO\n"+
-											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOO\n"+
-											"XYOYOYOYXYXOXYXYXYOOXOXOXOOOOXOOOOOO\n"+
-											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOO\n"+
-											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOO\n"+
-											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYOYXYXYXOXYXYXOOOOOXOOOOOOXOOOOO\n"+
+	public static final String TEST_CODE  = "XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOOXYXYOYXYXYXOXYXYXYOOOOXOOOOOOXOOOOOO\n"+
+											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXYXOOOXYXYXOOOXOXOOOOXXXOOOOO\n"+
+											"XYOYOYOYXYXOXYXYXYOOXOXOXOOOOXOOOOOOXYOOOOOYXOXOXOXYXYOOXXXXXOOXOXOXOOOO\n"+
+											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXYXOOOXYXYXOOOXOXOOOOXXXOOOOO\n"+
+											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOOXYXYOYXYXYXOXYXYXYOOOOXOOOOOOXOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYOYXYXYXOXYXYXOOOOOXOOOOOOXOOOOOYXYXYOYXYXYXOXYXYXOOOOOXOOOOOOXOOOOO\n"+
 											"XYXYOOXYXYXYOOXYXYOOOOXXOOOOOOXXOOOO\n"+
 											"YXOOOOOXYXYOOOOOYXOOXXXXXOOOOXXXXXOO\n"+
 											"XYXOOOOOXYOOOOOYXYOOOXXXXXOOXXXXXOOO\n"+
@@ -427,15 +427,6 @@ public class MapTransformer
 						case 0b00111001: //	Center
 						case 0b01001110: //	Center
 						case 0b10010011: //	Center
-						// same full edge + corner										
-						case 0b11101000: //	Triangle
-						case 0b11100010: //	Triangle
-						case 0b00111010: //	Triangle
-						case 0b10111000: //	Triangle
-						case 0b10001110: //	Triangle
-						case 0b00101110: //	Triangle
-						case 0b10100011: //	Triangle
-						case 0b10001011: //	Triangle
 						// 2x2 same + 1 edge										
 						case 0b01110100: //	Center
 						case 0b01110001: //	Center
@@ -455,24 +446,6 @@ public class MapTransformer
 						case 0b00011011: //	Center
 						case 0b11000110: //	Center
 						case 0b10110001: //	Center
-						// same edge + adjacent corner + 2 corners										
-						case 0b11001010: //	Check Triangle
-						case 0b01101010: //	Check Triangle
-						case 0b10110010: //	Check Triangle
-						case 0b10011010: //	Check Triangle
-						case 0b10101100: //	Check Triangle
-						case 0b10100110: //	Check Triangle
-						case 0b00101011: //	Check Triangle
-						case 0b10101001: //	Check Triangle
-						// 2 other edges next to each other + 1 corner										
-						case 0b00101111: //	Center
-						case 0b10100111: //	Center
-						case 0b11001011: //	Center
-						case 0b11101001: //	Center
-						case 0b11110010: //	Center
-						case 0b01111010: //	Center
-						case 0b10111100: //	Center
-						case 0b10011110: //	Center
 						// T+L shape										
 						case 0b11101100: //	Center
 						case 0b11100110: //	Center
@@ -721,6 +694,25 @@ public class MapTransformer
 							}	
 							scaledValue = getNeighborValue(scaled, originX, originY, zone);
 							break;
+							
+						// 2 other edges next to each other + 1 corner	TODO									
+						case 0b00101111: //	Center
+						case 0b10100111: //	Center
+						case 0b11001011: //	Center
+						case 0b11101001: //	Center
+						case 0b11110010: //	Center
+						case 0b01111010: //	Center
+						case 0b10111100: //	Center
+						case 0b10011110: //	Center
+						// same edge + adjacent corner + 2 corners										
+						case 0b11001010: //	Check Triangle
+						case 0b01101010: //	Check Triangle
+						case 0b10110010: //	Check Triangle
+						case 0b10011010: //	Check Triangle
+						case 0b10101100: //	Check Triangle
+						case 0b10100110: //	Check Triangle
+						case 0b00101011: //	Check Triangle
+						case 0b10101001: //	Check Triangle
 
 						//////////////////////////////////////////////////////////////		
 						// on the edge
@@ -897,6 +889,44 @@ public class MapTransformer
 							break;
 						case 0b01100011: //	Triangle
 							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+							
+						// same full edge + corner										
+						case 0b11101000: //	Triangle
+						case 0b10111000: //	Triangle
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b11100010: //	Triangle
+						case 0b10100011: //	Triangle
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10001110: //	Triangle
+						case 0b10001011: //	Triangle
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b00101110: //	Triangle
+						case 0b00111010: //	Triangle
+							if(corner == Corner.northwest)
 							{
 								scaledValue = getNeighborValue(original, originX, originY, zone);
 								break;
