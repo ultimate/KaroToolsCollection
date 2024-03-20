@@ -14,14 +14,21 @@ public class MapTransformer
 											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOO\n"+
 											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
 											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYOYXYXYXYOYXYXOOOOOXOOOOOOOXOOOO\n"+
+											"YXYXYOYXYXYXOXYXYXOOOOOXOOOOOOXOOOOO\n"+
 											"XYXYOOXYXYXYOOXYXYOOOOXXOOOOOOXXOOOO\n"+
-											"YXOOOOOXYXYOOOOOXYOOXXXXXOOOOXXXXXOO\n"+
-											"XYXOOOOOXYOOOOOXYXOOOXXXXXOOXXXXXOOO\n"+
-											"YXYXOOYXYXYXOOXYXYOOOOXXOOOOOOXXOOOO\n"+
-											"XYXYOYXYXYXYXOYXYXOOOOXOOOOOOOOXOOOO\n"+
+											"YXOOOOOXYXYOOOOOYXOOXXXXXOOOOXXXXXOO\n"+
+											"XYXOOOOOXYOOOOOYXYOOOXXXXXOOXXXXXOOO\n"+
+											"YXYXOOYXYXYXOOYXYXOOOOXXOOOOOOXXOOOO\n"+
+											"XYXYOYXYXYXYXOXYXYOOOOXOOOOOOOOXOOOO\n"+
 											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO";
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXOXYXYXYXYOYXYXOOOOXOOoOOOOOXOOOO\n"+
+											"XYXOOOXYXYXYOYOYXYOOOXXXOOOOOOXOXOOO\n"+
+											"YXOOYOOXYXYOYXYOXYOOXXOXXOOOOXOOOXOO\n"+
+											"XYXOOOXYXYXYOYOXYXOOOXXXOOOOOOXOXOOO\n"+
+											"YXYXOXYXYXYXYOXYXYOOOOXOOOOOOOOXOOOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO";
 	
 	public static final String LINE_SEPARATOR = "\n";
 	// @formatter:on
@@ -197,13 +204,13 @@ public class MapTransformer
 
 	public static Corner getCorner(double xd, double yd)
 	{
-		if(xd + yd > 1.5)
+		if(xd + yd >= 1.5)
 			return Corner.southeast;
-		if(xd + yd < 0.5)
+		if(xd + yd < 0.5) // use < instead of <= to allow better symmetry
 			return Corner.northwest;
-		if(xd - yd > 0.5)
+		if(xd - yd >= 0.5)
 			return Corner.northeast;
-		if(xd - yd < -0.5)
+		if(xd - yd < -0.5) // use < instead of <= to allow better symmetry
 			return Corner.southwest;
 		return Corner.center;
 	}
@@ -315,52 +322,6 @@ public class MapTransformer
 					switch(mask)
 					{
 						// @formatter:off
-						// single other corner										
-						case 0b01111111: //	Center
-						case 0b11011111: //	Center
-						case 0b11110111: //	Center
-						case 0b11111101: //	Center
-						// single other edge										
-						case 0b10111111: //	Peak
-						case 0b11101111: //	Peak
-						case 0b11111011: //	Peak
-						case 0b11111110: //	Peak
-						// 2 opposite other edges										
-						case 0b10111011: //	Center
-						case 0b11101110: //	Center
-						// other corner + 1 adjacent edge										
-						case 0b00111111: //	Center
-						case 0b10011111: //	Center
-						case 0b11001111: //	Center
-						case 0b11100111: //	Center
-						case 0b11110011: //	Center
-						case 0b11111001: //	Center
-						case 0b11111100: //	Center
-						case 0b01111110: //	Center
-						// other corner + 2 adjacent edges										
-						case 0b00111110: //	Small Triangle
-						case 0b10001111: //	Small Triangle
-						case 0b11100011: //	Small Triangle
-						case 0b11111000: //	Small Triangle
-						// 2 independent other corners										
-						case 0b01011111: //	Center
-						case 0b11010111: //	Center
-						case 0b11110101: //	Center
-						case 0b01111101: //	Center
-						case 0b01110111: //	Center
-						case 0b11011101: //	Center
-						// 3 independent other corners										
-						case 0b01010111: //	Center
-						case 0b01011101: //	Center
-						case 0b01110101: //	Center
-						case 0b11010101: //	Center
-						// + shape										
-						case 0b01010101: //	Center
-						// full other edge = 2 corners + edge in between										
-						case 0b00011111: //	Center
-						case 0b11000111: //	Center
-						case 0b11110001: //	Center
-						case 0b01111100: //	Center
 						// other corner + independent edge										
 						case 0b01101111: //	Center
 						case 0b01111011: //	Center
@@ -388,15 +349,6 @@ public class MapTransformer
 						case 0b01111001: //	Center
 						case 0b11110100: //	Center
 						case 0b01011110: //	Center
-						// other corner L shape										
-						case 0b00001111: //	Small Triangle
-						case 0b10000111: //	Small Triangle
-						case 0b11000011: //	Small Triangle
-						case 0b11100001: //	Small Triangle
-						case 0b11110000: //	Small Triangle
-						case 0b01111000: //	Small Triangle
-						case 0b00111100: //	Small Triangle
-						case 0b00011110: //	Small Triangle
 						// other corner double L shape = 2x2 same										
 						case 0b00000111: //	Center
 						case 0b11000001: //	Center
@@ -424,30 +376,11 @@ public class MapTransformer
 						case 0b01000001: //	Center
 						case 0b01010000: //	Center
 						case 0b00010100: //	Center
-						// full same edge										
-						case 0b11100000: //	Center
-						case 0b00111000: //	Center
-						case 0b00001110: //	Center
-						case 0b10000011: //	Center
-						// single same corner										
-						case 0b10000000: //	Check
-						case 0b00100000: //	Check
-						case 0b00001000: //	Check
-						case 0b00000010: //	Check
 						// single same edge										
 						case 0b01000000: //	Center
 						case 0b00010000: //	Center
 						case 0b00000100: //	Center
 						case 0b00000001: //	Center
-						// same corner + 1 adjacent edge										
-						case 0b11000000: //	Triangle
-						case 0b01100000: //	Triangle
-						case 0b00110000: //	Triangle
-						case 0b00011000: //	Triangle
-						case 0b00001100: //	Triangle
-						case 0b00000110: //	Triangle
-						case 0b00000011: //	Triangle
-						case 0b10000001: //	Triangle
 						// same edge + 1 independent corner										
 						case 0b01001000: //	Center
 						case 0b01000010: //	Center
@@ -503,11 +436,6 @@ public class MapTransformer
 						case 0b00101110: //	Triangle
 						case 0b10100011: //	Triangle
 						case 0b10001011: //	Triangle
-						// stair shape										
-						case 0b11011000: //	Triangle
-						case 0b00110110: //	Triangle
-						case 0b10001101: //	Triangle
-						case 0b01100011: //	Triangle
 						// 2x2 same + 1 edge										
 						case 0b01110100: //	Center
 						case 0b01110001: //	Center
@@ -728,30 +656,227 @@ public class MapTransformer
 							
 						// 2 other edges next to each other										
 						case 0b10101111: //	Check (was Center before)
-//							if(xd - yd >= 0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else //if(xd - yd < 0.5)
-//								scaledValue = getValue(original, originX, originY);		
-//							break;	
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 						case 0b11101011: //	Check (was Center before)
-//							if(xd + yd >= 0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else //if(xd + yd < 0.5)
-//								scaledValue = getValue(original, originX, originY);		
-//							break;	
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
 						case 0b11111010: //	Check (was Center before)
-//							if(xd - yd <= -0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else //if(xd - yd > -0.5)
-//								scaledValue = getValue(original, originX, originY);		
-//							break;	
-						case 0b10111110: //	Check (was Center before)	
-//							if(xd + yd <= -0.5)
-//								scaledValue = getCheckValue(original, originX, originY, mod, xd, yd);
-//							else //if(xd + yd > -0.5)
-//								scaledValue = getValue(original, originX, originY);		
-//							break;	
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10111110: //	Check (was Center before)
+							if(corner == Corner.northwest)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+							
+						// single same corner										
+						case 0b10000000: //	Check
+							if(corner == Corner.northwest || corner == Corner.center)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = getNeighborValue(scaled, originX, originY, zone);
+							break;
+						case 0b00100000: //	Check
+							if(corner == Corner.northeast || corner == Corner.center)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = getNeighborValue(scaled, originX, originY, zone);
+							break;
+						case 0b00001000: //	Check
+							if(corner == Corner.southeast || corner == Corner.center)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = getNeighborValue(scaled, originX, originY, zone);
+							break;
+						case 0b00000010: //	Check
+							if(corner == Corner.southwest || corner == Corner.center)
+							{
+								scaledValue = getCheckValue(original, originX, originY, mod, zone);
+								break;
+							}	
+							scaledValue = getNeighborValue(scaled, originX, originY, zone);
+							break;
 
+						//////////////////////////////////////////////////////////////		
+						// on the edge
+						//////////////////////////////////////////////////////////////		
+
+						// other corner L shape										
+						case 0b00001111: //	Small Triangle
+						case 0b10000111: //	Small Triangle
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b11000011: //	Small Triangle
+						case 0b11100001: //	Small Triangle
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b11110000: //	Small Triangle
+						case 0b01111000: //	Small Triangle
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b00111100: //	Small Triangle
+						case 0b00011110: //	Small Triangle
+							if(corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+
+						// other corner + 2 adjacent edges = same double L										
+						case 0b00111110: //	Small Triangle
+							if(corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10001111: //	Small Triangle
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b11100011: //	Small Triangle
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b11111000: //	Small Triangle
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+							
+						// full same edge										
+						case 0b11100000: //	Center
+							if(corner == Corner.southwest || corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b00111000: //	Center
+							if(corner == Corner.southwest || corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b00001110: //	Center
+							if(corner == Corner.northeast || corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b10000011: //	Center
+							if(corner == Corner.northeast || corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+							
+						// same corner + 1 adjacent edge										
+						case 0b11000000: //	Triangle
+						case 0b00011000: //	Triangle
+							if(corner == Corner.southwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b01100000: //	Triangle
+						case 0b00000011: //	Triangle
+							if(corner == Corner.southeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b00110000: //	Triangle
+						case 0b00000110: //	Triangle
+							if(corner == Corner.northwest)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+						case 0b00001100: //	Triangle
+						case 0b10000001: //	Triangle
+							if(corner == Corner.northeast)
+							{
+								scaledValue = getNeighborValue(original, originX, originY, zone);
+								break;
+							}	
+							scaledValue = originCenterValue;
+							break;
+							
+						// stair shape										
+						case 0b11011000: //	Triangle
+						case 0b00110110: //	Triangle
+						case 0b10001101: //	Triangle
+						case 0b01100011: //	Triangle
+							// TODO
+							
 						//////////////////////////////////////////////////////////////		
 						// everything below here will be default = center value
 						//////////////////////////////////////////////////////////////	
@@ -760,6 +885,47 @@ public class MapTransformer
 						case 0b11111111:
 						// surrounded other										
 						case 0b00000000:
+						// single other corner										
+						case 0b01111111: //	Center
+						case 0b11011111: //	Center
+						case 0b11110111: //	Center
+						case 0b11111101: //	Center
+						// single other edge										
+						case 0b10111111: //	Center
+						case 0b11101111: //	Center
+						case 0b11111011: //	Center
+						case 0b11111110: //	Center
+						// 2 opposite other edges										
+						case 0b10111011: //	Center
+						case 0b11101110: //	Center
+						// other corner + 1 adjacent edge										
+						case 0b00111111: //	Center
+						case 0b10011111: //	Center
+						case 0b11001111: //	Center
+						case 0b11100111: //	Center
+						case 0b11110011: //	Center
+						case 0b11111001: //	Center
+						case 0b11111100: //	Center
+						case 0b01111110: //	Center
+						// 2 independent other corners										
+						case 0b01011111: //	Center
+						case 0b11010111: //	Center
+						case 0b11110101: //	Center
+						case 0b01111101: //	Center
+						case 0b01110111: //	Center
+						case 0b11011101: //	Center
+						// 3 independent other corners										
+						case 0b01010111: //	Center
+						case 0b01011101: //	Center
+						case 0b01110101: //	Center
+						case 0b11010101: //	Center
+						// + shape										
+						case 0b01010101: //	Center
+						// full other edge = 2 corners + edge in between										
+						case 0b00011111: //	Center
+						case 0b11000111: //	Center
+						case 0b11110001: //	Center
+						case 0b01111100: //	Center
 							
 						// default
 						default:
