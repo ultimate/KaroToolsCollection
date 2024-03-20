@@ -78,27 +78,27 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 		// scaling
 		scaleLabel = new JLabel("Scale:");
-		scaleLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 1, COL, ROW);
+		scaleLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 1, COL, ROW);
 		this.getContentPane().add(scaleLabel);
 		scaleSlider = new JSlider(1, 100, 10);
-		scaleSlider.setBounds(GAP * 2 + COL * 1, GAP * 1 + ROW * 1, 2 * COL, ROW);
+		scaleSlider.setBounds(GAP * 2 + COL * 1, GAP * 2 + ROW * 1, 2 * COL, ROW);
 		scaleSlider.addChangeListener(this);
 		this.getContentPane().add(scaleSlider);
 		scaleTF = new JTextField(scaleSlider.getValue() / 10.0 + "");
-		scaleTF.setBounds(GAP * 3 + COL * 3, GAP * 1 + ROW * 1, COL, ROW);
+		scaleTF.setBounds(GAP * 3 + COL * 3, GAP * 2 + ROW * 1, COL, ROW);
 		scaleTF.setEditable(false);
 		this.getContentPane().add(scaleTF);
 
 		// rotation
 		rotationLabel = new JLabel("Rotation (CCW):");
-		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 2, COL, ROW);
+		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 3 + ROW * 2, COL, ROW);
 		this.getContentPane().add(rotationLabel);
 		rotationSlider = new JSlider(0, 360, 0);
-		rotationSlider.setBounds(GAP * 2 + COL * 1, GAP * 2 + ROW * 2, 2 * COL, ROW);
+		rotationSlider.setBounds(GAP * 2 + COL * 1, GAP * 3 + ROW * 2, 2 * COL, ROW);
 		rotationSlider.addChangeListener(this);
 		this.getContentPane().add(rotationSlider);
 		rotationTF = new JTextField(rotationSlider.getValue() + " deg");
-		rotationTF.setBounds(GAP * 3 + COL * 3, GAP * 2 + ROW * 2, COL, ROW);
+		rotationTF.setBounds(GAP * 3 + COL * 3, GAP * 3 + ROW * 2, COL, ROW);
 		rotationTF.setEditable(false);
 		this.getContentPane().add(rotationTF);
 
@@ -106,7 +106,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		DefaultComboBoxModel<Map> model = new DefaultComboBoxModel<Map>(maps.toArray(new Map[0]));
 		mapCB = new JComboBox<>(model);
 		mapCB.addActionListener(this);
-		mapCB.setBounds(GAP * 1 + COL * 0, GAP * 3 + ROW * 3, 4 * COL + 2 * GAP, ROW);
+		mapCB.setBounds(GAP * 1 + COL * 0, GAP * 4 + ROW * 3, 4 * COL + 2 * GAP, ROW);
 		this.getContentPane().add(mapCB);
 
 		// code
@@ -114,7 +114,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		codeArea.getDocument().addDocumentListener(this);
 		JScrollPane scroll = new JScrollPane(codeArea);
-		scroll.setBounds(GAP * 1 + COL * 0, GAP * 4 + ROW * 4, 4 * COL + 2 * GAP, ROW * 20);
+		scroll.setBounds(GAP * 1 + COL * 0, GAP * 5 + ROW * 4, 4 * COL + 2 * GAP, ROW * 20);
 		this.getContentPane().add(scroll);
 
 		// canvases
