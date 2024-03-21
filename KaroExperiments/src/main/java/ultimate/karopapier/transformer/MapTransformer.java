@@ -202,7 +202,7 @@ public class MapTransformer
 		center, northeast, southeast, southwest, northwest
 	}
 
-	public static Corner getCorner(double xd, double yd)
+	public static Corner getCorner(double xd, double yd, int mod)
 	{
 		if(xd + yd >= 1.5)
 			return Corner.southeast;
@@ -298,7 +298,8 @@ public class MapTransformer
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
 
-				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2);
+				mod = (x + y) % 2;
+				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2, mod);
 				zone = getZone(origin.x - originX, origin.y - originY);
 
 				originCenterValue = getValue(original, originX, originY);
@@ -306,22 +307,21 @@ public class MapTransformer
 				if(smartScale)
 				{
 					mask = getMask(original, originX, originY);
-					mod = (x + y) % 2;
 
 					originCheckValue = getCheckValue(original, originX, originY, mod, zone);
 					originNeighborValue = getNeighborValue(original, originX, originY, zone);
 
-					if(false)// originX == 10 && originY == 5)
-					{
-						// @formatter:off
-						System.out.println("originX=" + originX + ",originY=" + originY +
-								" -> mask=" + Integer.toBinaryString(mask) +
-								", mod=" + mod +
-								", corner=" + corner +
-								", zone=" + zone +
-								", fractions=" + (origin.x - originX) + "/" + (origin.y - originY));
-						// @formatter:on
-					}
+//					if(false)// originX == 10 && originY == 5)
+//					{
+//						// @formatter:off
+//						System.out.println("originX=" + originX + ",originY=" + originY +
+//								" -> mask=" + Integer.toBinaryString(mask) +
+//								", mod=" + mod +
+//								", corner=" + corner +
+//								", zone=" + zone +
+//								", fractions=" + (origin.x - originX) + "/" + (origin.y - originY));
+//						// @formatter:on
+//					}
 
 					switch(mask)
 					{
@@ -653,6 +653,137 @@ public class MapTransformer
 						default:
 							scaledValue = originCenterValue;
 						// @formatter:on
+					}
+				}
+				else
+				{
+					scaledValue = originCenterValue;
+				}
+				scaled[y][x] = scaledValue;
+			}
+		}
+		return scaled;
+	}
+
+	public static char[][] transform2(char[][] original, double[][] matrix, boolean smartScale)
+	{
+		// System.out.println("matrix = ");
+		// printMatrix(matrix);
+		double[][] inv = invertMatrix(matrix);
+		// System.out.println("inv = ");
+		// printMatrix(inv);
+
+		int oldSizeY = original.length;
+		int oldSizeX = original[0].length;
+
+		// calculate new size
+		Point2D.Double[] transformedCorners = new Point2D.Double[] { applyMatrix(matrix, new Point2D.Double(0, 0)),
+				applyMatrix(matrix, new Point2D.Double(0, oldSizeY)), applyMatrix(matrix, new Point2D.Double(oldSizeX, 0)),
+				applyMatrix(matrix, new Point2D.Double(oldSizeX, oldSizeY)) };
+		Point2D.Double max = max(transformedCorners);
+		int newSizeX = (int) Math.ceil(max.x);
+		int newSizeY = (int) Math.ceil(max.y);
+
+		char[][] scaled = new char[newSizeY][];
+
+		Point2D.Double p0 = applyMatrix(inv, new Point2D.Double(0, 0));
+		Point2D.Double p1 = applyMatrix(inv, new Point2D.Double(1, 1));
+		double scaleX = p1.x - p0.x;
+		double scaleY = p1.y - p0.y;
+
+		System.out.println("scaleX=" + scaleX + ", scaleY=" + scaleY);
+		
+		Point2D.Double origin;
+		int originX, originY;
+		int mask, mod;
+		Corner corner;
+		Zone zone;
+		char scaledValue, originCenterValue, originCheckValue;
+		char originNeighborValueNearest, originNeighborValueNorth, originNeighborValueEast, originNeighborValueSouth, originNeighborValueWest;
+		for(int y = 0; y < newSizeY; y++)
+		{
+			scaled[y] = new char[newSizeX];
+			for(int x = 0; x < newSizeX; x++)
+			{
+				origin = applyMatrix(inv, new Point2D.Double(x, y));
+				originX = (int) (origin.x);
+				originY = (int) (origin.y);
+
+				mod = (x + y) % 2;
+				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2, mod);
+				zone = getZone(origin.x - originX, origin.y - originY);
+
+				originCenterValue = getValue(original, originX, originY);
+
+				if(smartScale)
+				{
+					mask = getMask(original, originX, originY);
+
+					originCheckValue = getCheckValue(original, originX, originY, mod, zone);
+					originNeighborValueNearest = getNeighborValue(original, originX, originY, zone);
+					originNeighborValueNorth = getNeighborValue(original, originX, originY, Zone.north);
+					originNeighborValueEast = getNeighborValue(original, originX, originY, Zone.east);
+					originNeighborValueSouth = getNeighborValue(original, originX, originY, Zone.south);
+					originNeighborValueWest = getNeighborValue(original, originX, originY, Zone.west);
+					
+					switch(corner)
+					{
+						case northwest:
+							if(originNeighborValueNorth == originCenterValue || originNeighborValueWest == originCenterValue)
+								scaledValue = originCenterValue;
+							else if((mask & 0b11000001) == 0b10000000)
+								scaledValue = originCheckValue;
+							else
+								scaledValue = originNeighborValueNearest;
+							break;
+						case northeast:
+							if(originNeighborValueNorth == originCenterValue || originNeighborValueEast == originCenterValue)
+								scaledValue = originCenterValue;
+							else if((mask & 0b01110000) == 0b00100000)
+								scaledValue = originCheckValue;
+							else
+								scaledValue = originNeighborValueNearest;
+							break;
+						case southeast:
+							if(originNeighborValueSouth == originCenterValue || originNeighborValueEast == originCenterValue)
+								scaledValue = originCenterValue;
+							else if((mask & 0b00011100) == 0b00001000)
+								scaledValue = originCheckValue;
+							else
+								scaledValue = originNeighborValueNearest;
+							break;
+						case southwest:
+							if(originNeighborValueSouth == originCenterValue || originNeighborValueWest == originCenterValue)
+								scaledValue = originCenterValue;
+							else if((mask & 0b00000111) == 0b00000010)
+								scaledValue = originCheckValue;
+							else
+								scaledValue = originNeighborValueNearest;
+							break;
+						case center:
+							boolean checkedNorthEast = (mask & 0b11000001) == 0b10000000;
+							boolean checkedSouthEast = (mask & 0b01110000) == 0b00100000;
+							boolean checkedSouthWest = (mask & 0b00011100) == 0b00001000;
+							boolean checkedNorthWest = (mask & 0b00000111) == 0b00000010;
+							int numberOfCheckedCorners = 0;
+							if(checkedNorthEast) numberOfCheckedCorners++;
+							if(checkedSouthEast) numberOfCheckedCorners++;
+							if(checkedSouthWest) numberOfCheckedCorners++;
+							if(checkedNorthWest) numberOfCheckedCorners++;
+							
+							System.out.println(originX + "," + originY + " -> mask=" + Integer.toBinaryString(mask) +  " -> checks=" + numberOfCheckedCorners);
+							if(checkedNorthEast && checkedSouthWest) // opposite checked
+								scaledValue = originCheckValue;
+							else if(checkedSouthEast && checkedNorthWest) // opposite checked
+								scaledValue = originCheckValue;
+							else if(numberOfCheckedCorners <= 2 && !isRoad(originCenterValue)) // two checked and it is not road
+								scaledValue = originCheckValue;
+							else
+								scaledValue = originCenterValue;
+							break;
+						default:
+							scaledValue = originCenterValue;
+							break;
 					}
 				}
 				else
