@@ -202,7 +202,7 @@ public class MapTransformer
 		center, northeast, southeast, southwest, northwest
 	}
 
-	public static Corner getCorner(double xd, double yd, int mod)
+	public static Corner getCorner(double xd, double yd)
 	{
 		if(xd + yd >= 1.5)
 			return Corner.southeast;
@@ -298,8 +298,7 @@ public class MapTransformer
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
 
-				mod = (x + y) % 2;
-				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2, mod);
+				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2);
 				zone = getZone(origin.x - originX, origin.y - originY);
 
 				originCenterValue = getValue(original, originX, originY);
@@ -307,6 +306,7 @@ public class MapTransformer
 				if(smartScale)
 				{
 					mask = getMask(original, originX, originY);
+					mod = (x + y) % 2;
 
 					originCheckValue = getCheckValue(original, originX, originY, mod, zone);
 					originNeighborValue = getNeighborValue(original, originX, originY, zone);
@@ -709,8 +709,7 @@ public class MapTransformer
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
 
-				mod = (x + y) % 2;
-				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2, mod);
+				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2);
 				zone = getZone(origin.x - originX, origin.y - originY);
 
 				originCenterValue = getValue(original, originX, originY);
@@ -718,6 +717,7 @@ public class MapTransformer
 				if(smartScale)
 				{
 					mask = getMask(original, originX, originY);
+					mod = (x + y) % 2;
 
 					originCheckValue = getCheckValue(original, originX, originY, mod, zone);
 					originNeighborValueNearest = getNeighborValue(original, originX, originY, zone);
