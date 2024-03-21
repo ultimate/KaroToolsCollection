@@ -5,30 +5,30 @@ import java.awt.geom.Point2D;
 public class MapTransformer
 {
 	// @formatter:off
-	public static final String TEST_CODE  = "XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOOXYXYOYXYXYXOXYXYXYOOOOXOOOOOOXOOOOOO\n"+
-											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXYXOOOXYXYXOOOXOXOOOOXXXOOOOO\n"+
-											"XYOYOYOYXYXOXYXYXYOOXOXOXOOOOXOOOOOOXYOOOOOYXOXOXOXYXYOOXXXXXOOXOXOXOOOO\n"+
-											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXYXOOOXYXYXOOOXOXOOOOXXXOOOOO\n"+
-											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOOXYXYOYXYXYXOXYXYXYOOOOXOOOOOOXOOOOOO\n"+
-											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYOYXYXYXOXYXYXOOOOOXOOOOOOXOOOOOYXOOYOOXYOXYXOYXYXOOXXOXXOOXOOOXOOOO\n"+
-											"XYXYOOXYXYXYOOXYXYOOOOXXOOOOOOXXOOOOXYXYOYXYXOYOYOXYXYOOOOXOOOOXOXOXOOOO\n"+
-											"YXOOOOOXYXYOOOOOYXOOXXXXXOOOOXXXXXOOYXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOO\n"+
-											"XYXOOOOOXYOOOOOYXYOOOXXXXXOOXXXXXOOOXYXYOYXYXOYOYOXYXYOOOOXOOOOXOXOXOOOO\n"+
-											"YXYXOOYXYXYXOOYXYXOOOOXXOOOOOOXXOOOOYXOOYOOYXOXYXOYXYXOOXXOXXOOXOOOXOOOO\n"+
-											"XYXYOYXYXYXYXOXYXYOOOOXOOOOOOOOXOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXOXYXYXYOYXYOYOYOOOXOOOOOOXOOOXOXO\n"+
-											"YXYXOXYXYXYXYOYXYXOOOOXOOOOOOOOXOOOOYXOOYXYXYXOOYXOXOXOOXXOOOOOOXXOOXOXO\n"+
-											"XYXOOOXYXYXYOYOYXYOOOXXXOOOOOOXOXOOOXYXYOOXYOOXYXYOYOYOOOOXXOOXXOOOOXOXO\n"+
-											"YXOOYOOXYXYOYXYOXYOOXXOXXOOOOXOOOXOOYXYXOXYXYOYXYXYXYXOOOOXOOOOXOOOOOOOO\n"+
-											"XYXOOOXYXYXYOYOXYXOOOXXXOOOOOOXOXOOOXYXYXYXYXYXYXYOOOYOOOOOOOOOOOOOOXXXO\n"+
-											"YXYXOXYXYXYXYOXYXYOOOOXOOOOOOOOXOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
-											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
-											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO";
+	public static final String TEST_CODE  = "XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOOXYXYOYXYXYXOXYXYXYOOOOXOOOOOOXOOOOOOXYOYOYOYXOOYOOXYXOXOOXOXOXOOXXOXXOOO\n"+
+											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXYXOOOXYXYXOOOXOXOOOOXXXOOOOOYXOOYOOXYXOOOXYXYXOOOXXOXXOOOXXXOOOO\n"+
+											"XYOYOYOYXYXOXYXYXYOOXOXOXOOOOXOOOOOOXYOOOOOYXOXOXOXYXYOOXXXXXOOXOXOXOOOOXYXOOOXYXYXOXYXYXOXOOOXXXOOOOOXOOOOO\n"+
+											"YXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXYXOOOXYXYXOOOXOXOOOOXXXOOOOOYXOOYOOXYXOOOXYXYXOOOXXOXXOOOXXXOOOO\n"+
+											"XYXYOYXYXOXYXOXYXYOOOOXOOOOXOOOXOOOOXYXYOYXYXYXOXYXYXYOOOOXOOOOOOXOOOOOOXYOYOYOYXOOYOOXYXOXOOXOXOXOOXXOXXOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYOYXYXYXOXYXYXOOOOOXOOOOOOXOOOOOYXOOYOOXYOXYXOYXYXOOXXOXXOOXOOOXOOOOYXOXOXYXOOYXYXOXYXOOXOXOOOXXOOOOXOOO\n"+
+											"XYXYOOXYXYXYOOXYXYOOOOXXOOOOOOXXOOOOXYXYOYXYXOYOYOXYXYOOOOXOOOOXOXOXOOOOXYOYOYXYXYOOXYOOXYOOXOXOOOOOXXOOXXOO\n"+
+											"YXOOOOOXYXYOOOOOYXOOXXXXXOOOOXXXXXOOYXYOYOYXYXOXOXYXYXOOOXOXOOOOXOXOOOOOYXYOYOYXOOYXYXYXYXOOOXOXOOXXOOOOOOOO\n"+
+											"XYXOOOOOXYOOOOOYXYOOOXXXXXOOXXXXXOOOXYXYOYXYXOYOYOXYXYOOOOXOOOOXOXOXOOOOXYXOXOXYXYOOXYXOXYOOOXOXOOOOXXOOOXOO\n"+
+											"YXYXOOYXYXYXOOYXYXOOOOXXOOOOOOXXOOOOYXOOYOOYXOXYXOYXYXOOXXOXXOOXOOOXOOOOYXYXYXYXYXYXYXOOYXOOOOOOOOOOOOOOXXOO\n"+
+											"XYXYOYXYXYXYXOXYXYOOOOXOOOOOOOOXOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYOYXYOYXYXYXOOYXOOOXOOOXOOOOOOXXOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXOXYXYXYOYXYOYOYOOOXOOOOOOXOOOXOXOXYXOOYOOXYXYXYOYXYOOOXXOXXOOOOOOXOOO\n"+
+											"YXYXOXYXYXYXYOYXYXOOOOXOOOOOOOOXOOOOYXOOYXYXYXOOYXOXOXOOXXOOOOOOXXOOXOXOYXYXOXOXYXYXYXYXYXOOOOXOXOOOOOOOOOOO\n"+
+											"XYXOOOXYXYXYOYOYXYOOOXXXOOOOOOXOXOOOXYXYOOXYOOXYXYOYOYOOOOXXOOXXOOOOXOXOXYXYXYXYXYXYXYOOXYOOOOOOOOOOOOOOXXOO\n"+
+											"YXOOYOOXYXYOYXYOXYOOXXOXXOOOOXOOOXOOYXYXOXYXYOYXYXYXYXOOOOXOOOOXOOOOOOOOYXOOYXYOOXYXYXYOYXOOXXOOOXXOOOOOOXOO\n"+
+											"XYXOOOXYXYXYOYOXYXOOOXXXOOOOOOXOXOOOXYXYXYXYXYXYXYOOOYOOOOOOOOOOOOOOXXXOXYXOOYOOXYXYXYXYXYOOOXXOXXOOOOOOOOOO\n"+
+											"YXYXOXYXYXYXYOXYXYOOOOXOOOOOOOOXOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO\n"+
+											"XYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOOXYXYXYXYXYXYXYXYXYOOOOOOOOOOOOOOOOOO\n"+
+											"YXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOOYXYXYXYXYXYXYXYXYXOOOOOOOOOOOOOOOOOO";
 	
 	public static final String LINE_SEPARATOR = "\n";
 	// @formatter:on
@@ -326,170 +326,6 @@ public class MapTransformer
 					switch(mask)
 					{
 						// @formatter:off
-						// other corner + independent edge										
-						case 0b01101111: //	Center
-						case 0b01111011: //	Center
-						case 0b11011011: //	Center
-						case 0b11011110: //	Center
-						case 0b11110110: //	Center
-						case 0b10110111: //	Center
-						case 0b10111101: //	Center
-						case 0b11101101: //	Center
-						// other corner + opposite corner with edge (grass on street)										
-						case 0b00110111: //	Center
-						case 0b10011101: //	Center
-						case 0b11001101: //	Center
-						case 0b01100111: //	Center
-						case 0b01110011: //	Center
-						case 0b11011001: //	Center
-						case 0b11011100: //	Center
-						case 0b01110110: //	Center
-						// other corner + neighbor corner with edge										
-						case 0b00111101: //	Center
-						case 0b10010111: //	Center
-						case 0b01001111: //	Center
-						case 0b11100101: //	Center
-						case 0b11010011: //	Center
-						case 0b01111001: //	Center
-						case 0b11110100: //	Center
-						case 0b01011110: //	Center
-						// other corner double L shape = 2x2 same										
-						case 0b00000111: //	Center
-						case 0b11000001: //	Center
-						case 0b01110000: //	Center
-						case 0b00011100: //	Center
-						// other full edge + 2 corners										
-						case 0b00010101: //	Center
-						case 0b01000101: //	Center
-						case 0b01010001: //	Center
-						case 0b01010100: //	Center
-						// 2 other full edges = 2 opposite same edges										
-						case 0b00010001: //	Center
-						case 0b01000100: //	Center
-						// other corner L shape + opposite corner										
-						case 0b00001101: //	Triangle
-						case 0b10000101: //	Triangle
-						case 0b01000011: //	Triangle
-						case 0b01100001: //	Triangle
-						case 0b11010000: //	Triangle
-						case 0b01011000: //	Triangle
-						case 0b00110100: //	Triangle
-						case 0b00010110: //	Triangle
-						// other corner double L shape + opposite corner										
-						case 0b00000101: //	Center
-						case 0b01000001: //	Center
-						case 0b01010000: //	Center
-						case 0b00010100: //	Center
-						// single same edge										
-						case 0b01000000: //	Center
-						case 0b00010000: //	Center
-						case 0b00000100: //	Center
-						case 0b00000001: //	Center
-						// same edge + 1 independent corner										
-						case 0b01001000: //	Center
-						case 0b01000010: //	Center
-						case 0b00010010: //	Center
-						case 0b10010000: //	Center
-						case 0b10000100: //	Center
-						case 0b00100100: //	Center
-						case 0b00001001: //	Center
-						case 0b00100001: //	Center
-						// same edge + 2 independent corner (Y-shape)										
-						case 0b01001010: //	Center
-						case 0b10010010: //	Center
-						case 0b10100100: //	Center
-						case 0b00101001: //	Center
-						// same edge + adjacent corner + far corner										
-						case 0b11001000: //	Check Triangle
-						case 0b01100010: //	Check Triangle
-						case 0b00110010: //	Check Triangle
-						case 0b10011000: //	Check Triangle
-						case 0b10001100: //	Check Triangle
-						case 0b00100110: //	Check Triangle
-						case 0b00100011: //	Check Triangle
-						case 0b10001001: //	Check Triangle
-						// same edge + adjacent corner + near corner										
-						case 0b11000010: //	Check Triangle
-						case 0b01101000: //	Check Triangle
-						case 0b10110000: //	Check Triangle
-						case 0b00011010: //	Check Triangle
-						case 0b00101100: //	Check Triangle
-						case 0b10000110: //	Check Triangle
-						case 0b00001011: //	Check Triangle
-						case 0b10100001: //	Check Triangle
-						// same edge + adjacent corner + straight edge										
-						case 0b11000100: //	Center
-						case 0b01100100: //	Center
-						case 0b00110001: //	Center
-						case 0b00011001: //	Center
-						case 0b01001100: //	Center
-						case 0b01000110: //	Center
-						case 0b00010011: //	Center
-						case 0b10010001: //	Center
-						// same T shape										
-						case 0b11100100: //	Center
-						case 0b00111001: //	Center
-						case 0b01001110: //	Center
-						case 0b10010011: //	Center
-						// 2x2 same + 1 edge										
-						case 0b01110100: //	Center
-						case 0b01110001: //	Center
-						case 0b00011101: //	Center
-						case 0b01011100: //	Center
-						case 0b01000111: //	Center
-						case 0b00010111: //	Center
-						case 0b11010001: //	Center
-						case 0b11000101: //	Center
-						// C shape										
-						case 0b01101100: //	Center
-						case 0b00011011: //	Center
-						case 0b11000110: //	Center
-						case 0b10110001: //	Center
-						// T+L shape										
-						case 0b11101100: //	Center
-						case 0b11100110: //	Center
-						case 0b00111011: //	Center
-						case 0b10111001: //	Center
-						case 0b11001110: //	Center
-						case 0b01101110: //	Center
-						case 0b10110011: //	Center
-						case 0b10011011: //	Center
-						// 3 same edges + corners on the 4th side										
-						case 0b11010110: //	Center
-						case 0b10110101: //	Center
-						case 0b01101101: //	Center
-						case 0b01011011: //	Center
-						// inner T shape + 1 adjacent corner										
-						case 0b01010110: //	Center
-						case 0b11010100: //	Center
-						case 0b10010101: //	Center
-						case 0b00110101: //	Center
-						case 0b01100101: //	Center
-						case 0b01001101: //	Center
-						case 0b01011001: //	Center
-						case 0b01010011: //	Center
-						// same corner + same corner with edge + edge										
-						case 0b10110100: //	Center
-						case 0b01011010: //	Center
-						case 0b00101101: //	Center
-						case 0b10010110: //	Center
-						case 0b01001011: //	Center
-						case 0b10100101: //	Center
-						case 0b11010010: //	Center
-						case 0b01101001: //	Center
-						// 2 opposite same edges with opposite same corners										
-						case 0b11001100: //	Center
-						case 0b01100110: //	Center
-						case 0b00110011: //	Center
-						case 0b10011001: //	Center
-						// 3 same corners + edges for the outer corners	= W + opposite corner									
-						case 0b10101101: //	Center
-						case 0b01101011: //	Center
-						case 0b11011010: //	Center
-						case 0b10110110: //	Center
-							
-							scaledValue = originCenterValue; break;
-						// TODO everything above	
 						
 						///////////////////////////////
 						// different check patterns		
@@ -501,36 +337,30 @@ public class MapTransformer
 						case 0b10101000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCheckValue); break;
 						case 0b00101010:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCheckValue); break;
 						case 0b10001010:	scaledValue = (corner == Corner.northeast ? originNeighborValue : originCheckValue); break;
-						case 0b10100010:	scaledValue = (corner == Corner.southeast ? originNeighborValue : originCheckValue); break;
-							
+						case 0b10100010:	scaledValue = (corner == Corner.southeast ? originNeighborValue : originCheckValue); break;							
 						// 2 opposite same corners										
 						case 0b10001000:	scaledValue = (corner == Corner.northeast || corner == Corner.southwest ? originNeighborValue : originCheckValue); break;
-						case 0b00100010:	scaledValue = (corner == Corner.northwest || corner == Corner.southeast ? originNeighborValue : originCheckValue); break;
-							
+						case 0b00100010:	scaledValue = (corner == Corner.northwest || corner == Corner.southeast ? originNeighborValue : originCheckValue); break;							
 						// 2 adjacent same corners										
 						case 0b10100000:	scaledValue = (corner == Corner.southwest || corner == Corner.southeast ? originNeighborValue : originCheckValue); break;
 						case 0b00101000:	scaledValue = (corner == Corner.southwest || corner == Corner.northwest ? originNeighborValue : originCheckValue); break;
 						case 0b00001010:	scaledValue = (corner == Corner.northwest || corner == Corner.northeast ? originNeighborValue : originCheckValue); break;
-						case 0b10000010:	scaledValue = (corner == Corner.southeast || corner == Corner.northeast ? originNeighborValue : originCheckValue); break;
-							
+						case 0b10000010:	scaledValue = (corner == Corner.southeast || corner == Corner.northeast ? originNeighborValue : originCheckValue); break;							
 						// full same edge, rest checkered										
 						case 0b11101010:	scaledValue = (corner == Corner.southeast || corner == Corner.southwest ? originCheckValue : originCenterValue); break;
 						case 0b10111010:	scaledValue = (corner == Corner.northwest || corner == Corner.southwest ? originCheckValue : originCenterValue); break;
 						case 0b10101110:	scaledValue = (corner == Corner.northwest || corner == Corner.northeast ? originCheckValue : originCenterValue); break;
-						case 0b10101011:	scaledValue = (corner == Corner.southeast || corner == Corner.northeast ? originCheckValue : originCenterValue); break;
-							
+						case 0b10101011:	scaledValue = (corner == Corner.southeast || corner == Corner.northeast ? originCheckValue : originCenterValue); break;							
 						// 2 other edges next to each other										
 						case 0b10101111:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
 						case 0b11101011:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
 						case 0b11111010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
-						case 0b10111110:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
-							
+						case 0b10111110:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;							
 						// single same corner										
 						case 0b10000000:	scaledValue = (corner == Corner.northwest || corner == Corner.center ? originCheckValue : originNeighborValue); break;
 						case 0b00100000:	scaledValue = (corner == Corner.northeast || corner == Corner.center ? originCheckValue : originNeighborValue); break;
 						case 0b00001000:	scaledValue = (corner == Corner.southeast || corner == Corner.center ? originCheckValue : originNeighborValue); break;
-						case 0b00000010:	scaledValue = (corner == Corner.southwest || corner == Corner.center ? originCheckValue : originNeighborValue); break;
-							
+						case 0b00000010:	scaledValue = (corner == Corner.southwest || corner == Corner.center ? originCheckValue : originNeighborValue); break;							
 						// same edge + adjacent corner + 2 corners										
 						case 0b01101010:
 						case 0b11001010:	scaledValue = (corner == Corner.southeast || corner == Corner.southwest ? originCheckValue : originCenterValue); break;
@@ -545,13 +375,76 @@ public class MapTransformer
 						case 0b01010010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
 						case 0b10010100:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
 						case 0b00100101:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
-						case 0b01001001:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
-						
+						case 0b01001001:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;						
 						// 2x2 same + opposite corner										
 						case 0b01110010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
 						case 0b10011100:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
 						case 0b00100111:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
-						case 0b11001001:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b11001001:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;						
+						// 3 same corners + edges for the outer corners	= W + opposite corner									
+						case 0b10101101:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b01101011:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b11011010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b10110110:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						// same edge + adjacent corner + far corner										
+						case 0b11001000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b01100010:	scaledValue = (corner == Corner.southeast ? originNeighborValue : corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b00110010:	scaledValue = (corner == Corner.northwest ? originNeighborValue : corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b10011000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						case 0b10001100:	scaledValue = (corner == Corner.northeast ? originNeighborValue : corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						case 0b00100110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b00100011:	scaledValue = (corner == Corner.southeast ? originNeighborValue : corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b10001001:	scaledValue = (corner == Corner.northeast ? originNeighborValue : corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						// same full edge + corner	
+						case 0b11101000: 	scaledValue = (corner == Corner.southwest ? originNeighborValue : (corner == Corner.southeast ? originCheckValue : originCenterValue)); break;
+						case 0b11100010:	scaledValue = (corner == Corner.southeast ? originNeighborValue : (corner == Corner.southwest ? originCheckValue : originCenterValue)); break;
+						case 0b10111000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : (corner == Corner.northwest ? originCheckValue : originCenterValue)); break;
+						case 0b00111010:	scaledValue = (corner == Corner.northwest ? originNeighborValue : (corner == Corner.southwest ? originCheckValue : originCenterValue)); break;
+						case 0b10001110:	scaledValue = (corner == Corner.northeast ? originNeighborValue : (corner == Corner.northwest ? originCheckValue : originCenterValue)); break;
+						case 0b00101110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : (corner == Corner.northeast ? originCheckValue : originCenterValue)); break;
+						case 0b10100011:	scaledValue = (corner == Corner.southeast ? originNeighborValue : (corner == Corner.northeast ? originCheckValue : originCenterValue)); break;
+						case 0b10001011:	scaledValue = (corner == Corner.northeast ? originNeighborValue : (corner == Corner.southeast ? originCheckValue : originCenterValue)); break;
+						// same edge + adjacent corner + near corner
+						case 0b11000010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b01101000:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b10110000:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						case 0b00011010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b00101100:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b10000110:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						case 0b00001011:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b10100001:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						// same edge + 1 independent corner	
+						case 0b01001000:	scaledValue = (corner == Corner.southeast ? originCheckValue : (corner == Corner.southwest ? originNeighborValue : originCenterValue)); break;
+						case 0b01000010:	scaledValue = (corner == Corner.southwest ? originCheckValue : (corner == Corner.southeast ? originNeighborValue : originCenterValue)); break;
+						case 0b00010010:	scaledValue = (corner == Corner.southwest ? originCheckValue : (corner == Corner.northwest ? originNeighborValue : originCenterValue)); break;
+						case 0b10010000:	scaledValue = (corner == Corner.northwest ? originCheckValue : (corner == Corner.southwest ? originNeighborValue : originCenterValue)); break;
+						case 0b10000100:	scaledValue = (corner == Corner.northwest ? originCheckValue : (corner == Corner.northeast ? originNeighborValue : originCenterValue)); break;
+						case 0b00100100:	scaledValue = (corner == Corner.northeast ? originCheckValue : (corner == Corner.northwest ? originNeighborValue : originCenterValue)); break;
+						case 0b00100001:	scaledValue = (corner == Corner.northeast ? originCheckValue : (corner == Corner.southeast ? originNeighborValue : originCenterValue)); break;
+						case 0b00001001:	scaledValue = (corner == Corner.southeast ? originCheckValue : (corner == Corner.northeast ? originNeighborValue : originCenterValue)); break;
+						// same corner + same corner with edge + edge	
+						case 0b10110100:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						case 0b01011010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b00101101:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b10010110:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						case 0b01001011:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b10100101:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b11010010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b01101001:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						// 2 other edges next to each other + 1 adjacent corner	
+						case 0b00101111:
+						case 0b10100111:	scaledValue = (corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b11001011:
+						case 0b11101001:	scaledValue = (corner == Corner.southeast ? originCheckValue : originCenterValue); break;
+						case 0b11110010:
+						case 0b01111010:	scaledValue = (corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b10111100:
+						case 0b10011110:	scaledValue = (corner == Corner.northwest ? originCheckValue : originCenterValue); break;
+						// same edge + 2 independent corner (Y-shape)										
+						case 0b01001010: 	scaledValue = (corner == Corner.southeast || corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b10010010: 	scaledValue = (corner == Corner.northwest || corner == Corner.southwest ? originCheckValue : originCenterValue); break;
+						case 0b10100100: 	scaledValue = (corner == Corner.northwest || corner == Corner.northeast ? originCheckValue : originCenterValue); break;
+						case 0b00101001: 	scaledValue = (corner == Corner.southeast || corner == Corner.northeast ? originCheckValue : originCenterValue); break;
 							
 						//////////////////////////////////////////////////////////////		
 						// on the edge
@@ -566,19 +459,16 @@ public class MapTransformer
 						case 0b01111000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
 						case 0b00111100: 
 						case 0b00011110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
-
 						// other corner + 2 adjacent edges = same double L										
 						case 0b00111110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
 						case 0b10001111:	scaledValue = (corner == Corner.northeast ? originNeighborValue : originCenterValue); break;
 						case 0b11100011:	scaledValue = (corner == Corner.southeast ? originNeighborValue : originCenterValue); break;
 						case 0b11111000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
-							
 						// full same edge										
 						case 0b11100000:	scaledValue = (corner == Corner.southwest || corner == Corner.southeast ? originNeighborValue : originCenterValue); break;
 						case 0b00111000:	scaledValue = (corner == Corner.southwest || corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
 						case 0b00001110:	scaledValue = (corner == Corner.northeast || corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
 						case 0b10000011:	scaledValue = (corner == Corner.northeast || corner == Corner.southeast ? originNeighborValue : originCenterValue); break;
-							
 						// same corner + 1 adjacent edge										
 						case 0b11000000:
 						case 0b00011000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
@@ -588,29 +478,27 @@ public class MapTransformer
 						case 0b00000110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
 						case 0b00001100:
 						case 0b10000001:	scaledValue = (corner == Corner.northeast ? originNeighborValue : originCenterValue); break;
-							
 						// stair shape										
 						case 0b11011000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
 						case 0b00110110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
 						case 0b10001101:	scaledValue = (corner == Corner.northeast ? originNeighborValue : originCenterValue); break;
 						case 0b01100011:	scaledValue = (corner == Corner.southeast ? originNeighborValue : originCenterValue); break;
-							
-						// same full edge + corner										
-						case 0b11101000:
-						case 0b10111000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
-						case 0b11100010:
-						case 0b10100011:	scaledValue = (corner == Corner.southeast ? originNeighborValue : originCenterValue); break;
-						case 0b10001110:
-						case 0b10001011:	scaledValue = (corner == Corner.northeast ? originNeighborValue : originCenterValue); break;
-						case 0b00101110:
-						case 0b00111010:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
-							
+						// other corner L shape + opposite corner = Tetris zick-zack-block									
+						case 0b00001101:
+						case 0b10000101:	scaledValue = (corner == Corner.northeast ? originNeighborValue : originCenterValue); break;
+						case 0b01000011:
+						case 0b01100001:	scaledValue = (corner == Corner.southeast ? originNeighborValue : originCenterValue); break;
+						case 0b11010000:
+						case 0b01011000:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
+						case 0b00110100:
+						case 0b00010110:	scaledValue = (corner == Corner.northwest ? originNeighborValue : originCenterValue); break;
+						
 						//////////////////////////////////////////////////////////////		
 						// everything below here will be default = center value
 						//////////////////////////////////////////////////////////////	
 							
 						// filled same										
-						case 0b11111111:
+						case 0b11111111:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
 						// surrounded other										
 						case 0b00000000:
 						// single other corner										
@@ -654,15 +542,112 @@ public class MapTransformer
 						case 0b11000111:
 						case 0b11110001:
 						case 0b01111100:
-						// 2 other edges next to each other + 1 adjacent corner								
-						case 0b00101111:
-						case 0b10100111:
-						case 0b11001011:
-						case 0b11101001:
-						case 0b11110010:
-						case 0b01111010:
-						case 0b10111100:
-						case 0b10011110:
+						// other corner + independent edge										
+						case 0b01101111:
+						case 0b01111011:
+						case 0b11011011:
+						case 0b11011110:
+						case 0b11110110:
+						case 0b10110111:
+						case 0b10111101:
+						case 0b11101101:
+						// other corner + opposite corner with edge									
+						case 0b00110111:
+						case 0b10011101:
+						case 0b11001101:
+						case 0b01100111:
+						case 0b01110011:
+						case 0b11011001:
+						case 0b11011100:
+						case 0b01110110:
+						// other corner + neighbor corner with edge										
+						case 0b00111101:
+						case 0b10010111:
+						case 0b01001111:
+						case 0b11100101:
+						case 0b11010011:
+						case 0b01111001:
+						case 0b11110100:
+						case 0b01011110:
+						// other corner double L shape = 2x2 same										
+						case 0b00000111:
+						case 0b11000001:
+						case 0b01110000:
+						case 0b00011100:
+						// other full edge + 2 corners = small T										
+						case 0b00010101:
+						case 0b01000101: 
+						case 0b01010001:
+						case 0b01010100:
+						// 2 other full edges = 2 opposite same edges										
+						case 0b00010001:
+						case 0b01000100:
+						// same T shape										
+						case 0b11100100:
+						case 0b00111001:
+						case 0b01001110:
+						case 0b10010011:
+						// same C shape										
+						case 0b01101100:
+						case 0b00011011:
+						case 0b11000110:
+						case 0b10110001:
+						// single same edge										
+						case 0b01000000:
+						case 0b00010000:
+						case 0b00000100:
+						case 0b00000001:
+						// 2x2 same + 1 edge										
+						case 0b01110100:
+						case 0b01110001:
+						case 0b00011101:
+						case 0b01011100:
+						case 0b01000111:
+						case 0b00010111:
+						case 0b11010001:
+						case 0b11000101:
+						// T+L shape										
+						case 0b11101100:
+						case 0b11100110:
+						case 0b00111011:
+						case 0b10111001:
+						case 0b11001110:
+						case 0b01101110:
+						case 0b10110011:
+						case 0b10011011:
+						// 3 same edges + corners on the 4th side										
+						case 0b11010110:
+						case 0b10110101:
+						case 0b01101101:
+						case 0b01011011:
+						// small T shape + 1 adjacent corner										
+						case 0b01010110:
+						case 0b11010100:
+						case 0b10010101:
+						case 0b00110101:
+						case 0b01100101:
+						case 0b01001101:
+						case 0b01011001:
+						case 0b01010011:
+						// 2 opposite same edges with opposite same corners										
+						case 0b11001100:
+						case 0b01100110:
+						case 0b00110011:
+						case 0b10011001:							
+						// other corner double L shape + opposite corner = small L										
+						case 0b00000101: //	Center
+						case 0b01000001: //	Center
+						case 0b01010000: //	Center
+						case 0b00010100: //	Center
+						// same edge + adjacent corner + straight edge = L shape										
+						case 0b11000100: //	Center
+						case 0b01100100: //	Center
+						case 0b00110001: //	Center
+						case 0b00011001: //	Center
+						case 0b01001100: //	Center
+						case 0b01000110: //	Center
+						case 0b00010011: //	Center
+						case 0b10010001: //	Center
 							
 						// default
 						default:
