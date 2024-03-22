@@ -156,6 +156,36 @@ public class MapTransformer
 		}
 	}
 
+	public static void replaceChar(char[][] map, char oldChar, char newChar)
+	{
+		for(char[] row : map)
+		{
+			if(row == null)
+				continue;
+			for(int c = 0; c < row.length; c++)
+			{
+				if(row[c] == oldChar)
+					row[c] = newChar;
+			}
+		}
+	}
+
+	public static void swapChars(char[][] map, char char1, char char2)
+	{
+		for(char[] row : map)
+		{
+			if(row == null)
+				continue;
+			for(int c = 0; c < row.length; c++)
+			{
+				if(row[c] == char1)
+					row[c] = char2;
+				else if(row[c] == char2)
+					row[c] = char1;
+			}
+		}
+	}
+
 	public static boolean isRoad(char c)
 	{
 		return "SOF123456789".indexOf(c) != -1;

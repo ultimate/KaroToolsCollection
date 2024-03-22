@@ -79,6 +79,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JSlider				rotationSlider;
 	private JTextField			rotationTF;
 
+	private JLabel				swapSFLabel;
+	private JCheckBox			swapSFCB;
+
 	private JLabel				mapLabel;
 	private JComboBox<Map>		mapCB;
 	private JTextArea			codeArea;
@@ -175,6 +178,14 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		rotationTF.setEditable(false);
 		gbc.gridwidth = 1;
 		controlPanel.add(rotationTF, gbc);
+		
+		// swap SF
+		gbc.gridy++;
+		swapSFLabel = new JLabel("Swap:");
+		controlPanel.add(swapSFLabel, gbc);
+		swapSFCB = new JCheckBox("S <-> F");
+		swapSFCB.addItemListener(this);
+		controlPanel.add(swapSFCB, gbc);
 
 		// map & code
 		gbc.gridy++;
@@ -257,8 +268,13 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				scaleY *= -1;
 			
 			boolean smart = scaleSmartCB.isSelected();
+			boolean swapSF = swapSFCB.isSelected();
 	
 			char[][] original = MapTransformer.toArray(mapCode);
+			
+			if(swapSF)
+				MapTransformer.swapChars(original, 'S', 'F');
+			
 			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
 			char[][] scaled1 = MapTransformer.transform(original, matrix, smart);
 			
