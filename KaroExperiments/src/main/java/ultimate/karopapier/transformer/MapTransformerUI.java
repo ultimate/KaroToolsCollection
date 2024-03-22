@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -41,7 +43,7 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
-public class MapTransformerUI extends JFrame implements DocumentListener, ChangeListener, ActionListener, ComponentListener
+public class MapTransformerUI extends JFrame implements DocumentListener, ChangeListener, ActionListener, ComponentListener, ItemListener
 {
 	private static final long	serialVersionUID	= 1L;
 
@@ -65,6 +67,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JSlider				scaleYSlider;
 	private JTextField			scaleYTF;
 	
+	private JLabel				scaleFlagsLabel;
+	private JCheckBox			scaleSmartCB;
 	private JCheckBox			scaleSyncCB;
 
 	private JLabel				mirrorLabel;
@@ -136,32 +140,29 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		scaleYTF.setEditable(false);
 		gbc.gridwidth = 1;
 		controlPanel.add(scaleYTF, gbc);
-		
-//		// scale sync
-//		scaleSyncCB = new JCheckBox("🔗");
-//		scaleSyncCB.addChangeListener(this);
-//		gbc.gridx = 3;
-//		gbc.gridy--;
-//		gbc.gridheight = 2;
-//		controlPanel.add(scaleSyncCB, gbc);
-//		gbc.gridx = GridBagConstraints.RELATIVE;
-//		gbc.gridy++;
-//		gbc.gridheight = 1;
 
-		// rotation
+		// scale flags
+		gbc.gridy++;
+		scaleFlagsLabel = new JLabel("");
+		controlPanel.add(scaleFlagsLabel, gbc);
+		scaleSmartCB = new JCheckBox("Smart Scale");
+		scaleSmartCB.addItemListener(this);
+		controlPanel.add(scaleSmartCB, gbc);
+		scaleSyncCB = new JCheckBox("🔗 Sync Axes");
+		scaleSyncCB.addItemListener(this);
+		controlPanel.add(scaleSyncCB, gbc);
+
+		// mirroring
 		gbc.gridy++;
 		mirrorLabel = new JLabel("Mirror:");
 		controlPanel.add(mirrorLabel, gbc);
 		mirrorXCB = new JCheckBox("X");
-		mirrorXCB.addChangeListener(this);
+		mirrorXCB.addItemListener(this);
 		controlPanel.add(mirrorXCB, gbc);
 		mirrorYCB = new JCheckBox("Y");
-		mirrorYCB.addChangeListener(this);
+		mirrorYCB.addItemListener(this);
 		controlPanel.add(mirrorYCB, gbc);
-		scaleSyncCB = new JCheckBox("🔗 Sync");
-		scaleSyncCB.addChangeListener(this);
-		controlPanel.add(scaleSyncCB, gbc);
-
+		
 		// rotation
 		gbc.gridy++;
 		rotationLabel = new JLabel("Rotation (CCW):");
@@ -240,13 +241,6 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		super.update(g);
 	}
 
-	@Override
-	public void repaint(long time, int x, int y, int width, int height)
-	{
-		// TODO Auto-generated method stub
-		super.repaint(time, x, y, width, height);
-	}
-
 	public void redraw()
 	{
 		try {
@@ -262,7 +256,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			if(mirrorYCB.isSelected())
 				scaleY *= -1;
 			
-			boolean smart = true;
+			boolean smart = scaleSmartCB.isSelected();
 	
 			char[][] original = MapTransformer.toArray(mapCode);
 			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
@@ -403,8 +397,6 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	public void stateChanged(ChangeEvent e)
 	{
 		boolean syncScale = scaleSyncCB.isSelected();
-		this.scaleYSlider.setEnabled(!syncScale);
-		
 		if(syncScale)
 			this.scaleYSlider.setValue(this.scaleXSlider.getValue());
 		
@@ -412,6 +404,17 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		this.scaleXTF.setText("" + (this.scaleXSlider.getValue() / 10.0));
 		this.scaleYTF.setText("" + (this.scaleYSlider.getValue() / 10.0));
 		this.rotationTF.setText(this.rotationSlider.getValue() + " deg");
+		
+		redraw();
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e)
+	{
+		boolean syncScale = scaleSyncCB.isSelected();
+		this.scaleYSlider.setEnabled(!syncScale);
+		if(syncScale)
+			this.scaleYSlider.setValue(this.scaleXSlider.getValue());
 		
 		redraw();
 	}

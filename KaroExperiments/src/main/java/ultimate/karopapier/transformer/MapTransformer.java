@@ -53,8 +53,8 @@ public class MapTransformer
 			applyMatrix(matrix, new Point2D.Double( mapWidth, mapHeight))
 		};
 		Point2D.Double min = min(transformedCorners);
-		matrix[0][2] = -min.x;// - (scaleX < 0 ? 1 : 0);
-		matrix[1][2] = -min.y;// - (scaleY < 0 ? 1 : 0);
+		matrix[0][2] = -min.x - (scaleX < 0 ? 1 : 0);
+		matrix[1][2] = -min.y - (scaleY < 0 ? 1 : 0);
 		
 		return matrix;
 	}
@@ -267,12 +267,17 @@ public class MapTransformer
 		int oldSizeX = original[0].length;
 
 		// calculate new size
-		Point2D.Double[] transformedCorners = new Point2D.Double[] { applyMatrix(matrix, new Point2D.Double(0, 0)),
-				applyMatrix(matrix, new Point2D.Double(0, oldSizeY)), applyMatrix(matrix, new Point2D.Double(oldSizeX, 0)),
+		Point2D.Double[] transformedCorners = new Point2D.Double[] {
+				applyMatrix(matrix, new Point2D.Double(0, 0)),
+				applyMatrix(matrix, new Point2D.Double(0, oldSizeY)),
+				applyMatrix(matrix, new Point2D.Double(oldSizeX, 0)),
 				applyMatrix(matrix, new Point2D.Double(oldSizeX, oldSizeY)) };
+		Point2D.Double min = min(transformedCorners);
+//		System.out.println("min = " + min);
 		Point2D.Double max = max(transformedCorners);
-		int newSizeX = (int) Math.ceil(max.x);
-		int newSizeY = (int) Math.ceil(max.y);
+//		System.out.println("max = " + max);
+		int newSizeX = (int) Math.ceil(max.x - min.x);
+		int newSizeY = (int) Math.ceil(max.y - min.y);
 
 		char[][] scaled = new char[newSizeY][];
 
@@ -281,7 +286,7 @@ public class MapTransformer
 		double scaleX = p1.x - p0.x;
 		double scaleY = p1.y - p0.y;
 
-		System.out.println("scaleX=" + scaleX + ", scaleY=" + scaleY);
+//		System.out.println("scaleX=" + scaleX + ", scaleY=" + scaleY);
 
 		Point2D.Double origin;
 		int originX, originY;
@@ -307,21 +312,11 @@ public class MapTransformer
 				{
 					mask = getMask(original, originX, originY);
 					mod = (x + y) % 2;
+					if(scaleX < 0 ^ scaleY < 0) // TODO make this more simple
+						mod = (mod + 1) % 2;
 
 					originCheckValue = getCheckValue(original, originX, originY, mod, zone);
 					originNeighborValue = getNeighborValue(original, originX, originY, zone);
-
-//					if(false)// originX == 10 && originY == 5)
-//					{
-//						// @formatter:off
-//						System.out.println("originX=" + originX + ",originY=" + originY +
-//								" -> mask=" + Integer.toBinaryString(mask) +
-//								", mod=" + mod +
-//								", corner=" + corner +
-//								", zone=" + zone +
-//								", fractions=" + (origin.x - originX) + "/" + (origin.y - originY));
-//						// @formatter:on
-//					}
 
 					switch(mask)
 					{
