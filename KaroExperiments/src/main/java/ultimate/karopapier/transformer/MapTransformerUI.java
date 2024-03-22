@@ -2,8 +2,11 @@ package ultimate.karopapier.transformer;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -39,12 +43,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private static final long	serialVersionUID	= 1L;
 
 	private static final int	GAP					= 10;
-	private static final int	ROW					= 30;
+	private static final int	ROW					= 20;
 	private static final int	COL					= 100;
 	
 	private boolean comparisonMode;
 	
-	//private JPanel 				controlPanel;
+	private JPanel 				controlPanel;
 
 	private JLabel				drawSizeLabel;
 	private JSlider				drawSizeSlider;
@@ -58,6 +62,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JSlider				rotationSlider;
 	private JTextField			rotationTF;
 
+	private JLabel				mapLabel;
 	private JComboBox<Map>		mapCB;
 	private JTextArea			codeArea;
 
@@ -70,66 +75,96 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		
 		this.getContentPane().setLayout(null);
 		
-		//controlPanel = new JPanel();
+		controlPanel = new JPanel();
+		controlPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
+		controlPanel.setBounds(GAP, GAP, 400, 1000);
+		controlPanel.setLayout(new GridBagLayout());
+		this.getContentPane().add(controlPanel);
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.ipadx = GAP;
+		gbc.ipady = GAP;
+		gbc.fill = GridBagConstraints.BOTH;
 		
 		// draw size
+		gbc.gridy = 0;
 		drawSizeLabel = new JLabel("Draw Size:");
-		drawSizeLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 0, COL, ROW);
-		this.getContentPane().add(drawSizeLabel);
+//		drawSizeLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 0, COL, ROW);
+		controlPanel.add(drawSizeLabel, gbc);
 		drawSizeSlider = new JSlider(1, 20, 9);
-		drawSizeSlider.setBounds(GAP * 2 + COL * 1, GAP * 1 + ROW * 0, 2 * COL, ROW);
+//		drawSizeSlider.setBounds(GAP * 2 + COL * 1, GAP * 1 + ROW * 0, 2 * COL, ROW);
 		drawSizeSlider.addChangeListener(this);
-		this.getContentPane().add(drawSizeSlider);
+		gbc.weightx = 2;
+		controlPanel.add(drawSizeSlider, gbc);
 		drawSizeTF = new JTextField(drawSizeSlider.getValue() + " Pixel/Karo");
-		drawSizeTF.setBounds(GAP * 3 + COL * 3, GAP * 1 + ROW * 0, COL, ROW);
+//		drawSizeTF.setBounds(GAP * 3 + COL * 3, GAP * 1 + ROW * 0, COL, ROW);
 		drawSizeTF.setEditable(false);
-		this.getContentPane().add(drawSizeTF);
+		gbc.weightx = 1;
+		controlPanel.add(drawSizeTF, gbc);
 
 		// scaling
+		gbc.gridy++;
 		scaleLabel = new JLabel("Scale:");
-		scaleLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 1, COL, ROW);
-		this.getContentPane().add(scaleLabel);
+//		scaleLabel.setBounds(GAP * 1 + COL * 0, GAP * 2 + ROW * 1, COL, ROW);
+		controlPanel.add(scaleLabel, gbc);
 		scaleSlider = new JSlider(1, 100, 10);
-		scaleSlider.setBounds(GAP * 2 + COL * 1, GAP * 2 + ROW * 1, 2 * COL, ROW);
+//		scaleSlider.setBounds(GAP * 2 + COL * 1, GAP * 2 + ROW * 1, 2 * COL, ROW);
 		scaleSlider.addChangeListener(this);
-		this.getContentPane().add(scaleSlider);
+		gbc.weightx = 2;
+		controlPanel.add(scaleSlider, gbc);
 		scaleTF = new JTextField(scaleSlider.getValue() / 10.0 + "");
-		scaleTF.setBounds(GAP * 3 + COL * 3, GAP * 2 + ROW * 1, COL, ROW);
+//		scaleTF.setBounds(GAP * 3 + COL * 3, GAP * 2 + ROW * 1, COL, ROW);
 		scaleTF.setEditable(false);
-		this.getContentPane().add(scaleTF);
+		gbc.weightx = 1;
+		controlPanel.add(scaleTF, gbc);
 
 		// rotation
+		gbc.gridy++;
 		rotationLabel = new JLabel("Rotation (CCW):");
-		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 3 + ROW * 2, COL, ROW);
-		this.getContentPane().add(rotationLabel);
+//		rotationLabel.setBounds(GAP * 1 + COL * 0, GAP * 3 + ROW * 2, COL, ROW);
+		controlPanel.add(rotationLabel, gbc);
 		rotationSlider = new JSlider(0, 360, 0);
-		rotationSlider.setBounds(GAP * 2 + COL * 1, GAP * 3 + ROW * 2, 2 * COL, ROW);
+//		rotationSlider.setBounds(GAP * 2 + COL * 1, GAP * 3 + ROW * 2, 2 * COL, ROW);
 		rotationSlider.addChangeListener(this);
-		this.getContentPane().add(rotationSlider);
+		gbc.weightx = 2;
+		controlPanel.add(rotationSlider, gbc);
 		rotationTF = new JTextField(rotationSlider.getValue() + " deg");
-		rotationTF.setBounds(GAP * 3 + COL * 3, GAP * 3 + ROW * 2, COL, ROW);
+//		rotationTF.setBounds(GAP * 3 + COL * 3, GAP * 3 + ROW * 2, COL, ROW);
 		rotationTF.setEditable(false);
-		this.getContentPane().add(rotationTF);
+		gbc.weightx = 1;
+		controlPanel.add(rotationTF, gbc);
 
 		// map & code
+		gbc.gridy++;
+		mapLabel = new JLabel("Map:");
+		controlPanel.add(mapLabel, gbc);
 		DefaultComboBoxModel<Map> model = new DefaultComboBoxModel<Map>(maps.toArray(new Map[0]));
 		mapCB = new JComboBox<>(model);
 		mapCB.addActionListener(this);
-		mapCB.setBounds(GAP * 1 + COL * 0, GAP * 4 + ROW * 3, 4 * COL + 2 * GAP, ROW);
-		this.getContentPane().add(mapCB);
+		mapCB.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth()/2, ROW));
+		//mapCB.setBounds(GAP * 1 + COL * 0, GAP * 4 + ROW * 3, 4 * COL + 2 * GAP, ROW);
+		gbc.gridwidth = 2;
+		controlPanel.add(mapCB, gbc);
 
 		// code
+		gbc.gridy++;
 		codeArea = new JTextArea("");
 		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		codeArea.getDocument().addDocumentListener(this);
 		JScrollPane scroll = new JScrollPane(codeArea);
-		scroll.setBounds(GAP * 1 + COL * 0, GAP * 5 + ROW * 4, 4 * COL + 2 * GAP, ROW * 20);
-		this.getContentPane().add(scroll);
+		scroll.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth()/2, ROW));
+//		scroll.setBounds(GAP * 1 + COL * 0, GAP * 5 + ROW * 4, 4 * COL + 2 * GAP, ROW * 20);
+		gbc.gridwidth = 3;
+		gbc.weighty = 20;
+		controlPanel.add(scroll, gbc);
 
 		// canvases
 		canvas1 = new Canvas();
-		canvas1.setBounds(GAP * 4 + COL * 4, GAP * 1 + ROW * 0, COL * 20, ROW * 20);
+		scroll = new JScrollPane(canvas1);
+		scroll.setBorder(BorderFactory.createTitledBorder("Map View"));
+//		scroll.setBounds(GAP * 2 + controlPanel.getWidth(), GAP, );
 		this.getContentPane().add(canvas1);
+		
 		if(comparisonMode)
 		{
 			canvas2 = new Canvas();
