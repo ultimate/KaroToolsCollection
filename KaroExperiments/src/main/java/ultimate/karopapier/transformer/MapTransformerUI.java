@@ -79,8 +79,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JSlider				rotationSlider;
 	private JTextField			rotationTF;
 
-	private JLabel				swapSFLabel;
-	private JCheckBox			swapSFCB;
+	private JLabel				modLabel;
+	private JCheckBox			modSwapSFCB;
+	private JCheckBox			modTrimCB;
 
 	private JLabel				mapLabel;
 	private JComboBox<Map>		mapCB;
@@ -179,13 +180,16 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		gbc.gridwidth = 1;
 		controlPanel.add(rotationTF, gbc);
 		
-		// swap SF
+		// modification
 		gbc.gridy++;
-		swapSFLabel = new JLabel("Swap:");
-		controlPanel.add(swapSFLabel, gbc);
-		swapSFCB = new JCheckBox("S <-> F");
-		swapSFCB.addItemListener(this);
-		controlPanel.add(swapSFCB, gbc);
+		modLabel = new JLabel("Modification:");
+		controlPanel.add(modLabel, gbc);
+		modSwapSFCB = new JCheckBox("Swap S <-> F");
+		modSwapSFCB.addItemListener(this);
+		controlPanel.add(modSwapSFCB, gbc);
+		modTrimCB = new JCheckBox("Trim");
+		modTrimCB.addItemListener(this);
+		controlPanel.add(modTrimCB, gbc);
 
 		// map & code
 		gbc.gridy++;
@@ -268,7 +272,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				scaleY *= -1;
 			
 			boolean smart = scaleSmartCB.isSelected();
-			boolean swapSF = swapSFCB.isSelected();
+			boolean swapSF = modSwapSFCB.isSelected();
+			boolean trim = modTrimCB.isSelected();
 	
 			char[][] original = MapTransformer.toArray(mapCode);
 			
@@ -277,6 +282,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			
 			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
 			char[][] scaled1 = MapTransformer.transform(original, matrix, smart);
+			if(trim)
+				scaled1 = MapTransformer.trim(scaled1);
 			
 			Graphics g1 = canvas1.getGraphics();
 			g1.clearRect(0, 0, 10000, 10000);
@@ -291,6 +298,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			if(comparisonMode)
 			{
 				char[][] scaled2 = MapTransformer.transform(original, matrix, false);
+				if(trim)
+					scaled2 = MapTransformer.trim(scaled2);
 
 				Graphics g2 = canvas2.getGraphics();
 				g2.clearRect(0, 0, 10000, 10000);

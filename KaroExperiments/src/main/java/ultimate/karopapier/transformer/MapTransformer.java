@@ -185,6 +185,90 @@ public class MapTransformer
 			}
 		}
 	}
+	
+	public static boolean rowContainsRoad(char[] row)
+	{
+		for(char c : row)
+		{
+			if(isRoad(c))
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean colContainsRoad(char[][] map, int col)
+	{
+		if(col < 0)
+			return false;
+		for(char[] row : map)
+		{
+			if(col >= row.length)
+				continue;
+			if(isRoad(row[col]))
+				return true;
+		}
+		return false;
+	}
+
+	public static char[][] trim(char[][] map)
+	{
+		int rowOffsetTop = 0;
+		for(int r = 0; r < map.length; r++)
+		{
+			if(rowContainsRoad(map[r]))
+				break;
+			rowOffsetTop++;
+		}
+		if(rowOffsetTop > 0)
+			rowOffsetTop--;
+		
+		int rowOffsetBottom = 0;
+		for(int r = map.length - 1; r >= 0; r--)
+		{
+			if(rowContainsRoad(map[r]))
+				break;
+			rowOffsetBottom++;
+		}
+		if(rowOffsetBottom > 0)
+			rowOffsetBottom--;
+		
+		int colOffsetLeft = 0;
+		for(int c = 0; c < map[0].length; c++)
+		{
+			if(colContainsRoad(map, c))
+				break;
+			colOffsetLeft++;
+		}
+		if(colOffsetLeft > 0)
+			colOffsetLeft--;
+		
+		int colOffsetRight = 0;
+		for(int c = map[0].length - 1; c >= 0; c--)
+		{
+			if(colContainsRoad(map, c))
+				break;
+			colOffsetRight++;
+		}
+		if(colOffsetRight > 0)
+			colOffsetRight--;
+		
+//		System.out.println("trimming: top  =" + rowOffsetTop +  ", bottom =" + rowOffsetBottom);
+//		System.out.println("trimming: left =" + colOffsetLeft + ", right  =" + colOffsetRight);
+		
+		char[][] trimmed = new char[map.length - rowOffsetTop - rowOffsetBottom][];
+		for(int oldR = rowOffsetTop, newR = 0; newR < trimmed.length; oldR++, newR++)
+		{
+			trimmed[newR] = new char[map[0].length -  colOffsetLeft - colOffsetRight];
+			for(int oldC = colOffsetLeft, newC = 0; newC < trimmed[newR].length; oldC++, newC++)
+			{
+				trimmed[newR][newC] = map[oldR][oldC];
+			}
+		}
+		
+//		printMap(trimmed);
+		return trimmed;
+	}
+
 
 	public static boolean isRoad(char c)
 	{
@@ -205,10 +289,10 @@ public class MapTransformer
 				x = map[y].length - 1;
 			return map[y][x];
 		}
-		catch(NullPointerException e)
+		catch(NullPointerException | ArrayIndexOutOfBoundsException e)
 		{
 			printMap(map);
-			return 'X';
+			return 'L';
 		}
 	}
 
