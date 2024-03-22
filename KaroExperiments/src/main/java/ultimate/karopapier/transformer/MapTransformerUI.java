@@ -67,6 +67,10 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	
 	private JCheckBox			scaleSyncCB;
 
+	private JLabel				mirrorLabel;
+	private JCheckBox			mirrorXCB;
+	private JCheckBox			mirrorYCB;
+
 	private JLabel				rotationLabel;
 	private JSlider				rotationSlider;
 	private JTextField			rotationTF;
@@ -100,49 +104,63 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		controlPanel.add(drawSizeLabel, gbc);
 		drawSizeSlider = new JSlider(1, 20, 9);
 		drawSizeSlider.addChangeListener(this);
-		gbc.weightx = 2;
+		gbc.gridwidth = 2;
 		controlPanel.add(drawSizeSlider, gbc);
 		drawSizeTF = new JTextField(drawSizeSlider.getValue() + " Pixel/Karo");
 		drawSizeTF.setEditable(false);
-		gbc.weightx = 1;
+		gbc.gridwidth = 1;
 		controlPanel.add(drawSizeTF, gbc);
 
 		// scaling X
 		gbc.gridy++;
-		scaleXLabel = new JLabel("Scale:");
+		scaleXLabel = new JLabel("Scale X:");
 		controlPanel.add(scaleXLabel, gbc);
 		scaleXSlider = new JSlider(1, 100, 10);
 		scaleXSlider.addChangeListener(this);
-		gbc.weightx = 2;
+		gbc.gridwidth = 2;
 		controlPanel.add(scaleXSlider, gbc);
 		scaleXTF = new JTextField(scaleXSlider.getValue() / 10.0 + "");
 		scaleXTF.setEditable(false);
-		gbc.weightx = 1;
+		gbc.gridwidth = 1;
 		controlPanel.add(scaleXTF, gbc);
 		
 		// scaling Y
 		gbc.gridy++;
-		scaleYLabel = new JLabel("Scale:");
+		scaleYLabel = new JLabel("Scale Y:");
 		controlPanel.add(scaleYLabel, gbc);
 		scaleYSlider = new JSlider(1, 100, 10);
 		scaleYSlider.addChangeListener(this);
-		gbc.weightx = 2;
+		gbc.gridwidth = 2;
 		controlPanel.add(scaleYSlider, gbc);
 		scaleYTF = new JTextField(scaleYSlider.getValue() / 10.0 + "");
 		scaleYTF.setEditable(false);
-		gbc.weightx = 1;
+		gbc.gridwidth = 1;
 		controlPanel.add(scaleYTF, gbc);
 		
-		// scale sync
-		scaleSyncCB = new JCheckBox("🔗");
-		scaleSyncCB.addChangeListener(this);
-		gbc.gridx = 3;
-		gbc.gridy--;
-		gbc.gridheight = 2;
-		controlPanel.add(scaleSyncCB, gbc);
-		gbc.gridx = GridBagConstraints.RELATIVE;
+//		// scale sync
+//		scaleSyncCB = new JCheckBox("🔗");
+//		scaleSyncCB.addChangeListener(this);
+//		gbc.gridx = 3;
+//		gbc.gridy--;
+//		gbc.gridheight = 2;
+//		controlPanel.add(scaleSyncCB, gbc);
+//		gbc.gridx = GridBagConstraints.RELATIVE;
+//		gbc.gridy++;
+//		gbc.gridheight = 1;
+
+		// rotation
 		gbc.gridy++;
-		gbc.gridheight = 1;
+		mirrorLabel = new JLabel("Mirror:");
+		controlPanel.add(mirrorLabel, gbc);
+		mirrorXCB = new JCheckBox("X");
+		mirrorXCB.addChangeListener(this);
+		controlPanel.add(mirrorXCB, gbc);
+		mirrorYCB = new JCheckBox("Y");
+		mirrorYCB.addChangeListener(this);
+		controlPanel.add(mirrorYCB, gbc);
+		scaleSyncCB = new JCheckBox("🔗 Sync");
+		scaleSyncCB.addChangeListener(this);
+		controlPanel.add(scaleSyncCB, gbc);
 
 		// rotation
 		gbc.gridy++;
@@ -150,11 +168,11 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		controlPanel.add(rotationLabel, gbc);
 		rotationSlider = new JSlider(0, 360, 0);
 		rotationSlider.addChangeListener(this);
-		gbc.weightx = 2;
+		gbc.gridwidth = 2;
 		controlPanel.add(rotationSlider, gbc);
 		rotationTF = new JTextField(rotationSlider.getValue() + " deg");
 		rotationTF.setEditable(false);
-		gbc.weightx = 1;
+		gbc.gridwidth = 1;
 		controlPanel.add(rotationTF, gbc);
 
 		// map & code
@@ -165,7 +183,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		mapCB = new JComboBox<>(model);
 		mapCB.addActionListener(this);
 		mapCB.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth()/2, ROW));
-		gbc.gridwidth = 2;
+		gbc.gridwidth = 3;
 		controlPanel.add(mapCB, gbc);
 
 		// code
@@ -175,7 +193,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		codeArea.getDocument().addDocumentListener(this);
 		JScrollPane scroll = new JScrollPane(codeArea);
 		scroll.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth()/2, ROW));
-		gbc.gridwidth = 3;
+		gbc.gridwidth = 4;
 		gbc.weighty = 20;
 		controlPanel.add(scroll, gbc);
 
@@ -238,6 +256,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			double scaleX = scaleXSlider.getValue() / 10.0;
 			double scaleY = scaleYSlider.getValue() / 10.0;
 			int rotation = rotationSlider.getValue();
+			
+			if(mirrorXCB.isSelected())
+				scaleX *= -1;
+			if(mirrorYCB.isSelected())
+				scaleY *= -1;
+			
 			boolean smart = true;
 	
 			char[][] original = MapTransformer.toArray(mapCode);
