@@ -34,14 +34,14 @@ public class MapTransformer
 	// @formatter:on
 
 	// @formatter:off
-	public static double[][] createMatrix(double scale, int rotation, int mapWidth, int mapHeight)
+	public static double[][] createMatrix(double scaleX, double scaleY, int rotation, int mapWidth, int mapHeight)
 	{
 		double sin = Math.sin(rotation * Math.PI / 180.0);
 		double cos = Math.cos(rotation * Math.PI / 180.0);
 		
 		double[][] matrix = new double[][] {
-			{ cos*scale, -sin*scale, 0 },
-			{ sin*scale, cos*scale, 0 },
+			{ cos*scaleX, -sin*scaleX, 0 },
+			{ sin*scaleY, cos*scaleY, 0 },
 			{ 0, 0, 1 } 
 		};
 		

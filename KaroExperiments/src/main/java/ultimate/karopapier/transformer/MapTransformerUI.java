@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -46,7 +47,6 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 	private static final int	GAP					= 10;
 	private static final int	ROW					= 20;
-	private static final int	COL					= 100;
 	
 	private boolean comparisonMode;
 	
@@ -57,9 +57,15 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JSlider				drawSizeSlider;
 	private JTextField			drawSizeTF;
 
-	private JLabel				scaleLabel;
-	private JSlider				scaleSlider;
-	private JTextField			scaleTF;
+	private JLabel				scaleXLabel;
+	private JSlider				scaleXSlider;
+	private JTextField			scaleXTF;
+	
+	private JLabel				scaleYLabel;
+	private JSlider				scaleYSlider;
+	private JTextField			scaleYTF;
+	
+	private JCheckBox			scaleSyncCB;
 
 	private JLabel				rotationLabel;
 	private JSlider				rotationSlider;
@@ -101,18 +107,42 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		gbc.weightx = 1;
 		controlPanel.add(drawSizeTF, gbc);
 
-		// scaling
+		// scaling X
 		gbc.gridy++;
-		scaleLabel = new JLabel("Scale:");
-		controlPanel.add(scaleLabel, gbc);
-		scaleSlider = new JSlider(1, 100, 10);
-		scaleSlider.addChangeListener(this);
+		scaleXLabel = new JLabel("Scale:");
+		controlPanel.add(scaleXLabel, gbc);
+		scaleXSlider = new JSlider(1, 100, 10);
+		scaleXSlider.addChangeListener(this);
 		gbc.weightx = 2;
-		controlPanel.add(scaleSlider, gbc);
-		scaleTF = new JTextField(scaleSlider.getValue() / 10.0 + "");
-		scaleTF.setEditable(false);
+		controlPanel.add(scaleXSlider, gbc);
+		scaleXTF = new JTextField(scaleXSlider.getValue() / 10.0 + "");
+		scaleXTF.setEditable(false);
 		gbc.weightx = 1;
-		controlPanel.add(scaleTF, gbc);
+		controlPanel.add(scaleXTF, gbc);
+		
+		// scaling Y
+		gbc.gridy++;
+		scaleYLabel = new JLabel("Scale:");
+		controlPanel.add(scaleYLabel, gbc);
+		scaleYSlider = new JSlider(1, 100, 10);
+		scaleYSlider.addChangeListener(this);
+		gbc.weightx = 2;
+		controlPanel.add(scaleYSlider, gbc);
+		scaleYTF = new JTextField(scaleYSlider.getValue() / 10.0 + "");
+		scaleYTF.setEditable(false);
+		gbc.weightx = 1;
+		controlPanel.add(scaleYTF, gbc);
+		
+		// scale sync
+		scaleSyncCB = new JCheckBox("🔗");
+		scaleSyncCB.addChangeListener(this);
+		gbc.gridx = 3;
+		gbc.gridy--;
+		gbc.gridheight = 2;
+		controlPanel.add(scaleSyncCB, gbc);
+		gbc.gridx = GridBagConstraints.RELATIVE;
+		gbc.gridy++;
+		gbc.gridheight = 1;
 
 		// rotation
 		gbc.gridy++;
@@ -205,12 +235,13 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			String mapCode = codeArea.getText();
 	
 			int drawSize = drawSizeSlider.getValue();
-			double scale = scaleSlider.getValue() / 10.0;
+			double scaleX = scaleXSlider.getValue() / 10.0;
+			double scaleY = scaleYSlider.getValue() / 10.0;
 			int rotation = rotationSlider.getValue();
 			boolean smart = true;
 	
 			char[][] original = MapTransformer.toArray(mapCode);
-			double[][] matrix = MapTransformer.createMatrix(scale, rotation, original[0].length, original.length);
+			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
 			char[][] scaled1 = MapTransformer.transform(original, matrix, smart);
 			
 			Graphics g1 = canvas1.getGraphics();
@@ -347,9 +378,17 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	@Override
 	public void stateChanged(ChangeEvent e)
 	{
+		boolean syncScale = scaleSyncCB.isSelected();
+		this.scaleYSlider.setEnabled(!syncScale);
+		
+		if(syncScale)
+			this.scaleYSlider.setValue(this.scaleXSlider.getValue());
+		
 		this.drawSizeTF.setText("" + this.drawSizeSlider.getValue() + " Pixel/Karo");
-		this.scaleTF.setText("" + (this.scaleSlider.getValue() / 10.0));
+		this.scaleXTF.setText("" + (this.scaleXSlider.getValue() / 10.0));
+		this.scaleYTF.setText("" + (this.scaleYSlider.getValue() / 10.0));
 		this.rotationTF.setText(this.rotationSlider.getValue() + " deg");
+		
 		redraw();
 	}
 
