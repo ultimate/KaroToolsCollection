@@ -312,7 +312,8 @@ public class MapTransformer
 				{
 					mask = getMask(original, originX, originY);
 					mod = (x + y) % 2;
-					if(scaleX < 0 ^ scaleY < 0) // TODO make this more simple
+					// we need to offset mod by 1 if only 1 axis was mirrored
+					if(scaleX < 0 ^ scaleY < 0)
 						mod = (mod + 1) % 2;
 
 					originCheckValue = getCheckValue(original, originX, originY, mod, zone);
