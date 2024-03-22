@@ -19,6 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
@@ -40,6 +41,10 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private static final int	GAP					= 10;
 	private static final int	ROW					= 30;
 	private static final int	COL					= 100;
+	
+	private boolean comparisonMode;
+	
+	//private JPanel 				controlPanel;
 
 	private JLabel				drawSizeLabel;
 	private JSlider				drawSizeSlider;
@@ -59,10 +64,14 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private Canvas				canvas1;
 	private Canvas				canvas2;
 
-	public MapTransformerUI(List<Map> maps)
+	public MapTransformerUI(List<Map> maps, boolean comparisonMode)
 	{
+		this.comparisonMode = comparisonMode;
+		
 		this.getContentPane().setLayout(null);
-
+		
+		//controlPanel = new JPanel();
+		
 		// draw size
 		drawSizeLabel = new JLabel("Draw Size:");
 		drawSizeLabel.setBounds(GAP * 1 + COL * 0, GAP * 1 + ROW * 0, COL, ROW);
@@ -121,9 +130,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		canvas1 = new Canvas();
 		canvas1.setBounds(GAP * 4 + COL * 4, GAP * 1 + ROW * 0, COL * 20, ROW * 20);
 		this.getContentPane().add(canvas1);
-		canvas2 = new Canvas();
-		canvas2.setBounds(GAP * 4 + COL * 4, GAP * 2 + ROW * 20, COL * 20, ROW * 20);
-		this.getContentPane().add(canvas2);
+		if(comparisonMode)
+		{
+			canvas2 = new Canvas();
+			canvas2.setBounds(GAP * 4 + COL * 4, GAP * 2 + ROW * 20, COL * 20, ROW * 20);
+			this.getContentPane().add(canvas2);
+		}
 
 		// frame settings
 		this.addComponentListener(this);
@@ -165,6 +177,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	
 			double scale = scaleSlider.getValue() / 10.0;
 			int rotation = rotationSlider.getValue();
+			boolean smart = true;
 	
 			// System.out.println("scale = " + scale + "\trotation=" + rotation);
 	
@@ -174,7 +187,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	
 			double[][] matrix = MapTransformer.createMatrix(scale, rotation, original[0].length, original.length);
 	
-			char[][] scaled1 = MapTransformer.transform(original, matrix, false);
+			char[][] scaled1 = MapTransformer.transform(original, matrix, smart);
 			
 			int drawSize = drawSizeSlider.getValue();
 	
@@ -188,15 +201,18 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				}
 			}
 	
-			char[][] scaled2 = MapTransformer.transform(original, matrix, true);
-	
-			Graphics g2 = canvas2.getGraphics();
-			g2.clearRect(0, 0, 10000, 10000);
-			for(int y = 0; y < scaled2.length; y++)
+			if(this.comparisonMode)
 			{
-				for(int x = 0; x < scaled2[y].length; x++)
+				char[][] scaled2 = MapTransformer.transform(original, matrix, false);
+		
+				Graphics g2 = canvas2.getGraphics();
+				g2.clearRect(0, 0, 10000, 10000);
+				for(int y = 0; y < scaled2.length; y++)
 				{
-					drawKaro(g2, x, y, scaled2[y][x], drawSize);
+					for(int x = 0; x < scaled2[y].length; x++)
+					{
+						drawKaro(g2, x, y, scaled2[y][x], drawSize);
+					}
 				}
 			}
 		}
@@ -365,13 +381,16 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	{
 		Properties properties = PropertiesUtil.loadProperties(new File(args[0]));
 		KaroAPI api = new KaroAPI(properties.getProperty("karoAPI.user"), properties.getProperty("karoAPI.password"));
+		boolean compare = false;
+		if(args.length > 1 && args[1].equalsIgnoreCase("-compare"))
+			compare = true;
 
 		List<Map> maps = new LinkedList<Map>(api.getMaps(true).get());
 		Map testMap = new Map(0);
 		testMap.setCode(MapTransformer.TEST_CODE);
 		maps.add(0, testMap);
 
-		MapTransformerUI ui = new MapTransformerUI(maps);
+		MapTransformerUI ui = new MapTransformerUI(maps, compare);
 		ui.selectMap(testMap.getId());
 		ui.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		new Thread() {
