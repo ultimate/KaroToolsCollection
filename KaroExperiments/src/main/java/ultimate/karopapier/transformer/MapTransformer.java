@@ -53,8 +53,8 @@ public class MapTransformer
 			applyMatrix(matrix, new Point2D.Double( mapWidth, mapHeight))
 		};
 		Point2D.Double min = min(transformedCorners);
-		matrix[0][2] = -min.x;
-		matrix[1][2] = -min.y;
+		matrix[0][2] = -min.x;// - (scaleX < 0 ? 1 : 0);
+		matrix[1][2] = -min.y;// - (scaleY < 0 ? 1 : 0);
 		
 		return matrix;
 	}
@@ -298,7 +298,7 @@ public class MapTransformer
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
 
-				corner = getCorner(origin.x - originX + scaleX / 2, origin.y - originY + scaleY / 2);
+				corner = getCorner(origin.x - originX + Math.abs(scaleX) / 2, origin.y - originY + Math.abs(scaleY) / 2);
 				zone = getZone(origin.x - originX, origin.y - originY);
 
 				originCenterValue = getValue(original, originX, originY);
