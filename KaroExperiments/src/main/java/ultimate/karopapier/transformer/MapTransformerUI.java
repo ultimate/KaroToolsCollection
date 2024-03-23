@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -49,10 +50,10 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 	private static final int	GAP					= 10;
 	private static final int	ROW					= 20;
-	
-	private boolean comparisonMode;
-	
-	private JPanel 				controlPanel;
+
+	private boolean				comparisonMode;
+
+	private JPanel				controlPanel;
 	private JPanel				canvasPanel;
 
 	private JLabel				drawSizeLabel;
@@ -62,11 +63,11 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JLabel				scaleXLabel;
 	private JSlider				scaleXSlider;
 	private JTextField			scaleXTF;
-	
+
 	private JLabel				scaleYLabel;
 	private JSlider				scaleYSlider;
 	private JTextField			scaleYTF;
-	
+
 	private JLabel				scaleFlagsLabel;
 	private JCheckBox			scaleSmartCB;
 	private JCheckBox			scaleSyncCB;
@@ -83,6 +84,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	private JCheckBox			modSwapSFCB;
 	private JCheckBox			modTrimCB;
 
+	private JLabel				matrixLabel;
+	private JTextField			m00TF;
+	private JTextField			m01TF;
+	private JTextField			m10TF;
+	private JTextField			m11TF;
+
 	private JLabel				mapLabel;
 	private JComboBox<Map>		mapCB;
 	private JTextArea			codeArea;
@@ -93,19 +100,19 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	public MapTransformerUI(List<Map> maps, int canvasOrientation)
 	{
 		this.comparisonMode = (canvasOrientation >= 0);
-		
+
 		this.getContentPane().setLayout(new BorderLayout());
-		
+
 		controlPanel = new JPanel();
 		controlPanel.setBorder(BorderFactory.createTitledBorder("Controls"));
 		controlPanel.setLayout(new GridBagLayout());
 		this.getContentPane().add(controlPanel, BorderLayout.WEST);
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.ipadx = GAP;
 		gbc.ipady = GAP;
 		gbc.fill = GridBagConstraints.BOTH;
-		
+
 		// draw size
 		gbc.gridy = 0;
 		drawSizeLabel = new JLabel("Draw Size:");
@@ -114,7 +121,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		drawSizeSlider.addChangeListener(this);
 		gbc.gridwidth = 2;
 		controlPanel.add(drawSizeSlider, gbc);
-		drawSizeTF = new JTextField(drawSizeSlider.getValue() + " Pixel/Karo");
+		drawSizeTF = new JTextField();
 		drawSizeTF.setEditable(false);
 		gbc.gridwidth = 1;
 		controlPanel.add(drawSizeTF, gbc);
@@ -127,11 +134,11 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		scaleXSlider.addChangeListener(this);
 		gbc.gridwidth = 2;
 		controlPanel.add(scaleXSlider, gbc);
-		scaleXTF = new JTextField(scaleXSlider.getValue() / 10.0 + "");
+		scaleXTF = new JTextField();
 		scaleXTF.setEditable(false);
 		gbc.gridwidth = 1;
 		controlPanel.add(scaleXTF, gbc);
-		
+
 		// scaling Y
 		gbc.gridy++;
 		scaleYLabel = new JLabel("Scale Y:");
@@ -140,7 +147,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		scaleYSlider.addChangeListener(this);
 		gbc.gridwidth = 2;
 		controlPanel.add(scaleYSlider, gbc);
-		scaleYTF = new JTextField(scaleYSlider.getValue() / 10.0 + "");
+		scaleYTF = new JTextField();
 		scaleYTF.setEditable(false);
 		gbc.gridwidth = 1;
 		controlPanel.add(scaleYTF, gbc);
@@ -166,7 +173,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		mirrorYCB = new JCheckBox("Y");
 		mirrorYCB.addItemListener(this);
 		controlPanel.add(mirrorYCB, gbc);
-		
+
 		// rotation
 		gbc.gridy++;
 		rotationLabel = new JLabel("Rotation (CCW):");
@@ -179,7 +186,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		rotationTF.setEditable(false);
 		gbc.gridwidth = 1;
 		controlPanel.add(rotationTF, gbc);
-		
+
 		// modification
 		gbc.gridy++;
 		modLabel = new JLabel("Modification:");
@@ -191,6 +198,31 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		modTrimCB.addItemListener(this);
 		controlPanel.add(modTrimCB, gbc);
 
+		// matrix
+		gbc.gridy++;
+		matrixLabel = new JLabel("Matrix:");
+		controlPanel.add(matrixLabel, gbc);
+		JPanel matrix = new JPanel(new GridLayout(2, 2));
+		m00TF = new JTextField();
+		m00TF.setEditable(false);
+		m00TF.setHorizontalAlignment(JTextField.RIGHT);
+		matrix.add(m00TF);
+		m01TF = new JTextField();
+		m01TF.setEditable(false);
+		m01TF.setHorizontalAlignment(JTextField.RIGHT);
+		matrix.add(m01TF);
+		m10TF = new JTextField();
+		m10TF.setEditable(false);
+		m10TF.setHorizontalAlignment(JTextField.RIGHT);
+		matrix.add(m10TF);
+		m11TF = new JTextField();
+		m11TF.setEditable(false);
+		m11TF.setHorizontalAlignment(JTextField.RIGHT);
+		matrix.add(m11TF);
+		gbc.gridwidth = 2;
+		controlPanel.add(matrix, gbc);
+		gbc.gridwidth = 1;
+
 		// map & code
 		gbc.gridy++;
 		mapLabel = new JLabel("Map:");
@@ -198,7 +230,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		DefaultComboBoxModel<Map> model = new DefaultComboBoxModel<Map>(maps.toArray(new Map[0]));
 		mapCB = new JComboBox<>(model);
 		mapCB.addActionListener(this);
-		mapCB.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth()/2, ROW));
+		mapCB.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth() / 2, ROW));
 		gbc.gridwidth = 3;
 		controlPanel.add(mapCB, gbc);
 
@@ -208,7 +240,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		codeArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		codeArea.getDocument().addDocumentListener(this);
 		JScrollPane scroll = new JScrollPane(codeArea);
-		scroll.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth()/2, ROW));
+		scroll.setPreferredSize(new Dimension((int) controlPanel.getSize().getWidth() / 2, ROW));
 		gbc.gridwidth = 4;
 		gbc.weighty = 20;
 		controlPanel.add(scroll, gbc);
@@ -218,11 +250,11 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		canvasPanel.setBorder(BorderFactory.createTitledBorder("Map View"));
 		canvasPanel.setLayout(new BoxLayout(canvasPanel, (canvasOrientation < 0 ? 0 : canvasOrientation)));
 		this.getContentPane().add(canvasPanel);
-		
+
 		canvas1 = new Canvas();
 		scroll = new JScrollPane(canvas1);
 		canvasPanel.add(scroll);
-		
+
 		if(canvasOrientation >= 0)
 		{
 			canvas2 = new Canvas();
@@ -235,6 +267,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		this.setSize(2560, 1440);
 		this.setVisible(true);
 		this.requestFocus();
+		this.stateChanged(null);
 	}
 
 	public void selectMap(int mapId)
@@ -255,36 +288,55 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		redraw();
 		super.update(g);
 	}
+	
+	private String toRoundedString(double number, int digitsAfterComma)
+	{
+		double factor = Math.pow(10 , digitsAfterComma);
+		double rounded = Math.round(number * factor) / factor;
+		String s = "" + rounded;
+		int commaAt = s.indexOf(".");
+		if(commaAt >= 0 && s.length() - commaAt - 1> digitsAfterComma)
+			s = s.substring(0, commaAt + digitsAfterComma + 1);
+		return s;
+	}
 
 	public void redraw()
 	{
-		try {
+		try
+		{
 			String mapCode = codeArea.getText();
-	
+
 			int drawSize = drawSizeSlider.getValue();
 			double scaleX = scaleXSlider.getValue() / 10.0;
 			double scaleY = scaleYSlider.getValue() / 10.0;
 			int rotation = rotationSlider.getValue();
-			
+
 			if(mirrorXCB.isSelected())
 				scaleX *= -1;
 			if(mirrorYCB.isSelected())
 				scaleY *= -1;
-			
+
 			boolean smart = scaleSmartCB.isSelected();
 			boolean swapSF = modSwapSFCB.isSelected();
 			boolean trim = modTrimCB.isSelected();
-	
+
 			char[][] original = MapTransformer.toArray(mapCode);
-			
+
 			if(swapSF)
 				MapTransformer.swapChars(original, 'S', 'F');
-			
+
 			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
+
+			int digits = 3;
+			m00TF.setText(toRoundedString(matrix[0][0], digits));
+			m01TF.setText(toRoundedString(matrix[0][1], digits));
+			m10TF.setText(toRoundedString(matrix[1][0], digits));
+			m11TF.setText(toRoundedString(matrix[1][1], digits));
+
 			char[][] scaled1 = MapTransformer.transform(original, matrix, smart);
 			if(trim)
 				scaled1 = MapTransformer.trim(scaled1);
-			
+
 			Graphics g1 = canvas1.getGraphics();
 			g1.clearRect(0, 0, 10000, 10000);
 			for(int y = 0; y < scaled1.length; y++)
@@ -294,7 +346,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 					drawKaro(g1, x, y, scaled1[y][x], drawSize);
 				}
 			}
-	
+
 			if(comparisonMode)
 			{
 				char[][] scaled2 = MapTransformer.transform(original, matrix, false);
@@ -317,9 +369,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			e.printStackTrace();
 		}
 	}
-	
-	private static Color SAND = new Color(228,230,127);
-	private static Color MUD = new Color(97,70,16);
+
+	private static Color	SAND	= new Color(228, 230, 127);
+	private static Color	MUD		= new Color(97, 70, 16);
 
 	private void drawKaro(Graphics g, int x, int y, char c, int drawSize)
 	{
@@ -424,12 +476,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		boolean syncScale = scaleSyncCB.isSelected();
 		if(syncScale)
 			this.scaleYSlider.setValue(this.scaleXSlider.getValue());
-		
+
 		this.drawSizeTF.setText("" + this.drawSizeSlider.getValue() + " Pixel/Karo");
 		this.scaleXTF.setText("" + (this.scaleXSlider.getValue() / 10.0));
 		this.scaleYTF.setText("" + (this.scaleYSlider.getValue() / 10.0));
 		this.rotationTF.setText(this.rotationSlider.getValue() + " deg");
-		
+
 		redraw();
 	}
 
@@ -440,7 +492,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 		this.scaleYSlider.setEnabled(!syncScale);
 		if(syncScale)
 			this.scaleYSlider.setValue(this.scaleXSlider.getValue());
-		
+
 		redraw();
 	}
 
