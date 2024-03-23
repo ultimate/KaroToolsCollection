@@ -416,6 +416,7 @@ public class MapTransformer
 				origin = applyMatrix(inv, new Point2D.Double(x, y));
 				originX = (int) (origin.x);
 				originY = (int) (origin.y);
+				
 
 				corner = getCorner(origin.x - originX + Math.abs(scaleX) / 2, origin.y - originY + Math.abs(scaleY) / 2);
 				zone = getZone(origin.x - originX, origin.y - originY);
@@ -608,7 +609,7 @@ public class MapTransformer
 						//////////////////////////////////////////////////////////////	
 							
 						// filled same										
-						case 0b11111111:	scaledValue = (corner == Corner.southwest ? originNeighborValue : originCenterValue); break;
+						case 0b11111111:
 						// surrounded other										
 						case 0b00000000:
 						// single other corner										
@@ -764,6 +765,8 @@ public class MapTransformer
 							scaledValue = originCenterValue;
 						// @formatter:on
 					}
+//					System.out.println("x=" + x + ", y=" + y + ", originX=" + originX + ", originY=" + originY + ", mask=" + mask + ", corner=" + corner + ", zone=" + 
+//							 zone + " -> originCenterValue=" + originCenterValue + ", originCheckValue=" + originCheckValue + ", originNeighborValue=" + originNeighborValue + " -> " + scaledValue);
 				}
 				else
 				{
