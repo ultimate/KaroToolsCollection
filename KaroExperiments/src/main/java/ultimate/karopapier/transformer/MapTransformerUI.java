@@ -275,15 +275,22 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			boolean swapSF = modSwapSFCB.isSelected();
 			boolean trim = modTrimCB.isSelected();
 	
-			char[][] original = MapTransformer.toArray(mapCode);
+			char[][] original = MapTransformerHelper.toArray(mapCode);
 			
 			if(swapSF)
-				MapTransformer.swapChars(original, 'S', 'F');
+				MapTransformerHelper.swapChars(original, 'S', 'F');
 			
 			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
-			char[][] scaled1 = MapTransformer.transform(original, matrix, smart);
+			
+			MapTransformer transformer;
+			if(smart)
+				transformer = new UltimateScaler(matrix);
+			else
+				transformer = new NearestNeighborScaler(matrix);
+			
+			char[][] scaled1 = transformer.transform(original);
 			if(trim)
-				scaled1 = MapTransformer.trim(scaled1);
+				scaled1 = MapTransformerHelper.trim(scaled1, 1, 1);
 			
 			Graphics g1 = canvas1.getGraphics();
 			g1.clearRect(0, 0, 10000, 10000);
@@ -297,9 +304,10 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 	
 			if(comparisonMode)
 			{
-				char[][] scaled2 = MapTransformer.transform(original, matrix, false);
+				transformer = new NearestNeighborScaler(matrix);
+				char[][] scaled2 = transformer.transform(original);
 				if(trim)
-					scaled2 = MapTransformer.trim(scaled2);
+					scaled2 = MapTransformerHelper.trim(scaled2, 1, 1);
 
 				Graphics g2 = canvas2.getGraphics();
 				g2.clearRect(0, 0, 10000, 10000);
