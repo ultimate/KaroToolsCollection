@@ -1,4 +1,4 @@
-package ultimate.karopapier.transformer;
+package ultimate.karopapier.mapgenerator.transformer;
 
 import java.awt.geom.Point2D;
 

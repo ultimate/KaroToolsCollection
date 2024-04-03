@@ -1,6 +1,8 @@
-package ultimate.karopapier.transformer;
+package ultimate.karopapier.mapgenerator.transformer;
 
 import java.awt.geom.Point2D;
+
+import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class UltimateScaler extends MapTransformer
 {
@@ -10,16 +12,16 @@ public class UltimateScaler extends MapTransformer
 
 	public static int getMask(char[][] map, int x, int y)
 	{
-		boolean centerIsRoad = MapTransformerHelper.isRoad(getValue(map, x, y));
+		boolean centerIsRoad = MapGeneratorUtil.isRoad(getValue(map, x, y));
 		int mask = 0;
-		mask += (MapTransformerHelper.isRoad(getValue(map, x - 1, y - 1)) == centerIsRoad ? 128 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x + 0, y - 1)) == centerIsRoad ? 64 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x + 1, y - 1)) == centerIsRoad ? 32 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x + 1, y + 0)) == centerIsRoad ? 16 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x + 1, y + 1)) == centerIsRoad ? 8 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x + 0, y + 1)) == centerIsRoad ? 4 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x - 1, y + 1)) == centerIsRoad ? 2 : 0);
-		mask += (MapTransformerHelper.isRoad(getValue(map, x - 1, y + 0)) == centerIsRoad ? 1 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x - 1, y - 1)) == centerIsRoad ? 128 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x + 0, y - 1)) == centerIsRoad ? 64 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x + 1, y - 1)) == centerIsRoad ? 32 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x + 1, y + 0)) == centerIsRoad ? 16 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x + 1, y + 1)) == centerIsRoad ? 8 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x + 0, y + 1)) == centerIsRoad ? 4 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x - 1, y + 1)) == centerIsRoad ? 2 : 0);
+		mask += (MapGeneratorUtil.isRoad(getValue(map, x - 1, y + 0)) == centerIsRoad ? 1 : 0);
 		return mask;
 	}
 

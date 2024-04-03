@@ -1,11 +1,13 @@
-package ultimate.karopapier.transformer;
+package ultimate.karopapier.mapgenerator.transformer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import ultimate.karopapier.transformer.UltimateScaler.Corner;
-import ultimate.karopapier.transformer.UltimateScaler.Zone;
+import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
+import ultimate.karopapier.mapgenerator.transformer.UltimateScaler;
+import ultimate.karopapier.mapgenerator.transformer.UltimateScaler.Corner;
+import ultimate.karopapier.mapgenerator.transformer.UltimateScaler.Zone;
 
 public class UltimateScalerTest
 {
@@ -33,7 +35,7 @@ public class UltimateScalerTest
 	{
 		char[][] map;
 		
-		map = MapTransformerHelper.toArray("OXOX\nXOXO\nOXOX\nXOXO");
+		map = MapGeneratorUtil.toArray("OXOX\nXOXO\nOXOX\nXOXO");
 		
 		assertEquals(0b10101010, UltimateScaler.getMask(map, 1, 1));
 		assertEquals(0b10101010, UltimateScaler.getMask(map, 2, 1));
@@ -45,7 +47,7 @@ public class UltimateScalerTest
 		assertEquals(0b10011100, UltimateScaler.getMask(map, 3, 3));
 		assertEquals(0b00100111, UltimateScaler.getMask(map, 0, 3));
 		
-		map = MapTransformerHelper.toArray("XXXX\nXOOX\nXOOX\nXXXX");
+		map = MapGeneratorUtil.toArray("XXXX\nXOOX\nXOOX\nXXXX");
 		
 		assertEquals(0b00011100, UltimateScaler.getMask(map, 1, 1));
 		assertEquals(0b00000111, UltimateScaler.getMask(map, 2, 1));

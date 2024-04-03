@@ -1,8 +1,8 @@
-package ultimate.karopapier.transformer;
+package ultimate.karopapier.mapgenerator;
 
 import java.awt.geom.Point2D;
 
-public abstract class MapTransformerHelper
+public abstract class MapGeneratorUtil
 {
 	public static final String LINE_SEPARATOR = "\n";
 	

@@ -1,6 +1,8 @@
-package ultimate.karopapier.transformer;
+package ultimate.karopapier.mapgenerator.transformer;
 
 import java.awt.geom.Point2D;
+
+import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public abstract class MapTransformer
 {
@@ -28,7 +30,7 @@ public abstract class MapTransformer
 			applyMatrix(matrix, new Point2D.Double( mapWidth, mapHeight))
 		};
 		// @formatter:on
-		Point2D.Double min = MapTransformerHelper.min(transformedCorners);
+		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
 		matrix[0][2] = -min.x - (scaleX < 0 ? 1 : 0);
 		matrix[1][2] = -min.y - (scaleY < 0 ? 1 : 0);
 		
@@ -87,7 +89,7 @@ public abstract class MapTransformer
 		}
 		catch(NullPointerException | ArrayIndexOutOfBoundsException e)
 		{
-			MapTransformerHelper.printMap(map);
+			MapGeneratorUtil.printMap(map);
 			return 'L';
 		}
 	}
@@ -135,9 +137,9 @@ public abstract class MapTransformer
 				applyMatrix(matrix, new Point2D.Double(0, oldSizeY)),
 				applyMatrix(matrix, new Point2D.Double(oldSizeX, 0)),
 				applyMatrix(matrix, new Point2D.Double(oldSizeX, oldSizeY)) };
-		Point2D.Double min = MapTransformerHelper.min(transformedCorners);
+		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
 //		System.out.println("min = " + min);
-		Point2D.Double max = MapTransformerHelper.max(transformedCorners);
+		Point2D.Double max = MapGeneratorUtil.max(transformedCorners);
 //		System.out.println("max = " + max);
 		int newSizeX = (int) Math.ceil(max.x - min.x);
 		int newSizeY = (int) Math.ceil(max.y - min.y);

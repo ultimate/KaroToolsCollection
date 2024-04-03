@@ -1,4 +1,4 @@
-package ultimate.karopapier.transformer;
+package ultimate.karopapier.mapgenerator.transformer;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -43,6 +43,7 @@ import javax.swing.event.DocumentListener;
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class MapTransformerUI extends JFrame implements DocumentListener, ChangeListener, ActionListener, ComponentListener, ItemListener
 {
@@ -320,10 +321,10 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			boolean swapSF = modSwapSFCB.isSelected();
 			boolean trim = modTrimCB.isSelected();
 
-			char[][] original = MapTransformerHelper.toArray(mapCode);
+			char[][] original = MapGeneratorUtil.toArray(mapCode);
 
 			if(swapSF)
-				MapTransformerHelper.swapChars(original, 'S', 'F');
+				MapGeneratorUtil.swapChars(original, 'S', 'F');
 
 			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
 
@@ -341,7 +342,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 			char[][] scaled1 = transformer.transform(original);
 			if(trim)
-				scaled1 = MapTransformerHelper.trim(scaled1, 1, 1);
+				scaled1 = MapGeneratorUtil.trim(scaled1, 1, 1);
 
 			Graphics g1 = canvas1.getGraphics();
 			g1.clearRect(0, 0, 10000, 10000);
@@ -358,7 +359,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				transformer = new NearestNeighborScaler(matrix);
 				char[][] scaled2 = transformer.transform(original);
 				if(trim)
-					scaled2 = MapTransformerHelper.trim(scaled2, 1, 1);
+					scaled2 = MapGeneratorUtil.trim(scaled2, 1, 1);
 
 				Graphics g2 = canvas2.getGraphics();
 				g2.clearRect(0, 0, 10000, 10000);
