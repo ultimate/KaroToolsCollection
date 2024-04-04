@@ -181,7 +181,7 @@ public class DragMapGenerator
 		map = generate(5, 9359, 100, 0.1, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 5000, 200, 0.05, false, true, 1);
+		map = generate(5, 5000, 200, 0.01, false, false, 2);
 		MapGeneratorUtil.printMap(map);
 	}
 }
