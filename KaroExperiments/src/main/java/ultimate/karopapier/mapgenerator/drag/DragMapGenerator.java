@@ -7,16 +7,18 @@ import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class DragMapGenerator
 {
-	public static char[][] generate(int players, int length, int checkpoints, double variation, int variationLines, boolean allowDeadEnds, boolean spotFinish, int seed)
+	public static char[][] generate(int players, int length, int checkpoints, double variation, boolean allowDeadEnds, boolean spotFinish, int seed)
 	{
 		Random random = new Random(seed);
 		
 		// check size
 		int size = (players + 2) * (length + 3) - 1;
 		int maxLength = 65536 / (players + 2) - 3;
-		System.out.println("players = " + players + ", length = " + length + ", maxLength = " + maxLength + ", size = " + size);
+		System.out.println("players = " + players + ", length = " + length + ", maxLength = " + maxLength + ", size = " + size+ ", spotFinish = " + spotFinish);
 		if(size > 65535)
 			throw new IllegalArgumentException("Maximale Länge überschritten. Bei " + players + " Spielern liegt diese bei " + maxLength);
+		
+		System.out.println("checkpoints = " + checkpoints + ", variation = " + variation + ", allowDeadEnds = " + allowDeadEnds + ", seed = " + seed);
 		
 		int finishLine = length;
 		if(!spotFinish)
@@ -61,66 +63,75 @@ public class DragMapGenerator
 				
 				boolean deadends = false;
 				boolean deadstarts = false;
-				int tries = 5;
+				int tries = players*2;
+				int trackFields = 0;
 				do
 				{
 					currentSection = Arrays.copyOf(previousSection, previousSection.length);
 					tries--;
-					if(variationLines > 0)
+					trackFields = 0;
+					for(int p = 0; p < players; p++)
 					{
-						int lineToVary;
-						for(int i = 0; i < variationLines; i++)
-						{
-							if(random.nextDouble() < variation)
-							{
-								lineToVary = random.nextInt(players);
-								// check if already varied
-								if(currentSection[lineToVary] != previousSection[lineToVary])
-									continue;
-								currentSection[lineToVary] = !previousSection[lineToVary];
-							}
-						}
+						if(random.nextDouble() < variation)
+							currentSection[p] = !previousSection[p];
+						if(currentSection[p])
+							trackFields++;
 					}
-					else
-					{
-						for(int p = 0; p < players; p++)
-						{
-							if(random.nextDouble() < variation)
-								currentSection[p] = !previousSection[p];
-						}
-					}
+					// check impassible
+					if(trackFields == 0)
+						continue;
 					if(!allowDeadEnds)
 					{
 						// check for dead ends & starts
 						deadends = false;
-						deadstarts = false;
-						for(int p = 0; p < players; p++)
+						for(int trackStart = 0, trackEnd = 0; trackStart < players; trackStart = ++trackEnd)
 						{
-							// continuous track
-							if(previousSection[p] && currentSection[p])
+							if(!previousSection[trackStart])
 								continue;
-							// continuous grass
-							if(!previousSection[p] && !currentSection[p])
-								continue;
-							// TODO multiple tracks ending at the same moment
-							// previous track between two grass fields
-							if(previousSection[p] && (p == 0 || !previousSection[p-1]) && (p == players-1 || !previousSection[p+1]))
+							// identify the current track width
+							while(trackEnd < players-1 && previousSection[trackEnd+1])
+								trackEnd++;
+							// check successors
+							boolean hasSuccessor = false;
+							// TODO optionally allow diagonal
+							for(int t = trackStart; t <= trackEnd; t++)
 							{
-								// all 3 successors are grass
-								if(!currentSection[p] && (p == 0 || !currentSection[p-1]) && (p == players-1 || !currentSection[p+1]))
-									deadends = true;
+								if(currentSection[t])
+									hasSuccessor = true;
 							}
-							// current track between two grass fields
-							if(currentSection[p] && (p == 0 || !currentSection[p-1]) && (p == players-1 || !currentSection[p+1]))
+							if(!hasSuccessor)
 							{
-								// all 3 predecessors are grass
-								if(!previousSection[p] && (p == 0 || !previousSection[p-1]) && (p == players-1 || !previousSection[p+1]))
-									deadstarts = true;
+								deadends = true;
+								break;
 							}
 						}
-						System.out.println("x = " + x + ", deadends = " + deadends + ", deadstarts = " + deadstarts);
+						deadstarts = false;
+						for(int trackStart = 0, trackEnd = 0; trackStart < players; trackStart = ++trackEnd)
+						{
+							if(!currentSection[trackStart])
+								continue;
+							// identify the current track width
+							while(trackEnd < players-1 && previousSection[trackEnd+1])
+								trackEnd++;
+							// check successors
+							boolean hasPredecessor = false;
+							// TODO optionally allow diagonal
+							for(int t = trackStart; t <= trackEnd; t++)
+							{
+								if(previousSection[t])
+									hasPredecessor = true;
+							}
+							if(!hasPredecessor)
+							{
+								deadstarts = true;
+								break;
+							}
+						}
+//						System.out.println("x = " + x + ", deadends = " + deadends + ", deadstarts = " + deadstarts);
 					}
-				} while(!allowDeadEnds && (deadends || deadstarts) && tries >= 0);
+				} while((trackFields == 0 || !allowDeadEnds && (deadends || deadstarts)) && tries >= 0);
+				if(tries == 0)
+					System.out.println("warning: max tries reached");
 			}
 			
 			// apply section
@@ -138,31 +149,31 @@ public class DragMapGenerator
 	{
 		char[][] map;
 		
-		map = generate(5, 100, 15, 0.0, 0, false, true, 0);
+		map = generate(5, 100, 15, 0.0, false, true, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, 0, false, false, 0);
+		map = generate(5, 100, 15, 0.0, false, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, 1, false, true, 0);
+		map = generate(5, 100, 15, 0.1, false, true, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, 1, true, true, 0);
+		map = generate(5, 100, 15, 0.1, true, true, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(20, 100, 15, 0.1, 2, false, true, 0);
+		map = generate(20, 100, 15, 0.1, false, true, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, 2, false, true, 1);
+		map = generate(10, 200, 15, 0.1, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, 1, false, true, 1);
+		map = generate(10, 200, 15, 0.1, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, 0, false, true, 1);
+		map = generate(10, 200, 15, 0.1, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.05, 0, false, true, 1);
+		map = generate(10, 200, 15, 0.05, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 	}
 }
