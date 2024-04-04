@@ -24,6 +24,8 @@ public class DragMapGenerator
 		if(!spotFinish)
 			finishLine -= Math.sqrt(length);
 		double cpDistance = finishLine / (double) (checkpoints + 1);
+		if(cpDistance < 1)
+			cpDistance = 1;
 				
 		char[][] map = new char[players + 2][length + 2];
 		// fill with background TODO use Perlin instead
@@ -43,7 +45,7 @@ public class DragMapGenerator
 				currentSymbol = 'S';
 			else if(x == finishLine)
 				currentSymbol = 'F';
-			else if(x == (int) nextCPLine && x < finishLine)
+			else if(x >= nextCPLine && x < finishLine)
 			{
 				currentSymbol = (char) ('0' + nextCP);
 				nextCPLine += cpDistance;
@@ -77,7 +79,7 @@ public class DragMapGenerator
 						if(currentSection[p])
 							trackFields++;
 					}
-					// check impassible
+					// check impassible // TODO there can be other cases where one track starts and another ends
 					if(trackFields == 0)
 						continue;
 					if(!allowDeadEnds)
@@ -111,7 +113,7 @@ public class DragMapGenerator
 							if(!currentSection[trackStart])
 								continue;
 							// identify the current track width
-							while(trackEnd < players-1 && previousSection[trackEnd+1])
+							while(trackEnd < players-1 && currentSection[trackEnd+1])
 								trackEnd++;
 							// check successors
 							boolean hasPredecessor = false;
@@ -173,7 +175,13 @@ public class DragMapGenerator
 		map = generate(10, 200, 15, 0.1, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.05, false, true, 1);
+		map = generate(10, 200, 999, 0.05, false, true, 1);
+		MapGeneratorUtil.printMap(map);
+		
+		map = generate(5, 9359, 100, 0.1, false, true, 1);
+		MapGeneratorUtil.printMap(map);
+		
+		map = generate(5, 5000, 200, 0.05, false, true, 1);
 		MapGeneratorUtil.printMap(map);
 	}
 }
