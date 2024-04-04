@@ -7,7 +7,7 @@ import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class DragMapGenerator
 {
-	public static char[][] generate(int players, int length, int checkpoints, double variation, boolean allowDeadEnds, boolean spotFinish, int seed)
+	public static char[][] generate(int players, int length, int checkpoints, double variation, boolean allowDeadEnds, boolean spotFinish, boolean forceConnectedFinish, int seed)
 	{
 		Random random = new Random(seed);
 		
@@ -27,122 +27,145 @@ public class DragMapGenerator
 		if(cpDistance < 1)
 			cpDistance = 1;
 				
-		char[][] map = new char[players + 2][length + 2];
-		// fill with background TODO use Perlin instead
-		for(int y = 0; y < map.length; y++)
-			for(int x = 0; x < map[y].length; x++)
-				map[y][x] = 'X';
-		
 		// create track
+		char[][] map = new char[players + 2][length + 2];
 		boolean[] currentSection = new boolean[players];
 		char currentSymbol;
 		double nextCPLine = cpDistance;
 		int nextCP = 1;
-		for(int x = 1; x <= length; x++)
+		int trackTries = 10;
+		boolean finishConnected = true;
+		do
 		{
-			// determine symbol
-			if(x == 1)
-				currentSymbol = 'S';
-			else if(x == finishLine)
-				currentSymbol = 'F';
-			else if(x >= nextCPLine && x < finishLine)
-			{
-				currentSymbol = (char) ('0' + nextCP);
-				nextCPLine += cpDistance;
-				nextCP++;
-				if(nextCP > 9)
-					nextCP = 1;
-			}
-			else
-				currentSymbol = 'O';
+			trackTries--;
 			
-			// determine how the section looks like
-			if(x <= 2)
-				Arrays.fill(currentSection, true);
-			else
+			// fill with background TODO use Perlin instead
+			for(int y = 0; y < map.length; y++)
+				for(int x = 0; x < map[y].length; x++)
+					map[y][x] = 'X';
+			
+			for(int x = 1; x <= length; x++)
 			{
-				boolean[] previousSection = currentSection;
-				
-				boolean deadends = false;
-				boolean deadstarts = false;
-				int tries = players*2;
-				int trackFields = 0;
-				do
+				// determine symbol
+				if(x == 1)
+					currentSymbol = 'S';
+				else if(x == finishLine)
+					currentSymbol = 'F';
+				else if(x >= nextCPLine && x < finishLine)
 				{
-					currentSection = Arrays.copyOf(previousSection, previousSection.length);
-					tries--;
-					trackFields = 0;
-					for(int p = 0; p < players; p++)
+					currentSymbol = (char) ('0' + nextCP);
+					nextCPLine += cpDistance;
+					nextCP++;
+					if(nextCP > 9)
+						nextCP = 1;
+				}
+				else
+					currentSymbol = 'O';
+				
+				// determine how the section looks like
+				if(x <= 2)
+					Arrays.fill(currentSection, true);
+				else
+				{
+					boolean[] previousSection = currentSection;
+					
+					boolean deadends = false;
+					boolean deadstarts = false;
+					int sectionTries = players*2;
+					int trackFields = 0;
+					do
 					{
-						if(random.nextDouble() < variation)
-							currentSection[p] = !previousSection[p];
-						if(currentSection[p])
-							trackFields++;
-					}
-					// check impassible // TODO there can be other cases where one track starts and another ends
-					if(trackFields == 0)
-						continue;
-					if(!allowDeadEnds)
-					{
-						// check for dead ends & starts
-						deadends = false;
-						for(int trackStart = 0, trackEnd = 0; trackStart < players; trackStart = ++trackEnd)
+						currentSection = Arrays.copyOf(previousSection, previousSection.length);
+						sectionTries--;
+						trackFields = 0;
+						for(int p = 0; p < players; p++)
 						{
-							if(!previousSection[trackStart])
-								continue;
-							// identify the current track width
-							while(trackEnd < players-1 && previousSection[trackEnd+1])
-								trackEnd++;
-							// check successors
-							boolean hasSuccessor = false;
-							// TODO optionally allow diagonal
-							for(int t = trackStart; t <= trackEnd; t++)
-							{
-								if(currentSection[t])
-									hasSuccessor = true;
-							}
-							if(!hasSuccessor)
-							{
-								deadends = true;
-								break;
-							}
+							if(random.nextDouble() < variation)
+								currentSection[p] = !previousSection[p];
+							if(currentSection[p])
+								trackFields++;
 						}
-						deadstarts = false;
-						for(int trackStart = 0, trackEnd = 0; trackStart < players; trackStart = ++trackEnd)
+						// check impassible // TODO there can be other cases where one track starts and another ends
+						if(trackFields == 0)
+							continue;
+						if(!allowDeadEnds)
 						{
-							if(!currentSection[trackStart])
-								continue;
-							// identify the current track width
-							while(trackEnd < players-1 && currentSection[trackEnd+1])
-								trackEnd++;
-							// check successors
-							boolean hasPredecessor = false;
-							// TODO optionally allow diagonal
-							for(int t = trackStart; t <= trackEnd; t++)
+							// check for dead ends & starts
+							deadends = false;
+							for(int trackStart = 0, trackEnd = 0; trackStart < players; trackStart = ++trackEnd)
 							{
-								if(previousSection[t])
-									hasPredecessor = true;
+								if(!previousSection[trackStart])
+									continue;
+								// identify the current track width
+								while(trackEnd < players-1 && previousSection[trackEnd+1])
+									trackEnd++;
+								// check successors
+								boolean hasSuccessor = false;
+								// TODO optionally allow diagonal
+								for(int t = trackStart; t <= trackEnd; t++)
+								{
+									if(currentSection[t])
+										hasSuccessor = true;
+								}
+								if(!hasSuccessor)
+								{
+									deadends = true;
+									break;
+								}
 							}
-							if(!hasPredecessor)
+							deadstarts = false;
+							for(int trackStart = 0, trackEnd = 0; trackStart < players; trackStart = ++trackEnd)
 							{
-								deadstarts = true;
-								break;
+								if(!currentSection[trackStart])
+									continue;
+								// identify the current track width
+								while(trackEnd < players-1 && currentSection[trackEnd+1])
+									trackEnd++;
+								// check successors
+								boolean hasPredecessor = false;
+								// TODO optionally allow diagonal
+								for(int t = trackStart; t <= trackEnd; t++)
+								{
+									if(previousSection[t])
+										hasPredecessor = true;
+								}
+								if(!hasPredecessor)
+								{
+									deadstarts = true;
+									break;
+								}
 							}
+	//						System.out.println("x = " + x + ", deadends = " + deadends + ", deadstarts = " + deadstarts);
 						}
-//						System.out.println("x = " + x + ", deadends = " + deadends + ", deadstarts = " + deadstarts);
-					}
-				} while((trackFields == 0 || !allowDeadEnds && (deadends || deadstarts)) && tries >= 0);
-				if(tries == 0)
-					System.out.println("warning: max tries reached");
+					} while((trackFields == 0 || (!allowDeadEnds && (deadends || deadstarts))) && sectionTries >= 0);
+					if(sectionTries == 0)
+						System.out.println("warning: max sectionTries reached");
+				}
+				
+				// apply section
+				for(int p = 0; p < players; p++)
+				{
+					if(currentSection[p])
+						map[p + 1][x] = currentSymbol;
+				}
 			}
 			
-			// apply section
-			for(int p = 0; p < players; p++)
+			// check finish connected 
+			if(forceConnectedFinish)
 			{
-				if(currentSection[p])
-					map[p + 1][x] = currentSymbol;
+				int connectedFinishesFound = 0;
+				for(int p = 0; p < players; p++)
+				{
+					if(map[p+1][finishLine] == 'F' && map[p][finishLine] != 'F')
+						connectedFinishesFound++;
+				}
+				finishConnected = (connectedFinishesFound == 1);
+				if(!finishConnected)
+					System.out.println("finish not connected - retrying...");
 			}
-		}
+		} while(forceConnectedFinish && !finishConnected && trackTries >= 0);
+		if(trackTries == 0)
+			System.out.println("warning: max trackTries reached");
 		
 		return map;
 	}
@@ -151,37 +174,37 @@ public class DragMapGenerator
 	{
 		char[][] map;
 		
-		map = generate(5, 100, 15, 0.0, false, true, 0);
+		map = generate(5, 100, 15, 0.0, false, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, false, false, 0);
+		map = generate(5, 100, 15, 0.0, false, false, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, false, true, 0);
+		map = generate(5, 100, 15, 0.1, false, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, true, true, 0);
+		map = generate(5, 100, 15, 0.1, true, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(20, 100, 15, 0.1, false, true, 0);
+		map = generate(20, 100, 15, 0.1, false, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, false, true, 1);
+		map = generate(10, 200, 15, 0.1, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, false, true, 1);
+		map = generate(10, 200, 15, 0.1, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, false, true, 1);
+		map = generate(10, 200, 15, 0.1, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 999, 0.05, false, true, 1);
+		map = generate(10, 200, 999, 0.05, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 9359, 100, 0.1, false, true, 1);
+		map = generate(5, 9359, 500, 0.01, false, false, true, 9);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 5000, 200, 0.01, false, false, 2);
+		map = generate(5, 5000, 200, 0.01, false, false, true, 2);
 		MapGeneratorUtil.printMap(map);
 	}
 }
