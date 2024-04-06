@@ -10,6 +10,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,6 +97,28 @@ public class Launcher
 		// load properties from args
 		logger.info("loading properties: " + configFile);
 		Properties config = PropertiesUtil.loadProperties(new File(configFile));
+		
+		// add a "watchdog" to make sure that api initialization does not hang
+		final CountDownLatch initComplete = new CountDownLatch(1);
+		new Thread(() -> {
+			try
+			{
+				if(initComplete.await(KaroAPI.getInitTimeout()*3/2, TimeUnit.SECONDS))
+				{
+					logger.info("KaroAPI intialization successful");
+					return;
+				}
+				else
+				{
+					logger.error("KaroAPI intialization timed out");
+					System.exit(1);
+				}
+			}
+			catch(InterruptedException e)
+			{
+				logger.error("Watchdog interrupted");
+			}
+		}).start();
 
 		// init KaroAPI
 		logger.info("initiating KaroAPI");
@@ -104,6 +127,9 @@ public class Launcher
 
 		User currentUser = api.check().get();
 		logger.info("current user = " + currentUser.getLogin());
+		
+		// notify the watchdog
+		initComplete.countDown();
 
 		// initiate the mover
 		logger.info("initiating Mover");

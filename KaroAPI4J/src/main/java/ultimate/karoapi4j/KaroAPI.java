@@ -234,6 +234,25 @@ public class KaroAPI implements IDLookUp
 	{
 		return executor;
 	}
+	
+	/**
+	 * Init timeout set via property karoAPI.initTimeout
+	 * @return
+	 */
+	public static int getInitTimeout()
+	{
+		return initTimeout;
+	}
+
+	/**
+	 * Overwrite init timeout set via property karoAPI.initTimeout
+	 * @param initTimeout
+	 */
+	public static void setInitTimeout(int initTimeout)
+	{
+		KaroAPI.initTimeout = initTimeout;
+	}
+	
 	////////////////////
 	// parsers needed //
 	////////////////////
