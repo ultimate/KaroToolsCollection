@@ -7,9 +7,12 @@ import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class DragMapGenerator
 {
-	public static char[][] generate(int players, int length, int checkpoints, double variation, boolean allowDeadEnds, boolean spotFinish, boolean forceConnectedFinish, int seed)
+	public static char[][] generate(int players, int length, int checkpoints, double variation, boolean safeStart, boolean allowDeadEnds, boolean spotFinish, boolean forceConnectedFinish, int seed)
 	{
 		Random random = new Random(seed);
+		
+		int MAX_TRACK_TRIES = (int) (10 * Math.sqrt(players));
+		int SAFE_START_ZONE = (safeStart ? (int) (2 * Math.sqrt(players)) : 2);
 		
 		// check size
 		int size = (players + 2) * (length + 3) - 1;
@@ -31,13 +34,14 @@ public class DragMapGenerator
 		char[][] map = new char[players + 2][length + 2];
 		boolean[] currentSection = new boolean[players];
 		char currentSymbol;
-		double nextCPLine = cpDistance;
-		int nextCP = 1;
-		int trackTries = 10;
 		boolean finishConnected = true;
+		double nextCPLine;
+		int nextCP;
+		int trackTries = MAX_TRACK_TRIES;
 		do
 		{
-			trackTries--;
+			nextCPLine = cpDistance;
+			nextCP = 1;
 			
 			// fill with background TODO use Perlin instead
 			for(int y = 0; y < map.length; y++)
@@ -63,7 +67,7 @@ public class DragMapGenerator
 					currentSymbol = 'O';
 				
 				// determine how the section looks like
-				if(x <= 2)
+				if(x <= SAFE_START_ZONE)
 					Arrays.fill(currentSection, true);
 				else
 				{
@@ -161,10 +165,19 @@ public class DragMapGenerator
 				}
 				finishConnected = (connectedFinishesFound == 1);
 				if(!finishConnected)
-					System.out.println("finish not connected - retrying...");
+				{
+					if(trackTries == MAX_TRACK_TRIES)
+						System.out.print("finish not connected - retrying.");
+					else
+						System.out.print(".");
+				}
+				else if(trackTries < MAX_TRACK_TRIES)
+					System.out.println("");
 			}
+			
+			trackTries--;
 		} while(forceConnectedFinish && !finishConnected && trackTries >= 0);
-		if(trackTries == 0)
+		if(trackTries == 0 && !finishConnected)
 			System.out.println("warning: max trackTries reached");
 		
 		return map;
@@ -174,37 +187,40 @@ public class DragMapGenerator
 	{
 		char[][] map;
 		
-		map = generate(5, 100, 15, 0.0, false, true, false, 0);
+		map = generate(5, 100, 15, 0.0, false, false, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, false, false, false, 0);
+		map = generate(5, 100, 15, 0.0, false, false, false, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, false, true, false, 0);
+		map = generate(5, 100, 15, 0.1, false, false, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, true, true, false, 0);
+		map = generate(5, 100, 15, 0.1, true, true, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(20, 100, 15, 0.1, false, true, false, 0);
+		map = generate(20, 100, 15, 0.1, false, false, true, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, false, true, false, 1);
+		map = generate(10, 200, 15, 0.1, false, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, false, true, false, 1);
+		map = generate(10, 200, 15, 0.1, false, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, false, true, false, 1);
+		map = generate(10, 200, 15, 0.1, false, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 999, 0.05, false, true, false, 1);
+		map = generate(10, 200, 999, 0.05, false, false, true, false, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 9359, 500, 0.01, false, false, true, 9);
+		map = generate(5, 9359, 500, 0.01, false, false, false, true, 9);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 5000, 200, 0.01, false, false, true, 2);
+		map = generate(5, 5000, 200, 0.01, false, false, false, true, 2);
+		MapGeneratorUtil.printMap(map);
+		
+		map = generate(10, 1000, 100, 0.02, true, false, false, true, 3);
 		MapGeneratorUtil.printMap(map);
 	}
 }
