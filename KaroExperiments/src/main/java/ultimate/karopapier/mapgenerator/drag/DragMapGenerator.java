@@ -37,7 +37,7 @@ public class DragMapGenerator
 				throw new IllegalArgumentException("Richtung muss 0, 90, 180 oder 270 Grad sein!");					
 		}
 		int size = height * (width + 1) - 1;
-		System.out.println("players = " + players + ", length = " + length + ", maxLength = " + maxLength + ", size = " + size+ ", shutdownArea = " + shutdownArea);
+		System.out.println("players = " + players + ", length = " + length + ", direction = " + direction + ", maxLength = " + maxLength + ", size = " + size+ ", shutdownArea = " + shutdownArea);
 		if(size > 65535 || length > maxLength)
 			throw new IllegalArgumentException("Maximale Länge überschritten. Bei " + players + " Spielern und Richtung = " + direction + " liegt diese bei " + maxLength);
 		
@@ -171,10 +171,14 @@ public class DragMapGenerator
 				{
 					if(currentSection[p])
 					{
-						if(direction % 180 == 90)
+						if(direction == 90)
 							map[p + 1][cursor] = currentSymbol;
-						else
+						else if(direction == 270)
+							map[p + 1][width - 1 - cursor] = currentSymbol;
+						else if(direction == 180)
 							map[cursor][p + 1] = currentSymbol;
+						else if(direction == 0)
+							map[height - 1 - cursor][p + 1] = currentSymbol;
 					}
 				}
 			}
@@ -213,6 +217,15 @@ public class DragMapGenerator
 		char[][] map;
 		
 		map = generate(5, 100, 15, 0.0, 90, false, false, false, 0);
+		MapGeneratorUtil.printMap(map);
+		
+		map = generate(5, 100, 15, 0.0, 270, false, false, false, 0);
+		MapGeneratorUtil.printMap(map);
+		
+		map = generate(5, 100, 15, 0.0, 0, false, false, false, 0);
+		MapGeneratorUtil.printMap(map);
+		
+		map = generate(5, 100, 15, 0.0, 180, false, false, false, 0);
 		MapGeneratorUtil.printMap(map);
 		
 		map = generate(5, 100, 15, 0.0, 90, false, true, false, 0);
