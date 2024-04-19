@@ -7,13 +7,15 @@ import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class DragMapGenerator
 {
-	public static char[][] generate(int players, int length, int checkpoints, double variation, int direction, boolean allowDeadEnds, boolean shutdownArea, boolean forceConnectedFinish, int seed)
+	public static char[][] generate(int players, int length, int checkpoints, double variation, int direction, int seed)
 	{
 		Kezzer random = new Kezzer(seed);
 		
 		int MAX_TRACK_TRIES = (int) (10 * Math.sqrt(players));
 		int START_ZONE = (int) Math.ceil(Math.log(players));
 		int FINISH_ZONE = (int) Math.sqrt(length);
+		boolean FORCE_CONNECTED_FINISH = true;
+		boolean ALLOW_DEAD_ENDS = false;
 		
 		// check size
 		int height;
@@ -37,15 +39,13 @@ public class DragMapGenerator
 				throw new IllegalArgumentException("Richtung muss 0, 90, 180 oder 270 Grad sein!");					
 		}
 		int size = height * (width + 1) - 1;
-		System.out.println("players = " + players + ", length = " + length + ", direction = " + direction + ", maxLength = " + maxLength + ", size = " + size+ ", shutdownArea = " + shutdownArea);
+		System.out.println("players = " + players + ", length = " + length + ", direction = " + direction + ", maxLength = " + maxLength + ", size = " + size);
 		if(size > 65535 || length > maxLength)
 			throw new IllegalArgumentException("Maximale Länge überschritten. Bei " + players + " Spielern und Richtung = " + direction + " liegt diese bei " + maxLength);
 		
-		System.out.println("checkpoints = " + checkpoints + ", variation = " + variation + ", allowDeadEnds = " + allowDeadEnds + ", seed = " + seed);
+		System.out.println("checkpoints = " + checkpoints + ", variation = " + variation + ", seed = " + seed);
 		
-		int finishLine = length;
-		if(shutdownArea)
-			finishLine -= FINISH_ZONE;
+		int finishLine = length - FINISH_ZONE;
 		double cpDistance = finishLine / (double) (checkpoints + 1);
 		if(cpDistance < 1)
 			cpDistance = 1;
@@ -112,7 +112,7 @@ public class DragMapGenerator
 						// check impassible // TODO there can be other cases where one track starts and another ends
 						if(trackFields == 0)
 							continue;
-						if(!allowDeadEnds)
+						if(!ALLOW_DEAD_ENDS)
 						{
 							// check for dead ends & starts
 							deadends = false;
@@ -161,7 +161,7 @@ public class DragMapGenerator
 							}
 	//						System.out.println("x = " + x + ", deadends = " + deadends + ", deadstarts = " + deadstarts);
 						}
-					} while((trackFields == 0 || (!allowDeadEnds && (deadends || deadstarts))) && sectionTries >= 0);
+					} while((trackFields == 0 || (!ALLOW_DEAD_ENDS && (deadends || deadstarts))) && sectionTries >= 0);
 					if(sectionTries == 0)
 						System.out.println("warning: max sectionTries reached");
 				}
@@ -184,7 +184,7 @@ public class DragMapGenerator
 			}
 			
 			// check finish connected 
-			if(forceConnectedFinish)
+			if(FORCE_CONNECTED_FINISH)
 			{
 				int connectedFinishesFound = 0;
 				for(int p = 0; p < players; p++)
@@ -205,7 +205,7 @@ public class DragMapGenerator
 			}
 			
 			trackTries--;
-		} while(forceConnectedFinish && !finishConnected && trackTries >= 0);
+		} while(FORCE_CONNECTED_FINISH && !finishConnected && trackTries >= 0);
 		if(trackTries == 0 && !finishConnected)
 			System.out.println("warning: max trackTries reached");
 		
@@ -216,49 +216,49 @@ public class DragMapGenerator
 	{
 		char[][] map;
 		
-		map = generate(5, 100, 15, 0.0, 90, false, false, false, 0);
+		map = generate(5, 100, 15, 0.0, 90, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, 270, false, false, false, 0);
+		map = generate(5, 100, 15, 0.0, 270, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, 0, false, false, false, 0);
+		map = generate(5, 100, 15, 0.0, 0, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, 180, false, false, false, 0);
+		map = generate(5, 100, 15, 0.0, 180, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.0, 90, false, true, false, 0);
+		map = generate(5, 100, 15, 0.0, 90, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, 90, false, false, false, 0);
+		map = generate(5, 100, 15, 0.1, 90, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 100, 15, 0.1, 90, true, false, false, 0);
+		map = generate(5, 100, 15, 0.1, 90, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(20, 100, 15, 0.1, 90, false, false, false, 0);
+		map = generate(20, 100, 15, 0.1, 90, 0);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, 90, false, false, false, 1);
+		map = generate(10, 200, 15, 0.1, 90, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, 90, false, false, false, 1);
+		map = generate(10, 200, 15, 0.1, 90, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 15, 0.1, 90, false, false, false, 1);
+		map = generate(10, 200, 15, 0.1, 90, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 200, 999, 0.05, 90, false, false, false, 1);
+		map = generate(10, 200, 999, 0.05, 90, 1);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 9359, 500, 0.01, 90, false, true, true, 9);
+		map = generate(5, 9359, 500, 0.01, 90, 9);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(5, 5000, 200, 0.01, 90, false, true, true, 2);
+		map = generate(5, 5000, 200, 0.01, 90, 2);
 		MapGeneratorUtil.printMap(map);
 		
-		map = generate(10, 1000, 100, 0.02, 90, false, true, true, 3);
+		map = generate(10, 1000, 100, 0.02, 90, 3);
 		MapGeneratorUtil.printMap(map);
 	}
 }
