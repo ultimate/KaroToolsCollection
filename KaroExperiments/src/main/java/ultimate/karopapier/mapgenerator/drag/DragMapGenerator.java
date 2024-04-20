@@ -37,16 +37,14 @@ public class DragMapGenerator
 				throw new IllegalArgumentException("Richtung muss 0, 90, 180 oder 270 Grad sein!");
 		}
 		int size = height * (width + 1) - 1;
-		System.out.println(
-				"players = " + players + ", length = " + length + ", direction = " + direction + ", maxLength = " + maxLength + ", size = " + size);
+		System.out.println("players = " + players + ", length = " + length + ", direction = " + direction + ", maxLength = " + maxLength + ", size = " + size);
 		if(size > MAX_SIZE || length > maxLength)
-			throw new IllegalArgumentException(
-					"Maximale Länge überschritten. Bei " + players + " Spielern und Richtung = " + direction + " liegt diese bei " + maxLength);
+			throw new IllegalArgumentException("Maximale Länge überschritten. Bei " + players + " Spielern und Richtung = " + direction + " liegt diese bei " + maxLength);
 
 		System.out.println("checkpoints = " + checkpoints + ", variation = " + variation + ", seed = " + seed);
 
 		Kezzer random = new Kezzer(seed);
-		
+
 		int startZone = (int) Math.ceil(Math.log(players));
 		int finishZone = (int) Math.sqrt(length);
 		int finishLine = length - finishZone;
@@ -76,7 +74,7 @@ public class DragMapGenerator
 			random.rnd();
 			random.rnd();
 			random.rnd();
-			
+
 			for(int cursor = 1; cursor <= length; cursor++)
 			{
 				// determine symbol
@@ -199,7 +197,7 @@ public class DragMapGenerator
 
 		return map;
 	}
-	
+
 	private static boolean hasDeadEnds(boolean[] currentSection, boolean[] previousSection)
 	{
 		for(int trackStart = 0, trackEnd = 0; trackStart < previousSection.length; trackStart = ++trackEnd)
@@ -221,7 +219,7 @@ public class DragMapGenerator
 		}
 		return false;
 	}
-	
+
 	private static boolean hasDeadStarts(boolean[] currentSection, boolean[] previousSection)
 	{
 		for(int trackStart = 0, trackEnd = 0; trackStart < currentSection.length; trackStart = ++trackEnd)
@@ -268,7 +266,8 @@ public class DragMapGenerator
 		map = generate(10, 200, 999, 0.05, 90, "rainbow");
 		MapGeneratorUtil.printMap(map);
 
-		 map = generate(25, 25, 4, 0.5, 90, "quadrat");
-		 MapGeneratorUtil.printMap(map);
+		// parameterized 05
+		map = generate(25, 25, 4, 0.5, 90, "quadrat");
+		MapGeneratorUtil.printMap(map);
 	}
 }
