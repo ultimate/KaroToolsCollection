@@ -101,22 +101,22 @@ public abstract class MapGeneratorUtil
 		}
 	}
 
-	public static boolean isRoad(char c)
+	public static boolean isStreet(char c)
 	{
 		return "SOF123456789".indexOf(c) != -1;
 	}
 	
-	public static boolean rowContainsRoad(char[] row)
+	public static boolean rowHasStreet(char[] row)
 	{
 		for(char c : row)
 		{
-			if(isRoad(c))
+			if(isStreet(c))
 				return true;
 		}
 		return false;
 	}
 	
-	public static boolean colContainsRoad(char[][] map, int col)
+	public static boolean colHasStreet(char[][] map, int col)
 	{
 		if(col < 0)
 			return false;
@@ -124,7 +124,7 @@ public abstract class MapGeneratorUtil
 		{
 			if(col >= row.length)
 				continue;
-			if(isRoad(row[col]))
+			if(isStreet(row[col]))
 				return true;
 		}
 		return false;
@@ -140,7 +140,7 @@ public abstract class MapGeneratorUtil
 		int rowOffsetTop = -preserveRows;
 		for(int r = 0; r < map.length; r++)
 		{
-			if(rowContainsRoad(map[r]))
+			if(rowHasStreet(map[r]))
 				break;
 			rowOffsetTop++;
 		}
@@ -150,7 +150,7 @@ public abstract class MapGeneratorUtil
 		int rowOffsetBottom = -preserveRows;
 		for(int r = map.length - 1; r >= 0; r--)
 		{
-			if(rowContainsRoad(map[r]))
+			if(rowHasStreet(map[r]))
 				break;
 			rowOffsetBottom++;
 		}
@@ -160,7 +160,7 @@ public abstract class MapGeneratorUtil
 		int colOffsetLeft = -preserveCols;
 		for(int c = 0; c < map[0].length; c++)
 		{
-			if(colContainsRoad(map, c))
+			if(colHasStreet(map, c))
 				break;
 			colOffsetLeft++;
 		}
@@ -170,7 +170,7 @@ public abstract class MapGeneratorUtil
 		int colOffsetRight = -preserveCols;
 		for(int c = map[0].length - 1; c >= 0; c--)
 		{
-			if(colContainsRoad(map, c))
+			if(colHasStreet(map, c))
 				break;
 			colOffsetRight++;
 		}
