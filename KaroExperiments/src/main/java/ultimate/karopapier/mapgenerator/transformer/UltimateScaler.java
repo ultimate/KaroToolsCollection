@@ -1,10 +1,8 @@
 package ultimate.karopapier.mapgenerator.transformer;
 
-import java.awt.geom.Point2D;
-
 import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
-public class UltimateScaler extends MapTransformer
+public class UltimateScaler extends Scaler
 {
 	///////////////////////////
 	// static
@@ -12,16 +10,16 @@ public class UltimateScaler extends MapTransformer
 
 	public static int getMask(char[][] map, int x, int y)
 	{
-		boolean centerIsStreet = MapGeneratorUtil.isStreet(getValue(map, x, y));
+		boolean centerIsStreet = MapGeneratorUtil.isStreet(getRawValue(map, x, y));
 		int mask = 0;
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x - 1, y - 1)) == centerIsStreet ? 128 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x + 0, y - 1)) == centerIsStreet ? 64 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x + 1, y - 1)) == centerIsStreet ? 32 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x + 1, y + 0)) == centerIsStreet ? 16 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x + 1, y + 1)) == centerIsStreet ? 8 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x + 0, y + 1)) == centerIsStreet ? 4 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x - 1, y + 1)) == centerIsStreet ? 2 : 0);
-		mask += (MapGeneratorUtil.isStreet(getValue(map, x - 1, y + 0)) == centerIsStreet ? 1 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x - 1, y - 1)) == centerIsStreet ? 128 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x + 0, y - 1)) == centerIsStreet ? 64 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x + 1, y - 1)) == centerIsStreet ? 32 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x + 1, y + 0)) == centerIsStreet ? 16 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x + 1, y + 1)) == centerIsStreet ? 8 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x + 0, y + 1)) == centerIsStreet ? 4 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x - 1, y + 1)) == centerIsStreet ? 2 : 0);
+		mask += (MapGeneratorUtil.isStreet(getRawValue(map, x - 1, y + 0)) == centerIsStreet ? 1 : 0);
 		return mask;
 	}
 
@@ -64,21 +62,21 @@ public class UltimateScaler extends MapTransformer
 	public static char getNeighborValue(char[][] map, int x, int y, Zone zone)
 	{
 		if(zone == Zone.north)
-			return getValue(map, x + 0, y - 1);
+			return getRawValue(map, x + 0, y - 1);
 		if(zone == Zone.east)
-			return getValue(map, x + 1, y + 0);
+			return getRawValue(map, x + 1, y + 0);
 		if(zone == Zone.south)
-			return getValue(map, x + 0, y + 1);
+			return getRawValue(map, x + 0, y + 1);
 		if(zone == Zone.west)
-			return getValue(map, x - 1, y + 0);
-		return getValue(map, x, y);
+			return getRawValue(map, x - 1, y + 0);
+		return getRawValue(map, x, y);
 	}
 
 	public static char getCheckValue(char[][] map, int x, int y, int mod, Zone zone)
 	{
 		// System.out.println("x=" + x + ", y=" + y + ", mod=" + mod + ", zone=" + zone);
 		if(mod == (x + y) % 2)
-			return getValue(map, x, y);
+			return getRawValue(map, x, y);
 		else
 			return getNeighborValue(map, x, y, zone);
 	}
@@ -86,31 +84,29 @@ public class UltimateScaler extends MapTransformer
 	///////////////////////////
 	// non-static
 	///////////////////////////
-
-	public UltimateScaler(double[][] matrix)
-	{
-		super(matrix);
-	}
 	
 	@Override
-	public char getTransformedValue(char[][] original, int transformedX, int transformedY)
+	public char getScaledValue(char[][] map, double originX, double originY, int transformedX, int transformedY, double scaleX, double scaleY)
 	{
-		Point2D.Double origin = applyMatrix(this.inv, new Point2D.Double(transformedX, transformedY));
-		int originX = (int) (origin.x);
-		int originY = (int) (origin.y);
+		double sX = transformedX - originX;
+		double sY = transformedY - originY;
+		System.out.println("scaleX = " + scaleX + ", scaleY = " + scaleY + ", sX = " + sX + ", sY = " + sY);		
+		
+		int xi = (int) originX;
+		int yi = (int) originY;
 
-		Corner corner = getCorner(origin.x - originX + Math.abs(this.scaleX) / 2, origin.y - originY + Math.abs(this.scaleY) / 2);
-		Zone zone = getZone(origin.x - originX, origin.y - originY);
+		Corner corner = getCorner(originX - xi + Math.abs(1/scaleX) / 2, originY - yi + Math.abs(1/scaleY) / 2);
+		Zone zone = getZone(originX - xi, originY - yi);
 
-		int mask = getMask(original, originX, originY);
+		int mask = getMask(map, xi, yi);
 		int mod = (transformedX + transformedY) % 2;
 		// we need to offset mod by 1 if only 1 axis was mirrored
-		if(this.scaleX < 0 ^ this.scaleY < 0)
+		if(scaleX < 0 ^ scaleY < 0)
 			mod = (mod + 1) % 2;
 
-		char originCenterValue = getValue(original, originX, originY);
-		char originCheckValue = getCheckValue(original, originX, originY, mod, zone);
-		char originNeighborValue = getNeighborValue(original, originX, originY, zone);
+		char originCenterValue = getRawValue(map, xi, yi);
+		char originCheckValue = getCheckValue(map, xi, yi, mod, zone);
+		char originNeighborValue = getNeighborValue(map, xi, yi, zone);
 
 		switch(mask)
 		{

@@ -334,11 +334,12 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			m10TF.setText(toRoundedString(matrix[1][0], digits));
 			m11TF.setText(toRoundedString(matrix[1][1], digits));
 			
-			MapTransformer transformer;
+			Scaler scaler;
 			if(smart)
-				transformer = new UltimateScaler(matrix);
+				scaler = new UltimateScaler();
 			else
-				transformer = new NearestNeighborScaler(matrix);
+				scaler = new NearestNeighborScaler();
+			MapTransformer transformer = new MapTransformer(matrix, scaler);
 
 			char[][] scaled1 = transformer.transform(original);
 			if(trim)
@@ -356,7 +357,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 			if(comparisonMode)
 			{
-				transformer = new NearestNeighborScaler(matrix);
+				scaler = new NearestNeighborScaler();
+				transformer = new MapTransformer(matrix, scaler);
 				char[][] scaled2 = transformer.transform(original);
 				if(trim)
 					scaled2 = MapGeneratorUtil.trim(scaled2, 1, 1);

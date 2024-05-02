@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 
 import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
-public abstract class MapTransformer
+public class MapTransformer
 {
 	///////////////////////////
 	// static
@@ -72,46 +72,28 @@ public abstract class MapTransformer
 		};
 		// @formatter:on
 	}
-
-	public static char getValue(char[][] map, int x, int y)
-	{
-		try
-		{
-			if(y < 0)
-				y = 0;
-			else if(y >= map.length)
-				y = map.length - 1;
-			if(x < 0)
-				x = 0;
-			else if(x >= map[y].length)
-				x = map[y].length - 1;
-			return map[y][x];
-		}
-		catch(NullPointerException | ArrayIndexOutOfBoundsException e)
-		{
-			MapGeneratorUtil.printMap(map);
-			return 'L';
-		}
-	}
 	
 	///////////////////////////
 	// non-static
 	///////////////////////////
 	
-	protected double[][] matrix;
-	protected double[][] inv;
-	protected double scaleX;
-	protected double scaleY;
+	private double[][] matrix;
+	private double[][] inv;
+	private double scaleX;
+	private double scaleY;
+	private Scaler scaler;
 
-	public MapTransformer(double[][] matrix)
+	public MapTransformer(double[][] matrix, Scaler scaler)
 	{
 		this.matrix = matrix;
 		this.inv = invertMatrix(matrix);
+		this.scaler = scaler;
 
 		Point2D.Double p0 = inverseTransform(new Point2D.Double(0, 0));
 		Point2D.Double p1 = inverseTransform(new Point2D.Double(1, 1));
-		this.scaleX = p1.x - p0.x;
-		this.scaleY = p1.y - p0.y;
+		this.scaleX = 1/(p1.x - p0.x);
+		this.scaleY = 1/(p1.y - p0.y);
+//		System.out.println("scale: x=" + scaleX + ", y=" + scaleY);
 	}
 	
 	public Point2D.Double transform(Point2D.Double point)
@@ -124,8 +106,6 @@ public abstract class MapTransformer
 		return applyMatrix(inv, point);
 	}
 	
-	public abstract char getTransformedValue(char[][] original, int transformedX, int transformedY);
-		
 	public char[][] transform(char[][] original)
 	{
 		int oldSizeY = original.length;
@@ -133,10 +113,10 @@ public abstract class MapTransformer
 
 		// calculate new size
 		Point2D.Double[] transformedCorners = new Point2D.Double[] {
-				applyMatrix(matrix, new Point2D.Double(0, 0)),
-				applyMatrix(matrix, new Point2D.Double(0, oldSizeY)),
-				applyMatrix(matrix, new Point2D.Double(oldSizeX, 0)),
-				applyMatrix(matrix, new Point2D.Double(oldSizeX, oldSizeY)) };
+				transform(new Point2D.Double(0, 0)),
+				transform(new Point2D.Double(0, oldSizeY)),
+				transform(new Point2D.Double(oldSizeX, 0)),
+				transform(new Point2D.Double(oldSizeX, oldSizeY)) };
 		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
 //		System.out.println("min = " + min);
 		Point2D.Double max = MapGeneratorUtil.max(transformedCorners);
@@ -152,7 +132,8 @@ public abstract class MapTransformer
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
-				scaled[y][x] = this.getTransformedValue(original, x, y);
+				Point2D.Double origin = applyMatrix(this.inv, new Point2D.Double(x, y));			
+				scaled[y][x] = this.scaler.getScaledValue(original, origin.x, origin.y, x, y, scaleX, scaleY);
 			}
 		}
 		return scaled;

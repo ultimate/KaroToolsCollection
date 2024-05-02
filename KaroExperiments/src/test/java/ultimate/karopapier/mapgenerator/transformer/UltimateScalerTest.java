@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
-import ultimate.karopapier.mapgenerator.transformer.UltimateScaler;
 import ultimate.karopapier.mapgenerator.transformer.UltimateScaler.Corner;
 import ultimate.karopapier.mapgenerator.transformer.UltimateScaler.Zone;
 
