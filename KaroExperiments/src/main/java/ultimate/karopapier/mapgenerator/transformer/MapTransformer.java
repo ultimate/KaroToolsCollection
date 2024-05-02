@@ -11,7 +11,7 @@ public class MapTransformer
 	///////////////////////////
 	public static final double[][] IDENTITY = new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
 
-	public static double[][] createMatrix(int rotation, double scaleX, double scaleY, int mapWidth, int mapHeight)
+	public static double[][] createMatrix(int rotation, double scaleX, double scaleY)
 	{
 		double[][] matrix = IDENTITY;
 		// equivalent to
@@ -22,20 +22,6 @@ public class MapTransformer
 		// };
 		matrix = MapTransformer.rotate(matrix, rotation);
 		matrix = MapTransformer.scale(matrix, scaleX, scaleY);
-
-		// compensate offset
-		// @formatter:off
-		Point2D.Double[] transformedCorners = new Point2D.Double[] {
-			applyMatrix(matrix, new Point2D.Double( 0, 0 )),
-			applyMatrix(matrix, new Point2D.Double( 0, mapHeight )),
-			applyMatrix(matrix, new Point2D.Double( mapWidth, 0 )),
-			applyMatrix(matrix, new Point2D.Double( mapWidth, mapHeight))
-		};
-		// @formatter:on
-		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
-		double translateX = -min.x - (scaleX < 0 ? 1 : 0);
-		double translateY = -min.y - (scaleY < 0 ? 1 : 0);
-		matrix = MapTransformer.translate(matrix, translateX, translateY);
 
 		return matrix;
 	}
@@ -133,7 +119,7 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
-	public static double[][] invertMatrix(double[][] matrix)
+	public static double[][] invert(double[][] matrix)
 	{
 		double a = matrix[0][0];
 		double b = matrix[0][1];
@@ -166,105 +152,52 @@ public class MapTransformer
 	///////////////////////////
 
 	private double[][]	matrix;
-	private double[][]	inv;
 	private double		scaleX;
 	private double		scaleY;
 	private Scaler		scaler;
 
-	public MapTransformer(Scaler scaler)
-	{
-		this.scaler = scaler;
-		this.setMatrix(IDENTITY);
-	}
-
 	public MapTransformer(double[][] matrix, Scaler scaler)
 	{
-		this.scaler = scaler;
-		this.setMatrix(matrix);
-	}
-
-	public void setMatrix(double[][] matrix)
-	{
-		if(matrix.length != 3)
+		if(!isValid(matrix))
+			throw new IllegalArgumentException("matrixA is not a valid matrix, all rows must be of equal length");
+		if(matrix.length != 3 || matrix[0].length != 3)
 			throw new IllegalArgumentException("matrix must be of size 3x3");
-		this.matrix = new double[3][3];
-		for(int i1 = 0; i1 < 3; i1++)
-		{
-			if(matrix[i1].length != 3)
-				throw new IllegalArgumentException("matrix must be of size 3x3");
-			for(int i2 = 0; i2 < 3; i2++)
-			{
-				this.matrix[i1][i2] = matrix[i1][i2];
-			}
-		}
-		this.inv = invertMatrix(this.matrix);
+		
+		this.matrix = copy(matrix);
+		double[][] inv = invert(this.matrix);
+		
+		this.scaler = scaler;		
 
-		Point2D.Double p0 = inverseTransform(new Point2D.Double(0, 0));
-		Point2D.Double p1 = inverseTransform(new Point2D.Double(1, 1));
+		Point2D.Double p0 = applyMatrix(inv, new Point2D.Double(0, 0));
+		Point2D.Double p1 = applyMatrix(inv, new Point2D.Double(1, 1));
 		this.scaleX = 1 / (p1.x - p0.x);
 		this.scaleY = 1 / (p1.y - p0.y);
 	}
 
-	public void scale(double scaleX, double scaleY)
-	{
-		this.matrix = scale(this.matrix, scaleX, scaleY);
-	}
-
-	public void rotate(double rotationInDegrees)
-	{
-		this.matrix = rotate(this.matrix, rotationInDegrees);
-	}
-
-	public void translate(double translateX, double translateY)
-	{
-		this.matrix = translate(this.matrix, translateX, translateY);
-	}
-
-	public void compensateMapSize(int dimX, int dimY)
-	{
-		// @formatter:off
-		Point2D.Double[] transformedCorners = new Point2D.Double[] {
-			applyMatrix(this.matrix, new Point2D.Double( 0, 0 )),
-			applyMatrix(this.matrix, new Point2D.Double( 0, dimY )),
-			applyMatrix(this.matrix, new Point2D.Double( dimX, 0 )),
-			applyMatrix(this.matrix, new Point2D.Double( dimX, dimY))
-		};
-		// @formatter:on
-		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
-		double offsetX = -min.x - (this.scaleX < 0 ? 1 : 0);
-		double offsetY = -min.y - (this.scaleY < 0 ? 1 : 0);
-
-		this.translate(offsetX, offsetY);
-	}
-
-	public Point2D.Double transform(Point2D.Double point)
-	{
-		return applyMatrix(matrix, point);
-	}
-
-	public Point2D.Double inverseTransform(Point2D.Double point)
-	{
-		return applyMatrix(inv, point);
-	}
-
 	public char[][] transform(char[][] original)
 	{
-		this.compensateMapSize(original.length, original[0].length);
-
 		int oldSizeY = original.length;
 		int oldSizeX = original[0].length;
 
-		// calculate new size
-		Point2D.Double[] transformedCorners = new Point2D.Double[] { transform(new Point2D.Double(0, 0)), transform(new Point2D.Double(0, oldSizeY)),
-				transform(new Point2D.Double(oldSizeX, 0)), transform(new Point2D.Double(oldSizeX, oldSizeY)) };
+		// determine bounds to compensate map size
+		// @formatter:off
+		Point2D.Double[] transformedCorners = new Point2D.Double[] {
+			applyMatrix(matrix, new Point2D.Double( 0, 0 )),
+			applyMatrix(matrix, new Point2D.Double( 0, oldSizeY )),
+			applyMatrix(matrix, new Point2D.Double( oldSizeX, 0 )),
+			applyMatrix(matrix, new Point2D.Double( oldSizeX, oldSizeY))
+		};
+		// @formatter:on
 		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
-		// System.out.println("min = " + min);
 		Point2D.Double max = MapGeneratorUtil.max(transformedCorners);
-		// System.out.println("max = " + max);
+		// calculate new size
 		int newSizeX = (int) Math.ceil(max.x - min.x);
 		int newSizeY = (int) Math.ceil(max.y - min.y);
-		// System.out.println("newSize = " + newSizeX + " x " + newSizeY);
+		// add compensation to matrix
+		double[][] mat = translate(this.matrix, -min.x - (scaleX <0 ? 1 : 0), -min.y - (scaleY <0 ? 1 : 0));
 
+		// now calculate the invert
+		double[][] inv = invert(mat);
 		char[][] scaled = new char[newSizeY][];
 
 		for(int y = 0; y < newSizeY; y++)
@@ -272,7 +205,7 @@ public class MapTransformer
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
-				Point2D.Double origin = applyMatrix(this.inv, new Point2D.Double(x, y));
+				Point2D.Double origin = applyMatrix(inv, new Point2D.Double(x, y));
 				scaled[y][x] = this.scaler.getScaledValue(original, origin.x, origin.y, x, y, scaleX, scaleY);
 			}
 		}

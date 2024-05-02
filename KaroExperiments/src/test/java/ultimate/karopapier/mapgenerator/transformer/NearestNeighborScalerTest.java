@@ -18,7 +18,7 @@ public class NearestNeighborScalerTest
 		
 		// test check pattern
 		original = MapGeneratorUtil.toArray("OXOX\nXOXO\nOXOX\nXOXO");
-		matrix = MapTransformer.createMatrix(2, 2, 0, 4, 4);
+		matrix = MapTransformer.createMatrix(0, 2, 2);
 		transformer = new MapTransformer(matrix, new NearestNeighborScaler());
 		transformed = transformer.transform(original);
 		code = MapGeneratorUtil.toString(transformed);

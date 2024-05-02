@@ -11,8 +11,6 @@ public class MapTransformerTest
 	{
 		double scaleX = 3;
 		double scaleY = -4;
-		int dimX = 100;
-		int dimY = 150;
 
 		int rotation;		
 		double[][] expected, actual;
@@ -22,36 +20,36 @@ public class MapTransformerTest
 		// @formatter:off
 		expected = new double[][] {
 			{ scaleX, 0,      0 },
-			{ 0,      scaleY, - dimY * scaleY - 1 },
+			{ 0,      scaleY, 0 },
 			{ 0,      0,      1 }
 		};
 		// @formatter:on
-		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY);
 		assertMatrixEquals(expected, actual);
 		
 		// rotation = 90
 		rotation = 90;
 		// @formatter:off
 		expected = new double[][] {
-			{ 0,      -scaleX, dimY * scaleX },
-			{ scaleY, 0,       - dimX * scaleY - 1 },
+			{ 0,      -scaleX, 0 },
+			{ scaleY, 0,       0 },
 			{ 0,      0,       1 }
 		};
 		// @formatter:on
-		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY);
 		assertMatrixEquals(expected, actual);
 		
 		// rotation = 180
 		rotation = 180;
 		// @formatter:off
 		expected = new double[][] {
-			{ -scaleX, 0, 		dimX * scaleX },
-			{ 0,       -scaleY, -1 },
+			{ -scaleX, 0, 		0 },
+			{ 0,       -scaleY, 0 },
 			{ 0,       0,       1 }
 		};
 		// @formatter:on
 
-		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY);
 		assertMatrixEquals(expected, actual);
 		
 		// rotation = 270
@@ -59,21 +57,18 @@ public class MapTransformerTest
 		// @formatter:off
 		expected = new double[][] {
 			{ 0,       scaleX, 0 },
-			{ -scaleY, 0,      -1 },
+			{ -scaleY, 0,      0 },
 			{ 0,       0,      1 }
 		};
 		// @formatter:on
 
-		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, scaleX, scaleY);
 		assertMatrixEquals(expected, actual);
 	}
 	
 	@Test
 	public void test_createMatrix_arbitrarySteps()
 	{
-		int dimX = 100;
-		int dimY = 150;
-	
 		int rotation;		
 		double sin, cos;
 		double[][] expected, actual;
@@ -84,13 +79,13 @@ public class MapTransformerTest
 		cos = Math.cos(rotation * Math.PI / 180.0);
 		// @formatter:off
 		expected = new double[][] {
-			{ cos, -sin, dimY*sin },
+			{ cos, -sin, 0 },
 			{ sin,  cos, 0},
 			{ 0,    0,   1 }
 		};
 		// @formatter:on
 	
-		actual = MapTransformer.createMatrix(rotation, 1, 1, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, 1, 1);
 		assertMatrixEquals(expected, actual);
 		
 		// rotation = 75
@@ -99,13 +94,13 @@ public class MapTransformerTest
 		cos = Math.cos(rotation * Math.PI / 180.0);
 		// @formatter:off
 		expected = new double[][] {
-			{ cos, -sin, dimY*sin },
+			{ cos, -sin, 0 },
 			{ sin,  cos, 0},
 			{ 0,    0,   1 }
 		};
 		// @formatter:on
 	
-		actual = MapTransformer.createMatrix(rotation, 1, 1, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, 1, 1);
 		assertMatrixEquals(expected, actual);
 		
 		// rotation = 120
@@ -116,13 +111,13 @@ public class MapTransformerTest
 		System.out.println(cos);
 		// @formatter:off
 		expected = new double[][] {
-			{ cos, -sin, dimY*sin + dimX/2 },
-			{ sin,  cos, -dimY*cos},
+			{ cos, -sin, 0 },
+			{ sin,  cos, 0},
 			{ 0,    0,   1 }
 		};
 		// @formatter:on
 	
-		actual = MapTransformer.createMatrix(rotation, 1, 1, dimX, dimY);
+		actual = MapTransformer.createMatrix(rotation, 1, 1);
 		assertMatrixEquals(expected, actual);
 	}
 
