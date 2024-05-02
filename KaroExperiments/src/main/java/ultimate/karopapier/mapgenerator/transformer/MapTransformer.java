@@ -164,6 +164,7 @@ public class MapTransformer
 			throw new IllegalArgumentException("matrix must be of size 3x3");
 
 		this.matrix = copy(matrix);
+		// no need to save inv yet, as we have to invert again later after applying the map offset
 		double[][] inv = invert(this.matrix);
 
 		this.scaler = scaler;
@@ -194,7 +195,8 @@ public class MapTransformer
 		int newSizeX = (int) Math.ceil(max.x - min.x);
 		int newSizeY = (int) Math.ceil(max.y - min.y);
 		// add compensation to matrix
-		double[][] mat = translate(this.matrix, -min.x - (scaleX < 0 ? 1 : 0), -min.y - (scaleY < 0 ? 1 : 0));
+		// note: by using a temp matrix here, we are also thread safe
+		double[][] mat = translate(this.matrix, -min.x - (this.scaleX < 0 ? 1 : 0), -min.y - (this.scaleY < 0 ? 1 : 0));
 
 		// now calculate the invert
 		double[][] inv = invert(mat);
@@ -206,7 +208,7 @@ public class MapTransformer
 			for(int x = 0; x < newSizeX; x++)
 			{
 				Point2D.Double origin = applyMatrix(inv, new Point2D.Double(x, y));
-				scaled[y][x] = this.scaler.getScaledValue(original, origin.x, origin.y, x, y, scaleX, scaleY);
+				scaled[y][x] = this.scaler.getScaledValue(original, origin.x, origin.y, x, y, this.scaleX, this.scaleY);
 			}
 		}
 		return scaled;
