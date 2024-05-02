@@ -132,7 +132,7 @@ public class MapTransformer
 		double i = matrix[2][2];
 
 		// https://studyflix.de/mathematik/determinante-3x3-2326
-		double det = a * e * i + b * f * g + c * d * h - g * e * c - h * f * a - i * d * b;
+		double det = (a * e * i) + (b * f * g) + (c * d * h) - (g * e * c) - (h * f * a) - (i * d * b);
 
 		if(det == 0)
 			throw new IllegalArgumentException("matrix cannot be inverted");
@@ -162,11 +162,11 @@ public class MapTransformer
 			throw new IllegalArgumentException("matrixA is not a valid matrix, all rows must be of equal length");
 		if(matrix.length != 3 || matrix[0].length != 3)
 			throw new IllegalArgumentException("matrix must be of size 3x3");
-		
+
 		this.matrix = copy(matrix);
 		double[][] inv = invert(this.matrix);
-		
-		this.scaler = scaler;		
+
+		this.scaler = scaler;
 
 		Point2D.Double p0 = applyMatrix(inv, new Point2D.Double(0, 0));
 		Point2D.Double p1 = applyMatrix(inv, new Point2D.Double(1, 1));
@@ -194,7 +194,7 @@ public class MapTransformer
 		int newSizeX = (int) Math.ceil(max.x - min.x);
 		int newSizeY = (int) Math.ceil(max.y - min.y);
 		// add compensation to matrix
-		double[][] mat = translate(this.matrix, -min.x - (scaleX <0 ? 1 : 0), -min.y - (scaleY <0 ? 1 : 0));
+		double[][] mat = translate(this.matrix, -min.x - (scaleX < 0 ? 1 : 0), -min.y - (scaleY < 0 ? 1 : 0));
 
 		// now calculate the invert
 		double[][] inv = invert(mat);
