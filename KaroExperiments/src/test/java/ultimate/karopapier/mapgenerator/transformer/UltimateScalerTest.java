@@ -58,4 +58,22 @@ public class UltimateScalerTest
 		assertEquals(0b01111111, UltimateScaler.getMask(map, 3, 3));
 		assertEquals(0b11011111, UltimateScaler.getMask(map, 0, 3));
 	}
+	
+	@Test
+	public void test_getScaledValue()
+	{
+		char[][] original, transformed;
+		double[][] matrix;
+		MapTransformer transformer;
+		String code;
+		
+		// test check pattern
+		original = MapGeneratorUtil.toArray("OXOX\nXOXO\nOXOX\nXOXO");
+		matrix = MapTransformer.createMatrix(2, 2, 0, 4, 4);
+		transformer = new MapTransformer(matrix, new UltimateScaler());
+		transformed = transformer.transform(original);
+		code = MapGeneratorUtil.toString(transformed);
+		
+		assertEquals("OOXXOOXX\nOOXOOOXX\nXXOXOXOO\nXXXOXOOO\nOXOXOXXX\nOOXOXOXX\nXXOXXXOO\nXXOOXXOO", code);
+	}
 }

@@ -96,6 +96,8 @@ public class MapTransformer
 //		System.out.println("scale: x=" + scaleX + ", y=" + scaleY);
 	}
 	
+//	public void setMatrix(double[][])
+	
 	public Point2D.Double transform(Point2D.Double point)
 	{
 		return applyMatrix(matrix, point);

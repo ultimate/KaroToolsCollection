@@ -71,6 +71,22 @@ public abstract class MapGeneratorUtil
 		return array;
 	}
 
+	public static String toString(char[][] map)
+	{
+		StringBuilder sb = new StringBuilder();
+		for(int y = 0; y < map.length; y++)
+		{
+			for(int x = 0; x < map[y].length; x++)
+			{
+				sb.append(map[y][x]);
+			}
+			if(y < map.length - 1)
+				sb.append("\n");
+		}
+		return sb.toString();
+	}
+
+
 	public static void replaceChar(char[][] map, char oldChar, char newChar)
 	{
 		for(char[] row : map)
