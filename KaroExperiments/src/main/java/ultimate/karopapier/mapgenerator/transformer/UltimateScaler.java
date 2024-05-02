@@ -88,10 +88,6 @@ public class UltimateScaler extends Scaler
 	@Override
 	public char getScaledValue(char[][] map, double originX, double originY, int transformedX, int transformedY, double scaleX, double scaleY)
 	{
-		double sX = transformedX - originX;
-		double sY = transformedY - originY;
-		System.out.println("scaleX = " + scaleX + ", scaleY = " + scaleY + ", sX = " + sX + ", sY = " + sY);		
-		
 		int xi = (int) originX;
 		int yi = (int) originY;
 
