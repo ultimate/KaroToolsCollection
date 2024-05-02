@@ -326,7 +326,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			if(swapSF)
 				MapGeneratorUtil.swapChars(original, 'S', 'F');
 
-			double[][] matrix = MapTransformer.createMatrix(scaleX, scaleY, rotation, original[0].length, original.length);
+			double[][] matrix = MapTransformer.createMatrix(rotation, scaleX, scaleY,original[0].length, original.length);
 
 			int digits = 3;
 			m00TF.setText(toRoundedString(matrix[0][0], digits));
