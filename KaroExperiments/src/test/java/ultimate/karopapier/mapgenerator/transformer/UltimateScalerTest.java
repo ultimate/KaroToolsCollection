@@ -64,14 +64,12 @@ public class UltimateScalerTest
 	{
 		char[][] original, transformed;
 		double[][] matrix;
-		MapTransformer transformer;
 		String code;
 		
 		// test check pattern
 		original = MapGeneratorUtil.toArray("OXOX\nXOXO\nOXOX\nXOXO");
 		matrix = MapTransformer.createMatrix(0, 2, 2);
-		transformer = new MapTransformer(matrix, new UltimateScaler());
-		transformed = transformer.transform(original);
+		transformed = MapTransformer.transform(original, matrix, new UltimateScaler());
 		code = MapGeneratorUtil.toString(transformed);
 		
 		assertEquals("OOXXOOXX\nOOXOOOXX\nXXOXOXOO\nXXXOXOOO\nOXOXOXXX\nOOXOXOXX\nXXOXXXOO\nXXOOXXOO", code);

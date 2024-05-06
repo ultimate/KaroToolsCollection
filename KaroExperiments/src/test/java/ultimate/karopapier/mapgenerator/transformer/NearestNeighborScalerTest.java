@@ -13,14 +13,12 @@ public class NearestNeighborScalerTest
 	{
 		char[][] original, transformed;
 		double[][] matrix;
-		MapTransformer transformer;
 		String code;
 		
 		// test check pattern
 		original = MapGeneratorUtil.toArray("OXOX\nXOXO\nOXOX\nXOXO");
 		matrix = MapTransformer.createMatrix(0, 2, 2);
-		transformer = new MapTransformer(matrix, new NearestNeighborScaler());
-		transformed = transformer.transform(original);
+		transformed = MapTransformer.transform(original, matrix, new NearestNeighborScaler());
 		code = MapGeneratorUtil.toString(transformed);
 		
 		assertEquals("OOXXOOXX\nOOXXOOXX\nXXOOXXOO\nXXOOXXOO\nOOXXOOXX\nOOXXOOXX\nXXOOXXOO\nXXOOXXOO", code);

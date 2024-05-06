@@ -339,9 +339,8 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 				scaler = new UltimateScaler();
 			else
 				scaler = new NearestNeighborScaler();
-			MapTransformer transformer = new MapTransformer(matrix, scaler);
 
-			char[][] scaled1 = transformer.transform(original);
+			char[][] scaled1 = MapTransformer.transform(original, matrix, scaler);
 			if(trim)
 				scaled1 = MapGeneratorUtil.trim(scaled1, 1, 1);
 
@@ -357,9 +356,7 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 
 			if(comparisonMode)
 			{
-				scaler = new NearestNeighborScaler();
-				transformer = new MapTransformer(matrix, scaler);
-				char[][] scaled2 = transformer.transform(original);
+				char[][] scaled2 = MapTransformer.transform(original, matrix, new NearestNeighborScaler());
 				if(trim)
 					scaled2 = MapGeneratorUtil.trim(scaled2, 1, 1);
 

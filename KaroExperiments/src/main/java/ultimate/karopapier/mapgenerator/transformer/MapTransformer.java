@@ -9,9 +9,9 @@ public class MapTransformer
 	///////////////////////////
 	// static
 	///////////////////////////
-	public static final double[][] IDENTITY = new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+	static final double[][] IDENTITY = new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
 
-	public static double[][] createMatrix(int rotation, double scaleX, double scaleY)
+	static double[][] createMatrix(int rotation, double scaleX, double scaleY)
 	{
 		double[][] matrix = IDENTITY;
 		// equivalent to
@@ -26,13 +26,13 @@ public class MapTransformer
 		return matrix;
 	}
 
-	public static Point2D.Double applyMatrix(double[][] matrix, Point2D.Double point)
+	static Point2D.Double applyMatrix(double[][] matrix, Point2D.Double point)
 	{
 		return new Point2D.Double(matrix[0][0] * point.x + matrix[0][1] * point.y + matrix[0][2],
 				matrix[1][0] * point.x + matrix[1][1] * point.y + matrix[1][2]);
 	}
 
-	public static double[][] copy(double[][] org)
+	static double[][] copy(double[][] org)
 	{
 		double[][] copy = new double[org.length][];
 		for(int i1 = 0; i1 < 3; i1++)
@@ -46,7 +46,7 @@ public class MapTransformer
 		return copy;
 	}
 
-	public static boolean isValid(double[][] m)
+	static boolean isValid(double[][] m)
 	{
 		int firstRowLength = m[0].length;
 		for(int r = 1; r < m.length; r++)
@@ -57,7 +57,7 @@ public class MapTransformer
 		return true;
 	}
 
-	public static double[][] multiply(double[][] matrixA, double[][] matrixB)
+	static double[][] multiply(double[][] matrixA, double[][] matrixB)
 	{
 		if(!isValid(matrixA))
 			throw new IllegalArgumentException("matrixA is not a valid matrix, all rows must be of equal length");
@@ -81,7 +81,7 @@ public class MapTransformer
 		return result;
 	}
 
-	public static double[][] scale(double[][] matrix, double scaleX, double scaleY)
+	static double[][] scale(double[][] matrix, double scaleX, double scaleY)
 	{
 		// @formatter:off
 		double[][] transform = new double[][] {
@@ -93,7 +93,7 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
-	public static double[][] rotate(double[][] matrix, double rotationInDegrees)
+	static double[][] rotate(double[][] matrix, double rotationInDegrees)
 	{
 		double sin = Math.sin(rotationInDegrees * Math.PI / 180.0);
 		double cos = Math.cos(rotationInDegrees * Math.PI / 180.0);
@@ -107,7 +107,7 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
-	public static double[][] translate(double[][] matrix, double translateX, double translateY)
+	static double[][] translate(double[][] matrix, double translateX, double translateY)
 	{
 		// @formatter:off
 		double[][] transform = new double[][] {
@@ -119,7 +119,7 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
-	public static double[][] invert(double[][] matrix)
+	static double[][] invert(double[][] matrix)
 	{
 		double a = matrix[0][0];
 		double b = matrix[0][1];
@@ -147,40 +147,23 @@ public class MapTransformer
 		// @formatter:on
 	}
 
-	///////////////////////////
-	// non-static
-	///////////////////////////
-
-	private double[][]	matrix;
-	private double		scaleX;
-	private double		scaleY;
-	private Scaler		scaler;
-
-	public MapTransformer(double[][] matrix, Scaler scaler)
+	public static char[][] transform(char[][] original, double[][] matrix, Scaler scaler)
 	{
 		if(!isValid(matrix))
 			throw new IllegalArgumentException("matrixA is not a valid matrix, all rows must be of equal length");
 		if(matrix.length != 3 || matrix[0].length != 3)
 			throw new IllegalArgumentException("matrix must be of size 3x3");
 
-		this.matrix = copy(matrix);
-		// no need to save inv yet, as we have to invert again later after applying the map offset
-		double[][] inv = invert(this.matrix);
-
-		this.scaler = scaler;
-
-		Point2D.Double p0 = applyMatrix(inv, new Point2D.Double(0, 0));
-		Point2D.Double p1 = applyMatrix(inv, new Point2D.Double(1, 1));
-		this.scaleX = 1 / (p1.x - p0.x);
-		this.scaleY = 1 / (p1.y - p0.y);
-	}
-
-	public char[][] transform(char[][] original)
-	{
+		// calculate scaling by comparing distance of (0|0) and (1|1)
+		double[][] invTmp = invert(matrix);
+		Point2D.Double p0 = applyMatrix(invTmp, new Point2D.Double(0, 0));
+		Point2D.Double p1 = applyMatrix(invTmp, new Point2D.Double(1, 1));
+		double scaleX = 1 / (p1.x - p0.x);
+		double scaleY = 1 / (p1.y - p0.y);
+		
+		// determine bounds of scaled map to compensate map size
 		int oldSizeY = original.length;
 		int oldSizeX = original[0].length;
-
-		// determine bounds to compensate map size
 		// @formatter:off
 		Point2D.Double[] transformedCorners = new Point2D.Double[] {
 			applyMatrix(matrix, new Point2D.Double( 0, 0 )),
@@ -194,21 +177,23 @@ public class MapTransformer
 		// calculate new size
 		int newSizeX = (int) Math.ceil(max.x - min.x);
 		int newSizeY = (int) Math.ceil(max.y - min.y);
+		
 		// add compensation to matrix
 		// note: by using a temp matrix here, we are also thread safe
-		double[][] mat = translate(this.matrix, -min.x - (this.scaleX < 0 ? 1 : 0), -min.y - (this.scaleY < 0 ? 1 : 0));
+		double[][] mat = translate(matrix, -min.x - (scaleX < 0 ? 1 : 0), -min.y - (scaleY < 0 ? 1 : 0));
 
 		// now calculate the invert
 		double[][] inv = invert(mat);
+		
+		// perform scaling
 		char[][] scaled = new char[newSizeY][];
-
 		for(int y = 0; y < newSizeY; y++)
 		{
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
 				Point2D.Double origin = applyMatrix(inv, new Point2D.Double(x, y));
-				scaled[y][x] = this.scaler.getScaledValue(original, origin.x, origin.y, x, y, this.scaleX, this.scaleY);
+				scaled[y][x] = scaler.getScaledValue(original, origin.x, origin.y, x, y, scaleX, scaleY);
 			}
 		}
 		return scaled;
