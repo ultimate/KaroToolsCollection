@@ -46,7 +46,7 @@ public class UltimateScalerTest
 		assertEquals(0b10011100, UltimateScaler.getMask(map, 3, 3));
 		assertEquals(0b00100111, UltimateScaler.getMask(map, 0, 3));
 		
-		map = MapGeneratorUtil.toArray("XXXX\nXOOX\nXOOX\nXXXX");
+		map = MapGeneratorUtil.toArray("XXXXXXXX\nXOOX\nXOOX\nXXXXXXXX");
 		
 		assertEquals(0b00011100, UltimateScaler.getMask(map, 1, 1));
 		assertEquals(0b00000111, UltimateScaler.getMask(map, 2, 1));
@@ -73,5 +73,21 @@ public class UltimateScalerTest
 		code = MapGeneratorUtil.toString(transformed);
 		
 		assertEquals("OOXXOOXX\nOOXOOOXX\nXXOXOXOO\nXXXOXOOO\nOXOXOXXX\nOOXOXOXX\nXXOXXXOO\nXXOOXXOO", code);
+		
+		// test non-street pattern - scale by 2
+		original = MapGeneratorUtil.toArray("YXYX\nXYXY\nYXYX\nXYXY");
+		matrix = MapTransformer.createMatrix(0, 2, 2);
+		transformed = MapTransformer.transform(original, matrix, new UltimateScaler());
+		code = MapGeneratorUtil.toString(transformed);
+		
+		assertEquals("YYXXYYXX\nYYXXYYXX\nXXYYXXYY\nXXYYXXYY\nYYXXYYXX\nYYXXYYXX\nXXYYXXYY\nXXYYXXYY", code);
+		
+		// test non-street pattern - scale by 4
+		original = MapGeneratorUtil.toArray("YXYX\nXYXY\nYXYX\nXYXY");
+		matrix = MapTransformer.createMatrix(0, 4, 4);
+		transformed = MapTransformer.transform(original, matrix, new UltimateScaler());
+		code = MapGeneratorUtil.toString(transformed);
+		
+		assertEquals("YYYYXXXXYYYYXXXX\nYYYYXXXXYYYYXXXX\nYYYYXXXXYYYYXXXX\nYYYYXXXXYYYYXXXX\nXXXXYYYYXXXXYYYY\nXXXXYYYYXXXXYYYY\nXXXXYYYYXXXXYYYY\nXXXXYYYYXXXXYYYY\nYYYYXXXXYYYYXXXX\nYYYYXXXXYYYYXXXX\nYYYYXXXXYYYYXXXX\nYYYYXXXXYYYYXXXX\nXXXXYYYYXXXXYYYY\nXXXXYYYYXXXXYYYY\nXXXXYYYYXXXXYYYY\nXXXXYYYYXXXXYYYY", code);
 	}
 }

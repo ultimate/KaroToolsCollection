@@ -110,8 +110,8 @@ public class UltimateScaler extends Scaler
 			
 			///////////////////////////////
 			// different check patterns		
-			///////////////////////////////		
-
+			///////////////////////////////	
+			
 			// x shape										
 			case 0b10101010: 	return originCheckValue;
 			// 3 same corners										
@@ -279,7 +279,7 @@ public class UltimateScaler extends Scaler
 			//////////////////////////////////////////////////////////////	
 				
 			// filled same										
-			case 0b11111111:	return (corner == Corner.southwest ? originNeighborValue : originCenterValue);
+			case 0b11111111:	//return (corner == Corner.southwest ? originNeighborValue : originCenterValue);
 			// surrounded other										
 			case 0b00000000:
 			// single other corner										
