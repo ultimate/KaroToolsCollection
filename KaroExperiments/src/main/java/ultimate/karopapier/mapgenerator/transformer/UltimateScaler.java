@@ -11,6 +11,18 @@ public class UltimateScaler extends Scaler
 	// static
 	///////////////////////////
 
+    /**
+     * Get the mask for a karo representing which neighbor karos are of same type or not (street vs. non street).
+     * The mask is a 8-bit bitmask where the bits from left to right represent the following neighbors:
+     * - x-1, y-1
+     * - x+0, y-1
+     * - x+1, y-1
+     * - x+1, y+0
+     * - x+1, y+1
+     * - x+0, y+1
+     * - x-1, y+1
+     * - x-1, y+0
+     */
 	public static int getMask(char[][] map, int x, int y)
 	{
 		boolean centerIsStreet = MapGeneratorUtil.isStreet(getRawValue(map, x, y));
@@ -26,11 +38,18 @@ public class UltimateScaler extends Scaler
 		return mask;
 	}
 
+    /**
+     * internal enum used to represent corners within a karo
+     */
 	public enum Corner
 	{
 		center, northeast, southeast, southwest, northwest
 	}
 
+	/**
+	 * Get the corner an intermediate coordinate is in.
+     * Possible corners are NORTHEAST, SOUTHEAST, SOUTHWEST, NORTHWEST, and CENTER
+	 */
 	public static Corner getCorner(double xd, double yd)
 	{
 		if(xd + yd >= 1.5)
@@ -44,11 +63,18 @@ public class UltimateScaler extends Scaler
 		return Corner.center;
 	}
 
+    /**
+     * internal enum used to represent zones within a karo
+     */
 	public enum Zone
 	{
 		north, east, south, west
 	}
 
+	/**
+	 * Get the zone an intermediate coordinate is in.
+     * Possible zones are NORTH, EAST, SOUTH, and WEST.
+	 */
 	public static Zone getZone(double xd, double yd)
 	{
 		if(xd + yd > 1)
@@ -62,6 +88,9 @@ public class UltimateScaler extends Scaler
 			return Zone.west;
 	}
 
+    /**
+     * Get the value of the neighbor karo based on the zone.
+     */
 	public static char getNeighborValue(char[][] map, int x, int y, Zone zone)
 	{
 		if(zone == Zone.north)
@@ -75,6 +104,10 @@ public class UltimateScaler extends Scaler
 		return getRawValue(map, x, y);
 	}
 
+    /**
+     * Get the check value that should be used based on the zone and the mod counter.
+     * Note: the mod counter determines whether a check karo should be street or non-street to preserve repetitions of karos.
+     */
 	public static char getCheckValue(char[][] map, int x, int y, int mod, Zone zone)
 	{
 		// System.out.println("x=" + x + ", y=" + y + ", mod=" + mod + ", zone=" + zone);
