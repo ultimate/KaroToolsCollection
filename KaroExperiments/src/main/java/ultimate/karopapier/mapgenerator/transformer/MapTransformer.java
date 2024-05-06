@@ -1,16 +1,24 @@
 package ultimate.karopapier.mapgenerator.transformer;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
+/**
+ * This class contains the basic matrix math operations required to transform coordinates.
+ * It can be used to transform maps with a transformation matrix (e.g. scale, rotate, etc.).
+ */
 public class MapTransformer
 {
-	///////////////////////////
-	// static
-	///////////////////////////
+    /**
+     * identity matrix
+     */
 	static final double[][] IDENTITY = new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
 
+    /**
+     * convenience method to create a matrix that rotates and scales
+     */
 	static double[][] createMatrix(int rotation, double scaleX, double scaleY)
 	{
 		double[][] matrix = IDENTITY;
@@ -26,12 +34,14 @@ public class MapTransformer
 		return matrix;
 	}
 
-	static Point2D.Double applyMatrix(double[][] matrix, Point2D.Double point)
+    /**
+     * apply a matrix to transform a point (= matrix multiplication)
+     */
+	static Point2D.Double applyMatrix(double[][] matrix, Point2D point)
 	{
-		return new Point2D.Double(matrix[0][0] * point.x + matrix[0][1] * point.y + matrix[0][2],
-				matrix[1][0] * point.x + matrix[1][1] * point.y + matrix[1][2]);
+		return new Point2D.Double(matrix[0][0] * point.getX() + matrix[0][1] * point.getY() + matrix[0][2],
+				matrix[1][0] * point.getX() + matrix[1][1] * point.getY() + matrix[1][2]);
 	}
-
 	static double[][] copy(double[][] org)
 	{
 		double[][] copy = new double[org.length][];
@@ -46,6 +56,9 @@ public class MapTransformer
 		return copy;
 	}
 
+    /**
+     * check if a matrix is valid (= all rows must be of equal length)
+     */
 	static boolean isValid(double[][] m)
 	{
 		int firstRowLength = m[0].length;
@@ -57,6 +70,9 @@ public class MapTransformer
 		return true;
 	}
 
+    /**
+     * multiply two matrices and return a new matrix representing the product
+     */
 	static double[][] multiply(double[][] matrixA, double[][] matrixB)
 	{
 		if(!isValid(matrixA))
@@ -81,6 +97,9 @@ public class MapTransformer
 		return result;
 	}
 
+    /**
+     * multiply the input matrix with a scale matrix and return a new matrix representing the product
+     */
 	static double[][] scale(double[][] matrix, double scaleX, double scaleY)
 	{
 		// @formatter:off
@@ -93,6 +112,9 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
+    /**
+     * multiply the input matrix with a rotation matrix and return a new matrix representing the product
+     */
 	static double[][] rotate(double[][] matrix, double rotationInDegrees)
 	{
 		double sin = Math.sin(rotationInDegrees * Math.PI / 180.0);
@@ -107,6 +129,9 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
+    /**
+     * multiply the input matrix with a translation matrix and return a new matrix representing the product
+     */
 	static double[][] translate(double[][] matrix, double translateX, double translateY)
 	{
 		// @formatter:off
@@ -119,6 +144,9 @@ public class MapTransformer
 		return multiply(transform, matrix);
 	}
 
+    /**
+     * calculate the inverted matrix for a given matrix
+     */
 	static double[][] invert(double[][] matrix)
 	{
 		double a = matrix[0][0];
@@ -142,7 +170,7 @@ public class MapTransformer
 		return new double[][] {
 			{ (e*i-f*h)/det, (c*h-b*i)/det, (b*f-c*e)/det },
 			{ (f*g-d*i)/det, (a*i-c*g)/det, (c*d-a*f)/det },
-			{ (d*h-e*g)/det, (b*b-a*h)/det, (a*e-b*d)/det } 
+			{ (d*h-e*g)/det, (b*g-a*h)/det, (a*e-b*d)/det } 
 		};
 		// @formatter:on
 	}
@@ -187,13 +215,16 @@ public class MapTransformer
 		
 		// perform scaling
 		char[][] scaled = new char[newSizeY][];
+		Point2D.Double origin;
+		Point transformed;
 		for(int y = 0; y < newSizeY; y++)
 		{
 			scaled[y] = new char[newSizeX];
 			for(int x = 0; x < newSizeX; x++)
 			{
-				Point2D.Double origin = applyMatrix(inv, new Point2D.Double(x, y));
-				scaled[y][x] = scaler.getScaledValue(original, origin.x, origin.y, x, y, scaleX, scaleY);
+				transformed = new Point(x, y);
+				origin = applyMatrix(inv, transformed);
+				scaled[y][x] = scaler.getScaledValue(original, origin, transformed, scaleX, scaleY);
 			}
 		}
 		return scaled;

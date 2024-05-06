@@ -343,6 +343,9 @@ public class MapTransformerUI extends JFrame implements DocumentListener, Change
 			char[][] scaled1 = MapTransformer.transform(original, matrix, scaler);
 			if(trim)
 				scaled1 = MapGeneratorUtil.trim(scaled1, 1, 1);
+			
+			System.out.println("----------------------------------");
+			System.out.println(MapGeneratorUtil.toString(scaled1));
 
 			Graphics g1 = canvas1.getGraphics();
 			g1.clearRect(0, 0, 10000, 10000);

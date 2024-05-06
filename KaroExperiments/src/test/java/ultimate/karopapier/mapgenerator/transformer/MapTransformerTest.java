@@ -107,8 +107,6 @@ public class MapTransformerTest
 		rotation = 120;
 		sin = Math.sin(rotation * Math.PI / 180.0);
 		cos = Math.cos(rotation * Math.PI / 180.0);
-		System.out.println(sin);
-		System.out.println(cos);
 		// @formatter:off
 		expected = new double[][] {
 			{ cos, -sin, 0 },
@@ -123,26 +121,26 @@ public class MapTransformerTest
 
 	private static void assertMatrixEquals(double[][] expected, double[][] actual)
 	{
-		 System.out.println("expected = ");
-		 for(int i1 = 0; i1 < expected.length; i1++)
-		 {
-		 for(int i2 = 0; i2 < expected[i1].length; i2++)
-		 {
-		 System.out.print(expected[i1][i2]);
-		 System.out.print("\t");
-		 }
-		 System.out.println();
-		 }
-		 System.out.println("actual = ");
-		 for(int i1 = 0; i1 < actual.length; i1++)
-		 {
-		 for(int i2 = 0; i2 < actual[i1].length; i2++)
-		 {
-		 System.out.print(actual[i1][i2]);
-		 System.out.print("\t");
-		 }
-		 System.out.println();
-		 }
+//		 System.out.println("expected = ");
+//		 for(int i1 = 0; i1 < expected.length; i1++)
+//		 {
+//		 for(int i2 = 0; i2 < expected[i1].length; i2++)
+//		 {
+//		 System.out.print(expected[i1][i2]);
+//		 System.out.print("\t");
+//		 }
+//		 System.out.println();
+//		 }
+//		 System.out.println("actual = ");
+//		 for(int i1 = 0; i1 < actual.length; i1++)
+//		 {
+//		 for(int i2 = 0; i2 < actual[i1].length; i2++)
+//		 {
+//		 System.out.print(actual[i1][i2]);
+//		 System.out.print("\t");
+//		 }
+//		 System.out.println();
+//		 }
 		
 		assertEquals(expected.length, actual.length, "rows mismatch");
 		for(int i1 = 0; i1 < expected.length; i1++)

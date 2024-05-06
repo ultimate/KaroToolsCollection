@@ -1,5 +1,8 @@
 package ultimate.karopapier.mapgenerator.transformer;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
+
 import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
 
 public class UltimateScaler extends Scaler
@@ -86,16 +89,16 @@ public class UltimateScaler extends Scaler
 	///////////////////////////
 	
 	@Override
-	public char getScaledValue(char[][] map, double originX, double originY, int transformedX, int transformedY, double scaleX, double scaleY)
+	public char getScaledValue(char[][] map, Point2D.Double origin, Point transformed, double scaleX, double scaleY)
 	{
-		int xi = (int) originX;
-		int yi = (int) originY;
+		int xi = (int) origin.getX();
+		int yi = (int) origin.getY();
 
-		Corner corner = getCorner(originX - xi + Math.abs(1/scaleX) / 2, originY - yi + Math.abs(1/scaleY) / 2);
-		Zone zone = getZone(originX - xi, originY - yi);
+		Corner corner = getCorner(origin.getX() - xi + Math.abs(1/scaleX) / 2, origin.getY() - yi + Math.abs(1/scaleY) / 2);
+		Zone zone = getZone(origin.getX() - xi, origin.getY() - yi);
 
 		int mask = getMask(map, xi, yi);
-		int mod = (transformedX + transformedY) % 2;
+		int mod = (transformed.x + transformed.y) % 2;
 		// we need to offset mod by 1 if only 1 axis was mirrored
 		if(scaleX < 0 ^ scaleY < 0)
 			mod = (mod + 1) % 2;
@@ -168,14 +171,14 @@ public class UltimateScaler extends Scaler
 			case 0b11011010:	return (corner == Corner.southwest ? originCheckValue : originCenterValue);
 			case 0b10110110:	return (corner == Corner.northwest ? originCheckValue : originCenterValue);
 			// same edge + adjacent corner + far corner										
-			case 0b11001000:	return (corner == Corner.southwest ? originNeighborValue : corner == Corner.southeast ? originCheckValue : originCenterValue);
-			case 0b01100010:	return (corner == Corner.southeast ? originNeighborValue : corner == Corner.southwest ? originCheckValue : originCenterValue);
-			case 0b00110010:	return (corner == Corner.northwest ? originNeighborValue : corner == Corner.southwest ? originCheckValue : originCenterValue);
-			case 0b10011000:	return (corner == Corner.southwest ? originNeighborValue : corner == Corner.northwest ? originCheckValue : originCenterValue);
-			case 0b10001100:	return (corner == Corner.northeast ? originNeighborValue : corner == Corner.northwest ? originCheckValue : originCenterValue);
-			case 0b00100110:	return (corner == Corner.northwest ? originNeighborValue : corner == Corner.northeast ? originCheckValue : originCenterValue);
-			case 0b00100011:	return (corner == Corner.southeast ? originNeighborValue : corner == Corner.northeast ? originCheckValue : originCenterValue);
-			case 0b10001001:	return (corner == Corner.northeast ? originNeighborValue : corner == Corner.southeast ? originCheckValue : originCenterValue);
+			case 0b11001000:	return (corner == Corner.southwest ? originNeighborValue : (corner == Corner.southeast ? originCheckValue : originCenterValue));
+			case 0b01100010:	return (corner == Corner.southeast ? originNeighborValue : (corner == Corner.southwest ? originCheckValue : originCenterValue));
+			case 0b00110010:	return (corner == Corner.northwest ? originNeighborValue : (corner == Corner.southwest ? originCheckValue : originCenterValue));
+			case 0b10011000:	return (corner == Corner.southwest ? originNeighborValue : (corner == Corner.northwest ? originCheckValue : originCenterValue));
+			case 0b10001100:	return (corner == Corner.northeast ? originNeighborValue : (corner == Corner.northwest ? originCheckValue : originCenterValue));
+			case 0b00100110:	return (corner == Corner.northwest ? originNeighborValue : (corner == Corner.northeast ? originCheckValue : originCenterValue));
+			case 0b00100011:	return (corner == Corner.southeast ? originNeighborValue : (corner == Corner.northeast ? originCheckValue : originCenterValue));
+			case 0b10001001:	return (corner == Corner.northeast ? originNeighborValue : (corner == Corner.southeast ? originCheckValue : originCenterValue));
 			// same full edge + corner	
 			case 0b11101000: 	return (corner == Corner.southwest ? originNeighborValue : (corner == Corner.southeast ? originCheckValue : originCenterValue));
 			case 0b11100010:	return (corner == Corner.southeast ? originNeighborValue : (corner == Corner.southwest ? originCheckValue : originCenterValue));
@@ -416,19 +419,19 @@ public class UltimateScaler extends Scaler
 			case 0b00110011:
 			case 0b10011001:							
 			// other corner double L shape + opposite corner = small L										
-			case 0b00000101: //	Center
-			case 0b01000001: //	Center
-			case 0b01010000: //	Center
-			case 0b00010100: //	Center
+			case 0b00000101:
+			case 0b01000001:
+			case 0b01010000:
+			case 0b00010100:
 			// same edge + adjacent corner + straight edge = L shape										
-			case 0b11000100: //	Center
-			case 0b01100100: //	Center
-			case 0b00110001: //	Center
-			case 0b00011001: //	Center
-			case 0b01001100: //	Center
-			case 0b01000110: //	Center
-			case 0b00010011: //	Center
-			case 0b10010001: //	Center
+			case 0b11000100:
+			case 0b01100100:
+			case 0b00110001:
+			case 0b00011001:
+			case 0b01001100:
+			case 0b01000110:
+			case 0b00010011:
+			case 0b10010001:
 				
 			// default
 			default:
