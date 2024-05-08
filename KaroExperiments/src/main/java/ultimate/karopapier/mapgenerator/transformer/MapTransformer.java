@@ -208,7 +208,11 @@ public class MapTransformer
 		
 		// add compensation to matrix
 		// note: by using a temp matrix here, we are also thread safe
+		System.out.println("scale = " + scaleX + " x " + scaleY);
+		System.out.println("min = " + min.x + " x " + min.y);
 		double[][] mat = translate(matrix, -min.x - (scaleX < 0 ? 1 : 0), -min.y - (scaleY < 0 ? 1 : 0));
+		
+        // TODO echo mat
 
 		// now calculate the invert
 		double[][] inv = invert(mat);
