@@ -129,9 +129,12 @@ public class UltimateScaler extends Scaler
 	{
 		int xi = (int) origin.getX();
 		int yi = (int) origin.getY();
+		
+		double xd = origin.getX() - xi + Math.abs(1 / scaleX) / 2;
+		double yd = origin.getY() - yi + Math.abs(1 / scaleY) / 2;
 
-		Corner corner = getCorner(origin.getX() - xi + Math.abs(1 / scaleX) / 2, origin.getY() - yi + Math.abs(1 / scaleY) / 2);
-		Zone zone = getZone(origin.getX() - xi, origin.getY() - yi);
+		Corner corner = getCorner(xd, yd);
+		Zone zone = getZone(xd, yd);
 
 		int mask = getMask(map, xi, yi);
 		int mod = (transformed.x + transformed.y) % 2;

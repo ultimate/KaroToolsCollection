@@ -16,7 +16,7 @@ public class MapTransformer
      */
 	static final double[][] IDENTITY = new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
 	
-	private static final double PRECISION = 0.00001;
+	private static final double PRECISION = 100000;
 
     /**
      * convenience method to create a matrix that rotates and scales
@@ -43,7 +43,7 @@ public class MapTransformer
 	{
 		double x = matrix[0][0] * point.getX() + matrix[0][1] * point.getY() + matrix[0][2];
 		double y = matrix[1][0] * point.getX() + matrix[1][1] * point.getY() + matrix[1][2];
-		return new Point2D.Double(Math.round(x / PRECISION) * PRECISION, Math.round(y / PRECISION) * PRECISION);
+		return new Point2D.Double(x, y);
 	}
 	
 	static double[][] copy(double[][] org)
@@ -185,7 +185,7 @@ public class MapTransformer
 		{
 			for(int i2 = 0; i2 < matrix[i1].length; i2++)
 			{
-				matrix[i1][i2] = Math.round(matrix[i1][i2] / PRECISION) * PRECISION;
+				matrix[i1][i2] = Math.round(matrix[i1][i2] * PRECISION) / PRECISION;
 			}
 		}
 		return matrix;
@@ -219,8 +219,8 @@ public class MapTransformer
 		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
 		Point2D.Double max = MapGeneratorUtil.max(transformedCorners);
 		// calculate new size
-		int newSizeX = (int) Math.ceil(max.x - min.x) - 1;
-		int newSizeY = (int) Math.ceil(max.y - min.y) - 1;
+		int newSizeX = (int) Math.ceil(max.x - min.x);
+		int newSizeY = (int) Math.ceil(max.y - min.y);
 		
 		// add compensation to matrix
 		// note: by using a temp matrix here, we are also thread safe
