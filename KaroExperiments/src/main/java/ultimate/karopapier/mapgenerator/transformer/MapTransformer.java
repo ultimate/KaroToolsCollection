@@ -15,6 +15,8 @@ public class MapTransformer
      * identity matrix
      */
 	static final double[][] IDENTITY = new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, 1 } };
+	
+	private static final double PRECISION = 0.00001;
 
     /**
      * convenience method to create a matrix that rotates and scales
@@ -39,9 +41,11 @@ public class MapTransformer
      */
 	static Point2D.Double applyMatrix(double[][] matrix, Point2D point)
 	{
-		return new Point2D.Double(matrix[0][0] * point.getX() + matrix[0][1] * point.getY() + matrix[0][2],
-				matrix[1][0] * point.getX() + matrix[1][1] * point.getY() + matrix[1][2]);
+		double x = matrix[0][0] * point.getX() + matrix[0][1] * point.getY() + matrix[0][2];
+		double y = matrix[1][0] * point.getX() + matrix[1][1] * point.getY() + matrix[1][2];
+		return new Point2D.Double(Math.round(x / PRECISION) * PRECISION, Math.round(y / PRECISION) * PRECISION);
 	}
+	
 	static double[][] copy(double[][] org)
 	{
 		double[][] copy = new double[org.length][];
@@ -94,7 +98,7 @@ public class MapTransformer
 					result[r][c] += matrixA[r][i] * matrixB[i][c];
 			}
 		}
-		return result;
+		return round(result);
 	}
 
     /**
@@ -167,12 +171,24 @@ public class MapTransformer
 
 		// https://de.wikipedia.org/wiki/Inverse_Matrix#Explizite_Formeln
 		// @formatter:off
-		return new double[][] {
+		return round(new double[][] {
 			{ (e*i-f*h)/det, (c*h-b*i)/det, (b*f-c*e)/det },
 			{ (f*g-d*i)/det, (a*i-c*g)/det, (c*d-a*f)/det },
 			{ (d*h-e*g)/det, (b*g-a*h)/det, (a*e-b*d)/det } 
-		};
+		});
 		// @formatter:on
+	}
+	
+	private static double[][] round(double[][] matrix)
+	{
+		for(int i1 = 0; i1 < matrix.length; i1++)
+		{
+			for(int i2 = 0; i2 < matrix[i1].length; i2++)
+			{
+				matrix[i1][i2] = Math.round(matrix[i1][i2] / PRECISION) * PRECISION;
+			}
+		}
+		return matrix;
 	}
 
 	public static char[][] transform(char[][] original, double[][] matrix, Scaler scaler)
@@ -203,17 +219,13 @@ public class MapTransformer
 		Point2D.Double min = MapGeneratorUtil.min(transformedCorners);
 		Point2D.Double max = MapGeneratorUtil.max(transformedCorners);
 		// calculate new size
-		int newSizeX = (int) Math.ceil(max.x - min.x);
-		int newSizeY = (int) Math.ceil(max.y - min.y);
+		int newSizeX = (int) Math.ceil(max.x - min.x) - 1;
+		int newSizeY = (int) Math.ceil(max.y - min.y) - 1;
 		
 		// add compensation to matrix
 		// note: by using a temp matrix here, we are also thread safe
-		System.out.println("scale = " + scaleX + " x " + scaleY);
-		System.out.println("min = " + min.x + " x " + min.y);
-		double[][] mat = translate(matrix, -min.x - (scaleX < 0 ? 1 : 0), -min.y - (scaleY < 0 ? 1 : 0));
+		double[][] mat = translate(matrix, -min.x - (min.x < 0 ? 1 : 0), -min.y - (min.y < 0 ? 1 : 0));
 		
-        // TODO echo mat
-
 		// now calculate the invert
 		double[][] inv = invert(mat);
 		

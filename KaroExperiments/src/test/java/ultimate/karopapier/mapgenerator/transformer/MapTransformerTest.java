@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import ultimate.karopapier.mapgenerator.MapGeneratorUtil;
+
 public class MapTransformerTest
 {
 	@Test
@@ -149,6 +151,35 @@ public class MapTransformerTest
 			for(int i2 = 0; i2 < expected[i1].length; i2++)
 			{
 				assertEquals(expected[i1][i2], actual[i1][i2], 0.001, "cell mismatch at " + i1 + "," + i2);
+			}
+		}
+	}
+	
+	@Test
+	public void test_transform_offsetCorrection()
+	{
+		String code = "XXX\nXOX\nXXX";
+		char[][] original = MapGeneratorUtil.toArray(code);
+		String expected = "XXXXXX\nXXXXXX\nXXOOXX\nXXOOXX\nXXXXXX\nXXXXXX";
+		
+		char[][] transformed;
+		String actual;
+		Scaler scaler = new NearestNeighborScaler();
+		
+		int[] rotations = new int[] {0, 90, 180, 270, 360 };
+		int[] scales = new int[] {2, -2};
+		
+		for(int ri = 0; ri < rotations.length; ri++)
+		{
+			for(int sxi = 0; sxi < scales.length; sxi++)
+			{
+				for(int syi = 0; syi < scales.length; syi++)
+				{
+					System.out.println("rot=" + rotations[ri] + ", sx=" + scales[sxi] + ", sy=" + scales[syi]);
+					transformed = MapTransformer.transform(original, MapTransformer.createMatrix(rotations[ri], scales[sxi], scales[syi]), scaler);
+					actual = MapGeneratorUtil.toString(transformed);
+					assertEquals(expected, actual, "rot=" + rotations[ri] + ", sx=" + scales[sxi] + ", sy=" + scales[syi]);
+				}
 			}
 		}
 	}
