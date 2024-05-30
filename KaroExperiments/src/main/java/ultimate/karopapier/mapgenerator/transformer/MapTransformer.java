@@ -190,7 +190,7 @@ public class MapTransformer
 		}
 		return matrix;
 	}
-
+	
 	public static char[][] transform(char[][] original, double[][] matrix, Scaler scaler)
 	{
 		if(!isValid(matrix))
@@ -200,10 +200,11 @@ public class MapTransformer
 
 		// calculate scaling by comparing distance of (0|0) and (1|1)
 		double[][] invTmp = invert(matrix);
-		Point2D.Double p0 = applyMatrix(invTmp, new Point2D.Double(0, 0));
-		Point2D.Double p1 = applyMatrix(invTmp, new Point2D.Double(1, 1));
-		double scaleX = 1 / (p1.x - p0.x);
-		double scaleY = 1 / (p1.y - p0.y);
+		Point2D.Double p00 = applyMatrix(invTmp, new Point2D.Double(0, 0));
+		Point2D.Double p10 = applyMatrix(invTmp, new Point2D.Double(1, 0));
+		Point2D.Double p01 = applyMatrix(invTmp, new Point2D.Double(0, 1));
+		double scaleX = 1 / MapGeneratorUtil.calcPointPointDistance(p10, p00);
+		double scaleY = 1 / MapGeneratorUtil.calcPointPointDistance(p01, p00);
 		
 		// determine bounds of scaled map to compensate map size
 		int oldSizeY = original.length;
