@@ -184,7 +184,7 @@ public class RandomMover
 	{
 		URLLoader loader = new URLLoader("https://www.karopapier.de/addicts");
 		String addicts = loader.doGet().get();
-		int wollustStart = addicts.indexOf("<th>Z&uuml;ge</th>");
+		int wollustStart = addicts.indexOf("<th>Züge</th>");
 		wollustStart = addicts.indexOf("<td>" + username + "</td>", wollustStart + 1);
 		if(wollustStart == -1)
 		{

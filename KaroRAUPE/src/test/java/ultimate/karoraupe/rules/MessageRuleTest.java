@@ -119,6 +119,16 @@ public class MessageRuleTest extends KaroRAUPETestcase
 		logger.info(move);
 		assertTrue(MessageRule.isNotification(move.getMsg()));	
 		
+		// test game 136396
+		game = karoAPI.getGame(136396, false, true, true).get();
+				
+		// Ich werde 25 Züge zurückgesetzt (new spelling withouth &uuml;
+		player = game.getPlayers().get(0);
+		assertEquals("Botrix", player.getName());
+		move = player.getMoves().get(208);
+		logger.info(move);
+		assertTrue(MessageRule.isNotification(move.getMsg()));	
+		
 		// test game 63430
 		game = karoAPI.getGame(63430, false, true, true).get();
 

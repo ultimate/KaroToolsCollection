@@ -5,11 +5,11 @@ import java.awt.geom.Point2D;
 public abstract class MapGeneratorUtil
 {
 	public static final String LINE_SEPARATOR = "\n";
-	
+
 	public static Point2D.Double min(Point2D.Double... points)
 	{
 		Point2D.Double min = new Point2D.Double(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-		for(Point2D.Double p: points)
+		for(Point2D.Double p : points)
 		{
 			if(p.x < min.x)
 				min.x = p.x;
@@ -18,11 +18,11 @@ public abstract class MapGeneratorUtil
 		}
 		return min;
 	}
-	
+
 	public static Point2D.Double max(Point2D.Double... points)
 	{
 		Point2D.Double max = new Point2D.Double(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-		for(Point2D.Double p: points)
+		for(Point2D.Double p : points)
 		{
 			if(p.x > max.x)
 				max.x = p.x;
@@ -86,7 +86,6 @@ public abstract class MapGeneratorUtil
 		return sb.toString();
 	}
 
-
 	public static void replaceChar(char[][] map, char oldChar, char newChar)
 	{
 		for(char[] row : map)
@@ -121,7 +120,7 @@ public abstract class MapGeneratorUtil
 	{
 		return "SOF123456789".indexOf(c) != -1;
 	}
-	
+
 	public static boolean rowHasStreet(char[] row)
 	{
 		for(char c : row)
@@ -131,7 +130,7 @@ public abstract class MapGeneratorUtil
 		}
 		return false;
 	}
-	
+
 	public static boolean colHasStreet(char[][] map, int col)
 	{
 		if(col < 0)
@@ -152,7 +151,7 @@ public abstract class MapGeneratorUtil
 			throw new IllegalArgumentException("preserveCols must be greater than or equal to 1");
 		if(preserveRows < 1)
 			throw new IllegalArgumentException("preserveRows must be greater than or equal to 1");
-		
+
 		int rowOffsetTop = -preserveRows;
 		for(int r = 0; r < map.length; r++)
 		{
@@ -162,7 +161,7 @@ public abstract class MapGeneratorUtil
 		}
 		if(rowOffsetTop < 0)
 			rowOffsetTop = 0;
-		
+
 		int rowOffsetBottom = -preserveRows;
 		for(int r = map.length - 1; r >= 0; r--)
 		{
@@ -172,7 +171,7 @@ public abstract class MapGeneratorUtil
 		}
 		if(rowOffsetBottom < 0)
 			rowOffsetBottom = 0;
-		
+
 		int colOffsetLeft = -preserveCols;
 		for(int c = 0; c < map[0].length; c++)
 		{
@@ -182,7 +181,7 @@ public abstract class MapGeneratorUtil
 		}
 		if(colOffsetLeft < 0)
 			colOffsetLeft = 0;
-		
+
 		int colOffsetRight = -preserveCols;
 		for(int c = map[0].length - 1; c >= 0; c--)
 		{
@@ -192,10 +191,10 @@ public abstract class MapGeneratorUtil
 		}
 		if(colOffsetRight < 0)
 			colOffsetRight = 0;
-		
+
 		// System.out.println("trimming: top = " + rowOffsetTop + ", bottom = " + rowOffsetBottom);
-		// System.out.println("trimming: left = " + colOffsetLeft + ", right  = " + colOffsetRight);
-		
+		// System.out.println("trimming: left = " + colOffsetLeft + ", right = " + colOffsetRight);
+
 		char[][] trimmed = new char[map.length - rowOffsetTop - rowOffsetBottom][];
 		for(int oldR = rowOffsetTop, newR = 0; newR < trimmed.length; oldR++, newR++)
 		{
@@ -205,8 +204,13 @@ public abstract class MapGeneratorUtil
 				trimmed[newR][newC] = map[oldR][oldC];
 			}
 		}
-		
-//		printMap(trimmed);
+
+		// printMap(trimmed);
 		return trimmed;
+	}
+
+	public static double calcPointPointDistance(Point2D p1, Point2D p2)
+	{
+		return Math.sqrt((p1.getX() - p2.getX()) * (p1.getX() - p2.getX()) + (p1.getY() - p2.getY()) * (p1.getY() - p2.getY()));
 	}
 }

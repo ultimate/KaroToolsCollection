@@ -72,6 +72,8 @@ public class MessageRule extends Rule
 			return true;
 		else if(message.matches("-:KIch werde \\d+ Z&uuml;ge zur&uuml;ckgesetztK:-"))
 			return true;
+		else if(message.matches("-:KIch werde \\d+ Züge zurückgesetztK:-"))
+			return true;
 
 		return false;
 	}

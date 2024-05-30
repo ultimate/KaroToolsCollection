@@ -1099,7 +1099,7 @@ public class KaroAPI implements IDLookUp
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
 		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
-			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
+			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zurück</A>");
 		});
 	}
 
@@ -1121,7 +1121,7 @@ public class KaroAPI implements IDLookUp
 		if(move.getMsg() != null)
 			args.put("movemessage", move.getMsg());
 		return loadAsync(GAME_MOVE.doGet(args), (result) -> {
-			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zur&uuml;ck</A>");
+			return result != null && result.contains("<A HREF=showmap.php?GID=" + gameId + ">Zum Spiel zurück</A>");
 		});
 	}
 
