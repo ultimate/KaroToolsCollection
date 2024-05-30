@@ -14,9 +14,9 @@
 	<modules>
 		<module>KaroAPI4J</module>
 		<module>KaroMUSKEL-Java</module>
+		<module>KaroRAUPE</module>
 		<module>KaroEval</module>
 		<module>KaroExperiments</module>
-		<module>KaroRAUPE</module>
 	</modules>
 
 	<developers>
