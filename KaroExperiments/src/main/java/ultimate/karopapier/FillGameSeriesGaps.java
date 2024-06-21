@@ -140,7 +140,7 @@ public class FillGameSeriesGaps
 					// @formatter:off
 					gid = RandomGameCreator.createGame(cache,
 							gi,
-							gameseries.getProperty("name"),
+							title,
 							gameseries.getProperty("map"),
 							creator,
 							players,
@@ -150,7 +150,6 @@ public class FillGameSeriesGaps
 							random,
 							preferStandards
 					);
-					gid = 1;
 					// @formatter:on
 					if(gid > 0)
 						gi++;
