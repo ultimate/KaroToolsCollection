@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
@@ -43,13 +45,38 @@ public class RandomGameCreator
 		Properties gameseries = PropertiesUtil.loadProperties(gameseriesProperties);
 
 		logger.info("memory usage: total=" + Runtime.getRuntime().totalMemory() + " \tmax=" + Runtime.getRuntime().maxMemory() + " \tfree=" + Runtime.getRuntime().freeMemory());
-
+		
+		// add a "watchdog" to make sure that api initialization does not hang
+		final CountDownLatch initComplete = new CountDownLatch(1);
+		new Thread(() -> {
+			try
+			{
+				if(initComplete.await(KaroAPI.getInitTimeout()*3/2, TimeUnit.SECONDS))
+				{
+					logger.info("KaroAPI intialization successful");
+					return;
+				}
+				else
+				{
+					logger.error("KaroAPI intialization timed out");
+					System.exit(1);
+				}
+			}
+			catch(InterruptedException e)
+			{
+				logger.error("Watchdog interrupted");
+			}
+		}).start();
+		
 		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 		KaroAPICache cache = new KaroAPICache(api, login);
 		cache.refresh().join();
 
 		logger.info("memory usage: total=" + Runtime.getRuntime().totalMemory() + " \tmax=" + Runtime.getRuntime().maxMemory() + " \tfree=" + Runtime.getRuntime().freeMemory());
 
+		// notify the watchdog
+		initComplete.countDown();
+		
 		logger.debug("users: " + cache.getUsers().size());
 		logger.debug("maps:  " + cache.getMaps().size());
 
@@ -141,7 +168,7 @@ public class RandomGameCreator
 		System.exit(0);
 	}
 
-	private static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Collection<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
+	public static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Collection<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
 			double preferStandards)
 	{
 		try
