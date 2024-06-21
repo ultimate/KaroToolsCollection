@@ -1428,7 +1428,7 @@ public abstract class Planner
 				tmp.append(", ");
 			else if((p != 0) && (p == players.size() - 1))
 				tmp.append(" " + Language.getString("titlepatterns.and") + " ");
-			tmp.append(playerIter.next());
+			tmp.append(playerIter.next().getLogin());
 		}
 		return tmp.toString();
 	}
