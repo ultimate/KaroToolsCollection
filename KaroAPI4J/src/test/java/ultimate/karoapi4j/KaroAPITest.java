@@ -878,7 +878,19 @@ public class KaroAPITest extends KaroAPITestcase
 		
 		User user = karoAPI2.check().get();
 		
-		User notInvitableUser = karoAPI2.getUser(709).get(); // XOSOFOX
+		User notInvitableUser = null;
+		// find a not invitable player
+		for(User u : karoAPI2.getUsers().get())
+		{
+			if(u.getMaxGames() > 0 && u.getActiveGames() > u.getMaxGames())
+			{
+				notInvitableUser = u;
+				break;
+			}
+		}
+		logger.debug("notInvitableUser = " + notInvitableUser);
+		assertNotNull(notInvitableUser);
+		assertFalse(notInvitableUser.isInvitable(false));
 
 		PlannedGame plannedGame = new PlannedGame();
 		plannedGame.setMap(new Map(1));
