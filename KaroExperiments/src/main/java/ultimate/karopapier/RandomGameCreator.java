@@ -112,10 +112,11 @@ public class RandomGameCreator
 
 		logger.info("creating games...");
 		Random random = new Random();
-		for(int i = 1; i <= gamesToCreateNow; i++)
+		int gid = 0;
+		for(int i = 1; i <= gamesToCreateNow;)
 		{
 			// @formatter:off
-			createGame(	cache,
+			gid = createGame(	cache,
 						gamesCount + i,
 						gameseries.getProperty("name"),
 						gameseries.getProperty("map"),
@@ -128,6 +129,8 @@ public class RandomGameCreator
 						preferStandards
 						);
 			// @formatter:on
+			if(gid > 0)
+				i++;
 		}
 
 		logger.info("writing updated properties...");
