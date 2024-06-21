@@ -305,7 +305,7 @@ public class Generator extends Identifiable implements PlaceToRace
 			{
 				for(String key : source.settings.keySet())
 				{
-					if(deviation.containsKey(key) && deviation.get(key).equals(source.settings.get(key)))
+					if(deviation.containsKey(key) && deviation.get(key) != null && deviation.get(key).equals(source.settings.get(key)))
 						deviation.remove(key);
 				}
 			}

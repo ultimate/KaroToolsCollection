@@ -151,6 +151,11 @@ public class GeneratorDialog
 			{
 				component = new JCheckBox("", (boolean) value);
 			}
+			else
+			{
+				component = new JTextField(value != null ? value.toString() : "");
+				gbc.gridwidth = 3;
+			}
 			panel.add(component, gbc);
 
 			return component;
