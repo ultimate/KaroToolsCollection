@@ -972,7 +972,7 @@ public class KaroAPI implements IDLookUp
 	 * @param offset - the offset filter
 	 * @return the list of all games filtered by the given criteria
 	 */
-	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Integer nameStart,
+	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Boolean nameStart,
 			Integer limit, Integer offset)
 	{
 		HashMap<String, Object> args = new HashMap<>();
@@ -987,7 +987,7 @@ public class KaroAPI implements IDLookUp
 		if(name != null)
 			args.put("name", name);
 		if(nameStart != null)
-			args.put("nameStart", nameStart.toString());
+			args.put("nameStart", nameStart ? "1" : "0");
 		if(limit != null)
 			args.put("limit", limit.toString());
 		if(offset != null)
@@ -1081,6 +1081,14 @@ public class KaroAPI implements IDLookUp
 			String json = JSONUtil.serialize(plannedGame);
 			return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
 		}).thenCompose(Function.identity());
+	}
+	
+	/**
+	 * Check if a (newly created) game exists
+	 */
+	public CompletableFuture<List<Game>> findGames(PlannedGame g)
+	{
+		return getGames(null, EnumUserGamesort.gid2, null, null, g.getName(), true, null, null);
 	}
 
 	/**

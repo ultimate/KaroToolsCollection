@@ -375,8 +375,8 @@ public class KaroAPITest extends KaroAPITestcase
 
 		// check name filter and sorting for some (finished) test games
 
-		List<Game> games1 = karoAPI.getGames(null, EnumUserGamesort.gid, null, true, TEST_GAMES_NAME, 0, null, null).get();
-		List<Game> games2 = karoAPI.getGames(null, EnumUserGamesort.name, null, true, TEST_GAMES_NAME, 0, null, null).get();
+		List<Game> games1 = karoAPI.getGames(null, EnumUserGamesort.gid, null, true, TEST_GAMES_NAME, false, null, null).get();
+		List<Game> games2 = karoAPI.getGames(null, EnumUserGamesort.name, null, true, TEST_GAMES_NAME, false, null, null).get();
 		logger.debug("loaded games: " + games1.size() + " & " + games2.size());
 		assertNotNull(games1);
 		assertNotNull(games2);
@@ -410,7 +410,7 @@ public class KaroAPITest extends KaroAPITestcase
 		List<Game> limited;
 		for(int i = 0; i < TEST_GAMES_IDS.length; i++)
 		{
-			limited = karoAPI.getGames(null, EnumUserGamesort.name, null, true, TEST_GAMES_NAME, 0, 1, i).get();
+			limited = karoAPI.getGames(null, EnumUserGamesort.name, null, true, TEST_GAMES_NAME, false, 1, i).get();
 			assertNotNull(limited);
 			// assertEquals(1, limited.size()); // currently the limit is not working, but the
 			// offset does
@@ -684,6 +684,15 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(plannedGame.getTags(), game.getTags());
 
 		logger.debug("game created: id=" + game.getId() + ", name=" + game.getName());
+		
+		// try to find the game to verify it exists
+		List<Game> games = karoAPI.findGames(plannedGame).get();
+		logger.debug("found " + games.size() + " games that match the given name");
+		assertNotNull(games);
+		assertTrue(games.size() > 0);
+		assertEquals(plannedGame.getName(), games.get(0).getName());
+		assertEquals(game.getId(), games.get(0).getId());
+				
 		int gameId = game.getId();
 		int moves = 0;
 		int crashs = 0;

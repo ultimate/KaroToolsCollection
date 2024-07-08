@@ -15,6 +15,10 @@ public enum EnumUserGamesort
 	 */
 	gid,
 	/**
+	 * sort by game-id (descending)
+	 */
+	gid2,
+	/**
 	 * sort by name
 	 */
 	name,

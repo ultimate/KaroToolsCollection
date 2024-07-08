@@ -4,15 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +26,7 @@ import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
@@ -171,9 +175,9 @@ public class RandomGameCreator
 	public static int createGame(KaroAPICache cache, int i, String name, String mapID, User creator, Collection<User> players, int minPlayers, boolean allowNightMaps, Rules rules, Random random,
 			double preferStandards)
 	{
+		PlannedGame pg = null;
 		try
 		{
-			PlannedGame pg;
 			PlaceToRace ptr;
 			LinkedList<User> playersCopy = new LinkedList<>(players);
 			Collections.shuffle(playersCopy);
@@ -265,7 +269,7 @@ public class RandomGameCreator
 			logger.info("Game #" + i + sb);
 
 			pg.setGame(cache.getKaroAPI().createGame(pg).join());
-
+			
 			logger.info(" GID = " + (pg.getGame() != null ? pg.getGame().getId() : "?"));
 
 			return (pg.getGame() != null ? pg.getGame().getId() : 0);
@@ -274,6 +278,32 @@ public class RandomGameCreator
 		{
 			logger.error(e);
 			e.printStackTrace();
+			
+			if(pg != null)
+			{
+				// #233 check if game was really not created (in case of Server error as of 02.07.2024)
+				try
+				{
+					List<Game> candidates  = cache.getKaroAPI().findGames(pg).get();
+					if(candidates != null && candidates.size() > 0)
+					{
+						Game created = candidates.get(0);
+						if(created.getName().equals(pg.getName())
+							&& created.getMap().equals(pg.getMap())
+							// only use games created within the last minute (allow some time tolerance)
+							&& created.getStarteddate().after(new Date(System.currentTimeMillis() - 60000)))
+						{
+							return created.getId();
+						}
+					}
+				}
+				catch(Exception e2)
+				{
+					logger.error(e2);
+					e2.printStackTrace();
+				}
+			}
+			
 			return 0;
 		}
 	}
