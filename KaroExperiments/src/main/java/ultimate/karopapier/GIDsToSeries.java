@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
@@ -21,7 +22,7 @@ import ultimate.karomuskel.GameSeriesManager;
 
 public class GIDsToSeries
 {
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, InterruptedException, ExecutionException
 	{
 		File loginProperties = new File(args[0]);
 		int fromGID = Integer.parseInt(args[1]);
@@ -38,6 +39,9 @@ public class GIDsToSeries
 			api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 		
 		GameSeries gs = new GameSeries(EnumGameSeriesType.Simple);
+		gs.setTitle("Rekonstruktion GIDs = " + fromGID + "-" + toGID);
+		gs.setCreator(api.check().get());
+		
 		List<PlannedGame> games = new LinkedList<PlannedGame>();
 		gs.getGames().put(gs.getType().toString(), games);
 				
