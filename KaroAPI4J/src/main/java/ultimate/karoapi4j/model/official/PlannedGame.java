@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameStatus;
 import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.utils.JSONUtil;
@@ -93,6 +94,28 @@ public class PlannedGame
 	{
 		this(name, map, players, options, tags);
 		this.placeHolderValues = placeHolderValues;
+	}
+	
+	public PlannedGame(Game g, KaroAPICache karoAPICache)
+	{
+		this();
+		
+		this.name = g.getName();
+		this.map = g.getMap();
+		
+		this.players = new LinkedHashSet<>();
+		for(Player p: g.getPlayers())
+			this.players.add(karoAPICache.getUser(p.getId()));
+		
+		this.options = new Options(g.getZzz(), g.isCps(), g.getStartdirection(), g.getCrashallowed());
+		
+		if(g.getTags() != null)
+			this.tags = new LinkedHashSet<>(g.getTags());
+		else
+			this.tags = new LinkedHashSet<>();
+		
+		this.game = g;
+		this.created = true;
 	}
 
 	public String getName()
