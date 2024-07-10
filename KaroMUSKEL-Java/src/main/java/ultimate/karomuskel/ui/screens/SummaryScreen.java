@@ -99,6 +99,7 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 	private JTable						table;
 	private JScrollPane					tableSP;
 
+	private JButton						resetButton;
 	private JButton						createButton;
 	private JButton						leaveButton;
 	private JButton						saveButton;
@@ -247,6 +248,11 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		this.leaveButton.setActionCommand("leave");
 		this.leaveButton.addActionListener(this);
 		buttonPanel.add(this.leaveButton);
+
+		this.resetButton = new JButton(Language.getString("screen.summary.reset"));
+		this.resetButton.setActionCommand("reset");
+		this.resetButton.addActionListener(this);
+		buttonPanel.add(this.resetButton);
 
 		this.saveButton = new JButton(Language.getString("screen.summary.save"));
 		this.saveButton.setActionCommand("save");
@@ -512,6 +518,15 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		else if(e.getActionCommand().equals("leave"))
 		{
 			leaveGames();
+		}
+		else if(e.getActionCommand().equals("reset"))
+		{
+			if(this.gui.confirm("screen.summary.reset.confirm"))
+			{
+				// TODO
+				logger.info("GID references removed");
+				enableButtons();
+			}
 		}
 		else if(e.getActionCommand().equals("save"))
 		{
