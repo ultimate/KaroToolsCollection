@@ -32,6 +32,7 @@ public class GIDsToSeries
 		Properties cacheProperties = new Properties();
 		cacheProperties.setProperty("karoAPI.images", "false");
 		KaroAPICache karoAPICache = new KaroAPICache(api, cacheProperties);
+		karoAPICache.refresh().get();
 		
 		GameSeries gs = GameSeriesManager.loadFromGIDs(EnumGameSeriesType.Simple, gidRange, karoAPICache);
 		
