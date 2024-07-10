@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -216,6 +217,24 @@ public class Game extends Identifiable
 	public void setPlayers(List<Player> players)
 	{
 		this.players = players;
+	}
+	
+	/**
+	 * Return - if present - the player entity for the given user in this game
+	 * @param user
+	 * @return the player or null if the user doesn't participate
+	 */
+	@JsonIgnore
+	public Player getPlayer(User user)
+	{
+		if(user == null)
+			return null;
+		for(Player p: this.players)
+		{
+			if((int) p.getId() == (int) user.getId())
+				return p;
+		}
+		return null;
 	}
 
 	public List<Move> getPlannedMoves()

@@ -43,6 +43,7 @@ import ultimate.karoapi4j.enums.EnumCreatorParticipation;
 import ultimate.karoapi4j.enums.EnumGameDirection;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.enums.EnumGameTC;
+import ultimate.karoapi4j.enums.EnumPlayerStatus;
 import ultimate.karoapi4j.exceptions.GameSeriesException;
 import ultimate.karoapi4j.model.base.Identifiable;
 import ultimate.karoapi4j.model.extended.GameSeries;
@@ -52,6 +53,7 @@ import ultimate.karoapi4j.model.extended.Team;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
+import ultimate.karoapi4j.model.official.Player;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karomuskel.ui.EnumNavigation;
@@ -884,6 +886,89 @@ public abstract class GameSeriesManager
 			r.setCrashallowed(EnumGameTC.forbidden);
 		return r;
 	}
+	
+	/**
+	 * Reconstruct a {@link GameSeries} from a range of GIDs.
+	 * Note: type is used as an argument to allow future extensibility.
+	 * 
+	 * @param type - type of GameSeries to create (currently only {@link EnumGameSeriesType#Simple} is supported
+	 * @param gidRange - list of ranges in the format "1-5,7,9,13-18,20"
+	 * @param karoAPICache - the {@link KaroAPICache} to resolve references
+	 * @return the {@link GameSeries}
+	 */
+	public static GameSeries loadFromGIDs(EnumGameSeriesType type, String gidRange, KaroAPICache karoAPICache)
+	{
+		// check the type
+		if(type != EnumGameSeriesType.Simple)
+			throw new IllegalArgumentException("cannot reconstruct GameSeries of type '" + type + "'. Only '" + EnumGameSeriesType.Simple + "' is supported.");
+
+		// first parse the gidRange to avoid long waiting time in case of errors
+		logger.debug("checking gidRange... found:");
+		String[] rangeStrings = gidRange.split(",");
+		int[] rangeStarts = new int[rangeStrings.length];
+		int[] rangeEnds = new int[rangeStrings.length];
+		for(int i = 0; i < rangeStrings.length; i++)
+		{
+			try
+			{
+				if(rangeStrings[i].contains("-"))
+				{
+					String[] numbers = rangeStrings[i].split("-");
+					if(numbers.length != 2)
+						throw new IllegalArgumentException("cannot parse gidRange: '" + gidRange + "'");
+					rangeStarts[i] = Integer.parseInt(numbers[0].trim());
+					rangeEnds[i] = Integer.parseInt(numbers[1].trim());
+				}
+				else
+				{
+					rangeStarts[i] = Integer.parseInt(rangeStrings[i].trim());
+					rangeEnds[i] = rangeStarts[i];
+				}
+			}
+			catch(NumberFormatException e)
+			{
+				throw new IllegalArgumentException("cannot parse gidRange: '" + gidRange + "'", e);
+			}
+		}
+		
+		// only initialize GameSeries if everything is fine
+		GameSeries gs = new GameSeries(type);
+		gs.setTitle("Rekonstruktion GIDs=" + gidRange);
+		gs.setCreator(karoAPICache.getCurrentUser());
+		
+		// initialize empty game list
+		// TODO eventually support other GameSeries types
+		List<PlannedGame> games = new LinkedList<PlannedGame>();
+		gs.getGames().put(gs.getType().toString(), games);
+				
+		Game g;
+		PlannedGame pg;
+		Player currentPlayer;
+		// iterate ranges and load all the games
+		for(int i = 0; i < rangeStarts.length; i++)
+		{
+			for(int gid = rangeStarts[i]; gid <= rangeEnds[i]; gid++)
+			{
+				g = karoAPICache.getGame(gid);
+				if(g != null)
+				{
+					pg = new PlannedGame(g, karoAPICache);
+					
+					currentPlayer = g.getPlayer(karoAPICache.getCurrentUser());
+					if(currentPlayer != null && currentPlayer.getStatus() == EnumPlayerStatus.left)
+						pg.setLeft(true);
+		
+					games.add(pg);
+					logger.info("gid=" + gid + " loaded successfully");
+				}
+				else
+				{
+					logger.error("gid=" + gid + " could not be loaded");
+				}
+			}
+		}	
+		return gs;
+	}	
 
 	/**
 	 * Initiate the screens for the KaroMUSKEL GUI for a given {@link GameSeries}
