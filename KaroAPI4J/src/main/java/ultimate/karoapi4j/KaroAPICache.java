@@ -335,7 +335,10 @@ public class KaroAPICache implements IDLookUp
 				logger.info("creating dummy generators...");
 				updateGenerator(createDummyGenerator("dummy"));
 
-				this.smilies = Arrays.asList(new Smilie("wink"), new Smilie("biggrin"));
+				this.smilies = Arrays.asList(
+						new Smilie("wink", "https://www.karopapier.de/bilder/smilies/wink.gif"),
+						new Smilie("biggrin", "https://www.karopapier.de/bilder/smilies/biggrin.gif")
+					);
 				this.suggestedTags = Arrays.asList(new Tag("!KaroIQ!"), new Tag("§RE§"), new Tag("CCC"), new Tag("KaroLiga"), new Tag("KLC"));
 
 				currentUser = usersById.get(1);

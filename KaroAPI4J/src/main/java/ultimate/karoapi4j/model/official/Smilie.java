@@ -10,6 +10,7 @@ import ultimate.karoapi4j.KaroAPI;
  * 		[
  *			{
  *              "id": "cool",
+ *              "url": "https://www.karopapier.de/bilder/smilies/cool.gif"
  *          },
  *		    ...
  *		]
@@ -21,16 +22,18 @@ import ultimate.karoapi4j.KaroAPI;
 public class Smilie
 {
     private String id;
+    private String url;
 
     public Smilie()
     {
         super();
     }
 
-    public Smilie(String id)
+    public Smilie(String id, String url)
     {
         super();
         this.id = id;
+        this.url = url;
     }
 
     public String getId()
@@ -41,5 +44,15 @@ public class Smilie
     public void setId(String id)
     {
         this.id = id;
-    }    
+    }
+
+	public String getUrl()
+	{
+		return url;
+	}
+
+	public void setUrl(String url)
+	{
+		this.url = url;
+	}    
 }
