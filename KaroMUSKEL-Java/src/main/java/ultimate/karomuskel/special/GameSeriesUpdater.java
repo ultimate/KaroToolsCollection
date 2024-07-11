@@ -318,8 +318,10 @@ public abstract class GameSeriesUpdater
 			if(r.getNumberOfPlayers() == 5)
 				r.setNumberOfPlayers(4);
 		}
+		
+		Planner planner = new Planner();
 
-		List<PlannedGame> plannedGamesNew = Planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), null, gs.getCreatorParticipation());
+		List<PlannedGame> plannedGamesNew = planner.planSeriesBalanced(gs.getTitle(), gs.getCreator(), playersUpdated, gs.getMapsByKey(), gs.getRulesByKey(), null, gs.getCreatorParticipation());
 		logger.debug("plannedGamesNew:     " + plannedGamesNew.size());		
 		
 		plannedGamesNew.removeIf(pg -> { return mapsStarted.contains(pg.getMap()); });

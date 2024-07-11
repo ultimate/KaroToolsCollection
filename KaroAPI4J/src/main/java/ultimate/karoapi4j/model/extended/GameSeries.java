@@ -105,7 +105,7 @@ public class GameSeries
 	 * the gameseries tags
 	 */
 	@JsonInclude(value = Include.NON_NULL)
-	private Set<String>									tags;
+	protected Set<String>								tags;
 	/**
 	 * the creator
 	 */
@@ -198,6 +198,11 @@ public class GameSeries
 	 */
 	@JsonIgnore
 	protected transient boolean							loaded;
+	
+	/**
+	 * the seed for randomization
+	 */
+	protected String seed;
 
 	/**
 	 * Create a new GameSeries
@@ -545,5 +550,21 @@ public class GameSeries
 	public void setLoaded(boolean loaded)
 	{
 		this.loaded = loaded;
+	}
+
+	/**
+	 * @return the seed for randomization
+	 */
+	public String getSeed()
+	{
+		return seed;
+	}
+
+	/**
+	 * @param seed - the seed for randomization
+	 */
+	public void setSeed(String seed)
+	{
+		this.seed = seed;
 	}
 }

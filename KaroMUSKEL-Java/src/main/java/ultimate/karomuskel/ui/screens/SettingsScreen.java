@@ -97,6 +97,10 @@ public class SettingsScreen extends Screen implements ChangeListener
 	private JLabel						minFreeSlotsLabel;
 	private JSpinner					minFreeSlotsSpinner;
 	
+	private JLabel						seedLabel;
+	private JTextField					seedTF;
+	private JLabel						seedDescLabel;
+	
 	public SettingsScreen(MainFrame gui, Screen previous, KaroAPICache karoAPICache, JButton previousButton, JButton nextButton)
 	{
 		super(gui, previous, karoAPICache, previousButton, nextButton, "screen.settings.header");
@@ -421,6 +425,21 @@ public class SettingsScreen extends Screen implements ChangeListener
 					this.add(playersDescLabel, gbc);
 				}
 			}
+			
+			seedLabel = new JLabel(Language.getString("screen.settings.seed", cellWidth));
+			String seedInit = gameSeries.getSeed();
+			seedTF = new JTextField(seedInit);
+			seedDescLabel = new JLabel(Language.getString("screen.settings.seed.description", totalWidth));
+			gbc.gridwidth = 1;
+			gbc.gridx = 0;
+			gbc.gridy = 12;
+			this.add(seedLabel, gbc);
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridy = 13;
+			this.add(seedTF, gbc);
+			gbc.gridwidth = gridwidth;
+			gbc.gridy = 14;
+			this.add(seedDescLabel, gbc);
 		}
 		this.titleTF.requestFocus();
 		
@@ -435,6 +454,7 @@ public class SettingsScreen extends Screen implements ChangeListener
 		if(gameSeries.getTitle() == null || gameSeries.getTitle().isEmpty())
 			throw new GameSeriesException("screen.settings.notitle");
 		gameSeries.setTags(this.tagEditor.getSelectedTags());
+		gameSeries.setSeed(seedTF.getText());
 
 		if(gameSeries.getType() == EnumGameSeriesType.Simple)
 		{

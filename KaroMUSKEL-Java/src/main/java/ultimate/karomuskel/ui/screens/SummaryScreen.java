@@ -201,8 +201,25 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 
 			if(!firstShow)
 				resetPlannedGames();
+			
+			Planner planner;
+			if(gameSeries.getSeed() != null && !"".equals(gameSeries.getSeed()))
+			{
+				int seed;
+				try
+				{
+					seed = Integer.parseInt(gameSeries.getSeed());
+				}
+				catch(NumberFormatException e)
+				{
+					seed = gameSeries.getSeed().hashCode();
+				}
+				planner = new Planner(seed);
+			}
+			else
+				planner = new Planner();
 
-			List<PlannedGame> games = Planner.planSeries(gameSeries);
+			List<PlannedGame> games = planner.planSeries(gameSeries);
 			this.gameSeries.getGames().put(this.key, games);
 
 			for(PlannedGame pg : games)
