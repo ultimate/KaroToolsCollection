@@ -382,6 +382,7 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													GENERATE_MAP				= API.relative("/mapgenerator/generate");
 	// chat
 	protected final URLLoader													CHAT						= API.relative("/chat");
+	protected final URLLoader													CHAT_MESSAGE				= CHAT.relative("/" + PLACEHOLDER);
 	protected final URLLoader													CHAT_LAST					= CHAT.relative("/last");
 	protected final URLLoader													CHAT_USERS					= CHAT.relative("/users");
 	// messaging
@@ -1499,6 +1500,23 @@ public class KaroAPI implements IDLookUp
 	}
 
 	/**
+	 * Get the chat messages in the specified range
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHAT
+	 * @param start - the date of the first message to get
+	 * @param limit - the number of messages
+	 * @return the list of chat messages
+	 */
+	public CompletableFuture<List<ChatMessage>> getChatMessages(Date start, int limit)
+	{
+		HashMap<String, Object> args = new HashMap<>();
+		args.put("date", new SimpleDateFormat(JSONUtil.DATE_FORMAT).format(start));
+		args.put("limit", limit);
+		return loadAsync(CHAT.parameterize(args).doGet(), PARSER_CHAT_LIST);
+	}
+
+	/**
 	 * Get the last chat message
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
@@ -1508,6 +1526,19 @@ public class KaroAPI implements IDLookUp
 	public CompletableFuture<ChatMessage> getChatLastMessage()
 	{
 		return loadAsync(CHAT_LAST.doGet(), PARSER_CHAT_MESSAGE);
+	}
+
+	/**
+	 * Get the chat message specified by the given ID
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#CHAT_MESSAGE
+	 * @param id - the id of the message to get
+	 * @return chat messages
+	 */
+	public CompletableFuture<ChatMessage> getChatMessage(int id)
+	{
+		return loadAsync(CHAT_MESSAGE.replace(PLACEHOLDER, id).doGet(), PARSER_CHAT_MESSAGE);
 	}
 
 	/**

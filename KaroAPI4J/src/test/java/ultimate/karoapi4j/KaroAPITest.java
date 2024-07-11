@@ -1028,6 +1028,39 @@ public class KaroAPITest extends KaroAPITestcase
 			assertTrue(m.getTs().after(firstDate));
 			assertTrue(m.getTs().before(lastDate));
 		}
+		
+		// date & limit
+		
+		limit += 2; // when starting with the day, 2 more messages are returned
+
+		chat = karoAPI.getChatMessages(firstDate, limit).get();
+		assertNotNull(chat);
+		assertEquals(limit, chat.size());
+
+		for(int i = 2; i < chat.size(); i++)
+		{
+			ChatMessage m = chat.get(i);
+			assertEquals(firstId + i - 2, m.getId());
+			assertTrue(m.getTs().after(firstDate));
+			assertTrue(m.getTs().before(lastDate));
+		}
+	}
+
+	@Test
+	public void test_getChatMessage() throws InterruptedException, ExecutionException
+	{
+		int id = TEST_CHAT_ID_MIN;
+		Date date = new GregorianCalendar(2022, 0, 31, 9, 45, 41).getTime();
+
+		// dedicated entry
+
+		ChatMessage m = karoAPI.getChatMessage(id).get();
+		assertNotNull(m);
+
+		assertEquals(id, m.getId());
+		assertEquals("CraZZZy", m.getUser());
+		assertEquals(TEST_CHAT_MESSAGE, m.getText());
+		assertEquals(date, m.getTs());
 	}
 
 	public void test_getChatUsers() throws InterruptedException, ExecutionException
