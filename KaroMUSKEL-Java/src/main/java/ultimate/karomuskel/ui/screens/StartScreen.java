@@ -21,6 +21,7 @@ import ultimate.karomuskel.ui.Language;
 import ultimate.karomuskel.ui.MainFrame;
 import ultimate.karomuskel.ui.Screen;
 import ultimate.karomuskel.ui.dialog.FileDialog;
+import ultimate.karomuskel.ui.dialog.GIDSelectionDialog;
 
 public class StartScreen extends Screen implements ActionListener
 {
@@ -112,6 +113,16 @@ public class StartScreen extends Screen implements ActionListener
 		gbc.gridx = 0;
 		this.add(radioButton, gbc);
 		this.buttonGroup.add(radioButton);
+
+		radioButton = new JRadioButton(Language.getString("gameseries.import", totalWidth));
+		radioButton.setActionCommand("import");
+		radioButton.addActionListener(this);
+		setIcons(radioButton, BUTTON_SIZE);
+
+		gbc.gridy++;
+		gbc.gridx = 0;
+		this.add(radioButton, gbc);
+		this.buttonGroup.add(radioButton);
 	}
 
 	@Override
@@ -150,6 +161,20 @@ public class StartScreen extends Screen implements ActionListener
 				this.buttonGroup.clearSelection();
 			else if(this.gameSeries.getCreator() != karoAPICache.getCurrentUser())
 				this.gui.notify(new GameSeriesException("error.load.wrongCreator", null, this.gameSeries.getCreator().toShortString()), JOptionPane.WARNING_MESSAGE);
+		}
+		else if(e.getActionCommand().equals("import"))
+		{
+			this.gameSeries = null;
+			int[] gids = GIDSelectionDialog.getInstance().show();
+			if(gids == null)
+			{
+				this.buttonGroup.clearSelection();
+			}
+			else
+			{
+				if(this.gui.confirm("gidselection.confirm", "%%COUNT%%", "" + gids.length))
+					this.gameSeries = GameSeriesManager.importGIDs(gids, karoAPICache);
+			}
 		}
 		else
 		{

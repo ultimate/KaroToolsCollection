@@ -40,7 +40,7 @@ public class LoginDialog
 		pw = new JPasswordField();
 
 		// request Focus on username-TF when dialog is shown
-		tfL.addAncestorListener(new AncestorListener() {
+		tf.addAncestorListener(new AncestorListener() {
 
 			@Override
 			public void ancestorAdded(AncestorEvent arg0)

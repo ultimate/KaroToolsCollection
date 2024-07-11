@@ -1259,6 +1259,7 @@ public class KaroAPICache implements IDLookUp
 		int round = random.nextInt(100) + 1;
 		for(int i = 0; i < ps; i++)
 			players.add(createDummyPlayer(round));
+		g.setPlayers(players);
 		g.setCreator(players.get(random.nextInt(players.size())).getName());
 		g.setNext(g.isFinished() ? null : getUser(players.get(random.nextInt(players.size())).getId()));
 		g.setBlocked(random.nextInt(30));

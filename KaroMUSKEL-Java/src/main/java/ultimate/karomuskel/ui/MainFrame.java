@@ -133,9 +133,17 @@ public class MainFrame extends JFrame implements WindowListener, ActionListener
 
 	public boolean confirm(String messageKey)
 	{
+		return confirm(messageKey, null, null);
+	}
+
+	public boolean confirm(String messageKey, String argKey, String argValue)
+	{
 		if(messageKey == null)
 			return true;
-		int result = JOptionPane.showConfirmDialog(this, Language.getString(messageKey, Screen.totalWidth * 2 / 3),
+		String msg = Language.getString(messageKey, Screen.totalWidth * 2 / 3);
+		if(argKey != null)
+			msg = msg.replace(argKey, argValue);
+		int result = JOptionPane.showConfirmDialog(this, msg,
 				Language.getString("navigation.sure"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if(result == JOptionPane.OK_OPTION)
 			return true;

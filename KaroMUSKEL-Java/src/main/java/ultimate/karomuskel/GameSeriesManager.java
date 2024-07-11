@@ -1085,8 +1085,9 @@ public abstract class GameSeriesManager
 					startScreen.setNext(screens.getLast()); // jump to summary
 				break;
 			case Imported:
+				// only summary screen needed - we don't want people to navigate backwards (as the settings are unknown)
 				screens.add(
-						new SummaryScreen(gui, startScreen, karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+						new SummaryScreen(gui, startScreen, karoAPICache, previousButton, nextButton, true, gs.getType().toString()));
 				break;
 		}
 
