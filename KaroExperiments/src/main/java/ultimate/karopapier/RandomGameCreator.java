@@ -255,7 +255,7 @@ public class RandomGameCreator
 			pg.setName(name.replace("%i", "" + toString(i, 3)));
 			pg.setMap(ptr);
 			pg.setPlayers(selectedPlayers);
-			pg.setOptions(rules.createOptions(random, preferStandards));
+			pg.setOptions(rules.createOptions(random, preferStandards, false));
 
 			sb.append("\n -> name           = " + pg.getName());
 			sb.append("\n -> map            = " + pg.getMap());

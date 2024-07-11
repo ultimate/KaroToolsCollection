@@ -242,7 +242,7 @@ public class Rules implements Cloneable
 	 */
 	public Options createOptions(Random random)
 	{
-		return createOptions(random, 0);
+		return createOptions(random, 0, false);
 	}
 
 
@@ -259,9 +259,10 @@ public class Rules implements Cloneable
 	 * 
 	 * @param random - the random value generator
 	 * @param preferStandards - a number between 0 and 1 on how probable the standard is, the rest will be randomized
+	 * @param allowFree - whether randomization of enums should include "free" aka "egal"
 	 * @return the new {@link Options}
 	 */
-	public Options createOptions(Random random, double preferStandards)
+	public Options createOptions(Random random, double preferStandards, boolean allowFree)
 	{
 		if(random == null)
 			random = new Random();
@@ -288,8 +289,10 @@ public class Rules implements Cloneable
 			options.setCrashallowed(crashallowed); // pre-set
 		else if(random.nextDouble() < preferStandards)
 			options.setCrashallowed(EnumGameTC.forbidden); // standard
-		else 
+		else if(allowFree)
 			options.setCrashallowed(EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 1))); // random
+		else
+ 			options.setCrashallowed(EnumGameTC.getByValue(random.nextInt(EnumGameTC.values().length - 2) + 1)); // random, but not "free" #181
 
 		
 		// startdirection 
@@ -299,8 +302,10 @@ public class Rules implements Cloneable
 			options.setStartdirection(EnumGameDirection.classic); // standard
 		else if(random.nextDouble() < preferStandards)
 			options.setStartdirection(EnumGameDirection.classic); // standard
-		else 
+		else if(allowFree)
 			options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 1))); // random
+		else
+			options.setStartdirection(EnumGameDirection.getByValue(random.nextInt(EnumGameDirection.values().length - 2) + 1)); // random, but not "free" #181
 
 		return options;
 	}
