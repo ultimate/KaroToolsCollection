@@ -202,6 +202,7 @@ public class GameSeries
 	/**
 	 * the seed for randomization
 	 */
+	@JsonInclude(value = Include.NON_EMPTY)
 	protected String seed;
 
 	/**
