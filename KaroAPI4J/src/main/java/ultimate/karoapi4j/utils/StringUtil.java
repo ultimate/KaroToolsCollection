@@ -65,7 +65,7 @@ public abstract class StringUtil
 		List<T> items = new LinkedList<T>();
 
 		int itemStart = section.indexOf(START_TAG);
-		
+
 		if(itemStart < 0)
 			return items;
 
@@ -112,14 +112,62 @@ public abstract class StringUtil
 		String allowedChars = "0123456789.";
 
 		int start = 0;
-		for(; start < value.length() && allowedChars.indexOf(value.charAt(start)) < 0; start++);
-		
+		for(; start < value.length() && allowedChars.indexOf(value.charAt(start)) < 0; start++)
+			;
+
 		if(start >= value.length())
 			return "0";
 
 		int end = start + 1;
-		for(; end < value.length() && allowedChars.indexOf(value.charAt(end)) >= 0; end++);
+		for(; end < value.length() && allowedChars.indexOf(value.charAt(end)) >= 0; end++)
+			;
 
 		return value.substring(start, end);
+	}
+
+	/**
+	 * Parse a range string to an array of numbers.
+	 * 
+	 * @param ranges - list of ranges in the format "1-5,7,9,13-18,20"
+	 * @return the numbers defined by the range string
+	 */
+	public static int[] parseRanges(String ranges)
+	{
+		List<Integer> numbers = new LinkedList<>();
+
+		// parse all the ranges within the string
+		String[] rs = ranges.split(",");
+		for(String r : rs)
+		{
+			try
+			{
+				if(r.contains("-"))
+				{
+					String[] startEnd = r.split("-");
+					if(startEnd.length != 2)
+						throw new IllegalArgumentException("cannot parse ranges: '" + ranges + "'");
+					int start = Integer.parseInt(startEnd[0].trim());
+					int end = Integer.parseInt(startEnd[1].trim());
+					for(int n = start; n <= end; n++)
+						numbers.add(n);
+				}
+				else
+				{
+					numbers.add(Integer.parseInt(r.trim()));
+				}
+			}
+			catch(NumberFormatException e)
+			{
+				throw new IllegalArgumentException("cannot parse ranges: '" + ranges + "'", e);
+			}
+		}
+
+		// convert to array
+		int[] arr = new int[numbers.size()];
+		int i = 0;
+		for(Integer n : numbers)
+			arr[i++] = n;
+		
+		return arr;
 	}
 }

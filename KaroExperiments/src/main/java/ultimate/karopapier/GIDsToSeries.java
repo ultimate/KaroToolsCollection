@@ -7,9 +7,9 @@ import java.util.concurrent.ExecutionException;
 
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.KaroAPICache;
-import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karoapi4j.utils.StringUtil;
 import ultimate.karomuskel.GameSeriesManager;
 
 public class GIDsToSeries
@@ -34,7 +34,9 @@ public class GIDsToSeries
 		KaroAPICache karoAPICache = new KaroAPICache(api, cacheProperties);
 		karoAPICache.refresh().get();
 		
-		GameSeries gs = GameSeriesManager.loadFromGIDs(EnumGameSeriesType.Simple, gidRange, karoAPICache);
+		int[] gids = StringUtil.parseRanges(gidRange);
+		System.out.println("importing " + gids.length + " games...");
+		GameSeries gs = GameSeriesManager.importGIDs(gids, karoAPICache);
 		
 		GameSeriesManager.store(gs, outputFile);
 	}

@@ -523,7 +523,16 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 		{
 			if(this.gui.confirm("screen.summary.reset.confirm"))
 			{
-				// TODO
+				for(List<PlannedGame> gameList : this.gameSeries.getGames().values())
+				{
+					for(PlannedGame pg: gameList)
+					{
+						pg.setGame(null);
+						pg.setCreated(false);
+						pg.setLeft(false);
+						// TODO #51 update games to create and leave
+					}
+				}
 				logger.info("GID references removed");
 				enableButtons();
 			}

@@ -75,8 +75,10 @@ import ultimate.karomuskel.ui.screens.SummaryScreen;
  * This class also offers backwards compatibility for {@link muskel2.model.GameSeries} via
  * {@link GameSeriesManager#convert(muskel2.model.GameSeries, KaroAPICache)}.<br>
  * <br>
- * Since some {@link GameSeries} require constants for configuration, this class also provides access to the configuration of those constants via an
- * external {@link Properties} file. This file needs to be set on start of the program via {@link GameSeriesManager#setConfig(Properties)} and then it
+ * Since some {@link GameSeries} require constants for configuration, this class also provides
+ * access to the configuration of those constants via an
+ * external {@link Properties} file. This file needs to be set on start of the program via
+ * {@link GameSeriesManager#setConfig(Properties)} and then it
  * can be accessed via
  * <ul>
  * <li>{@link GameSeriesManager#getIntConfig(String)}</li>
@@ -263,7 +265,8 @@ public abstract class GameSeriesManager
 	}
 
 	/**
-	 * Get the minimum number of players that a map needs to support for the given type of {@link GameSeries}
+	 * Get the minimum number of players that a map needs to support for the given type of
+	 * {@link GameSeries}
 	 * 
 	 * @param gs - the {@link GameSeries}
 	 * @return the min number of players per map
@@ -275,7 +278,8 @@ public abstract class GameSeriesManager
 			case AllCombinations:
 			case KO:
 			case League:
-				return (int) gs.get(GameSeries.MAX_PLAYERS_PER_TEAM) * 2 + (gs.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? 0 : 1);
+				return (int) gs.get(GameSeries.MAX_PLAYERS_PER_TEAM) * 2
+						+ (gs.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? 0 : 1);
 			case KLC:
 				return (gs.getCreatorParticipation() == EnumCreatorParticipation.not_participating ? 2 : 3);
 			case Simple:
@@ -288,8 +292,10 @@ public abstract class GameSeriesManager
 
 	/**
 	 * Is the given {@link GameSeries} teambased?<br>
-	 * Note: under normal conditions the teambased flag only depends on the {@link EnumGameSeriesType} of the {@link GameSeries} (simple switch
-	 * statement). But to ensure backwards compatibility in case of changes to the type, this method first checks for a setting "teamBased" in the
+	 * Note: under normal conditions the teambased flag only depends on the
+	 * {@link EnumGameSeriesType} of the {@link GameSeries} (simple switch
+	 * statement). But to ensure backwards compatibility in case of changes to the type, this method
+	 * first checks for a setting "teamBased" in the
 	 * gameSeries, which will be set during conversion of old GameSeries.
 	 * 
 	 * @param gs - the {@link GameSeries}
@@ -316,7 +322,8 @@ public abstract class GameSeriesManager
 
 	/**
 	 * Save a {@link GameSeries} to JSON using the {@link JSONUtil}.<br>
-	 * Note: Storing of {@link muskel2.model.GameSeries} is not supported. Please convert it to the new format via
+	 * Note: Storing of {@link muskel2.model.GameSeries} is not supported. Please convert it to the
+	 * new format via
 	 * {@link GameSeriesManager#convert(muskel2.model.GameSeries, KaroAPICache)} first.
 	 * 
 	 * @see JSONUtil#serialize(Object)
@@ -410,10 +417,12 @@ public abstract class GameSeriesManager
 	/**
 	 * Load a {@link GameSeries} from a given {@link File}.<br>
 	 * References in the JSON file will be resolved using the given {@link KaroAPICache}.<br>
-	 * Note: this method is also capable of loading V2 {@link muskel2.model.GameSeries}. Those entities will then automatically be converted to the
+	 * Note: this method is also capable of loading V2 {@link muskel2.model.GameSeries}. Those
+	 * entities will then automatically be converted to the
 	 * new format using {@link GameSeriesManager#convert(muskel2.model.GameSeries, KaroAPICache)}
 	 * 
-	 * @param file - the {@link File} that contains the {@link GameSeries} or the V2 {@link muskel2.model.GameSeries}
+	 * @param file - the {@link File} that contains the {@link GameSeries} or the V2
+	 *            {@link muskel2.model.GameSeries}
 	 * @param karoAPICache - the {@link KaroAPICache} to resolve references
 	 * @return the {@link GameSeries}
 	 * @throws IOException - if deserialization or loading fails
@@ -474,7 +483,8 @@ public abstract class GameSeriesManager
 		{
 			// try loading SerialVersionUID=1
 			logger.warn(e.getMessage());
-			if(e.getMessage().equals("muskel2.model.GameSeries; local class incompatible: stream classdesc serialVersionUID = 1, local class serialVersionUID = 2"))
+			if(e.getMessage().equals(
+					"muskel2.model.GameSeries; local class incompatible: stream classdesc serialVersionUID = 1, local class serialVersionUID = 2"))
 				return loadV2_serialVersionUID1(file);
 			else
 				throw e;
@@ -490,7 +500,8 @@ public abstract class GameSeriesManager
 	}
 
 	/**
-	 * Load a V2 {@link muskel2.model.GameSeries} (for backwards compatibility) with serialVersionUID = 1
+	 * Load a V2 {@link muskel2.model.GameSeries} (for backwards compatibility) with
+	 * serialVersionUID = 1
 	 * 
 	 * @param file - the {@link File} that contains the V2 {@link muskel2.model.GameSeries}
 	 * @return the {@link muskel2.model.GameSeries}
@@ -524,8 +535,11 @@ public abstract class GameSeriesManager
 
 	/**
 	 * Internal method to replace the serialVersionUID for a given class in a byte array.<br>
-	 * This way saved objects can be loaded even if the serialVersionUID is not matching to the class loaded from the classpath.<br>
-	 * Note: the serialVersionUID is obtained via <code>long serialVersionUID = ObjectStreamClass.lookup(cls).getSerialVersionUID();</code> and hence
+	 * This way saved objects can be loaded even if the serialVersionUID is not matching to the
+	 * class loaded from the classpath.<br>
+	 * Note: the serialVersionUID is obtained via
+	 * <code>long serialVersionUID = ObjectStreamClass.lookup(cls).getSerialVersionUID();</code> and
+	 * hence
 	 * is not required as an argument.
 	 * 
 	 * @param bytes - the bytes to scan and manipulate
@@ -675,7 +689,9 @@ public abstract class GameSeriesManager
 		gs.setTitle(gs2.title);
 		gs.setCreator(karoAPICache.getUser(gs2.creator.id));
 		gs.setLoaded(true);
-		if(gs.getPlayers() == null || gs.getPlayers().size() == 0) // only do this if the players have not yet been set (--> KLCGameSeries)
+		if(gs.getPlayers() == null || gs.getPlayers().size() == 0) // only do this if the players
+																	// have not yet been set (-->
+																	// KLCGameSeries)
 			gs.setPlayers(convert(gs2.players, User.class, karoAPICache));
 		gs.setMaps(convertMaps(convert(gs2.maps, Map.class, karoAPICache)));
 		gs.setGames(convertGames(gs2.games, gs, karoAPICache));
@@ -696,7 +712,8 @@ public abstract class GameSeriesManager
 	 * @param karoAPICache
 	 * @return
 	 */
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls, KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> List<T> convert(List<T2> list2, Class<T> cls,
+			KaroAPICache karoAPICache)
 	{
 		if(list2 == null)
 			return null;
@@ -829,8 +846,8 @@ public abstract class GameSeriesManager
 	 * @param karoAPICache
 	 * @return
 	 */
-	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(java.util.Map<Integer, T2> map2, Class<T> cls,
-			KaroAPICache karoAPICache)
+	protected static <T extends Identifiable, T2 extends muskel2.model.help.Identifiable> java.util.Map<String, List<T>> convert(
+			java.util.Map<Integer, T2> map2, Class<T> cls, KaroAPICache karoAPICache)
 	{
 		if(map2 == null)
 			return null;
@@ -886,89 +903,50 @@ public abstract class GameSeriesManager
 			r.setCrashallowed(EnumGameTC.forbidden);
 		return r;
 	}
-	
+
 	/**
 	 * Reconstruct a {@link GameSeries} from a range of GIDs.
-	 * Note: type is used as an argument to allow future extensibility.
 	 * 
-	 * @param type - type of GameSeries to create (currently only {@link EnumGameSeriesType#Simple} is supported
 	 * @param gidRange - list of ranges in the format "1-5,7,9,13-18,20"
 	 * @param karoAPICache - the {@link KaroAPICache} to resolve references
 	 * @return the {@link GameSeries}
 	 */
-	public static GameSeries loadFromGIDs(EnumGameSeriesType type, String gidRange, KaroAPICache karoAPICache)
+	public static GameSeries importGIDs(int[] gids, KaroAPICache karoAPICache)
 	{
-		// check the type
-		if(type != EnumGameSeriesType.Simple)
-			throw new IllegalArgumentException("cannot reconstruct GameSeries of type '" + type + "'. Only '" + EnumGameSeriesType.Simple + "' is supported.");
-
-		// first parse the gidRange to avoid long waiting time in case of errors
-		logger.debug("checking gidRange... found:");
-		String[] rangeStrings = gidRange.split(",");
-		int[] rangeStarts = new int[rangeStrings.length];
-		int[] rangeEnds = new int[rangeStrings.length];
-		for(int i = 0; i < rangeStrings.length; i++)
-		{
-			try
-			{
-				if(rangeStrings[i].contains("-"))
-				{
-					String[] numbers = rangeStrings[i].split("-");
-					if(numbers.length != 2)
-						throw new IllegalArgumentException("cannot parse gidRange: '" + gidRange + "'");
-					rangeStarts[i] = Integer.parseInt(numbers[0].trim());
-					rangeEnds[i] = Integer.parseInt(numbers[1].trim());
-				}
-				else
-				{
-					rangeStarts[i] = Integer.parseInt(rangeStrings[i].trim());
-					rangeEnds[i] = rangeStarts[i];
-				}
-			}
-			catch(NumberFormatException e)
-			{
-				throw new IllegalArgumentException("cannot parse gidRange: '" + gidRange + "'", e);
-			}
-		}
-		
 		// only initialize GameSeries if everything is fine
-		GameSeries gs = new GameSeries(type);
-		gs.setTitle("Rekonstruktion GIDs=" + gidRange);
+		GameSeries gs = new GameSeries(EnumGameSeriesType.Imported);
+		gs.setTitle("Importiere Spieleserie");
 		gs.setCreator(karoAPICache.getCurrentUser());
-		
+
 		// initialize empty game list
-		// TODO eventually support other GameSeries types
 		List<PlannedGame> games = new LinkedList<PlannedGame>();
 		gs.getGames().put(gs.getType().toString(), games);
-				
+
 		Game g;
 		PlannedGame pg;
 		Player currentPlayer;
-		// iterate ranges and load all the games
-		for(int i = 0; i < rangeStarts.length; i++)
+		// load all the games
+		for(int gid : gids)
 		{
-			for(int gid = rangeStarts[i]; gid <= rangeEnds[i]; gid++)
+			g = karoAPICache.getGame(gid);
+			if(g != null)
 			{
-				g = karoAPICache.getGame(gid);
-				if(g != null)
-				{
-					pg = new PlannedGame(g, karoAPICache);
-					
-					currentPlayer = g.getPlayer(karoAPICache.getCurrentUser());
-					if(currentPlayer != null && currentPlayer.getStatus() == EnumPlayerStatus.left)
-						pg.setLeft(true);
-		
-					games.add(pg);
-					logger.info("gid=" + gid + " loaded successfully");
-				}
-				else
-				{
-					logger.error("gid=" + gid + " could not be loaded");
-				}
+				pg = new PlannedGame(g, karoAPICache);
+
+				currentPlayer = g.getPlayer(karoAPICache.getCurrentUser());
+				if(currentPlayer != null && currentPlayer.getStatus() == EnumPlayerStatus.left)
+					pg.setLeft(true);
+
+				games.add(pg);
+				logger.info("gid=" + gid + " loaded successfully");
 			}
-		}	
+			else
+			{
+				logger.error("gid=" + gid + " could not be loaded");
+			}
+		}
 		return gs;
-	}	
+	}
 
 	/**
 	 * Initiate the screens for the KaroMUSKEL GUI for a given {@link GameSeries}
@@ -980,7 +958,8 @@ public abstract class GameSeriesManager
 	 * @param nextButton - the next Button used in the GUI
 	 * @return the {@link List} of screens
 	 */
-	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton, JButton nextButton)
+	public static LinkedList<Screen> initScreens(GameSeries gs, KaroAPICache karoAPICache, Screen startScreen, JButton previousButton,
+			JButton nextButton)
 	{
 		MainFrame gui = startScreen.getGui();
 		LinkedList<Screen> screens = new LinkedList<>();
@@ -994,7 +973,8 @@ public abstract class GameSeriesManager
 				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				screens.add(
+						new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
 				if(gs.isLoaded())
 					startScreen.setNext(screens.getLast()); // jump to summary
 				break;
@@ -1027,7 +1007,8 @@ public abstract class GameSeriesManager
 				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				screens.add(
+						new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
 				if(gs.isLoaded())
 					startScreen.setNext(screens.getLast()); // jump to summary
 				break;
@@ -1037,7 +1018,8 @@ public abstract class GameSeriesManager
 				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new MapsAndRulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				screens.add(
+						new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
 				if(gs.isLoaded())
 					startScreen.setNext(screens.getLast()); // jump to summary
 				break;
@@ -1046,7 +1028,8 @@ public abstract class GameSeriesManager
 				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new HomeMapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString() + "." + GameSeries.KEY_GROUP + "phase"));
+				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(),
+						gs.getType().toString() + "." + GameSeries.KEY_GROUP + "phase"));
 				// Note: skip those who are too many those when applying the SettingsScreen!
 				int groups = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_GROUPS);
 				int firstKO = GameSeriesManager.getIntConfig(gs, GameSeries.CONF_KLC_FIRST_KO_ROUND);
@@ -1066,8 +1049,8 @@ public abstract class GameSeriesManager
 				players = firstKO;
 				while(players > 1)
 				{
-					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded() && players >= klcround,
-							gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
+					screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton,
+							gs.isLoaded() && players >= klcround, gs.getType().toString() + "." + GameSeries.KEY_ROUND + players));
 
 					if(gs.isLoaded() && players == klcround)
 						startScreen.setNext(screens.getLast()); // jump to summary
@@ -1096,16 +1079,22 @@ public abstract class GameSeriesManager
 				screens.add(new RulesScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new PlayersScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
 				screens.add(new MapsScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton));
-				screens.add(new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
+				screens.add(
+						new SummaryScreen(gui, screens.getLast(), karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
 				if(gs.isLoaded())
 					startScreen.setNext(screens.getLast()); // jump to summary
+				break;
+			case Imported:
+				screens.add(
+						new SummaryScreen(gui, startScreen, karoAPICache, previousButton, nextButton, gs.isLoaded(), gs.getType().toString()));
 				break;
 		}
 
 		if(GameSeriesManager.isTeamBased(gs))
 		{
 			int numberOfGamesPerPair = (gs.isLoaded() ? GameSeriesManager.getIntConfig(gs, GameSeries.NUMBER_OF_GAMES_PER_PAIR) : 2);
-			boolean homeMaps = (gs.isLoaded() ? (GameSeriesManager.getBooleanConfig(gs, GameSeries.USE_HOME_MAPS)) && (numberOfGamesPerPair > 1) : true);
+			boolean homeMaps = (gs.isLoaded() ? (GameSeriesManager.getBooleanConfig(gs, GameSeries.USE_HOME_MAPS)) && (numberOfGamesPerPair > 1)
+					: true);
 			boolean otherMaps = (numberOfGamesPerPair % 2 == 1) || (!homeMaps);
 
 			screens.getLast().findScreen(s -> {
