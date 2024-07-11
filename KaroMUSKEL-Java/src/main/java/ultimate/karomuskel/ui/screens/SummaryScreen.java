@@ -530,10 +530,10 @@ public class SummaryScreen extends FilterScreen<PlannedGame> implements ActionLi
 						pg.setGame(null);
 						pg.setCreated(false);
 						pg.setLeft(false);
-						// TODO #51 update games to create and leave
 					}
 				}
 				logger.info("GID references removed");
+				this.updateBeforeShow(gameSeries, EnumNavigation.next); 
 				enableButtons();
 			}
 		}
