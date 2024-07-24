@@ -282,7 +282,10 @@ public abstract class JSONUtil
 		String start2 = "{\"" + key + "\":";
 		String end = "}";
 		if(!(serialization.startsWith(start1) || serialization.startsWith(start2)) || !serialization.endsWith(end))
+		{
+			logger.error("serialization format invalid: '" + serialization +"'");
 			throw new DeserializationException("format mismatch");
+		}
 		String entity;
 		if(serialization.startsWith(start1))
 			entity = serialization.substring(start1.length(), serialization.length() - end.length());
