@@ -273,5 +273,9 @@ public class DragMapGenerator
 		// parameterized 06
 		map = generate(1, 21842, 9, 0, 270, "maximum");
 		MapGeneratorUtil.printMap(map);
+
+		// parameterized 07
+		map = generate(5, 9359, 9, 0, 270, "maximum");
+		MapGeneratorUtil.printMap(map);
 	}
 }
