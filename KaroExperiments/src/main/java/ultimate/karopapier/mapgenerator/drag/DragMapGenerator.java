@@ -45,7 +45,7 @@ public class DragMapGenerator
 
 		Kezzer random = new Kezzer(seed);
 
-		int startZone = (int) Math.ceil(Math.log(players));
+		int startZone = (int) Math.ceil(Math.log(players)) + 1;
 		int finishZone = (int) Math.sqrt(length);
 		int finishLine = length - finishZone;
 		double cpDistance = finishLine / (double) (checkpoints + 1);
@@ -246,28 +246,36 @@ public class DragMapGenerator
 	{
 		char[][] map;
 
-		// default
-		map = generate(5, 500, 9, 0.01, 90, "test");
+//		// default
+//		map = generate(5, 500, 9, 0.01, 90, "test");
+//		MapGeneratorUtil.printMap(map);
+//
+//		// parameterized 01
+//		map = generate(5, 100, 15, 0.0, 270, "west");
+//		MapGeneratorUtil.printMap(map);
+//
+//		// parameterized 02
+//		map = generate(5, 100, 15, 0.0, 0, "north");
+//		MapGeneratorUtil.printMap(map);
+//
+//		// parameterized 03
+//		map = generate(5, 100, 15, 0.0, 180, "south");
+//		MapGeneratorUtil.printMap(map);
+//
+//		// parameterized 04
+//		map = generate(10, 200, 999, 0.05, 90, "rainbow");
+//		MapGeneratorUtil.printMap(map);
+//
+//		// parameterized 05
+//		map = generate(25, 25, 4, 0.5, 90, "quadrat");
+//		MapGeneratorUtil.printMap(map);
+
+		// parameterized 06
+		map = generate(1, 21842, 9, 0, 270, "maximum");
 		MapGeneratorUtil.printMap(map);
 
-		// parameterized 01
-		map = generate(5, 100, 15, 0.0, 270, "west");
-		MapGeneratorUtil.printMap(map);
-
-		// parameterized 02
-		map = generate(5, 100, 15, 0.0, 0, "north");
-		MapGeneratorUtil.printMap(map);
-
-		// parameterized 03
-		map = generate(5, 100, 15, 0.0, 180, "south");
-		MapGeneratorUtil.printMap(map);
-
-		// parameterized 04
-		map = generate(10, 200, 999, 0.05, 90, "rainbow");
-		MapGeneratorUtil.printMap(map);
-
-		// parameterized 05
-		map = generate(25, 25, 4, 0.5, 90, "quadrat");
+		// parameterized 07
+		map = generate(5, 9359, 9, 0, 270, "maximum");
 		MapGeneratorUtil.printMap(map);
 	}
 }
