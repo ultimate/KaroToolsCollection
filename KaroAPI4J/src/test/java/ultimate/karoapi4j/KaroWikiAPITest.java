@@ -41,7 +41,7 @@ public class KaroWikiAPITest
 
 	public static final String				PAGE_WITH_FIXED_CONTENT	= "Test/Test";
 	public static final String				FIXED_CONTENT_WIKI		= "Bitte nicht verändern.\n{{Benutzer|ultimate}} benutzt das hier zum Testen...\n\n=== Kopfzeile ===\n* Aufgezählter Listeneintrag\n* Aufgezählter Listeneintrag\n* Aufgezählter Listeneintrag\n\nEnde";
-	public static final String				FIXED_CONTENT_HTML		= "<div class=\"mw-parser-output\"><p>Bitte nicht verändern.\n<a href=\"/Benutzer:Ultimate\" title=\"Benutzer:Ultimate\">ultimate</a> benutzt das hier zum Testen...\n</p>\n<h3><span class=\"mw-headline\" id=\"Kopfzeile\">Kopfzeile</span></h3>\n<ul><li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li></ul>\n<p>Ende\n</p></div>";
+	public static final String				FIXED_CONTENT_HTML		= "<div class=\"mw-content-ltr mw-parser-output\" lang=\"de\" dir=\"ltr\"><p>Bitte nicht verändern.\n<a href=\"/Benutzer:Ultimate\" title=\"Benutzer:Ultimate\">ultimate</a> benutzt das hier zum Testen...\n</p>\n<h3><span class=\"mw-headline\" id=\"Kopfzeile\">Kopfzeile</span></h3>\n<ul><li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li>\n<li>Aufgezählter Listeneintrag</li></ul>\n<p>Ende\n</p></div>";
 
 	static
 	{
@@ -77,17 +77,19 @@ public class KaroWikiAPITest
 
 			Map<String, Object> propertiesValid = wl.queryRevisionProperties(PAGE_EXISTING, "timestamp").get();
 			logger.debug(propertiesValid.toString());
-			assertEquals(PAGE_EXISTING, propertiesValid.get("title"));
-			assertFalse(propertiesValid.containsKey("missing"));
-			assertNotNull(propertiesValid.get("pageid"));
-			assertNotNull(propertiesValid.get("revisions"));
-			assertTrue(propertiesValid.get("revisions") instanceof List);
-			assertTrue(((List) propertiesValid.get("revisions")).size() > 0);
+			Map<String, Object> pageProperties = wl.extractPageFromQuery(propertiesValid, PAGE_EXISTING);
+			assertEquals(PAGE_EXISTING, pageProperties.get("title"));
+			assertFalse(pageProperties.containsKey("missing"));
+			assertNotNull(pageProperties.get("pageid"));
+			assertNotNull(pageProperties.get("revisions"));
+			assertTrue(pageProperties.get("revisions") instanceof List);
+			assertTrue(((List) pageProperties.get("revisions")).size() > 0);
 
 			Map<String, Object> propertiesInvalid = wl.queryRevisionProperties(PAGE_MISSING, "timestamp").get();
-			logger.debug(propertiesInvalid.toString());
-			assertEquals(PAGE_MISSING, propertiesInvalid.get("title"));
-			assertTrue(propertiesInvalid.containsKey("missing"));
+			logger.debug(pageProperties.toString());
+			pageProperties = wl.extractPageFromQuery(propertiesInvalid, PAGE_EXISTING);
+			assertEquals(PAGE_MISSING, pageProperties.get("title"));
+			assertTrue(pageProperties.containsKey("missing"));
 		}
 		finally
 		{
