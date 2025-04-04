@@ -119,7 +119,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_version() throws InterruptedException, ExecutionException
 	{
 		assertNotNull(KaroAPI.getVersion());
-		assertEquals(new Version("1.4.0"), KaroAPI.getVersion());
+		assertEquals(new Version("1.4.1"), KaroAPI.getVersion());
 	}
 
 	@Test
@@ -328,7 +328,7 @@ public class KaroAPITest extends KaroAPITestcase
 		assertTrue(sboAI.getMovesTotal() > 1200000);
 		assertTrue(sboAI.getMovesPerDay() > (1200000 / (double) sbo.getSignup()));
 		assertTrue(sboAI.getWollustMax() > 136000);
-		assertTrue(sboAI.getWollust() > 100);
+//		assertTrue(sboAI.getWollust() > 100); // sbo no longer in top 35 Wollust
 		assertTrue(sboAI.getKaroMeter() > 22300);
 		assertTrue(sboAI.getKaroMilliMeterPerHour() > (22300*1000 / ((double) sbo.getSignup() * 24)));
 		
