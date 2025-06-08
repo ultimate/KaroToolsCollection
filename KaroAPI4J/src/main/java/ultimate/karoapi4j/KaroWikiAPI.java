@@ -5,6 +5,7 @@ import java.net.CookieManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
@@ -93,6 +94,7 @@ public class KaroWikiAPI
 	public static final String			PARAMETER_ACTION_QUERY_RVPROP		= "rvprop";
 	public static final String			PARAMETER_ACTION_QUERY_INPROP		= "inprop";
 	public static final String			PARAMETER_ACTION_QUERY_INTOKEN		= "intoken";
+	public static final String			PARAMETER_ACTION_QUERY_CSRFTOKEN	= "csrftoken";
 
 	public static final String			ACTION_PARSE						= "parse";
 	public static final String			PARAMETER_ACTION_PARSE_PAGE			= "page";
@@ -258,12 +260,13 @@ public class KaroWikiAPI
 	{
 		String properties = String.join("|", propertiesList);
 
-		logger.debug("Performing prop=" + prop + " for page \"" + title + "\"...");
+		logger.debug("Performing query " + (prop != null ? PARAMETER_ACTION_QUERY_PROP + "=" + prop : "") + "&" + propParam + "=" + properties + " for page \"" + title + "\"...");
 
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put(PARAMETER_ACTION, ACTION_QUERY);
 		parameters.put(PARAMETER_FORMAT, FORMAT_JSON);
-		parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
+		if(prop != null)
+			parameters.put(PARAMETER_ACTION_QUERY_PROP, prop);
 		parameters.put(PARAMETER_ACTION_QUERY_TITLES, title);
 		parameters.put(propParam, properties);
 
@@ -272,27 +275,7 @@ public class KaroWikiAPI
 				.thenApply(PARSER_JSON_OBJECT)
 				.thenApply(jsonObject -> {
 					
-					return (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query")).get("pages");
-					
-				})
-				.thenApply(pages -> {
-					
-					if(pages.size() != 1)
-					{
-						logger.debug("  Wrong number of results!");
-						return null;
-					}
-					else if(pages.containsKey("-1"))
-					{
-						logger.debug("  Page not existing");
-						return (Map<String, Object>) pages.get("-1");
-					}
-					else
-					{
-						String id = pages.keySet().iterator().next();
-						logger.debug("  Page existing with id " + id);
-						return (Map<String, Object>) pages.get(id);
-					}
+					return (Map<String, Object>) ((Map<String, Object>) jsonObject.get("query"));
 					
 				})
 				.exceptionally((ex) -> {
@@ -532,6 +515,7 @@ public class KaroWikiAPI
 		//@formatter:off
 		return queryRevisionProperties(title, "timestamp")
 				.thenApply(properties -> {
+					properties = extractPageFromQuery(properties, title);
 					if(properties.containsKey("missing"))
 						return null;
 					List<?> revisions = (List) properties.get("revisions");
@@ -547,14 +531,43 @@ public class KaroWikiAPI
 	 * @param title - the title of the page
 	 * @return the token
 	 */
+	@SuppressWarnings("unchecked")
 	public CompletableFuture<String> getToken(String title, String action)
 	{
 		//@formatter:off
-		return query(title, PARAMETER_ACTION_QUERY_PROP_IN, PARAMETER_ACTION_QUERY_INTOKEN, action)
+		return query(title, null, PARAMETER_ACTION_QUERY_META, PARAMETER_ACTION_QUERY_META_TOKENS, PARAMETER_ACTION_QUERY_CSRFTOKEN)
 				.thenApply(properties -> {
-					return (String) properties.get(action + "token");
+					return (String) ((Map<String, Object>) properties.get(PARAMETER_ACTION_QUERY_META_TOKENS)).get(PARAMETER_ACTION_QUERY_CSRFTOKEN);
 				});
 		//@formatter:on
+	}
+
+	/**
+	 * Helper method to extract the matching page item from a query result
+	 * 
+	 * @param properties - the query result
+	 * @param pageId - the page id to look for
+	 * @return the page's properties map
+	 */
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> extractPageFromQuery(Map<String, Object> queryProperties, String pageId)
+	{
+		Map<String, Object> pages = (Map<String, Object>) queryProperties.get("pages");
+
+		if(pages.containsKey(pageId))
+			return (Map<String, Object>) pages.get(pageId);
+
+		for(Entry<String, Object> pageObject : pages.entrySet())
+		{
+			Map<String, Object> page = (Map<String, Object>) pageObject.getValue();
+			if(page.get("title").equals(pageId))
+				return page;
+		}
+
+		if(pages.containsKey("-1"))
+			return (Map<String, Object>) pages.get("-1");
+		else
+			return null;
 	}
 
 	/**

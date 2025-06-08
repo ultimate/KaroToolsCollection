@@ -47,7 +47,7 @@ public class URLLoaderTest
 	@Test
 	public void test_doLoad() throws MalformedURLException, IOException
 	{
-		String url = "http://www.karopapier.de";
+		String url = "https://www.karopapier.de";
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 
 		String result;
@@ -73,7 +73,7 @@ public class URLLoaderTest
 	@Test
 	public void test_parameterize()
 	{
-		String url = "http://www.karopapier.de/api/users";
+		String url = "https://www.karopapier.de/api/users";
 
 		HashMap<String, Object> paramMap = new HashMap<>();
 		paramMap.put("key1", "1");
@@ -105,7 +105,7 @@ public class URLLoaderTest
 	@Test
 	public void test_relative()
 	{
-		String url = "http://www.karopapier.de";
+		String url = "https://www.karopapier.de";
 		String path = "api";
 		String expected = url + "/" + path;
 
@@ -125,7 +125,7 @@ public class URLLoaderTest
 	@Test
 	public void test_replace()
 	{
-		String url = "http://www.karopapier.de/api/users";
+		String url = "https://www.karopapier.de/api/users";
 		String placeholder = "$";
 		String replacement = "foo";
 
@@ -138,7 +138,7 @@ public class URLLoaderTest
 	@Test
 	public void test_blocking_get()
 	{
-		BackgroundLoader l = new URLLoader("http://www.karopapier.de").doGet();
+		BackgroundLoader l = new URLLoader("https://www.karopapier.de").doGet();
 		String result = l.get();
 		logger.debug(result);
 		assertNotNull(result);
@@ -147,7 +147,7 @@ public class URLLoaderTest
 	@Test
 	public void test_async_FutureTask() throws InterruptedException, ExecutionException
 	{
-		BackgroundLoader l = new URLLoader("http://www.karopapier.de").doGet();
+		BackgroundLoader l = new URLLoader("https://www.karopapier.de").doGet();
 		FutureTask<String> ft = new FutureTask<>(l);
 		ExecutorService executor = Executors.newFixedThreadPool(1);
 		executor.execute(ft);
