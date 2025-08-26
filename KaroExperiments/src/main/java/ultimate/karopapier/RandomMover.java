@@ -23,7 +23,7 @@ import ultimate.karoapi4j.utils.URLLoader;
 
 public class RandomMover
 {
-	public static final boolean				ONLY_MOVE_WHEN_IDLE	= true;
+	public static       boolean				ONLY_MOVE_WHEN_IDLE	= true;
 	public static final int					FACTOR				= 1000;										// all following numbers in seconds
 	public static final int					INTERVAL			= 1;
 	public static final int					IDLE_TIME			= 5;
@@ -31,7 +31,7 @@ public class RandomMover
 	public static final double				MAX_SPEED			= 1000;
 	public static final int					WOLLUST_INTERVAL	= 600;
 	public static final int					WOLLUST_TOLERANCE	= 100;
-	public static final int					MAX_WOLLUST			= 5000;
+	public static 	    int					MAX_WOLLUST			= 5000;
 
 	/**
 	 * Logger-Instance
@@ -42,6 +42,11 @@ public class RandomMover
 	{
 		File loginProperties = new File(args[0]);
 		int gid = Integer.parseInt(args[1]);
+		
+		if(args.length > 2)
+			MAX_WOLLUST = Integer.parseInt(args[2]);
+		if(args.length > 3)
+			ONLY_MOVE_WHEN_IDLE = Boolean.parseBoolean(args[3]);
 
 		Properties login = PropertiesUtil.loadProperties(loginProperties);
 
