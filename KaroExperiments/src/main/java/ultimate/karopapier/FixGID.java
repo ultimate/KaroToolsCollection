@@ -2,6 +2,7 @@ package ultimate.karopapier;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -30,7 +31,7 @@ public class FixGID
 		
 		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 				
-		int gid = 140311;
+		int gid = 147095;
 		String playerName = "ultimate";
 
 		Game game = api.getGame(gid, null, true, true).get();
@@ -51,12 +52,8 @@ public class FixGID
 			return;
 		}
 
-		// try every move
-		for(Move m: player.getPossibles())
-		{
-			logger.info("moving... " + m);
-			logger.info("  -> " + api.move(gid, m).get());
-		}
+		// update planned moves
+		api.addPlannedMoves(gid, Arrays.asList(new Move(253, 1, 1, -1, null))).get();
 
 		System.exit(0);
 	}
