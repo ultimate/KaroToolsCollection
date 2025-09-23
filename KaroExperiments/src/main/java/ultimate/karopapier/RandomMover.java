@@ -5,6 +5,7 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -23,15 +24,16 @@ import ultimate.karoapi4j.utils.URLLoader;
 
 public class RandomMover
 {
-	public static       boolean				ONLY_MOVE_WHEN_IDLE	= true;
-	public static final int					FACTOR				= 1000;										// all following numbers in seconds
-	public static final int					INTERVAL			= 1;
-	public static final int					IDLE_TIME			= 5;
-	public static final int					IDLE_DELTA			= 10;
-	public static final double				MAX_SPEED			= 1000;
-	public static final int					WOLLUST_INTERVAL	= 600;
-	public static final int					WOLLUST_TOLERANCE	= 100;
-	public static 	    int					MAX_WOLLUST			= 5000;
+	public static       boolean				ONLY_MOVE_WHEN_IDLE				= true;
+	public static 	    boolean				ONLY_MOVE_WHEN_SINGLE_OPTION 	= false;
+	public static final int					FACTOR							= 1000;		// all following numbers in seconds
+	public static final int					INTERVAL						= 1;
+	public static final int					IDLE_TIME						= 5;
+	public static final double				MAX_SPEED						= 1000;
+	public static final int					WOLLUST_INTERVAL				= 600;
+	public static final int					WOLLUST_TOLERANCE				= 100;
+	public static 	    int					MAX_WOLLUST						= 5000;
+	public static 	    boolean				FAST_MODE 						= false;
 
 	/**
 	 * Logger-Instance
@@ -47,6 +49,10 @@ public class RandomMover
 			MAX_WOLLUST = Integer.parseInt(args[2]);
 		if(args.length > 3)
 			ONLY_MOVE_WHEN_IDLE = Boolean.parseBoolean(args[3]);
+		if(args.length > 4)
+			ONLY_MOVE_WHEN_SINGLE_OPTION = Boolean.parseBoolean(args[4]);
+		if(args.length > 5)
+			FAST_MODE = Boolean.parseBoolean(args[5]);
 
 		Properties login = PropertiesUtil.loadProperties(loginProperties);
 
@@ -75,6 +81,7 @@ public class RandomMover
 				Move move;
 				int wollust = 0;
 				int movesSinceLastWollustCheck = WOLLUST_TOLERANCE;
+				List<Move> possibles;
 
 				while(true)
 				{
@@ -92,7 +99,17 @@ public class RandomMover
 							// TODO also look for keyboard
 							if(newP.equals(lastP))
 							{
-								if(unchangedCount >= IDLE_TIME || !ONLY_MOVE_WHEN_IDLE)
+								unchangedCount++;
+							}
+							else
+							{
+								unchangedCount = 0;
+								lastP = newP;								
+							}
+							
+							if(unchangedCount >= IDLE_TIME || !ONLY_MOVE_WHEN_IDLE)
+							{
+								if(!FAST_MODE) 
 								{
 									game = api.getGameWithDetails(gid).get();
 									if(game.isFinished())
@@ -125,27 +142,35 @@ public class RandomMover
 											api.refreshAfterCrash(gid).get();
 											continue;
 										}
-	
-										player.getPossibles().removeIf(m -> {
-											return speed(m) > MAX_SPEED;
-										});
-	
-										move = player.getPossibles().get(rand.nextInt(player.getPossibles().size()));
-										logger.info("wollust=" + wollust + " | idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
-										api.move(gid, move);
 										
-										movesSinceLastWollustCheck++;
-										wollust++;
+										possibles = player.getPossibles();
 									}
 								}
-								unchangedCount++;
+								else
+								{	
+									possibles = api.getGamePossibles(gid).get();
+								}
+								
+								possibles.removeIf(m -> {
+									return speed(m) > MAX_SPEED;
+								});
+								
+								if(possibles.size() > 1 && ONLY_MOVE_WHEN_SINGLE_OPTION)
+									continue;
+								
+								move = possibles.get(rand.nextInt(possibles.size()));
+								logger.info("wollust=" + wollust + " | idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
+								api.move(gid, move);
+								
+								movesSinceLastWollustCheck++;
+								wollust++;
 							}
 							else
 							{
-								if(unchangedCount > 0)
+								if(unchangedCount == 0)
 									logger.debug("wollust=" + wollust + " | not idle");
-								unchangedCount = 0;
-								lastP = newP;
+								else
+									logger.debug("wollust=" + wollust + " | idle in " + (IDLE_TIME - unchangedCount));
 							}
 							Thread.sleep(INTERVAL * FACTOR);
 						}

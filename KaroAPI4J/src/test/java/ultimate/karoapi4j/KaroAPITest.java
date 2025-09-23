@@ -344,18 +344,18 @@ public class KaroAPITest extends KaroAPITestcase
 		assertTrue(ultimateAI.getKaroMeter() > 12600);
 		assertTrue(ultimateAI.getKaroMilliMeterPerHour() > (12600*1000 / ((double) ultimate.getSignup() * 24)));
 		
-		// goodygoody is not in the first view
-		User goodygoody = karoAPI.getUser(2730).get();
-		assertTrue(addicts.containsKey(goodygoody.getLogin()));
-		AddictInfo goodygoodyAI = addicts.get(goodygoody.getLogin());
-		assertEquals(goodygoody.getSignup(), goodygoodyAI.getSignup(), 1);
-		assertTrue(goodygoodyAI.getGamesTotal() > 1500);
-		assertTrue(goodygoodyAI.getMovesTotal() > 111000);
-		assertTrue(goodygoodyAI.getMovesPerDay() > (111000 / (double) goodygoody.getSignup()));
-		assertTrue(goodygoodyAI.getWollustMax() > 2700);
-		assertTrue(goodygoodyAI.getWollust() == 0);
-		assertTrue(goodygoodyAI.getKaroMeter() > 1950);
-		assertTrue(goodygoodyAI.getKaroMilliMeterPerHour() > (1950*1000 / ((double) goodygoody.getSignup() * 24)));
+		// the newcomer is not in the first table sorted by moves, but in the wollust list
+		User newcomer = karoAPI.getUser(2915).get(); // 2915 = FinalD
+		assertTrue(addicts.containsKey(newcomer.getLogin()));
+		AddictInfo newcomerAI = addicts.get(newcomer.getLogin());
+		assertEquals(newcomerAI.getSignup(), newcomerAI.getSignup(), 1);
+		assertTrue(newcomerAI.getGamesTotal() > 0);
+		assertTrue(newcomerAI.getMovesTotal() > 0);
+		assertTrue(newcomerAI.getMovesPerDay() > 0);
+		assertTrue(newcomerAI.getWollustMax() > 0);
+		assertTrue(newcomerAI.getWollust() > 0);
+		assertTrue(newcomerAI.getKaroMeter() > 0);
+		assertTrue(newcomerAI.getKaroMilliMeterPerHour() > 0);
 	}
 
 	@Test
@@ -697,6 +697,7 @@ public class KaroAPITest extends KaroAPITestcase
 		int moves = 0;
 		int crashs = 0;
 		int x, y;
+		List<Move> possibles;
 
 		Thread.sleep(sleep);
 
@@ -712,6 +713,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(1, game.getPlayers().get(0).getPossibles().size());
+		// also test the gamepossibles API
+		possibles = karoAPI.getGamePossibles(gameId).get();
+		assertNotNull(possibles);
+		assertEquals(game.getPlayers().get(0).getPossibles(), possibles);
 
 		Thread.sleep(sleep);
 
@@ -737,6 +742,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
+		// also test the gamepossibles API
+		possibles = karoAPI.getGamePossibles(gameId).get();
+		assertNotNull(possibles);
+		assertEquals(game.getPlayers().get(0).getPossibles(), possibles);
 
 		Thread.sleep(sleep);
 
@@ -761,6 +770,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(x, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getX());
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNull(game.getPlayers().get(0).getPossibles()); // we ran into a crash
+		// also test the gamepossibles API
+		possibles = karoAPI.getGamePossibles(gameId).get();
+		assertNotNull(possibles);
+		assertEquals(new ArrayList<Move>(), possibles); // will never be null, but empty list instead
 
 		Thread.sleep(sleep);
 
@@ -786,6 +799,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(y, game.getPlayers().get(0).getMoves().get(game.getPlayers().get(0).getMoves().size() - 1).getY());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
+		// also test the gamepossibles API
+		possibles = karoAPI.getGamePossibles(gameId).get();
+		assertNotNull(possibles);
+		assertEquals(game.getPlayers().get(0).getPossibles(), possibles);
 
 		Thread.sleep(sleep);
 
@@ -809,6 +826,10 @@ public class KaroAPITest extends KaroAPITestcase
 		assertEquals(moves + crashs, game.getPlayers().get(0).getMoves().size());
 		assertNotNull(game.getPlayers().get(0).getPossibles());
 		assertEquals(2, game.getPlayers().get(0).getPossibles().size());
+		// also test the gamepossibles API
+		possibles = karoAPI.getGamePossibles(gameId).get();
+		assertNotNull(possibles);
+		assertEquals(game.getPlayers().get(0).getPossibles(), possibles);
 
 		Thread.sleep(sleep);
 

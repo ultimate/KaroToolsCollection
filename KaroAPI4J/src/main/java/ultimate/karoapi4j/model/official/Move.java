@@ -2,6 +2,7 @@ package ultimate.karoapi4j.model.official;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +26,7 @@ import ultimate.karoapi4j.model.base.Identifiable;
  * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
  * @author ultimate
  */
+@JsonIgnoreProperties({ "num" })
 public class Move extends Identifiable
 {
 	private int		x;
@@ -148,24 +150,28 @@ public class Move extends Identifiable
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (this == obj)
+		if(this == obj)
 			return true;
-		if (!super.equals(obj))
+		if(!super.equals(obj))
 			return false;
-		if (getClass() != obj.getClass())
+		if(getClass() != obj.getClass())
 			return false;
 		Move other = (Move) obj;
 		if(!equalsVec(other))
 			return false;
-		if (t == null) {
-			if (other.t != null)
+		if(t == null)
+		{
+			if(other.t != null)
 				return false;
-		} else if (!t.equals(other.t))
+		}
+		else if(!t.equals(other.t))
 			return false;
-		if (msg == null) {
-			if (other.msg != null)
-			return false;
-		} else if (!msg.equals(other.msg))
+		if(msg == null)
+		{
+			if(other.msg != null)
+				return false;
+		}
+		else if(!msg.equals(other.msg))
 			return false;
 		return true;
 	}
@@ -174,11 +180,7 @@ public class Move extends Identifiable
 	{
 		if(move == null)
 			return false;
-		return this.x 		== move.x
-		    && this.y 		== move.y
-			&& this.xv 		== move.xv
-			&& this.yv 		== move.yv
-			&& this.crash 	== move.crash;
+		return this.x == move.x && this.y == move.y && this.xv == move.xv && this.yv == move.yv && this.crash == move.crash;
 	}
 
 	@Override

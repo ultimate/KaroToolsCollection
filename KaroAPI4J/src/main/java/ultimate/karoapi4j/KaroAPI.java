@@ -202,8 +202,7 @@ public class KaroAPI implements IDLookUp
 
 	public static String getUserAgent()
 	{
-		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/"
-				+ (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
+		return "KaroAPI4J/" + getVersion() + " " + (applicationName != null ? applicationName : "unknown-application") + "/" + (applicationVersion != null ? applicationVersion : "?") + " (Java " + System.getProperty("java.version") + ")";
 	}
 
 	/**
@@ -234,9 +233,10 @@ public class KaroAPI implements IDLookUp
 	{
 		return executor;
 	}
-	
+
 	/**
 	 * Init timeout set via property karoAPI.initTimeout
+	 * 
 	 * @return
 	 */
 	public static int getInitTimeout()
@@ -246,13 +246,14 @@ public class KaroAPI implements IDLookUp
 
 	/**
 	 * Overwrite init timeout set via property karoAPI.initTimeout
+	 * 
 	 * @param initTimeout
 	 */
 	public static void setInitTimeout(int initTimeout)
 	{
 		KaroAPI.initTimeout = initTimeout;
 	}
-	
+
 	////////////////////
 	// parsers needed //
 	////////////////////
@@ -261,73 +262,43 @@ public class KaroAPI implements IDLookUp
 																												return null;
 																											};
 	public static final Function<String, String>								PARSER_RAW					= Function.identity();
-	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(
-			new TypeReference<java.util.Map<String, Object>>() {});
-	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<java.util.Map<String, Object>>>() {});
-	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(
-			new TypeReference<User>() {});
-	public static final Function<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<User>>() {});
-	public static final Function<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(
-			new TypeReference<Game>() {});
-	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(
-			new TypeReference<Game>() {}, "game");
-	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<Game>>() {});
-	public static final Function<String, List<Move>>							PARSER_MOVE_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<Move>>() {});
-	public static final Function<String, List<MovesListEntry>>					PARSER_MOVES_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<MovesListEntry>>() {});
-	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<NotesListEntry>>() {});
-	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(
-			new TypeReference<Map>() {});
-	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(
-			new TypeReference<List<Map>>() {});
-	public static final Function<String, List<Generator>>						PARSER_GENERATOR_LIST		= new JSONUtil.Parser<>(
-			new TypeReference<List<Generator>>() {});
-	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(
-			new TypeReference<ChatMessage>() {});
-	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<ChatMessage>>() {});
-	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(
-			new TypeReference<UserMessage>() {});
-	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(
-			new TypeReference<List<UserMessage>>() {});
-	public static final Function<String, List<KarolenderBlatt>>					PARSER_KAROLENDERBLATT_LIST	= new JSONUtil.Parser<>(
-			new TypeReference<List<KarolenderBlatt>>() {});
-	public static final Function<String, List<Smilie>>							PARSER_SMILIE_LIST			= new JSONUtil.Parser<>(
-			new TypeReference<List<Smilie>>() {});
-	public static final Function<String, List<Tag>>								PARSER_TAG_LIST				= new JSONUtil.Parser<>(
-			new TypeReference<List<Tag>>() {});
+	public static final Function<String, java.util.Map<String, Object>>			PARSER_GENERIC				= new JSONUtil.Parser<>(new TypeReference<java.util.Map<String, Object>>() {});
+	public static final Function<String, List<java.util.Map<String, Object>>>	PARSER_GENERIC_LIST			= new JSONUtil.Parser<>(new TypeReference<List<java.util.Map<String, Object>>>() {});
+	public static final Function<String, User>									PARSER_USER					= new JSONUtil.Parser<>(new TypeReference<User>() {});
+	public static final Function<String, List<User>>							PARSER_USER_LIST			= new JSONUtil.Parser<>(new TypeReference<List<User>>() {});
+	public static final Function<String, Game>									PARSER_GAME					= new JSONUtil.Parser<>(new TypeReference<Game>() {});
+	public static final Function<String, Game>									PARSER_GAME_CONTAINER		= new JSONUtil.ContainerParser<>(new TypeReference<Game>() {}, "game");
+	public static final Function<String, List<Game>>							PARSER_GAME_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Game>>() {});
+	public static final Function<String, List<Move>>							PARSER_MOVE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Move>>() {});
+	public static final Function<String, List<MovesListEntry>>					PARSER_MOVES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<MovesListEntry>>() {});
+	public static final Function<String, List<NotesListEntry>>					PARSER_NOTES_LIST			= new JSONUtil.Parser<>(new TypeReference<List<NotesListEntry>>() {});
+	public static final Function<String, Map>									PARSER_MAP					= new JSONUtil.Parser<>(new TypeReference<Map>() {});
+	public static final Function<String, List<Map>>								PARSER_MAP_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Map>>() {});
+	public static final Function<String, List<Generator>>						PARSER_GENERATOR_LIST		= new JSONUtil.Parser<>(new TypeReference<List<Generator>>() {});
+	public static final Function<String, ChatMessage>							PARSER_CHAT_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<ChatMessage>() {});
+	public static final Function<String, List<ChatMessage>>						PARSER_CHAT_LIST			= new JSONUtil.Parser<>(new TypeReference<List<ChatMessage>>() {});
+	public static final Function<String, UserMessage>							PARSER_USER_MESSAGE			= new JSONUtil.Parser<>(new TypeReference<UserMessage>() {});
+	public static final Function<String, List<UserMessage>>						PARSER_USER_MESSAGE_LIST	= new JSONUtil.Parser<>(new TypeReference<List<UserMessage>>() {});
+	public static final Function<String, List<KarolenderBlatt>>					PARSER_KAROLENDERBLATT_LIST	= new JSONUtil.Parser<>(new TypeReference<List<KarolenderBlatt>>() {});
+	public static final Function<String, List<Smilie>>							PARSER_SMILIE_LIST			= new JSONUtil.Parser<>(new TypeReference<List<Smilie>>() {});
+	public static final Function<String, List<Tag>>								PARSER_TAG_LIST				= new JSONUtil.Parser<>(new TypeReference<List<Tag>>() {});
 	// this is a litte more complex: transform a list of [{id:1,text:"a"}, ...] to a map where the
 	// ids are the keys and the texts are the values
 	public static final Function<String, java.util.Map<Integer, String>>		PARSER_NOTES_MAP			= (result) -> {
-																												return CollectionsUtil.flattenMap(
-																														CollectionsUtil.toMap(
-																																PARSER_NOTES_LIST
-																																		.apply(result)),
-																														"text");
+																												return CollectionsUtil.flattenMap(CollectionsUtil.toMap(PARSER_NOTES_LIST.apply(result)), "text");
 																											};
 	public static final Function<String, java.util.Map<Integer, List<Move>>>	PARSER_MOVES_MAP			= (result) -> {
-																												return CollectionsUtil.flattenMap(
-																														CollectionsUtil.toMap(
-																																PARSER_MOVES_LIST
-																																		.apply(result)),
-																														"moves");
+																												return CollectionsUtil.flattenMap(CollectionsUtil.toMap(PARSER_MOVES_LIST.apply(result)), "moves");
 																											};
 	// public static final Function<String, java.util.Map<Integer, String>> PARSER_NOTES_LIST =
 	// (result) -> {
 	// return CollectionsUtil.toMap(PARSER_GENERIC_LIST.apply(result), "id", "text");
 	// };
 	public static final Function<String, String>								PARSER_NOTE					= (result) -> {
-																												return (String) PARSER_GENERIC
-																														.apply(result).get("text");
+																												return (String) PARSER_GENERIC.apply(result).get("text");
 																											};
 	public static final Function<String, String>								PARSER_KEY					= (result) -> {
-																												return (String) PARSER_GENERIC
-																														.apply(result).get("api_key");
+																												return (String) PARSER_GENERIC.apply(result).get("api_key");
 																											};
 
 	//////////////
@@ -335,8 +306,7 @@ public class KaroAPI implements IDLookUp
 	//////////////
 
 	// base
-	protected final URLLoader													KAROPAPIER					= new URLLoader(
-			"https://www.karopapier.de");
+	protected final URLLoader													KAROPAPIER					= new URLLoader("https://www.karopapier.de");
 	protected final URLLoader													API							= KAROPAPIER.relative("/api");
 	protected final URLLoader													KEY							= API.relative("/key");
 	// users
@@ -353,29 +323,25 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													NOTES						= API.relative("/notes");
 	protected final URLLoader													NOTES_FOR_GAME				= NOTES.relative("/" + PLACEHOLDER);
 	protected final URLLoader													PLANNED_MOVES				= API.relative("/planned-moves");
-	protected final URLLoader													PLANNED_MOVES_FOR_GAME		= PLANNED_MOVES
-			.relative("/" + PLACEHOLDER);
+	protected final URLLoader													PLANNED_MOVES_FOR_GAME		= PLANNED_MOVES.relative("/" + PLACEHOLDER);
 	// addicts
-	protected final URLLoader													ADDICTS						= KAROPAPIER
-			.relative("/addicts?by=" + PLACEHOLDER);
+	protected final URLLoader													ADDICTS						= KAROPAPIER.relative("/addicts?by=" + PLACEHOLDER);
 	// games
 	protected final URLLoader													GAMES						= API.relative("/games");
 	protected final URLLoader													GAME						= GAMES.relative("/" + PLACEHOLDER);
+	protected final URLLoader													GAME_POSSIBLES				= API.relative("/gamepossibles/" + PLACEHOLDER);
 	protected final URLLoader													GAME_CREATE					= API.relative("/game");
 	protected final URLLoader													GAME_MOVE					= KAROPAPIER.relative("/move.php");
 	@Deprecated // (since = "3.0.7")
 	protected final URLLoader													GAME_KICK					= KAROPAPIER.relative("/kickplayer.php");
-	protected final URLLoader													GAME_REFRESH				= KAROPAPIER
-			.relative("/showmap.php?GID=" + PLACEHOLDER);
+	protected final URLLoader													GAME_REFRESH				= KAROPAPIER.relative("/showmap.php?GID=" + PLACEHOLDER);
 	// maps
 	protected final URLLoader													MAPS						= API.relative("/maps");
 	protected final URLLoader													MAP							= MAPS.relative("/" + PLACEHOLDER);
-	protected final URLLoader													MAP_CODE					= API
-			.relative("/mapcode/" + PLACEHOLDER + ".txt");
+	protected final URLLoader													MAP_CODE					= API.relative("/mapcode/" + PLACEHOLDER + ".txt");
 	// mapimages
 	// do not use API as the base here, since we do not need the authentication here
-	protected final URLLoader													MAP_IMAGE					= KAROPAPIER
-			.relative("/map/" + PLACEHOLDER + ".png");
+	protected final URLLoader													MAP_IMAGE					= KAROPAPIER.relative("/map/" + PLACEHOLDER + ".png");
 	// generators
 	protected final URLLoader													GENERATORS					= API.relative("/generators");
 	protected final URLLoader													GENERATE_CODE				= GENERATORS.relative("/" + PLACEHOLDER);
@@ -387,12 +353,10 @@ public class KaroAPI implements IDLookUp
 	protected final URLLoader													CHAT_USERS					= CHAT.relative("/users");
 	// messaging
 	protected final URLLoader													CONTACTS					= API.relative("/contacts");
-	protected final URLLoader													MESSAGES					= API
-			.relative("/messages/" + PLACEHOLDER);
+	protected final URLLoader													MESSAGES					= API.relative("/messages/" + PLACEHOLDER);
 	// misc
 	protected final URLLoader													KAROLENDERBLATT				= API.relative("/karolenderblatt");
-	protected final URLLoader													KAROLENDERBLATT_FOR_DATE	= KAROLENDERBLATT
-			.relative("/" + PLACEHOLDER);
+	protected final URLLoader													KAROLENDERBLATT_FOR_DATE	= KAROLENDERBLATT.relative("/" + PLACEHOLDER);
 	protected final URLLoader													SMILIES						= API.relative("/smilies");
 	protected final URLLoader													TAGS						= API.relative("/tags");
 	protected final URLLoader													TAGS_SUGGESTED				= TAGS.relative("/suggested-tags");
@@ -929,7 +893,8 @@ public class KaroAPI implements IDLookUp
 			return null;
 		};
 
-		// load all possible sortings for addicts to obtain the maximum amount of information possible 
+		// load all possible sortings for addicts to obtain the maximum amount of information
+		// possible
 		// @formatter:off
 		return CompletableFuture.allOf(
 				loadAsync(ADDICTS.replace(PLACEHOLDER, "automoves").doGet(), parser),
@@ -973,8 +938,7 @@ public class KaroAPI implements IDLookUp
 	 * @param offset - the offset filter
 	 * @return the list of all games filtered by the given criteria
 	 */
-	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Boolean nameStart,
-			Integer limit, Integer offset)
+	public CompletableFuture<List<Game>> getGames(Boolean mine, EnumUserGamesort sort, Integer user, Boolean finished, String name, Boolean nameStart, Integer limit, Integer offset)
 	{
 		HashMap<String, Object> args = new HashMap<>();
 		if(mine != null)
@@ -1029,12 +993,12 @@ public class KaroAPI implements IDLookUp
 	 * ignored (see class description).<br>
 	 * 
 	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
-	 * @see KaroAPI#MAP
-	 * @param mapId - the map id
+	 * @see KaroAPI#GAME
+	 * @param gameId - the game id
 	 * @param mapcode - true or false or null
 	 * @param players - true or false or null
 	 * @param moves - true or false or null
-	 * @return the map
+	 * @return the game
 	 */
 	public CompletableFuture<Game> getGame(int gameId, Boolean mapcode, Boolean players, Boolean moves)
 	{
@@ -1047,6 +1011,22 @@ public class KaroAPI implements IDLookUp
 			args.put("moves", (moves ? "1" : "0"));
 
 		return loadAsync(GAME.replace(PLACEHOLDER, gameId).doGet(args), PARSER_GAME);
+	}
+
+	/**
+	 * Get just the possibles for a game.<br>
+	 * Note: this is a hidden API not visible in the API Browser, but useful for special occassions, such as
+	 * random moving or games which have too many moves to be loaded.
+	 * 
+	 * @see <a href="https://www.karopapier.de/api/">https://www.karopapier.de/api/</a>
+	 * @see KaroAPI#GAME_POSSIBLES
+	 * @param gameId - the game id
+	 * @return the list of possibles
+	 */
+	public CompletableFuture<List<Move>> getGamePossibles(int gameId)
+	{
+		// For simplicity reasons the PARSER_MOVE_LIST is reused. This will ignore the "num" property.
+		return loadAsync(GAME_POSSIBLES.replace(PLACEHOLDER, gameId).doGet(), PARSER_MOVE_LIST);
 	}
 
 	/**
@@ -1083,7 +1063,7 @@ public class KaroAPI implements IDLookUp
 			return loadAsync(GAME_CREATE.doPost(json, EnumContentType.json), PARSER_GAME_CONTAINER);
 		}).thenCompose(Function.identity());
 	}
-	
+
 	/**
 	 * Check if a (newly created) game exists
 	 */
@@ -1143,7 +1123,7 @@ public class KaroAPI implements IDLookUp
 	public CompletableFuture<Boolean> refreshAfterCrash(int gameId)
 	{
 		return loadAsync(GAME_REFRESH.replace(PLACEHOLDER, gameId).doGet(), (result) -> {
-			return result != null && result.contains("href=/spiele/" + gameId);
+			return result != null && result.contains("AUAAAA!");
 		});
 	}
 
