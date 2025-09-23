@@ -81,6 +81,7 @@ public class RandomMover
 				Move move;
 				int wollust = 0;
 				int movesSinceLastWollustCheck = WOLLUST_TOLERANCE;
+				long cycleStartTime, cycleEndTime;
 				List<Move> possibles;
 
 				while(true)
@@ -95,6 +96,8 @@ public class RandomMover
 						// only move, when wollust is not too high 
 						if(wollust < MAX_WOLLUST)
 						{
+							cycleStartTime = System.currentTimeMillis();
+							
 							newP = MouseInfo.getPointerInfo().getLocation();
 							// TODO also look for keyboard
 							if(newP.equals(lastP))
@@ -155,15 +158,24 @@ public class RandomMover
 									return speed(m) > MAX_SPEED;
 								});
 								
-								if(possibles.size() > 1 && ONLY_MOVE_WHEN_SINGLE_OPTION)
-									continue;
+								if(possibles.size() == 0)
+								{
+									logger.info("wollust=" + wollust + " | idle detected --> no moves within speed limit found...");
+								}								
+								else if(possibles.size() > 1 && ONLY_MOVE_WHEN_SINGLE_OPTION)
+								{
+									logger.info("wollust=" + wollust + " | idle detected --> more than one option...");
+								}
+								else
+								{
+									move = possibles.get(rand.nextInt(possibles.size()));
+									logger.info("wollust=" + wollust + " | idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
+									api.move(gid, move);
+									
+									movesSinceLastWollustCheck++;
+									wollust++;
+								}
 								
-								move = possibles.get(rand.nextInt(possibles.size()));
-								logger.info("wollust=" + wollust + " | idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
-								api.move(gid, move);
-								
-								movesSinceLastWollustCheck++;
-								wollust++;
 							}
 							else
 							{
@@ -172,7 +184,9 @@ public class RandomMover
 								else
 									logger.debug("wollust=" + wollust + " | idle in " + (IDLE_TIME - unchangedCount));
 							}
-							Thread.sleep(INTERVAL * FACTOR);
+							
+							cycleEndTime = System.currentTimeMillis();
+							Thread.sleep(INTERVAL * FACTOR - (cycleEndTime - cycleStartTime));
 						}
 						else
 						{
