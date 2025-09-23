@@ -95,6 +95,6 @@
 		<ultimate.KaroMUSKEL.version>3.4.0</ultimate.KaroMUSKEL.version>
 		<ultimate.KaroEval.version>3.2.1</ultimate.KaroEval.version>
 		<ultimate.KaroExperiments.version>1.0.6</ultimate.KaroExperiments.version>
-		<ultimate.KaroRAUPE.version>1.2.3</ultimate.KaroRAUPE.version>
+		<ultimate.KaroRAUPE.version>1.2.4</ultimate.KaroRAUPE.version>
 	</properties>
 </project>

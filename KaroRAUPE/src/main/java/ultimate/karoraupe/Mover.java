@@ -325,7 +325,7 @@ public class Mover
 		try
 		{
 			logger.debug("  GID = " + game.getId() + " --> loading game details");
-			game = api.getGameWithDetails(game.getId()).get();
+			game = api.getGame(game.getId(), false, true, true).get();
 			
 			Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
 
