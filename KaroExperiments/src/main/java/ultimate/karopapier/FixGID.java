@@ -53,7 +53,10 @@ public class FixGID
 		}
 
 		// update planned moves
-		api.addPlannedMoves(gid, Arrays.asList(new Move(253, 1, 1, -1, null))).get();
+		api.addPlannedMoves(gid, Arrays.asList(
+				new Move(253, 1, 1, -1, null),
+				new Move(2, 82, -1, -1, null)
+		)).get();
 
 		System.exit(0);
 	}
