@@ -81,7 +81,7 @@ public class RandomMover
 				Move move;
 				int wollust = 0;
 				int movesSinceLastWollustCheck = WOLLUST_TOLERANCE;
-				long cycleStartTime, cycleEndTime;
+				long cycleStartTime, cycleEndTime, sleepTime;
 				List<Move> possibles;
 
 				while(true)
@@ -186,7 +186,9 @@ public class RandomMover
 							}
 							
 							cycleEndTime = System.currentTimeMillis();
-							Thread.sleep(INTERVAL * FACTOR - (cycleEndTime - cycleStartTime));
+							sleepTime = INTERVAL * FACTOR - (cycleEndTime - cycleStartTime);
+							if(sleepTime > 0)
+								Thread.sleep(sleepTime);
 						}
 						else
 						{
