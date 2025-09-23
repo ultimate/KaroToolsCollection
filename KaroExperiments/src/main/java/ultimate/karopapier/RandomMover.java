@@ -33,6 +33,7 @@ public class RandomMover
 	public static final int					WOLLUST_INTERVAL				= 600;
 	public static final int					WOLLUST_TOLERANCE				= 100;
 	public static 	    int					MAX_WOLLUST						= 5000;
+	public static 		int 				MIN_SLEEP						= 100;
 	public static 	    boolean				FAST_MODE 						= false;
 
 	/**
@@ -81,7 +82,7 @@ public class RandomMover
 				Move move;
 				int wollust = 0;
 				int movesSinceLastWollustCheck = WOLLUST_TOLERANCE;
-				long cycleStartTime, cycleEndTime, sleepTime;
+				long cycleStartTime, cycleEndTime;
 				List<Move> possibles;
 
 				while(true)
@@ -186,9 +187,7 @@ public class RandomMover
 							}
 							
 							cycleEndTime = System.currentTimeMillis();
-							sleepTime = INTERVAL * FACTOR - (cycleEndTime - cycleStartTime);
-							if(sleepTime > 0)
-								Thread.sleep(sleepTime);
+							Thread.sleep(Math.max(MIN_SLEEP, INTERVAL * FACTOR - (cycleEndTime - cycleStartTime)));
 						}
 						else
 						{
