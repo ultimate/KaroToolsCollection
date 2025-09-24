@@ -171,7 +171,7 @@ public class RandomMover
 								{
 									move = possibles.get(rand.nextInt(possibles.size()));
 									logger.info("wollust=" + wollust + " | idle detected --> moving: x=" + move.getX() + " y=" + move.getY() + " xvec=" + move.getXv() + " yvec=" + move.getYv());
-									api.move(gid, move);
+									api.move(gid, move).get();
 									
 									movesSinceLastWollustCheck++;
 									wollust++;

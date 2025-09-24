@@ -2,7 +2,8 @@ package ultimate.karopapier;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -31,6 +32,13 @@ public class FixGID
 		
 		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 				
+		fix147095(api);
+
+		System.exit(0);
+	}
+	
+	private static void fix147095(KaroAPI api) throws InterruptedException, ExecutionException
+	{
 		int gid = 147095;
 		String playerName = "ultimate";
 
@@ -53,11 +61,23 @@ public class FixGID
 		}
 
 		// update planned moves
-		api.addPlannedMoves(gid, Arrays.asList(
-				new Move(253, 1, 1, -1, null),
-				new Move(2, 82, -1, -1, null)
-		)).get();
-
-		System.exit(0);
+		List<Move> plannedMoves = new ArrayList<>();
+		// turns
+		for(int y = 80; y > 2; y -= 3)
+		{
+			// turn on the right
+			plannedMoves.add(new Move(252, y, 1, 0, null));
+			plannedMoves.add(new Move(253, y, 1, 0, null));
+			plannedMoves.add(new Move(253, y-1, 0, -1, null));
+			plannedMoves.add(new Move(252, y-1, -1, 0, null));
+			plannedMoves.add(new Move(252, y, 0, 1, null));
+			plannedMoves.add(new Move(251, y, -1, 0, null));
+			// turn on the left
+			plannedMoves.add(new Move(2, y-1, -1, -1, null));
+		}		
+		// finish move
+		plannedMoves.add(new Move(253, 1, 1, -1, null));
+		
+		api.addPlannedMoves(gid, plannedMoves).get();
 	}
 }
