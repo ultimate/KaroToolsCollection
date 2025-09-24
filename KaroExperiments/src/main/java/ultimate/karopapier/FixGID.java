@@ -32,12 +32,12 @@ public class FixGID
 		
 		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
 				
-		fix147095(api);
+		analyze147095(api);
 
 		System.exit(0);
 	}
 	
-	private static void fix147095(KaroAPI api) throws InterruptedException, ExecutionException
+	public static void fix147095(KaroAPI api) throws InterruptedException, ExecutionException
 	{
 		int gid = 147095;
 		String playerName = "ultimate";
@@ -79,5 +79,40 @@ public class FixGID
 		plannedMoves.add(new Move(253, 1, 1, -1, null));
 		
 		api.addPlannedMoves(gid, plannedMoves).get();
+	}
+	
+	public static void analyze147095(KaroAPI api) throws InterruptedException, ExecutionException
+	{
+		int gid = 147095;
+		String playerName = "ultimate";
+
+		Game game = api.getGame(gid, null, true, true).get();
+
+		Player player = null;
+		for(Player p: game.getPlayers())
+		{
+			if(p.getName().equalsIgnoreCase(playerName))
+			{
+				player = p;
+				break;
+			}
+		}
+
+		if(player == null)
+		{
+			logger.error("player '" + playerName + "' not found");
+			return;
+		}
+		
+		Move previous = null;
+		int duplicates = 0;
+		for(Move current: player.getMoves())
+		{
+			if(current.equalsVec(previous))
+				duplicates++;
+			previous = current;
+		}
+		
+		System.out.println("duplicate moves found: " + duplicates);
 	}
 }
