@@ -33,9 +33,13 @@ public class EnabledRule extends Rule
     {
         EnumMoveTrigger trigger = EnumMoveTrigger.valueOf(gameConfig.getProperty(Mover.KEY_TRIGGER)).standardize();
 
-        if(trigger == EnumMoveTrigger.never || trigger == EnumMoveTrigger.invalid)
+        if(trigger == EnumMoveTrigger.never)
         {
             return Result.dontMove("KaroRAUPE not enabled for this game");
+        }
+        else if(trigger == EnumMoveTrigger.invalid)
+        {
+            return Result.dontMove("KaroRAUPE config invalid for this game");
         }
         else if(!test && trigger == EnumMoveTrigger.test)
         {

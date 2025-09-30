@@ -67,7 +67,7 @@ public class Game extends Identifiable
 	@JsonProperty("planned-moves")
 	private List<Move>			plannedMoves;
 	private String				notes;
-	private Set<String>		tags;
+	private Set<String>			tags;
 
 	public Game()
 	{

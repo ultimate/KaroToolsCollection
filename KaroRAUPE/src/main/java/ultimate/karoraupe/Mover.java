@@ -16,6 +16,7 @@ import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.Move;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.model.official.User;
 import ultimate.karoraupe.enums.EnumMoveTrigger;
 import ultimate.karoraupe.rules.AfterCrashRule;
 import ultimate.karoraupe.rules.AntiAddictRule;
@@ -28,11 +29,11 @@ import ultimate.karoraupe.rules.RandomRule;
 import ultimate.karoraupe.rules.RemuladeRule;
 import ultimate.karoraupe.rules.RepeatRule;
 import ultimate.karoraupe.rules.Rule;
+import ultimate.karoraupe.rules.Rule.Result;
 import ultimate.karoraupe.rules.SingleOptionRule;
 import ultimate.karoraupe.rules.StartPositionRule;
 import ultimate.karoraupe.rules.TimeoutRule;
 import ultimate.karoraupe.rules.UserTurnRule;
-import ultimate.karoraupe.rules.Rule.Result;
 
 /**
  * The Mover to check and process games
@@ -70,6 +71,7 @@ public class Mover
 		defaultConfig.setProperty(KEY_TIMEOUT, "300");
 		defaultConfig.setProperty(KEY_MESSAGE, "");
 		defaultConfig.setProperty(KEY_STRICT, "true");
+		defaultConfig.setProperty(StartPositionRule.KEY_STARTCHECK, "true");
 	}
 
 	/**
@@ -293,6 +295,7 @@ public class Mover
 
 		String[] lines = notes.toLowerCase().split("\\r?\\n");
 
+		boolean invalidPropertyFound = false;
 		String key, value;
 		for(String l : lines)
 		{
@@ -303,11 +306,18 @@ public class Mover
 				if(!isPropertyValid(key, value))
 				{
 					logger.info("ignoring invalid config: gid=" + gid + "  --> " + key + "=" + value);
+					invalidPropertyFound = true;
 					continue;
 				}
 				// NOTE: store all keys lower case
 				gameConfig.setProperty(key.toLowerCase(), value);
 			}
+		}
+		
+		if(invalidPropertyFound)
+		{
+			logger.info("invalid config found: gid=" + gid + "  --> overriding " + KEY_TRIGGER + "=" + EnumMoveTrigger.invalid.toString());
+			gameConfig.setProperty(KEY_TRIGGER, EnumMoveTrigger.invalid.toString());
 		}
 
 		return gameConfig;
@@ -320,82 +330,92 @@ public class Mover
 	 * @param game
 	 * @return
 	 */
-	public boolean processGame(int userId, Game game)
+	public boolean processGame(User user, Game game)
 	{
+		boolean movesLoaded = false;
 		try
 		{
 			logger.debug("  GID = " + game.getId() + " --> loading game details");
 			game = api.getGame(game.getId(), false, true, true).get();
-			
-			Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
-
-			// scan players to find the player matching the current user
-			Player player = null;
-			for(Player p : game.getPlayers())
-			{
-				if(p.getId() == userId)
-				{
-					player = p;
-					break;
-				}
-			}				
-
-			Result result;	
-			String lastReason = "";		
-			int ruleCount = 0;
-			for(Rule rule: rules)
-			{
-				ruleCount++;
-				try
-				{					
-					result = rule.evaluate(game, player, gameConfig);
-
-					logger.debug("  GID = " + game.getId() + " --> #" + fill(ruleCount, 2) + " " + fill(rule.getClass().getSimpleName(), 17) + " --> " + fill(result.shallMove() == null ? "null" : result.shallMove().toString(), 5) + " (" + result.getReason() + ")");
-
-					if(result.shallMove() == null)
-					{
-						if(result.getReason() != null)
-							lastReason = result.getReason();
-						continue;
-					}
-					else if(result.shallMove().booleanValue() == false)
-					{
-						logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + result.getReason());
-						return false;
-					}
-					else if(result.shallMove().booleanValue() == true)
-					{
-						Move m = result.getMove();
-						if(m == null)
-						{
-							logger.error("  GID = " + game.getId() + " --> ERROR    --> no move returned");
-							return false;
-						}
-
-						logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(result.getReason(), 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
-							+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
-
-						if(!debug)
-							return this.api.move(game.getId(), m).get();
-						else
-							return true;
-					}
-				}
-				catch(Exception e)
-				{
-					logger.error("  GID = " + game.getId() + " --> #" + rule.getClass().getSimpleName() + " --> ", e);
-				}
-			}
-			logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + lastReason);
-		}
-		catch(IllegalArgumentException e)
-		{
-			logger.debug("  GID = " + game.getId() + " --> SKIPPING --> error in the configuration", e);
+			movesLoaded = true;
 		}
 		catch(InterruptedException | ExecutionException e)
 		{
-			logger.error(e);
+			logger.error("  GID = " + game.getId() + " --> ERROR    --> error loading game with details: " + e);
+			try
+			{
+				logger.debug("  GID = " + game.getId() + " --> loading game details without moves");
+				game = api.getGame(game.getId(), false, true, false).get();
+				if(game.getNext() != null)
+				{
+					Player player = game.getPlayer(game.getNext());
+					logger.debug("  GID = " + game.getId() + " --> loading possibles");
+					player.setPossibles(api.getGamePossibles(game.getId()).get());
+				}
+			}
+			catch(InterruptedException | ExecutionException e1)
+			{
+				logger.error("  GID = " + game.getId() + " --> ERROR    --> error loading game alternatively: " + e);
+				return false;
+			}
 		}
+			
+		Properties gameConfig = getGameConfig(game.getId(), game.getNotes());
+		
+		if(!movesLoaded)
+			gameConfig.setProperty(StartPositionRule.KEY_STARTCHECK, "false");
+
+		// scan players to find the player matching the current user
+		Player player = game.getPlayer(user);		
+
+		Result result;	
+		String lastReason = "";		
+		int ruleCount = 0;
+		for(Rule rule: rules)
+		{
+			ruleCount++;
+			try
+			{					
+				result = rule.evaluate(game, player, gameConfig);
+
+				logger.debug("  GID = " + game.getId() + " --> #" + fill(ruleCount, 2) + " " + fill(rule.getClass().getSimpleName(), 17) + " --> " + fill(result.shallMove() == null ? "null" : result.shallMove().toString(), 5) + " (" + result.getReason() + ")");
+
+				if(result.shallMove() == null)
+				{
+					if(result.getReason() != null)
+						lastReason = result.getReason();
+					continue;
+				}
+				else if(result.shallMove().booleanValue() == false)
+				{
+					logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + result.getReason());
+					return false;
+				}
+				else if(result.shallMove().booleanValue() == true)
+				{
+					Move m = result.getMove();
+					if(m == null)
+					{
+						logger.error("  GID = " + game.getId() + " --> ERROR    --> no move returned");
+						return false;
+					}
+
+					logger.info("  GID = " + game.getId() + " --> MOVING   --> " + fill(result.getReason(), 14) + " --> vec " + m.getXv() + "|" + m.getYv() + " --> " + m.getX() + "|" + m.getY()
+						+ (m.getMsg() != null ? " ... msg='" + m.getMsg() + "'" : ""));
+
+					if(!debug)
+						return this.api.move(game.getId(), m).get();
+					else
+						return true;
+				}
+			}
+			catch(Exception e)
+			{
+				logger.error("  GID = " + game.getId() + " --> #" + rule.getClass().getSimpleName() + " --> ", e);
+			}
+		}
+		logger.info("  GID = " + game.getId() + " --> SKIPPING --> " + lastReason);
+			
 		return false;
 	}
 
@@ -409,12 +429,12 @@ public class Mover
 		int movesMade = 0;
 		try
 		{
-			int userId = api.check().get().getId();
-			List<Game> dranGames = api.getUserDran(userId).get();
+			User user = api.check().get();
+			List<Game> dranGames = api.getUserDran(user.getId()).get();
 			logger.info("dran games   = " + dranGames.size());
 			for(Game g : dranGames)
 			{
-				if(processGame(userId, g))
+				if(processGame(user, g))
 					movesMade++;
 			}
 			logger.info("moves made   = " + movesMade);

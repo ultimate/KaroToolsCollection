@@ -33,6 +33,10 @@ public class RemuladeRule extends Rule
         {            
             return Result.noResult("special REmulAde not activated for this game");
         }
+        else if(player.getMotion() == null)
+        {            
+            return Result.dontMove("could not check REmulAde: no current motion found");
+        }
 
         // check RE status
         boolean reProtected = isREProtected(game, player);

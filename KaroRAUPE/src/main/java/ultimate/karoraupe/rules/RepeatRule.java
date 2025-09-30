@@ -30,9 +30,12 @@ public class RepeatRule extends Rule
         {            
             int moves = Integer.parseInt(gameConfig.getProperty(KEY_SPECIAL_REPEAT_MOVES, "1"));
             if(moves <= 0)
-            {                
                 return Result.dontMove("Repeat move n-" + moves + " not possible: invalid value");
-            }
+            if(player.getMoves() == null)
+                return Result.dontMove("Repeat move n-" + moves + " not possible: no moves found");
+            if(player.getMotion() == null)
+                return Result.dontMove("Repeat move n-" + moves + " not possible: no current motion found");
+
             int index = player.getMoves().size() - moves;
             logger.debug("number of moves = " + player.getMoves().size() + ", repeat = " + moves + ", index = " + index + ", move = " + (index >= 0 && index < player.getMoves().size() ? player.getMoves().get(index) : null));
             if(index > 0 && !player.getMoves().get(index).isCrash())

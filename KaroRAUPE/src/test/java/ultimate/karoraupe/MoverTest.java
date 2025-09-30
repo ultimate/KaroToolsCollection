@@ -38,11 +38,13 @@ public class MoverTest extends KaroRAUPETestcase
 					Arguments.of("foo\nKaroRAUPE.trigger= immer\nKaroRAUPE.timeout= 456", 			"immer",															"456"),
 					Arguments.of("KaroRAUPE.trigger =nomessage\nfoo\nKaroRAUPE.timeout =789", 		"nomessage",														"789"),
 					Arguments.of("KaroRAUPE.trigger = nomsg\r\nKaroRAUPE.timeout = 234\r\nfoo", 	"nomsg",															"234"),
-					Arguments.of("KaroRAUPE.trigger = keinbordfunk\nKaroRAUPE.timeout = abc", 		"keinbordfunk",														Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
-					Arguments.of("KaroRAUPE.trigger = never\nKaroRAUPE.timeout = 1m", 				"never",															Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
+					Arguments.of("KaroRAUPE.trigger = keinbordfunk\nKaroRAUPE.timeout = 123", 		"keinbordfunk",														"123"),
+					Arguments.of("KaroRAUPE.trigger = keinbordfunk\nKaroRAUPE.timeout = abc", 		"invalid",															Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
+					Arguments.of("KaroRAUPE.trigger = never\nKaroRAUPE.timeout = 123", 				"never",															"123"),
+					Arguments.of("KaroRAUPE.trigger = never\nKaroRAUPE.timeout = 1m", 				"invalid",															Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
 					Arguments.of("\r\nKaroRAUPE.trigger = nie\r\n", 								"nie",																Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
 					Arguments.of("KaroRAUPE.trigger = niemals", 									"niemals",															Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
-					Arguments.of("KaroRAUPE.trigger = foo", 										Mover.getDefaultConfig().getProperty(Mover.KEY_TRIGGER),			Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
+					Arguments.of("KaroRAUPE.trigger = foo", 										"invalid",															Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT)),
 					Arguments.of("KaroRAUPE.timeout = 123", 										Mover.getDefaultConfig().getProperty(Mover.KEY_TRIGGER),			"123"),
 					Arguments.of("bla bla bla", 													Mover.getDefaultConfig().getProperty(Mover.KEY_TRIGGER), 			Mover.getDefaultConfig().getProperty(Mover.KEY_TIMEOUT))
 				);
@@ -136,7 +138,7 @@ public class MoverTest extends KaroRAUPETestcase
 		Mover mover = new Mover(karoAPI, properties, false);
 		((EnabledRule) mover.getRules().get(0)).setTest(true);
 		
-		assertFalse(mover.processGame(user.getId(), game));
+		assertFalse(mover.processGame(user, game));
 		x = 3;
 		y = 3;
 
@@ -149,7 +151,7 @@ public class MoverTest extends KaroRAUPETestcase
 		Thread.sleep(timeout * 1000); // wait for timeout
 		
 		// move 1st planned move
-		assertTrue(mover.processGame(user.getId(), game));
+		assertTrue(mover.processGame(user, game));
 		x = 4;
 		y = 4;
 
@@ -162,7 +164,7 @@ public class MoverTest extends KaroRAUPETestcase
 		Thread.sleep(timeout * 1000); // wait for timeout
 		
 		// move 2nd planned move (across finish line, this will move the player to 0/0
-		assertTrue(mover.processGame(user.getId(), game));
+		assertTrue(mover.processGame(user, game));
 		x = 0;
 		y = 0;
 

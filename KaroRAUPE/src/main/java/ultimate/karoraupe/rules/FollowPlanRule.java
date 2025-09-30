@@ -125,7 +125,7 @@ public class FollowPlanRule extends Rule
 				{
                     if(plannedMove.equalsVec(possible))
 					{
-						boolean strict = predecessor == null || currentMove.equalsVec(predecessor);
+						boolean strict = predecessor == null || (currentMove != null && currentMove.equalsVec(predecessor));
 						matches.add(new PlannedMoveWithPredecessor(plannedMove, predecessor, strict));
 						break;
 					}

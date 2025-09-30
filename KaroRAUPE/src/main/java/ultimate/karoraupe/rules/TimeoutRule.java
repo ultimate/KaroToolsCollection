@@ -38,6 +38,9 @@ public class TimeoutRule extends Rule
         // scan all players for last move made
 		for(Player p : game.getPlayers())
         {
+            if(p.getMoves() == null || p.getMoves().isEmpty())
+                continue;
+            
             for(Move m : p.getMoves())
             {
                 if(m.getT().after(lastMoveDate))
