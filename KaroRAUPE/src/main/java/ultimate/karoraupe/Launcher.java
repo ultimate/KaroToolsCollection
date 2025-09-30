@@ -11,6 +11,8 @@ import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import ultimate.karoapi4j.KaroAPI;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karoapi4j.utils.Version;
 
 /**
  * This is the Launcher for the KaroRAUPE. It works in two modes:
@@ -38,7 +41,7 @@ public class Launcher
 	/**
 	 * {@link DateFormat} for log output
 	 */
-	private static final DateFormat		DATE_FORMAT		= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+	private static final DateFormat			DATE_FORMAT	= new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
 	/**
 	 * Is the KaroRAUPE running in debug mode?
@@ -97,13 +100,13 @@ public class Launcher
 		// load properties from args
 		logger.info("loading properties: " + configFile);
 		Properties config = PropertiesUtil.loadProperties(new File(configFile));
-		
+
 		// add a "watchdog" to make sure that api initialization does not hang
 		final CountDownLatch initComplete = new CountDownLatch(1);
 		new Thread(() -> {
 			try
 			{
-				if(initComplete.await(KaroAPI.getInitTimeout()*3/2, TimeUnit.SECONDS))
+				if(initComplete.await(KaroAPI.getInitTimeout() * 3 / 2, TimeUnit.SECONDS))
 				{
 					logger.info("KaroAPI intialization successful");
 					return;
@@ -122,12 +125,14 @@ public class Launcher
 
 		// init KaroAPI
 		logger.info("initiating KaroAPI");
+		KaroAPI.setApplication("KaroRAUPE", getVersion());
+		logger.info("user agent = " + KaroAPI.getUserAgent());
 		api = new KaroAPI(config.getProperty("karoAPI.user"), config.getProperty("karoAPI.password"));
 		// Note: we don't need a KaroAPICache because we always want to have the latest information
 
 		User currentUser = api.check().get();
 		logger.info("current user = " + currentUser.getLogin());
-		
+
 		// notify the watchdog
 		initComplete.countDown();
 
@@ -148,13 +153,14 @@ public class Launcher
 					mover.checkAndProcessGames();
 				}
 			}, 0, interval);
-			
+
 			CountDownLatch latch = new CountDownLatch(1);
 			Runtime.getRuntime().addShutdownHook(new Thread() {
-		        public void run() {
-		            latch.countDown();
-		        }
-		    });
+				public void run()
+				{
+					latch.countDown();
+				}
+			});
 			latch.await();
 		}
 		else
@@ -177,5 +183,21 @@ public class Launcher
 		logger.info("-------------------------------------------------------------------------");
 
 		System.exit(0);
+	}
+
+	private static Version getVersion()
+	{
+		File sourceFile = new File(Launcher.class.getProtectionDomain()
+				  .getCodeSource()
+				  .getLocation()
+				  .getPath());
+		
+		Pattern versionPattern = Pattern.compile("\\d+(\\.\\d+)+");
+		Matcher matcher = versionPattern.matcher(sourceFile.getName());
+		
+		if(matcher.find())
+			return new Version(matcher.group());
+		
+		return null;
 	}
 }
