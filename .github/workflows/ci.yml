@@ -48,24 +48,20 @@ jobs:
         run: |
           set -e
           if [ -f KaroAPI4J/src/test/resources/login.properties.default ]; then
-            cat > KaroAPI4J/src/test/resources/login.properties <<'EOF'
-karoAPI.user=${KARO_API_USER}
-karoAPI.password=${KARO_API_PASS}
-karoAPI.user2=${KARO_API_USER2}
-karoAPI.password2=${KARO_API_PASS2}
-karoWIKI.user=${KARO_WIKI_USER}
-karoWIKI.password=${KARO_WIKI_PASS}
-EOF
+            printf 'karoAPI.user=%s\n' "${KARO_API_USER}" > KaroAPI4J/src/test/resources/login.properties
+            printf 'karoAPI.password=%s\n' "${KARO_API_PASS}" >> KaroAPI4J/src/test/resources/login.properties
+            printf 'karoAPI.user2=%s\n' "${KARO_API_USER2}" >> KaroAPI4J/src/test/resources/login.properties
+            printf 'karoAPI.password2=%s\n' "${KARO_API_PASS2}" >> KaroAPI4J/src/test/resources/login.properties
+            printf 'karoWIKI.user=%s\n' "${KARO_WIKI_USER}" >> KaroAPI4J/src/test/resources/login.properties
+            printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> KaroAPI4J/src/test/resources/login.properties
             chmod 600 KaroAPI4J/src/test/resources/login.properties || true
           fi
 
           if [ -f KaroMUSKEL-Java/src/test/resources/login.properties.default ]; then
-            cat > KaroMUSKEL-Java/src/test/resources/login.properties <<'EOF'
-karoAPI.user=${KARO_API_USER}
-karoAPI.password=${KARO_API_PASS}
-karoWIKI.user=${KARO_WIKI_USER}
-karoWIKI.password=${KARO_WIKI_PASS}
-EOF
+            printf 'karoAPI.user=%s\n' "${KARO_API_USER}" > KaroMUSKEL-Java/src/test/resources/login.properties
+            printf 'karoAPI.password=%s\n' "${KARO_API_PASS}" >> KaroMUSKEL-Java/src/test/resources/login.properties
+            printf 'karoWIKI.user=%s\n' "${KARO_WIKI_USER}" >> KaroMUSKEL-Java/src/test/resources/login.properties
+            printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> KaroMUSKEL-Java/src/test/resources/login.properties
             chmod 600 KaroMUSKEL-Java/src/test/resources/login.properties || true
           fi
 
