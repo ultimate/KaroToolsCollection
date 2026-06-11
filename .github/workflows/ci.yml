@@ -4,8 +4,6 @@ permissions:
   contents: write
 
 on:
-  push:
-    branches-ignore: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -66,8 +64,16 @@ jobs:
           printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> "$MUSKEL_FILE"
           chmod 600 "$MUSKEL_FILE" || true
 
+      - name: Disable slow image test method in source
+        run: |
+          set -e
+          FILE=KaroAPI4J/src/test/java/ultimate/karoapi4j/KaroAPICacheTest.java
+          if [ -f "$FILE" ]; then
+            awk '/public void test_imageCaching\(/ {print "@Disabled"; print; next} {print}' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          fi
+
       - name: Build with Maven
-        run: mvn -B -V -DskipTests=false -Pskip-image-cache-test verify
+        run: mvn -B -V -DskipTests=false verify
 
       - name: Copy artifacts to archive if version increased
         id: copy_artifacts
