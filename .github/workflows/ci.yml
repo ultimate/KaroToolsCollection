@@ -38,26 +38,33 @@ jobs:
             ${{ runner.os }}-m2-
 
       - name: Create login.properties from secrets
+        env:
+          KARO_API_USER: ${{ secrets.KARO_API_USER }}
+          KARO_API_PASS: ${{ secrets.KARO_API_PASS }}
+          KARO_API_USER2: ${{ secrets.KARO_API_USER2 }}
+          KARO_API_PASS2: ${{ secrets.KARO_API_PASS2 }}
+          KARO_WIKI_USER: ${{ secrets.KARO_WIKI_USER }}
+          KARO_WIKI_PASS: ${{ secrets.KARO_WIKI_PASS }}
         run: |
           set -e
           if [ -f KaroAPI4J/src/test/resources/login.properties.default ]; then
             cat > KaroAPI4J/src/test/resources/login.properties <<'EOF'
-karoAPI.user=${{ secrets.KARO_API_USER }}
-karoAPI.password=${{ secrets.KARO_API_PASS }}
-karoAPI.user2=${{ secrets.KARO_API_USER2 }}
-karoAPI.password2=${{ secrets.KARO_API_PASS2 }}
-karoWIKI.user=${{ secrets.KARO_WIKI_USER }}
-karoWIKI.password=${{ secrets.KARO_WIKI_PASS }}
+karoAPI.user=${KARO_API_USER}
+karoAPI.password=${KARO_API_PASS}
+karoAPI.user2=${KARO_API_USER2}
+karoAPI.password2=${KARO_API_PASS2}
+karoWIKI.user=${KARO_WIKI_USER}
+karoWIKI.password=${KARO_WIKI_PASS}
 EOF
             chmod 600 KaroAPI4J/src/test/resources/login.properties || true
           fi
 
           if [ -f KaroMUSKEL-Java/src/test/resources/login.properties.default ]; then
             cat > KaroMUSKEL-Java/src/test/resources/login.properties <<'EOF'
-karoAPI.user=${{ secrets.KARO_API_USER }}
-karoAPI.password=${{ secrets.KARO_API_PASS }}
-karoWIKI.user=${{ secrets.KARO_WIKI_USER }}
-karoWIKI.password=${{ secrets.KARO_WIKI_PASS }}
+karoAPI.user=${KARO_API_USER}
+karoAPI.password=${KARO_API_PASS}
+karoWIKI.user=${KARO_WIKI_USER}
+karoWIKI.password=${KARO_WIKI_PASS}
 EOF
             chmod 600 KaroMUSKEL-Java/src/test/resources/login.properties || true
           fi
