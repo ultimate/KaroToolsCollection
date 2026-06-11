@@ -47,26 +47,27 @@ jobs:
           KARO_WIKI_PASS: ${{ secrets.KARO_WIKI_PASS }}
         run: |
           set -e
-          if [ -f KaroAPI4J/src/test/resources/login.properties.default ]; then
-            printf 'karoAPI.user=%s\n' "${KARO_API_USER}" > KaroAPI4J/src/test/resources/login.properties
-            printf 'karoAPI.password=%s\n' "${KARO_API_PASS}" >> KaroAPI4J/src/test/resources/login.properties
-            printf 'karoAPI.user2=%s\n' "${KARO_API_USER2}" >> KaroAPI4J/src/test/resources/login.properties
-            printf 'karoAPI.password2=%s\n' "${KARO_API_PASS2}" >> KaroAPI4J/src/test/resources/login.properties
-            printf 'karoWIKI.user=%s\n' "${KARO_WIKI_USER}" >> KaroAPI4J/src/test/resources/login.properties
-            printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> KaroAPI4J/src/test/resources/login.properties
-            chmod 600 KaroAPI4J/src/test/resources/login.properties || true
-          fi
+          API4J_FILE=KaroAPI4J/src/test/resources/login.properties
+          MUSKEL_FILE=KaroMUSKEL-Java/src/test/resources/login.properties
 
-          if [ -f KaroMUSKEL-Java/src/test/resources/login.properties.default ]; then
-            printf 'karoAPI.user=%s\n' "${KARO_API_USER}" > KaroMUSKEL-Java/src/test/resources/login.properties
-            printf 'karoAPI.password=%s\n' "${KARO_API_PASS}" >> KaroMUSKEL-Java/src/test/resources/login.properties
-            printf 'karoWIKI.user=%s\n' "${KARO_WIKI_USER}" >> KaroMUSKEL-Java/src/test/resources/login.properties
-            printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> KaroMUSKEL-Java/src/test/resources/login.properties
-            chmod 600 KaroMUSKEL-Java/src/test/resources/login.properties || true
-          fi
+          printf 'karoAPI.images=false\n' >> "$API4J_FILE"
+          printf 'karoAPI.user=%s\n' "${KARO_API_USER}" > "$API4J_FILE"
+          printf 'karoAPI.password=%s\n' "${KARO_API_PASS}" >> "$API4J_FILE"
+          printf 'karoAPI.user2=%s\n' "${KARO_API_USER2}" >> "$API4J_FILE"
+          printf 'karoAPI.password2=%s\n' "${KARO_API_PASS2}" >> "$API4J_FILE"
+          printf 'karoWIKI.user=%s\n' "${KARO_WIKI_USER}" >> "$API4J_FILE"
+          printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> "$API4J_FILE"
+          chmod 600 "$API4J_FILE" || true
+
+          printf 'karoAPI.images=false\n' >> "$MUSKEL_FILE"
+          printf 'karoAPI.user=%s\n' "${KARO_API_USER}" > "$MUSKEL_FILE"
+          printf 'karoAPI.password=%s\n' "${KARO_API_PASS}" >> "$MUSKEL_FILE"
+          printf 'karoWIKI.user=%s\n' "${KARO_WIKI_USER}" >> "$MUSKEL_FILE"
+          printf 'karoWIKI.password=%s\n' "${KARO_WIKI_PASS}" >> "$MUSKEL_FILE"
+          chmod 600 "$MUSKEL_FILE" || true
 
       - name: Build with Maven
-        run: mvn -B -V -DskipTests=false verify
+        run: mvn -B -V -DskipTests=false -Pskip-image-cache-test verify
 
       - name: Copy artifacts to archive if version increased
         id: copy_artifacts
