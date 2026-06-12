@@ -73,14 +73,17 @@ jobs:
           # If there are no differences vs origin/archive, nothing to commit
           if [ -z "$(git diff --name-only --cached origin/archive --)" ]; then
             echo "No differences vs origin/archive; nothing to commit. Exiting."
+            echo "no_changes=true" >> $GITHUB_OUTPUT
             exit 0
           fi
 
+          echo "no_changes=false" >> $GITHUB_OUTPUT
           echo "Differences found vs origin/archive; staged files:"
           git diff --name-only --cached origin/archive -- || true
 
       - name: Compute PR title and body
         id: compute_pr
+        if: ${{ steps.stage_new_artifacts.outputs.no_changes != 'true' }}
         run: |
           set -euo pipefail
           # get staged differences vs origin/archive
@@ -132,6 +135,7 @@ jobs:
 
       - name: Commit & push branch
         id: push_branch
+        if: ${{ steps.stage_new_artifacts.outputs.no_changes != 'true' }}
         run: |
           set -euo pipefail
           # ensure everything is staged (defensive)
@@ -153,6 +157,7 @@ jobs:
 
       - name: Create PR to archive branch
         uses: actions/github-script@v9
+        if: ${{ steps.stage_new_artifacts.outputs.no_changes != 'true' }}
         with:
           script: |
             const branch = process.env.BRANCH
