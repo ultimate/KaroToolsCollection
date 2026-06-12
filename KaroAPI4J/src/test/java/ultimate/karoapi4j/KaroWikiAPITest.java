@@ -172,13 +172,14 @@ public class KaroWikiAPITest
 					newContent = content + DOUBLE_LINE_BREAK + "some new line --~~~~";
 				}
 
-				LocalDateTime date = LocalDateTime.now();
+				LocalDateTime date = java.time.ZonedDateTime.now(java.time.ZoneId.of("Europe/Berlin")).toLocalDateTime();
 				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
 				assertTrue(success);
 
 				String dateString = dateToString(date);
 				String expectedContent;
-				if(TimeZone.getDefault().inDaylightTime(new Date()))
+				TimeZone berlinTz = TimeZone.getTimeZone("Europe/Berlin");
+				if(berlinTz.inDaylightTime(new Date()))
 					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CEST)");
 				else
 					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
