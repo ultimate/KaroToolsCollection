@@ -69,3 +69,29 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B -V -DskipTests=${{ vars.SKIP_TESTS }} -Dtest='!KaroAPICacheTest#test_imageCaching' verify
+
+      - name: Collect built jars
+        run: |
+          set -euo pipefail
+          rm -rf ci_artifacts || true
+          mkdir -p ci_artifacts
+          while IFS= read -r -d '' jar; do
+            moduleDir=$(dirname "$(dirname "$jar")")
+            jarName=$(basename "$jar")
+            artifactId=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId -f "$moduleDir/pom.xml" 2>/dev/null || true)
+            if [ -z "$artifactId" ]; then
+              artifactId=$(echo "$jarName" | sed -E 's/-[0-9]+(\.[0-9a-zA-Z_\-]+)*(-[a-zA-Z]+)?\.jar$//')
+            fi
+            if [ -z "$artifactId" ]; then
+              artifactId="unknown-artifact"
+            fi
+            mkdir -p "ci_artifacts/$artifactId"
+            cp "$jar" "ci_artifacts/$artifactId/"
+          done < <(find . -path '*/target/*.jar' -print0) || true
+          echo "Collected artifacts:"; ls -R ci_artifacts || true
+
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci_artifacts
+          path: ci_artifacts
