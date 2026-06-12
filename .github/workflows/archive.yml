@@ -15,8 +15,6 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
-    env:
-      BRANCH: archive/artifacts-${GITHUB_RUN_ID}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,12 +28,17 @@ jobs:
           # ensure we have remote refs
           git fetch --no-tags --prune origin || true
 
-          # create a new branch using the configured name; base it on origin/archive
+          # compute branch name (resolve run id) and create a new branch based on origin/archive
+          BRANCH="archive/artifacts-${GITHUB_RUN_ID}"
+          echo "Computed BRANCH=$BRANCH"
           git fetch origin archive:refs/remotes/origin/archive || true
-          git checkout -b "${BRANCH}" origin/archive
+          git checkout -b "$BRANCH" origin/archive
           # configure committer identity for the local repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # export BRANCH for subsequent steps and as step output
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
 
       - name: Debug list repo after branch prepare
         run: |
