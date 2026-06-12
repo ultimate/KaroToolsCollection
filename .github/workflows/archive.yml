@@ -30,15 +30,9 @@ jobs:
           # ensure we have remote refs
           git fetch --no-tags --prune origin || true
 
-          # create local branch from origin/${BRANCH} if it exists remotely, else create new branch
-          if git rev-parse --verify --quiet "${BRANCH}" >/dev/null; then
-            git checkout "${BRANCH}"
-          elif git ls-remote --heads origin "${BRANCH}" | grep -q "refs/heads/${BRANCH}"; then
-            git fetch origin "${BRANCH}:${BRANCH}" || true
-            git checkout "${BRANCH}"
-          else
-            git checkout -b "${BRANCH}"
-          fi
+          # create a new branch using the configured name; base it on origin/archive
+          git fetch origin archive:refs/remotes/origin/archive || true
+          git checkout -b "${BRANCH}" origin/archive
           # configure committer identity for the local repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -81,21 +75,17 @@ jobs:
             file="$f"
             echo "Checking $file"
 
-            # compare to archive branch if it exists remotely
-            if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
-              if git show origin/archive:"$file" > /tmp/oldfile 2>/dev/null; then
-                if cmp -s "$file" /tmp/oldfile; then
-                  echo "File identical on archive: $file -- removing local copy"
-                  rm -f "$file"
-                  continue
-                else
-                  echo "File differs from archive: $file -- staging"
-                fi
+            # compare to origin/archive and stage only when different or missing there
+            if git show origin/archive:"$file" > /tmp/oldfile 2>/dev/null; then
+              if cmp -s "$file" /tmp/oldfile; then
+                echo "File identical on archive: $file -- removing local copy"
+                rm -f "$file"
+                continue
               else
-                echo "File not present on archive: $file -- staging"
+                echo "File differs from archive: $file -- staging"
               fi
             else
-              echo "Archive branch not present remotely; staging $file"
+              echo "File not present on archive: $file -- staging"
             fi
 
             git add -- "$file"
