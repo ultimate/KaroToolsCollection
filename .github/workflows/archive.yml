@@ -122,9 +122,7 @@ jobs:
             else
               items+=("${artid}")
             fi
-          done <<EOF
-$files
-EOF
+          done <<< "$files"
 
           if [ ${#items[@]} -eq 0 ]; then
             pr_title="Build artifacts"
