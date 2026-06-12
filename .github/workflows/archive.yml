@@ -21,16 +21,31 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build artifacts for archive
+      - name: Look for built artifacts
         run: |
           set -e
           ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
           CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
-          OUTDIR="${ARTIFACT_ID}-${CURRENT_VERSION}"
-          mkdir -p "$OUTDIR"
-          echo "Looking for artifacts for ${ARTIFACT_ID}-${CURRENT_VERSION}..."
-          find . -path '*/target/*' -type f -name "${ARTIFACT_ID}-${CURRENT_VERSION}.jar" -exec cp {} "$OUTDIR" \; || true
-          find . -path '*/target/*' -type f -name "${ARTIFACT_ID}-${CURRENT_VERSION}-bin.jar" -exec cp {} "$OUTDIR" \; || true
+          echo "Looking for artifacts for version ${CURRENT_VERSION}..."
+          rm -f artifact_dirs.txt || true
+          for f in $(find . -path '*/target/*' -type f \( -name "*-${CURRENT_VERSION}.jar" -o -name "*-${CURRENT_VERSION}-bin.jar" \) ); do
+            artifact=$(basename "$f")
+            dest=${artifact%-${CURRENT_VERSION}.jar}
+            dest=${dest%-${CURRENT_VERSION}-bin.jar}
+            echo "Found $artifact -> placing into directory: $dest"
+            mkdir -p "$dest"
+            cp "$f" "$dest" || true
+            echo "$dest" >> artifact_dirs.txt
+          done
+          if [ -f artifact_dirs.txt ]; then
+            sort -u artifact_dirs.txt -o artifact_dirs.txt || true
+            echo "Artifact directories created:"; cat artifact_dirs.txt
+            while read -r d; do
+              echo "Listing $d:"; ls -la "$d" || true
+            done < artifact_dirs.txt
+          else
+            echo "No artifacts found for version ${CURRENT_VERSION}"; exit 0
+          fi
 
       - name: Prepare archive branch
         id: prepare_archive_branch
@@ -38,9 +53,13 @@ jobs:
           set -e
           ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
           CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
-          ARTDIR="${ARTIFACT_ID}-${CURRENT_VERSION}"
-          if [ ! -d "$ARTDIR" ]; then
-            echo "No artifact directory found: $ARTDIR"; exit 0
+          ARTDIRS_FILE=artifact_dirs.txt
+          if [ ! -f "$ARTDIRS_FILE" ]; then
+            echo "No artifact dirs file found: $ARTDIRS_FILE"; exit 0
+          fi
+          ARTDIRS=$(cat "$ARTDIRS_FILE")
+          if [ -z "$ARTDIRS" ]; then
+            echo "No artifact directories listed in $ARTDIRS_FILE"; exit 0
           fi
 
           git config user.name "github-actions[bot]"
@@ -50,19 +69,21 @@ jobs:
           if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
             echo "archive branch exists, comparing files..."
             CHANGED=0
-            for f in "$ARTDIR"/*; do
-              name=$(basename "$f")
-              if git show origin/archive:"$ARTDIR/$name" > /tmp/oldfile 2>/dev/null; then
-                if ! cmp -s "$f" /tmp/oldfile; then
-                  echo "File differs: $name"
+            for dir in $ARTDIRS; do
+              for f in "$dir"/*; do
+                name=$(basename "$f")
+                if git show origin/archive:"$dir/$name" > /tmp/oldfile 2>/dev/null; then
+                  if ! cmp -s "$f" /tmp/oldfile; then
+                    echo "File differs: $dir/$name"
+                    CHANGED=1
+                    break 2
+                  fi
+                else
+                  echo "File not present on archive: $dir/$name"
                   CHANGED=1
-                  break
+                  break 2
                 fi
-              else
-                echo "File not present on archive: $name"
-                CHANGED=1
-                break
-              fi
+              done
             done
             if [ "$CHANGED" -eq 0 ]; then
               echo "No new artifact changes compared to archive branch; skipping PR"
@@ -76,9 +97,16 @@ jobs:
           BRANCH="archive/artifacts-${VERSION}-${GITHUB_RUN_ID}"
           git fetch origin archive || true
           git checkout -b "$BRANCH"
-          git rm -r --ignore-unmatch "$ARTDIR" || true
-          cp -r "$ARTDIR" .
-          git add "$ARTDIR"
+          for dir in $ARTDIRS; do
+            git.rm -r --ignore-unmatch "$dir" || true
+            git rm -r --ignore-unmatch "./$dir" || true || true
+            if [ -d "./$dir" ]; then
+              echo "Directory $dir already exists in working tree on this branch; will replace it"
+              git rm -r --ignore-unmatch "./$dir" || true
+            fi
+            cp -r "$dir" .
+            git add "$dir"
+          done
           if git diff --cached --quiet; then
             echo "No artifact changes to commit"; exit 0
           fi
