@@ -55,7 +55,7 @@ jobs:
           echo "Working tree status (after download):"
           git status --porcelain || true
 
-          # Discard any modifications to already-tracked files so we only keep newly added artifacts
+          # Discard any modifications to already-tracked files so we only consider newly added artifacts
           git checkout -- . || true
 
           # Find newly added/untracked files (these are the artifacts we just downloaded)
@@ -65,17 +65,40 @@ jobs:
             exit 0
           fi
 
-          echo "New files to add:"
+          echo "Checking new files against origin/archive and staging only missing/different ones:"
+          staged_any=0
           for f in "${new_files[@]}"; do
-            echo "$f"
+            # remove trailing NUL if present
+            file="$f"
+            echo "Checking $file"
+
+            # compare to archive branch if it exists remotely
+            if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
+              if git show origin/archive:"$file" > /tmp/oldfile 2>/dev/null; then
+                if cmp -s "$file" /tmp/oldfile; then
+                  echo "File identical on archive: $file -- removing local copy"
+                  rm -f "$file"
+                  continue
+                else
+                  echo "File differs from archive: $file -- staging"
+                fi
+              else
+                echo "File not present on archive: $file -- staging"
+              fi
+            else
+              echo "Archive branch not present remotely; staging $file"
+            fi
+
+            git add -- "$file"
+            staged_any=1
           done
 
-          # Stage only new files
-          for f in "${new_files[@]}"; do
-            git add -- "$f"
-          done
+          if [ $staged_any -eq 0 ]; then
+            echo "No new/different artifacts to commit after comparing with archive; exiting."
+            exit 0
+          fi
 
-          echo "Staged new files:"
+          echo "Staged new/different files:"
           git diff --cached --name-only || true
 
       - name: Commit & push branch
@@ -91,8 +114,8 @@ jobs:
           fi
 
           git commit -m "Build artifacts from CI run ${GITHUB_RUN_ID}"
-          git push origin "${ BRANCH }"
-          echo "BRANCH=${ BRANCH }" >> $GITHUB_OUTPUT
+          git push origin "${BRANCH}"
+          echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
       - name: Create PR to archive branch
         uses: actions/github-script@v6
