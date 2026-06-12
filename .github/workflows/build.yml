@@ -38,6 +38,7 @@ jobs:
           set -e
           API4J_FILE=KaroAPI4J/src/test/resources/login.properties
           MUSKEL_FILE=KaroMUSKEL-Java/src/test/resources/login.properties
+          RAUPE_FILE=KaroRAUPE/src/test/resources/login.properties
 
           printf 'karoAPI.images=false\n' > "$API4J_FILE"
           printf 'karoAPI.user=%s\n' "${{ secrets.KARO_API_USER }}" >> "$API4J_FILE"
@@ -54,6 +55,16 @@ jobs:
           printf 'karoWIKI.user=%s\n' "${{ secrets.KARO_WIKI_USER }}" >> "$MUSKEL_FILE"
           printf 'karoWIKI.password=%s\n' "${{ secrets.KARO_WIKI_PASS }}" >> "$MUSKEL_FILE"
           chmod 600 "$MUSKEL_FILE" || true
+
+          printf 'karoAPI.images=false\n' > "$RAUPE_FILE"
+          printf 'karoAPI.user=%s\n' "${{ secrets.KARO_API_USER }}" >> "$RAUPE_FILE"
+          printf 'karoAPI.password=%s\n' "${{ secrets.KARO_API_PASS }}" >> "$RAUPE_FILE"
+          printf 'karoRAUPE.trigger=nomessage\n' >> "$RAUPE_FILE"
+          printf 'karoRAUPE.timeout=300\n' >> "$RAUPE_FILE"
+          printf 'karoRAUPE.interval=300\n' >> "$RAUPE_FILE"
+          printf 'karoRAUPE.message=\n' >> "$RAUPE_FILE"
+          printf 'karoRAUPE.strict=false\n' >> "$RAUPE_FILE"
+          chmod 600 "$RAUPE_FILE" || true
 
       - name: Build with Maven
         run: mvn -B -V -DskipTests=false -Dtest='!KaroAPICacheTest#test_imageCaching' verify
