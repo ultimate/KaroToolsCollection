@@ -60,45 +60,20 @@ jobs:
 
           # Discard any modifications to already-tracked files so we only consider newly added artifacts
           git checkout -- . || true
+          echo "Discarded changes to tracked files. Status now:"
+          git status --porcelain || true
 
-          # Find newly added/untracked files (these are the artifacts we just downloaded)
-          mapfile -d '' new_files < <(git ls-files --others --exclude-standard -z || true)
-          if [ ${#new_files[@]} -eq 0 ]; then
-            echo "No new (untracked) files found; nothing to commit. Exiting."
+          # Stage all downloaded files and compare the index to origin/archive
+          git add -A
+
+          # If there are no differences vs origin/archive, nothing to commit
+          if [ -z "$(git diff --name-only --cached origin/archive --)" ]; then
+            echo "No differences vs origin/archive; nothing to commit. Exiting."
             exit 0
           fi
 
-          echo "Checking new files against origin/archive and staging only missing/different ones:"
-          staged_any=0
-          for f in "${new_files[@]}"; do
-            # remove trailing NUL if present
-            file="$f"
-            echo "Checking $file"
-
-            # compare to origin/archive and stage only when different or missing there
-            if git show origin/archive:"$file" > /tmp/oldfile 2>/dev/null; then
-              if cmp -s "$file" /tmp/oldfile; then
-                echo "File identical on archive: $file -- removing local copy"
-                rm -f "$file"
-                continue
-              else
-                echo "File differs from archive: $file -- staging"
-              fi
-            else
-              echo "File not present on archive: $file -- staging"
-            fi
-
-            git add -- "$file"
-            staged_any=1
-          done
-
-          if [ $staged_any -eq 0 ]; then
-            echo "No new/different artifacts to commit after comparing with archive; exiting."
-            exit 0
-          fi
-
-          echo "Staged new/different files:"
-          git diff --cached --name-only || true
+          echo "Differences found vs origin/archive; staged files:"
+          git diff --name-only --cached origin/archive -- || true
 
       - name: Commit & push branch
         id: push_branch
