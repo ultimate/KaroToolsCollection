@@ -79,22 +79,6 @@ jobs:
           echo "Differences found vs origin/archive; staged files:"
           git diff --name-only --cached origin/archive -- || true
 
-      - name: Commit & push branch
-        id: push_branch
-        run: |
-          set -euo pipefail
-          # ensure everything is staged (defensive)
-          git add -A
-
-          # commit only if there are staged changes
-          if git diff --cached --quiet; then
-            echo "No staged changes to commit; skipping push."; exit 0
-          fi
-
-          git commit -m "Build artifacts from CI run ${GITHUB_RUN_ID}"
-          git push origin "${BRANCH}"
-          echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
-
       - name: Compute PR title and body
         id: compute_pr
         run: |
@@ -145,6 +129,27 @@ jobs:
           fi
           echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
           echo "PR_BODY=$pr_body" >> $GITHUB_ENV
+
+      - name: Commit & push branch
+        id: push_branch
+        run: |
+          set -euo pipefail
+          # ensure everything is staged (defensive)
+          git add -A
+
+          # commit only if there are staged changes
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit; skipping push."; exit 0
+          fi
+
+          # use PR_TITLE environment variable as commit message when available
+          if [ -n "${PR_TITLE:-}" ]; then
+            git commit -m "$PR_TITLE"
+          else
+            git commit -m "Build artifacts from CI run ${GITHUB_RUN_ID}"
+          fi
+          git push origin "${BRANCH}"
+          echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
       - name: Create PR to archive branch
         uses: actions/github-script@v6
