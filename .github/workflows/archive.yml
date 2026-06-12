@@ -29,7 +29,7 @@ jobs:
           git fetch --no-tags --prune origin || true
 
           # compute branch name (resolve run id) and create a new branch based on origin/archive
-          BRANCH="archive/artifacts-${GITHUB_RUN_ID}"
+          BRANCH="archive-artifacts-${GITHUB_RUN_ID}"
           echo "Computed BRANCH=$BRANCH"
           git fetch origin archive:refs/remotes/origin/archive || true
           git checkout -b "$BRANCH" origin/archive
