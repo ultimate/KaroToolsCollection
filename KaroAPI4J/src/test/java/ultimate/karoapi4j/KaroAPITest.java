@@ -1024,8 +1024,8 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 		int firstId = TEST_CHAT_ID_MIN;
 		int lastId = TEST_CHAT_ID_MAX;
-		Date firstDate = createUTCDate(2022, 0, 31, 9, 45, 0);
-		Date lastDate = createUTCDate(2022, 0, 31, 9, 52, 0);
+		Date firstDate = createUTCDate(2022, 0, 31, 8, 45, 0);
+		Date lastDate = createUTCDate(2022, 0, 31, 8, 52, 0);
 
 		// dedicated entry
 
@@ -1079,7 +1079,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_getChatMessage() throws InterruptedException, ExecutionException
 	{
 		int id = TEST_CHAT_ID_MIN;
-		Date date = createUTCDate(2022, 0, 31, 9, 45, 41);
+		Date date = createUTCDate(2022, 0, 31, 8, 45, 41);
 
 		// dedicated entry
 
