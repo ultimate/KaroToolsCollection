@@ -43,6 +43,15 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Debug list repo after branch prepare
+        run: |
+          echo "Repository root: $(pwd)"
+          echo "Git branch:"; git branch --show-current || true
+          echo "Git status:"; git status --porcelain || true
+          echo "Top-level listing:"; ls -la || true
+          echo "All files count:"; find . -type f | wc -l || true
+          echo "Top 200 files by size:"; find . -type f -exec ls -sh {} + | sort -h -r | head -n 200 || true
+
       - name: Download built artifacts
         uses: actions/download-artifact@v4
         with:
