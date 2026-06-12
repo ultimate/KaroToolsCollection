@@ -27,7 +27,7 @@ jobs:
           name: ci_artifacts
           path: .
 
-      - name: Diagnostic: list workspace after download
+      - name: List workspace after download
         run: |
           echo "PWD: $(pwd)"
           echo "Top-level listing:"; ls -la || true
