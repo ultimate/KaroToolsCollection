@@ -21,26 +21,43 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check archive branch exists
+        id: check_archive
+        run: |
+          if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout archive branch into repo_archive
+        if: steps.check_archive.outputs.exists == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: archive
+          path: repo_archive
+          fetch-depth: 1
+
       - name: Download built artifacts
         uses: actions/download-artifact@v4
         with:
           name: ci_artifacts
-          path: .
+          path: downloaded_ci
 
-      - name: List workspace after download
+      - name: List downloaded artifacts
         run: |
           echo "PWD: $(pwd)"
           echo "Top-level listing:"; ls -la || true
-          echo "ci_artifacts listing:"; ls -la ci_artifacts || true
-          echo "ci_artifacts files:"; find ci_artifacts -type f -print || true
+          echo "downloaded_ci listing:"; ls -la downloaded_ci || true
+          echo "downloaded_ci files:"; find downloaded_ci -type f -print || true
 
       - name: Discover module artifacts
         id: discover
         run: |
           set -euo pipefail
           rm -f artifacts_to_publish.txt || true
-          echo "Discovering jar artifacts in ci_artifacts/... folders..."
-          for jar in ci_artifacts/*/*.jar; do
+          echo "Discovering jar artifacts in downloaded_ci/ci_artifacts/... folders..."
+          for jar in downloaded_ci/ci_artifacts/*/*.jar; do
             if [ ! -f "$jar" ]; then
               continue
             fi
@@ -58,34 +75,30 @@ jobs:
         id: compare
         run: |
           set -euo pipefail
-          git fetch origin archive || true
-          archive_exists=0
-          if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
+          rm -f missing_artifacts.txt || true
+          archive_dir="repo_archive"
+          if [ -d "$archive_dir" ]; then
+            echo "Using local archive snapshot at $archive_dir for comparisons"
             archive_exists=1
-            echo "Archive branch exists; comparing files against origin/archive"
           else
-            echo "Archive branch does not exist; all artifacts are considered missing"
+            echo "No local archive snapshot found; treating all artifacts as missing"
+            archive_exists=0
           fi
 
-          rm -f missing_artifacts.txt || true
           while IFS= read -r line; do
             IFS='|' read -r _ artifactId jarName moduleDir <<< "$line"
-            targetPath="$artifactId/$jarName"
-            if [ "$archive_exists" -eq 1 ]; then
-              if git show origin/archive:"$targetPath" > /tmp/oldfile 2>/dev/null; then
-                # compare content
-                if ! cmp -s "$moduleDir/target/$jarName" /tmp/oldfile; then
-                  echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
-                  echo "Missing or different: $targetPath"
-                else
-                  echo "EXISTS|$artifactId|$jarName"
-                fi
-              else
+            downloaded_path="$moduleDir/$jarName"
+            archived_path="$archive_dir/$artifactId/$jarName"
+            if [ "$archive_exists" -eq 1 ] && [ -f "$archived_path" ]; then
+              if ! cmp -s "$downloaded_path" "$archived_path"; then
                 echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
-                echo "Not present on archive: $targetPath"
+                echo "Missing or different: $artifactId/$jarName"
+              else
+                echo "EXISTS|$artifactId|$jarName"
               fi
             else
               echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
+              echo "Not present on archive: $artifactId/$jarName"
             fi
           done < artifacts_to_publish.txt
 
@@ -106,7 +119,7 @@ jobs:
           while IFS= read -r line; do
             IFS='|' read -r _ artifactId jarName moduleDir <<< "$line"
             mkdir -p "$artifactId"
-            src="$moduleDir/target/$jarName"
+            src="$moduleDir/$jarName"
             if [ ! -f "$src" ]; then
               echo "Warning: source artifact missing: $src"; continue
             fi
