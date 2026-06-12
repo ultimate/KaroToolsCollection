@@ -258,7 +258,10 @@ public class JSONUtilTest
 		String expectedNormal = expectedPretty.replace("\r\n", "").replace(" ", "").replace("\t", "");
 		
 		assertEquals(expectedNormal, JSONUtil.serialize(o, false));
-		assertEquals(expectedPretty, JSONUtil.serialize(o, true));
+		String actualPretty = JSONUtil.serialize(o, true);
+		// normalize actual to use CRLF for comparison
+		actualPretty = actualPretty.replace("\r\n", "\n").replace("\r", "\n").replace("\n", "\r\n");
+		assertEquals(expectedPretty, actualPretty);
 	}
 
 	@Test
