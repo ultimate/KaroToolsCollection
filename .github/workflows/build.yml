@@ -4,6 +4,9 @@ permissions:
   contents: read
 
 on:
+  workflow_call:
+    inputs:
+      # No inputs for now, but we can add some if needed in the future
   pull_request:
     branches: [ master ]
 
