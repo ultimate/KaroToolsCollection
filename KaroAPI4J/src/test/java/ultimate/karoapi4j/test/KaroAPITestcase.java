@@ -52,7 +52,7 @@ public class KaroAPITestcase
 	public void setUpOnce() throws IOException
 	{
 		properties = PropertiesUtil.loadProperties(KaroAPITestcase.class, "login.properties");
-		logger.info("properties loaded: " + properties);
+		logger.info("properties loaded");
 
 		karoAPI = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password"));
 		logger.info("KaroAPI initialized");

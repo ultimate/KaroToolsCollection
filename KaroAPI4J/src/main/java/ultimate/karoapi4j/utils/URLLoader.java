@@ -206,7 +206,19 @@ public class URLLoader
 
 		if(logger.isDebugEnabled())
 		{
-			logger.debug(method + " " + connection.getURL() + " -> " + output);
+			String tmpOutput = output;
+			// redact password parameters in URL and output for logging
+			try {
+				String urlStr = connection.getURL().toString();
+				String maskedUrl = urlStr.replaceAll("(?i)(password=)[^&]*", "$1****");
+				if(tmpOutput != null) {
+					tmpOutput = tmpOutput.replaceAll("(?i)(password=)[^&]*", "$1****");
+				}
+				logger.debug(method + " " + maskedUrl + " -> " + tmpOutput);
+			} catch (Exception e) {
+				// fallback to original logging if something goes wrong
+				logger.debug(method + " " + connection.getURL() + " -> " + tmpOutput);
+			}
 			for(Entry<String, List<String>> rqp : connection.getRequestProperties().entrySet())
 				logger.trace(" - " + rqp.getKey() + " = " + rqp.getValue());
 		}
