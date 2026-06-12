@@ -15,123 +15,33 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      BRANCH: archive/artifacts-${GITHUB_RUN_ID}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Check archive branch exists
-        id: check_archive
+      - name: Checkout repo and prepare branch
+        id: prepare_branch
         run: |
-          if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Checkout archive branch into repo_archive
-        if: steps.check_archive.outputs.exists == 'true'
-        uses: actions/checkout@v4
-        with:
-          ref: archive
-          path: repo_archive
-          fetch-depth: 1
+          set -euo pipefail
+          git fetch origin archive || true
+          git checkout -b "${ BRANCH }"
 
       - name: Download built artifacts
         uses: actions/download-artifact@v4
         with:
           name: ci_artifacts
-          path: downloaded_ci
+          path: .
 
-      - name: List downloaded artifacts
+      - name: List changes
         run: |
-          echo "PWD: $(pwd)"
-          echo "Top-level listing:"; ls -la || true
-          echo "downloaded_ci listing:"; ls -la downloaded_ci || true
-          echo "downloaded_ci files:"; find downloaded_ci -type f -print || true
+          git diff --name-only
 
-      - name: Discover module artifacts
-        id: discover
+      - name: Commit & push branch
+        id: push_branch
         run: |
           set -euo pipefail
-          rm -f artifacts_to_publish.txt || true
-          echo "Discovering jar artifacts in downloaded_ci/ci_artifacts/... folders..."
-          for jar in downloaded_ci/ci_artifacts/*/*.jar; do
-            if [ ! -f "$jar" ]; then
-              continue
-            fi
-            artifactId=$(basename "$(dirname "$jar")")
-            jarName=$(basename "$jar")
-            moduleDir=$(dirname "$jar")
-            echo "FOUND|$artifactId|$jarName|$moduleDir" >> artifacts_to_publish.txt
-          done
-          if [ ! -s artifacts_to_publish.txt ]; then
-            echo "No jar artifacts discovered; nothing to publish."; exit 0
-          fi
-          echo "Discovered artifacts:"; cat artifacts_to_publish.txt
-
-      - name: Compare with archive branch
-        id: compare
-        run: |
-          set -euo pipefail
-          rm -f missing_artifacts.txt || true
-          archive_dir="repo_archive"
-          if [ -d "$archive_dir" ]; then
-            echo "Using local archive snapshot at $archive_dir for comparisons"
-            archive_exists=1
-          else
-            echo "No local archive snapshot found; treating all artifacts as missing"
-            archive_exists=0
-          fi
-
-          while IFS= read -r line; do
-            IFS='|' read -r _ artifactId jarName moduleDir <<< "$line"
-            downloaded_path="$moduleDir/$jarName"
-            archived_path="$archive_dir/$artifactId/$jarName"
-            if [ "$archive_exists" -eq 1 ] && [ -f "$archived_path" ]; then
-              if ! cmp -s "$downloaded_path" "$archived_path"; then
-                echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
-                echo "Missing or different: $artifactId/$jarName"
-              else
-                echo "EXISTS|$artifactId|$jarName"
-              fi
-            else
-              echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
-              echo "Not present on archive: $artifactId/$jarName"
-            fi
-          done < artifacts_to_publish.txt
-
-          if [ -f missing_artifacts.txt ] && [ -s missing_artifacts.txt ]; then
-            echo "Artifacts missing on archive:"; cat missing_artifacts.txt
-          else
-            echo "No missing artifacts; nothing to publish."; exit 0
-          fi
-
-      - name: Prepare branch with missing artifacts
-        id: prepare_branch
-        run: |
-          set -euo pipefail
-          BRANCH="archive/artifacts-${GITHUB_RUN_ID}"
-          git fetch origin archive || true
-          git checkout -b "$BRANCH"
-          # copy missing artifacts into artifactId/ subfolders
-          while IFS= read -r line; do
-            IFS='|' read -r _ artifactId jarName moduleDir <<< "$line"
-            mkdir -p "$artifactId"
-            src="$moduleDir/$jarName"
-            if [ ! -f "$src" ]; then
-              echo "Warning: source artifact missing: $src"; continue
-            fi
-            cp "$src" "$artifactId/"
-            git add "$artifactId/$jarName"
-          done < <(cut -d'|' -f2- missing_artifacts.txt | sed 's/^/MISSING|/' | sed 's/^MISSING|//g' ) || true
-          if git diff --cached --quiet; then
-            echo "No artifact changes to commit"; exit 0
-          fi
-          git commit -m "Add missing built artifacts from CI run ${GITHUB_RUN_ID}"
-          git push origin "$BRANCH"
-          echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
+          git commit -m "Build artifacts from CI run ${GITHUB_RUN_ID}"
+          git push origin "${ BRANCH }"
+          echo "BRANCH=${ BRANCH }" >> $GITHUB_OUTPUT
 
       - name: Create PR to archive branch
         uses: actions/github-script@v6
