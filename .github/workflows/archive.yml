@@ -95,11 +95,57 @@ jobs:
           git push origin "${BRANCH}"
           echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
+      - name: Compute PR title and body
+        id: compute_pr
+        run: |
+          set -euo pipefail
+          # get staged differences vs origin/archive
+          files=$(git diff --name-only --cached origin/archive -- || true)
+          items=()
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            base=$(basename "$f")
+            name_noext=${base%.jar}
+            IFS='-' read -ra parts <<< "$name_noext"
+            artid=${parts[0]}
+            ver=""
+            if [ ${#parts[@]} -gt 1 ]; then
+              # prefer the second part if it starts with a digit
+              if [[ ${parts[1]} =~ ^[0-9] ]]; then
+                ver=${parts[1]}
+              else
+                ver=${parts[1]}
+              fi
+            fi
+            if [ -n "$ver" ]; then
+              items+=("${artid}-${ver}")
+            else
+              items+=("${artid}")
+            fi
+          done <<EOF
+$files
+EOF
+
+          if [ ${#items[@]} -eq 0 ]; then
+            pr_title="Build artifacts"
+            pr_body="Artifacts added by CI: $BRANCH"
+          else
+            joined=$(IFS=", "; echo "${items[*]}")
+            pr_title="Build ${joined}"
+            pr_body="Artifacts added by CI: $BRANCH\n\n${joined}"
+          fi
+          echo "PR_TITLE=$pr_title" >> $GITHUB_ENV
+          echo "PR_BODY=$pr_body" >> $GITHUB_ENV
+
       - name: Create PR to archive branch
         uses: actions/github-script@v6
         with:
           script: |
             const branch = process.env.BRANCH
-            await github.rest.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: `Add artifacts (${branch})`, body: `Artifacts added by CI: ${branch}` })
+            const title = process.env.PR_TITLE || `Add artifacts (${branch})`
+            const body = process.env.PR_BODY || `Artifacts added by CI: ${branch}`
+            await github.rest.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: title, body: body })
         env:
           BRANCH: ${{ steps.prepare_branch.outputs.BRANCH }}
+          PR_TITLE: ${{ env.PR_TITLE }}
+          PR_BODY: ${{ env.PR_BODY }}
