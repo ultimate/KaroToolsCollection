@@ -28,11 +28,23 @@ jobs:
           CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
           echo "Looking for artifacts for version ${CURRENT_VERSION}..."
           rm -f artifact_dirs.txt || true
-          for f in $(find . -path '*/target/*' -type f \( -name "*-${CURRENT_VERSION}.jar" -o -name "*-${CURRENT_VERSION}-bin.jar" \) ); do
-            artifact=$(basename "$f")
-            dest=${artifact%-${CURRENT_VERSION}.jar}
-            dest=${dest%-${CURRENT_VERSION}-bin.jar}
-            echo "Found $artifact -> placing into directory: $dest"
+          for f in $(find . -path '*/target/*' -type f -name "*.jar" ); do
+            # determine module directory (parent of target)
+            moduleDir=$(dirname "$(dirname "$f")")
+            artifactId=""
+            if [ -f "$moduleDir/pom.xml" ]; then
+              artifactId=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId -f "$moduleDir/pom.xml" 2>/dev/null || true)
+            fi
+            if [ -z "$artifactId" ]; then
+              # fallback: infer artifactId from file name (strip version and classifier)
+              artifact=$(basename "$f")
+              artifactId=$(echo "$artifact" | sed -E 's/-[0-9]+(\.[0-9a-zA-Z_\-]+)*(-[a-zA-Z]+)?\.jar$//' )
+            fi
+            if [ -z "$artifactId" ]; then
+              artifactId="unknown-artifact"
+            fi
+            dest="$artifactId"
+            echo "Found $(basename "$f") in $moduleDir -> placing into directory: $dest"
             mkdir -p "$dest"
             cp "$f" "$dest" || true
             echo "$dest" >> artifact_dirs.txt
