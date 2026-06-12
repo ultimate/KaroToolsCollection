@@ -89,6 +89,8 @@ jobs:
             cp "$jar" "ci_artifacts/$artifactId/"
           done < <(find . -path '*/target/*.jar' -print0) || true
           echo "Collected artifacts:"; ls -R ci_artifacts || true
+          echo "Artifact count:"; find ci_artifacts -type f -print | wc -l || true
+          echo "Artifact listing with sizes:"; find ci_artifacts -type f -exec ls -lh {} \; || true
 
       - name: Upload built artifacts
         uses: actions/upload-artifact@v4
