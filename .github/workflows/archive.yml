@@ -1,0 +1,96 @@
+name: Archive artifacts
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build artifacts for archive
+        run: |
+          set -e
+          ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
+          CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
+          OUTDIR="${ARTIFACT_ID}-${CURRENT_VERSION}"
+          mkdir -p "$OUTDIR"
+          echo "Looking for artifacts for ${ARTIFACT_ID}-${CURRENT_VERSION}..."
+          find . -path '*/target/*' -type f -name "${ARTIFACT_ID}-${CURRENT_VERSION}.jar" -exec cp {} "$OUTDIR" \; || true
+          find . -path '*/target/*' -type f -name "${ARTIFACT_ID}-${CURRENT_VERSION}-bin.jar" -exec cp {} "$OUTDIR" \; || true
+
+      - name: Prepare archive branch
+        id: prepare_archive_branch
+        run: |
+          set -e
+          ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
+          CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
+          ARTDIR="${ARTIFACT_ID}-${CURRENT_VERSION}"
+          if [ ! -d "$ARTDIR" ]; then
+            echo "No artifact directory found: $ARTDIR"; exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Check if archive branch exists remotely
+          if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
+            echo "archive branch exists, comparing files..."
+            CHANGED=0
+            for f in "$ARTDIR"/*; do
+              name=$(basename "$f")
+              if git show origin/archive:"$ARTDIR/$name" > /tmp/oldfile 2>/dev/null; then
+                if ! cmp -s "$f" /tmp/oldfile; then
+                  echo "File differs: $name"
+                  CHANGED=1
+                  break
+                fi
+              else
+                echo "File not present on archive: $name"
+                CHANGED=1
+                break
+              fi
+            done
+            if [ "$CHANGED" -eq 0 ]; then
+              echo "No new artifact changes compared to archive branch; skipping PR"
+              exit 0
+            fi
+          else
+            echo "archive branch does not exist; will create PR"
+          fi
+
+          VERSION=$CURRENT_VERSION
+          BRANCH="archive/artifacts-${VERSION}-${GITHUB_RUN_ID}"
+          git fetch origin archive || true
+          git checkout -b "$BRANCH"
+          git rm -r --ignore-unmatch "$ARTDIR" || true
+          cp -r "$ARTDIR" .
+          git add "$ARTDIR"
+          if git diff --cached --quiet; then
+            echo "No artifact changes to commit"; exit 0
+          fi
+          git commit -m "Add built artifacts for ${VERSION}"
+          git push origin "$BRANCH"
+          echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Create PR to archive branch
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const branch = process.env.BRANCH
+            await github.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: `Add artifacts (${branch})`, body: `Artifacts for ${branch}` })
+        env:
+          BRANCH: ${{ steps.prepare_archive_branch.outputs.BRANCH }}

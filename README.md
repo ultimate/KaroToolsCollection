@@ -9,7 +9,7 @@ All content in the project is published under the GNU General Public License (GP
 If you have further questions about using the content please don't hesitate to contact me.
 
 ## Content Overview (in alphabetical order)
-* [archive](https://github.com/ultimate/KaroToolsCollection/tree/master/archive) -> contains all past builds that have been published in ready-to-use zip-files.
+* [archive](https://github.com/ultimate/KaroToolsCollection/tree/archive) (branch) -> contains all past builds that have been published in ready-to-use zip-files.
 * [CraZZZy Crash Challenge](https://github.com/ultimate/KaroToolsCollection/tree/master/CraZZZy%20Crash%20Challenge) -> contains the data from the CraZZZy Crash Challenge (saved KaroMUSKEL series files, evaluation, etc.)
 * [improvements](https://github.com/ultimate/KaroToolsCollection/tree/master/improvements) -> contains contributions and proposals to www.karopapier.de 
 * [KaroAPI4J](https://github.com/ultimate/KaroToolsCollection/tree/master/KaroAPI4J) -> contains the Karopapier API wrapper for Java

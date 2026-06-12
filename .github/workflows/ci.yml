@@ -1,7 +1,7 @@
-name: Java CI (Maven)
+name: PR CI (calls reusable build)
 
 permissions:
-  contents: write
+  contents: read
 
 on:
   pull_request:
@@ -9,90 +9,5 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        java-version: [8]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-          persist-credentials: true
-
-      - name: Set up JDK ${{ matrix.java-version }}
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: ${{ matrix.java-version }}
-          cache: maven
-
-      - name: Cache local Maven repository
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2-
-
-      - name: Create login.properties from secrets
-        run: |
-          set -e
-          API4J_FILE=KaroAPI4J/src/test/resources/login.properties
-          MUSKEL_FILE=KaroMUSKEL-Java/src/test/resources/login.properties
-
-          printf 'karoAPI.images=false\n' > "$API4J_FILE"
-          printf 'karoAPI.user=%s\n' "${{ secrets.KARO_API_USER }}" >> "$API4J_FILE"
-          printf 'karoAPI.password=%s\n' "${{ secrets.KARO_API_PASS }}" >> "$API4J_FILE"
-          printf 'karoAPI.user2=%s\n' "${{ secrets.KARO_API_USER2 }}" >> "$API4J_FILE"
-          printf 'karoAPI.password2=%s\n' "${{ secrets.KARO_API_PASS2 }}" >> "$API4J_FILE"
-          printf 'karoWIKI.user=%s\n' "${{ secrets.KARO_WIKI_USER }}" >> "$API4J_FILE"
-          printf 'karoWIKI.password=%s\n' "${{ secrets.KARO_WIKI_PASS }}" >> "$API4J_FILE"
-          chmod 600 "$API4J_FILE" || true
-
-          printf 'karoAPI.images=false\n' > "$MUSKEL_FILE"
-          printf 'karoAPI.user=%s\n' "${{ secrets.KARO_API_USER }}" >> "$MUSKEL_FILE"
-          printf 'karoAPI.password=%s\n' "${{ secrets.KARO_API_PASS }}" >> "$MUSKEL_FILE"
-          printf 'karoWIKI.user=%s\n' "${{ secrets.KARO_WIKI_USER }}" >> "$MUSKEL_FILE"
-          printf 'karoWIKI.password=%s\n' "${{ secrets.KARO_WIKI_PASS }}" >> "$MUSKEL_FILE"
-          chmod 600 "$MUSKEL_FILE" || true
-
-      - name: Build with Maven
-        run: mvn -B -V -DskipTests=false -Dtest='!KaroAPICacheTest#test_imageCaching' verify
-
-      - name: Copy artifacts to archive if version increased
-        id: copy_artifacts
-        run: |
-          set -e
-          CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
-          ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
-          echo "Current version: $CURRENT_VERSION"
-          PREV_VERSION="$CURRENT_VERSION"
-          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
-            git show HEAD~1:pom.xml > previous-pom.xml || true
-            if [ -s previous-pom.xml ]; then
-              PREV_VERSION=$(mvn -q -DforceStdout -f previous-pom.xml help:evaluate -Dexpression=project.version)
-            fi
-          fi
-          echo "Previous version: $PREV_VERSION"
-          python3 -c "from distutils.version import LooseVersion; import sys; cv=LooseVersion(sys.argv[1]); pv=LooseVersion(sys.argv[2]); sys.exit(0 if cv>pv else 1)" "$CURRENT_VERSION" "$PREV_VERSION"
-          if [ $? -ne 0 ]; then
-            echo "Version did not increase (or could not compare); skipping artifact copy"
-            exit 0
-          fi
-          mkdir -p archive
-          echo "Looking for artifacts for ${ARTIFACT_ID}-${CURRENT_VERSION}..."
-          find . -path '*/target/*' -type f -name "${ARTIFACT_ID}-${CURRENT_VERSION}.jar" -exec cp {} archive/ \; || true
-          find . -path '*/target/*' -type f -name "${ARTIFACT_ID}-${CURRENT_VERSION}-bin.jar" -exec cp {} archive/ \; || true
-          echo "Done copying artifacts (if any) to archive/"
-
-      - name: Commit and push archive
-        if: ${{ success() && (github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository) }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add archive || true
-          git commit -m "Add artifacts for $CURRENT_VERSION" || { echo "no changes to commit"; exit 0; }
-          git push origin "HEAD:${GITHUB_REF#refs/heads/}"
-        env:
-          GITHUB_REF: ${{ github.ref }}
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
