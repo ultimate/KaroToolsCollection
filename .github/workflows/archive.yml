@@ -151,17 +151,6 @@ jobs:
           git push origin "${BRANCH}"
           echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
-      - name: Verify remote branch exists
-        run: |
-          echo "Checking origin for branch ${BRANCH}"
-          git fetch origin --prune
-          if git ls-remote --heads origin "${BRANCH}" | grep -q "refs/heads/${BRANCH}"; then
-            echo "Branch ${BRANCH} exists on origin"
-          else
-            echo "Branch ${BRANCH} not found on origin. Remote heads:"; git ls-remote --heads origin || true
-            exit 1
-          fi
-
       - name: Create PR to archive branch
         uses: actions/github-script@v7
         with:
