@@ -1,4 +1,4 @@
-name: Archive artifacts
+name: store maven articfacts in archive branch
 
 permissions:
   contents: write

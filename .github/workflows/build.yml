@@ -1,12 +1,11 @@
-name: Reusable Maven build
+name: maven test & build
+
+permissions:
+  contents: read
 
 on:
-  workflow_call:
-    inputs:
-      upload_artifacts:
-        required: false
-        type: boolean
-        default: false
+  pull_request:
+    branches: [ master ]
 
 jobs:
   build:
