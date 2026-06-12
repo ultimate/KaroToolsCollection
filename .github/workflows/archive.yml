@@ -151,9 +151,6 @@ jobs:
           git push origin "${BRANCH}"
           echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
-      - name: Create PR to archive branch
-        uses: actions/github-script@v7
-        # ensure branch exists remotely before creating PR
       - name: Verify remote branch exists
         run: |
           echo "Checking origin for branch ${BRANCH}"
@@ -164,6 +161,9 @@ jobs:
             echo "Branch ${BRANCH} not found on origin. Remote heads:"; git ls-remote --heads origin || true
             exit 1
           fi
+
+      - name: Create PR to archive branch
+        uses: actions/github-script@v7
         with:
           script: |
             const branch = process.env.BRANCH
