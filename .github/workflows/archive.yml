@@ -39,6 +39,9 @@ jobs:
           else
             git checkout -b "${BRANCH}"
           fi
+          # configure committer identity for the local repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Download built artifacts
         uses: actions/download-artifact@v4
@@ -46,22 +49,34 @@ jobs:
           name: ci_artifacts
           path: .
 
-      - name: List changes
+      - name: List & add new artifacts
+        id: stage_new_artifacts
         run: |
-          echo "Working tree status (before add):"
-          git status --porcelain
+          echo "Working tree status (after download):"
+          git status --porcelain || true
 
-          # Stage all changes introduced by the downloaded artifacts
-          git add -A
+          # Discard any modifications to already-tracked files so we only keep newly added artifacts
+          git checkout -- . || true
 
-          # If nothing staged, abort early
-          if git diff --cached --quiet; then
-            echo "No changes staged after download; nothing to commit. Exiting."
+          # Find newly added/untracked files (these are the artifacts we just downloaded)
+          mapfile -d '' new_files < <(git ls-files --others --exclude-standard -z || true)
+          if [ ${#new_files[@]} -eq 0 ]; then
+            echo "No new (untracked) files found; nothing to commit. Exiting."
             exit 0
           fi
 
-          echo "Staged changes to be committed:"
-          git diff --cached --name-only
+          echo "New files to add:"
+          for f in "${new_files[@]}"; do
+            echo "$f"
+          done
+
+          # Stage only new files
+          for f in "${new_files[@]}"; do
+            git add -- "$f"
+          done
+
+          echo "Staged new files:"
+          git diff --cached --name-only || true
 
       - name: Commit & push branch
         id: push_branch
