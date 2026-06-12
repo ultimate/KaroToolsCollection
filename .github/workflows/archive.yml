@@ -117,10 +117,21 @@ jobs:
                 ver=${parts[1]}
               fi
             fi
+            # build candidate and add only if not already present (skip duplicates like foo.jar and foo-bin.jar)
             if [ -n "$ver" ]; then
-              items+=("${artid}-${ver}")
+              candidate="${artid}-${ver}"
             else
-              items+=("${artid}")
+              candidate="${artid}"
+            fi
+            exists=0
+            for it in "${items[@]}"; do
+              if [ "$it" = "$candidate" ]; then
+                exists=1
+                break
+              fi
+            done
+            if [ $exists -eq 0 ]; then
+              items+=("$candidate")
             fi
           done <<< "$files"
 
