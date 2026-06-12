@@ -22,8 +22,18 @@ jobs:
         id: prepare_branch
         run: |
           set -euo pipefail
-          git fetch origin archive || true
-          git checkout -b "${ BRANCH }"
+          # ensure we have remote refs
+          git fetch --no-tags --prune origin || true
+
+          # create local branch from origin/${BRANCH} if it exists remotely, else create new branch
+          if git rev-parse --verify --quiet "${BRANCH}" >/dev/null; then
+            git checkout "${BRANCH}"
+          elif git ls-remote --heads origin "${BRANCH}" | grep -q "refs/heads/${BRANCH}"; then
+            git fetch origin "${BRANCH}:${BRANCH}" || true
+            git checkout "${BRANCH}"
+          else
+            git checkout -b "${BRANCH}"
+          fi
 
       - name: Download built artifacts
         uses: actions/download-artifact@v4
@@ -33,12 +43,33 @@ jobs:
 
       - name: List changes
         run: |
-          git diff --name-only
+          echo "Working tree status (before add):"
+          git status --porcelain
+
+          # Stage all changes introduced by the downloaded artifacts
+          git add -A
+
+          # If nothing staged, abort early
+          if git diff --cached --quiet; then
+            echo "No changes staged after download; nothing to commit. Exiting."
+            exit 0
+          fi
+
+          echo "Staged changes to be committed:"
+          git diff --cached --name-only
 
       - name: Commit & push branch
         id: push_branch
         run: |
           set -euo pipefail
+          # ensure everything is staged (defensive)
+          git add -A
+
+          # commit only if there are staged changes
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit; skipping push."; exit 0
+          fi
+
           git commit -m "Build artifacts from CI run ${GITHUB_RUN_ID}"
           git push origin "${ BRANCH }"
           echo "BRANCH=${ BRANCH }" >> $GITHUB_OUTPUT
