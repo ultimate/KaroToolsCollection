@@ -57,7 +57,7 @@ public class KaroAPITestcase
 		karoAPI = new KaroAPI(properties.getProperty(KaroAPI.CONFIG_KEY + ".user"), properties.getProperty(KaroAPI.CONFIG_KEY + ".password"));
 		logger.info("KaroAPI initialized");
 
-		karoAPICache = new KaroAPICache(karoAPI);
+		karoAPICache = new KaroAPICache(karoAPI, properties);
 		karoAPICache.refresh().join();
 		logger.info("KaroAPICache initialized");
 

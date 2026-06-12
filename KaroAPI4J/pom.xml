@@ -70,6 +70,8 @@
 		</plugins>
 	</build>
 
+
+
 	<properties>
 		<!-- Dependencies -->
 		<log4j.version>2.23.1</log4j.version> <!-- 2024.03.18 -->

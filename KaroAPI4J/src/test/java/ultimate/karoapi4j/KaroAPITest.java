@@ -111,6 +111,14 @@ public class KaroAPITest extends KaroAPITestcase
 		}
 	}
 
+	private static Date createUTCDate(int year, int month, int day, int hour, int minute, int second)
+	{
+		java.util.Calendar c = new java.util.GregorianCalendar(java.util.TimeZone.getTimeZone("UTC"));
+		c.set(year, month, day, hour, minute, second);
+		c.set(java.util.Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
+
 	///////////////////////
 	// Tests
 	///////////////////////
@@ -1016,8 +1024,8 @@ public class KaroAPITest extends KaroAPITestcase
 	{
 		int firstId = TEST_CHAT_ID_MIN;
 		int lastId = TEST_CHAT_ID_MAX;
-		Date firstDate = new GregorianCalendar(2022, 0, 31, 9, 45, 0).getTime();
-		Date lastDate = new GregorianCalendar(2022, 0, 31, 9, 52, 0).getTime();
+		Date firstDate = createUTCDate(2022, 0, 31, 8, 45, 0);
+		Date lastDate = createUTCDate(2022, 0, 31, 8, 52, 0);
 
 		// dedicated entry
 
@@ -1071,7 +1079,7 @@ public class KaroAPITest extends KaroAPITestcase
 	public void test_getChatMessage() throws InterruptedException, ExecutionException
 	{
 		int id = TEST_CHAT_ID_MIN;
-		Date date = new GregorianCalendar(2022, 0, 31, 9, 45, 41).getTime();
+		Date date = createUTCDate(2022, 0, 31, 8, 45, 41);
 
 		// dedicated entry
 
