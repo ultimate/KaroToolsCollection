@@ -21,116 +21,105 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Look for built artifacts
-        run: |
-          set -e
-          ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
-          CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
-          echo "Looking for artifacts for version ${CURRENT_VERSION}..."
-          rm -f artifact_dirs.txt || true
-          for f in $(find . -path '*/target/*' -type f -name "*.jar" ); do
-            # determine module directory (parent of target)
-            moduleDir=$(dirname "$(dirname "$f")")
-            artifactId=""
-            if [ -f "$moduleDir/pom.xml" ]; then
-              artifactId=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId -f "$moduleDir/pom.xml" 2>/dev/null || true)
-            fi
-            if [ -z "$artifactId" ]; then
-              # fallback: infer artifactId from file name (strip version and classifier)
-              artifact=$(basename "$f")
-              artifactId=$(echo "$artifact" | sed -E 's/-[0-9]+(\.[0-9a-zA-Z_\-]+)*(-[a-zA-Z]+)?\.jar$//' )
-            fi
-            if [ -z "$artifactId" ]; then
-              artifactId="unknown-artifact"
-            fi
-            dest="$artifactId"
-            echo "Found $(basename "$f") in $moduleDir -> placing into directory: $dest"
-            mkdir -p "$dest"
-            cp "$f" "$dest" || true
-            echo "$dest" >> artifact_dirs.txt
-          done
-          if [ -f artifact_dirs.txt ]; then
-            sort -u artifact_dirs.txt -o artifact_dirs.txt || true
-            echo "Artifact directories created:"; cat artifact_dirs.txt
-            while read -r d; do
-              echo "Listing $d:"; ls -la "$d" || true
-            done < artifact_dirs.txt
-          else
-            echo "No artifacts found for version ${CURRENT_VERSION}"; exit 0
-          fi
+          - name: Discover module artifacts
+            id: discover
+            run: |
+              set -euo pipefail
+              rm -f artifacts_to_publish.txt || true
+              echo "Discovering jar artifacts in module target/ folders..."
+              # find all jars under module target directories
+              while IFS= read -r -d '' jar; do
+                moduleDir=$(dirname "$(dirname "$jar")")
+                jarName=$(basename "$jar")
+                artifactId=""
+                if [ -f "$moduleDir/pom.xml" ]; then
+                  artifactId=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId -f "$moduleDir/pom.xml" 2>/dev/null || true)
+                fi
+                if [ -z "$artifactId" ]; then
+                  # fallback: strip version and extension from file name
+                  artifactId=$(echo "$jarName" | sed -E 's/-[0-9]+(\.[0-9a-zA-Z_\-]+)*(-[a-zA-Z]+)?\.jar$//' )
+                fi
+                if [ -z "$artifactId" ]; then
+                  artifactId="unknown-artifact"
+                fi
+                echo "FOUND|$artifactId|$jarName|$moduleDir" >> artifacts_to_publish.txt
+              done < <(find . -path '*/target/*.jar' -print0)
+              if [ ! -s artifacts_to_publish.txt ]; then
+                echo "No jar artifacts discovered; nothing to publish."; exit 0
+              fi
+              echo "Discovered artifacts:"; cat artifacts_to_publish.txt
 
-      - name: Prepare archive branch
-        id: prepare_archive_branch
-        run: |
-          set -e
-          ARTIFACT_ID=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
-          CURRENT_VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
-          ARTDIRS_FILE=artifact_dirs.txt
-          if [ ! -f "$ARTDIRS_FILE" ]; then
-            echo "No artifact dirs file found: $ARTDIRS_FILE"; exit 0
-          fi
-          ARTDIRS=$(cat "$ARTDIRS_FILE")
-          if [ -z "$ARTDIRS" ]; then
-            echo "No artifact directories listed in $ARTDIRS_FILE"; exit 0
-          fi
+          - name: Compare with archive branch
+            id: compare
+            run: |
+              set -euo pipefail
+              git fetch origin archive || true
+              archive_exists=0
+              if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
+                archive_exists=1
+                echo "Archive branch exists; comparing files against origin/archive"
+              else
+                echo "Archive branch does not exist; all artifacts are considered missing"
+              fi
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Check if archive branch exists remotely
-          if git ls-remote --heads origin archive | grep -q refs/heads/archive; then
-            echo "archive branch exists, comparing files..."
-            CHANGED=0
-            for dir in $ARTDIRS; do
-              for f in "$dir"/*; do
-                name=$(basename "$f")
-                if git show origin/archive:"$dir/$name" > /tmp/oldfile 2>/dev/null; then
-                  if ! cmp -s "$f" /tmp/oldfile; then
-                    echo "File differs: $dir/$name"
-                    CHANGED=1
-                    break 2
+              rm -f missing_artifacts.txt || true
+              while IFS= read -r line; do
+                IFS='|' read -r _ artifactId jarName moduleDir <<< "$line"
+                targetPath="$artifactId/$jarName"
+                if [ "$archive_exists" -eq 1 ]; then
+                  if git show origin/archive:"$targetPath" > /tmp/oldfile 2>/dev/null; then
+                    # compare content
+                    if ! cmp -s "$moduleDir/target/$jarName" /tmp/oldfile; then
+                      echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
+                      echo "Missing or different: $targetPath"
+                    else
+                      echo "EXISTS|$artifactId|$jarName"
+                    fi
+                  else
+                    echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
+                    echo "Not present on archive: $targetPath"
                   fi
                 else
-                  echo "File not present on archive: $dir/$name"
-                  CHANGED=1
-                  break 2
+                  echo "MISSING|$artifactId|$jarName" >> missing_artifacts.txt
                 fi
-              done
-            done
-            if [ "$CHANGED" -eq 0 ]; then
-              echo "No new artifact changes compared to archive branch; skipping PR"
-              exit 0
-            fi
-          else
-            echo "archive branch does not exist; will create PR"
-          fi
+              done < artifacts_to_publish.txt
 
-          VERSION=$CURRENT_VERSION
-          BRANCH="archive/artifacts-${VERSION}-${GITHUB_RUN_ID}"
-          git fetch origin archive || true
-          git checkout -b "$BRANCH"
-          for dir in $ARTDIRS; do
-            git.rm -r --ignore-unmatch "$dir" || true
-            git rm -r --ignore-unmatch "./$dir" || true || true
-            if [ -d "./$dir" ]; then
-              echo "Directory $dir already exists in working tree on this branch; will replace it"
-              git rm -r --ignore-unmatch "./$dir" || true
-            fi
-            cp -r "$dir" .
-            git add "$dir"
-          done
-          if git diff --cached --quiet; then
-            echo "No artifact changes to commit"; exit 0
-          fi
-          git commit -m "Add built artifacts for ${VERSION}"
-          git push origin "$BRANCH"
-          echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
+              if [ -f missing_artifacts.txt ] && [ -s missing_artifacts.txt ]; then
+                echo "Artifacts missing on archive:"; cat missing_artifacts.txt
+              else
+                echo "No missing artifacts; nothing to publish."; exit 0
+              fi
 
-      - name: Create PR to archive branch
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const branch = process.env.BRANCH
-            await github.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: `Add artifacts (${branch})`, body: `Artifacts for ${branch}` })
-        env:
-          BRANCH: ${{ steps.prepare_archive_branch.outputs.BRANCH }}
+          - name: Prepare branch with missing artifacts
+            id: prepare_branch
+            run: |
+              set -euo pipefail
+              BRANCH="archive/artifacts-${GITHUB_RUN_ID}"
+              git fetch origin archive || true
+              git checkout -b "$BRANCH"
+              # copy missing artifacts into artifactId/ subfolders
+              while IFS= read -r line; do
+                IFS='|' read -r _ artifactId jarName moduleDir <<< "$line"
+                mkdir -p "$artifactId"
+                src="$moduleDir/target/$jarName"
+                if [ ! -f "$src" ]; then
+                  echo "Warning: source artifact missing: $src"; continue
+                fi
+                cp "$src" "$artifactId/"
+                git add "$artifactId/$jarName"
+              done < <(cut -d'|' -f2- missing_artifacts.txt | sed 's/^/MISSING|/' | sed 's/^MISSING|//g' ) || true
+              if git diff --cached --quiet; then
+                echo "No artifact changes to commit"; exit 0
+              fi
+              git commit -m "Add missing built artifacts from CI run ${GITHUB_RUN_ID}"
+              git push origin "$BRANCH"
+              echo "BRANCH=$BRANCH" >> $GITHUB_OUTPUT
+
+          - name: Create PR to archive branch
+            uses: actions/github-script@v6
+            with:
+              script: |
+                const branch = process.env.BRANCH
+                await github.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: `Add artifacts (${branch})`, body: `Artifacts added by CI: ${branch}` })
+            env:
+              BRANCH: ${{ steps.prepare_branch.outputs.BRANCH }}
