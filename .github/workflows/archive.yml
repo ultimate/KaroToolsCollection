@@ -152,7 +152,7 @@ jobs:
           echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
       - name: Create PR to archive branch
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const branch = process.env.BRANCH
