@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -51,7 +51,7 @@ jobs:
           echo "Top 200 files by size:"; find . -type f -exec ls -sh {} + | sort -h -r | head -n 200 || true
 
       - name: Download built artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ci_artifacts
           path: .
@@ -152,7 +152,7 @@ jobs:
           echo "BRANCH=${BRANCH}" >> $GITHUB_OUTPUT
 
       - name: Create PR to archive branch
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const branch = process.env.BRANCH
