@@ -2,6 +2,7 @@ name: store maven articfacts in archive branch
 
 permissions:
   contents: write
+  pull-requests: write
 
 on:
   push:
@@ -99,6 +100,6 @@ jobs:
         with:
           script: |
             const branch = process.env.BRANCH
-            await github.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: `Add artifacts (${branch})`, body: `Artifacts added by CI: ${branch}` })
+            await github.rest.pulls.create({ owner: context.repo.owner, repo: context.repo.repo, head: branch, base: 'archive', title: `Add artifacts (${branch})`, body: `Artifacts added by CI: ${branch}` })
         env:
           BRANCH: ${{ steps.prepare_branch.outputs.BRANCH }}
