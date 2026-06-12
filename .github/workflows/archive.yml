@@ -18,7 +18,12 @@ jobs:
     env:
       BRANCH: archive/artifacts-${GITHUB_RUN_ID}
     steps:
-      - name: Checkout repo and prepare branch
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prepare branch
         id: prepare_branch
         run: |
           set -euo pipefail
