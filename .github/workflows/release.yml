@@ -1,4 +1,4 @@
-name: Create releases from archive artifacts
+name: create releases from archive artifacts
 
 permissions:
   contents: write
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout archive branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: archive
@@ -31,11 +31,11 @@ jobs:
             // Get files changed in the pushed commit (added files)
             const sha = process.env.GITHUB_SHA;
             if (!sha) {
-              core = require('@actions/core');
+              const core = require('@actions/core');
               core.info('GITHUB_SHA not set; nothing to release.');
               return;
             }
-            const nameStatus = execSync(`git diff-tree --no-commit-id --name-status -r ${sha}`).toString('utf8').trim();
+            const nameStatus = execSync('git diff-tree --no-commit-id --name-status -r ' + sha).toString('utf8').trim();
             if (!nameStatus) {
               console.log('No files in commit.');
               return;
@@ -54,8 +54,8 @@ jobs:
               return;
             }
 
-            // Read allowed artifacts from secret (one artifactId per line)
-            const allowedRaw = '${{ vars.RELEASE_ARTIFACTS }}';
+            // Read allowed artifacts from variable (one artifactId per line)
+            const allowedRaw = process.env.RELEASE_ARTIFACTS || '';
             const allowedSet = new Set(allowedRaw.split(/\r?\n/).map(s => s.trim()).filter(Boolean));
 
             // Group by artifactId and version
@@ -80,10 +80,10 @@ jobs:
               }
               // if RELEASE_ARTIFACTS is defined, skip artifacts not listed
               if (allowedSet.size > 0 && !allowedSet.has(artid)) {
-                console.log(`Skipping file ${fp} because ${artid} is not in RELEASE_ARTIFACTS`);
+                console.log('Skipping file ' + fp + ' because ' + artid + ' is not in RELEASE_ARTIFACTS');
                 continue;
               }
-              const key = `${artid}::${ver}`;
+              const key = artid + '::' + ver;
               groups[key] = groups[key] || { artid, ver, files: [] };
               groups[key].files.push(fp);
             }
@@ -95,18 +95,18 @@ jobs:
             // For each group create release and upload files
             for (const key of Object.keys(groups)) {
               const { artid, ver, files } = groups[key];
-              const tag = `${artid}-${ver}`;
+              const tag = artid + '-' + ver;
               let releaseResp;
               try {
-                releaseResp = await github.rest.repos.createRelease({ owner, repo, tag_name: tag, name: `${artid}-${ver}`, body: `Artifacts for ${artid}-${ver}`, draft: false, prerelease: false });
-                console.log(`Created release ${tag}`);
+                releaseResp = await github.rest.repos.createRelease({ owner, repo, tag_name: tag, name: artid + '-' + ver, body: 'Artifacts for ' + artid + '-' + ver, draft: false, prerelease: false });
+                console.log('Created release ' + tag);
               } catch (e) {
                 if (e.status === 422) {
                   const releases = await github.rest.repos.listReleases({ owner, repo });
                   const existing = releases.data.find(r => r.tag_name === tag);
                   if (!existing) throw e;
                   releaseResp = { data: existing };
-                  console.log(`Using existing release ${tag}`);
+                  console.log('Using existing release ' + tag);
                 } else {
                   throw e;
                 }
@@ -114,12 +114,13 @@ jobs:
               const releaseId = releaseResp.data.id;
               for (const fp of files) {
                 const abs = path.join(process.env.GITHUB_WORKSPACE, fp);
-                if (!fs.existsSync(abs)) { console.log(`File not found: ${abs}`); continue; }
+                if (!fs.existsSync(abs)) { console.log('File not found: ' + abs); continue; }
                 const data = fs.readFileSync(abs);
                 const name = path.basename(fp);
                 await github.rest.repos.uploadReleaseAsset({ owner, repo, release_id: releaseId, name: name, data: data, headers: { 'content-type': 'application/java-archive', 'content-length': data.length } });
-                console.log(`Uploaded ${name} to ${tag}`);
+                console.log('Uploaded ' + name + ' to ' + tag);
               }
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_ARTIFACTS: ${{ vars.RELEASE_ARTIFACTS }}
