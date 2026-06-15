@@ -98,7 +98,7 @@ jobs:
               const tag = artid + '-' + ver;
               let releaseResp;
               try {
-                releaseResp = await github.rest.repos.createRelease({ owner, repo, tag_name: tag, name: artid + '-' + ver, body: 'Artifacts for ' + artid + '-' + ver, draft: false, prerelease: false });
+                releaseResp = await github.rest.repos.createRelease({ owner, repo, tag_name: tag, name: artid + '-' + ver, body: 'Artifacts for ' + artid + '-' + ver, draft: true, prerelease: false, make_latest: "" + (artid == process.env.MAIN_ARTIFACT)  });
                 console.log('Created release ' + tag);
               } catch (e) {
                 if (e.status === 422) {
