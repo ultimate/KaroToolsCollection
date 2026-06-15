@@ -46,7 +46,7 @@ jobs:
               const parts = line.split('\t');
               const status = parts[0].trim();
               const file = parts[1] && parts[1].trim();
-              if (status === 'A' && file && file.endsWith('.jar')) added.push(file);
+              if (status === 'A' && file && (file.endsWith('.jar') || file.endsWith('.bat'))) added.push(file);
             });
 
             if (added.length === 0) {
