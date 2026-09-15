@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
@@ -20,19 +24,24 @@ import ultimate.karoapi4j.enums.EnumGameTC;
 import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.extended.Rules;
 import ultimate.karoapi4j.model.official.Generator;
+import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.User;
 import ultimate.karoapi4j.utils.JSONUtil;
 import ultimate.karoapi4j.utils.PropertiesUtil;
 import ultimate.karomuskel.GameSeriesManager;
+import ultimate.karomuskel.Planner;
+import ultimate.karomuskel.ui.Language;
 
 public class CCCGeneratorPlanner
 {
-	public static final int GAME_DAYS_VIRTUALLY = 25;
-	public static final int GAMES_PER_PLAYER_PER_VIRTUAL_GAME_DAY = 6;
-	public static final int GAMES_PER_PLAYER_PER_REAL_GAME_DAY = 1;
-	public static final int VARIATIONS_PER_GAME_DAY = GAMES_PER_PLAYER_PER_VIRTUAL_GAME_DAY / GAMES_PER_PLAYER_PER_REAL_GAME_DAY;
-	public static final int CHALLENGES = GAME_DAYS_VIRTUALLY * VARIATIONS_PER_GAME_DAY;
-	public static final String RANGE_DELIM = "-";
+	private static final int GAME_DAYS_VIRTUALLY = 25;
+	private static final int GAMES_PER_PLAYER_PER_VIRTUAL_GAME_DAY = 6;
+	private static final int GAMES_PER_PLAYER_PER_REAL_GAME_DAY = 1;
+	private static final int VARIATIONS_PER_GAME_DAY = GAMES_PER_PLAYER_PER_VIRTUAL_GAME_DAY / GAMES_PER_PLAYER_PER_REAL_GAME_DAY;
+	private static final int CHALLENGES = GAME_DAYS_VIRTUALLY * VARIATIONS_PER_GAME_DAY;
+	private static final String RANGE_DELIM = "-";
+	private static final String GENERATOR_PLACEHOLDER = "%G%";
+	private static final String CHALLENGE_NAME = "7 - Challenge ";
 
 	/*
 		src/main/resources/login.properties
@@ -54,7 +63,7 @@ public class CCCGeneratorPlanner
 			cache.refresh().join();		
 			
 			// create instance 
-			String title = "CraZZZy Crash Challenge 7 - Challenge ${spieltag}.${spieltag.i} - Generator ${karte.id} | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}";
+			String title = "CraZZZy Crash Challenge 7 - Challenge ${spieltag}.${spieltag.i} - " + GENERATOR_PLACEHOLDER + " | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}";
 			CCCGeneratorPlanner p = new CCCGeneratorPlanner(cache, title, "Crash^7");
 			
 			// read participants
@@ -71,18 +80,69 @@ public class CCCGeneratorPlanner
 				}
 			}
 			
+			List<ChallengeConfig> configs = new ArrayList<>();
+			
 			// read challenges & create game days
 			try(BufferedReader br = new BufferedReader(new FileReader(challenges))) {
 				String line;
 				while((line = br.readLine()) != null) {
 					ChallengeConfig challengeConfig = parseLine(line);
 					p.createGameDaysFromConfig(challengeConfig, VARIATIONS_PER_GAME_DAY, GAMES_PER_PLAYER_PER_REAL_GAME_DAY);
+					configs.add(challengeConfig);
 				}
 			}
 			
-			GameSeriesManager.store(p.getGameSeries(), outputFile);
-		}
-		finally {
+			// get the result
+			GameSeries gs = p.getGameSeries();
+			
+			// initialize KaroMUSKEL (what's needed for planning)
+			Language.load("de");
+			
+			// plan the games
+			Planner planner = new Planner();
+			List<PlannedGame> plannedGames = planner.planSeries(gs);
+			
+			// add the generator variation to the names
+			System.out.println("modifying game names...");
+			Map<String, Integer> generatorUsages = new HashMap<String, Integer>();
+			for(int i = 0; i < GAME_DAYS_VIRTUALLY; i++) {
+				int realChallenge = (i+1);
+				ChallengeConfig config = configs.get(i);
+				int generatorUsage = generatorUsages.getOrDefault(config.generatorKey, 0);
+				
+				int challengeStart = i * VARIATIONS_PER_GAME_DAY + 1;
+				int challengeEnd = i * VARIATIONS_PER_GAME_DAY + VARIATIONS_PER_GAME_DAY;
+				
+				String replacement;
+				if("u7".equals(config.generatorKey)) {
+					Generator tmp = JSONUtil.deserialize(config.generatorSerialization, new TypeReference<Generator>() {});
+					String mid = (String) tmp.getSettings().get("mid");
+					replacement = config.generatorKey + " Map " + mid;
+				}
+				else
+					replacement = config.generatorKey + " Variante " + (generatorUsage + 1);
+				System.out.println("- challenge #" + challengeStart + "-" + challengeEnd + " -> replacing " + GENERATOR_PLACEHOLDER + " -> " + replacement);
+				
+				for(int c = challengeStart, ci = 1; c <= challengeEnd; c++, ci++) {
+					int cf = c;
+					int cif = ci;
+					plannedGames.stream().filter(pg -> pg.getName().contains(CHALLENGE_NAME + cf)).forEach(pg -> {
+						String newName = pg.getName()
+//								.replace(CHALLENGE_NAME + cf, "Challenge " + realChallenge + "." + cif)
+								.replace(GENERATOR_PLACEHOLDER, replacement);
+						pg.setName(newName);
+					});
+				}
+
+				generatorUsages.put(config.generatorKey, generatorUsage+1);
+			}
+			
+			gs.getGames().put("Balanced", plannedGames);
+			
+			GameSeriesManager.store(gs, outputFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
 			System.exit(0);
 		}
 	}
@@ -90,7 +150,7 @@ public class CCCGeneratorPlanner
 	public static class ChallengeConfig {
 		int challenge;
 		String generatorKey;
-		String generatorSettings;
+		String generatorSerialization;
 		int zzzMin;
 		int zzzMax;
 		boolean cps;
@@ -100,16 +160,16 @@ public class CCCGeneratorPlanner
 	private static ChallengeConfig parseLine(String line) {
 		String[] parts = line.split("\t");
 		ChallengeConfig cc = new ChallengeConfig();
-		cc.challenge 		= Integer.parseInt(parts[0]);
-		cc.generatorKey 	= parts[1];
-		cc.generatorSettings= parts[2];
-		int[] zzzRange 		= parseIntRange(parts[3]);
-		cc.zzzMin 			= zzzRange[0];
-		cc.zzzMax 			= zzzRange[1];
-		cc.cps 				= "ja".equalsIgnoreCase(parts[4]);
-		//cc.direction 		= EnumGameDirection.valueOf(parts[5]); // always free
-		//cc.estimatedMoves = Integer.parseInt(parts[6]); // irrelevant
-		cc.players 			= Integer.parseInt(parts[7]);
+		cc.challenge 				= Integer.parseInt(parts[0]);
+		cc.generatorKey 			= parts[1];
+		cc.generatorSerialization	= "{\"key\":\"" + cc.generatorKey + "\",\"settings\": " + parts[2] + "}";;
+		int[] zzzRange 				= parseIntRange(parts[3]);
+		cc.zzzMin 					= zzzRange[0];
+		cc.zzzMax 					= zzzRange[1];
+		cc.cps 						= "ja".equalsIgnoreCase(parts[4]);
+		//cc.direction 				= EnumGameDirection.valueOf(parts[5]); // always free
+		//cc.estimatedMoves 		= Integer.parseInt(parts[6]); // irrelevant
+		cc.players 					= Integer.parseInt(parts[7]);
 		return cc;
 	}
 	
@@ -154,13 +214,12 @@ public class CCCGeneratorPlanner
 	
 	public void createGameDaysFromConfig(ChallengeConfig config, int variations, int gamesPerPlayerPerRealGameDay) {
 		String key = config.generatorKey.toLowerCase();
-		String serialization = "{\"key\":\"" + key + "\",\"settings\": " + config.generatorSettings + "}";
 		Generator base = cache.getGenerators().stream().filter(g -> key.equalsIgnoreCase(g.getKey())).findFirst().get();
 		for(int i = 0; i < variations; i++) {
-			System.out.println("challenge #" + challengeCounter + " -> on generator: " + base);
+			System.out.println("challenge #" + (challengeCounter + 1) + " -> on generator: " + base);
 			
 			// load generator settings
-			Generator tmp = JSONUtil.deserialize(serialization, new TypeReference<Generator>() {});
+			Generator tmp = JSONUtil.deserialize(config.generatorSerialization, new TypeReference<Generator>() {});
 			cleanUpSettings(tmp);
 			randomize(tmp, rnd);
 			// apply them to the generator
