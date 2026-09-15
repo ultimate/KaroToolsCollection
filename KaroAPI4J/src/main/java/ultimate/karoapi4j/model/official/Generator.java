@@ -249,11 +249,21 @@ public class Generator extends Identifiable implements PlaceToRace
 			Object value = this.settings.get(key);
 			if(value instanceof Integer)
 				return (int) value;
-			else if(value instanceof String)
+			else if(value instanceof String && !"".equals(value))
 			{
+				String valueString = (String) value;
 				try
 				{
-					return Integer.parseInt((String) value);
+					if(valueString.matches("[0-9]+"))
+						return Integer.parseInt(valueString);
+					else if(valueString.matches("[0-9]+\\*[0-9]+"))
+					{
+						int part1 = Integer.parseInt(valueString.substring(0, valueString.indexOf("*")));
+						int part2 = Integer.parseInt(valueString.substring(valueString.indexOf("*") + 1));
+						return part1*part2;
+					}
+					else
+						logger.warn("unknown number format: '" + valueString + "'");
 				}
 				catch(NumberFormatException e)
 				{
