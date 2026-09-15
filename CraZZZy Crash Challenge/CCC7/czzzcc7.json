@@ -1,0 +1,4207 @@
+{
+  "type" : "Balanced",
+  "title" : "CraZZZy Crash Challenge 7 - Challenge ${spieltag}.${spieltag.i} - Karte ${karte.id} | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}",
+  "tags" : [ "CCC" ],
+  "creator" : 2241,
+  "creatorParticipation" : "not_participating",
+  "ignoreInvitable" : true,
+  "players" : [ 1823, 1168, 2321, 2231, 1448, 773, 1175, 2501, 2445, 2985, 2464, 410, 411, 2235, 1, 326, 2937, 2915, 1294, 1722, 1644, 2730, 1643, 2366, 1505, 2226, 3145, 2894, 1641, 2492, 2822, 2900, 2345, 899, 210, 1014, 1969, 1597, 2791, 1401, 1297, 1502, 2815, 2242, 1359, 516, 3097, 1989, 1504, 3221, 2812, 1230, 1830, 2541, 2738, 875, 3048, 1867, 1413, 1574, 213, 1411, 277, 220, 518, 1629 ],
+  "maps" : [ ],
+  "mapsByKey" : {
+    "88" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 50,
+        "direction" : 90,
+        "length" : 500,
+        "night" : false,
+        "players" : 20,
+        "seed" : 2061550831,
+        "variation" : 0.2
+      }
+    } ],
+    "89" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 50,
+        "direction" : 90,
+        "length" : 500,
+        "night" : false,
+        "players" : 20,
+        "seed" : 1186365561,
+        "variation" : 0.2
+      }
+    } ],
+    "110" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10024,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : 1406599981,
+        "tile" : "1*3M",
+        "trim" : 1
+      }
+    } ],
+    "111" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10024,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -620538216,
+        "tile" : "1*3M",
+        "trim" : 1
+      }
+    } ],
+    "112" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10024,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -1519196722,
+        "tile" : "1*3M",
+        "trim" : 1
+      }
+    } ],
+    "113" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10024,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -163577963,
+        "tile" : "1*3M",
+        "trim" : 1
+      }
+    } ],
+    "114" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 5,
+        "Raum_y" : 5,
+        "dimx" : 6,
+        "dimy" : 6,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : 1783473766
+      }
+    } ],
+    "115" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 5,
+        "Raum_y" : 5,
+        "dimx" : 6,
+        "dimy" : 6,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -63504463
+      }
+    } ],
+    "116" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 5,
+        "Raum_y" : 5,
+        "dimx" : 6,
+        "dimy" : 6,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -1434931286
+      }
+    } ],
+    "90" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDMNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 38,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "O:OOOOOOOOOZ",
+        "rotation" : -1,
+        "scaleX" : "0.5-2.0",
+        "scaleY" : "0.5-2.0",
+        "scaler" : "ultimate",
+        "seed" : -1225624136,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "117" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 5,
+        "Raum_y" : 5,
+        "dimx" : 6,
+        "dimy" : 6,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -235302068
+      }
+    } ],
+    "91" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDMNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 38,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "O:OOOOOOOOOZ",
+        "rotation" : -1,
+        "scaleX" : "0.5-2.0",
+        "scaleY" : "0.5-2.0",
+        "scaler" : "ultimate",
+        "seed" : -692503875,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "118" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 5,
+        "Raum_y" : 5,
+        "dimx" : 6,
+        "dimy" : 6,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -474020240
+      }
+    } ],
+    "92" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDMNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 38,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "O:OOOOOOOOOZ",
+        "rotation" : -1,
+        "scaleX" : "0.5-2.0",
+        "scaleY" : "0.5-2.0",
+        "scaler" : "ultimate",
+        "seed" : 1962257155,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "119" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 5,
+        "Raum_y" : 5,
+        "dimx" : 6,
+        "dimy" : 6,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -1336501723
+      }
+    } ],
+    "93" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDMNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 38,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "O:OOOOOOOOOZ",
+        "rotation" : -1,
+        "scaleX" : "0.5-2.0",
+        "scaleY" : "0.5-2.0",
+        "scaler" : "ultimate",
+        "seed" : -1403270482,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "94" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDMNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 38,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "O:OOOOOOOOOZ",
+        "rotation" : -1,
+        "scaleX" : "0.5-2.0",
+        "scaleY" : "0.5-2.0",
+        "scaler" : "ultimate",
+        "seed" : 1248068267,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "95" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDMNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 38,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "O:OOOOOOOOOZ",
+        "rotation" : -1,
+        "scaleX" : "0.5-2.0",
+        "scaleY" : "0.5-2.0",
+        "scaler" : "ultimate",
+        "seed" : -210011371,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "96" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "DMNB",
+        "cps" : "12456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 13352,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "X:X333",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : 203338472,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "97" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "DMNB",
+        "cps" : "12456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 13352,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "X:X333",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -2131413030,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "10" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:1",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 176,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : 0.7,
+        "scaleY" : 0.7,
+        "scaler" : "ultimate",
+        "seed" : 501885321,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "98" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "DMNB",
+        "cps" : "12456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 13352,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "X:X333",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -1042833626,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "11" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:1",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 176,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : 0.7,
+        "scaleY" : 0.7,
+        "scaler" : "ultimate",
+        "seed" : 787661677,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "99" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "DMNB",
+        "cps" : "12456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 13352,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "X:X333",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -539108450,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "12" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 50,
+        "dimy" : 50,
+        "laenge" : 500,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -1625492240
+      }
+    } ],
+    "13" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 50,
+        "dimy" : 50,
+        "laenge" : 500,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -696034831
+      }
+    } ],
+    "14" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 50,
+        "dimy" : 50,
+        "laenge" : 500,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -1306945888
+      }
+    } ],
+    "15" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 50,
+        "dimy" : 50,
+        "laenge" : 500,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -298040494
+      }
+    } ],
+    "16" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 50,
+        "dimy" : 50,
+        "laenge" : 500,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -250926840
+      }
+    } ],
+    "17" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 50,
+        "dimy" : 50,
+        "laenge" : 500,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -649777857
+      }
+    } ],
+    "18" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 15,
+        "dimx" : 50,
+        "dimy" : 50,
+        "matschepampe" : 50,
+        "night" : false,
+        "seed" : 1770934274
+      }
+    } ],
+    "19" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 15,
+        "dimx" : 50,
+        "dimy" : 50,
+        "matschepampe" : 50,
+        "night" : false,
+        "seed" : 1766677841
+      }
+    } ],
+    "120" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 30,
+        "dimy" : 30,
+        "laenge" : 100,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : 1567449014
+      }
+    } ],
+    "0" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : 9,
+        "checkpoints" : 8,
+        "filllevel" : 35,
+        "height" : 200,
+        "maxKarosPerCPF" : 1,
+        "maxObjectSize" : 10,
+        "minKarosPerCPF" : 1,
+        "minObjectSize" : 5,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 7,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : 1493257404,
+        "width" : 200
+      }
+    } ],
+    "121" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 30,
+        "dimy" : 30,
+        "laenge" : 100,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : 591906555
+      }
+    } ],
+    "1" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : 9,
+        "checkpoints" : 8,
+        "filllevel" : 35,
+        "height" : 200,
+        "maxKarosPerCPF" : 1,
+        "maxObjectSize" : 10,
+        "minKarosPerCPF" : 1,
+        "minObjectSize" : 5,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 7,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : -1896419749,
+        "width" : 200
+      }
+    } ],
+    "122" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 30,
+        "dimy" : 30,
+        "laenge" : 100,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -1653140760
+      }
+    } ],
+    "2" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : 9,
+        "checkpoints" : 8,
+        "filllevel" : 35,
+        "height" : 200,
+        "maxKarosPerCPF" : 1,
+        "maxObjectSize" : 10,
+        "minKarosPerCPF" : 1,
+        "minObjectSize" : 5,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 7,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : -1981166588,
+        "width" : 200
+      }
+    } ],
+    "123" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 30,
+        "dimy" : 30,
+        "laenge" : 100,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : 1896850807
+      }
+    } ],
+    "3" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : 9,
+        "checkpoints" : 8,
+        "filllevel" : 35,
+        "height" : 200,
+        "maxKarosPerCPF" : 1,
+        "maxObjectSize" : 10,
+        "minKarosPerCPF" : 1,
+        "minObjectSize" : 5,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 7,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : 451976648,
+        "width" : 200
+      }
+    } ],
+    "124" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 30,
+        "dimy" : 30,
+        "laenge" : 100,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : 629238881
+      }
+    } ],
+    "4" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : 9,
+        "checkpoints" : 8,
+        "filllevel" : 35,
+        "height" : 200,
+        "maxKarosPerCPF" : 1,
+        "maxObjectSize" : 10,
+        "minKarosPerCPF" : 1,
+        "minObjectSize" : 5,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 7,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : 894796853,
+        "width" : 200
+      }
+    } ],
+    "125" : [ {
+      "key" : "bagger",
+      "settings" : {
+        "cpfreq" : 9,
+        "dimx" : 30,
+        "dimy" : 30,
+        "laenge" : 100,
+        "matschepampe" : 0,
+        "night" : false,
+        "seed" : -1231578552
+      }
+    } ],
+    "5" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : 9,
+        "checkpoints" : 8,
+        "filllevel" : 35,
+        "height" : 200,
+        "maxKarosPerCPF" : 1,
+        "maxObjectSize" : 10,
+        "minKarosPerCPF" : 1,
+        "minObjectSize" : 5,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 7,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : 1042733743,
+        "width" : 200
+      }
+    } ],
+    "126" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 30,
+        "height" : 100,
+        "maxKarosPerCPF" : 5,
+        "maxObjectSize" : 5,
+        "minKarosPerCPF" : 4,
+        "minObjectSize" : 3,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : -1091361742,
+        "width" : 17
+      }
+    } ],
+    "6" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:1",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 176,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : 0.7,
+        "scaleY" : 0.7,
+        "scaler" : "ultimate",
+        "seed" : -734991970,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "127" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 30,
+        "height" : 100,
+        "maxKarosPerCPF" : 5,
+        "maxObjectSize" : 5,
+        "minKarosPerCPF" : 4,
+        "minObjectSize" : 3,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : 770392463,
+        "width" : 17
+      }
+    } ],
+    "7" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:1",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 176,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : 0.7,
+        "scaleY" : 0.7,
+        "scaler" : "ultimate",
+        "seed" : -1726356833,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "128" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 30,
+        "height" : 100,
+        "maxKarosPerCPF" : 5,
+        "maxObjectSize" : 5,
+        "minKarosPerCPF" : 4,
+        "minObjectSize" : 3,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : -893518557,
+        "width" : 17
+      }
+    } ],
+    "8" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:1",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 176,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : 0.7,
+        "scaleY" : 0.7,
+        "scaler" : "ultimate",
+        "seed" : 1020412196,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "129" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 30,
+        "height" : 100,
+        "maxKarosPerCPF" : 5,
+        "maxObjectSize" : 5,
+        "minKarosPerCPF" : 4,
+        "minObjectSize" : 3,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : 966840190,
+        "width" : 17
+      }
+    } ],
+    "9" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:1",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 176,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : 0.7,
+        "scaleY" : 0.7,
+        "scaler" : "ultimate",
+        "seed" : -2064747496,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "20" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 15,
+        "dimx" : 50,
+        "dimy" : 50,
+        "matschepampe" : 50,
+        "night" : false,
+        "seed" : -1507591333
+      }
+    } ],
+    "21" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 15,
+        "dimx" : 50,
+        "dimy" : 50,
+        "matschepampe" : 50,
+        "night" : false,
+        "seed" : -71917273
+      }
+    } ],
+    "22" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 15,
+        "dimx" : 50,
+        "dimy" : 50,
+        "matschepampe" : 50,
+        "night" : false,
+        "seed" : -1347465837
+      }
+    } ],
+    "23" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 15,
+        "dimx" : 50,
+        "dimy" : 50,
+        "matschepampe" : 50,
+        "night" : false,
+        "seed" : 1522310355
+      }
+    } ],
+    "24" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 80,
+        "dimYMax" : 80,
+        "length" : 100,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : 2099298027,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 3,
+        "zackMax" : 25,
+        "zackMin" : 20,
+        "zickMax" : 45,
+        "zickMin" : 30
+      }
+    } ],
+    "25" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 80,
+        "dimYMax" : 80,
+        "length" : 100,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : 896283768,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 3,
+        "zackMax" : 25,
+        "zackMin" : 20,
+        "zickMax" : 45,
+        "zickMin" : 30
+      }
+    } ],
+    "26" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 80,
+        "dimYMax" : 80,
+        "length" : 100,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : -693712765,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 3,
+        "zackMax" : 25,
+        "zackMin" : 20,
+        "zickMax" : 45,
+        "zickMin" : 30
+      }
+    } ],
+    "27" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 80,
+        "dimYMax" : 80,
+        "length" : 100,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : 1761994002,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 3,
+        "zackMax" : 25,
+        "zackMin" : 20,
+        "zickMax" : 45,
+        "zickMin" : 30
+      }
+    } ],
+    "28" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 80,
+        "dimYMax" : 80,
+        "length" : 100,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : -965427972,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 3,
+        "zackMax" : 25,
+        "zackMin" : 20,
+        "zickMax" : 45,
+        "zickMin" : 30
+      }
+    } ],
+    "29" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 80,
+        "dimYMax" : 80,
+        "length" : 100,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : 652344679,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 3,
+        "zackMax" : 25,
+        "zackMin" : 20,
+        "zickMax" : 45,
+        "zickMin" : 30
+      }
+    } ],
+    "130" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 30,
+        "height" : 100,
+        "maxKarosPerCPF" : 5,
+        "maxObjectSize" : 5,
+        "minKarosPerCPF" : 4,
+        "minObjectSize" : 3,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : -1871392778,
+        "width" : 17
+      }
+    } ],
+    "131" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 30,
+        "height" : 100,
+        "maxKarosPerCPF" : 5,
+        "maxObjectSize" : 5,
+        "minKarosPerCPF" : 4,
+        "minObjectSize" : 3,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 0,
+        "scatteredFinishs" : 0,
+        "scatteredStarts" : 0,
+        "seed" : -1160489157,
+        "width" : 17
+      }
+    } ],
+    "132" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 8,
+        "cross" : 1,
+        "dimXMax" : 55,
+        "dimYMax" : 55,
+        "length" : 4,
+        "night" : false,
+        "obstacles" : "5-15",
+        "seed" : 160703272,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 4,
+        "zackMax" : 35,
+        "zackMin" : 35,
+        "zickMax" : 90,
+        "zickMin" : 90
+      }
+    } ],
+    "133" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 8,
+        "cross" : 1,
+        "dimXMax" : 55,
+        "dimYMax" : 55,
+        "length" : 4,
+        "night" : false,
+        "obstacles" : "5-15",
+        "seed" : -1939157601,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 4,
+        "zackMax" : 35,
+        "zackMin" : 35,
+        "zickMax" : 90,
+        "zickMin" : 90
+      }
+    } ],
+    "134" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 8,
+        "cross" : 1,
+        "dimXMax" : 55,
+        "dimYMax" : 55,
+        "length" : 4,
+        "night" : false,
+        "obstacles" : "5-15",
+        "seed" : 260463292,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 4,
+        "zackMax" : 35,
+        "zackMin" : 35,
+        "zickMax" : 90,
+        "zickMin" : 90
+      }
+    } ],
+    "135" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 8,
+        "cross" : 1,
+        "dimXMax" : 55,
+        "dimYMax" : 55,
+        "length" : 4,
+        "night" : false,
+        "obstacles" : "5-15",
+        "seed" : 511371518,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 4,
+        "zackMax" : 35,
+        "zackMin" : 35,
+        "zickMax" : 90,
+        "zickMin" : 90
+      }
+    } ],
+    "136" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 8,
+        "cross" : 1,
+        "dimXMax" : 55,
+        "dimYMax" : 55,
+        "length" : 4,
+        "night" : false,
+        "obstacles" : "5-15",
+        "seed" : -1210759101,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 4,
+        "zackMax" : 35,
+        "zackMin" : 35,
+        "zickMax" : 90,
+        "zickMin" : 90
+      }
+    } ],
+    "137" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 8,
+        "cross" : 1,
+        "dimXMax" : 55,
+        "dimYMax" : 55,
+        "length" : 4,
+        "night" : false,
+        "obstacles" : "5-15",
+        "seed" : -1642334155,
+        "startAngle" : -1,
+        "widthMax" : 4,
+        "widthMin" : 4,
+        "zackMax" : 35,
+        "zackMin" : 35,
+        "zickMax" : 90,
+        "zickMin" : 90
+      }
+    } ],
+    "138" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 30,
+        "dimx" : 23,
+        "dimy" : 100,
+        "matschepampe" : 20,
+        "night" : false,
+        "seed" : 1778426768
+      }
+    } ],
+    "139" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 30,
+        "dimx" : 23,
+        "dimy" : 100,
+        "matschepampe" : 20,
+        "night" : false,
+        "seed" : 1181749278
+      }
+    } ],
+    "30" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:2*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 126,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : "0.8-1.2",
+        "scaleY" : "0.8-1.2",
+        "scaler" : "ultimate",
+        "seed" : 60104757,
+        "tile" : "1*2M",
+        "trim" : 1
+      }
+    } ],
+    "31" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:2*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 126,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : "0.8-1.2",
+        "scaleY" : "0.8-1.2",
+        "scaler" : "ultimate",
+        "seed" : -299658266,
+        "tile" : "1*2M",
+        "trim" : 1
+      }
+    } ],
+    "32" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:2*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 126,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : "0.8-1.2",
+        "scaleY" : "0.8-1.2",
+        "scaler" : "ultimate",
+        "seed" : 2024024621,
+        "tile" : "1*2M",
+        "trim" : 1
+      }
+    } ],
+    "33" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:2*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 126,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : "0.8-1.2",
+        "scaleY" : "0.8-1.2",
+        "scaler" : "ultimate",
+        "seed" : 1729460116,
+        "tile" : "1*2M",
+        "trim" : 1
+      }
+    } ],
+    "34" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:2*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 126,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : "0.8-1.2",
+        "scaleY" : "0.8-1.2",
+        "scaler" : "ultimate",
+        "seed" : -1844232000,
+        "tile" : "1*2M",
+        "trim" : 1
+      }
+    } ],
+    "35" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "123456789:2*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 126,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : 0,
+        "scaleX" : "0.8-1.2",
+        "scaleY" : "0.8-1.2",
+        "scaler" : "ultimate",
+        "seed" : -1407256584,
+        "tile" : "1*2M",
+        "trim" : 1
+      }
+    } ],
+    "36" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 100,
+        "direction" : 180,
+        "length" : 2000,
+        "night" : false,
+        "players" : 10,
+        "seed" : 502513995,
+        "variation" : 0.005
+      }
+    } ],
+    "37" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 100,
+        "direction" : 180,
+        "length" : 2000,
+        "night" : false,
+        "players" : 10,
+        "seed" : 817106664,
+        "variation" : 0.005
+      }
+    } ],
+    "38" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 100,
+        "direction" : 180,
+        "length" : 2000,
+        "night" : false,
+        "players" : 10,
+        "seed" : -874595437,
+        "variation" : 0.005
+      }
+    } ],
+    "39" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 100,
+        "direction" : 180,
+        "length" : 2000,
+        "night" : false,
+        "players" : 10,
+        "seed" : -123133791,
+        "variation" : 0.005
+      }
+    } ],
+    "140" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 30,
+        "dimx" : 23,
+        "dimy" : 100,
+        "matschepampe" : 20,
+        "night" : false,
+        "seed" : -973512316
+      }
+    } ],
+    "141" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 30,
+        "dimx" : 23,
+        "dimy" : 100,
+        "matschepampe" : 20,
+        "night" : false,
+        "seed" : 1052552623
+      }
+    } ],
+    "142" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 30,
+        "dimx" : 23,
+        "dimy" : 100,
+        "matschepampe" : 20,
+        "night" : false,
+        "seed" : -192045668
+      }
+    } ],
+    "143" : [ {
+      "key" : "couscous",
+      "settings" : {
+        "cpfreq" : 30,
+        "dimx" : 23,
+        "dimy" : 100,
+        "matschepampe" : 20,
+        "night" : false,
+        "seed" : 877352222
+      }
+    } ],
+    "144" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 60,
+        "height" : 25,
+        "maxKarosPerCPF" : 3,
+        "maxObjectSize" : 1,
+        "minKarosPerCPF" : 3,
+        "minObjectSize" : 1,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 1,
+        "scatteredFinishs" : 1,
+        "scatteredStarts" : 0,
+        "seed" : 607662275,
+        "width" : 25
+      }
+    } ],
+    "145" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 60,
+        "height" : 25,
+        "maxKarosPerCPF" : 3,
+        "maxObjectSize" : 1,
+        "minKarosPerCPF" : 3,
+        "minObjectSize" : 1,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 1,
+        "scatteredFinishs" : 1,
+        "scatteredStarts" : 0,
+        "seed" : 1342021955,
+        "width" : 25
+      }
+    } ],
+    "146" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 60,
+        "height" : 25,
+        "maxKarosPerCPF" : 3,
+        "maxObjectSize" : 1,
+        "minKarosPerCPF" : 3,
+        "minObjectSize" : 1,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 1,
+        "scatteredFinishs" : 1,
+        "scatteredStarts" : 0,
+        "seed" : 1322221086,
+        "width" : 25
+      }
+    } ],
+    "147" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 60,
+        "height" : 25,
+        "maxKarosPerCPF" : 3,
+        "maxObjectSize" : 1,
+        "minKarosPerCPF" : 3,
+        "minObjectSize" : 1,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 1,
+        "scatteredFinishs" : 1,
+        "scatteredStarts" : 0,
+        "seed" : -2122373800,
+        "width" : 25
+      }
+    } ],
+    "148" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 60,
+        "height" : 25,
+        "maxKarosPerCPF" : 3,
+        "maxObjectSize" : 1,
+        "minKarosPerCPF" : 3,
+        "minObjectSize" : 1,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 1,
+        "scatteredFinishs" : 1,
+        "scatteredStarts" : 0,
+        "seed" : 2102178927,
+        "width" : 25
+      }
+    } ],
+    "149" : [ {
+      "key" : "kindergarten",
+      "settings" : {
+        "asphaltspec" : "O",
+        "checkpoints" : 9,
+        "filllevel" : 60,
+        "height" : 25,
+        "maxKarosPerCPF" : 3,
+        "maxObjectSize" : 1,
+        "minKarosPerCPF" : 3,
+        "minObjectSize" : 1,
+        "night" : false,
+        "objectspec" : "XZYNWVGL",
+        "players" : 5,
+        "scatteredCps" : 1,
+        "scatteredFinishs" : 1,
+        "scatteredStarts" : 0,
+        "seed" : -368236800,
+        "width" : 25
+      }
+    } ],
+    "40" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 100,
+        "direction" : 180,
+        "length" : 2000,
+        "night" : false,
+        "players" : 10,
+        "seed" : -1304588699,
+        "variation" : 0.005
+      }
+    } ],
+    "41" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 100,
+        "direction" : 180,
+        "length" : 2000,
+        "night" : false,
+        "players" : 10,
+        "seed" : 938162147,
+        "variation" : 0.005
+      }
+    } ],
+    "42" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "12456789:5",
+        "finishes" : "",
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 132,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 0,
+        "redistStarts" : 1,
+        "remap" : "X:X3",
+        "rotation" : -1,
+        "scaleX" : "0.5-1.5",
+        "scaleY" : "0.5-1.5",
+        "scaler" : "ultimate",
+        "seed" : -2052016738,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "43" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "12456789:5",
+        "finishes" : "",
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 132,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 0,
+        "redistStarts" : 1,
+        "remap" : "X:X3",
+        "rotation" : -1,
+        "scaleX" : "0.5-1.5",
+        "scaleY" : "0.5-1.5",
+        "scaler" : "ultimate",
+        "seed" : 1175821238,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "44" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "12456789:5",
+        "finishes" : "",
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 132,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 0,
+        "redistStarts" : 1,
+        "remap" : "X:X3",
+        "rotation" : -1,
+        "scaleX" : "0.5-1.5",
+        "scaleY" : "0.5-1.5",
+        "scaler" : "ultimate",
+        "seed" : -1561640954,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "45" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "12456789:5",
+        "finishes" : "",
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 132,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 0,
+        "redistStarts" : 1,
+        "remap" : "X:X3",
+        "rotation" : -1,
+        "scaleX" : "0.5-1.5",
+        "scaleY" : "0.5-1.5",
+        "scaler" : "ultimate",
+        "seed" : -979260504,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "46" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "12456789:5",
+        "finishes" : "",
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 132,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 0,
+        "redistStarts" : 1,
+        "remap" : "X:X3",
+        "rotation" : -1,
+        "scaleX" : "0.5-1.5",
+        "scaleY" : "0.5-1.5",
+        "scaler" : "ultimate",
+        "seed" : 1171335794,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "47" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "TDSRMNB",
+        "cps" : "12456789:5",
+        "finishes" : "",
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 132,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 0,
+        "redistStarts" : 1,
+        "remap" : "X:X3",
+        "rotation" : -1,
+        "scaleX" : "0.5-1.5",
+        "scaleY" : "0.5-1.5",
+        "scaler" : "ultimate",
+        "seed" : -1823551806,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "48" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 9,
+        "direction" : 90,
+        "length" : 100,
+        "night" : false,
+        "players" : 100,
+        "seed" : 1579754685,
+        "variation" : 0.4
+      }
+    } ],
+    "49" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 9,
+        "direction" : 90,
+        "length" : 100,
+        "night" : false,
+        "players" : 100,
+        "seed" : 1612639614,
+        "variation" : 0.4
+      }
+    } ],
+    "50" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 9,
+        "direction" : 90,
+        "length" : 100,
+        "night" : false,
+        "players" : 100,
+        "seed" : -1821825866,
+        "variation" : 0.4
+      }
+    } ],
+    "51" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 9,
+        "direction" : 90,
+        "length" : 100,
+        "night" : false,
+        "players" : 100,
+        "seed" : -767240618,
+        "variation" : 0.4
+      }
+    } ],
+    "52" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 9,
+        "direction" : 90,
+        "length" : 100,
+        "night" : false,
+        "players" : 100,
+        "seed" : -163725844,
+        "variation" : 0.4
+      }
+    } ],
+    "53" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 9,
+        "direction" : 90,
+        "length" : 100,
+        "night" : false,
+        "players" : 100,
+        "seed" : 798968908,
+        "variation" : 0.4
+      }
+    } ],
+    "54" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 10,
+        "Raum_y" : 10,
+        "dimx" : 8,
+        "dimy" : 8,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -1811645659
+      }
+    } ],
+    "55" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 10,
+        "Raum_y" : 10,
+        "dimx" : 8,
+        "dimy" : 8,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : 720732789
+      }
+    } ],
+    "56" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 10,
+        "Raum_y" : 10,
+        "dimx" : 8,
+        "dimy" : 8,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : 2120854007
+      }
+    } ],
+    "57" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 10,
+        "Raum_y" : 10,
+        "dimx" : 8,
+        "dimy" : 8,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : 1632674048
+      }
+    } ],
+    "58" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 10,
+        "Raum_y" : 10,
+        "dimx" : 8,
+        "dimy" : 8,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : 1708265834
+      }
+    } ],
+    "59" : [ {
+      "key" : "irrkarten",
+      "settings" : {
+        "Raum_x" : 10,
+        "Raum_y" : 10,
+        "dimx" : 8,
+        "dimy" : 8,
+        "night" : false,
+        "numCP" : 9,
+        "p_Sackgassen" : 70,
+        "players" : 5,
+        "seed" : -1644554633
+      }
+    } ],
+    "60" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 120,
+        "dimYMax" : 120,
+        "length" : 29,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : -674384566,
+        "startAngle" : -1,
+        "widthMax" : 6,
+        "widthMin" : 2,
+        "zackMax" : 50,
+        "zackMin" : 25,
+        "zickMax" : 180,
+        "zickMin" : 0
+      }
+    } ],
+    "61" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 120,
+        "dimYMax" : 120,
+        "length" : 29,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : 1686789410,
+        "startAngle" : -1,
+        "widthMax" : 6,
+        "widthMin" : 2,
+        "zackMax" : 50,
+        "zackMin" : 25,
+        "zickMax" : 180,
+        "zickMin" : 0
+      }
+    } ],
+    "62" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 120,
+        "dimYMax" : 120,
+        "length" : 29,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : -2086272383,
+        "startAngle" : -1,
+        "widthMax" : 6,
+        "widthMin" : 2,
+        "zackMax" : 50,
+        "zackMin" : 25,
+        "zickMax" : 180,
+        "zickMin" : 0
+      }
+    } ],
+    "63" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 120,
+        "dimYMax" : 120,
+        "length" : 29,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : -261176634,
+        "startAngle" : -1,
+        "widthMax" : 6,
+        "widthMin" : 2,
+        "zackMax" : 50,
+        "zackMin" : 25,
+        "zickMax" : 180,
+        "zickMin" : 0
+      }
+    } ],
+    "64" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 120,
+        "dimYMax" : 120,
+        "length" : 29,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : -1477120384,
+        "startAngle" : -1,
+        "widthMax" : 6,
+        "widthMin" : 2,
+        "zackMax" : 50,
+        "zackMin" : 25,
+        "zickMax" : 180,
+        "zickMin" : 0
+      }
+    } ],
+    "65" : [ {
+      "key" : "zickzack",
+      "settings" : {
+        "cps" : 9,
+        "cross" : 1,
+        "dimXMax" : 120,
+        "dimYMax" : 120,
+        "length" : 29,
+        "night" : false,
+        "obstacles" : "30-80",
+        "seed" : 1472493711,
+        "startAngle" : -1,
+        "widthMax" : 6,
+        "widthMin" : 2,
+        "zackMax" : 50,
+        "zackMin" : 25,
+        "zickMax" : 180,
+        "zickMin" : 0
+      }
+    } ],
+    "66" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRDNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 99,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 0.5,
+        "scaleY" : 0.5,
+        "scaler" : "ultimate",
+        "seed" : -1085487178,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "67" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRDNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 99,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 0.5,
+        "scaleY" : 0.5,
+        "scaler" : "ultimate",
+        "seed" : 1204792347,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "68" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRDNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 99,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 0.5,
+        "scaleY" : 0.5,
+        "scaler" : "ultimate",
+        "seed" : 190022322,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "69" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRDNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 99,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 0.5,
+        "scaleY" : 0.5,
+        "scaler" : "ultimate",
+        "seed" : 1677086796,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "70" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRDNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 99,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 0.5,
+        "scaleY" : 0.5,
+        "scaler" : "ultimate",
+        "seed" : 1235630921,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "71" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRDNB",
+        "cps" : "123456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 99,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 0.5,
+        "scaleY" : 0.5,
+        "scaler" : "ultimate",
+        "seed" : -1878516532,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "72" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:1*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10014,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:GLNVTWYZX",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -1366202761,
+        "tile" : "1*7M",
+        "trim" : 1
+      }
+    } ],
+    "73" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:1*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10014,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:GLNVTWYZX",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -94607430,
+        "tile" : "1*7M",
+        "trim" : 1
+      }
+    } ],
+    "74" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:1*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10014,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:GLNVTWYZX",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -578152904,
+        "tile" : "1*7M",
+        "trim" : 1
+      }
+    } ],
+    "75" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:1*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10014,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:GLNVTWYZX",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : 204271313,
+        "tile" : "1*7M",
+        "trim" : 1
+      }
+    } ],
+    "76" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:1*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10014,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:GLNVTWYZX",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -943333042,
+        "tile" : "1*7M",
+        "trim" : 1
+      }
+    } ],
+    "77" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:1*5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10014,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:GLNVTWYZX",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : 1584500425,
+        "tile" : "1*7M",
+        "trim" : 1
+      }
+    } ],
+    "78" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 12478,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -989658303,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "79" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 12478,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -2034922243,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "100" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "DMNB",
+        "cps" : "12456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 13352,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "X:X333",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -33385053,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "101" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "DMNB",
+        "cps" : "12456789:5",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 13352,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "X:X333",
+        "rotation" : 0,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -309447458,
+        "tile" : "",
+        "trim" : 1
+      }
+    } ],
+    "102" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:2*2",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 217,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:O",
+        "rotation" : 0,
+        "scaleX" : 2,
+        "scaleY" : 2,
+        "scaler" : "ultimate",
+        "seed" : -1564822142,
+        "tile" : "3M*1",
+        "trim" : 1
+      }
+    } ],
+    "103" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:2*2",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 217,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:O",
+        "rotation" : 0,
+        "scaleX" : 2,
+        "scaleY" : 2,
+        "scaler" : "ultimate",
+        "seed" : 2113337688,
+        "tile" : "3M*1",
+        "trim" : 1
+      }
+    } ],
+    "104" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:2*2",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 217,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:O",
+        "rotation" : 0,
+        "scaleX" : 2,
+        "scaleY" : 2,
+        "scaler" : "ultimate",
+        "seed" : 566846705,
+        "tile" : "3M*1",
+        "trim" : 1
+      }
+    } ],
+    "105" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:2*2",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 217,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:O",
+        "rotation" : 0,
+        "scaleX" : 2,
+        "scaleY" : 2,
+        "scaler" : "ultimate",
+        "seed" : -1839049814,
+        "tile" : "3M*1",
+        "trim" : 1
+      }
+    } ],
+    "106" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:2*2",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 217,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:O",
+        "rotation" : 0,
+        "scaleX" : 2,
+        "scaleY" : 2,
+        "scaler" : "ultimate",
+        "seed" : -284044951,
+        "tile" : "3M*1",
+        "trim" : 1
+      }
+    } ],
+    "80" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 12478,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -647759705,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "107" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "MSRTDNB",
+        "cps" : "123456789:2*2",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 217,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 1,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "123456789:O",
+        "rotation" : 0,
+        "scaleX" : 2,
+        "scaleY" : 2,
+        "scaler" : "ultimate",
+        "seed" : 1678649145,
+        "tile" : "3M*1",
+        "trim" : 1
+      }
+    } ],
+    "81" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 12478,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -1144694963,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "108" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10024,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -1510100941,
+        "tile" : "1*3M",
+        "trim" : 1
+      }
+    } ],
+    "82" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 12478,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : 1337072549,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "109" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 10024,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : -20173228,
+        "tile" : "1*3M",
+        "trim" : 1
+      }
+    } ],
+    "83" : [ {
+      "key" : "u7",
+      "settings" : {
+        "actions" : "SRTDNB",
+        "cps" : "123456789:1*9",
+        "finishes" : 5,
+        "inputMapIsNight" : false,
+        "mapPlayers" : "",
+        "mid" : 12478,
+        "night" : false,
+        "players" : 8,
+        "redistCPs" : 0,
+        "redistFinishes" : 1,
+        "redistStarts" : 1,
+        "remap" : "",
+        "rotation" : -1,
+        "scaleX" : 1,
+        "scaleY" : 1,
+        "scaler" : "ultimate",
+        "seed" : 916315717,
+        "tile" : "3M*3M",
+        "trim" : 1
+      }
+    } ],
+    "84" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 50,
+        "direction" : 90,
+        "length" : 500,
+        "night" : false,
+        "players" : 20,
+        "seed" : -225508171,
+        "variation" : 0.2
+      }
+    } ],
+    "85" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 50,
+        "direction" : 90,
+        "length" : 500,
+        "night" : false,
+        "players" : 20,
+        "seed" : -1359680130,
+        "variation" : 0.2
+      }
+    } ],
+    "86" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 50,
+        "direction" : 90,
+        "length" : 500,
+        "night" : false,
+        "players" : 20,
+        "seed" : -380324951,
+        "variation" : 0.2
+      }
+    } ],
+    "87" : [ {
+      "key" : "geradeaus",
+      "settings" : {
+        "cps" : 50,
+        "direction" : 90,
+        "length" : 500,
+        "night" : false,
+        "players" : 20,
+        "seed" : -431741372,
+        "variation" : 0.2
+      }
+    } ]
+  },
+  "rulesByKey" : {
+    "0" : {
+      "minZzz" : 17,
+      "maxZzz" : 17,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "1" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "10" : {
+      "minZzz" : 24,
+      "maxZzz" : 24,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "100" : {
+      "minZzz" : 9,
+      "maxZzz" : 9,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "101" : {
+      "minZzz" : 12,
+      "maxZzz" : 12,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "102" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "103" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "104" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "105" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "106" : {
+      "minZzz" : 9,
+      "maxZzz" : 9,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "107" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "108" : {
+      "minZzz" : 28,
+      "maxZzz" : 28,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "109" : {
+      "minZzz" : 26,
+      "maxZzz" : 26,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "11" : {
+      "minZzz" : 17,
+      "maxZzz" : 17,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "110" : {
+      "minZzz" : 22,
+      "maxZzz" : 22,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "111" : {
+      "minZzz" : 21,
+      "maxZzz" : 21,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "112" : {
+      "minZzz" : 25,
+      "maxZzz" : 25,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "113" : {
+      "minZzz" : 24,
+      "maxZzz" : 24,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "114" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "115" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "116" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "117" : {
+      "minZzz" : 5,
+      "maxZzz" : 5,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "118" : {
+      "minZzz" : 4,
+      "maxZzz" : 4,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "119" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "12" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "120" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "121" : {
+      "minZzz" : 0,
+      "maxZzz" : 0,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "122" : {
+      "minZzz" : 0,
+      "maxZzz" : 0,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "123" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "124" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "125" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "126" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "127" : {
+      "minZzz" : 4,
+      "maxZzz" : 4,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "128" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "129" : {
+      "minZzz" : 5,
+      "maxZzz" : 5,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "13" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "130" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "131" : {
+      "minZzz" : 4,
+      "maxZzz" : 4,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "132" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "133" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "134" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "135" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "136" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "137" : {
+      "minZzz" : 15,
+      "maxZzz" : 15,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "138" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "139" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "14" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "140" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "141" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "142" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "143" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "144" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "145" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "146" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "147" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "148" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "149" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "15" : {
+      "minZzz" : 0,
+      "maxZzz" : 0,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "16" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "17" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "18" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "19" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "2" : {
+      "minZzz" : 17,
+      "maxZzz" : 17,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "20" : {
+      "minZzz" : 12,
+      "maxZzz" : 12,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "21" : {
+      "minZzz" : 12,
+      "maxZzz" : 12,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "22" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "23" : {
+      "minZzz" : 9,
+      "maxZzz" : 9,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "24" : {
+      "minZzz" : 5,
+      "maxZzz" : 5,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "25" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "26" : {
+      "minZzz" : 9,
+      "maxZzz" : 9,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "27" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "28" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "29" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "3" : {
+      "minZzz" : 20,
+      "maxZzz" : 20,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "30" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "31" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "32" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "33" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "34" : {
+      "minZzz" : 8,
+      "maxZzz" : 8,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "35" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "36" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "37" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "38" : {
+      "minZzz" : 0,
+      "maxZzz" : 0,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "39" : {
+      "minZzz" : 0,
+      "maxZzz" : 0,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "4" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "40" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "41" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "42" : {
+      "minZzz" : 5,
+      "maxZzz" : 5,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "43" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "44" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "45" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "46" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "47" : {
+      "minZzz" : 7,
+      "maxZzz" : 7,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 5
+    },
+    "48" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "49" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "5" : {
+      "minZzz" : 15,
+      "maxZzz" : 15,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "50" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "51" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "52" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "53" : {
+      "minZzz" : 2,
+      "maxZzz" : 2,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "54" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "55" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "56" : {
+      "minZzz" : 18,
+      "maxZzz" : 18,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "57" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "58" : {
+      "minZzz" : 24,
+      "maxZzz" : 24,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "59" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "6" : {
+      "minZzz" : 25,
+      "maxZzz" : 25,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "60" : {
+      "minZzz" : 12,
+      "maxZzz" : 12,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "61" : {
+      "minZzz" : 15,
+      "maxZzz" : 15,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "62" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "63" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "64" : {
+      "minZzz" : 14,
+      "maxZzz" : 14,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "65" : {
+      "minZzz" : 15,
+      "maxZzz" : 15,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "66" : {
+      "minZzz" : 15,
+      "maxZzz" : 15,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "67" : {
+      "minZzz" : 16,
+      "maxZzz" : 16,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "68" : {
+      "minZzz" : 14,
+      "maxZzz" : 14,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "69" : {
+      "minZzz" : 13,
+      "maxZzz" : 13,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "7" : {
+      "minZzz" : 25,
+      "maxZzz" : 25,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "70" : {
+      "minZzz" : 15,
+      "maxZzz" : 15,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "71" : {
+      "minZzz" : 14,
+      "maxZzz" : 14,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "72" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "73" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "74" : {
+      "minZzz" : 5,
+      "maxZzz" : 5,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "75" : {
+      "minZzz" : 6,
+      "maxZzz" : 6,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "76" : {
+      "minZzz" : 9,
+      "maxZzz" : 9,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "77" : {
+      "minZzz" : 3,
+      "maxZzz" : 3,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "78" : {
+      "minZzz" : 32,
+      "maxZzz" : 32,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "79" : {
+      "minZzz" : 28,
+      "maxZzz" : 28,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "8" : {
+      "minZzz" : 23,
+      "maxZzz" : 23,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "80" : {
+      "minZzz" : 33,
+      "maxZzz" : 33,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "81" : {
+      "minZzz" : 28,
+      "maxZzz" : 28,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "82" : {
+      "minZzz" : 34,
+      "maxZzz" : 34,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "83" : {
+      "minZzz" : 28,
+      "maxZzz" : 28,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 4
+    },
+    "84" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "85" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "86" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "87" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "88" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "89" : {
+      "minZzz" : 1,
+      "maxZzz" : 1,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "9" : {
+      "minZzz" : 24,
+      "maxZzz" : 24,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "90" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "91" : {
+      "minZzz" : 19,
+      "maxZzz" : 19,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "92" : {
+      "minZzz" : 17,
+      "maxZzz" : 17,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "93" : {
+      "minZzz" : 18,
+      "maxZzz" : 18,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "94" : {
+      "minZzz" : 19,
+      "maxZzz" : 19,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "95" : {
+      "minZzz" : 17,
+      "maxZzz" : 17,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 6
+    },
+    "96" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "97" : {
+      "minZzz" : 11,
+      "maxZzz" : 11,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "98" : {
+      "minZzz" : 10,
+      "maxZzz" : 10,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    },
+    "99" : {
+      "minZzz" : 12,
+      "maxZzz" : 12,
+      "crashallowed" : "allowed",
+      "cps" : true,
+      "startdirection" : "free",
+      "gamesPerPlayer" : 1,
+      "numberOfPlayers" : 3
+    }
+  },
+  "settings" : {
+    "maps" : 150,
+    "teamBased" : false
+  },
+  "seed" : "Crash^7"
+}
