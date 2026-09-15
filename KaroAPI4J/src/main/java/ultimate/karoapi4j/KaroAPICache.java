@@ -759,6 +759,32 @@ public class KaroAPICache implements IDLookUp
 	}
 
 	/**
+	 * get the {@link Generator} with the given ID from the cache
+	 * Note: loading it from the API is not supported (unless in debug mode)
+	 * 
+	 * @param id - the user id
+	 * @return the {@link Generator}
+	 */
+	public Generator getGenerator(String key)
+	{
+		String lookupKey = key + " (default)";
+		if(!this.generatorsByKey.containsKey(lookupKey))
+		{
+			if(this.karoAPI != null)
+			{
+				logger.error("could not get generator: " + key);
+			}
+			else
+			{
+				// debug mode
+				Generator g = createDummyGenerator("" + key);
+				updateGenerator(g);
+			}
+		}
+		return this.generatorsByKey.get(lookupKey);
+	}
+
+	/**
 	 * Get all {@link Generator}s from the cache
 	 * 
 	 * @return an unmodifiable {@link Collection} of all cached {@link Generator}s
@@ -1105,7 +1131,7 @@ public class KaroAPICache implements IDLookUp
 			return (T) getGame(id);
 		else if(Map.class.equals(cls))
 			return (T) getMap(id);
-		else if(Map.class.equals(cls))
+		else if(Generator.class.equals(cls))
 			return (T) getGenerator(id);
 		else
 			logger.error("unsupported lookup type: " + cls.getName());
