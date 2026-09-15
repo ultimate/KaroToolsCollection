@@ -90,6 +90,8 @@ public class Generator extends Identifiable implements PlaceToRace
 			{
 				this.uniqueId = ID_COUNTERS.get(key).incrementAndGet();
 				this.source = SOURCES.get(key);
+				this.name = this.source.name;
+				this.description = this.source.description;
 			}
 		}
 	}
@@ -260,7 +262,7 @@ public class Generator extends Identifiable implements PlaceToRace
 					{
 						int part1 = Integer.parseInt(valueString.substring(0, valueString.indexOf("*")));
 						int part2 = Integer.parseInt(valueString.substring(valueString.indexOf("*") + 1));
-						return part1*part2;
+						return part1 * part2;
 					}
 					else
 						logger.warn("unknown number format: '" + valueString + "'");
