@@ -33,7 +33,9 @@ import ultimate.karomuskel.ui.Language;
  */
 public class GeneratorDialog
 {
-	private static GeneratorDialog instance = new GeneratorDialog();
+	private static GeneratorDialog	instance			= new GeneratorDialog();
+
+	public static final int			DEFAULT_TF_COLUMNS	= 10;
 
 	public static GeneratorDialog getInstance()
 	{
@@ -81,16 +83,18 @@ public class GeneratorDialog
 
 		HashMap<String, JComponent> components = new HashMap<>();
 
-		JComponent c;
+		JComponent c1, c2;
 		for(int i = 0; i < column1.size(); i++)
 		{
-			c = addSetting(panel, column1.get(i), this.settings.get(column1.get(i)), i, 0);
-			if(c != null)
-				components.put(column1.get(i), c);
+			// get second column first to be able to check if it is set
+			c2 = addSetting(panel, column2.get(i), this.settings.get(column2.get(i)), i, 1, false);
+			c1 = addSetting(panel, column1.get(i), this.settings.get(column1.get(i)), i, 0, c2 != null);
 
-			c = addSetting(panel, column2.get(i), this.settings.get(column2.get(i)), i, 1);
-			if(c != null)
-				components.put(column2.get(i), c);
+			if(c1 != null)
+				components.put(column1.get(i), c1);
+
+			if(c2 != null)
+				components.put(column2.get(i), c2);
 		}
 
 		int result = JOptionPane.showConfirmDialog(parent, panel, dialogtitle, JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -119,10 +123,16 @@ public class GeneratorDialog
 		return result;
 	}
 
-	private JComponent addSetting(JPanel panel, String setting, Object value, int row, int column)
+	private JComponent addSetting(JPanel panel, String setting, Object value, int row, int column, boolean hasSibling)
 	{
 		if(setting != null)
 		{
+			String overrideType = KaroAPI.getStringProperty("generator." + this.key + "." + setting + ".type", null);
+
+			// skip hidden
+			if("hidden".equals(overrideType))
+				return null;
+
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.gridx = column * 2;
 			gbc.gridy = row;
@@ -134,27 +144,38 @@ public class GeneratorDialog
 			JComponent component = null;
 			gbc.gridx++;
 			gbc.anchor = GridBagConstraints.EAST;
-			if(value instanceof Integer)
+
+			if((value instanceof Integer && overrideType == null) || (value instanceof Number && "int".equals(overrideType)))
 			{
 				int min = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".min", 0);
 				int max = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".max", 99);
 				int step = KaroAPI.getIntProperty("generator." + this.key + "." + setting + ".step", 1);
-				component = new JSpinner(new SpinnerNumberModel((int) value, min, max, step));
+				component = new JSpinner(new SpinnerNumberModel(((Number) value).intValue(), min, max, step));
 				component.setEnabled(min != max);
 			}
-			else if(value instanceof String)
+			else if((value instanceof Double && overrideType == null) || (value instanceof Number && "double".equals(overrideType)))
 			{
-				component = new JTextField((String) value);// , 20);
-				gbc.gridwidth = 3;
+				double min = KaroAPI.getDoubleProperty("generator." + this.key + "." + setting + ".min", 0.0);
+				double max = KaroAPI.getDoubleProperty("generator." + this.key + "." + setting + ".max", 99.0);
+				double step = KaroAPI.getDoubleProperty("generator." + this.key + "." + setting + ".step", 0.1);
+				component = new JSpinner(new SpinnerNumberModel(((Number) value).doubleValue(), min, max, step));
+				component.setEnabled(min != max);
 			}
-			else if(value instanceof Boolean)
+			else if((value instanceof String && overrideType == null) || "string".equals(overrideType))
 			{
-				component = new JCheckBox("", (boolean) value);
+				component = new JTextField(value.toString(), DEFAULT_TF_COLUMNS);
+				if(!hasSibling)
+					gbc.gridwidth = 3;
+			}
+			else if((value instanceof Boolean && overrideType == null) || "boolean".equals(overrideType))
+			{
+				component = new JCheckBox("", (value instanceof Boolean ? (boolean) value : Boolean.parseBoolean(value.toString())));
 			}
 			else
 			{
 				component = new JTextField(value != null ? value.toString() : "");
-				gbc.gridwidth = 3;
+				if(!hasSibling)
+					gbc.gridwidth = 3;
 			}
 			panel.add(component, gbc);
 
