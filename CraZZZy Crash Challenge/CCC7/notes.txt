@@ -1,0 +1,3 @@
+Namensformat:	CraZZZy Crash Challenge 7 - Challenge ${spieltag}.${spieltag.i} - %G% | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}
+%G% = 		%Generator% Variante %i%
+	bzw. 	u7 Map %mid%
