@@ -51,5 +51,6 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''15.09.2026 ??:??''' Ein bisschen basteln am Tooling um die Erstellung der Spieltage mit Generator-Varianten zu vereinfachen
 * '''17.09.2026 09:39''' Eröffnung der Anmeldung im Forum
 * '''17.09.2026 09:48''' Wiki-Seite erstellt
+* '''17.09.2026 10:10''' Einladungen per Zettel verschickt
 
 [[Kategorie:Meisterschaft]]
