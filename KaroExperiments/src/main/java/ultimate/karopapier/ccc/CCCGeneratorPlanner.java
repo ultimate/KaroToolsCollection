@@ -63,7 +63,7 @@ public class CCCGeneratorPlanner
 			cache.refresh().join();		
 			
 			// create instance 
-			String title = "CraZZZy Crash Challenge 7 - Challenge ${spieltag}.${spieltag.i} - " + GENERATOR_PLACEHOLDER + " | ${spieler.anzahl.x}er Challenge | ${regeln.zzz}";
+			String title = "CraZZZy Crash Challenge 7 - Challenge ${spieltag}.${spieltag.i} - " + GENERATOR_PLACEHOLDER + " | ${spieler.anzahl}er Challenge | ${regeln.zzz}";
 			CCCGeneratorPlanner p = new CCCGeneratorPlanner(cache, title, "Crash^7");
 			
 			// read participants
@@ -120,15 +120,18 @@ public class CCCGeneratorPlanner
 					replacement = config.generatorKey + " Map " + mid;
 				}
 				else
+				{
 					replacement = config.generatorKey + " Variante " + (generatorUsage + 1);
+				}
 				System.out.println("- challenge #" + challengeStart + "-" + challengeEnd + " -> replacing " + GENERATOR_PLACEHOLDER + " -> " + replacement);
 				
 				for(int c = challengeStart, ci = 1; c <= challengeEnd; c++, ci++) {
 					int cf = c;
 					int cif = ci;
-					plannedGames.stream().filter(pg -> pg.getName().contains(CHALLENGE_NAME + cf)).forEach(pg -> {
+					String identifier = CHALLENGE_NAME + cf + ".";
+					plannedGames.stream().filter(pg -> pg.getName().contains(identifier)).forEach(pg -> {
 						String newName = pg.getName()
-//								.replace(CHALLENGE_NAME + cf, "Challenge " + realChallenge + "." + cif)
+								.replace(identifier, "7 - Challenge " + realChallenge + "." + cif + ".")
 								.replace(GENERATOR_PLACEHOLDER, replacement);
 						pg.setName(newName);
 					});
