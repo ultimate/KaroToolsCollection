@@ -91,9 +91,9 @@
 		<junit.version>5.10.2</junit.version> <!-- updated 2024.03.17 -->
 
 		<ultimate.KaroToolsCollection.version>1.1.0</ultimate.KaroToolsCollection.version>
-		<ultimate.KaroAPI4J.version>1.5.1</ultimate.KaroAPI4J.version>
-		<ultimate.KaroMUSKEL.version>3.5.1</ultimate.KaroMUSKEL.version>
-		<ultimate.KaroEval.version>3.2.3</ultimate.KaroEval.version>
+		<ultimate.KaroAPI4J.version>1.6.0</ultimate.KaroAPI4J.version>
+		<ultimate.KaroMUSKEL.version>3.6.0</ultimate.KaroMUSKEL.version>
+		<ultimate.KaroEval.version>3.3.0</ultimate.KaroEval.version>
 		<ultimate.KaroExperiments.version>1.0.9</ultimate.KaroExperiments.version>
 		<ultimate.KaroRAUPE.version>1.3.1</ultimate.KaroRAUPE.version>
 	</properties>
