@@ -1,0 +1,366 @@
+[[Bild:Czzzcc7.jpg|rechts]]
+
+= Kurz-Info = 
+== Worum geht's? ==
+Dies ist die [[CraZZZy Crash Challenge 7|7. CraZZZy Crash Challenge]]. Hier gibt es eine Übersicht über alle [[CraZZZy Crash Challenge|alle CraZZZy Crash Challenges]].
+
+== Veranstalter ==
+... ist {{Benutzer|ultimate}}
+
+== Teilnehmer & Gewinner ==
+
+And the winner is... '''{{Benutzer|???}}'''
+
+Details & die komplette Liste der Teilnehmer gibt es in der [[#Gesamtwertung|Gesamtwertung]].
+
+Die Anmeldung lief wieder übers [https://www.karopapier.de/showthread.php?thread=1166 Forum] und/oder Zettel.
+
+= Status & Ergebnis =
+== Challenges & Links zu den Detailwertungen ==
+Folgende Challenges werden bei der CraZZZy Crash Challenge 7 gefahren:
+
+{|class="wikitable alignedright sortable"
+!|Nr.
+!|Strecke
+!|Teilnehmer
+!|Spieler p.R.
+!|ZZZ
+!|CPs
+!|Spielzahl
+!|Startdatum
+!|Laufende Spiele
+!|Abgeschlossene Spiele
+!|Letztes Spiel abgeschlossen
+!|Züge insgesamt
+!|Ø Züge p.S.p.R.
+!|Crashs insgesamt
+!|Ø Crashs p.S.p.R.
+|-
+
+||[[CraZZZy Crash Challenge 7 - Detailwertung Challenge 1|Challenge 1]]
+||[[kindergarten]]
+||25
+||5
+||17
+||ja
+||30
+||2026.10.04 09:58
+||30
+||0
+||
+||18
+||0.12
+||0
+||0.00
+|-
+
+| colspan=6|Gesamt-Statistik
+||750
+||2026.10.04 09:58
+||30
+||0
+||
+||18
+||0.00
+||0
+||0.00
+|-
+|}
+
+'''Anmerkungen:'''
+* In den Detailwertungen gibt es je Rennen 3 Spalten:
+** Z = Züge
+** C = Crashs
+** S = Status
+* Unter status gibt es 4 Möglichkeiten:
+** &#127950; = fährt noch
+** &#127937; = im Ziel
+** &#128128; = ausgestiegen/rausgeworfen
+** &#128683; = disqualifiziert (z. B. im Ziel ohne Crashs)
+
+== Gesamtwertung ==
+{|class="wikitable alignedright sortable"
+!|Platz
+!|Spieler
+!|[[CraZZZy Crash Challenge 7 - Detailwertung Challenge 1|1]]
+!|Züge (gesamt)
+!|Crashs (gesamt)
+!|Endergebnis
+!|Abgeschlossene Rennen
+!|Erwartungswert
+|-
+
+||1.
+||'''[[Benutzer:Wobbel|Wobbel]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:quabla|quabla]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Yashem|Yashem]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:zucker|zucker]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:ultimate|ultimate]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:yeahpopdoll|yeahpopdoll]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:recke|recke]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:hasi|hasi]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Karaser|Karaser]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Michael|Michael]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Zebrahead|Zebrahead]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:MaLeFaz|MaLeFaz]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Gargleblaster|Gargleblaster]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:augsteinboson|augsteinboson]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#AAFFAA;"|0
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+||15.
+||'''[[Benutzer:sparrows bruder|sparrows bruder]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||1
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:cachito|cachito]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||1
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Sayri|Sayri]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||1
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:A300|A300]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||1
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Ben Mor|Ben Mor]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||1
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+||20.
+||'''[[Benutzer:eisbaer04|eisbaer04]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||2
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:Foley|Foley]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||2
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:aristarch|aristarch]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||2
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:HX|HX]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||2
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+|| 
+||'''[[Benutzer:eris|eris]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+||2
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+
+||25.
+||'''[[Benutzer:ulli|ulli]]'''
+| style="background:#FFAAAA;"|25&nbsp;<span style="font-size:50%">(6)</span>
+| style="background:#FFAAAA;"|3
+| style="background:#AAFFAA;"|0
+||'''25'''
+||0
+||'''50'''
+|-
+|}
+
+'''Anmerkungen:'''
+
+* Die kleine Zahl in Klammern gibt an, wie viele Rennen der Spieler in dieser Challenge noch NICHT BEENDET hat. Steht da nichts, dann hat der Spieler alle Rennen dieser Challenge beendet.
+* Für rausgeworfene/ausgestiegene Spieler wird die Zugzahl künstlich auf den Wert des langsamsten Spielers erhöht, damit diese keine unverdienten Punkte bekommen
+* Im Gegensatz zu den vorherigen CCCs hat sich das Bewertungsschema geändert. Details gibt es auf der [[CraZZZy_Crash_Challenge#CCC6|CCC-Übersicht]]
+
+== Durchführungstatus ==
+
+Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Challenges & Links zu den Detailwertungen|Challenges & Links zu den Detailwertungen]].
+
+* '''10.09.2026 10:51''' {{Benutzer|ultimate}} setzt sich selbst eine Deadline bis zum nächten Zug in {{Rennen|148292|Spiel 148292}} etwas zu haben
+* '''11.09.2026 ??:??''' Beginn der Kartenauswahl - genauer gesagt: Generator-Auswahl & -Parametrierung
+* '''14.09.2026 ??:??''' Abschluss der Generator-Auswahl & -Parametrierung und ZZZ-Auswahl
+* '''15.09.2026 ??:??''' Ein bisschen basteln am Tooling um die Erstellung der Spieltage mit Generator-Varianten zu vereinfachen
+* '''17.09.2026 09:39''' Eröffnung der Anmeldung im Forum
+* '''17.09.2026 09:48''' Wiki-Seite erstellt
+* '''17.09.2026 10:10''' Einladungen per Zettel verschickt
+* '''02.10.2026 19:25''' Anmeldung geschlossen und Spiele geplant
+* '''04.10.2026 08:53''' Spiele wurden nicht erstellung - ultimate muss manuell ran
+* '''04.10.2026 10:09''' Spiele teilweise erstellt - dafür aber auch teilweise doppelt: die Spiele {{Rennen|151058|Spiel 151058}} bis {{Rennen|151074|Spiel 151074}}
+
+
+[[Kategorie:Meisterschaft]]

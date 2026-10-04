@@ -14,7 +14,9 @@ import java.util.TreeMap;
 import ultimate.karoapi4j.KaroAPICache;
 import ultimate.karoapi4j.enums.EnumGameSeriesType;
 import ultimate.karoapi4j.model.extended.GameSeries;
+import ultimate.karoapi4j.model.extended.PlaceToRace;
 import ultimate.karoapi4j.model.extended.Rules;
+import ultimate.karoapi4j.model.official.Generator;
 import ultimate.karoapi4j.model.official.Map;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
@@ -537,9 +539,9 @@ public abstract class CCCEval extends Eval<GameSeries>
 		return this.data.getRulesByKey().get("" + challenge);
 	}
 
-	protected Map getMap(int challenge)
+	protected PlaceToRace getMap(int challenge)
 	{
-		return (Map) this.data.getMapsByKey().get("" + challenge).get(0);
+		return this.data.getMapsByKey().get("" + challenge).get(0);
 	}
 
 	protected PlannedGame getGame(int challenge, int game)
@@ -549,7 +551,11 @@ public abstract class CCCEval extends Eval<GameSeries>
 
 	protected String mapToLink(int challenge, boolean includeName)
 	{
-		return WikiUtil.createLink(getMap(challenge), includeName);
+		PlaceToRace ptr = getMap(challenge);
+		if(ptr instanceof Map)
+			return WikiUtil.createLink((Map) ptr, includeName);
+		else // Generator
+			return "[[" + ((Generator) ptr).getKey() + "]]";
 	}
 
 	protected String gameToLink(int challenge, int game)

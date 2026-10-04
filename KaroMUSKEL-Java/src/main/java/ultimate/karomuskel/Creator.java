@@ -82,7 +82,6 @@ public class Creator
 		// NOTE: the next generator can first be called after the map has been used (otherwise it will be overwritten)
 		// so we are chaining requests here
 		CompletableFuture<Void> cfsWithMapGenerators = CompletableFuture.completedFuture(null);
-		cfs.add(cfsWithMapGenerators);
 
 		for(PlannedGame plannedGame : plannedGames)
 		{
@@ -102,6 +101,8 @@ public class Creator
 			else
 				logger.error("unknown PlaceToRace type: " + plannedGame.getMap());
 		}
+		
+		cfs.add(cfsWithMapGenerators);
 		return CompletableFuture.allOf(cfs.toArray(new CompletableFuture[cfs.size()]));
 	}
 

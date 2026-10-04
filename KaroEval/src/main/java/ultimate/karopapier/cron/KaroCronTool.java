@@ -69,6 +69,12 @@ public class KaroCronTool
 			propertiesFile = new File(args[0]);
 		else
 			propertiesFile = new File(DEFAULT_PROPERTIES);
+		
+		boolean dryRun = false;
+		if(args != null && args.length > 1 && "--dry-run".equalsIgnoreCase(args[1])) {
+			logger.info("!!!dry-run configured!!!");
+			dryRun = true;		 
+		}
 
 		Properties properties = null;
 		try
@@ -144,9 +150,15 @@ public class KaroCronTool
 				if(gamesToCreate.size() > 0)
 				{
 					logger.info("creating games... ");
-					creator.createGames(gamesToCreate, null).join();
-					handledGames.addAll(gamesToCreate);
-					refreshNeeded = true;
+					if(!dryRun) {
+						creator.createGames(gamesToCreate, null).join();
+						handledGames.addAll(gamesToCreate);
+						refreshNeeded = true;
+					} else {
+						for(PlannedGame pg: gamesToCreate) {
+							logger.info("  dry-run: " + pg.getName());
+						}
+					}
 				}
 			}
 
