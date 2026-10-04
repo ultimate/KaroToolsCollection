@@ -45,12 +45,17 @@ ${TOTAL}
 
 Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Challenges & Links zu den Detailwertungen|Challenges & Links zu den Detailwertungen]].
 
-* '''10.09.2026 10:51''' {{Benutzer|ultimate}} setzt sich selbst eine Deadline bis zum nächten Zug in |{{Rennen|148292}} etwas zu haben
+* '''10.09.2026 10:51''' {{Benutzer|ultimate}} setzt sich selbst eine Deadline bis zum nächten Zug in {{Rennen|148292|Spiel 148292}} etwas zu haben
 * '''11.09.2026 ??:??''' Beginn der Kartenauswahl - genauer gesagt: Generator-Auswahl & -Parametrierung
 * '''14.09.2026 ??:??''' Abschluss der Generator-Auswahl & -Parametrierung und ZZZ-Auswahl
 * '''15.09.2026 ??:??''' Ein bisschen basteln am Tooling um die Erstellung der Spieltage mit Generator-Varianten zu vereinfachen
 * '''17.09.2026 09:39''' Eröffnung der Anmeldung im Forum
 * '''17.09.2026 09:48''' Wiki-Seite erstellt
 * '''17.09.2026 10:10''' Einladungen per Zettel verschickt
+* '''02.10.2026 19:25''' Anmeldung geschlossen und Spiele geplant
+* '''04.10.2026 08:53''' Spiele wurden nicht erstellung - ultimate muss manuell ran
+* '''04.10.2026 10:09''' Spiele teilweise erstellt - dafür aber auch teilweise doppelt: die Spiele {{Rennen|151058|Spiel 151058}} bis {{Rennen|151074|Spiel 151074}}
+* '''04.10.2026 12:47''' Fehler korrigiert und fehlende Spiele erstellt
+
 
 [[Kategorie:Meisterschaft]]

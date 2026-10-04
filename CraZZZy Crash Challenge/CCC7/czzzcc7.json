@@ -36,7 +36,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151034,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.1.2 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -67,7 +70,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151035,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.1.3 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -98,7 +104,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151037,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.1.4 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -129,7 +138,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151038,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.1.5 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -160,7 +172,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151039,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.2.1 - Kindergarten Variante 1 | 5er Challenge | ZZZ=13",
       "map" : {
@@ -191,7 +206,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151040,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.2.2 - Kindergarten Variante 1 | 5er Challenge | ZZZ=13",
       "map" : {
@@ -222,7 +240,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151041,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.2.3 - Kindergarten Variante 1 | 5er Challenge | ZZZ=13",
       "map" : {
@@ -253,7 +274,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151042,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.2.4 - Kindergarten Variante 1 | 5er Challenge | ZZZ=13",
       "map" : {
@@ -284,7 +308,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151043,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.2.5 - Kindergarten Variante 1 | 5er Challenge | ZZZ=13",
       "map" : {
@@ -315,7 +342,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151044,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.3.1 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -346,7 +376,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151045,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.3.2 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -377,7 +410,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151046,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.3.3 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -408,7 +444,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151047,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.3.4 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -439,7 +478,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151048,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.3.5 - Kindergarten Variante 1 | 5er Challenge | ZZZ=17",
       "map" : {
@@ -470,7 +512,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151049,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.4.1 - Kindergarten Variante 1 | 5er Challenge | ZZZ=20",
       "map" : {
@@ -501,7 +546,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151050,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.4.2 - Kindergarten Variante 1 | 5er Challenge | ZZZ=20",
       "map" : {
@@ -532,7 +580,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151051,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.4.3 - Kindergarten Variante 1 | 5er Challenge | ZZZ=20",
       "map" : {
@@ -563,7 +614,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151052,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.4.4 - Kindergarten Variante 1 | 5er Challenge | ZZZ=20",
       "map" : {
@@ -594,7 +648,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151053,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.4.5 - Kindergarten Variante 1 | 5er Challenge | ZZZ=20",
       "map" : {
@@ -625,7 +682,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151054,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.5.1 - Kindergarten Variante 1 | 5er Challenge | ZZZ=11",
       "map" : {
@@ -656,7 +716,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151055,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.5.2 - Kindergarten Variante 1 | 5er Challenge | ZZZ=11",
       "map" : {
@@ -687,7 +750,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151056,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.5.3 - Kindergarten Variante 1 | 5er Challenge | ZZZ=11",
       "map" : {
@@ -718,7 +784,10 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151057,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.5.4 - Kindergarten Variante 1 | 5er Challenge | ZZZ=11",
       "map" : {
@@ -749,30 +818,13 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151075,
+      "created" : true,
+      "left" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.5.5 - Kindergarten Variante 1 | 5er Challenge | ZZZ=11",
-      "map" : {
-        "key" : "kindergarten",
-        "settings" : {
-          "asphaltspec" : 9,
-          "checkpoints" : 8,
-          "filllevel" : 35,
-          "height" : 200,
-          "maxKarosPerCPF" : 1,
-          "maxObjectSize" : 10,
-          "minKarosPerCPF" : 1,
-          "minObjectSize" : 5,
-          "night" : false,
-          "objectspec" : "XZYNWVGL",
-          "players" : 7,
-          "scatteredCps" : 0,
-          "scatteredFinishs" : 0,
-          "scatteredStarts" : 0,
-          "seed" : 894796853,
-          "width" : 200
-        }
-      },
+      "map" : 13726,
       "players" : [ 3238, 1175, 2345, 516, 518 ],
       "options" : {
         "zzz" : 11,
@@ -780,30 +832,12 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151076,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.6.1 - Kindergarten Variante 1 | 5er Challenge | ZZZ=15",
-      "map" : {
-        "key" : "kindergarten",
-        "settings" : {
-          "asphaltspec" : 9,
-          "checkpoints" : 8,
-          "filllevel" : 35,
-          "height" : 200,
-          "maxKarosPerCPF" : 1,
-          "maxObjectSize" : 10,
-          "minKarosPerCPF" : 1,
-          "minObjectSize" : 5,
-          "night" : false,
-          "objectspec" : "XZYNWVGL",
-          "players" : 7,
-          "scatteredCps" : 0,
-          "scatteredFinishs" : 0,
-          "scatteredStarts" : 0,
-          "seed" : 1042733743,
-          "width" : 200
-        }
-      },
+      "map" : 13727,
       "players" : [ 516, 1230, 725, 1823, 213 ],
       "options" : {
         "zzz" : 15,
@@ -811,30 +845,12 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151077,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.6.2 - Kindergarten Variante 1 | 5er Challenge | ZZZ=15",
-      "map" : {
-        "key" : "kindergarten",
-        "settings" : {
-          "asphaltspec" : 9,
-          "checkpoints" : 8,
-          "filllevel" : 35,
-          "height" : 200,
-          "maxKarosPerCPF" : 1,
-          "maxObjectSize" : 10,
-          "minKarosPerCPF" : 1,
-          "minObjectSize" : 5,
-          "night" : false,
-          "objectspec" : "XZYNWVGL",
-          "players" : 7,
-          "scatteredCps" : 0,
-          "scatteredFinishs" : 0,
-          "scatteredStarts" : 0,
-          "seed" : 1042733743,
-          "width" : 200
-        }
-      },
+      "map" : 13728,
       "players" : [ 1722, 3238, 2868, 2345, 3348 ],
       "options" : {
         "zzz" : 15,
@@ -842,30 +858,12 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151078,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.6.3 - Kindergarten Variante 1 | 5er Challenge | ZZZ=15",
-      "map" : {
-        "key" : "kindergarten",
-        "settings" : {
-          "asphaltspec" : 9,
-          "checkpoints" : 8,
-          "filllevel" : 35,
-          "height" : 200,
-          "maxKarosPerCPF" : 1,
-          "maxObjectSize" : 10,
-          "minKarosPerCPF" : 1,
-          "minObjectSize" : 5,
-          "night" : false,
-          "objectspec" : "XZYNWVGL",
-          "players" : 7,
-          "scatteredCps" : 0,
-          "scatteredFinishs" : 0,
-          "scatteredStarts" : 0,
-          "seed" : 1042733743,
-          "width" : 200
-        }
-      },
+      "map" : 13729,
       "players" : [ 326, 1629, 2937, 3244, 518 ],
       "options" : {
         "zzz" : 15,
@@ -873,30 +871,12 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151079,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.6.4 - Kindergarten Variante 1 | 5er Challenge | ZZZ=15",
-      "map" : {
-        "key" : "kindergarten",
-        "settings" : {
-          "asphaltspec" : 9,
-          "checkpoints" : 8,
-          "filllevel" : 35,
-          "height" : 200,
-          "maxKarosPerCPF" : 1,
-          "maxObjectSize" : 10,
-          "minKarosPerCPF" : 1,
-          "minObjectSize" : 5,
-          "night" : false,
-          "objectspec" : "XZYNWVGL",
-          "players" : 7,
-          "scatteredCps" : 0,
-          "scatteredFinishs" : 0,
-          "scatteredStarts" : 0,
-          "seed" : 1042733743,
-          "width" : 200
-        }
-      },
+      "map" : 13730,
       "players" : [ 3273, 2894, 875, 1175, 277 ],
       "options" : {
         "zzz" : 15,
@@ -904,30 +884,12 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151080,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 1.6.5 - Kindergarten Variante 1 | 5er Challenge | ZZZ=15",
-      "map" : {
-        "key" : "kindergarten",
-        "settings" : {
-          "asphaltspec" : 9,
-          "checkpoints" : 8,
-          "filllevel" : 35,
-          "height" : 200,
-          "maxKarosPerCPF" : 1,
-          "maxObjectSize" : 10,
-          "minKarosPerCPF" : 1,
-          "minObjectSize" : 5,
-          "night" : false,
-          "objectspec" : "XZYNWVGL",
-          "players" : 7,
-          "scatteredCps" : 0,
-          "scatteredFinishs" : 0,
-          "scatteredStarts" : 0,
-          "seed" : 1042733743,
-          "width" : 200
-        }
-      },
+      "map" : 13731,
       "players" : [ 2231, 2411, 2226, 1989, 1411 ],
       "options" : {
         "zzz" : 15,
@@ -935,7 +897,9 @@
         "startdirection" : "free",
         "crashallowed" : "allowed"
       },
-      "tags" : [ "CCC" ]
+      "tags" : [ "CCC" ],
+      "game" : 151081,
+      "created" : true
     }, {
       "name" : "CraZZZy Crash Challenge 7 - Challenge 2.1.1 - u7 Map 176 | 5er Challenge | ZZZ=25",
       "map" : {
