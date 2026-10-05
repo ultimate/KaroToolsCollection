@@ -41,6 +41,6 @@ public class CCC7Eval extends CCCEvalNew
 	
 	protected String gameToLink(int challenge, int game)
 	{
-		return WikiUtil.createLink(getGame(challenge, game), (challenge + 1) + "." + ((game + 1) / 5 + 1) + "." + ((game + 1) % 5) );
+		return WikiUtil.createLink(getGame(challenge, game), (challenge + 1) + "." + (game / 5 + 1) + "." + (game % 5 + 1) );
 	}
 }
