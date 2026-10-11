@@ -284,12 +284,12 @@ public class CCCGeneratorPlanner
 					int lower = (int) Math.round(range[0] * 10);
 					int upper = (int) Math.round(range[1] * 10);
 					double newVal = rnd.nextInt(upper - lower)/10.0 + range[0];
-					g.getSettings().put(entry.getKey(), val);
+					g.getSettings().put(entry.getKey(), newVal);
 					System.out.println(newVal);
 				} else {
 					int[] range = parseIntRange(val);
 					int newVal = rnd.nextInt(range[1] - range[0] + 1) + range[0];
-					g.getSettings().put(entry.getKey(), val);
+					g.getSettings().put(entry.getKey(), newVal);
 					System.out.println(newVal);
 				}
 			}

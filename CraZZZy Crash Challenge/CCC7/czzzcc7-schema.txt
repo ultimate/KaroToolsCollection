@@ -56,6 +56,7 @@ Hinweis: den Status der einzelnen Challenges gibt es jetzt neu oben unter [[#Cha
 * '''04.10.2026 08:53''' Spiele wurden nicht erstellung - ultimate muss manuell ran
 * '''04.10.2026 10:09''' Spiele teilweise erstellt - dafür aber auch teilweise doppelt: die Spiele {{Rennen|151058|Spiel 151058}} bis {{Rennen|151074|Spiel 151074}}
 * '''04.10.2026 12:47''' Fehler korrigiert und fehlende Spiele erstellt
+* '''05.10.2026 09:25''' Spiel-Nummerierung in der Detailwertung korrigiert
 
 
 [[Kategorie:Meisterschaft]]

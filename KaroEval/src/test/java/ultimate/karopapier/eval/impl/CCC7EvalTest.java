@@ -2,14 +2,22 @@ package ultimate.karopapier.eval.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
 
+import ultimate.karoapi4j.KaroAPI;
+import ultimate.karoapi4j.KaroAPICache;
+import ultimate.karoapi4j.model.extended.GameSeries;
 import ultimate.karoapi4j.model.official.Game;
 import ultimate.karoapi4j.model.official.PlannedGame;
 import ultimate.karoapi4j.model.official.Player;
+import ultimate.karoapi4j.utils.PropertiesUtil;
+import ultimate.karomuskel.GameSeriesManager;
 
 public class CCC7EvalTest
 {
@@ -56,5 +64,32 @@ public class CCC7EvalTest
 	
 	private String trimToNumber(String name) {
 		return name.substring(name.lastIndexOf(start) + start.length(), name.indexOf(end));
+	}
+	
+	@Test
+	public void testGetMap() throws IOException {
+		File loginProperties = new File("../KaroExperiments/src/main/resources/login.properties");
+		File gameSeriesFile = new File("../CraZZZy Crash Challenge/CCC7/czzzcc7.json");
+		File evalPropertiesFile = new File("../CraZZZy Crash Challenge/CCC7/czzzcc7-eval.properties");
+		
+		// initialize karoapi
+		Properties login = PropertiesUtil.loadProperties(loginProperties);
+		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
+		KaroAPICache cache = new KaroAPICache(api, login);
+		cache.refresh().join();		
+		
+		GameSeries gs = GameSeriesManager.load(gameSeriesFile, cache);
+		
+		// load eval game series
+
+		Properties evalProperties = PropertiesUtil.loadProperties(evalPropertiesFile);
+		CCC7Eval e = new CCC7Eval();
+		e.prepare(cache, gs, evalProperties, new File("../CraZZZy Crash Challenge/CCC7"), 0);
+				
+		assertEquals("Kindergarten", e.getMap(0).getName());
+		assertEquals("u⁷", e.getMap(1).getName());
+		assertEquals("Bodo BAGGER", e.getMap(2).getName());
+		assertEquals("Geradeaus", e.getMap(3).getName());
+		assertEquals("u⁷", e.getMap(4).getName());
 	}
 }
