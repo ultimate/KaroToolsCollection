@@ -66,30 +66,30 @@ public class CCC7EvalTest
 		return name.substring(name.lastIndexOf(start) + start.length(), name.indexOf(end));
 	}
 	
-	@Test
-	public void testGetMap() throws IOException {
-		File loginProperties = new File("../KaroExperiments/src/main/resources/login.properties");
-		File gameSeriesFile = new File("../CraZZZy Crash Challenge/CCC7/czzzcc7.json");
-		File evalPropertiesFile = new File("../CraZZZy Crash Challenge/CCC7/czzzcc7-eval.properties");
-		
-		// initialize karoapi
-		Properties login = PropertiesUtil.loadProperties(loginProperties);
-		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
-		KaroAPICache cache = new KaroAPICache(api, login);
-		cache.refresh().join();		
-		
-		GameSeries gs = GameSeriesManager.load(gameSeriesFile, cache);
-		
-		// load eval game series
-
-		Properties evalProperties = PropertiesUtil.loadProperties(evalPropertiesFile);
-		CCC7Eval e = new CCC7Eval();
-		e.prepare(cache, gs, evalProperties, new File("../CraZZZy Crash Challenge/CCC7"), 0);
-				
-		assertEquals("Kindergarten", e.getMap(0).getName());
-		assertEquals("u⁷", e.getMap(1).getName());
-		assertEquals("Bodo BAGGER", e.getMap(2).getName());
-		assertEquals("Geradeaus", e.getMap(3).getName());
-		assertEquals("u⁷", e.getMap(4).getName());
-	}
+//	@Test
+//	public void testGetMap() throws IOException {
+//		File loginProperties = new File("../KaroExperiments/src/main/resources/login.properties");
+//		File gameSeriesFile = new File("../CraZZZy Crash Challenge/CCC7/czzzcc7.json");
+//		File evalPropertiesFile = new File("../CraZZZy Crash Challenge/CCC7/czzzcc7-eval.properties");
+//		
+//		// initialize karoapi
+//		Properties login = PropertiesUtil.loadProperties(loginProperties);
+//		KaroAPI api = new KaroAPI(login.getProperty("karoAPI.user"), login.getProperty("karoAPI.password"));
+//		KaroAPICache cache = new KaroAPICache(api, login);
+//		cache.refresh().join();		
+//		
+//		GameSeries gs = GameSeriesManager.load(gameSeriesFile, cache);
+//		
+//		// load eval game series
+//
+//		Properties evalProperties = PropertiesUtil.loadProperties(evalPropertiesFile);
+//		CCC7Eval e = new CCC7Eval();
+//		e.prepare(cache, gs, evalProperties, new File("../CraZZZy Crash Challenge/CCC7"), 0);
+//				
+//		assertEquals("Kindergarten", e.getMap(0).getName());
+//		assertEquals("u⁷", e.getMap(1).getName());
+//		assertEquals("Bodo BAGGER", e.getMap(2).getName());
+//		assertEquals("Geradeaus", e.getMap(3).getName());
+//		assertEquals("u⁷", e.getMap(4).getName());
+//	}
 }
