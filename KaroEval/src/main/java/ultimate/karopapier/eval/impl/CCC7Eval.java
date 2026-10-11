@@ -31,12 +31,12 @@ public class CCC7Eval extends CCCEvalNew
 
 	protected Rules getRules(int challenge)
 	{
-		return this.data.getRulesByKey().get("" + (challenge / 5));
+		return this.data.getRulesByKey().get("" + (challenge * 6));
 	}
 
 	protected PlaceToRace getMap(int challenge)
 	{
-		return this.data.getMapsByKey().get("" + (challenge / 5)).get(0);
+		return this.data.getMapsByKey().get("" + (challenge * 6)).get(0);
 	}
 	
 	protected String gameToLink(int challenge, int game)

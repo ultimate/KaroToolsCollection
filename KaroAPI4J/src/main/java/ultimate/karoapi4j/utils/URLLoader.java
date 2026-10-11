@@ -1072,6 +1072,16 @@ public class URLLoader
 			}
 			catch(IOException e)
 			{
+				try
+				{
+					InputStream is = new BufferedInputStream(connection.getErrorStream());
+					String result = new String(readAllBytes(is), charset);
+					logger.error(result);
+					throw new RuntimeException(result, e);
+				}
+				catch(Exception e1)
+				{
+				}
 				throw new RuntimeException(e);
 			}
 		}
