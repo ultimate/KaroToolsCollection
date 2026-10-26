@@ -49,7 +49,8 @@ public class KaroCronTool
 	public static final String				PROP_CREATE_WHEN	= ".when";
 	public static final String				PROP_CREATE_KEY		= ".key";
 	public static final String				PROP_CREATE_PATTERN	= ".pattern";
-
+	public static final int					WIKI_UPLOAD_SLEEP	= 5000;
+	
 	static
 	{
 		DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("CET"));
@@ -272,6 +273,7 @@ public class KaroCronTool
 
 				try
 				{
+					Thread.sleep(WIKI_UPLOAD_SLEEP);
 					if(upload(karoWikiAPI, wikiFile, target, summary, wikiBot))
 						logger.info("  " + wikiFile.getPath() + " -> " + target + " OK");
 					else
