@@ -15,13 +15,21 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TimeZone;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import ultimate.karoapi4j.utils.PropertiesUtil;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class KaroWikiAPITest
 {
 	/**
@@ -57,140 +65,130 @@ public class KaroWikiAPITest
 			e.printStackTrace();
 		}
 	}
-
-	@Test
-	public void test_login_logout() throws Exception
-	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		assertTrue(wl.login(username, password).get());
+	
+	private KaroWikiAPI wl = new KaroWikiAPI();
+	private CompletableFuture<Boolean> loginFuture;
+	
+	@BeforeAll
+	public void login() throws InterruptedException, ExecutionException {
+		loginFuture = wl.login(username, password);
+		assertTrue(loginFuture.get());
+	}
+	
+	@AfterAll
+	public void logout() throws InterruptedException, ExecutionException {
 		assertTrue(wl.logout().get());
 	}
+	
+	@BeforeEach
+	public void pause() throws InterruptedException {
+	    Thread.sleep(3000);
+	}
+
+//	@Test
+//	public void test_login_logout() throws Exception
+//	{
+//		KaroWikiAPI wl = new KaroWikiAPI();
+//		assertTrue(loginFuture.get());
+//		assertTrue(wl.logout().get());
+//	}
 
 	@Test
 	@SuppressWarnings("rawtypes")
 	public void test_queryRevisions() throws Exception
 	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		try
-		{
-			assertTrue(wl.login(username, password).get());
+		// check that there is a valid login
+		assertTrue(loginFuture.get());
 
-			Map<String, Object> propertiesValid = wl.queryRevisionProperties(PAGE_EXISTING, "timestamp").get();
-			logger.debug(propertiesValid.toString());
-			Map<String, Object> pageProperties = wl.extractPageFromQuery(propertiesValid, PAGE_EXISTING);
-			assertEquals(PAGE_EXISTING, pageProperties.get("title"));
-			assertFalse(pageProperties.containsKey("missing"));
-			assertNotNull(pageProperties.get("pageid"));
-			assertNotNull(pageProperties.get("revisions"));
-			assertTrue(pageProperties.get("revisions") instanceof List);
-			assertTrue(((List) pageProperties.get("revisions")).size() > 0);
+		Map<String, Object> propertiesValid = wl.queryRevisionProperties(PAGE_EXISTING, "timestamp").get();
+		logger.debug(propertiesValid.toString());
+		Map<String, Object> pageProperties = wl.extractPageFromQuery(propertiesValid, PAGE_EXISTING);
+		assertEquals(PAGE_EXISTING, pageProperties.get("title"));
+		assertFalse(pageProperties.containsKey("missing"));
+		assertNotNull(pageProperties.get("pageid"));
+		assertNotNull(pageProperties.get("revisions"));
+		assertTrue(pageProperties.get("revisions") instanceof List);
+		assertTrue(((List) pageProperties.get("revisions")).size() > 0);
 
-			Map<String, Object> propertiesInvalid = wl.queryRevisionProperties(PAGE_MISSING, "timestamp").get();
-			logger.debug(pageProperties.toString());
-			pageProperties = wl.extractPageFromQuery(propertiesInvalid, PAGE_EXISTING);
-			assertEquals(PAGE_MISSING, pageProperties.get("title"));
-			assertTrue(pageProperties.containsKey("missing"));
-		}
-		finally
-		{
-			assertTrue(wl.logout().get());
-		}
+		Map<String, Object> propertiesInvalid = wl.queryRevisionProperties(PAGE_MISSING, "timestamp").get();
+		logger.debug(pageProperties.toString());
+		pageProperties = wl.extractPageFromQuery(propertiesInvalid, PAGE_EXISTING);
+		assertEquals(PAGE_MISSING, pageProperties.get("title"));
+		assertTrue(pageProperties.containsKey("missing"));
 	}
 
 	@Test
 	public void test_getTimestamp() throws Exception
 	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		try
-		{
-			assertTrue(wl.login(username, password).get());
+		// check that there is a valid login
+		assertTrue(loginFuture.get());
 
-			String timestamp;
+		String timestamp;
 
-			timestamp = wl.getTimestamp(PAGE_EXISTING).get();
-			logger.debug(timestamp);
-			assertNotNull(timestamp);
+		timestamp = wl.getTimestamp(PAGE_EXISTING).get();
+		logger.debug(timestamp);
+		assertNotNull(timestamp);
 
-			timestamp = wl.getTimestamp(PAGE_MISSING).get();
-			logger.debug(timestamp);
-			assertNull(timestamp);
-
-		}
-		finally
-		{
-			assertTrue(wl.logout().get());
-		}
+		timestamp = wl.getTimestamp(PAGE_MISSING).get();
+		logger.debug(timestamp);
+		assertNull(timestamp);
 	}
 
 	@Test
 	public void test_getToken() throws Exception
 	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		try
-		{
-			assertTrue(wl.login(username, password).get());
+		// check that there is a valid login
+		assertTrue(loginFuture.get());
 
-			String token;
+		String token;
 
-			token = wl.getToken(PAGE_EXISTING, "edit").get();
-			logger.debug(token);
-			assertNotNull(token);
+		token = wl.getToken(PAGE_EXISTING, "edit").get();
+		logger.debug(token);
+		assertNotNull(token);
 
-			token = wl.getToken(PAGE_MISSING, "edit").get();
-			logger.debug(token);
-			assertNotNull(token);
-
-		}
-		finally
-		{
-			assertTrue(wl.logout().get());
-		}
+		token = wl.getToken(PAGE_MISSING, "edit").get();
+		logger.debug(token);
+		assertNotNull(token);
 	}
 
 	@Test
 	public void test_edit() throws Exception
 	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		try
+		// check that there is a valid login
+		assertTrue(loginFuture.get());
+		
+		for(int i = 0; i < EDIT_TESTS; i++)
 		{
-			assertTrue(wl.login(username, password).get());
-			for(int i = 0; i < EDIT_TESTS; i++)
+			String content = wl.getContent(PAGE_EXISTING).get();
+			assertNotNull(content);
+
+			String newContent;
+
+			int index = content.indexOf(PAGE_TEST_SECTION);
+			if(index >= 0)
 			{
-				String content = wl.getContent(PAGE_EXISTING).get();
-				assertNotNull(content);
-
-				String newContent;
-
-				int index = content.indexOf(PAGE_TEST_SECTION);
-				if(index >= 0)
-				{
-					index = content.indexOf(PAGE_NEXT_HEADLINE, index + PAGE_TEST_SECTION.length());
-					newContent = content.substring(0, index) + "some new line --~~~~" + DOUBLE_LINE_BREAK + content.substring(index);
-				}
-				else
-				{
-					newContent = content + DOUBLE_LINE_BREAK + "some new line --~~~~";
-				}
-
-				LocalDateTime date = java.time.ZonedDateTime.now(java.time.ZoneId.of("Europe/Berlin")).toLocalDateTime();
-				boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
-				assertTrue(success);
-
-				String dateString = dateToString(date);
-				String expectedContent;
-				TimeZone berlinTz = TimeZone.getTimeZone("Europe/Berlin");
-				if(berlinTz.inDaylightTime(new Date()))
-					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CEST)");
-				else
-					expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
-
-				String updatedContent = wl.getContent(PAGE_EXISTING).get();
-				assertEquals(expectedContent, updatedContent);
+				index = content.indexOf(PAGE_NEXT_HEADLINE, index + PAGE_TEST_SECTION.length());
+				newContent = content.substring(0, index) + "some new line --~~~~" + DOUBLE_LINE_BREAK + content.substring(index);
 			}
-		}
-		finally
-		{
-			assertTrue(wl.logout().get());
+			else
+			{
+				newContent = content + DOUBLE_LINE_BREAK + "some new line --~~~~";
+			}
+
+			LocalDateTime date = java.time.ZonedDateTime.now(java.time.ZoneId.of("Europe/Berlin")).toLocalDateTime();
+			boolean success = wl.edit(PAGE_EXISTING, newContent, "testing wiki API", true, false).get();
+			assertTrue(success);
+
+			String dateString = dateToString(date);
+			String expectedContent;
+			TimeZone berlinTz = TimeZone.getTimeZone("Europe/Berlin");
+			if(berlinTz.inDaylightTime(new Date()))
+				expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CEST)");
+			else
+				expectedContent = newContent.replace("~~~~", "[[Benutzer:" + username + "|" + username + "]] ([[Benutzer Diskussion:" + username + "|Diskussion]]) " + dateString + " (CET)");
+
+			String updatedContent = wl.getContent(PAGE_EXISTING).get();
+			assertEquals(expectedContent, updatedContent);
 		}
 	}
 
@@ -229,39 +227,27 @@ public class KaroWikiAPITest
 	@Test
 	public void test_getContent_wiki() throws Exception
 	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		try
-		{
-			assertTrue(wl.login(username, password).get());
-			String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_WIKI).get();
-			assertNotNull(content);
-			assertEquals(FIXED_CONTENT_WIKI, content);
-		}
-		finally
-		{
-			assertTrue(wl.logout().get());
-		}
+		// check that there is a valid login
+		assertTrue(loginFuture.get());
+		
+		String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_WIKI).get();
+		assertNotNull(content);
+		assertEquals(FIXED_CONTENT_WIKI, content);
 	}
 
 	@Test
 	public void test_getContent_html() throws Exception
 	{
-		KaroWikiAPI wl = new KaroWikiAPI();
-		try
-		{
-			assertTrue(wl.login(username, password).get());
-			String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_HTML).get();
-			assertNotNull(content);
+		// check that there is a valid login
+		assertTrue(loginFuture.get());
+		
+		String content = wl.getContent(PAGE_WITH_FIXED_CONTENT, KaroWikiAPI.FORMAT_HTML).get();
+		assertNotNull(content);
 			
 //			System.out.println("----------------------------------------------");
 //			System.out.println(content);
 //			System.out.println("----------------------------------------------");
-			
-			assertEquals(FIXED_CONTENT_HTML, content);
-		}
-		finally
-		{
-			assertTrue(wl.logout().get());
-		}
+		
+		assertEquals(FIXED_CONTENT_HTML, content);
 	}
 }
