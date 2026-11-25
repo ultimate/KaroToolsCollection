@@ -22,6 +22,11 @@
 			<artifactId>KaroMUSKEL</artifactId>
 			<version>${ultimate.KaroMUSKEL.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ultimate</groupId>
+			<artifactId>KaroEval</artifactId>
+			<version>${ultimate.KaroEval.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
